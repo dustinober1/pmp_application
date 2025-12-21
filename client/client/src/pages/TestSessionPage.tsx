@@ -9,13 +9,12 @@ const TestSessionPage: React.FC = () => {
   const { sessionId } = useParams<{ sessionId: string }>();
   const navigate = useNavigate();
 
-  console.log('TestSessionPage rendered with sessionId:', sessionId);
-
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [answers, setAnswers] = useState<Record<string, { index: number; time: number }>>({});
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  const [timerInitialized, setTimerInitialized] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [markedForReview, setMarkedForReview] = useState<Set<number>>(new Set());
 
@@ -26,38 +25,35 @@ const TestSessionPage: React.FC = () => {
   } = useQuery({
     queryKey: ['test-session', sessionId],
     queryFn: async () => {
-      console.log('Fetching session data for ID:', sessionId);
-      if (!sessionId) {
-        console.log('No sessionId provided, returning null');
-        return null;
-      }
-      const data = await practiceService.getSessionById(sessionId);
-      console.log('Session data received:', data);
-      return data;
+      if (!sessionId) return null;
+      return practiceService.getSessionById(sessionId);
     },
     enabled: !!sessionId,
   });
 
-  console.log('TestSessionPage state - isLoading:', isLoading, 'error:', error, 'session:', session ? 'exists' : 'null');
-
-  // Timer effect
+  // Initialize timer when session loads
   useEffect(() => {
-    if (session && session.test.timeLimitMinutes) {
+    if (session && session.test.timeLimitMinutes && !timerInitialized) {
       const totalTime = session.test.timeLimitMinutes * 60;
       setTimeRemaining(totalTime);
+      setTimerInitialized(true);
     }
-  }, [session]);
+  }, [session, timerInitialized]);
 
+  // Timer countdown effect - only runs after timer is initialized
   useEffect(() => {
+    if (!timerInitialized) return; // Don't run until timer is properly set
+
     if (timeRemaining > 0) {
       const timer = setTimeout(() => {
         setTimeRemaining(prev => prev - 1);
       }, 1000);
       return () => clearTimeout(timer);
     } else if (timeRemaining === 0) {
+      // Timer has run out - complete the test
       handleCompleteTest();
     }
-  }, [timeRemaining]);
+  }, [timeRemaining, timerInitialized]);
 
   const submitAnswerMutation = useMutation({
     mutationFn: practiceService.submitAnswer,
