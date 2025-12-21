@@ -98,4 +98,10 @@ export const practiceService = {
     const response = await api.get(`/practice/sessions/user/${userId}`);
     return response.data;
   },
+
+  // Get a specific test session
+  getSessionById: async (sessionId: string) => {
+    const response = await api.get(`/practice/sessions/${sessionId}`);
+    return response.data;
+  },
 };

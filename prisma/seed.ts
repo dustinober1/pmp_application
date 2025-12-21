@@ -79,52 +79,201 @@ async function main() {
     console.log('✅ Found existing practice test');
   }
 
-  // Create sample questions (just 3 for demo)
+  // Create sample questions (12 questions aligned with 2026 ECO)
   const sampleQuestions = [
+    // People Domain (33%) - 4 Questions
     {
-      domainId: domains[0].id, // People domain
-      questionText: 'You are managing a software development team with diverse skill sets and experience levels. During a sprint planning meeting, two senior developers disagree strongly on the technical approach for a critical feature. The conflict is escalating and affecting team morale. What is your BEST immediate action as the project manager?',
-      scenario: 'A high-performing agile team is experiencing internal conflicts that could impact their ability to deliver on sprint commitments. The disagreement is between respected team members about technical architecture.',
+      domainId: domains[0].id, // People
+      questionText: 'You are leading a hybrid team with diverse cultural backgrounds. During a virtual retrospective, some team members are hesitant to share feedback openly.',
+      scenario: 'Virtual team collaboration and psychological safety in a hybrid environment.',
       choices: JSON.stringify([
-        'Make the final decision yourself to quickly resolve the conflict and keep the sprint on track',
-        'Facilitate a structured discussion between the developers, focusing on objective criteria and project constraints',
-        'Postpone the decision and move on to other sprint items to avoid further confrontation',
-        'Escalate the issue to the technical advisory board for an external opinion',
+        'Implement an anonymous digital suggestion board to capture feedback before the next retrospective meeting.',
+        'Facilitate a structured brainstorming session using a virtual whiteboard to encourage participation from all.',
+        'Meet privately with the hesitant team members to understand their concerns and provide personalized support.',
+        'Review the team charter with all members and emphasize the importance of psychological safety in the team.'
       ]),
       correctAnswerIndex: 1,
-      explanation: 'The best approach is to facilitate collaborative decision-making (PMI Code of Ethics). As a project manager, you should encourage team members to resolve conflicts through open communication while focusing on project objectives. Option A shows authoritative leadership that disempowers the team. Option C avoids addressing the root cause. Option D unnecessarily escalates when the team has the expertise to resolve this internally.',
+      explanation: 'Facilitating structured participation using inclusive tools is a key servant leadership skill in hybrid environments.',
+      difficulty: 'MEDIUM',
+      methodology: 'HYBRID',
+      createdBy: adminUser.id,
+    },
+    {
+      domainId: domains[0].id, // People
+      questionText: 'A project team is struggling to adapt to a new AI-driven task allocation tool, leading to confusion about individual responsibilities and missed deadlines.',
+      scenario: 'Digital transformation and team adaptation to AI-driven project management tools.',
+      choices: JSON.stringify([
+        'Conduct a team training session focusing on the AI tool\'s logic and benefit to daily task management workflows.',
+        'Revert to the previous manual task assignment process until the team feels more comfortable with the new AI.',
+        'Meet with the project sponsor to request more time for the team to adapt to the new digital transformation.',
+        'Update the responsibility assignment matrix and communicate the new AI-driven process to all stakeholders.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'The PM must facilitate the team\'s transition to new technologies by providing training and articulating the value of the change.',
+      difficulty: 'MEDIUM',
+      methodology: 'PREDICTIVE',
+      createdBy: adminUser.id,
+    },
+    {
+      domainId: domains[0].id, // People
+      questionText: 'Two senior project engineers are in a persistent technical disagreement regarding the integration of a sustainable energy source into a new building.',
+      scenario: 'Technical conflict management in sustainability-focused engineering projects.',
+      choices: JSON.stringify([
+        'Schedule a joint architectural workshop to explore both technical options and align on the project\'s goals.',
+        'Inform the functional manager of the disagreement and ask for a final decision to avoid any project delays.',
+        'Request that both engineers document their technical solutions for review by an external expert committee.',
+        'Review the sustainability requirements in the project charter and facilitate a collaborative consensus call.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'Collaboration and consensus-building are the preferred methods for resolving technical disagreements among senior experts.',
+      difficulty: 'HARD',
+      methodology: 'HYBRID',
+      createdBy: adminUser.id,
+    },
+    {
+      domainId: domains[0].id, // People
+      questionText: 'You are managing a global project where team members feel disconnected from the project\'s strategy, resulting in low engagement and high turnover rates.',
+      scenario: 'Global team engagement and strategic alignment in large-scale projects.',
+      choices: JSON.stringify([
+        'Organize a virtual town hall meeting with senior leaders to demonstrate the project\'s overall strategic value.',
+        'Implement a new reward and recognition program to improve team morale and reduce the current turnover rates.',
+        'Schedule one-on-one sessions with each team member to discuss their career growth and technical contributions.',
+        'Update the communication management plan to include regular video updates on the project\'s long-term outcomes.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'Connecting team members to the "why" or strategic value of the project is a critical element of the 2026 leadership mindset.',
       difficulty: 'MEDIUM',
       methodology: 'AGILE',
       createdBy: adminUser.id,
     },
+
+    // Process Domain (41%) - 5 Questions
     {
-      domainId: domains[1].id, // Process domain
-      questionText: 'During project execution, you identify a risk that could potentially delay the project by three weeks. The risk has a 60% probability of occurring and would cost $50,000 if it materializes. After analyzing response options, you determine that implementing a mitigation strategy would cost $15,000 and reduce the probability to 10%. Should you implement the mitigation strategy?',
-      scenario: 'A construction project is in progress with multiple dependencies. Weather-related delays could impact the critical path.',
+      domainId: domains[1].id, // Process
+      questionText: 'An AI predictive model identifies a high probability of a critical material shortage next month that was not captured in the initial risk assessment.',
+      scenario: 'AI-driven risk detection and proactive project management in supply chain.',
       choices: JSON.stringify([
-        'Yes, because the expected monetary value (EMV) is reduced from $30,000 to $5,000',
-        'No, because the mitigation cost of $15,000 exceeds the risk impact',
-        'Yes, because any risk reduction is always worth the investment',
-        'No, because the risk still has a chance of occurring despite mitigation',
+        'Verify the AI prediction with the procurement team and update the risk register with a robust mitigation plan.',
+        'Ignore the AI notification until the risk is manually verified using the current month\'s supplier reports.',
+        'Schedule an emergency steering committee meeting to request additional contingency budget for the project.',
+        'Document the potential shortage in the issue log and continue with the planned activities to avoid delays.'
       ]),
       correctAnswerIndex: 0,
-      explanation: 'Calculate EMV before and after mitigation: Before: 0.60 × $50,000 = $30,000. After: 0.10 × $50,000 + $15,000 = $5,000 + $15,000 = $20,000. Since $20,000 < $30,000, the mitigation is justified. This demonstrates quantitative risk analysis (PMBOK Guide, Risk Management knowledge area).',
+      explanation: 'The "Human-in-the-Loop" principle requires the PM to validate AI insights and take proactive management action.',
       difficulty: 'HARD',
       methodology: 'PREDICTIVE',
       createdBy: adminUser.id,
     },
     {
-      domainId: domains[2].id, // Business Environment domain
-      questionText: 'Your project, which aims to implement a new CRM system, is nearing completion when the company announces a major restructuring that will change the sales organization\'s reporting structure and processes. These changes are not aligned with the current CRM configuration. What should be your FIRST course of action?',
-      scenario: 'Strategic organizational changes are occurring that impact project deliverables and business value.',
+      domainId: domains[1].id, // Process
+      questionText: 'During a hybrid software development project, the team realizes that the current sprint cycle is too long to handle rapidly changing user requirements.',
+      scenario: 'Adaptive methodology adjustment in hybrid project delivery.',
       choices: JSON.stringify([
-        'Continue with the current CRM implementation as planned, since the project scope was already approved',
-        'Immediately halt the project and wait for the restructuring details to finalize',
-        'Schedule an emergency meeting with stakeholders to assess impacts and realign project objectives',
-        'Document the issue as a force majeure event and request project termination',
+        'Facilitate a meeting with the product owner to re-evaluate the sprint length and adopt a more agile approach.',
+        'Direct the development team to increase their daily velocity to meet the original deadlines for the sprint.',
+        'Request more resources from the functional manager to handle the increased scope within the existing timeline.',
+        'Update the project management plan to reflect the new scope and communicate the change to the stakeholders.'
       ]),
-      correctAnswerIndex: 2,
-      explanation: 'The project manager must ensure alignment with organizational strategy and business value. When strategic changes occur, immediate stakeholder engagement is necessary to assess impacts and adjust project objectives. This demonstrates business acumen and value realization (PMI Talent Triangle). Options A and B ignore the strategic misalignment. Option D is premature without proper analysis.',
+      correctAnswerIndex: 0,
+      explanation: 'Project managers must be adaptive and adjust processes and methodologies to better fit the delivery environment.',
+      difficulty: 'MEDIUM',
+      methodology: 'HYBRID',
+      createdBy: adminUser.id,
+    },
+    {
+      domainId: domains[1].id, // Process
+      questionText: 'A construction project must now adhere to new environmental sustainability (ESG) standards that were implemented after the project\'s base plan was approved.',
+      scenario: 'Regulatory change and environmental sustainability compliance in construction.',
+      choices: JSON.stringify([
+        'Analyze the impact of the new ESG standards on the project budget and submit a formal change request today.',
+        'Request an immediate budget increase from the project sponsor to cover the total cost of the new standards.',
+        'Update the quality management plan and schedule a team meeting to discuss the new compliance requirements.',
+        'Document the new standards in the risk register and continue with the baseline work to avoid project delays.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'Compliance changes must be analyzed for their impact on the triple constraint before requesting budget or making updates.',
+      difficulty: 'HARD',
+      methodology: 'PREDICTIVE',
+      createdBy: adminUser.id,
+    },
+    {
+      domainId: domains[1].id, // Process
+      questionText: 'A project manager is using AI to automate status reporting, but stakeholders complain that the reports lack qualitative context and empathetic leadership views.',
+      scenario: 'AI automation vs. human leadership in project communication.',
+      choices: JSON.stringify([
+        'Review the AI reports and add qualitative insights about team performance and stakeholder engagement levels.',
+        'Discontinue the use of AI for status reporting and return to the previous manual reporting process entirely.',
+        'Meet with the stakeholders to explain the benefits of AI automation and how to interpret the data properly.',
+        'Update the communication plan to include monthly face-to-face meetings to address the qualitative concerns.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'AI handles the administrative data while the PM adds the "artist" lens of empathy and leadership context.',
+      difficulty: 'MEDIUM',
+      methodology: 'HYBRID',
+      createdBy: adminUser.id,
+    },
+    {
+      domainId: domains[1].id, // Process
+      questionText: 'A predictive project has transitioned into project execution, but the team finds that many initial requirements are no longer aligned with user needs.',
+      scenario: 'Transitioning from predictive to hybrid delivery when requirements shift.',
+      choices: JSON.stringify([
+        'Implement a hybrid approach to manage the changing requirements while maintaining the core project baseline.',
+        'Halt the project immediately and request a complete re-baseline of the project scope from the stakeholders.',
+        'Direct the team to follow the approved project management plan and document the changes in the project log.',
+        'Schedule an emergency workshop with the customer to redefine the project requirements and project success.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'Hybrid approaches are specifically designed to balance the structure of predictive plans with the flexibility of agile shifts.',
+      difficulty: 'MEDIUM',
+      methodology: 'HYBRID',
+      createdBy: adminUser.id,
+    },
+
+    // Business Environment Domain (26%) - 3 Questions
+    {
+      domainId: domains[2].id, // Business Environment
+      questionText: 'A company-wide restructuring is announced that will significantly change the strategic priorities of the department your project is currently supporting.',
+      scenario: 'Organizational change and strategic alignment in a volatile business environment.',
+      choices: JSON.stringify([
+        'Schedule a meeting with the project sponsor to assess the project\'s strategic alignment and business value.',
+        'Continue with the project activities as planned until the restructuring is fully completed and documented.',
+        'Immediately pause the project and wait for clear direction from the steering committee on the next steps.',
+        'Document the restructuring in the risk register and update the project management plan to reflect the change.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'The PM\'s primary role in the "Business" mindset is ensuring that projects continue to deliver strategic value to the organization.',
+      difficulty: 'HARD',
+      methodology: 'PREDICTIVE',
+      createdBy: adminUser.id,
+    },
+    {
+      domainId: domains[2].id, // Business Environment
+      questionText: 'Your project must comply with new GDPR-ready data privacy regulations. Failure to comply could result in significant fines and damage to the company\'s brand.',
+      scenario: 'Global compliance and regulatory risk management.',
+      choices: JSON.stringify([
+        'Update the risk register and implement a compliance audit to ensure all project data meets the new standards.',
+        'Request an immediate extension on the project deadline to allow for a full review of the privacy regulations.',
+        'Schedule a meeting with the legal department to transfer the risk of non-compliance to an external partner.',
+        'Document the regulatory change in the issue log and continue with the current data management procedures.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'Proactive compliance auditing and risk management are mandatory for high-stakes regulatory environments like GDPR.',
+      difficulty: 'HARD',
+      methodology: 'HYBRID',
+      createdBy: adminUser.id,
+    },
+    {
+      domainId: domains[2].id, // Business Environment
+      questionText: 'A project to implement a new CRM system is facing resistance from the sales team, who find the new software more complex than the legacy system.',
+      scenario: 'Organizational change management and stakeholder resistance to technology.',
+      choices: JSON.stringify([
+        'Implement a change management plan using the ADKAR framework to address the team\'s awareness and desire.',
+        'Organize a technical training session to demonstrate the new CRM\'s advanced features and data capabilities.',
+        'Meet with the head of sales to request that the new system become mandatory for all team members next week.',
+        'Document the team\'s resistance as a project risk and update the stakeholder engagement plan and the log.'
+      ]),
+      correctAnswerIndex: 0,
+      explanation: 'Using proven frameworks like ADKAR (Awareness, Desire, Knowledge, Ability, Reinforcement) is the best approach to managing change.',
       difficulty: 'MEDIUM',
       methodology: 'HYBRID',
       createdBy: adminUser.id,
@@ -155,26 +304,26 @@ async function main() {
   // Create sample flashcards
   const flashcards = [
     {
-      domainId: domains[0].id,
-      frontText: 'What is the primary purpose of the Develop Team process in project management?',
-      backText: 'To improve team competencies, team interaction, and the overall team environment to enhance project performance. This involves training, team-building, and creating a collaborative culture.',
+      domainId: domains[0].id, // People
+      frontText: 'What is the primary purpose of the Develop Team process in 2026 project management?',
+      backText: 'To improve team competencies, team interaction, and the overall team environment with a focus on psychological safety and AI-driven collaboration.',
       category: 'Team Development',
       difficulty: 'EASY',
       createdBy: adminUser.id,
     },
     {
-      domainId: domains[1].id,
-      frontText: 'Describe the critical path method and its importance in project management.',
-      backText: 'The critical path is the longest sequence of activities in a project that determines the minimum project duration. It identifies which tasks are critical (no float) and which can be delayed without affecting the project completion date. Essential for schedule optimization and risk management.',
-      category: 'Schedule Management',
+      domainId: domains[1].id, // Process
+      frontText: 'Describe the "Human-in-the-Loop" requirement in AI project management.',
+      backText: 'It is the requirement for a human (the PM) to oversee, validate, and interpret AI outputs before they are used for critical project decision-making.',
+      category: 'AI Literacy',
       difficulty: 'MEDIUM',
       createdBy: adminUser.id,
     },
     {
-      domainId: domains[2].id,
-      frontText: 'What is portfolio management and how does it differ from project management?',
-      backText: 'Portfolio management is the centralized management of processes, methods, and technologies used by project managers and project management offices to analyze and collectively manage a group of current or proposed projects based on numerous key characteristics. Unlike project management (which focuses on delivering a specific output) and program management (which coordinates related projects), portfolio management ensures projects align with strategic business objectives.',
-      category: 'Strategic Management',
+      domainId: domains[2].id, // Business Environment
+      frontText: 'What is the ADKAR framework and how is it used in project management?',
+      backText: 'A change management model: Awareness of the need for change, Desire to participate, Knowledge on how to change, Ability to implement, and Reinforcement to sustain it.',
+      category: 'Change Management',
       difficulty: 'HARD',
       createdBy: adminUser.id,
     },
@@ -191,7 +340,7 @@ async function main() {
   console.log('   Email: admin@pmp.com');
   console.log('   Password: admin123');
   console.log('\n📊 Created summary:');
-  console.log(`   • ${domains.length} domains`);
+  console.log(`   • 3 domains`);
   console.log(`   • ${createdQuestions.length} sample questions`);
   console.log(`   • ${flashcards.length} flashcards`);
   console.log(`   • 1 practice test`);

@@ -9,6 +9,7 @@ const TestSessionPage: React.FC = () => {
   const { sessionId } = useParams<{ sessionId: string }>();
   const navigate = useNavigate();
 
+  console.log('TestSessionPage rendered with sessionId:', sessionId);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -25,41 +26,19 @@ const TestSessionPage: React.FC = () => {
   } = useQuery({
     queryKey: ['test-session', sessionId],
     queryFn: async () => {
-      if (!sessionId) return null;
-      // We would need to implement a get session endpoint
-      // For now, returning mock data
-      return {
-        id: sessionId,
-        test: {
-          name: 'PMP Full Practice Test',
-          timeLimitMinutes: 230,
-          testQuestions: Array.from({ length: 10 }, (_, i) => ({
-            question: {
-              id: `q-${i}`,
-              questionText: `Question ${i + 1}: This is a sample question about project management scenario where you need to determine the best course of action according to PMBOK principles.`,
-              scenario: `You are managing a software development project that is running behind schedule. The stakeholder has requested additional features that weren't in the original scope. What should be your first action?`,
-              choices: [
-                'Immediately add the new features to keep the stakeholder happy',
-                'Analyze the impact on scope, schedule, and budget before responding',
-                'Reject the request since the project is already behind schedule',
-                'Ask the team to work overtime to accommodate the new features'
-              ],
-              correctAnswerIndex: 1,
-              explanation: 'The correct approach is to analyze the impact first. This follows the change control process where all change requests must be evaluated for their impact on project constraints.',
-              difficulty: 'MEDIUM',
-              methodology: 'HYBRID',
-              domain: {
-                id: 'process-domain',
-                name: 'Process',
-                color: '#3B82F6'
-              }
-            }
-          }))
-        }
-      };
+      console.log('Fetching session data for ID:', sessionId);
+      if (!sessionId) {
+        console.log('No sessionId provided, returning null');
+        return null;
+      }
+      const data = await practiceService.getSessionById(sessionId);
+      console.log('Session data received:', data);
+      return data;
     },
     enabled: !!sessionId,
   });
+
+  console.log('TestSessionPage state - isLoading:', isLoading, 'error:', error, 'session:', session ? 'exists' : 'null');
 
   // Timer effect
   useEffect(() => {
@@ -273,13 +252,13 @@ const TestSessionPage: React.FC = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
               <h3 className="font-semibold text-gray-900 mb-4">Question Navigator</h3>
               <div className="grid grid-cols-5 lg:grid-cols-4 gap-2 mb-4">
-                {Array.from({ length: totalQuestions }, (_, i) => (
+                {session.test.testQuestions.map((tq: any, i: number) => (
                   <button
-                    key={i}
+                    key={tq.question.id}
                     onClick={() => navigateToQuestion(i)}
                     className={`w-10 h-10 text-sm font-medium rounded-lg transition-all ${i === currentQuestionIndex
                       ? 'bg-indigo-600 text-white'
-                      : answers[`q-${i}`]
+                      : answers[tq.question.id]
                         ? 'bg-green-100 text-green-700 hover:bg-green-200'
                         : markedForReview.has(i)
                           ? 'bg-orange-100 text-orange-700 hover:bg-orange-200'

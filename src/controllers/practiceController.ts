@@ -54,16 +54,97 @@ export const getPracticeTestById = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Practice test not found' });
     }
 
-    return res.json(test);
+    // Parse choices for each question
+    const formattedTest = {
+      ...test,
+      testQuestions: test.testQuestions.map((tq: any) => ({
+        ...tq,
+        question: {
+          ...tq.question,
+          choices: JSON.parse(tq.question.choices),
+        },
+      })),
+    };
+
+    return res.json(formattedTest);
   } catch (error) {
     console.error('Error fetching practice test:', error);
     return res.status(500).json({ error: 'Failed to fetch practice test' });
   }
 };
 
+export const getTestSessionById = async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+
+    const session = await prisma.userTestSession.findUnique({
+      where: { id: sessionId },
+      include: {
+        test: {
+          include: {
+            testQuestions: {
+              include: {
+                question: {
+                  include: {
+                    domain: true,
+                  },
+                },
+              },
+              orderBy: {
+                orderIndex: 'asc',
+              },
+            },
+          },
+        },
+        answers: true,
+      },
+    });
+
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+
+    // Parse choices for each question
+    const formattedSession = {
+      ...session,
+      test: {
+        ...session.test,
+        testQuestions: session.test.testQuestions.map((tq: any) => ({
+          ...tq,
+          question: {
+            ...tq.question,
+            choices: JSON.parse(tq.question.choices),
+          },
+        })),
+      },
+    };
+
+    return res.json(formattedSession);
+  } catch (error) {
+    console.error('Error fetching test session:', error);
+    return res.status(500).json({ error: 'Failed to fetch test session' });
+  }
+};
+
 export const startTestSession = async (req: Request, res: Response) => {
   try {
-    const { testId, userId } = req.body;
+    let { testId, userId } = req.body;
+
+    // If no userId provided or invalid (guest mode for development), use the first available user
+    if (userId) {
+      const user = await prisma.user.findUnique({ where: { id: userId } });
+      if (!user) {
+        userId = undefined;
+      }
+    }
+
+    if (!userId) {
+      const firstUser = await prisma.user.findFirst();
+      if (!firstUser) {
+        return res.status(400).json({ error: 'No user found in database to start session' });
+      }
+      userId = firstUser.id;
+    }
 
     // Get test details
     const test = await prisma.practiceTest.findUnique({
@@ -110,7 +191,26 @@ export const startTestSession = async (req: Request, res: Response) => {
       },
     });
 
-    return res.json(session);
+    if (!test) {
+      return res.status(404).json({ error: 'Test not found' });
+    }
+
+    // Parse choices for each question
+    const formattedSession = {
+      ...session,
+      test: {
+        ...session.test,
+        testQuestions: session.test.testQuestions.map((tq: any) => ({
+          ...tq,
+          question: {
+            ...tq.question,
+            choices: JSON.parse(tq.question.choices),
+          },
+        })),
+      },
+    };
+
+    return res.json(formattedSession);
   } catch (error) {
     console.error('Error starting test session:', error);
     return res.status(500).json({ error: 'Failed to start test session' });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { practiceService } from '../services/practiceService';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorMessage from '../components/ui/ErrorMessage';
@@ -19,12 +19,24 @@ const PracticeTestsPage: React.FC = () => {
     queryFn: practiceService.getTests,
   });
 
+  const startSessionMutation = useMutation({
+    mutationFn: ({ testId, userId }: { testId: string; userId: string }) =>
+      practiceService.startSession(testId, userId),
+  });
+
   const handleStartTest = async (testId: string) => {
     try {
+      console.log('Starting test for ID:', testId);
       // For now, use a mock user ID - this would come from authentication
       const userId = 'mock-user-id';
-      const session = await practiceService.startSession(testId, userId);
-      navigate(`/practice/session/${session.id}`);
+      const session = await startSessionMutation.mutateAsync({ testId, userId });
+      console.log('Session created:', session);
+      if (session && session.id) {
+        console.log('Navigating to session:', session.id);
+        navigate(`/practice/session/${session.id}`);
+      } else {
+        console.warn('Session created but no ID found:', session);
+      }
     } catch (error) {
       console.error('Failed to start test session:', error);
     }
