@@ -7,6 +7,7 @@ import questionRoutes from './routes/questions';
 import flashcardRoutes from './routes/flashcards';
 import practiceRoutes from './routes/practice';
 import authRoutes from './routes/auth';
+import progressRoutes from './routes/progress';
 
 // Load environment variables
 dotenv.config();
@@ -35,6 +36,7 @@ app.use('/api/questions', questionRoutes);
 app.use('/api/flashcards', flashcardRoutes);
 app.use('/api/practice', practiceRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/progress', progressRoutes);
 
 app.use('/api/admin', (req, res) => {
   // Placeholder for admin routes

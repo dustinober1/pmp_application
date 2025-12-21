@@ -23,6 +23,7 @@ model User {
 
   progress          UserProgress[]
   testSessions      UserTestSession[]
+  studyStreak       StudyStreak?
 
   @@map("users")
 }
@@ -167,4 +168,16 @@ model FlashCardReview {
 
   @@unique([userId, flashCardId])
   @@map("flash_card_reviews")
+}
+
+model StudyStreak {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  currentStreak    Int      @default(0)
+  longestStreak    Int      @default(0)
+  lastStudyDate    DateTime @default(now())
+  totalStudyDays   Int      @default(0)
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("study_streaks")
 }

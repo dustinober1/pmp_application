@@ -9,8 +9,10 @@ import FlashcardsPage from './pages/FlashcardsPage';
 import TestSessionPage from './pages/TestSessionPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
 import './App.css';
 import './styles/auth.css';
+import './styles/dashboard.css';
 
 // Create a client for React Query
 const queryClient = new QueryClient({
@@ -35,7 +37,7 @@ const AuthRedirect: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;
@@ -73,6 +75,16 @@ function AppRoutes() {
       />
 
       {/* Protected routes */}
+      <Route
+        path="/dashboard"
+        element={
+          <Layout>
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          </Layout>
+        }
+      />
       <Route
         path="/practice"
         element={
