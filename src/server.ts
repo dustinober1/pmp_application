@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import questionRoutes from './routes/questions';
 import flashcardRoutes from './routes/flashcards';
 import practiceRoutes from './routes/practice';
+import authRoutes from './routes/auth';
 
 // Load environment variables
 dotenv.config();
@@ -17,7 +18,7 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }));
 app.use(morgan('combined'));
@@ -33,11 +34,7 @@ app.get('/health', (req, res) => {
 app.use('/api/questions', questionRoutes);
 app.use('/api/flashcards', flashcardRoutes);
 app.use('/api/practice', practiceRoutes);
-
-app.use('/api/auth', (req, res) => {
-  // Placeholder for auth routes
-  res.json({ message: 'Auth routes coming soon' });
-});
+app.use('/api/auth', authRoutes);
 
 app.use('/api/admin', (req, res) => {
   // Placeholder for admin routes
