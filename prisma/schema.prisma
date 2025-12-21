@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  role          String   @default("USER")
+  emailVerified Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  createdQuestions    Question[]      @relation("CreatedBy")
+  createdFlashCards   FlashCard[]     @relation("FlashCardCreatedBy")
+  testSessions        UserTestSession[]
+  answers             UserAnswer[]
+  progress            UserProgress[]
+  flashCardReviews    FlashCardReview[]
+
+  @@map("users")
+}
+
+model Domain {
+  id              String  @id @default(uuid())
+  name            String  @unique
+  description     String
+  weightPercentage Float
+  color           String  // For UI theming
+
+  // Relations
+  questions       Question[]
+  flashCards      FlashCard[]
+  progress        UserProgress[]
+
+  @@map("domains")
+}
+
+model Question {
+  id                String      @id @default(uuid())
+  domainId          String
+  questionText      String      // SQLite uses String instead of Text
+  scenario          String?     // SQLite uses String instead of Text
+  choices           String      // JSON as string for SQLite compatibility
+  correctAnswerIndex Int        @default(0)
+  explanation       String      // SQLite uses String instead of Text
+  difficulty        String      @default("MEDIUM")
+  methodology       String      @default("HYBRID")
+  isActive          Boolean     @default(true)
+  createdBy         String
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  // Relations
+  domain            Domain      @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  creator           User        @relation("CreatedBy", fields: [createdBy], references: [id])
+  testQuestions     TestQuestion[]
+  userAnswers       UserAnswer[]
+
+  @@map("questions")
+}
+
+model FlashCard {
+  id          String     @id @default(uuid())
+  domainId    String
+  frontText   String     // SQLite uses String instead of Text
+  backText    String     // SQLite uses String instead of Text
+  category    String
+  difficulty  String     @default("MEDIUM")
+  isActive    Boolean    @default(true)
+  createdBy   String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
+  domain      Domain     @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  creator     User       @relation("FlashCardCreatedBy", fields: [createdBy], references: [id])
+  reviews     FlashCardReview[]
+
+  @@map("flashcards")
+}
+
+model PracticeTest {
+  id              String   @id @default(uuid())
+  name            String
+  description     String   // SQLite uses String instead of Text
+  totalQuestions  Int      @default(185)
+  timeLimitMinutes Int     @default(230)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  // Relations
+  testQuestions   TestQuestion[]
+  sessions        UserTestSession[]
+
+  @@map("practice_tests")
+}
+
+model TestQuestion {
+  id         String @id @default(uuid())
+  testId     String
+  questionId String
+  orderIndex Int
+
+  // Relations
+  test       PracticeTest @relation(fields: [testId], references: [id], onDelete: Cascade)
+  question   Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([testId, questionId])
+  @@map("test_questions")
+}
+
+model UserTestSession {
+  id            String   @id @default(uuid())
+  userId        String
+  testId        String
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
+  timeLimitMinutes Int
+  status        String   @default("IN_PROGRESS")
+  score         Int?
+  totalQuestions Int
+  correctAnswers Int?
+
+  // Relations
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  test          PracticeTest @relation(fields: [testId], references: [id], onDelete: Cascade)
+  answers       UserAnswer[]
+
+  @@map("user_test_sessions")
+}
+
+model UserAnswer {
+  id                String @id @default(uuid())
+  sessionId         String
+  questionId        String
+  selectedAnswerIndex Int
+  isCorrect         Boolean
+  answeredAt        DateTime @default(now())
+  timeSpentSeconds  Int
+  user              User     @relation(fields: [questionId], references: [id])
+  session           UserTestSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question          Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, questionId])
+  @@map("user_answers")
+}
+
+model UserProgress {
+  id                  String   @id @default(uuid())
+  userId              String
+  domainId            String
+  questionsAnswered   Int      @default(0)
+  correctAnswers      Int      @default(0)
+  averageTimePerQuestion Float  @default(0)
+  lastActivityAt      DateTime @default(now())
+
+  // Relations
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  domain              Domain   @relation(fields: [domainId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, domainId])
+  @@map("user_progress")
+}
+
+model FlashCardReview {
+  id            String   @id @default(uuid())
+  userId        String
+  flashCardId   String
+  reviewedAt    DateTime @default(now())
+  difficulty    String   @default("GOOD")
+  nextReviewAt  DateTime
+  reviewCount   Int      @default(1)
+
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flashCard     FlashCard @relation(fields: [flashCardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, flashCardId])
+  @@map("flash_card_reviews")
+}
