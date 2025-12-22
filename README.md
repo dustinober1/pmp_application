@@ -1,144 +1,287 @@
 # PMP Practice Test Application
 
-A comprehensive web application designed to help professionals prepare for the Project Management Professional (PMP) certification exam. This application features realistic scenario-based questions and domain-specific flashcards aligned with the latest PMP exam weightings.
+A comprehensive, full-stack application for PMP (Project Management Professional) certification exam preparation. Built with React, Node.js, Express, and PostgreSQL.
 
-## Features
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat&logo=prisma&logoColor=white)
 
-- **Practice Tests**: Full-length practice tests that mirror the actual PMP exam format
-- **Domain-Specific Flashcards**: Study aids organized by PMP domains (People, Process, Business Environment)
-- **Progress Tracking**: Monitor your performance and improvement over time
-- **Responsive Design**: Optimized for desktop and mobile devices
-- **Real-time Feedback**: Detailed explanations for each question
+## 🎯 Features
 
-## Technology Stack
+### 📊 Progress Dashboard
+- Study streak tracking with calendar heatmap
+- Domain mastery breakdown with visual progress
+- Exam readiness score
+- Recent activity timeline
+- Performance analytics
 
-### Backend
-- **Node.js** with **Express.js** framework
-- **TypeScript** for type safety
-- **Prisma ORM** with SQLite database
-- **JWT Authentication** (ready for implementation)
+### 📝 Practice Tests
+- 180-question full-length practice exams
+- Domain-specific question filtering
+- Real-time timer with pause functionality
+- Question flagging for review
+- Detailed explanations for all answers
 
-### Frontend
-- **React 18** with TypeScript
-- **Vite** as the build tool
-- **React Router** for navigation
-- **TanStack Query** for API state management
-- **Tailwind CSS** for styling
+### 🧠 Spaced Repetition Flashcards
+- **SM-2 Algorithm** for optimal memory retention
+- Confidence ratings: Again, Hard, Good, Easy
+- Daily review goals with progress tracking
+- Mastery levels: Learning, Reviewing, Mastered
+- Category and domain filtering
 
-## Getting Started
+### 📱 Enhanced Test Experience
+- Post-test **Review Mode** with detailed analysis
+- **Question flagging** during tests
+- **Time-per-question analytics**
+- Domain performance breakdown
+- Filter by: All, Incorrect, Flagged, Correct
+
+### ⚙️ Admin Panel
+- User management with role assignment
+- Question CRUD operations
+- Practice test management
+- Flashcard management
+- Dashboard with usage statistics
+
+### 📲 Mobile Optimization
+- PWA-ready with manifest
+- Touch-friendly 44px+ tap targets
+- Bottom navigation bar
+- Safe area support for notched devices
+- Offline-capable architecture
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ installed
-- npm or yarn package manager
+- Node.js 18+
+- PostgreSQL 14+
+- npm or yarn
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/dustinober1/pmp_application.git
 cd pmp_application
 ```
 
-2. Install backend dependencies:
+2. **Install dependencies**
 ```bash
+# Backend
 npm install
+
+# Frontend
+cd client/client && npm install
 ```
 
-3. Install frontend dependencies:
+3. **Configure environment**
 ```bash
-cd client/client
-npm install
+cp .env.example .env
+# Edit .env with your database credentials
 ```
 
-4. Set up environment variables:
-```bash
-# Backend .env file
-DATABASE_URL="file:./dev.db"
+Required environment variables:
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/pmp_practice"
+JWT_SECRET="your-secure-secret-key"
 PORT=3001
-FRONTEND_URL=http://localhost:5173
-
-# Frontend .env file (in client/client/)
-VITE_API_URL=http://localhost:3001/api
+FRONTEND_URL="http://localhost:5173"
 ```
 
-5. Set up the database:
+4. **Set up database**
 ```bash
-# Generate Prisma client
-npm run db:generate
-
-# Run database migrations
-npm run db:migrate
-
-# Seed the database with sample data
-npm run db:seed
+npx prisma migrate dev
+npx prisma generate
+npm run db:seed  # Optional: seed initial data
 ```
 
-### Running the Application
-
-1. Start the backend server:
+5. **Start development servers**
 ```bash
+# Terminal 1: Backend
 npm run dev
+
+# Terminal 2: Frontend
+cd client/client && npm run dev
 ```
 
-2. Start the frontend development server:
-```bash
-cd client/client
-npm run dev
+6. **Open the app**
+```
+Frontend: http://localhost:5173
+Backend:  http://localhost:3001
 ```
 
-3. Access the application:
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:3001
-- Health Check: http://localhost:3001/health
+## 📁 Project Structure
 
-## API Endpoints
+```
+pmp_application/
+├── client/client/          # React frontend (Vite)
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── contexts/       # React contexts (Auth)
+│   │   ├── pages/          # Page components
+│   │   ├── services/       # API service functions
+│   │   └── styles/         # CSS stylesheets
+│   └── public/             # Static assets
+├── prisma/
+│   ├── schema.prisma       # Database schema
+│   ├── migrations/         # Database migrations
+│   └── seed.ts             # Seed data
+├── src/
+│   ├── controllers/        # Route handlers
+│   ├── middleware/         # Express middleware
+│   ├── routes/             # API routes
+│   └── services/           # Business logic
+├── tests/                  # Test files
+│   ├── controllers/
+│   ├── middleware/
+│   └── setup.ts
+└── docs/                   # Documentation
+```
+
+## 🔌 API Reference
+
+### Authentication
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/auth/register` | POST | Register new user |
+| `/api/auth/login` | POST | User login |
+| `/api/auth/me` | GET | Get current user |
 
 ### Questions
-- `GET /api/questions` - Get questions with optional filters
-- `GET /api/questions/domains` - Get all PMP domains
-- `GET /api/questions/:id` - Get a specific question
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/questions` | GET | List questions (paginated) |
+| `/api/questions/:id` | GET | Get single question |
+| `/api/questions/domains` | GET | List all domains |
 
 ### Flashcards
-- `GET /api/flashcards` - Get flashcards with filters
-- `GET /api/flashcards/categories` - Get flashcard categories
-- `GET /api/flashcards/:id` - Get a specific flashcard
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/flashcards` | GET | List flashcards |
+| `/api/flashcards/due` | GET | Get due cards (spaced rep) |
+| `/api/flashcards/:id/review` | POST | Submit review |
+| `/api/flashcards/stats` | GET | Get study statistics |
+| `/api/flashcards/goals` | PUT | Update daily goals |
 
 ### Practice Tests
-- `GET /api/practice/tests` - Get available practice tests
-- `GET /api/practice/tests/:id` - Get a specific practice test
-- `POST /api/practice/sessions/start` - Start a test session
-- `POST /api/practice/sessions/answer` - Submit an answer
-- `PUT /api/practice/sessions/:sessionId/complete` - Complete a test session
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/practice/tests` | GET | List practice tests |
+| `/api/practice/sessions` | POST | Start test session |
+| `/api/practice/sessions/answer` | POST | Submit answer |
+| `/api/practice/sessions/:id/complete` | PUT | Complete session |
+| `/api/practice/sessions/:id/review` | GET | Get review data |
 
-## Database Schema
+### Progress
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/progress/dashboard` | GET | Get dashboard data |
+| `/api/progress/domains` | GET | Get domain progress |
 
-The application uses the following main entities:
-- **Users**: User accounts and authentication
-- **Domains**: PMP exam domains (People, Process, Business Environment)
-- **Questions**: Practice questions with scenarios and explanations
-- **FlashCards**: Study cards for key concepts
-- **PracticeTests**: Full-length test configurations
-- **UserTestSessions**: Test attempts and results
+### Admin (Requires ADMIN role)
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/admin/dashboard` | GET | Admin statistics |
+| `/api/admin/users` | GET | List users |
+| `/api/admin/users/:id/role` | PUT | Update user role |
+| `/api/admin/questions` | GET/POST | Manage questions |
+| `/api/admin/flashcards` | GET/POST | Manage flashcards |
 
-## Contributing
+## 🧪 Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+### Test Structure
+- **Unit tests**: Controllers, middleware, services
+- **Integration tests**: API endpoints
+- **Frontend tests**: Components (Vitest + RTL)
+
+## 📊 Database Schema
+
+### Core Models
+- **User**: Authentication, roles, progress
+- **Question**: PMP exam questions with choices
+- **FlashCard**: Study flashcards with SM-2 data
+- **Domain**: PMP exam domains (People, Process, Business)
+- **PracticeTest**: Full-length exam configurations
+- **UserTestSession**: User's test attempts
+- **UserAnswer**: Individual question responses
+- **FlashCardReview**: Spaced repetition tracking
+- **DailyGoal**: Study goal configuration
+- **StudyStreak**: Consecutive study tracking
+
+## 🔐 Security
+
+- JWT-based authentication
+- Password hashing with bcrypt
+- Role-based access control (USER, ADMIN)
+- CORS configuration
+- Helmet.js security headers
+- Input validation
+
+## 🎨 Styling
+
+- Custom CSS with utility classes
+- Mobile-first responsive design
+- CSS variables for theming
+- Dark mode support (mobile nav)
+
+## 📱 PWA Features
+
+- Web App Manifest
+- iOS standalone mode support
+- Theme color: #4f46e5 (Indigo)
+- Home screen installation
+- Splash screen configuration
+
+## 🚀 Deployment
+
+### Production Build
+```bash
+# Backend
+npm run build
+npm start
+
+# Frontend
+cd client/client
+npm run build
+# Serve dist/ with any static server
+```
+
+### Environment Variables (Production)
+```env
+DATABASE_URL=postgresql://...
+JWT_SECRET=<strong-random-secret>
+NODE_ENV=production
+FRONTEND_URL=https://your-domain.com
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes and test thoroughly
-4. Commit your changes: `git commit -m 'Add feature description'`
-5. Push to the branch: `git push origin feature-name`
-6. Submit a pull request
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Commit changes: `git commit -m "Add my feature"`
+4. Push to branch: `git push origin feature/my-feature`
+5. Open a Pull Request
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License.
+MIT License - see [LICENSE](LICENSE) for details.
 
-## Support
+## 🙏 Acknowledgements
 
-For questions, issues, or contributions, please open an issue in the repository.
-
----
-
-**Admin Credentials (for testing):**
-- Email: admin@pmp.com
-- Password: admin123
+- PMP exam content based on PMBOK Guide 7th Edition
+- SM-2 Algorithm by Piotr Wozniak
+- Icons from Heroicons
+- Built with React, Express, Prisma, and PostgreSQL

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import authService from '../services/authService';
 import type { User, LoginData, RegisterData } from '../services/authService';
 
-interface AuthContextType {
+export interface AuthContextType {
     user: User | null;
     isLoading: boolean;
     isAuthenticated: boolean;

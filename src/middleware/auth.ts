@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../services/database';
 
 // Extend Express Request type to include user
 declare global {
@@ -19,7 +17,7 @@ declare global {
     }
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-in-production';
+const getJwtSecret = () => process.env.JWT_SECRET || 'your-super-secret-key-change-in-production';
 
 export interface JWTPayload {
     userId: string;
@@ -44,7 +42,7 @@ export const authenticateToken = async (
             return;
         }
 
-        const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
+        const decoded = jwt.verify(token, getJwtSecret()) as JWTPayload;
 
         // Fetch user from database to ensure they still exist and get latest data
         const user = await prisma.user.findUnique({
@@ -113,7 +111,7 @@ export const optionalAuth = async (
             return;
         }
 
-        const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
+        const decoded = jwt.verify(token, getJwtSecret()) as JWTPayload;
 
         const user = await prisma.user.findUnique({
             where: { id: decoded.userId },
@@ -147,14 +145,14 @@ export const generateToken = (user: { id: string; email: string; role: string })
         role: user.role,
     };
 
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
+    return jwt.sign(payload, getJwtSecret(), { expiresIn: '7d' });
 };
 
 /**
  * Generate refresh token (longer lived)
  */
 export const generateRefreshToken = (userId: string): string => {
-    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '30d' });
+    return jwt.sign({ userId }, getJwtSecret(), { expiresIn: '30d' });
 };
 
-export { JWT_SECRET };
+export { getJwtSecret };
