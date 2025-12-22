@@ -84,8 +84,8 @@ const TestSessionPage: React.FC = () => {
   const completeSessionMutation = useMutation({
     mutationFn: practiceService.completeSession,
     onSuccess: () => {
-      // Navigate to results page (for now, just go back to practice tests)
-      navigate('/practice');
+      // Navigate to review page to see results
+      navigate(`/practice/review/${sessionId}`);
     },
   });
 

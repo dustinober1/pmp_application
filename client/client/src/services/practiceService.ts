@@ -82,14 +82,30 @@ export const practiceService = {
     questionId: string;
     selectedAnswerIndex: number;
     timeSpentSeconds: number;
+    isFlagged?: boolean;
   }) => {
     const response = await api.post('/practice/sessions/answer', data);
+    return response.data;
+  },
+
+  // Toggle question flag
+  toggleFlag: async (sessionId: string, questionId: string) => {
+    const response = await api.post('/practice/sessions/flag', {
+      sessionId,
+      questionId,
+    });
     return response.data;
   },
 
   // Complete a test session
   completeSession: async (sessionId: string) => {
     const response = await api.put(`/practice/sessions/${sessionId}/complete`);
+    return response.data;
+  },
+
+  // Get session review data (after completion)
+  getSessionReview: async (sessionId: string) => {
+    const response = await api.get(`/practice/sessions/${sessionId}/review`);
     return response.data;
   },
 

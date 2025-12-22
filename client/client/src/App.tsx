@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import PracticeTestsPage from './pages/PracticeTestsPage';
 import FlashcardsPage from './pages/FlashcardsPage';
 import TestSessionPage from './pages/TestSessionPage';
+import TestReviewPage from './pages/TestReviewPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -101,6 +102,16 @@ function AppRoutes() {
           <Layout>
             <ProtectedRoute>
               <TestSessionPage />
+            </ProtectedRoute>
+          </Layout>
+        }
+      />
+      <Route
+        path="/practice/review/:sessionId"
+        element={
+          <Layout>
+            <ProtectedRoute>
+              <TestReviewPage />
             </ProtectedRoute>
           </Layout>
         }

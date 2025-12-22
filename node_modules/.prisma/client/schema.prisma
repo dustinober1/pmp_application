@@ -131,6 +131,7 @@ model UserAnswer {
   questionId          String
   selectedAnswerIndex Int
   isCorrect           Boolean
+  isFlagged           Boolean         @default(false)
   answeredAt          DateTime        @default(now())
   timeSpentSeconds    Int
   question            Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
