@@ -11,6 +11,7 @@ import TestReviewPage from './pages/TestReviewPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
+import AdminPage from './pages/AdminPage';
 import './App.css';
 import './styles/auth.css';
 import './styles/dashboard.css';
@@ -122,6 +123,16 @@ function AppRoutes() {
           <Layout>
             <ProtectedRoute>
               <FlashcardsPage />
+            </ProtectedRoute>
+          </Layout>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <Layout>
+            <ProtectedRoute>
+              <AdminPage />
             </ProtectedRoute>
           </Layout>
         }

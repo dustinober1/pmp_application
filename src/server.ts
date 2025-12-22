@@ -8,6 +8,7 @@ import flashcardRoutes from './routes/flashcards';
 import practiceRoutes from './routes/practice';
 import authRoutes from './routes/auth';
 import progressRoutes from './routes/progress';
+import adminRoutes from './routes/admin';
 
 // Load environment variables
 dotenv.config();
@@ -37,11 +38,7 @@ app.use('/api/flashcards', flashcardRoutes);
 app.use('/api/practice', practiceRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/progress', progressRoutes);
-
-app.use('/api/admin', (req, res) => {
-  // Placeholder for admin routes
-  res.json({ message: 'Admin routes coming soon' });
-});
+app.use('/api/admin', adminRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
