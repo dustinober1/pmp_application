@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import MobileNav from './MobileNav';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -358,6 +359,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Navigation */}
+      <MobileNav />
     </div>
   );
 };

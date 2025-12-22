@@ -15,6 +15,7 @@ import AdminPage from './pages/AdminPage';
 import './App.css';
 import './styles/auth.css';
 import './styles/dashboard.css';
+import './styles/mobile.css';
 
 // Create a client for React Query
 const queryClient = new QueryClient({
