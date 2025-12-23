@@ -17,7 +17,13 @@ declare global {
     }
 }
 
-const getJwtSecret = () => process.env.JWT_SECRET || 'your-super-secret-key-change-in-production';
+const getJwtSecret = () => {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        throw new Error('JWT_SECRET environment variable is not defined');
+    }
+    return secret;
+};
 
 export interface JWTPayload {
     userId: string;

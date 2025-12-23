@@ -4,11 +4,16 @@ import {
   getQuestionById,
   getDomains,
 } from '../controllers/questionController';
+import { validateResult } from '../middleware/validation';
+import {
+  getQuestionsSchema,
+  getQuestionByIdSchema,
+} from '../schemas/question.schema';
 
 const router = Router();
 
-router.get('/', getQuestions);
+router.get('/', validateResult(getQuestionsSchema), getQuestions);
 router.get('/domains', getDomains);
-router.get('/:id', getQuestionById);
+router.get('/:id', validateResult(getQuestionByIdSchema), getQuestionById);
 
 export default router;

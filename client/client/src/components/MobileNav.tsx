@@ -76,15 +76,17 @@ const MobileNav: React.FC = () => {
     };
 
     return (
-        <nav className="mobile-nav md:hidden">
+        <nav className="mobile-nav md:hidden" aria-label="Mobile Navigation" role="navigation">
             <div className="mobile-nav-items">
                 {visibleItems.slice(0, 5).map((item) => (
                     <Link
                         key={item.name}
                         to={item.href}
                         className={`mobile-nav-item ${isActive(item.href) ? 'active' : ''}`}
+                        aria-label={item.name}
+                        aria-current={isActive(item.href) ? 'page' : undefined}
                     >
-                        <span className={isActive(item.href) ? 'text-indigo-600' : 'text-gray-500'}>
+                        <span className={isActive(item.href) ? 'text-indigo-600' : 'text-gray-500'} aria-hidden="true">
                             {item.icon}
                         </span>
                         <span className={`text-xs mt-1 ${isActive(item.href) ? 'text-indigo-600 font-medium' : 'text-gray-500'}`}>

@@ -1,0 +1,71 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: pmp_user
+      POSTGRES_PASSWORD: pmp_password
+      POSTGRES_DB: pmp_db
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pmp_user -d pmp_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "16379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://pmp_user:pmp_password@db:5432/pmp_db
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET environment variable is required}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3001
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: sh -c "npx prisma db push && npm run dev"
+
+  test:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://pmp_user:pmp_password@db:5432/pmp_db
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: test-jwt-secret-for-testing-only
+      NODE_ENV: test
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: sh -c "npx prisma db push && npm test"
+
+  frontend-test:
+    build: 
+      context: ./client/client
+    environment:
+      CI: "true"
+    volumes:
+      - ./client/client:/app
+      - /app/node_modules
+    command: npm run test
+
+volumes:
+  postgres_data:

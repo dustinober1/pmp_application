@@ -1,9 +1,10 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -21,11 +22,12 @@ model User {
   createdFlashCards FlashCard[]       @relation("FlashCardCreatedBy")
   createdQuestions  Question[]        @relation("CreatedBy")
 
-  progress          UserProgress[]
-  testSessions      UserTestSession[]
-  studyStreak       StudyStreak?
-  dailyGoal         DailyGoal?
+  progress     UserProgress[]
+  testSessions UserTestSession[]
+  studyStreak  StudyStreak?
+  dailyGoal    DailyGoal?
 
+  @@index([email])
   @@map("users")
 }
 
@@ -61,6 +63,8 @@ model Question {
   testQuestions      TestQuestion[]
   answers            UserAnswer[]
 
+  @@index([domainId])
+  @@index([createdBy])
   @@map("questions")
 }
 
@@ -79,6 +83,8 @@ model FlashCard {
   creator    User              @relation("FlashCardCreatedBy", fields: [createdBy], references: [id])
   domain     Domain            @relation(fields: [domainId], references: [id], onDelete: Cascade)
 
+  @@index([domainId])
+  @@index([createdBy])
   @@map("flashcards")
 }
 
@@ -105,6 +111,8 @@ model TestQuestion {
   test       PracticeTest @relation(fields: [testId], references: [id], onDelete: Cascade)
 
   @@unique([testId, questionId])
+  @@index([testId])
+  @@index([questionId])
   @@map("test_questions")
 }
 
@@ -123,6 +131,8 @@ model UserTestSession {
   test             PracticeTest @relation(fields: [testId], references: [id], onDelete: Cascade)
   user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
+  @@index([testId])
   @@map("user_test_sessions")
 }
 
@@ -139,6 +149,8 @@ model UserAnswer {
   session             UserTestSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
   @@unique([sessionId, questionId])
+  @@index([sessionId])
+  @@index([questionId])
   @@map("user_answers")
 }
 
@@ -154,6 +166,8 @@ model UserProgress {
   user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, domainId])
+  @@index([userId])
+  @@index([domainId])
   @@map("user_progress")
 }
 
@@ -172,31 +186,36 @@ model FlashCardReview {
   user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, flashCardId])
+  @@index([userId])
+  @@index([flashCardId])
+  @@index([nextReviewAt])
   @@map("flash_card_reviews")
 }
 
 model StudyStreak {
-  id               String   @id @default(uuid())
-  userId           String   @unique
-  currentStreak    Int      @default(0)
-  longestStreak    Int      @default(0)
-  lastStudyDate    DateTime @default(now())
-  totalStudyDays   Int      @default(0)
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  currentStreak  Int      @default(0)
+  longestStreak  Int      @default(0)
+  lastStudyDate  DateTime @default(now())
+  totalStudyDays Int      @default(0)
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map("study_streaks")
 }
 
 model DailyGoal {
-  id                   String   @id @default(uuid())
-  userId               String   @unique
-  flashcardGoal        Int      @default(20) // Cards to review per day
-  questionsGoal        Int      @default(25) // Questions to answer per day
-  cardsReviewedToday   Int      @default(0)
+  id                     String   @id @default(uuid())
+  userId                 String   @unique
+  flashcardGoal          Int      @default(20) // Cards to review per day
+  questionsGoal          Int      @default(25) // Questions to answer per day
+  cardsReviewedToday     Int      @default(0)
   questionsAnsweredToday Int    @default(0)
-  lastResetDate        DateTime @default(now())
-  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastResetDate          DateTime @default(now())
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map("daily_goals")
 }
 
