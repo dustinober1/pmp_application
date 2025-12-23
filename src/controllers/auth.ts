@@ -1,36 +1,18 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../services/database';
 import { generateToken } from '../middleware/auth';
-
-const prisma = new PrismaClient();
+import Logger from '../utils/logger';
+import { AppError, ErrorFactory } from '../utils/AppError';
 
 /**
  * Register a new user
  * POST /api/auth/register
+ * Validation handled by Zod middleware using registerSchema
  */
-export const register = async (req: Request, res: Response): Promise<void> => {
+export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { email, password, firstName, lastName } = req.body;
-
-        // Validation
-        if (!email || !password || !firstName || !lastName) {
-            res.status(400).json({ error: 'All fields are required' });
-            return;
-        }
-
-        // Email format validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            res.status(400).json({ error: 'Invalid email format' });
-            return;
-        }
-
-        // Password strength validation
-        if (password.length < 8) {
-            res.status(400).json({ error: 'Password must be at least 8 characters' });
-            return;
-        }
 
         // Check if user already exists
         const existingUser = await prisma.user.findUnique({
@@ -38,8 +20,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         });
 
         if (existingUser) {
-            res.status(409).json({ error: 'Email already registered' });
-            return;
+            throw ErrorFactory.conflict('Email already registered');
         }
 
         // Hash password
@@ -68,30 +49,30 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         // Generate token
         const token = generateToken(user);
 
+        Logger.info(`New user registered: ${user.email}`);
+
         res.status(201).json({
             message: 'Registration successful',
             user,
             token,
         });
     } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ error: 'Registration failed' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Registration error:', error);
+        next(ErrorFactory.internal('Registration failed'));
     }
 };
 
 /**
  * Login user
  * POST /api/auth/login
+ * Validation handled by Zod middleware using loginSchema
  */
-export const login = async (req: Request, res: Response): Promise<void> => {
+export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { email, password } = req.body;
-
-        // Validation
-        if (!email || !password) {
-            res.status(400).json({ error: 'Email and password are required' });
-            return;
-        }
 
         // Find user
         const user = await prisma.user.findUnique({
@@ -99,20 +80,21 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         });
 
         if (!user) {
-            res.status(401).json({ error: 'Invalid email or password' });
-            return;
+            // Use same error for both cases to prevent user enumeration
+            throw ErrorFactory.unauthorized('Invalid email or password');
         }
 
         // Verify password
         const isValidPassword = await bcrypt.compare(password, user.passwordHash);
 
         if (!isValidPassword) {
-            res.status(401).json({ error: 'Invalid email or password' });
-            return;
+            throw ErrorFactory.unauthorized('Invalid email or password');
         }
 
         // Generate token
         const token = generateToken(user);
+
+        Logger.info(`User logged in: ${user.email}`);
 
         res.json({
             message: 'Login successful',
@@ -126,8 +108,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             token,
         });
     } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).json({ error: 'Login failed' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Login error:', error);
+        next(ErrorFactory.internal('Login failed'));
     }
 };
 
@@ -135,11 +120,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
  * Get current user profile
  * GET /api/auth/me
  */
-export const getMe = async (req: Request, res: Response): Promise<void> => {
+export const getMe = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            res.status(401).json({ error: 'Not authenticated' });
-            return;
+            throw ErrorFactory.unauthorized();
         }
 
         // Get full user data with stats
@@ -162,8 +146,7 @@ export const getMe = async (req: Request, res: Response): Promise<void> => {
         });
 
         if (!user) {
-            res.status(404).json({ error: 'User not found' });
-            return;
+            throw ErrorFactory.notFound('User');
         }
 
         // Get progress stats
@@ -188,20 +171,23 @@ export const getMe = async (req: Request, res: Response): Promise<void> => {
             },
         });
     } catch (error) {
-        console.error('Get me error:', error);
-        res.status(500).json({ error: 'Failed to get user profile' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Get me error:', error);
+        next(ErrorFactory.internal('Failed to get user profile'));
     }
 };
 
 /**
  * Update user profile
  * PUT /api/auth/profile
+ * Validation handled by Zod middleware using updateProfileSchema
  */
-export const updateProfile = async (req: Request, res: Response): Promise<void> => {
+export const updateProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            res.status(401).json({ error: 'Not authenticated' });
-            return;
+            throw ErrorFactory.unauthorized();
         }
 
         const { firstName, lastName } = req.body;
@@ -221,38 +207,33 @@ export const updateProfile = async (req: Request, res: Response): Promise<void> 
             },
         });
 
+        Logger.info(`User profile updated: ${updatedUser.email}`);
+
         res.json({
             message: 'Profile updated successfully',
             user: updatedUser,
         });
     } catch (error) {
-        console.error('Update profile error:', error);
-        res.status(500).json({ error: 'Failed to update profile' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Update profile error:', error);
+        next(ErrorFactory.internal('Failed to update profile'));
     }
 };
 
 /**
  * Change password
  * PUT /api/auth/password
+ * Validation handled by Zod middleware using changePasswordSchema
  */
-export const changePassword = async (req: Request, res: Response): Promise<void> => {
+export const changePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            res.status(401).json({ error: 'Not authenticated' });
-            return;
+            throw ErrorFactory.unauthorized();
         }
 
         const { currentPassword, newPassword } = req.body;
-
-        if (!currentPassword || !newPassword) {
-            res.status(400).json({ error: 'Current and new password are required' });
-            return;
-        }
-
-        if (newPassword.length < 8) {
-            res.status(400).json({ error: 'New password must be at least 8 characters' });
-            return;
-        }
 
         // Get user with password hash
         const user = await prisma.user.findUnique({
@@ -260,16 +241,14 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
         });
 
         if (!user) {
-            res.status(404).json({ error: 'User not found' });
-            return;
+            throw ErrorFactory.notFound('User');
         }
 
         // Verify current password
         const isValidPassword = await bcrypt.compare(currentPassword, user.passwordHash);
 
         if (!isValidPassword) {
-            res.status(401).json({ error: 'Current password is incorrect' });
-            return;
+            throw ErrorFactory.unauthorized('Current password is incorrect');
         }
 
         // Hash new password
@@ -282,10 +261,15 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
             data: { passwordHash },
         });
 
+        Logger.info(`User password changed: ${user.email}`);
+
         res.json({ message: 'Password changed successfully' });
     } catch (error) {
-        console.error('Change password error:', error);
-        res.status(500).json({ error: 'Failed to change password' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Change password error:', error);
+        next(ErrorFactory.internal('Failed to change password'));
     }
 };
 

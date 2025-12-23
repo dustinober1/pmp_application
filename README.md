@@ -7,6 +7,8 @@ A comprehensive, full-stack application for PMP (Project Management Professional
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat&logo=prisma&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 
 ## 🎯 Features
 
@@ -56,10 +58,41 @@ A comprehensive, full-stack application for PMP (Project Management Professional
 
 ### Prerequisites
 - Node.js 18+
-- PostgreSQL 14+
-- npm or yarn
+- Docker and Docker Compose (recommended)
+- Or: PostgreSQL 14+ and Redis 7+ (for manual setup)
 
-### Installation
+### Option 1: Docker (Recommended)
+
+The easiest way to get started is using Docker Compose:
+
+```bash
+# Clone the repository
+git clone https://github.com/dustinober1/pmp_application.git
+cd pmp_application
+
+# Create environment file
+cp .env.example .env
+# Edit .env to set JWT_SECRET (required)
+
+# Start all services (PostgreSQL, Redis, Backend)
+docker-compose up -d
+
+# Wait for services to be healthy, then seed the database
+docker-compose exec backend npx prisma db seed
+```
+
+The backend will be available at `http://localhost:3001`.
+
+For the frontend:
+```bash
+cd client/client
+npm install
+npm run dev
+```
+
+Frontend will be available at `http://localhost:5173`.
+
+### Option 2: Manual Setup
 
 1. **Clone the repository**
 ```bash
@@ -85,9 +118,12 @@ cp .env.example .env
 Required environment variables:
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/pmp_practice"
-JWT_SECRET="your-secure-secret-key"
+JWT_SECRET="your-secure-secret-key"  # REQUIRED - generate a strong random string
+REDIS_URL="redis://localhost:6379"
 PORT=3001
 FRONTEND_URL="http://localhost:5173"
+ALLOWED_ORIGINS="http://localhost:5173,http://localhost:3000"
+NODE_ENV="development"
 ```
 
 4. **Set up database**
@@ -110,6 +146,31 @@ cd client/client && npm run dev
 ```
 Frontend: http://localhost:5173
 Backend:  http://localhost:3001
+API Docs: http://localhost:3001/api-docs
+Health:   http://localhost:3001/health
+```
+
+## 🐳 Docker Commands
+
+```bash
+# Development mode (with hot reloading)
+docker-compose up
+
+# View logs
+docker-compose logs -f backend
+
+# Run tests
+docker-compose --profile test run test
+
+# Production build (uses multi-stage Dockerfile)
+docker-compose --profile production up backend-prod
+
+# Stop all containers
+docker-compose down
+
+# Reset database
+docker-compose down -v  # Removes volumes
+docker-compose up -d
 ```
 
 ## 📁 Project Structure
@@ -125,29 +186,40 @@ pmp_application/
 │   │   └── styles/         # CSS stylesheets
 │   └── public/             # Static assets
 ├── prisma/
-│   ├── schema.prisma       # Database schema
+│   ├── schema.prisma       # Database schema (PostgreSQL)
 │   ├── migrations/         # Database migrations
 │   └── seed.ts             # Seed data
 ├── src/
+│   ├── config/             # Configuration (Swagger, etc.)
 │   ├── controllers/        # Route handlers
-│   ├── middleware/         # Express middleware
+│   ├── middleware/         # Express middleware (auth, validation)
 │   ├── routes/             # API routes
-│   └── services/           # Business logic
+│   ├── schemas/            # Zod validation schemas
+│   ├── services/           # Business logic (database, cache)
+│   └── utils/              # Utilities (logger, AppError)
 ├── tests/                  # Test files
-│   ├── controllers/
-│   ├── middleware/
-│   └── setup.ts
-└── docs/                   # Documentation
+│   ├── controllers/        # Controller unit tests
+│   ├── integration/        # API integration tests
+│   ├── middleware/         # Middleware tests
+│   └── setup.ts            # Test configuration
+├── Dockerfile              # Production multi-stage build
+├── Dockerfile.dev          # Development build
+└── docker-compose.yml      # Docker services
 ```
 
 ## 🔌 API Reference
+
+Interactive API documentation available at `/api-docs` when the server is running.
 
 ### Authentication
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/auth/register` | POST | Register new user |
 | `/api/auth/login` | POST | User login |
+| `/api/auth/logout` | POST | User logout |
 | `/api/auth/me` | GET | Get current user |
+| `/api/auth/profile` | PUT | Update profile |
+| `/api/auth/password` | PUT | Change password |
 
 ### Questions
 | Endpoint | Method | Description |
@@ -169,16 +241,18 @@ pmp_application/
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/practice/tests` | GET | List practice tests |
-| `/api/practice/sessions` | POST | Start test session |
-| `/api/practice/sessions/answer` | POST | Submit answer |
-| `/api/practice/sessions/:id/complete` | PUT | Complete session |
-| `/api/practice/sessions/:id/review` | GET | Get review data |
+| `/api/practice/tests/:testId/start` | POST | Start test session |
+| `/api/practice/sessions/:sessionId/answer` | POST | Submit answer |
+| `/api/practice/sessions/:sessionId/complete` | PUT | Complete session |
+| `/api/practice/sessions/:sessionId/review` | GET | Get review data |
 
 ### Progress
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/api/progress/dashboard` | GET | Get dashboard data |
-| `/api/progress/domains` | GET | Get domain progress |
+| `/api/progress` | GET | Get dashboard data |
+| `/api/progress/domain/:domainId` | GET | Get domain progress |
+| `/api/progress/activity` | POST | Record study activity |
+| `/api/progress/history` | GET | Get study history |
 
 ### Admin (Requires ADMIN role)
 | Endpoint | Method | Description |
@@ -200,19 +274,24 @@ npm run test:watch
 
 # Generate coverage report
 npm run test:coverage
+
+# Run tests in Docker
+docker-compose --profile test run test
 ```
 
 ### Test Structure
 - **Unit tests**: Controllers, middleware, services
-- **Integration tests**: API endpoints
-- **Frontend tests**: Components (Vitest + RTL)
+- **Integration tests**: API endpoints with real database
+- **Frontend tests**: Components (Vitest + React Testing Library)
 
 ## 📊 Database Schema
 
+The application uses **PostgreSQL** (not SQLite). The schema includes:
+
 ### Core Models
-- **User**: Authentication, roles, progress
-- **Question**: PMP exam questions with choices
-- **FlashCard**: Study flashcards with SM-2 data
+- **User**: Authentication, roles, progress tracking
+- **Question**: PMP exam questions with choices (JSON)
+- **FlashCard**: Study flashcards with SM-2 algorithm data
 - **Domain**: PMP exam domains (People, Process, Business)
 - **PracticeTest**: Full-length exam configurations
 - **UserTestSession**: User's test attempts
@@ -223,12 +302,55 @@ npm run test:coverage
 
 ## 🔐 Security
 
-- JWT-based authentication
-- Password hashing with bcrypt
+- JWT-based authentication with secure secret (required env var)
+- Password hashing with bcrypt (12 rounds)
 - Role-based access control (USER, ADMIN)
-- CORS configuration
+- CORS with configurable domain whitelist
 - Helmet.js security headers
-- Input validation
+- Rate limiting on all endpoints (stricter on auth)
+- Zod input validation on all endpoints
+- Standardized error responses (no internal details in production)
+
+## 🚀 Deployment
+
+### Production Build
+
+```bash
+# Build backend
+npm run build
+npm start
+
+# Build frontend
+cd client/client
+npm run build
+# Serve dist/ with any static server
+```
+
+### Docker Production
+
+```bash
+# Build and run production container
+docker build -t pmp-app .
+docker run -p 3001:3001 \
+  -e DATABASE_URL="postgresql://..." \
+  -e REDIS_URL="redis://..." \
+  -e JWT_SECRET="<strong-secret>" \
+  -e NODE_ENV="production" \
+  -e FRONTEND_URL="https://your-domain.com" \
+  -e ALLOWED_ORIGINS="https://your-domain.com" \
+  pmp-app
+```
+
+### Environment Variables (Production)
+```env
+DATABASE_URL=postgresql://...          # Required
+REDIS_URL=redis://...                   # Required
+JWT_SECRET=<strong-random-secret>       # Required - min 32 chars recommended
+NODE_ENV=production                     # Required
+FRONTEND_URL=https://your-domain.com    # Required
+ALLOWED_ORIGINS=https://your-domain.com # Required - comma-separated
+PORT=3001                               # Optional
+```
 
 ## 🎨 Styling
 
@@ -245,28 +367,6 @@ npm run test:coverage
 - Home screen installation
 - Splash screen configuration
 
-## 🚀 Deployment
-
-### Production Build
-```bash
-# Backend
-npm run build
-npm start
-
-# Frontend
-cd client/client
-npm run build
-# Serve dist/ with any static server
-```
-
-### Environment Variables (Production)
-```env
-DATABASE_URL=postgresql://...
-JWT_SECRET=<strong-random-secret>
-NODE_ENV=production
-FRONTEND_URL=https://your-domain.com
-```
-
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -274,6 +374,12 @@ FRONTEND_URL=https://your-domain.com
 3. Commit changes: `git commit -m "Add my feature"`
 4. Push to branch: `git push origin feature/my-feature`
 5. Open a Pull Request
+
+### Development Guidelines
+- Run tests before submitting PRs
+- Follow existing code patterns
+- Add tests for new features
+- Update documentation as needed
 
 ## 📄 License
 

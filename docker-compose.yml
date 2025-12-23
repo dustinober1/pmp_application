@@ -25,8 +25,11 @@ services:
       timeout: 5s
       retries: 5
 
+  # Development backend (uses Dockerfile.dev)
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
       - "3001:3001"
     environment:
@@ -34,6 +37,7 @@ services:
       REDIS_URL: redis://redis:6379
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET environment variable is required}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:3000}
       NODE_ENV: ${NODE_ENV:-development}
       PORT: 3001
     depends_on:
@@ -41,10 +45,38 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
     command: sh -c "npx prisma db push && npm run dev"
 
+  # Production backend (uses main Dockerfile)
+  backend-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL environment variable is required}
+      REDIS_URL: ${REDIS_URL:?REDIS_URL environment variable is required}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET environment variable is required}
+      FRONTEND_URL: ${FRONTEND_URL:?FRONTEND_URL environment variable is required}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?ALLOWED_ORIGINS environment variable is required}
+      NODE_ENV: production
+      PORT: 3001
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    profiles:
+      - production
+
   test:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     environment:
       DATABASE_URL: postgresql://pmp_user:pmp_password@db:5432/pmp_db
       REDIS_URL: redis://redis:6379
@@ -56,6 +88,8 @@ services:
       redis:
         condition: service_healthy
     command: sh -c "npx prisma db push && npm test"
+    profiles:
+      - test
 
   frontend-test:
     build: 
@@ -66,6 +100,8 @@ services:
       - ./client/client:/app
       - /app/node_modules
     command: npm run test
+    profiles:
+      - test
 
 volumes:
   postgres_data:

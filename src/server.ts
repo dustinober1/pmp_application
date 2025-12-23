@@ -148,7 +148,21 @@ app.use((req, res) => {
 });
 
 // Error handling middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction): void => {
+  // Check if it's our custom AppError
+  if (err.statusCode && err.code) {
+    Logger.warn(`AppError: ${err.message}`, { code: err.code, path: req.path });
+    res.status(err.statusCode).json(err.toJSON ? err.toJSON() : {
+      error: {
+        message: err.message,
+        code: err.code,
+        status: err.statusCode,
+      },
+    });
+    return;
+  }
+
+  // Log unexpected errors
   Logger.error(`Error: ${err.message}`, { stack: err.stack, path: req.path });
 
   // Don't expose internal errors in production
@@ -159,6 +173,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(err.status || 500).json({
     error: {
       message,
+      code: 'INTERNAL_ERROR',
       status: err.status || 500,
     },
   });

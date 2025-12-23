@@ -17,3 +17,5 @@
 2025-12-22 19:27:35:2735 [35mhttp[39m: [35m::1 - - [23/Dec/2025:00:27:35 +0000] "GET /api-docs/favicon-32x32.png HTTP/1.1" 200 628 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"[39m
 2025-12-22 19:27:36:2736 [35mhttp[39m: [35m::1 - - [23/Dec/2025:00:27:36 +0000] "GET /api-docs/favicon-32x32.png HTTP/1.1" 200 628 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Antigravity/1.104.0 Chrome/138.0.7204.235 Electron/37.3.1 Safari/537.36"[39m
 2025-12-22 19:28:06:286 [35mhttp[39m: [35m::1 - - [23/Dec/2025:00:28:06 +0000] "POST /api/auth/login HTTP/1.1" 400 155 "http://localhost:5173/login" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"[39m
+2025-12-22 19:34:37:3437 [32minfo[39m: [32mReceived shutdown signal, closing connections...[39m
+2025-12-22 19:34:37:3437 [32minfo[39m: [32mReceived shutdown signal, closing connections...[39m
