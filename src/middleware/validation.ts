@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ZodError, ZodSchema } from 'zod';
+import { ZodError, ZodSchema, ZodIssue } from 'zod';
 
 export const validateResult = (schema: ZodSchema) => async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -13,9 +13,9 @@ export const validateResult = (schema: ZodSchema) => async (req: Request, res: R
         if (error instanceof ZodError) {
             return res.status(400).json({
                 error: 'Validation failed',
-                details: error.errors.map((e) => ({
-                    path: e.path.join('.'),
-                    message: e.message,
+                details: error.issues.map((issue: ZodIssue) => ({
+                    path: issue.path.join('.'),
+                    message: issue.message,
                 })),
             });
         }
