@@ -61,12 +61,15 @@ Review date: 2024-12-24
 - [ ] Add database indexes
 - [ ] Implement connection pooling configuration
 
-### ⬜ Issue #6: Inconsistent Caching Strategy
-**Status:** NOT STARTED
-**TODO:**
-- [ ] Review and standardize TTLs
-- [ ] Add cache invalidation on CRUD
-- [ ] Add cache for user data
+### ✅ Issue #6: Inconsistent Caching Strategy
+**Status:** RESOLVED
+**Commit:** `2518248`
+**Changes:**
+- Standardized TTL constants (SHORT, MEDIUM, LONG)
+- Data-specific TTLs for each entity
+- Pattern-based cache invalidation
+- User cache invalidation helpers
+- Cache key builders and prefixes
 
 ### ✅ Issue #7: Type Safety Violations
 **Status:** RESOLVED
@@ -293,16 +296,16 @@ Review date: 2024-12-24
 | Category | Resolved | Partial | Not Started | Total |
 |----------|----------|---------|-------------|-------|
 | Critical | 4 | 0 | 0 | 4 |
-| Backend | 4 | 0 | 2 | 6 |
+| Backend | 5 | 0 | 1 | 6 |
 | Frontend | 2 | 0 | 3 | 5 |
 | Testing | 0 | 0 | 2 | 2 |
 | Infrastructure | 3 | 0 | 0 | 3 |
 | Code Quality | 3 | 1 | 1 | 5 |
 | Security | 4 | 0 | 0 | 4 |
 | Performance | 2 | 0 | 1 | 3 |
-| **TOTAL** | **22** | **1** | **9** | **32** |
+| **TOTAL** | **23** | **1** | **8** | **32** |
 
-**Progress: ~72% complete (23 of 32 issues addressed)**
+**Progress: ~75% complete (24 of 32 issues addressed)**
 
 ## Git Log Summary
 
@@ -321,8 +324,9 @@ Review date: 2024-12-24
 | `f94d399` | ESLint + Prettier |
 | `23dd4ef` | Skeleton loaders |
 | `aa0e7e0` | Connection pooling |
+| `2518248` | Caching strategy |
 
-Last updated: 2024-12-24T14:06:00
+Last updated: 2024-12-24T14:11:00
 
 
 
