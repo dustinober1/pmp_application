@@ -15,7 +15,7 @@
 # Build Stage
 # -----------------------------------------------------------------------------
 # Using specific pinned version for reproducible builds
-FROM node:20.10-alpine3.19 AS builder
+FROM node:23.3-alpine3.19 AS builder
 
 # Add labels for image metadata
 LABEL maintainer="dustinober1"
@@ -49,7 +49,7 @@ RUN npm prune --production
 # -----------------------------------------------------------------------------
 # Production Stage
 # -----------------------------------------------------------------------------
-FROM node:20.10-alpine3.19 AS runner
+FROM node:23.3-alpine3.19 AS runner
 
 # Add labels for image metadata
 LABEL maintainer="dustinober1"
