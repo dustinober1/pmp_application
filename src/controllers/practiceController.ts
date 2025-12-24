@@ -520,106 +520,184 @@ async function updateStudyStreak(userId: string): Promise<void> {
 /**
  * Complete a test session
  * PUT /api/practice/sessions/:sessionId/complete
+ * Uses database transaction for atomic updates
  */
 export const completeTestSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
-    // Get session with answers and questions (with domain info)
-    const session = await prisma.userTestSession.findUnique({
-      where: { id: sessionId },
-      include: {
-        answers: {
-          include: {
-            question: {
-              select: {
-                id: true,
-                domainId: true,
+    // Use transaction to ensure all updates are atomic
+    const result = await prisma.$transaction(async (tx) => {
+      // Get session with answers and questions (with domain info)
+      const session = await tx.userTestSession.findUnique({
+        where: { id: sessionId },
+        include: {
+          answers: {
+            include: {
+              question: {
+                select: {
+                  id: true,
+                  domainId: true,
+                },
               },
             },
           },
         },
-      },
-    });
+      });
 
-    if (!session) {
-      throw ErrorFactory.notFound('Session');
-    }
-
-    // Only count answers with selectedAnswerIndex >= 0 (actually answered)
-    const validAnswers = session.answers.filter(a => a.selectedAnswerIndex >= 0);
-    const correctAnswers = validAnswers.filter(a => a.isCorrect).length;
-    const score = session.totalQuestions > 0
-      ? Math.round((correctAnswers / session.totalQuestions) * 100)
-      : 0;
-
-    // Calculate time analytics
-    const totalTimeSpent = validAnswers.reduce((sum, a) => sum + a.timeSpentSeconds, 0);
-    const avgTimePerQuestion = validAnswers.length > 0
-      ? Math.round(totalTimeSpent / validAnswers.length)
-      : 0;
-
-    // Update session
-    const updatedSession = await prisma.userTestSession.update({
-      where: { id: sessionId },
-      data: {
-        status: 'COMPLETED',
-        completedAt: new Date(),
-        score,
-        correctAnswers,
-      },
-      include: {
-        answers: {
-          include: {
-            question: {
-              include: {
-                domain: true,
-              },
-            },
-          },
-        },
-        test: true,
-      },
-    });
-
-    // Update user progress for each domain
-    const domainProgress: Record<string, { total: number; correct: number; totalTime: number }> = {};
-
-    for (const answer of validAnswers) {
-      const domainId = answer.question.domainId;
-      if (!domainProgress[domainId]) {
-        domainProgress[domainId] = {
-          total: 0,
-          correct: 0,
-          totalTime: 0,
-        };
+      if (!session) {
+        throw ErrorFactory.notFound('Session');
       }
-      domainProgress[domainId].total += 1;
-      if (answer.isCorrect) domainProgress[domainId].correct += 1;
-      domainProgress[domainId].totalTime += answer.timeSpentSeconds;
-    }
 
-    // Update each domain's progress
-    for (const [domainId, progress] of Object.entries(domainProgress)) {
-      await updateDomainProgress(
-        session.userId,
-        domainId,
-        progress.total,
-        progress.correct,
-        progress.totalTime
-      );
-    }
+      // Only count answers with selectedAnswerIndex >= 0 (actually answered)
+      const validAnswers = session.answers.filter(a => a.selectedAnswerIndex >= 0);
+      const correctAnswers = validAnswers.filter(a => a.isCorrect).length;
+      const score = session.totalQuestions > 0
+        ? Math.round((correctAnswers / session.totalQuestions) * 100)
+        : 0;
 
-    // Update study streak
-    await updateStudyStreak(session.userId);
+      // Calculate time analytics
+      const totalTimeSpent = validAnswers.reduce((sum: number, a) => sum + a.timeSpentSeconds, 0);
+      const avgTimePerQuestion = validAnswers.length > 0
+        ? Math.round(totalTimeSpent / validAnswers.length)
+        : 0;
+
+      // Update session
+      const updatedSession = await tx.userTestSession.update({
+        where: { id: sessionId },
+        data: {
+          status: 'COMPLETED',
+          completedAt: new Date(),
+          score,
+          correctAnswers,
+        },
+        include: {
+          answers: {
+            include: {
+              question: {
+                include: {
+                  domain: true,
+                },
+              },
+            },
+          },
+          test: true,
+        },
+      });
+
+      // Update user progress for each domain
+      const domainProgress: Record<string, { total: number; correct: number; totalTime: number }> = {};
+
+      for (const answer of validAnswers) {
+        const domainId = answer.question.domainId;
+        if (!domainProgress[domainId]) {
+          domainProgress[domainId] = {
+            total: 0,
+            correct: 0,
+            totalTime: 0,
+          };
+        }
+        domainProgress[domainId].total += 1;
+        if (answer.isCorrect) domainProgress[domainId].correct += 1;
+        domainProgress[domainId].totalTime += answer.timeSpentSeconds;
+      }
+
+      // Update each domain's progress within transaction
+      for (const [domainId, progress] of Object.entries(domainProgress)) {
+        await tx.userProgress.upsert({
+          where: {
+            userId_domainId: {
+              userId: session.userId,
+              domainId,
+            },
+          },
+          update: {
+            questionsAnswered: {
+              increment: progress.total,
+            },
+            correctAnswers: {
+              increment: progress.correct,
+            },
+            averageTimePerQuestion: progress.totalTime / progress.total,
+            lastActivityAt: new Date(),
+          },
+          create: {
+            userId: session.userId,
+            domainId,
+            questionsAnswered: progress.total,
+            correctAnswers: progress.correct,
+            averageTimePerQuestion: progress.totalTime / progress.total,
+          },
+        });
+      }
+
+      // Update study streak within transaction
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const streak = await tx.studyStreak.findUnique({
+        where: { userId: session.userId },
+      });
+
+      if (!streak) {
+        await tx.studyStreak.create({
+          data: {
+            userId: session.userId,
+            currentStreak: 1,
+            longestStreak: 1,
+            lastStudyDate: today,
+            totalStudyDays: 1,
+          },
+        });
+      } else {
+        const lastStudy = new Date(streak.lastStudyDate);
+        lastStudy.setHours(0, 0, 0, 0);
+        const diffDays = Math.floor((today.getTime() - lastStudy.getTime()) / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 1) {
+          const newStreak = streak.currentStreak + 1;
+          await tx.studyStreak.update({
+            where: { userId: session.userId },
+            data: {
+              currentStreak: newStreak,
+              longestStreak: Math.max(newStreak, streak.longestStreak),
+              lastStudyDate: today,
+              totalStudyDays: streak.totalStudyDays + 1,
+            },
+          });
+        } else if (diffDays > 1) {
+          await tx.studyStreak.update({
+            where: { userId: session.userId },
+            data: {
+              currentStreak: 1,
+              lastStudyDate: today,
+              totalStudyDays: streak.totalStudyDays + 1,
+            },
+          });
+        } else if (diffDays === 0) {
+          await tx.studyStreak.update({
+            where: { userId: session.userId },
+            data: { lastStudyDate: today },
+          });
+        }
+      }
+
+      return {
+        updatedSession,
+        analytics: {
+          totalTimeSpent,
+          avgTimePerQuestion,
+          flaggedCount: session.answers.filter(a => a.isFlagged).length,
+        },
+      };
+    }, {
+      maxWait: 5000, // Maximum time to wait for transaction slot
+      timeout: 10000, // Maximum time for transaction to complete
+    });
 
     res.json({
-      ...updatedSession,
-      analytics: {
-        totalTimeSpent,
-        avgTimePerQuestion,
-        flaggedCount: session.answers.filter(a => a.isFlagged).length,
-      },
+      ...result.updatedSession,
+      analytics: result.analytics,
     });
   } catch (error) {
     if (error instanceof AppError) {
