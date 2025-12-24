@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 
 const RegisterPage: React.FC = () => {
@@ -62,8 +63,12 @@ const RegisterPage: React.FC = () => {
                 lastName: formData.lastName,
             });
             navigate('/', { replace: true });
-        } catch (err: any) {
-            setError(err.response?.data?.error || 'Registration failed. Please try again.');
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                setError(err.response?.data?.error || 'Registration failed. Please try again.');
+            } else {
+                setError('An unexpected error occurred. Please try again.');
+            }
         } finally {
             setIsSubmitting(false);
         }

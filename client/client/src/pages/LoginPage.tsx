@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+
+interface LocationState {
+    from?: {
+        pathname: string;
+    };
+}
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -15,7 +22,7 @@ const LoginPage: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Get redirect path from location state or default to home
-    const from = (location.state as any)?.from?.pathname || '/';
+    const from = (location.state as LocationState)?.from?.pathname || '/';
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -31,8 +38,12 @@ const LoginPage: React.FC = () => {
         try {
             await login(formData);
             navigate(from, { replace: true });
-        } catch (err: any) {
-            setError(err.response?.data?.error || 'Login failed. Please try again.');
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                setError(err.response?.data?.error || 'Login failed. Please try again.');
+            } else {
+                setError('An unexpected error occurred. Please try again.');
+            }
         } finally {
             setIsSubmitting(false);
         }

@@ -4,6 +4,7 @@ import { adminService } from '../services/adminService';
 import type { DashboardStats, AdminUser, AdminQuestion, AdminTest } from '../services/adminService';
 import { questionService } from '../services/questionService';
 import { useAuth } from '../contexts/AuthContext';
+import type { Domain } from '../types';
 import { Navigate } from 'react-router-dom';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorMessage from '../components/ui/ErrorMessage';
@@ -305,7 +306,7 @@ const QuestionsTab: React.FC<{
                     className="px-4 py-2 border rounded-lg"
                 >
                     <option value="">All Domains</option>
-                    {domains?.map((d: any) => (
+                    {domains?.map((d: Domain) => (
                         <option key={d.id} value={d.id}>{d.name}</option>
                     ))}
                 </select>

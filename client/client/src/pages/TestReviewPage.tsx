@@ -2,52 +2,9 @@ import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { practiceService } from '../services/practiceService';
+import type { SessionReview, DomainBreakdown, ReviewQuestion } from '../types';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorMessage from '../components/ui/ErrorMessage';
-
-interface ReviewQuestion {
-    id: string;
-    questionText: string;
-    scenario: string | null;
-    choices: string[];
-    correctAnswerIndex: number;
-    selectedAnswerIndex: number;
-    isCorrect: boolean;
-    isFlagged: boolean;
-    explanation: string;
-    timeSpentSeconds: number;
-    domain: {
-        name: string;
-        color: string;
-    };
-}
-
-interface DomainBreakdown {
-    name: string;
-    color: string;
-    total: number;
-    correct: number;
-}
-
-interface ReviewData {
-    session: {
-        id: string;
-        testName: string;
-        completedAt: string;
-        score: number;
-        totalQuestions: number;
-        correctAnswers: number;
-    };
-    analytics: {
-        totalTimeSpent: number;
-        avgTimePerQuestion: number;
-        slowestQuestions: { questionId: string; time: number }[];
-        domainBreakdown: DomainBreakdown[];
-    };
-    questions: ReviewQuestion[];
-    flaggedQuestions: ReviewQuestion[];
-    incorrectQuestions: ReviewQuestion[];
-}
 
 type FilterType = 'all' | 'incorrect' | 'flagged' | 'correct';
 
@@ -57,7 +14,7 @@ const TestReviewPage: React.FC = () => {
     const [filter, setFilter] = useState<FilterType>('all');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    const { data, isLoading, error } = useQuery<ReviewData>({
+    const { data, isLoading, error } = useQuery<SessionReview>({
         queryKey: ['session-review', sessionId],
         queryFn: async () => {
             if (!sessionId) throw new Error('No session ID');
@@ -172,7 +129,7 @@ const TestReviewPage: React.FC = () => {
                     <div className="mb-6">
                         <h3 className="font-semibold text-gray-900 mb-3">Performance by Domain</h3>
                         <div className="grid md:grid-cols-3 gap-4">
-                            {analytics.domainBreakdown.map((domain) => (
+                            {analytics.domainBreakdown.map((domain: DomainBreakdown) => (
                                 <div key={domain.name} className="p-4 bg-gray-50 rounded-lg">
                                     <div className="flex items-center justify-between mb-2">
                                         <div className="flex items-center">
@@ -228,7 +185,7 @@ const TestReviewPage: React.FC = () => {
                             className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${filter === 'correct' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                 }`}
                         >
-                            ✅ Correct ({questions.filter(q => q.isCorrect).length})
+                            ✅ Correct ({questions.filter((q: ReviewQuestion) => q.isCorrect).length})
                         </button>
                     </div>
                 </div>
@@ -342,15 +299,15 @@ const TestReviewPage: React.FC = () => {
                         <div className="mt-6 pt-6 border-t border-gray-200">
                             <h4 className="font-medium text-gray-700 mb-3">Quick Navigation</h4>
                             <div className="flex flex-wrap gap-2">
-                                {filteredQuestions.map((q, i) => (
+                                {filteredQuestions.map((q: ReviewQuestion, i: number) => (
                                     <button
                                         key={q.id}
                                         onClick={() => setCurrentQuestionIndex(i)}
                                         className={`w-10 h-10 text-sm font-medium rounded-lg transition-all ${i === currentQuestionIndex
-                                                ? 'bg-indigo-600 text-white'
-                                                : q.isCorrect
-                                                    ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                                                    : 'bg-red-100 text-red-700 hover:bg-red-200'
+                                            ? 'bg-indigo-600 text-white'
+                                            : q.isCorrect
+                                                ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                                                : 'bg-red-100 text-red-700 hover:bg-red-200'
                                             }`}
                                     >
                                         {i + 1}

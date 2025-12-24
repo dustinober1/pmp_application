@@ -1,74 +1,21 @@
 import api from './api';
-
-export interface PracticeTest {
-  id: string;
-  name: string;
-  description: string;
-  totalQuestions: number;
-  timeLimitMinutes: number;
-  isActive: boolean;
-  createdAt: string;
-  _count: {
-    testQuestions: number;
-    sessions: number;
-  };
-}
-
-export interface TestQuestion {
-  id: string;
-  question: {
-    id: string;
-    domainId: string;
-    questionText: string;
-    scenario?: string;
-    choices: string[];
-    correctAnswerIndex: number;
-    explanation: string;
-    difficulty: string;
-    methodology: string;
-    domain: {
-      id: string;
-      name: string;
-      description: string;
-      color: string;
-    };
-  };
-}
-
-export interface TestSession {
-  id: string;
-  userId: string;
-  testId: string;
-  startedAt: string;
-  completedAt?: string;
-  timeLimitMinutes: number;
-  status: 'IN_PROGRESS' | 'COMPLETED';
-  score?: number;
-  totalQuestions: number;
-  correctAnswers?: number;
-  test: {
-    id: string;
-    name: string;
-    description: string;
-    testQuestions: TestQuestion[];
-  };
-}
+import type { PracticeTest, UserTestSession, UserAnswer, SessionReview } from '../types';
 
 export const practiceService = {
   // Get all practice tests
-  getTests: async () => {
+  getTests: async (): Promise<PracticeTest[]> => {
     const response = await api.get('/practice/tests');
     return response.data;
   },
 
   // Get a single practice test by ID
-  getTestById: async (id: string) => {
+  getTestById: async (id: string): Promise<PracticeTest> => {
     const response = await api.get(`/practice/tests/${id}`);
     return response.data;
   },
 
   // Start a new test session
-  startSession: async (testId: string, userId: string) => {
+  startSession: async (testId: string, userId: string): Promise<UserTestSession> => {
     const response = await api.post('/practice/sessions/start', {
       testId,
       userId,
@@ -83,13 +30,13 @@ export const practiceService = {
     selectedAnswerIndex: number;
     timeSpentSeconds: number;
     isFlagged?: boolean;
-  }) => {
+  }): Promise<UserAnswer> => {
     const response = await api.post('/practice/sessions/answer', data);
     return response.data;
   },
 
   // Toggle question flag
-  toggleFlag: async (sessionId: string, questionId: string) => {
+  toggleFlag: async (sessionId: string, questionId: string): Promise<UserAnswer> => {
     const response = await api.post('/practice/sessions/flag', {
       sessionId,
       questionId,
@@ -98,25 +45,25 @@ export const practiceService = {
   },
 
   // Complete a test session
-  completeSession: async (sessionId: string) => {
+  completeSession: async (sessionId: string): Promise<UserTestSession> => {
     const response = await api.put(`/practice/sessions/${sessionId}/complete`);
     return response.data;
   },
 
-  // Get session review data (after completion)
-  getSessionReview: async (sessionId: string) => {
+  // Get a test session by ID for review
+  getSessionReview: async (sessionId: string): Promise<SessionReview> => {
     const response = await api.get(`/practice/sessions/${sessionId}/review`);
     return response.data;
   },
 
   // Get user's test sessions
-  getUserSessions: async (userId: string) => {
+  getUserSessions: async (userId: string): Promise<UserTestSession[]> => {
     const response = await api.get(`/practice/sessions/user/${userId}`);
     return response.data;
   },
 
   // Get a specific test session
-  getSessionById: async (sessionId: string) => {
+  getSessionById: async (sessionId: string): Promise<UserTestSession> => {
     const response = await api.get(`/practice/sessions/${sessionId}`);
     return response.data;
   },

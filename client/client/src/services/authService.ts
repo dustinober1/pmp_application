@@ -1,20 +1,7 @@
 import api from './api';
+import type { User, AuthResponse, UserStats, UserProgress } from '../types';
 
-export interface User {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-    createdAt?: string;
-}
-
-export interface AuthResponse {
-    message: string;
-    user: User;
-    token: string;
-    refreshToken: string;
-}
+export type { User, AuthResponse };
 
 export interface RegisterData {
     email: string;
@@ -127,7 +114,7 @@ export const logout = async (): Promise<void> => {
 /**
  * Get current user profile
  */
-export const getMe = async (): Promise<{ user: User; progress: any[]; stats: any }> => {
+export const getMe = async (): Promise<{ user: User; progress: UserProgress[]; stats: UserStats }> => {
     const response = await api.get('/auth/me');
     // Update stored user data
     if (response.data.user) {

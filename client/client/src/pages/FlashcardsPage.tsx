@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { flashcardService } from '../services/flashcardService';
 import type { ReviewDifficulty } from '../services/flashcardService';
 import { questionService } from '../services/questionService';
+import type { Domain } from '../types';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorMessage from '../components/ui/ErrorMessage';
 import EmptyState from '../components/ui/EmptyState';
@@ -207,7 +208,7 @@ const FlashcardsPage: React.FC = () => {
           className="px-4 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         >
           <option value="all">All Domains</option>
-          {domains?.map((domain: any) => (
+          {domains?.map((domain: Domain) => (
             <option key={domain.id} value={domain.id}>
               {domain.name}
             </option>

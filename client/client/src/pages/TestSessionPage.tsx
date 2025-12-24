@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { practiceService } from '../services/practiceService';
+import type { UserTestSession } from '../types';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorMessage from '../components/ui/ErrorMessage';
 
@@ -22,10 +23,10 @@ const TestSessionPage: React.FC = () => {
     data: session,
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<UserTestSession>({
     queryKey: ['test-session', sessionId],
     queryFn: async () => {
-      if (!sessionId) return null;
+      if (!sessionId) throw new Error('Session ID is required');
       return practiceService.getSessionById(sessionId);
     },
     enabled: !!sessionId,
@@ -33,8 +34,8 @@ const TestSessionPage: React.FC = () => {
 
   // Initialize timer when session loads
   useEffect(() => {
-    if (session && session.test.timeLimitMinutes && !timerInitialized) {
-      const totalTime = session.test.timeLimitMinutes * 60;
+    if (session && session.timeLimitMinutes && !timerInitialized) {
+      const totalTime = session.timeLimitMinutes * 60;
       setTimeRemaining(totalTime);
       setTimerInitialized(true);
     }
@@ -248,7 +249,7 @@ const TestSessionPage: React.FC = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
               <h3 className="font-semibold text-gray-900 mb-4">Question Navigator</h3>
               <div className="grid grid-cols-5 lg:grid-cols-4 gap-2 mb-4">
-                {session.test.testQuestions.map((tq: any, i: number) => (
+                {session.test.testQuestions.map((tq, i) => (
                   <button
                     key={tq.question.id}
                     onClick={() => navigateToQuestion(i)}
@@ -297,11 +298,11 @@ const TestSessionPage: React.FC = () => {
                   <span
                     className="px-3 py-1 text-sm font-medium rounded-full"
                     style={{
-                      backgroundColor: `${currentQuestion.domain.color}20`,
-                      color: currentQuestion.domain.color,
+                      backgroundColor: `${currentQuestion.domain?.color || '#6366f1'}20`,
+                      color: currentQuestion.domain?.color || '#6366f1',
                     }}
                   >
-                    {currentQuestion.domain.name}
+                    {currentQuestion.domain?.name || 'General'}
                   </span>
                   <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
                     {currentQuestion.difficulty}

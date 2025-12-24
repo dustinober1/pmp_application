@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { practiceService } from '../services/practiceService';
+import type { PracticeTest } from '../types';
 import ErrorMessage from '../components/ui/ErrorMessage';
 import EmptyState from '../components/ui/EmptyState';
 import { SkeletonPracticeTest } from '../components/ui/Skeleton';
@@ -14,7 +15,7 @@ const PracticeTestsPage: React.FC = () => {
     isLoading,
     error,
     refetch,
-  } = useQuery({
+  } = useQuery<PracticeTest[]>({
     queryKey: ['practice-tests'],
     queryFn: practiceService.getTests,
   });
@@ -82,7 +83,7 @@ const PracticeTestsPage: React.FC = () => {
 
       {/* Test Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {tests.map((test: any) => (
+        {tests.map((test) => (
           <div
             key={test.id}
             className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200"
@@ -116,7 +117,7 @@ const PracticeTestsPage: React.FC = () => {
                 </div>
                 <div className="bg-purple-50 rounded-lg p-3">
                   <div className="text-2xl font-bold text-purple-600 mb-1">
-                    {test._count.sessions}
+                    {test._count?.sessions || 0}
                   </div>
                   <div className="text-xs text-gray-600">Attempts</div>
                 </div>
