@@ -1,2 +1,36 @@
+# Dependencies
 node_modules/
+
+# Environment files (contain secrets)
 .env
+.env.local
+.env.docker
+.env.docker.local
+.env.production
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Build outputs
+dist/
+build/
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+
+# Python
+venv/
+__pycache__/
+*.pyc

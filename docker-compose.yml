@@ -1,19 +1,18 @@
 services:
   db:
     image: postgres:15-alpine
-    environment:
-      POSTGRES_USER: pmp_user
-      POSTGRES_PASSWORD: pmp_password
-      POSTGRES_DB: pmp_db
+    env_file:
+      - .env.docker
     ports:
       - "15432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U pmp_user -d pmp_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pmp_user} -d ${POSTGRES_DB:-pmp_db}"]
       interval: 5s
       timeout: 5s
       retries: 5
+
 
   redis:
     image: redis:7-alpine
@@ -32,8 +31,10 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "3001:3001"
+    env_file:
+      - .env.docker
     environment:
-      DATABASE_URL: postgresql://pmp_user:pmp_password@db:5432/pmp_db
+      DATABASE_URL: postgresql://${POSTGRES_USER:-pmp_user}:${POSTGRES_PASSWORD:-pmp_password}@db:5432/${POSTGRES_DB:-pmp_db}
       REDIS_URL: redis://redis:6379
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET environment variable is required}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
@@ -77,8 +78,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    env_file:
+      - .env.docker
     environment:
-      DATABASE_URL: postgresql://pmp_user:pmp_password@db:5432/pmp_db
+      DATABASE_URL: postgresql://${POSTGRES_USER:-pmp_user}:${POSTGRES_PASSWORD:-pmp_password}@db:5432/${POSTGRES_DB:-pmp_db}
       REDIS_URL: redis://redis:6379
       JWT_SECRET: test-jwt-secret-for-testing-only
       NODE_ENV: test
