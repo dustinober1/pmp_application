@@ -1,11 +1,51 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../services/database';
+import Logger from '../utils/logger';
+import { AppError, ErrorFactory } from '../utils/AppError';
+
+// Type definitions for admin queries
+interface QuestionWhereClause {
+    domainId?: string;
+    questionText?: { contains: string };
+}
+
+interface FlashcardWhereClause {
+    domainId?: string;
+}
+
+interface QuestionUpdateData {
+    domainId?: string;
+    questionText?: string;
+    scenario?: string | null;
+    choices?: string;
+    correctAnswerIndex?: number;
+    explanation?: string;
+    difficulty?: string;
+    methodology?: string;
+    isActive?: boolean;
+}
+
+interface TestUpdateData {
+    name?: string;
+    description?: string;
+    timeLimitMinutes?: number;
+    isActive?: boolean;
+}
+
+interface FlashcardUpdateData {
+    domainId?: string;
+    frontText?: string;
+    backText?: string;
+    category?: string;
+    difficulty?: string;
+    isActive?: boolean;
+}
 
 /**
  * Get admin dashboard statistics
  * GET /api/admin/dashboard
  */
-export const getDashboardStats = async (req: Request, res: Response) => {
+export const getDashboardStats = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const [
             totalUsers,
@@ -73,7 +113,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             _avg: { score: true },
         });
 
-        return res.json({
+        res.json({
             overview: {
                 totalUsers,
                 totalQuestions,
@@ -88,8 +128,11 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             recentSessions,
         });
     } catch (error) {
-        console.error('Error fetching admin dashboard:', error);
-        return res.status(500).json({ error: 'Failed to fetch dashboard stats' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error fetching admin dashboard:', error);
+        next(ErrorFactory.internal('Failed to fetch dashboard stats'));
     }
 };
 
@@ -97,7 +140,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
  * Get all users with pagination
  * GET /api/admin/users
  */
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { page = 1, limit = 20, search = '' } = req.query;
         const skip = (Number(page) - 1) * Number(limit);
@@ -137,7 +180,7 @@ export const getUsers = async (req: Request, res: Response) => {
             prisma.user.count({ where }),
         ]);
 
-        return res.json({
+        res.json({
             users,
             pagination: {
                 page: Number(page),
@@ -147,8 +190,11 @@ export const getUsers = async (req: Request, res: Response) => {
             },
         });
     } catch (error) {
-        console.error('Error fetching users:', error);
-        return res.status(500).json({ error: 'Failed to fetch users' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error fetching users:', error);
+        next(ErrorFactory.internal('Failed to fetch users'));
     }
 };
 
@@ -156,13 +202,13 @@ export const getUsers = async (req: Request, res: Response) => {
  * Update user role
  * PUT /api/admin/users/:id/role
  */
-export const updateUserRole = async (req: Request, res: Response) => {
+export const updateUserRole = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
         const { role } = req.body;
 
         if (!['USER', 'ADMIN'].includes(role)) {
-            return res.status(400).json({ error: 'Invalid role. Use USER or ADMIN' });
+            throw ErrorFactory.badRequest('Invalid role. Use USER or ADMIN');
         }
 
         const user = await prisma.user.update({
@@ -177,10 +223,13 @@ export const updateUserRole = async (req: Request, res: Response) => {
             },
         });
 
-        return res.json({ message: 'Role updated successfully', user });
+        res.json({ message: 'Role updated successfully', user });
     } catch (error) {
-        console.error('Error updating user role:', error);
-        return res.status(500).json({ error: 'Failed to update user role' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error updating user role:', error);
+        next(ErrorFactory.internal('Failed to update user role'));
     }
 };
 
@@ -188,21 +237,24 @@ export const updateUserRole = async (req: Request, res: Response) => {
  * Delete a user
  * DELETE /api/admin/users/:id
  */
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
 
         // Prevent deleting self
         if (req.user && req.user.id === id) {
-            return res.status(400).json({ error: 'Cannot delete your own account' });
+            throw ErrorFactory.badRequest('Cannot delete your own account');
         }
 
         await prisma.user.delete({ where: { id } });
 
-        return res.json({ message: 'User deleted successfully' });
+        res.json({ message: 'User deleted successfully' });
     } catch (error) {
-        console.error('Error deleting user:', error);
-        return res.status(500).json({ error: 'Failed to delete user' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error deleting user:', error);
+        next(ErrorFactory.internal('Failed to delete user'));
     }
 };
 
@@ -210,13 +262,13 @@ export const deleteUser = async (req: Request, res: Response) => {
  * Get all questions with pagination
  * GET /api/admin/questions
  */
-export const getQuestions = async (req: Request, res: Response) => {
+export const getQuestions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { page = 1, limit = 20, domain = '', search = '' } = req.query;
         const skip = (Number(page) - 1) * Number(limit);
 
-        const where: any = {};
-        if (domain) where.domainId = domain;
+        const where: QuestionWhereClause = {};
+        if (domain) where.domainId = String(domain);
         if (search) {
             where.questionText = { contains: String(search) };
         }
@@ -242,7 +294,7 @@ export const getQuestions = async (req: Request, res: Response) => {
             choices: JSON.parse(q.choices),
         }));
 
-        return res.json({
+        res.json({
             questions: formattedQuestions,
             pagination: {
                 page: Number(page),
@@ -252,8 +304,11 @@ export const getQuestions = async (req: Request, res: Response) => {
             },
         });
     } catch (error) {
-        console.error('Error fetching questions:', error);
-        return res.status(500).json({ error: 'Failed to fetch questions' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error fetching questions:', error);
+        next(ErrorFactory.internal('Failed to fetch questions'));
     }
 };
 
@@ -261,10 +316,10 @@ export const getQuestions = async (req: Request, res: Response) => {
  * Create a new question
  * POST /api/admin/questions
  */
-export const createQuestion = async (req: Request, res: Response) => {
+export const createQuestion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            return res.status(401).json({ error: 'Authentication required' });
+            throw ErrorFactory.unauthorized();
         }
 
         const {
@@ -280,7 +335,7 @@ export const createQuestion = async (req: Request, res: Response) => {
 
         // Validate required fields
         if (!domainId || !questionText || !choices || correctAnswerIndex === undefined || !explanation) {
-            return res.status(400).json({ error: 'Missing required fields' });
+            throw ErrorFactory.badRequest('Missing required fields');
         }
 
         const question = await prisma.question.create({
@@ -300,7 +355,7 @@ export const createQuestion = async (req: Request, res: Response) => {
             },
         });
 
-        return res.status(201).json({
+        res.status(201).json({
             message: 'Question created successfully',
             question: {
                 ...question,
@@ -308,8 +363,11 @@ export const createQuestion = async (req: Request, res: Response) => {
             },
         });
     } catch (error) {
-        console.error('Error creating question:', error);
-        return res.status(500).json({ error: 'Failed to create question' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error creating question:', error);
+        next(ErrorFactory.internal('Failed to create question'));
     }
 };
 
@@ -317,7 +375,7 @@ export const createQuestion = async (req: Request, res: Response) => {
  * Update a question
  * PUT /api/admin/questions/:id
  */
-export const updateQuestion = async (req: Request, res: Response) => {
+export const updateQuestion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
         const {
@@ -332,7 +390,7 @@ export const updateQuestion = async (req: Request, res: Response) => {
             isActive,
         } = req.body;
 
-        const updateData: any = {};
+        const updateData: QuestionUpdateData = {};
         if (domainId !== undefined) updateData.domainId = domainId;
         if (questionText !== undefined) updateData.questionText = questionText;
         if (scenario !== undefined) updateData.scenario = scenario;
@@ -351,7 +409,7 @@ export const updateQuestion = async (req: Request, res: Response) => {
             },
         });
 
-        return res.json({
+        res.json({
             message: 'Question updated successfully',
             question: {
                 ...question,
@@ -359,8 +417,11 @@ export const updateQuestion = async (req: Request, res: Response) => {
             },
         });
     } catch (error) {
-        console.error('Error updating question:', error);
-        return res.status(500).json({ error: 'Failed to update question' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error updating question:', error);
+        next(ErrorFactory.internal('Failed to update question'));
     }
 };
 
@@ -368,16 +429,19 @@ export const updateQuestion = async (req: Request, res: Response) => {
  * Delete a question
  * DELETE /api/admin/questions/:id
  */
-export const deleteQuestion = async (req: Request, res: Response) => {
+export const deleteQuestion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
 
         await prisma.question.delete({ where: { id } });
 
-        return res.json({ message: 'Question deleted successfully' });
+        res.json({ message: 'Question deleted successfully' });
     } catch (error) {
-        console.error('Error deleting question:', error);
-        return res.status(500).json({ error: 'Failed to delete question' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error deleting question:', error);
+        next(ErrorFactory.internal('Failed to delete question'));
     }
 };
 
@@ -385,7 +449,7 @@ export const deleteQuestion = async (req: Request, res: Response) => {
  * Get all practice tests
  * GET /api/admin/tests
  */
-export const getTests = async (req: Request, res: Response) => {
+export const getTests = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const tests = await prisma.practiceTest.findMany({
             orderBy: { createdAt: 'desc' },
@@ -399,10 +463,13 @@ export const getTests = async (req: Request, res: Response) => {
             },
         });
 
-        return res.json(tests);
+        res.json(tests);
     } catch (error) {
-        console.error('Error fetching tests:', error);
-        return res.status(500).json({ error: 'Failed to fetch tests' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error fetching tests:', error);
+        next(ErrorFactory.internal('Failed to fetch tests'));
     }
 };
 
@@ -410,12 +477,12 @@ export const getTests = async (req: Request, res: Response) => {
  * Create a practice test
  * POST /api/admin/tests
  */
-export const createTest = async (req: Request, res: Response) => {
+export const createTest = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { name, description, timeLimitMinutes, questionIds } = req.body;
 
         if (!name || !description) {
-            return res.status(400).json({ error: 'Name and description are required' });
+            throw ErrorFactory.badRequest('Name and description are required');
         }
 
         const test = await prisma.practiceTest.create({
@@ -438,13 +505,16 @@ export const createTest = async (req: Request, res: Response) => {
             });
         }
 
-        return res.status(201).json({
+        res.status(201).json({
             message: 'Practice test created successfully',
             test,
         });
     } catch (error) {
-        console.error('Error creating test:', error);
-        return res.status(500).json({ error: 'Failed to create test' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error creating test:', error);
+        next(ErrorFactory.internal('Failed to create test'));
     }
 };
 
@@ -452,12 +522,12 @@ export const createTest = async (req: Request, res: Response) => {
  * Update a practice test
  * PUT /api/admin/tests/:id
  */
-export const updateTest = async (req: Request, res: Response) => {
+export const updateTest = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
         const { name, description, timeLimitMinutes, isActive } = req.body;
 
-        const updateData: any = {};
+        const updateData: TestUpdateData = {};
         if (name !== undefined) updateData.name = name;
         if (description !== undefined) updateData.description = description;
         if (timeLimitMinutes !== undefined) updateData.timeLimitMinutes = timeLimitMinutes;
@@ -468,10 +538,13 @@ export const updateTest = async (req: Request, res: Response) => {
             data: updateData,
         });
 
-        return res.json({ message: 'Test updated successfully', test });
+        res.json({ message: 'Test updated successfully', test });
     } catch (error) {
-        console.error('Error updating test:', error);
-        return res.status(500).json({ error: 'Failed to update test' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error updating test:', error);
+        next(ErrorFactory.internal('Failed to update test'));
     }
 };
 
@@ -479,16 +552,19 @@ export const updateTest = async (req: Request, res: Response) => {
  * Delete a practice test
  * DELETE /api/admin/tests/:id
  */
-export const deleteTest = async (req: Request, res: Response) => {
+export const deleteTest = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
 
         await prisma.practiceTest.delete({ where: { id } });
 
-        return res.json({ message: 'Test deleted successfully' });
+        res.json({ message: 'Test deleted successfully' });
     } catch (error) {
-        console.error('Error deleting test:', error);
-        return res.status(500).json({ error: 'Failed to delete test' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error deleting test:', error);
+        next(ErrorFactory.internal('Failed to delete test'));
     }
 };
 
@@ -496,13 +572,13 @@ export const deleteTest = async (req: Request, res: Response) => {
  * Get all flashcards with pagination
  * GET /api/admin/flashcards
  */
-export const getFlashcards = async (req: Request, res: Response) => {
+export const getFlashcards = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { page = 1, limit = 20, domain = '' } = req.query;
         const skip = (Number(page) - 1) * Number(limit);
 
-        const where: any = {};
-        if (domain) where.domainId = domain;
+        const where: FlashcardWhereClause = {};
+        if (domain) where.domainId = String(domain);
 
         const [flashcards, total] = await Promise.all([
             prisma.flashCard.findMany({
@@ -517,7 +593,7 @@ export const getFlashcards = async (req: Request, res: Response) => {
             prisma.flashCard.count({ where }),
         ]);
 
-        return res.json({
+        res.json({
             flashcards,
             pagination: {
                 page: Number(page),
@@ -527,8 +603,11 @@ export const getFlashcards = async (req: Request, res: Response) => {
             },
         });
     } catch (error) {
-        console.error('Error fetching flashcards:', error);
-        return res.status(500).json({ error: 'Failed to fetch flashcards' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error fetching flashcards:', error);
+        next(ErrorFactory.internal('Failed to fetch flashcards'));
     }
 };
 
@@ -536,16 +615,16 @@ export const getFlashcards = async (req: Request, res: Response) => {
  * Create a flashcard
  * POST /api/admin/flashcards
  */
-export const createFlashcard = async (req: Request, res: Response) => {
+export const createFlashcard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            return res.status(401).json({ error: 'Authentication required' });
+            throw ErrorFactory.unauthorized();
         }
 
         const { domainId, frontText, backText, category, difficulty } = req.body;
 
         if (!domainId || !frontText || !backText || !category) {
-            return res.status(400).json({ error: 'Missing required fields' });
+            throw ErrorFactory.badRequest('Missing required fields');
         }
 
         const flashcard = await prisma.flashCard.create({
@@ -562,13 +641,16 @@ export const createFlashcard = async (req: Request, res: Response) => {
             },
         });
 
-        return res.status(201).json({
+        res.status(201).json({
             message: 'Flashcard created successfully',
             flashcard,
         });
     } catch (error) {
-        console.error('Error creating flashcard:', error);
-        return res.status(500).json({ error: 'Failed to create flashcard' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error creating flashcard:', error);
+        next(ErrorFactory.internal('Failed to create flashcard'));
     }
 };
 
@@ -576,12 +658,12 @@ export const createFlashcard = async (req: Request, res: Response) => {
  * Update a flashcard
  * PUT /api/admin/flashcards/:id
  */
-export const updateFlashcard = async (req: Request, res: Response) => {
+export const updateFlashcard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
         const { domainId, frontText, backText, category, difficulty, isActive } = req.body;
 
-        const updateData: any = {};
+        const updateData: FlashcardUpdateData = {};
         if (domainId !== undefined) updateData.domainId = domainId;
         if (frontText !== undefined) updateData.frontText = frontText;
         if (backText !== undefined) updateData.backText = backText;
@@ -597,10 +679,13 @@ export const updateFlashcard = async (req: Request, res: Response) => {
             },
         });
 
-        return res.json({ message: 'Flashcard updated successfully', flashcard });
+        res.json({ message: 'Flashcard updated successfully', flashcard });
     } catch (error) {
-        console.error('Error updating flashcard:', error);
-        return res.status(500).json({ error: 'Failed to update flashcard' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error updating flashcard:', error);
+        next(ErrorFactory.internal('Failed to update flashcard'));
     }
 };
 
@@ -608,15 +693,18 @@ export const updateFlashcard = async (req: Request, res: Response) => {
  * Delete a flashcard
  * DELETE /api/admin/flashcards/:id
  */
-export const deleteFlashcard = async (req: Request, res: Response) => {
+export const deleteFlashcard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { id } = req.params;
 
         await prisma.flashCard.delete({ where: { id } });
 
-        return res.json({ message: 'Flashcard deleted successfully' });
+        res.json({ message: 'Flashcard deleted successfully' });
     } catch (error) {
-        console.error('Error deleting flashcard:', error);
-        return res.status(500).json({ error: 'Failed to delete flashcard' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Error deleting flashcard:', error);
+        next(ErrorFactory.internal('Failed to delete flashcard'));
     }
 };
