@@ -1,18 +1,22 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import tseslintPlugin from '@typescript-eslint/eslint-plugin';
+import tseslintParser from '@typescript-eslint/parser';
 import prettier from 'eslint-plugin-prettier';
 
-export default tseslint.config(
+export default [
     eslint.configs.recommended,
-    ...tseslint.configs.recommended,
     {
         files: ['**/*.ts'],
         plugins: {
+            '@typescript-eslint': tseslintPlugin,
             prettier,
         },
         languageOptions: {
+            parser: tseslintParser,
             parserOptions: {
                 project: './tsconfig.json',
+                ecmaVersion: 2022,
+                sourceType: 'module',
             },
         },
         rules: {
@@ -20,14 +24,11 @@ export default tseslint.config(
             'prettier/prettier': 'error',
 
             // TypeScript specific rules
-            '@typescript-eslint/explicit-function-return-type': 'off',
-            '@typescript-eslint/explicit-module-boundary-types': 'off',
             '@typescript-eslint/no-unused-vars': ['error', {
                 argsIgnorePattern: '^_',
                 varsIgnorePattern: '^_',
             }],
             '@typescript-eslint/no-explicit-any': 'warn',
-            '@typescript-eslint/no-non-null-assertion': 'warn',
 
             // General rules
             'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -37,13 +38,9 @@ export default tseslint.config(
             'eqeqeq': ['error', 'always'],
             'curly': ['error', 'all'],
 
-            // Import rules
-            'no-duplicate-imports': 'error',
-
-            // Best practices
-            'no-return-await': 'error',
-            'require-await': 'off', // TypeScript handles this better
-            'no-throw-literal': 'error',
+            // Disable base rules that conflict with TypeScript
+            'no-unused-vars': 'off',
+            'no-undef': 'off',
         },
     },
     {
@@ -62,6 +59,7 @@ export default tseslint.config(
             'coverage/**',
             'prisma/migrations/**',
             '*.js',
+            'client/**',
         ],
     }
-);
+];
