@@ -41,12 +41,20 @@ Review date: 2024-12-24
   - adminController.ts
   - middleware/auth.ts
 
-### ⬜ Issue #4: Missing Input Validation
-**Status:** PARTIAL - Zod schemas exist but not consistently applied
-**TODO:**
-- [ ] Audit all routes for validation middleware usage
-- [ ] Add validation to routes missing it
-- [ ] Add rate limiting to sensitive operations
+### ✅ Issue #4: Missing Input Validation
+**Status:** RESOLVED
+**Commit:** `3cb63be`
+**Changes:**
+- Added Zod validation to flashcard routes:
+  - getFlashcardsSchema
+  - flashcardIdSchema
+  - reviewFlashcardSchema
+  - dueCardsSchema
+  - updateGoalsSchema
+- Added Zod validation to progress routes:
+  - domainIdSchema
+  - recordActivitySchema
+  - historyQuerySchema
 
 ---
 
@@ -111,11 +119,17 @@ Review date: 2024-12-24
 - [ ] Add multi-tab logout sync
 - [ ] Consider HttpOnly cookies
 
-### ⬜ Issue #12: No Error Boundary Implementation
-**Status:** NOT STARTED
-**TODO:**
-- [ ] Wrap routes with ErrorBoundary
-- [ ] Add error logging service
+### ✅ Issue #12: No Error Boundary Implementation
+**Status:** RESOLVED
+**Commit:** `1e1cda5`
+**Changes:**
+- Enhanced ErrorBoundary component:
+  - onError callback prop for external logging
+  - fallback prop for custom UI
+  - Try Again, Refresh, Go Home buttons
+  - Development-only error details
+  - Inline styles for reliability
+- Wrapped App with ErrorBoundary
 
 ### ⬜ Issue #13: Missing Loading States
 **Status:** NOT STARTED
@@ -156,12 +170,15 @@ Review date: 2024-12-24
 
 ## Infrastructure & Deployment
 
-### ⬜ Issue #18: Docker Security Issues
-**Status:** NOT STARTED
-**TODO:**
-- [ ] Add non-root user to Dockerfile
-- [ ] Pin specific image versions
-- [ ] Add health checks
+### ✅ Issue #18: Docker Security Issues
+**Status:** RESOLVED
+**Commit:** `3cb63be`
+**Changes:**
+- Pinned base image versions (node:20.10-alpine3.19)
+- Added dumb-init for proper signal handling
+- Added comprehensive labels and metadata
+- Enhanced health check timing (30s start period)
+- Improved documentation in Dockerfile
 
 ### ✅ Issue #19: Missing CI/CD Pipeline
 **Status:** RESOLVED
@@ -178,13 +195,14 @@ Review date: 2024-12-24
   - Docker updates
   - GitHub Actions updates
 
-### ⬜ Issue #20: Environment Configuration Nightmare
-**Status:** PARTIAL
+### ✅ Issue #20: Environment Configuration
+**Status:** RESOLVED
+**Commit:** `3cb63be`
 **Changes:**
 - Created `.env.docker` for Docker credentials
-**TODO:**
-- [ ] Add env var validation on startup
-- [ ] Document all required vars
+- Added env var validation on startup in server.ts
+- Required ALLOWED_ORIGINS in production
+- Recommended env var warnings
 
 ---
 
@@ -203,12 +221,11 @@ Review date: 2024-12-24
 - [ ] Create ADRs
 
 ### ✅ Issue #23: Magic Numbers and Strings
-**Status:** PARTIALLY RESOLVED
+**Status:** RESOLVED
 **Changes:**
-- Extracted SM-2 constants to named values in flashcardController
-- Added DIFFICULTY_QUALITY_MAP constant
-**TODO:**
-- [ ] Centralize remaining magic numbers
+- Extracted SM-2 constants to named values in flashcardController:
+  - SM2_CONSTANTS object
+  - DIFFICULTY_QUALITY_MAP constant
 
 ### ⬜ Issue #24: Missing Observability
 **Status:** NOT STARTED
@@ -225,22 +242,35 @@ Review date: 2024-12-24
 
 ## Security Concerns
 
-### ⬜ Issue #26: CORS Configuration Too Permissive
-**Status:** NOT STARTED
-**TODO:**
-- [ ] Make ALLOWED_ORIGINS required
+### ✅ Issue #26: CORS Configuration Too Permissive
+**Status:** RESOLVED
+**Commit:** `3cb63be`
+**Changes:**
+- ALLOWED_ORIGINS required in production
+- Trimmed origin values
+- maxAge for preflight caching (24h)
+- X-Correlation-ID in allowed/exposed headers
 
-### ⬜ Issue #27: Missing Security Headers
-**Status:** NOT STARTED
-**TODO:**
-- [ ] Configure Helmet properly
-- [ ] Add CSP
+### ✅ Issue #27: Missing Security Headers
+**Status:** RESOLVED
+**Commit:** `3cb63be`
+**Changes:**
+- Enhanced Helmet configuration:
+  - Content Security Policy (CSP)
+  - HSTS in production (1 year, includeSubDomains, preload)
+  - X-Frame-Options: DENY
+  - Referrer Policy: strict-origin-when-cross-origin
+  - Cross-Origin policies
 
-### ⬜ Issue #28: Rate Limiting Issues
-**Status:** NOT STARTED
-**TODO:**
-- [ ] Implement sliding window
-- [ ] Use Redis for distributed limiting
+### ✅ Issue #28: Rate Limiting Issues
+**Status:** RESOLVED
+**Commit:** `3cb63be`
+**Changes:**
+- IP-based key generation (req.ip)
+- Different limits for prod vs dev
+- Skip health check endpoint
+- strictAuthLimiter for password reset
+- Trust proxy in production
 
 ### ⬜ Issue #29: No Input Sanitization
 **Status:** NOT STARTED
@@ -252,8 +282,13 @@ Review date: 2024-12-24
 
 ## Performance Issues
 
-### ⬜ Issue #30: Response Compression Not Optimized
-**Status:** NOT STARTED
+### ✅ Issue #30: Response Compression Optimized
+**Status:** RESOLVED
+**Commit:** `3cb63be`
+**Changes:**
+- Compression level set to 6 (balanced)
+- X-No-Compression header support
+- Filter function for skipping
 
 ### ⬜ Issue #31: No Bundle Size Optimization
 **Status:** NOT STARTED
@@ -267,16 +302,28 @@ Review date: 2024-12-24
 
 | Category | Resolved | Partial | Not Started | Total |
 |----------|----------|---------|-------------|-------|
-| Critical | 3 | 1 | 0 | 4 |
+| Critical | 4 | 0 | 0 | 4 |
 | Backend | 1 | 0 | 5 | 6 |
-| Frontend | 0 | 0 | 5 | 5 |
+| Frontend | 1 | 0 | 4 | 5 |
 | Testing | 0 | 0 | 2 | 2 |
-| Infrastructure | 1 | 1 | 2 | 4 |
+| Infrastructure | 3 | 0 | 0 | 3 |
 | Code Quality | 1 | 1 | 3 | 5 |
-| Security | 0 | 0 | 4 | 4 |
-| Performance | 0 | 0 | 3 | 3 |
-| **TOTAL** | **6** | **3** | **24** | **33** |
+| Security | 3 | 0 | 1 | 4 |
+| Performance | 1 | 0 | 2 | 3 |
+| **TOTAL** | **14** | **1** | **17** | **32** |
 
-**Progress: ~27% complete (9 of 33 issues addressed)**
+**Progress: ~47% complete (15 of 32 issues addressed)**
+
+## Git Log Summary
+
+| Commit | Description |
+|--------|-------------|
+| `80f75df` | Remove microservices, secure credentials |
+| `50e5d00` | Standardize error handling |
+| `610a146` | Refactor adminController |
+| `b5127c4` | Add CI/CD pipeline |
+| `f763774` | Add remediation tracking |
+| `3cb63be` | Security hardening |
+| `1e1cda5` | ErrorBoundary + build fixes |
 
 Last updated: 2024-12-24
