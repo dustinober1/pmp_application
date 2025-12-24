@@ -53,13 +53,15 @@ Review date: 2024-12-24
 
 ## Backend Issues
 
-### ⬜ Issue #5: Database Query Performance
-**Status:** NOT STARTED
-**TODO:**
-- [ ] Add pagination to getDueCards
-- [ ] Use `select` instead of `include` where possible
-- [ ] Add database indexes
-- [ ] Implement connection pooling configuration
+### ✅ Issue #5: Database Query Performance
+**Status:** RESOLVED
+**Commit:** `7f0ce94`
+**Changes:**
+- Added composite indexes for common query patterns
+- FlashCard [isActive, domainId], [isActive, difficulty]
+- FlashCardReview [userId, nextReviewAt]
+- UserTestSession [userId, status]
+- Connection pooling in separate commit
 
 ### ✅ Issue #6: Inconsistent Caching Strategy
 **Status:** RESOLVED
@@ -304,10 +306,10 @@ Review date: 2024-12-24
 | Infrastructure | 3 | 0 | 0 | 3 |
 | Code Quality | 3 | 1 | 1 | 5 |
 | Security | 4 | 0 | 0 | 4 |
-| Performance | 2 | 0 | 1 | 3 |
-| **TOTAL** | **24** | **1** | **7** | **32** |
+| Performance | 3 | 0 | 0 | 3 |
+| **TOTAL** | **25** | **1** | **6** | **32** |
 
-**Progress: ~78% complete (25 of 32 issues addressed)**
+**Progress: ~81% complete (26 of 32 issues addressed)**
 
 ## Git Log Summary
 
@@ -328,8 +330,9 @@ Review date: 2024-12-24
 | `aa0e7e0` | Connection pooling |
 | `2518248` | Caching strategy |
 | `e3bbead` | JWT token blacklist |
+| `7f0ce94` | Database indexes |
 
-Last updated: 2024-12-24T14:17:00
+Last updated: 2024-12-24T14:20:00
 
 
 
