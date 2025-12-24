@@ -13,6 +13,8 @@ import { swaggerSpec } from './config/swagger';
 import { correlationIdMiddleware } from './middleware/correlationId';
 import { AppError } from './utils/AppError';
 import v1Routes from './routes/v1';
+import { observability } from './services/observability';
+import { checkDatabaseHealth } from './services/database';
 
 // Load environment variables
 dotenv.config();
@@ -60,68 +62,84 @@ if (isProd) {
 app.use(correlationIdMiddleware);
 
 // =============================================================================
+// Metrics Middleware (Observability)
+// =============================================================================
+app.use(observability.metricsMiddleware());
+
+// =============================================================================
+// Prometheus Metrics Endpoint
+// =============================================================================
+app.get('/metrics', (req: Request, res: Response) => observability.getMetrics(req, res));
+
+// =============================================================================
 // Response Compression
 // =============================================================================
-app.use(compression({
-  filter: (req, res) => {
-    if (req.headers['x-no-compression']) {
-      return false;
-    }
-    return compression.filter(req, res);
-  },
-  level: 6, // Balanced compression level
-}));
+app.use(
+  compression({
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        return false;
+      }
+      return compression.filter(req, res);
+    },
+    level: 6, // Balanced compression level
+  })
+);
 
 // =============================================================================
 // Security Middleware - Helmet Configuration
 // =============================================================================
-app.use(helmet({
-  // Content Security Policy - Prevents XSS attacks
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles for Swagger UI
-      scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts for Swagger UI
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"],
-      fontSrc: ["'self'", "https:", "data:"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'none'"],
-      upgradeInsecureRequests: isProd ? [] : null,
+app.use(
+  helmet({
+    // Content Security Policy - Prevents XSS attacks
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles for Swagger UI
+        scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts for Swagger UI
+        imgSrc: ["'self'", 'data:', 'https:'],
+        connectSrc: ["'self'"],
+        fontSrc: ["'self'", 'https:', 'data:'],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'none'"],
+        upgradeInsecureRequests: isProd ? [] : null,
+      },
     },
-  },
-  // Prevent clickjacking
-  frameguard: { action: 'deny' },
-  // Prevent MIME type sniffing
-  noSniff: true,
-  // Hide X-Powered-By header
-  hidePoweredBy: true,
-  // HTTP Strict Transport Security - Forces HTTPS
-  hsts: isProd ? {
-    maxAge: 31536000, // 1 year
-    includeSubDomains: true,
-    preload: true,
-  } : false,
-  // Prevent IE from executing downloads in site's context
-  ieNoOpen: true,
-  // Disable DNS prefetching
-  dnsPrefetchControl: { allow: false },
-  // Don't allow the app to be embedded in iframes
-  permittedCrossDomainPolicies: { permittedPolicies: 'none' },
-  // Referrer policy for privacy
-  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
-  // Cross-Origin settings
-  crossOriginEmbedderPolicy: false, // Disable for Swagger UI compatibility
-  crossOriginOpenerPolicy: { policy: 'same-origin' },
-  crossOriginResourcePolicy: { policy: 'same-origin' },
-}));
+    // Prevent clickjacking
+    frameguard: { action: 'deny' },
+    // Prevent MIME type sniffing
+    noSniff: true,
+    // Hide X-Powered-By header
+    hidePoweredBy: true,
+    // HTTP Strict Transport Security - Forces HTTPS
+    hsts: isProd
+      ? {
+          maxAge: 31536000, // 1 year
+          includeSubDomains: true,
+          preload: true,
+        }
+      : false,
+    // Prevent IE from executing downloads in site's context
+    ieNoOpen: true,
+    // Disable DNS prefetching
+    dnsPrefetchControl: { allow: false },
+    // Don't allow the app to be embedded in iframes
+    permittedCrossDomainPolicies: { permittedPolicies: 'none' },
+    // Referrer policy for privacy
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+    // Cross-Origin settings
+    crossOriginEmbedderPolicy: false, // Disable for Swagger UI compatibility
+    crossOriginOpenerPolicy: { policy: 'same-origin' },
+    crossOriginResourcePolicy: { policy: 'same-origin' },
+  })
+);
 
 // =============================================================================
 // CORS Configuration
 // =============================================================================
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
+  ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
   : ['http://localhost:5173', 'http://localhost:3000'];
 
 // Warn in production if using default origins
@@ -129,30 +147,32 @@ if (isProd && !process.env.ALLOWED_ORIGINS) {
   Logger.warn('Using default CORS origins in production - this is insecure!');
 }
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, Postman, etc.)
-    // In production, you might want to be stricter here
-    if (!origin) {
-      if (isProd) {
-        Logger.debug('Request with no origin received');
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, Postman, etc.)
+      // In production, you might want to be stricter here
+      if (!origin) {
+        if (isProd) {
+          Logger.debug('Request with no origin received');
+        }
+        return callback(null, true);
       }
-      return callback(null, true);
-    }
 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      Logger.warn(`CORS blocked request from origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Correlation-ID'],
-  exposedHeaders: ['X-Correlation-ID'],
-  maxAge: 86400, // 24 hours - browsers can cache preflight requests
-}));
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        Logger.warn(`CORS blocked request from origin: ${origin}`);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Correlation-ID'],
+    exposedHeaders: ['X-Correlation-ID'],
+    maxAge: 86400, // 24 hours - browsers can cache preflight requests
+  })
+);
 
 // =============================================================================
 // Rate Limiting
@@ -177,34 +197,44 @@ app.use(generalLimiter);
 // Request Logging
 // =============================================================================
 morgan.token('correlation-id', (req: Request) => req.correlationId || '-');
-app.use(morgan(':correlation-id :method :url :status :res[content-length] - :response-time ms', {
-  stream: {
-    write: (message: string) => Logger.http(message.trim()),
-  },
-  skip: (req) => req.path === '/health', // Don't log health checks
-}));
+app.use(
+  morgan(':correlation-id :method :url :status :res[content-length] - :response-time ms', {
+    stream: {
+      write: (message: string) => Logger.http(message.trim()),
+    },
+    skip: (req) => req.path === '/health', // Don't log health checks
+  })
+);
 
 // =============================================================================
 // Body Parsing
 // =============================================================================
-app.use(express.json({
-  limit: '10mb',
-  strict: true, // Only accept arrays and objects
-}));
-app.use(express.urlencoded({
-  extended: true,
-  limit: '10mb',
-  parameterLimit: 1000,
-}));
+app.use(
+  express.json({
+    limit: '10mb',
+    strict: true, // Only accept arrays and objects
+  })
+);
+app.use(
+  express.urlencoded({
+    extended: true,
+    limit: '10mb',
+    parameterLimit: 1000,
+  })
+);
 
 // =============================================================================
 // API Documentation (disable in production if desired)
 // =============================================================================
 if (!isProd || process.env.ENABLE_SWAGGER === 'true') {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-    customCss: '.swagger-ui .topbar { display: none }',
-    customSiteTitle: 'PMP Application API Docs',
-  }));
+  app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, {
+      customCss: '.swagger-ui .topbar { display: none }',
+      customSiteTitle: 'PMP Application API Docs',
+    })
+  );
 }
 
 // =============================================================================
@@ -216,58 +246,39 @@ app.get('/health', async (req: Request, res: Response) => {
     timestamp: string;
     version: string;
     uptime: number;
+    environment: string;
     services: {
-      database: { status: string; latency?: number; message?: string };
-      redis: { status: string; latency?: number; message?: string };
+      database: { status: string; latencyMs?: number; message?: string };
+      redis: { status: string; latencyMs?: number; message?: string };
     };
   }
 
+  const [dbHealth, redisHealth] = await Promise.all([checkDatabaseHealth(), cache.healthCheck()]);
+
+  const isDegraded = dbHealth.status !== 'healthy' || redisHealth.status !== 'healthy';
+  const isDown = dbHealth.status !== 'healthy' && redisHealth.status !== 'healthy';
+
   const health: HealthStatus = {
-    status: 'OK',
+    status: isDown ? 'DOWN' : isDegraded ? 'DEGRADED' : 'OK',
     timestamp: new Date().toISOString(),
     version: process.env.npm_package_version || '1.0.0',
     uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
     services: {
-      database: { status: 'unknown' },
-      redis: { status: 'unknown' },
+      database: {
+        status: dbHealth.status,
+        latencyMs: dbHealth.latencyMs,
+        message: dbHealth.message,
+      },
+      redis: {
+        status: redisHealth.status,
+        latencyMs: redisHealth.latencyMs,
+        message: redisHealth.message,
+      },
     },
   };
 
-  // Check database
-  const dbStart = Date.now();
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    health.services.database = {
-      status: 'healthy',
-      latency: Date.now() - dbStart,
-    };
-  } catch (error) {
-    health.services.database = {
-      status: 'unhealthy',
-      message: 'Connection failed',
-      latency: Date.now() - dbStart,
-    };
-    health.status = 'DEGRADED';
-  }
-
-  // Check Redis
-  const redisStart = Date.now();
-  try {
-    await cache.get('health-check-test');
-    health.services.redis = {
-      status: 'healthy',
-      latency: Date.now() - redisStart,
-    };
-  } catch (error) {
-    health.services.redis = {
-      status: 'unhealthy',
-      message: 'Connection failed',
-      latency: Date.now() - redisStart,
-    };
-    health.status = 'DEGRADED';
-  }
-
-  const statusCode = health.status === 'OK' ? 200 : 503;
+  const statusCode = isDown ? 503 : 200;
   res.status(statusCode).json(health);
 });
 
@@ -299,7 +310,7 @@ app.use((req: Request, res: Response) => {
       message: 'Endpoint not found',
       code: 'NOT_FOUND',
       status: 404,
-    }
+    },
   });
 });
 
@@ -354,9 +365,7 @@ const errorHandler: ErrorRequestHandler = (
   });
 
   // Don't expose internal errors in production
-  const message = isProd
-    ? 'Internal server error'
-    : err.message;
+  const message = isProd ? 'Internal server error' : err.message;
 
   const statusCode = err.status || err.statusCode || 500;
 
