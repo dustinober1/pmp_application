@@ -27,12 +27,41 @@ api.interceptors.request.use(
 // Response interceptor for error handling
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Handle unauthorized access
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If error is 401 and not already retrying
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      // Don't try to refresh if it's the refresh endpoint itself failing
+      if (originalRequest.url === '/auth/refresh') {
+        localStorage.clear(); // Clear all auth data
+        window.location.href = '/login';
+        return Promise.reject(error);
+      }
+
+      originalRequest._retry = true;
+
+      try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) {
+          throw new Error('No refresh token');
+        }
+
+        // Import authService dynamically to avoid circular dependency
+        const { default: authService } = await import('./authService');
+        const { token } = await authService.refresh();
+
+        // Update header and retry
+        originalRequest.headers.Authorization = `Bearer ${token}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        // Refresh failed, logout
+        localStorage.clear();
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
     }
+
     return Promise.reject(error);
   }
 );

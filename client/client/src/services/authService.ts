@@ -13,6 +13,7 @@ export interface AuthResponse {
     message: string;
     user: User;
     token: string;
+    refreshToken: string;
 }
 
 export interface RegisterData {
@@ -38,13 +39,15 @@ export interface PasswordChangeData {
 }
 
 const TOKEN_KEY = 'authToken';
+const REFRESH_TOKEN_KEY = 'refreshToken';
 const USER_KEY = 'authUser';
 
 /**
  * Store authentication data
  */
-const storeAuth = (token: string, user: User) => {
+const storeAuth = (token: string, refreshToken: string, user: User) => {
     localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
     localStorage.setItem(USER_KEY, JSON.stringify(user));
 };
 
@@ -53,6 +56,7 @@ const storeAuth = (token: string, user: User) => {
  */
 const clearAuth = () => {
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
 };
 
@@ -61,6 +65,13 @@ const clearAuth = () => {
  */
 export const getStoredToken = (): string | null => {
     return localStorage.getItem(TOKEN_KEY);
+};
+
+/**
+ * Get stored refresh token
+ */
+export const getStoredRefreshToken = (): string | null => {
+    return localStorage.getItem(REFRESH_TOKEN_KEY);
 };
 
 /**
@@ -88,7 +99,7 @@ export const isAuthenticated = (): boolean => {
  */
 export const register = async (data: RegisterData): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>('/auth/register', data);
-    storeAuth(response.data.token, response.data.user);
+    storeAuth(response.data.token, response.data.refreshToken, response.data.user);
     return response.data;
 };
 
@@ -97,7 +108,7 @@ export const register = async (data: RegisterData): Promise<AuthResponse> => {
  */
 export const login = async (data: LoginData): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>('/auth/login', data);
-    storeAuth(response.data.token, response.data.user);
+    storeAuth(response.data.token, response.data.refreshToken, response.data.user);
     return response.data;
 };
 
@@ -106,7 +117,8 @@ export const login = async (data: LoginData): Promise<AuthResponse> => {
  */
 export const logout = async (): Promise<void> => {
     try {
-        await api.post('/auth/logout');
+        const refreshToken = getStoredRefreshToken();
+        await api.post('/auth/logout', { refreshToken });
     } finally {
         clearAuth();
     }
@@ -120,11 +132,32 @@ export const getMe = async (): Promise<{ user: User; progress: any[]; stats: any
     // Update stored user data
     if (response.data.user) {
         const token = getStoredToken();
-        if (token) {
-            storeAuth(token, response.data.user);
+        const refreshToken = getStoredRefreshToken();
+        if (token && refreshToken) {
+            storeAuth(token, refreshToken, response.data.user);
         }
     }
     return response.data;
+};
+
+/**
+ * Refresh access token
+ */
+export const refresh = async (): Promise<{ token: string; refreshToken: string }> => {
+    const refreshToken = getStoredRefreshToken();
+    if (!refreshToken) {
+        throw new Error('No refresh token available');
+    }
+
+    const response = await api.post('/auth/refresh', { refreshToken });
+    const { token: newToken, refreshToken: newRefreshToken } = response.data;
+
+    const user = getStoredUser();
+    if (user) {
+        storeAuth(newToken, newRefreshToken, user);
+    }
+
+    return { token: newToken, refreshToken: newRefreshToken };
 };
 
 /**
@@ -134,8 +167,9 @@ export const updateProfile = async (data: ProfileUpdateData): Promise<{ user: Us
     const response = await api.put('/auth/profile', data);
     // Update stored user data
     const token = getStoredToken();
-    if (token && response.data.user) {
-        storeAuth(token, response.data.user);
+    const refreshToken = getStoredRefreshToken();
+    if (token && refreshToken && response.data.user) {
+        storeAuth(token, refreshToken, response.data.user);
     }
     return response.data;
 };
@@ -152,10 +186,12 @@ export default {
     register,
     login,
     logout,
+    refresh,
     getMe,
     updateProfile,
     changePassword,
     getStoredToken,
+    getStoredRefreshToken,
     getStoredUser,
     isAuthenticated,
 };
