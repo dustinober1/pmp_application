@@ -24,28 +24,51 @@ const colors = {
 
 winston.addColors(colors);
 
-const format = winston.format.combine(
+// Development format - human readable with colors
+const devFormat = winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
     winston.format.colorize({ all: true }),
     winston.format.printf(
-        (info) => `${info.timestamp} ${info.level}: ${info.message}`,
+        (info) => {
+            const correlationId = info.correlationId ? ` [${info.correlationId}]` : '';
+            return `${info.timestamp}${correlationId} ${info.level}: ${info.message}`;
+        },
     ),
 );
 
+// Production format - JSON for log aggregation (ELK, CloudWatch, etc.)
+const prodFormat = winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.errors({ stack: true }),
+    winston.format.json(),
+);
+
+const isProduction = process.env.NODE_ENV === 'production';
+
 const transports = [
-    new winston.transports.Console(),
+    new winston.transports.Console({
+        format: isProduction ? prodFormat : devFormat,
+    }),
     new winston.transports.File({
         filename: 'logs/error.log',
         level: 'error',
+        format: prodFormat,
     }),
-    new winston.transports.File({ filename: 'logs/all.log' }),
+    new winston.transports.File({
+        filename: 'logs/all.log',
+        format: prodFormat,
+    }),
 ];
 
 const Logger = winston.createLogger({
     level: level(),
     levels,
-    format,
     transports,
 });
+
+// Create a child logger with correlation ID for request-scoped logging
+export const createRequestLogger = (correlationId: string) => {
+    return Logger.child({ correlationId });
+};
 
 export default Logger;

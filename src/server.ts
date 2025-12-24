@@ -4,11 +4,13 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
+import compression from 'compression';
 import swaggerUi from 'swagger-ui-express';
-import Logger from './utils/logger';
+import Logger, { createRequestLogger } from './utils/logger';
 import { prisma } from './services/database';
 import { cache } from './services/cache';
 import { swaggerSpec } from './config/swagger';
+import { correlationIdMiddleware } from './middleware/correlationId';
 import questionRoutes from './routes/questions';
 import flashcardRoutes from './routes/flashcards';
 import practiceRoutes from './routes/practice';
@@ -31,6 +33,12 @@ for (const envVar of requiredEnvVars) {
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Correlation ID for request tracking (observability)
+app.use(correlationIdMiddleware);
+
+// Response compression for performance
+app.use(compression());
 
 // Security Middleware
 app.use(helmet());
@@ -77,8 +85,9 @@ const authLimiter = rateLimit({
 
 app.use(generalLimiter);
 
-// Logging
-app.use(morgan('combined', {
+// Logging with correlation ID
+morgan.token('correlation-id', (req: express.Request) => req.correlationId || '-');
+app.use(morgan(':correlation-id :method :url :status :res[content-length] - :response-time ms', {
   stream: {
     write: (message: string) => Logger.http(message.trim()),
   },

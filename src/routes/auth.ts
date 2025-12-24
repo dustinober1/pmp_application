@@ -6,8 +6,9 @@ import {
     getMe,
     updateProfile,
     changePassword,
+    refreshAccessToken,
 } from '../controllers/auth';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { validateResult } from '../middleware/validation';
 import {
     registerSchema,
@@ -73,7 +74,7 @@ router.post('/register', validateResult(registerSchema), register);
  *                 type: string
  *     responses:
  *       200:
- *         description: Login successful
+ *         description: Login successful, returns access token and refresh token
  *       401:
  *         description: Invalid credentials
  */
@@ -81,15 +82,51 @@ router.post('/login', validateResult(loginSchema), login);
 
 /**
  * @openapi
+ * /api/auth/refresh:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Refresh access token using refresh token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [refreshToken]
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: New access token and refresh token
+ *       401:
+ *         description: Invalid or expired refresh token
+ */
+router.post('/refresh', refreshAccessToken);
+
+/**
+ * @openapi
  * /api/auth/logout:
  *   post:
  *     tags: [Auth]
- *     summary: Logout user
+ *     summary: Logout user (revoke refresh tokens)
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *                 description: Revoke this specific refresh token
+ *               logoutAll:
+ *                 type: boolean
+ *                 description: Revoke all refresh tokens (requires authentication)
  *     responses:
  *       200:
  *         description: Logout successful
  */
-router.post('/logout', logout);
+router.post('/logout', optionalAuth, logout);
 
 /**
  * @openapi

@@ -15,11 +15,29 @@ jest.mock('../../src/services/database', () => ({
         userProgress: {
             findMany: jest.fn(),
         },
+        refreshToken: {
+            create: jest.fn(),
+            findUnique: jest.fn(),
+            update: jest.fn(),
+            updateMany: jest.fn(),
+            delete: jest.fn(),
+            deleteMany: jest.fn(),
+        },
     },
 }));
 
 jest.mock('../../src/middleware/auth', () => ({
     generateToken: jest.fn().mockReturnValue('mock-jwt-token'),
+    generateLongLivedToken: jest.fn().mockReturnValue('mock-long-jwt-token'),
+}));
+
+jest.mock('../../src/services/refreshToken', () => ({
+    generateRefreshToken: jest.fn().mockReturnValue('mock-refresh-token'),
+    storeRefreshToken: jest.fn().mockResolvedValue(undefined),
+    validateRefreshToken: jest.fn().mockResolvedValue(null),
+    rotateRefreshToken: jest.fn().mockResolvedValue('new-refresh-token'),
+    revokeAllUserRefreshTokens: jest.fn().mockResolvedValue(undefined),
+    revokeRefreshToken: jest.fn().mockResolvedValue(undefined),
 }));
 
 jest.mock('bcryptjs', () => ({
@@ -36,6 +54,10 @@ describe('Auth Controller', () => {
         mockRequest = {
             body: {},
             user: undefined,
+            headers: {
+                'user-agent': 'test-agent',
+            },
+            ip: '127.0.0.1',
         };
         mockResponse = {
             status: jest.fn().mockReturnThis(),
@@ -283,7 +305,7 @@ describe('Auth Controller', () => {
             expect(bcrypt.hash).toHaveBeenCalledWith('newpassword123', 12);
             expect(prisma.user.update).toHaveBeenCalled();
             expect(mockResponse.json).toHaveBeenCalledWith({
-                message: 'Password changed successfully',
+                message: 'Password changed successfully. Please log in again on all devices.',
             });
         });
 
@@ -318,7 +340,9 @@ describe('Auth Controller', () => {
 
     describe('logout', () => {
         it('should return success message', async () => {
-            await logout(mockRequest as Request, mockResponse as Response);
+            mockRequest.body = {};
+
+            await logout(mockRequest as Request, mockResponse as Response, mockNext);
 
             expect(mockResponse.json).toHaveBeenCalledWith({
                 message: 'Logged out successfully',

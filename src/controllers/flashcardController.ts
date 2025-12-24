@@ -1,9 +1,20 @@
 import { Request, Response } from 'express';
 import { prisma } from '../services/database';
+import { cache } from '../services/cache';
+import Logger from '../utils/logger';
 
 export const getFlashcards = async (req: Request, res: Response) => {
   try {
     const { domain, difficulty, category, limit = 20, offset = 0 } = req.query;
+
+    // Create cache key based on query parameters
+    const cacheKey = `flashcards:${domain || 'all'}:${difficulty || 'all'}:${category || 'all'}:${limit}:${offset}`;
+
+    // Check cache first
+    const cachedData = await cache.get(cacheKey);
+    if (cachedData) {
+      return res.json(cachedData);
+    }
 
     const where: any = { isActive: true };
 
@@ -38,7 +49,7 @@ export const getFlashcards = async (req: Request, res: Response) => {
 
     const total = await prisma.flashCard.count({ where });
 
-    return res.json({
+    const result = {
       flashcards,
       pagination: {
         total,
@@ -46,9 +57,14 @@ export const getFlashcards = async (req: Request, res: Response) => {
         offset: Number(offset),
         pages: Math.ceil(total / Number(limit)),
       },
-    });
+    };
+
+    // Cache result for 5 minutes
+    await cache.set(cacheKey, result, 300);
+
+    return res.json(result);
   } catch (error) {
-    console.error('Error fetching flashcards:', error);
+    Logger.error('Error fetching flashcards:', error);
     return res.status(500).json({ error: 'Failed to fetch flashcards' });
   }
 };
@@ -56,6 +72,13 @@ export const getFlashcards = async (req: Request, res: Response) => {
 export const getFlashcardById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+
+    // Check cache first
+    const cacheKey = `flashcard:${id}`;
+    const cachedFlashcard = await cache.get(cacheKey);
+    if (cachedFlashcard) {
+      return res.json(cachedFlashcard);
+    }
 
     const flashcard = await prisma.flashCard.findUnique({
       where: { id },
@@ -75,15 +98,25 @@ export const getFlashcardById = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Flashcard not found' });
     }
 
+    // Cache single flashcard for 1 hour
+    await cache.set(cacheKey, flashcard, 3600);
+
     return res.json(flashcard);
   } catch (error) {
-    console.error('Error fetching flashcard:', error);
+    Logger.error('Error fetching flashcard:', error);
     return res.status(500).json({ error: 'Failed to fetch flashcard' });
   }
 };
 
 export const getFlashcardCategories = async (req: Request, res: Response) => {
   try {
+    // Check cache first
+    const cacheKey = 'flashcard:categories';
+    const cachedCategories = await cache.get(cacheKey);
+    if (cachedCategories) {
+      return res.json(cachedCategories);
+    }
+
     const categories = await prisma.flashCard.groupBy({
       by: ['category'],
       where: { isActive: true },
@@ -95,12 +128,17 @@ export const getFlashcardCategories = async (req: Request, res: Response) => {
       },
     });
 
-    return res.json(categories.map(cat => ({
+    const result = categories.map(cat => ({
       name: cat.category,
       count: cat._count.category,
-    })));
+    }));
+
+    // Cache categories for 1 hour
+    await cache.set(cacheKey, result, 3600);
+
+    return res.json(result);
   } catch (error) {
-    console.error('Error fetching flashcard categories:', error);
+    Logger.error('Error fetching flashcard categories:', error);
     return res.status(500).json({ error: 'Failed to fetch flashcard categories' });
   }
 };

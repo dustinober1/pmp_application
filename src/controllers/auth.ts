@@ -1,9 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../services/database';
-import { generateToken } from '../middleware/auth';
+import { generateToken, generateLongLivedToken } from '../middleware/auth';
 import Logger from '../utils/logger';
 import { AppError, ErrorFactory } from '../utils/AppError';
+import {
+    generateRefreshToken,
+    storeRefreshToken,
+    validateRefreshToken,
+    rotateRefreshToken,
+    revokeAllUserRefreshTokens,
+} from '../services/refreshToken';
 
 /**
  * Register a new user
@@ -46,15 +53,25 @@ export const register = async (req: Request, res: Response, next: NextFunction):
             },
         });
 
-        // Generate token
-        const token = generateToken(user);
+        // Generate tokens
+        const accessToken = generateToken(user);
+        const refreshToken = generateRefreshToken();
+
+        // Store refresh token
+        await storeRefreshToken(
+            user.id,
+            refreshToken,
+            req.headers['user-agent'],
+            req.ip
+        );
 
         Logger.info(`New user registered: ${user.email}`);
 
         res.status(201).json({
             message: 'Registration successful',
             user,
-            token,
+            token: accessToken,
+            refreshToken,
         });
     } catch (error) {
         if (error instanceof AppError) {
@@ -91,8 +108,17 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
             throw ErrorFactory.unauthorized('Invalid email or password');
         }
 
-        // Generate token
-        const token = generateToken(user);
+        // Generate tokens
+        const accessToken = generateToken(user);
+        const refreshToken = generateRefreshToken();
+
+        // Store refresh token
+        await storeRefreshToken(
+            user.id,
+            refreshToken,
+            req.headers['user-agent'],
+            req.ip
+        );
 
         Logger.info(`User logged in: ${user.email}`);
 
@@ -105,7 +131,8 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
                 lastName: user.lastName,
                 role: user.role,
             },
-            token,
+            token: accessToken,
+            refreshToken,
         });
     } catch (error) {
         if (error instanceof AppError) {
@@ -113,6 +140,67 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
         }
         Logger.error('Login error:', error);
         next(ErrorFactory.internal('Login failed'));
+    }
+};
+
+/**
+ * Refresh access token
+ * POST /api/auth/refresh
+ */
+export const refreshAccessToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { refreshToken } = req.body;
+
+        if (!refreshToken) {
+            throw ErrorFactory.badRequest('Refresh token is required');
+        }
+
+        // Validate the refresh token
+        const tokenData = await validateRefreshToken(refreshToken);
+
+        if (!tokenData) {
+            throw ErrorFactory.unauthorized('Invalid or expired refresh token');
+        }
+
+        // Get user data
+        const user = await prisma.user.findUnique({
+            where: { id: tokenData.userId },
+            select: {
+                id: true,
+                email: true,
+                role: true,
+                firstName: true,
+                lastName: true,
+            },
+        });
+
+        if (!user) {
+            throw ErrorFactory.unauthorized('User not found');
+        }
+
+        // Generate new access token
+        const newAccessToken = generateToken(user);
+
+        // Rotate refresh token for security (prevents token reuse)
+        const newRefreshToken = await rotateRefreshToken(
+            tokenData.tokenId,
+            user.id,
+            req.headers['user-agent'],
+            req.ip
+        );
+
+        Logger.info(`Token refreshed for user: ${user.email}`);
+
+        res.json({
+            token: newAccessToken,
+            refreshToken: newRefreshToken,
+        });
+    } catch (error) {
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Token refresh error:', error);
+        next(ErrorFactory.internal('Token refresh failed'));
     }
 };
 
@@ -261,9 +349,12 @@ export const changePassword = async (req: Request, res: Response, next: NextFunc
             data: { passwordHash },
         });
 
+        // Revoke all refresh tokens (force re-login on all devices)
+        await revokeAllUserRefreshTokens(req.user.id);
+
         Logger.info(`User password changed: ${user.email}`);
 
-        res.json({ message: 'Password changed successfully' });
+        res.json({ message: 'Password changed successfully. Please log in again on all devices.' });
     } catch (error) {
         if (error instanceof AppError) {
             return next(error);
@@ -274,11 +365,34 @@ export const changePassword = async (req: Request, res: Response, next: NextFunc
 };
 
 /**
- * Logout (for client-side token invalidation tracking, if needed)
+ * Logout (revoke refresh tokens)
  * POST /api/auth/logout
  */
-export const logout = async (req: Request, res: Response): Promise<void> => {
-    // With JWT, logout is handled client-side by removing the token
-    // This endpoint exists for API consistency and potential future token blacklisting
-    res.json({ message: 'Logged out successfully' });
+export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { refreshToken, logoutAll } = req.body;
+
+        if (req.user && logoutAll) {
+            // Revoke all refresh tokens for the user
+            await revokeAllUserRefreshTokens(req.user.id);
+            Logger.info(`All sessions logged out for user: ${req.user.email}`);
+        } else if (refreshToken) {
+            // Validate and revoke just this token
+            const tokenData = await validateRefreshToken(refreshToken);
+            if (tokenData) {
+                const { rotateRefreshToken: _, ...rest } = await import('../services/refreshToken');
+                await rest.revokeRefreshToken(tokenData.tokenId);
+            }
+        }
+
+        res.json({ message: 'Logged out successfully' });
+    } catch (error) {
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Logout error:', error);
+        // Still return success - don't leak info about token validity
+        res.json({ message: 'Logged out successfully' });
+    }
 };
+

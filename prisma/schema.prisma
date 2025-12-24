@@ -21,6 +21,7 @@ model User {
   flashCardReviews  FlashCardReview[]
   createdFlashCards FlashCard[]       @relation("FlashCardCreatedBy")
   createdQuestions  Question[]        @relation("CreatedBy")
+  refreshTokens     RefreshToken[]
 
   progress     UserProgress[]
   testSessions UserTestSession[]
@@ -218,4 +219,22 @@ model DailyGoal {
   @@index([userId])
   @@map("daily_goals")
 }
+
+model RefreshToken {
+  id          String   @id @default(uuid())
+  userId      String
+  tokenHash   String   @unique
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  revokedAt   DateTime?
+  userAgent   String?
+  ipAddress   String?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
+
 

@@ -143,6 +143,7 @@ export const optionalAuth = async (
 
 /**
  * Generate JWT token for a user
+ * Short-lived access token (15 minutes) - use with refresh tokens
  */
 export const generateToken = (user: { id: string; email: string; role: string }): string => {
     const payload: JWTPayload = {
@@ -151,14 +152,22 @@ export const generateToken = (user: { id: string; email: string; role: string })
         role: user.role,
     };
 
-    return jwt.sign(payload, getJwtSecret(), { expiresIn: '7d' });
+    // Short-lived access token for better security
+    return jwt.sign(payload, getJwtSecret(), { expiresIn: '15m' });
 };
 
 /**
- * Generate refresh token (longer lived)
+ * Generate a longer-lived token (for backward compatibility)
+ * Used when refresh tokens are not being used
  */
-export const generateRefreshToken = (userId: string): string => {
-    return jwt.sign({ userId }, getJwtSecret(), { expiresIn: '30d' });
+export const generateLongLivedToken = (user: { id: string; email: string; role: string }): string => {
+    const payload: JWTPayload = {
+        userId: user.id,
+        email: user.email,
+        role: user.role,
+    };
+
+    return jwt.sign(payload, getJwtSecret(), { expiresIn: '7d' });
 };
 
 export { getJwtSecret };
