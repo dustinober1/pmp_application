@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import progressService from '../services/progressService';
 import type { DashboardData } from '../services/progressService';
+import { SkeletonDashboard } from '../components/ui/Skeleton';
 
 const DashboardPage: React.FC = () => {
     const { user } = useAuth();
@@ -15,8 +16,9 @@ const DashboardPage: React.FC = () => {
             try {
                 const dashboardData = await progressService.getDashboard();
                 setData(dashboardData);
-            } catch (err: any) {
-                setError(err.response?.data?.error || 'Failed to load dashboard');
+            } catch (err: unknown) {
+                const errorMessage = err instanceof Error ? err.message : 'Failed to load dashboard';
+                setError(errorMessage);
             } finally {
                 setLoading(false);
             }
@@ -27,9 +29,8 @@ const DashboardPage: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="dashboard-loading">
-                <div className="spinner"></div>
-                <p>Loading your progress...</p>
+            <div className="dashboard-page">
+                <SkeletonDashboard />
             </div>
         );
     }

@@ -2,9 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { practiceService } from '../services/practiceService';
-import LoadingState from '../components/ui/LoadingState';
 import ErrorMessage from '../components/ui/ErrorMessage';
 import EmptyState from '../components/ui/EmptyState';
+import { SkeletonPracticeTest } from '../components/ui/Skeleton';
 
 const PracticeTestsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const PracticeTestsPage: React.FC = () => {
   };
 
   if (isLoading) {
-    return <LoadingState message="Loading practice tests..." />;
+    return <SkeletonPracticeTest />;
   }
 
   if (error) {
