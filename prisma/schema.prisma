@@ -86,6 +86,8 @@ model FlashCard {
 
   @@index([domainId])
   @@index([createdBy])
+  @@index([isActive, domainId])  // Composite for filtered domain queries
+  @@index([isActive, difficulty]) // Composite for difficulty filtering
   @@map("flashcards")
 }
 
@@ -134,6 +136,7 @@ model UserTestSession {
 
   @@index([userId])
   @@index([testId])
+  @@index([userId, status]) // Composite for user's active/completed sessions
   @@map("user_test_sessions")
 }
 
@@ -190,6 +193,7 @@ model FlashCardReview {
   @@index([userId])
   @@index([flashCardId])
   @@index([nextReviewAt])
+  @@index([userId, nextReviewAt]) // Composite for user's due cards
   @@map("flash_card_reviews")
 }
 
