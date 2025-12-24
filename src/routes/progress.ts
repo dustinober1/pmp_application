@@ -6,6 +6,12 @@ import {
     getHistory,
 } from '../controllers/progress';
 import { authenticateToken } from '../middleware/auth';
+import { validateResult } from '../middleware/validation';
+import {
+    domainIdSchema,
+    recordActivitySchema,
+    historyQuerySchema,
+} from '../schemas/progress.schema';
 
 const router = Router();
 
@@ -16,12 +22,12 @@ router.use(authenticateToken);
 router.get('/', getDashboard);
 
 // Historical performance data
-router.get('/history', getHistory);
+router.get('/history', validateResult(historyQuerySchema), getHistory);
 
 // Domain-specific progress
-router.get('/domain/:domainId', getDomainProgress);
+router.get('/domain/:domainId', validateResult(domainIdSchema), getDomainProgress);
 
 // Record study activity (updates streak)
-router.post('/activity', recordActivity);
+router.post('/activity', validateResult(recordActivitySchema), recordActivity);
 
 export default router;

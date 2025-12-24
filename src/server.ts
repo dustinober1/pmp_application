@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -6,11 +6,12 @@ import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import swaggerUi from 'swagger-ui-express';
-import Logger, { createRequestLogger } from './utils/logger';
+import Logger from './utils/logger';
 import { prisma } from './services/database';
 import { cache } from './services/cache';
 import { swaggerSpec } from './config/swagger';
 import { correlationIdMiddleware } from './middleware/correlationId';
+import { AppError } from './utils/AppError';
 import questionRoutes from './routes/questions';
 import flashcardRoutes from './routes/flashcards';
 import practiceRoutes from './routes/practice';
@@ -21,8 +22,12 @@ import adminRoutes from './routes/admin';
 // Load environment variables
 dotenv.config();
 
-// Validate required environment variables
+// =============================================================================
+// Environment Validation
+// =============================================================================
 const requiredEnvVars = ['JWT_SECRET'];
+const recommendedEnvVars = ['ALLOWED_ORIGINS', 'DATABASE_URL', 'REDIS_URL'];
+
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
     Logger.error(`Missing required environment variable: ${envVar}`);
@@ -30,28 +35,115 @@ for (const envVar of requiredEnvVars) {
   }
 }
 
-// Initialize Express app
+for (const envVar of recommendedEnvVars) {
+  if (!process.env[envVar]) {
+    Logger.warn(`Recommended environment variable not set: ${envVar}`);
+  }
+}
+
+// Validate ALLOWED_ORIGINS is set in production
+if (process.env.NODE_ENV === 'production' && !process.env.ALLOWED_ORIGINS) {
+  Logger.error('ALLOWED_ORIGINS must be set in production');
+  process.exit(1);
+}
+
+// =============================================================================
+// Initialize Express App
+// =============================================================================
 const app = express();
 const PORT = process.env.PORT || 3001;
+const isProd = process.env.NODE_ENV === 'production';
 
-// Correlation ID for request tracking (observability)
+// Trust proxy for proper rate limiting behind reverse proxy
+if (isProd) {
+  app.set('trust proxy', 1);
+}
+
+// =============================================================================
+// Correlation ID for Request Tracking (Observability)
+// =============================================================================
 app.use(correlationIdMiddleware);
 
-// Response compression for performance
-app.use(compression());
+// =============================================================================
+// Response Compression
+// =============================================================================
+app.use(compression({
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  },
+  level: 6, // Balanced compression level
+}));
 
-// Security Middleware
-app.use(helmet());
+// =============================================================================
+// Security Middleware - Helmet Configuration
+// =============================================================================
+app.use(helmet({
+  // Content Security Policy - Prevents XSS attacks
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles for Swagger UI
+      scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts for Swagger UI
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "https:", "data:"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+      upgradeInsecureRequests: isProd ? [] : null,
+    },
+  },
+  // Prevent clickjacking
+  frameguard: { action: 'deny' },
+  // Prevent MIME type sniffing
+  noSniff: true,
+  // Hide X-Powered-By header
+  hidePoweredBy: true,
+  // HTTP Strict Transport Security - Forces HTTPS
+  hsts: isProd ? {
+    maxAge: 31536000, // 1 year
+    includeSubDomains: true,
+    preload: true,
+  } : false,
+  // Prevent IE from executing downloads in site's context
+  ieNoOpen: true,
+  // Disable DNS prefetching
+  dnsPrefetchControl: { allow: false },
+  // Don't allow the app to be embedded in iframes
+  permittedCrossDomainPolicies: { permittedPolicies: 'none' },
+  // Referrer policy for privacy
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+  // Cross-Origin settings
+  crossOriginEmbedderPolicy: false, // Disable for Swagger UI compatibility
+  crossOriginOpenerPolicy: { policy: 'same-origin' },
+  crossOriginResourcePolicy: { policy: 'same-origin' },
+}));
 
-// CORS Configuration with domain whitelisting
+// =============================================================================
+// CORS Configuration
+// =============================================================================
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',')
+  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
   : ['http://localhost:5173', 'http://localhost:3000'];
+
+// Warn in production if using default origins
+if (isProd && !process.env.ALLOWED_ORIGINS) {
+  Logger.warn('Using default CORS origins in production - this is insecure!');
+}
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
+    // Allow requests with no origin (mobile apps, curl, Postman, etc.)
+    // In production, you might want to be stricter here
+    if (!origin) {
+      if (isProd) {
+        Logger.debug('Request with no origin received');
+      }
+      return callback(null, true);
+    }
 
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -62,59 +154,103 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Correlation-ID'],
+  exposedHeaders: ['X-Correlation-ID'],
+  maxAge: 86400, // 24 hours - browsers can cache preflight requests
 }));
 
-// General rate limiter
+// =============================================================================
+// Rate Limiting
+// =============================================================================
+// General rate limiter for all routes
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
+  max: isProd ? 100 : 1000, // More lenient in development
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },
+  skip: (req) => req.path === '/health', // Don't rate limit health checks
+  keyGenerator: (req) => {
+    // Use X-Forwarded-For in production behind proxy
+    return req.ip || req.socket.remoteAddress || 'unknown';
+  },
 });
 
-// Stricter rate limiter for auth endpoints
+// Stricter rate limiter for auth endpoints (prevents brute force)
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // Only 10 login attempts per 15 minutes
+  max: isProd ? 10 : 100, // 10 attempts in production, 100 in dev
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many authentication attempts, please try again later.' },
+  skipSuccessfulRequests: false, // Count all requests, not just failed ones
+});
+
+// Very strict limiter for password reset/registration
+const strictAuthLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProd ? 5 : 50, // 5 attempts per hour in production
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many attempts, please try again later.' },
 });
 
 app.use(generalLimiter);
 
-// Logging with correlation ID
-morgan.token('correlation-id', (req: express.Request) => req.correlationId || '-');
+// =============================================================================
+// Request Logging
+// =============================================================================
+morgan.token('correlation-id', (req: Request) => req.correlationId || '-');
 app.use(morgan(':correlation-id :method :url :status :res[content-length] - :response-time ms', {
   stream: {
     write: (message: string) => Logger.http(message.trim()),
   },
+  skip: (req) => req.path === '/health', // Don't log health checks
 }));
 
-// Body parsing
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// API Documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-  customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: 'PMP Application API Docs',
+// =============================================================================
+// Body Parsing
+// =============================================================================
+app.use(express.json({
+  limit: '10mb',
+  strict: true, // Only accept arrays and objects
+}));
+app.use(express.urlencoded({
+  extended: true,
+  limit: '10mb',
+  parameterLimit: 1000,
 }));
 
-// Comprehensive Health check endpoint
-app.get('/health', async (req, res) => {
-  const health: {
-    status: string;
+// =============================================================================
+// API Documentation (disable in production if desired)
+// =============================================================================
+if (!isProd || process.env.ENABLE_SWAGGER === 'true') {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'PMP Application API Docs',
+  }));
+}
+
+// =============================================================================
+// Health Check Endpoint
+// =============================================================================
+app.get('/health', async (req: Request, res: Response) => {
+  interface HealthStatus {
+    status: 'OK' | 'DEGRADED' | 'DOWN';
     timestamp: string;
+    version: string;
+    uptime: number;
     services: {
-      database: { status: string; message?: string };
-      redis: { status: string; message?: string };
+      database: { status: string; latency?: number; message?: string };
+      redis: { status: string; latency?: number; message?: string };
     };
-  } = {
+  }
+
+  const health: HealthStatus = {
     status: 'OK',
     timestamp: new Date().toISOString(),
+    version: process.env.npm_package_version || '1.0.0',
+    uptime: process.uptime(),
     services: {
       database: { status: 'unknown' },
       redis: { status: 'unknown' },
@@ -122,20 +258,36 @@ app.get('/health', async (req, res) => {
   };
 
   // Check database
+  const dbStart = Date.now();
   try {
     await prisma.$queryRaw`SELECT 1`;
-    health.services.database = { status: 'healthy' };
+    health.services.database = {
+      status: 'healthy',
+      latency: Date.now() - dbStart,
+    };
   } catch (error) {
-    health.services.database = { status: 'unhealthy', message: 'Connection failed' };
+    health.services.database = {
+      status: 'unhealthy',
+      message: 'Connection failed',
+      latency: Date.now() - dbStart,
+    };
     health.status = 'DEGRADED';
   }
 
   // Check Redis
+  const redisStart = Date.now();
   try {
-    const testValue = await cache.get('health-check-test');
-    health.services.redis = { status: 'healthy' };
+    await cache.get('health-check-test');
+    health.services.redis = {
+      status: 'healthy',
+      latency: Date.now() - redisStart,
+    };
   } catch (error) {
-    health.services.redis = { status: 'unhealthy', message: 'Connection failed' };
+    health.services.redis = {
+      status: 'unhealthy',
+      message: 'Connection failed',
+      latency: Date.now() - redisStart,
+    };
     health.status = 'DEGRADED';
   }
 
@@ -143,7 +295,9 @@ app.get('/health', async (req, res) => {
   res.status(statusCode).json(health);
 });
 
-// API routes with auth rate limiting
+// =============================================================================
+// API Routes
+// =============================================================================
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/flashcards', flashcardRoutes);
@@ -151,17 +305,53 @@ app.use('/api/practice', practiceRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/admin', adminRoutes);
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' });
+// =============================================================================
+// 404 Handler
+// =============================================================================
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    error: {
+      message: 'Endpoint not found',
+      code: 'NOT_FOUND',
+      status: 404,
+    }
+  });
 });
 
-// Error handling middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction): void => {
+// =============================================================================
+// Global Error Handler
+// =============================================================================
+interface ErrorWithStatus extends Error {
+  status?: number;
+  statusCode?: number;
+  code?: string;
+}
+
+const errorHandler: ErrorRequestHandler = (
+  err: ErrorWithStatus | AppError,
+  req: Request,
+  res: Response,
+  _next: NextFunction
+): void => {
   // Check if it's our custom AppError
-  if (err.statusCode && err.code) {
-    Logger.warn(`AppError: ${err.message}`, { code: err.code, path: req.path });
-    res.status(err.statusCode).json(err.toJSON ? err.toJSON() : {
+  if (err instanceof AppError) {
+    Logger.warn(`AppError: ${err.message}`, {
+      code: err.code,
+      path: req.path,
+      correlationId: req.correlationId,
+    });
+    res.status(err.statusCode).json(err.toJSON());
+    return;
+  }
+
+  // Handle other errors with statusCode/code properties
+  if ('statusCode' in err && 'code' in err && err.statusCode && err.code) {
+    Logger.warn(`Error: ${err.message}`, {
+      code: err.code,
+      path: req.path,
+      correlationId: req.correlationId,
+    });
+    res.status(err.statusCode).json({
       error: {
         message: err.message,
         code: err.code,
@@ -172,37 +362,70 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   }
 
   // Log unexpected errors
-  Logger.error(`Error: ${err.message}`, { stack: err.stack, path: req.path });
+  Logger.error(`Unexpected error: ${err.message}`, {
+    stack: err.stack,
+    path: req.path,
+    correlationId: req.correlationId,
+  });
 
   // Don't expose internal errors in production
-  const message = process.env.NODE_ENV === 'production' && !err.status
+  const message = isProd
     ? 'Internal server error'
     : err.message;
 
-  res.status(err.status || 500).json({
+  const statusCode = err.status || err.statusCode || 500;
+
+  res.status(statusCode).json({
     error: {
       message,
       code: 'INTERNAL_ERROR',
-      status: err.status || 500,
+      status: statusCode,
     },
   });
-});
-
-// Graceful shutdown
-const gracefulShutdown = async () => {
-  Logger.info('Received shutdown signal, closing connections...');
-  await prisma.$disconnect();
-  process.exit(0);
 };
 
-process.on('SIGTERM', gracefulShutdown);
-process.on('SIGINT', gracefulShutdown);
+app.use(errorHandler);
 
-// Start server
+// =============================================================================
+// Graceful Shutdown
+// =============================================================================
+const gracefulShutdown = async (signal: string) => {
+  Logger.info(`Received ${signal}, closing connections...`);
+
+  // Give existing requests time to complete
+  setTimeout(async () => {
+    try {
+      await prisma.$disconnect();
+      Logger.info('Database connection closed');
+    } catch (error) {
+      Logger.error('Error closing database connection', error);
+    }
+    process.exit(0);
+  }, 10000); // 10 second grace period
+};
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (error) => {
+  Logger.error('Uncaught Exception:', error);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  Logger.error('Unhandled Rejection at:', { promise, reason });
+});
+
+// =============================================================================
+// Start Server
+// =============================================================================
 app.listen(PORT, () => {
-  Logger.info(`🚀 Server running on port ${PORT}`);
+  Logger.info(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
   Logger.info(`📱 Health check: http://localhost:${PORT}/health`);
-  Logger.info(`📚 API Docs: http://localhost:${PORT}/api-docs`);
+  if (!isProd || process.env.ENABLE_SWAGGER === 'true') {
+    Logger.info(`📚 API Docs: http://localhost:${PORT}/api-docs`);
+  }
 });
 
 export default app;

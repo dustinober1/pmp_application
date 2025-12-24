@@ -1,26 +1,47 @@
-# Development Dockerfile
-FROM node:20-alpine
+# =============================================================================
+# PMP Application - Development Dockerfile
+# =============================================================================
+# Optimized for local development with hot reloading
+# Note: This is NOT intended for production use
+# =============================================================================
+
+# Using pinned version for consistency
+FROM node:20.10-alpine3.19
+
+# Add labels for image metadata
+LABEL maintainer="dustinober1"
+LABEL org.opencontainers.image.description="PMP Practice Application - Development"
 
 WORKDIR /app
 
-# Install OpenSSL for Prisma
-RUN apk add --no-cache openssl
+# Install development tools and runtime dependencies
+RUN apk add --no-cache \
+    openssl \
+    && rm -rf /var/cache/apk/*
 
-# Copy package files
+# Copy package files first for better layer caching
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install all dependencies
-RUN npm install
-
-# Copy source code
-COPY . .
+# Install all dependencies (including devDependencies)
+RUN npm install --no-audit
 
 # Generate Prisma client
 RUN npx prisma generate
 
+# Copy source code (volumes will override this in docker-compose)
+COPY . .
+
+# Environment
+ENV NODE_ENV=development
+ENV PORT=3001
+
 # Expose port
 EXPOSE 3001
 
-# Start in development mode
+# Health check for development
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3001/health || exit 1
+
+# Start in development mode with hot reloading
 CMD ["npm", "run", "dev"]
