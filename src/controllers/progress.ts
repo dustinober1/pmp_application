@@ -1,15 +1,16 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../services/database';
+import Logger from '../utils/logger';
+import { AppError, ErrorFactory } from '../utils/AppError';
 
 /**
  * Get user's complete progress dashboard data
  * GET /api/progress
  */
-export const getDashboard = async (req: Request, res: Response): Promise<void> => {
+export const getDashboard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            res.status(401).json({ error: 'Authentication required' });
-            return;
+            throw ErrorFactory.unauthorized();
         }
 
         const userId = req.user.id;
@@ -169,8 +170,11 @@ export const getDashboard = async (req: Request, res: Response): Promise<void> =
             })),
         });
     } catch (error) {
-        console.error('Get dashboard error:', error);
-        res.status(500).json({ error: 'Failed to get dashboard data' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Get dashboard error:', error);
+        next(ErrorFactory.internal('Failed to get dashboard data'));
     }
 };
 
@@ -178,11 +182,10 @@ export const getDashboard = async (req: Request, res: Response): Promise<void> =
  * Get detailed domain-specific progress
  * GET /api/progress/domain/:domainId
  */
-export const getDomainProgress = async (req: Request, res: Response): Promise<void> => {
+export const getDomainProgress = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            res.status(401).json({ error: 'Authentication required' });
-            return;
+            throw ErrorFactory.unauthorized();
         }
 
         const { domainId } = req.params;
@@ -194,8 +197,7 @@ export const getDomainProgress = async (req: Request, res: Response): Promise<vo
         });
 
         if (!domain) {
-            res.status(404).json({ error: 'Domain not found' });
-            return;
+            throw ErrorFactory.notFound('Domain');
         }
 
         // Get all answers for this domain
@@ -257,8 +259,11 @@ export const getDomainProgress = async (req: Request, res: Response): Promise<vo
             frequentlyMissed,
         });
     } catch (error) {
-        console.error('Get domain progress error:', error);
-        res.status(500).json({ error: 'Failed to get domain progress' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Get domain progress error:', error);
+        next(ErrorFactory.internal('Failed to get domain progress'));
     }
 };
 
@@ -266,11 +271,10 @@ export const getDomainProgress = async (req: Request, res: Response): Promise<vo
  * Record study activity (updates streak)
  * POST /api/progress/activity
  */
-export const recordActivity = async (req: Request, res: Response): Promise<void> => {
+export const recordActivity = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            res.status(401).json({ error: 'Authentication required' });
-            return;
+            throw ErrorFactory.unauthorized();
         }
 
         const userId = req.user.id;
@@ -335,8 +339,11 @@ export const recordActivity = async (req: Request, res: Response): Promise<void>
             },
         });
     } catch (error) {
-        console.error('Record activity error:', error);
-        res.status(500).json({ error: 'Failed to record activity' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Record activity error:', error);
+        next(ErrorFactory.internal('Failed to record activity'));
     }
 };
 
@@ -344,11 +351,10 @@ export const recordActivity = async (req: Request, res: Response): Promise<void>
  * Get historical performance data for charts
  * GET /api/progress/history
  */
-export const getHistory = async (req: Request, res: Response): Promise<void> => {
+export const getHistory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.user) {
-            res.status(401).json({ error: 'Authentication required' });
-            return;
+            throw ErrorFactory.unauthorized();
         }
 
         const userId = req.user.id;
@@ -384,7 +390,10 @@ export const getHistory = async (req: Request, res: Response): Promise<void> => 
 
         res.json({ history, days });
     } catch (error) {
-        console.error('Get history error:', error);
-        res.status(500).json({ error: 'Failed to get history' });
+        if (error instanceof AppError) {
+            return next(error);
+        }
+        Logger.error('Get history error:', error);
+        next(ErrorFactory.internal('Failed to get history'));
     }
 };

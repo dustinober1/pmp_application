@@ -10,9 +10,7 @@ export const domainIdSchema = z.object({
 // Record activity schema
 export const recordActivitySchema = z.object({
     body: z.object({
-        type: z.enum(['flashcard', 'question', 'test'], {
-            errorMap: () => ({ message: 'Type must be flashcard, question, or test' }),
-        }),
+        type: z.enum(['flashcard', 'question', 'test'] as const),
         count: z.number().int().min(1).max(1000).default(1),
     }),
 });

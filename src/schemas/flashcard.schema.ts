@@ -24,9 +24,7 @@ export const reviewFlashcardSchema = z.object({
         id: z.string().uuid('Invalid flashcard ID'),
     }),
     body: z.object({
-        difficulty: z.enum(['AGAIN', 'HARD', 'GOOD', 'EASY'], {
-            errorMap: () => ({ message: 'Difficulty must be AGAIN, HARD, GOOD, or EASY' }),
-        }),
+        difficulty: z.enum(['AGAIN', 'HARD', 'GOOD', 'EASY'] as const),
     }),
 });
 

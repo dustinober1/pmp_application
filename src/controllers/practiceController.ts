@@ -1,7 +1,81 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../services/database';
+import Logger from '../utils/logger';
+import { AppError, ErrorFactory } from '../utils/AppError';
 
-export const getPracticeTests = async (req: Request, res: Response) => {
+// Type definitions for Prisma includes
+interface TestQuestion {
+  question: {
+    id: string;
+    choices: string;
+    correctAnswerIndex: number;
+    domainId: string;
+    questionText: string;
+    scenario?: string | null;
+    explanation?: string | null;
+    domain?: {
+      id: string;
+      name: string;
+      color: string;
+    };
+  };
+  orderIndex: number;
+}
+
+interface AnswerWithQuestion {
+  id: string;
+  questionId: string;
+  selectedAnswerIndex: number;
+  isCorrect: boolean;
+  isFlagged: boolean;
+  timeSpentSeconds: number;
+  answeredAt: Date;
+  question: {
+    id: string;
+    domainId: string;
+    questionText: string;
+    scenario?: string | null;
+    choices: string;
+    correctAnswerIndex: number;
+    explanation?: string | null;
+    domain: {
+      id: string;
+      name: string;
+      color: string;
+    };
+  };
+}
+
+/**
+ * Parse JSON choices from question
+ */
+function parseChoices(choicesJson: string): string[] {
+  try {
+    return JSON.parse(choicesJson);
+  } catch {
+    Logger.warn('Failed to parse question choices JSON');
+    return [];
+  }
+}
+
+/**
+ * Format test questions with parsed choices
+ */
+function formatTestQuestions(testQuestions: TestQuestion[]) {
+  return testQuestions.map((tq) => ({
+    ...tq,
+    question: {
+      ...tq.question,
+      choices: parseChoices(tq.question.choices),
+    },
+  }));
+}
+
+/**
+ * Get all practice tests
+ * GET /api/practice/tests
+ */
+export const getPracticeTests = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tests = await prisma.practiceTest.findMany({
       where: { isActive: true },
@@ -16,14 +90,21 @@ export const getPracticeTests = async (req: Request, res: Response) => {
       orderBy: { createdAt: 'desc' },
     });
 
-    return res.json(tests);
+    res.json(tests);
   } catch (error) {
-    console.error('Error fetching practice tests:', error);
-    return res.status(500).json({ error: 'Failed to fetch practice tests' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error fetching practice tests:', error);
+    next(ErrorFactory.internal('Failed to fetch practice tests'));
   }
 };
 
-export const getPracticeTestById = async (req: Request, res: Response) => {
+/**
+ * Get a practice test by ID
+ * GET /api/practice/tests/:id
+ */
+export const getPracticeTestById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
 
@@ -51,29 +132,30 @@ export const getPracticeTestById = async (req: Request, res: Response) => {
     });
 
     if (!test) {
-      return res.status(404).json({ error: 'Practice test not found' });
+      throw ErrorFactory.notFound('Practice test');
     }
 
     // Parse choices for each question
     const formattedTest = {
       ...test,
-      testQuestions: test.testQuestions.map((tq: any) => ({
-        ...tq,
-        question: {
-          ...tq.question,
-          choices: JSON.parse(tq.question.choices),
-        },
-      })),
+      testQuestions: formatTestQuestions(test.testQuestions as unknown as TestQuestion[]),
     };
 
-    return res.json(formattedTest);
+    res.json(formattedTest);
   } catch (error) {
-    console.error('Error fetching practice test:', error);
-    return res.status(500).json({ error: 'Failed to fetch practice test' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error fetching practice test:', error);
+    next(ErrorFactory.internal('Failed to fetch practice test'));
   }
 };
 
-export const getTestSessionById = async (req: Request, res: Response) => {
+/**
+ * Get a test session by ID
+ * GET /api/practice/sessions/:sessionId
+ */
+export const getTestSessionById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
@@ -101,7 +183,7 @@ export const getTestSessionById = async (req: Request, res: Response) => {
     });
 
     if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+      throw ErrorFactory.notFound('Session');
     }
 
     // Parse choices for each question
@@ -109,26 +191,32 @@ export const getTestSessionById = async (req: Request, res: Response) => {
       ...session,
       test: {
         ...session.test,
-        testQuestions: session.test.testQuestions.map((tq: any) => ({
-          ...tq,
-          question: {
-            ...tq.question,
-            choices: JSON.parse(tq.question.choices),
-          },
-        })),
+        testQuestions: formatTestQuestions(session.test.testQuestions as unknown as TestQuestion[]),
       },
     };
 
-    return res.json(formattedSession);
+    res.json(formattedSession);
   } catch (error) {
-    console.error('Error fetching test session:', error);
-    return res.status(500).json({ error: 'Failed to fetch test session' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error fetching test session:', error);
+    next(ErrorFactory.internal('Failed to fetch test session'));
   }
 };
 
-export const startTestSession = async (req: Request, res: Response) => {
+/**
+ * Start a new test session
+ * POST /api/practice/sessions
+ */
+export const startTestSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     let { testId, userId } = req.body;
+
+    // Validate testId
+    if (!testId) {
+      throw ErrorFactory.badRequest('testId is required');
+    }
 
     // If no userId provided or invalid (guest mode for development), use the first available user
     if (userId) {
@@ -141,7 +229,7 @@ export const startTestSession = async (req: Request, res: Response) => {
     if (!userId) {
       const firstUser = await prisma.user.findFirst();
       if (!firstUser) {
-        return res.status(400).json({ error: 'No user found in database to start session' });
+        throw ErrorFactory.badRequest('No user found in database to start session');
       }
       userId = firstUser.id;
     }
@@ -159,7 +247,7 @@ export const startTestSession = async (req: Request, res: Response) => {
     });
 
     if (!test) {
-      return res.status(404).json({ error: 'Test not found' });
+      throw ErrorFactory.notFound('Test');
     }
 
     // Create test session
@@ -191,35 +279,37 @@ export const startTestSession = async (req: Request, res: Response) => {
       },
     });
 
-    if (!test) {
-      return res.status(404).json({ error: 'Test not found' });
-    }
-
     // Parse choices for each question
     const formattedSession = {
       ...session,
       test: {
         ...session.test,
-        testQuestions: session.test.testQuestions.map((tq: any) => ({
-          ...tq,
-          question: {
-            ...tq.question,
-            choices: JSON.parse(tq.question.choices),
-          },
-        })),
+        testQuestions: formatTestQuestions(session.test.testQuestions as unknown as TestQuestion[]),
       },
     };
 
-    return res.json(formattedSession);
+    res.json(formattedSession);
   } catch (error) {
-    console.error('Error starting test session:', error);
-    return res.status(500).json({ error: 'Failed to start test session' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error starting test session:', error);
+    next(ErrorFactory.internal('Failed to start test session'));
   }
 };
 
-export const submitAnswer = async (req: Request, res: Response) => {
+/**
+ * Submit an answer
+ * POST /api/practice/sessions/:sessionId/answer
+ */
+export const submitAnswer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { sessionId, questionId, selectedAnswerIndex, timeSpentSeconds, isFlagged } = req.body;
+
+    // Validate required fields
+    if (!sessionId || !questionId || selectedAnswerIndex === undefined) {
+      throw ErrorFactory.badRequest('sessionId, questionId, and selectedAnswerIndex are required');
+    }
 
     // Get the question to check correct answer
     const question = await prisma.question.findUnique({
@@ -227,7 +317,7 @@ export const submitAnswer = async (req: Request, res: Response) => {
     });
 
     if (!question) {
-      return res.status(404).json({ error: 'Question not found' });
+      throw ErrorFactory.notFound('Question');
     }
 
     const isCorrect = selectedAnswerIndex === question.correctAnswerIndex;
@@ -243,7 +333,7 @@ export const submitAnswer = async (req: Request, res: Response) => {
       update: {
         selectedAnswerIndex,
         isCorrect,
-        timeSpentSeconds,
+        timeSpentSeconds: timeSpentSeconds || 0,
         isFlagged: isFlagged ?? false,
         answeredAt: new Date(),
       },
@@ -252,21 +342,32 @@ export const submitAnswer = async (req: Request, res: Response) => {
         questionId,
         selectedAnswerIndex,
         isCorrect,
-        timeSpentSeconds,
+        timeSpentSeconds: timeSpentSeconds || 0,
         isFlagged: isFlagged ?? false,
       },
     });
 
-    return res.json(answer);
+    res.json(answer);
   } catch (error) {
-    console.error('Error submitting answer:', error);
-    return res.status(500).json({ error: 'Failed to submit answer' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error submitting answer:', error);
+    next(ErrorFactory.internal('Failed to submit answer'));
   }
 };
 
-export const toggleFlag = async (req: Request, res: Response) => {
+/**
+ * Toggle flag on a question
+ * POST /api/practice/sessions/:sessionId/flag
+ */
+export const toggleFlag = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { sessionId, questionId } = req.body;
+
+    if (!sessionId || !questionId) {
+      throw ErrorFactory.badRequest('sessionId and questionId are required');
+    }
 
     // Get current answer
     const existingAnswer = await prisma.userAnswer.findUnique({
@@ -291,7 +392,7 @@ export const toggleFlag = async (req: Request, res: Response) => {
           isFlagged: !existingAnswer.isFlagged,
         },
       });
-      return res.json(updated);
+      res.json(updated);
     } else {
       // Create new answer with flag only (no selected answer yet)
       const newAnswer = await prisma.userAnswer.create({
@@ -304,15 +405,123 @@ export const toggleFlag = async (req: Request, res: Response) => {
           timeSpentSeconds: 0,
         },
       });
-      return res.json(newAnswer);
+      res.json(newAnswer);
     }
   } catch (error) {
-    console.error('Error toggling flag:', error);
-    return res.status(500).json({ error: 'Failed to toggle flag' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error toggling flag:', error);
+    next(ErrorFactory.internal('Failed to toggle flag'));
   }
 };
 
-export const completeTestSession = async (req: Request, res: Response) => {
+/**
+ * Update user progress for a domain
+ */
+async function updateDomainProgress(
+  userId: string,
+  domainId: string,
+  total: number,
+  correct: number,
+  totalTime: number
+): Promise<void> {
+  try {
+    await prisma.userProgress.upsert({
+      where: {
+        userId_domainId: {
+          userId,
+          domainId,
+        },
+      },
+      update: {
+        questionsAnswered: {
+          increment: total,
+        },
+        correctAnswers: {
+          increment: correct,
+        },
+        averageTimePerQuestion: totalTime / total,
+        lastActivityAt: new Date(),
+      },
+      create: {
+        userId,
+        domainId,
+        questionsAnswered: total,
+        correctAnswers: correct,
+        averageTimePerQuestion: totalTime / total,
+      },
+    });
+  } catch (e) {
+    Logger.warn(`Could not update progress for domain ${domainId}:`, e);
+  }
+}
+
+/**
+ * Update study streak for user
+ */
+async function updateStudyStreak(userId: string): Promise<void> {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const streak = await prisma.studyStreak.findUnique({
+      where: { userId },
+    });
+
+    if (!streak) {
+      await prisma.studyStreak.create({
+        data: {
+          userId,
+          currentStreak: 1,
+          longestStreak: 1,
+          lastStudyDate: today,
+          totalStudyDays: 1,
+        },
+      });
+    } else {
+      const lastStudy = new Date(streak.lastStudyDate);
+      lastStudy.setHours(0, 0, 0, 0);
+      const diffDays = Math.floor((today.getTime() - lastStudy.getTime()) / (1000 * 60 * 60 * 24));
+
+      if (diffDays === 1) {
+        const newStreak = streak.currentStreak + 1;
+        await prisma.studyStreak.update({
+          where: { userId },
+          data: {
+            currentStreak: newStreak,
+            longestStreak: Math.max(newStreak, streak.longestStreak),
+            lastStudyDate: today,
+            totalStudyDays: streak.totalStudyDays + 1,
+          },
+        });
+      } else if (diffDays > 1) {
+        await prisma.studyStreak.update({
+          where: { userId },
+          data: {
+            currentStreak: 1,
+            lastStudyDate: today,
+            totalStudyDays: streak.totalStudyDays + 1,
+          },
+        });
+      } else if (diffDays === 0) {
+        // Same day, just update lastStudyDate
+        await prisma.studyStreak.update({
+          where: { userId },
+          data: { lastStudyDate: today },
+        });
+      }
+    }
+  } catch (e) {
+    Logger.warn('Could not update study streak:', e);
+  }
+}
+
+/**
+ * Complete a test session
+ * PUT /api/practice/sessions/:sessionId/complete
+ */
+export const completeTestSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
@@ -334,7 +543,7 @@ export const completeTestSession = async (req: Request, res: Response) => {
     });
 
     if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+      throw ErrorFactory.notFound('Session');
     }
 
     // Only count answers with selectedAnswerIndex >= 0 (actually answered)
@@ -390,95 +599,21 @@ export const completeTestSession = async (req: Request, res: Response) => {
       domainProgress[domainId].totalTime += answer.timeSpentSeconds;
     }
 
+    // Update each domain's progress
     for (const [domainId, progress] of Object.entries(domainProgress)) {
-      try {
-        await prisma.userProgress.upsert({
-          where: {
-            userId_domainId: {
-              userId: session.userId,
-              domainId,
-            },
-          },
-          update: {
-            questionsAnswered: {
-              increment: progress.total,
-            },
-            correctAnswers: {
-              increment: progress.correct,
-            },
-            averageTimePerQuestion: progress.totalTime / progress.total,
-            lastActivityAt: new Date(),
-          },
-          create: {
-            userId: session.userId,
-            domainId,
-            questionsAnswered: progress.total,
-            correctAnswers: progress.correct,
-            averageTimePerQuestion: progress.totalTime / progress.total,
-          },
-        });
-      } catch (e) {
-        console.log(`Could not update progress for domain ${domainId}:`, e);
-      }
+      await updateDomainProgress(
+        session.userId,
+        domainId,
+        progress.total,
+        progress.correct,
+        progress.totalTime
+      );
     }
 
     // Update study streak
-    try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+    await updateStudyStreak(session.userId);
 
-      const streak = await prisma.studyStreak.findUnique({
-        where: { userId: session.userId },
-      });
-
-      if (!streak) {
-        await prisma.studyStreak.create({
-          data: {
-            userId: session.userId,
-            currentStreak: 1,
-            longestStreak: 1,
-            lastStudyDate: today,
-            totalStudyDays: 1,
-          },
-        });
-      } else {
-        const lastStudy = new Date(streak.lastStudyDate);
-        lastStudy.setHours(0, 0, 0, 0);
-        const diffDays = Math.floor((today.getTime() - lastStudy.getTime()) / (1000 * 60 * 60 * 24));
-
-        if (diffDays === 1) {
-          const newStreak = streak.currentStreak + 1;
-          await prisma.studyStreak.update({
-            where: { userId: session.userId },
-            data: {
-              currentStreak: newStreak,
-              longestStreak: Math.max(newStreak, streak.longestStreak),
-              lastStudyDate: today,
-              totalStudyDays: streak.totalStudyDays + 1,
-            },
-          });
-        } else if (diffDays > 1) {
-          await prisma.studyStreak.update({
-            where: { userId: session.userId },
-            data: {
-              currentStreak: 1,
-              lastStudyDate: today,
-              totalStudyDays: streak.totalStudyDays + 1,
-            },
-          });
-        } else if (diffDays === 0) {
-          // Same day, just update lastStudyDate
-          await prisma.studyStreak.update({
-            where: { userId: session.userId },
-            data: { lastStudyDate: today },
-          });
-        }
-      }
-    } catch (e) {
-      console.log('Could not update study streak:', e);
-    }
-
-    return res.json({
+    res.json({
       ...updatedSession,
       analytics: {
         totalTimeSpent,
@@ -487,12 +622,19 @@ export const completeTestSession = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.error('Error completing test session:', error);
-    return res.status(500).json({ error: 'Failed to complete test session' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error completing test session:', error);
+    next(ErrorFactory.internal('Failed to complete test session'));
   }
 };
 
-export const getSessionReview = async (req: Request, res: Response) => {
+/**
+ * Get session review data
+ * GET /api/practice/sessions/:sessionId/review
+ */
+export const getSessionReview = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
@@ -522,17 +664,17 @@ export const getSessionReview = async (req: Request, res: Response) => {
     });
 
     if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+      throw ErrorFactory.notFound('Session');
     }
 
     if (session.status !== 'COMPLETED') {
-      return res.status(400).json({ error: 'Session not completed yet' });
+      throw ErrorFactory.badRequest('Session not completed yet');
     }
 
     // Calculate domain breakdown
     const domainBreakdown: Record<string, { name: string; color: string; total: number; correct: number }> = {};
 
-    for (const answer of session.answers) {
+    for (const answer of session.answers as unknown as AnswerWithQuestion[]) {
       if (answer.selectedAnswerIndex < 0) continue;
 
       const domain = answer.question.domain;
@@ -549,11 +691,11 @@ export const getSessionReview = async (req: Request, res: Response) => {
     }
 
     // Format questions for review
-    const reviewQuestions = session.answers.map(answer => ({
+    const reviewQuestions = (session.answers as unknown as AnswerWithQuestion[]).map(answer => ({
       id: answer.question.id,
       questionText: answer.question.questionText,
       scenario: answer.question.scenario,
-      choices: JSON.parse(answer.question.choices),
+      choices: parseChoices(answer.question.choices),
       correctAnswerIndex: answer.question.correctAnswerIndex,
       selectedAnswerIndex: answer.selectedAnswerIndex,
       isCorrect: answer.isCorrect,
@@ -577,14 +719,14 @@ export const getSessionReview = async (req: Request, res: Response) => {
       ? Math.round(totalTimeSpent / validAnswers.length)
       : 0;
 
-    // Find slowest and fastest questions
+    // Find slowest questions
     const sortedByTime = [...validAnswers].sort((a, b) => b.timeSpentSeconds - a.timeSpentSeconds);
     const slowestQuestions = sortedByTime.slice(0, 3).map(a => ({
       questionId: a.questionId,
       time: a.timeSpentSeconds,
     }));
 
-    return res.json({
+    res.json({
       session: {
         id: session.id,
         testName: session.test.name,
@@ -604,12 +746,19 @@ export const getSessionReview = async (req: Request, res: Response) => {
       incorrectQuestions,
     });
   } catch (error) {
-    console.error('Error getting session review:', error);
-    return res.status(500).json({ error: 'Failed to get session review' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error getting session review:', error);
+    next(ErrorFactory.internal('Failed to get session review'));
   }
 };
 
-export const getUserSessions = async (req: Request, res: Response) => {
+/**
+ * Get user's sessions
+ * GET /api/practice/users/:userId/sessions
+ */
+export const getUserSessions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { userId } = req.params;
 
@@ -627,9 +776,12 @@ export const getUserSessions = async (req: Request, res: Response) => {
       orderBy: { startedAt: 'desc' },
     });
 
-    return res.json(sessions);
+    res.json(sessions);
   } catch (error) {
-    console.error('Error fetching user sessions:', error);
-    return res.status(500).json({ error: 'Failed to fetch user sessions' });
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error('Error fetching user sessions:', error);
+    next(ErrorFactory.internal('Failed to fetch user sessions'));
   }
 };

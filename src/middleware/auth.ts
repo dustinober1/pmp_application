@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../services/database';
+import Logger from '../utils/logger';
 
 // Extend Express Request type to include user
 declare global {
@@ -74,7 +75,7 @@ export const authenticateToken = async (
             res.status(403).json({ error: 'Invalid or expired token' });
             return;
         }
-        console.error('Auth middleware error:', error);
+        Logger.error('Auth middleware error:', error);
         res.status(500).json({ error: 'Authentication failed' });
     }
 };
