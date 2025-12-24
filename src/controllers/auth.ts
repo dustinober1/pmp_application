@@ -11,6 +11,11 @@ import {
     rotateRefreshToken,
     revokeAllUserRefreshTokens,
 } from '../services/refreshToken';
+import {
+    checkAccountLockout,
+    recordFailedAttempt,
+    clearLockout,
+} from '../services/accountLockout';
 
 /**
  * Register a new user
@@ -90,14 +95,29 @@ export const register = async (req: Request, res: Response, next: NextFunction):
 export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { email, password } = req.body;
+        const normalizedEmail = email.toLowerCase();
+
+        // Check if account is locked
+        const lockoutStatus = await checkAccountLockout(normalizedEmail);
+        if (lockoutStatus.isLocked) {
+            const minutesRemaining = lockoutStatus.lockoutEndsAt
+                ? Math.ceil((lockoutStatus.lockoutEndsAt.getTime() - Date.now()) / 60000)
+                : 15;
+            throw new AppError(
+                `Account is locked due to too many failed attempts. Try again in ${minutesRemaining} minutes.`,
+                423,
+                'ACCOUNT_LOCKED'
+            );
+        }
 
         // Find user
         const user = await prisma.user.findUnique({
-            where: { email: email.toLowerCase() },
+            where: { email: normalizedEmail },
         });
 
         if (!user) {
-            // Use same error for both cases to prevent user enumeration
+            // Record failed attempt even if user doesn't exist (prevents timing attacks)
+            await recordFailedAttempt(normalizedEmail);
             throw ErrorFactory.unauthorized('Invalid email or password');
         }
 
@@ -105,8 +125,25 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
         const isValidPassword = await bcrypt.compare(password, user.passwordHash);
 
         if (!isValidPassword) {
-            throw ErrorFactory.unauthorized('Invalid email or password');
+            const status = await recordFailedAttempt(normalizedEmail);
+
+            if (status.isLocked) {
+                throw new AppError(
+                    'Account is now locked due to too many failed attempts. Try again later.',
+                    423,
+                    'ACCOUNT_LOCKED'
+                );
+            }
+
+            throw new AppError(
+                `Invalid email or password. ${status.remainingAttempts} attempts remaining.`,
+                401,
+                'UNAUTHORIZED'
+            );
         }
+
+        // Clear lockout on successful login
+        await clearLockout(normalizedEmail);
 
         // Generate tokens
         const accessToken = generateToken(user);
