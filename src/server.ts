@@ -12,12 +12,7 @@ import { cache } from './services/cache';
 import { swaggerSpec } from './config/swagger';
 import { correlationIdMiddleware } from './middleware/correlationId';
 import { AppError } from './utils/AppError';
-import questionRoutes from './routes/questions';
-import flashcardRoutes from './routes/flashcards';
-import practiceRoutes from './routes/practice';
-import authRoutes from './routes/auth';
-import progressRoutes from './routes/progress';
-import adminRoutes from './routes/admin';
+import v1Routes from './routes/v1';
 
 // Load environment variables
 dotenv.config();
@@ -176,25 +171,6 @@ const generalLimiter = rateLimit({
   },
 });
 
-// Stricter rate limiter for auth endpoints (prevents brute force)
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: isProd ? 10 : 100, // 10 attempts in production, 100 in dev
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: 'Too many authentication attempts, please try again later.' },
-  skipSuccessfulRequests: false, // Count all requests, not just failed ones
-});
-
-// Very strict limiter for password reset/registration
-const strictAuthLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: isProd ? 5 : 50, // 5 attempts per hour in production
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: 'Too many attempts, please try again later.' },
-});
-
 app.use(generalLimiter);
 
 // =============================================================================
@@ -296,14 +272,23 @@ app.get('/health', async (req: Request, res: Response) => {
 });
 
 // =============================================================================
-// API Routes
+// API Routes - Versioned
 // =============================================================================
-app.use('/api/auth', authLimiter, authRoutes);
-app.use('/api/questions', questionRoutes);
-app.use('/api/flashcards', flashcardRoutes);
-app.use('/api/practice', practiceRoutes);
-app.use('/api/progress', progressRoutes);
-app.use('/api/admin', adminRoutes);
+// Version 1 API (current stable)
+app.use('/api/v1', v1Routes);
+
+// Alias /api/* to latest version (currently v1) for backward compatibility
+app.use('/api', v1Routes);
+
+// API versioning info endpoint
+app.get('/api/versions', (req: Request, res: Response) => {
+  res.json({
+    current: 'v1',
+    supported: ['v1'],
+    deprecated: [],
+    docs: '/api-docs',
+  });
+});
 
 // =============================================================================
 // 404 Handler
