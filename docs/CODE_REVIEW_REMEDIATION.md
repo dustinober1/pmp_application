@@ -144,11 +144,15 @@ Review date: 2024-12-24
 - [ ] Implement service worker
 - [ ] Add offline queue
 
-### ⬜ Issue #15: Poor Type Safety in Frontend
-**Status:** NOT STARTED
-**TODO:**
-- [ ] Consider CSS modules or Tailwind
-- [ ] Remove unused CSS
+### ✅ Issue #15: Poor Type Safety in Frontend
+**Status:** RESOLVED
+**Commit:** `2bf9fe1`
+**Changes:**
+- Created central `types/index.ts` for all shared interfaces
+- Refactored `authService` and `practiceService` to use shared types
+- Removed `any` usage in `TestSessionPage`, `TestReviewPage`, and `FlashcardsPage`
+- Enforced `import type` for type-only imports
+- Verified build and type consistency via `tsc`
 
 ---
 
@@ -315,15 +319,15 @@ Review date: 2024-12-24
 |----------|----------|---------|-------------|-------|
 | Critical | 4 | 0 | 0 | 4 |
 | Backend | 6 | 0 | 0 | 6 |
-| Frontend | 3 | 0 | 2 | 5 |
+| Frontend | 4 | 0 | 1 | 5 |
 | Testing | 0 | 0 | 2 | 2 |
 | Infrastructure | 3 | 0 | 0 | 3 |
 | Code Quality | 5 | 0 | 0 | 5 |
 | Security | 4 | 0 | 0 | 4 |
 | Performance | 3 | 0 | 0 | 3 |
-| **TOTAL** | **28** | **0** | **4** | **32** |
+| **TOTAL** | **29** | **0** | **3** | **32** |
 
-**Progress: ~90.6% complete (29 of 32 issues addressed)**
+**Progress: ~93.8% complete (30 of 32 issues addressed)**
 
 ## Git Log Summary
 
@@ -348,8 +352,9 @@ Review date: 2024-12-24
 | `8762445` | Observability & metrics |
 | `5919fcc` | Frontend auth state logic |
 | `5026f91` | Bundle size optimization |
+| `2bf9fe1` | Frontend type safety & refactoring |
 
-Last updated: 2024-12-24T14:50:00
+Last updated: 2024-12-24T15:00:00
 
 
 
