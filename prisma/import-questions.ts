@@ -39,10 +39,15 @@ async function importQuestions() {
     if (!adminUser) {
         console.log('  ⚠️  No admin user found, creating one...');
         const bcrypt = await import('bcryptjs');
+        const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+        if (!process.env.ADMIN_PASSWORD) {
+            console.warn('  ⚠️  WARNING: Using default password "admin123". Set ADMIN_PASSWORD environment variable!');
+        }
+        
         adminUser = await prisma.user.create({
             data: {
                 email: 'admin@pmp.com',
-                passwordHash: await bcrypt.hash('admin123', 12),
+                passwordHash: await bcrypt.hash(adminPassword, 12),
                 firstName: 'Admin',
                 lastName: 'User',
                 role: 'ADMIN',

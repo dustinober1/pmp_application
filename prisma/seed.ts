@@ -43,7 +43,12 @@ async function main() {
   console.log('✅ Created/retrieved domains');
 
   // Create admin user
-  const hashedPassword = await bcrypt.hash('admin123', 10);
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  if (!process.env.ADMIN_PASSWORD) {
+    console.warn('⚠️  WARNING: Using default password "admin123". Set ADMIN_PASSWORD environment variable in production!');
+  }
+  
+  const hashedPassword = await bcrypt.hash(adminPassword, 10);
   const adminUser = await prisma.user.upsert({
     where: { email: 'admin@pmp.com' },
     update: {},
@@ -338,7 +343,7 @@ async function main() {
   console.log('\n🎉 Database seeding completed successfully!');
   console.log('\n📧 Admin login credentials:');
   console.log('   Email: admin@pmp.com');
-  console.log('   Password: admin123');
+  console.log(`   Password: ${process.env.ADMIN_PASSWORD ? '[HIDDEN] (env: ADMIN_PASSWORD)' : 'admin123'}`);
   console.log('\n📊 Created summary:');
   console.log(`   • 3 domains`);
   console.log(`   • ${createdQuestions.length} sample questions`);

@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import { prisma } from '../services/database';
-import Logger from '../utils/logger';
-import { AppError, ErrorFactory } from '../utils/AppError';
+import { Request, Response, NextFunction } from "express";
+import { prisma } from "../services/database";
+import Logger from "../utils/logger";
+import { AppError, ErrorFactory } from "../utils/AppError";
 
 // Type definitions for Prisma includes
 interface TestQuestion {
@@ -53,7 +53,7 @@ function parseChoices(choicesJson: string): string[] {
   try {
     return JSON.parse(choicesJson);
   } catch {
-    Logger.warn('Failed to parse question choices JSON');
+    Logger.warn("Failed to parse question choices JSON");
     return [];
   }
 }
@@ -75,7 +75,11 @@ function formatTestQuestions(testQuestions: TestQuestion[]) {
  * Get all practice tests
  * GET /api/practice/tests
  */
-export const getPracticeTests = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getPracticeTests = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const tests = await prisma.practiceTest.findMany({
       where: { isActive: true },
@@ -87,7 +91,7 @@ export const getPracticeTests = async (req: Request, res: Response, next: NextFu
           },
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
 
     res.json(tests);
@@ -95,8 +99,8 @@ export const getPracticeTests = async (req: Request, res: Response, next: NextFu
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching practice tests:', error);
-    next(ErrorFactory.internal('Failed to fetch practice tests'));
+    Logger.error("Error fetching practice tests:", error);
+    next(ErrorFactory.internal("Failed to fetch practice tests"));
   }
 };
 
@@ -104,7 +108,11 @@ export const getPracticeTests = async (req: Request, res: Response, next: NextFu
  * Get a practice test by ID
  * GET /api/practice/tests/:id
  */
-export const getPracticeTestById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getPracticeTestById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { id } = req.params;
 
@@ -120,7 +128,7 @@ export const getPracticeTestById = async (req: Request, res: Response, next: Nex
             },
           },
           orderBy: {
-            orderIndex: 'asc',
+            orderIndex: "asc",
           },
         },
         _count: {
@@ -132,13 +140,15 @@ export const getPracticeTestById = async (req: Request, res: Response, next: Nex
     });
 
     if (!test) {
-      throw ErrorFactory.notFound('Practice test');
+      throw ErrorFactory.notFound("Practice test");
     }
 
     // Parse choices for each question
     const formattedTest = {
       ...test,
-      testQuestions: formatTestQuestions(test.testQuestions as unknown as TestQuestion[]),
+      testQuestions: formatTestQuestions(
+        test.testQuestions as unknown as TestQuestion[],
+      ),
     };
 
     res.json(formattedTest);
@@ -146,8 +156,8 @@ export const getPracticeTestById = async (req: Request, res: Response, next: Nex
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching practice test:', error);
-    next(ErrorFactory.internal('Failed to fetch practice test'));
+    Logger.error("Error fetching practice test:", error);
+    next(ErrorFactory.internal("Failed to fetch practice test"));
   }
 };
 
@@ -155,7 +165,11 @@ export const getPracticeTestById = async (req: Request, res: Response, next: Nex
  * Get a test session by ID
  * GET /api/practice/sessions/:sessionId
  */
-export const getTestSessionById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getTestSessionById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
@@ -173,7 +187,7 @@ export const getTestSessionById = async (req: Request, res: Response, next: Next
                 },
               },
               orderBy: {
-                orderIndex: 'asc',
+                orderIndex: "asc",
               },
             },
           },
@@ -183,7 +197,7 @@ export const getTestSessionById = async (req: Request, res: Response, next: Next
     });
 
     if (!session) {
-      throw ErrorFactory.notFound('Session');
+      throw ErrorFactory.notFound("Session");
     }
 
     // Parse choices for each question
@@ -191,7 +205,9 @@ export const getTestSessionById = async (req: Request, res: Response, next: Next
       ...session,
       test: {
         ...session.test,
-        testQuestions: formatTestQuestions(session.test.testQuestions as unknown as TestQuestion[]),
+        testQuestions: formatTestQuestions(
+          session.test.testQuestions as unknown as TestQuestion[],
+        ),
       },
     };
 
@@ -200,8 +216,8 @@ export const getTestSessionById = async (req: Request, res: Response, next: Next
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching test session:', error);
-    next(ErrorFactory.internal('Failed to fetch test session'));
+    Logger.error("Error fetching test session:", error);
+    next(ErrorFactory.internal("Failed to fetch test session"));
   }
 };
 
@@ -209,29 +225,23 @@ export const getTestSessionById = async (req: Request, res: Response, next: Next
  * Start a new test session
  * POST /api/practice/sessions
  */
-export const startTestSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const startTestSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
-    let { testId, userId } = req.body;
+    const { testId } = req.body;
+
+    if (!req.user) {
+      throw ErrorFactory.unauthorized();
+    }
+
+    const userId = req.user.id;
 
     // Validate testId
     if (!testId) {
-      throw ErrorFactory.badRequest('testId is required');
-    }
-
-    // If no userId provided or invalid (guest mode for development), use the first available user
-    if (userId) {
-      const user = await prisma.user.findUnique({ where: { id: userId } });
-      if (!user) {
-        userId = undefined;
-      }
-    }
-
-    if (!userId) {
-      const firstUser = await prisma.user.findFirst();
-      if (!firstUser) {
-        throw ErrorFactory.badRequest('No user found in database to start session');
-      }
-      userId = firstUser.id;
+      throw ErrorFactory.badRequest("testId is required");
     }
 
     // Get test details
@@ -247,7 +257,7 @@ export const startTestSession = async (req: Request, res: Response, next: NextFu
     });
 
     if (!test) {
-      throw ErrorFactory.notFound('Test');
+      throw ErrorFactory.notFound("Test");
     }
 
     // Create test session
@@ -257,7 +267,7 @@ export const startTestSession = async (req: Request, res: Response, next: NextFu
         testId,
         timeLimitMinutes: test.timeLimitMinutes,
         totalQuestions: test.testQuestions.length,
-        status: 'IN_PROGRESS',
+        status: "IN_PROGRESS",
       },
       include: {
         test: {
@@ -271,7 +281,7 @@ export const startTestSession = async (req: Request, res: Response, next: NextFu
                 },
               },
               orderBy: {
-                orderIndex: 'asc',
+                orderIndex: "asc",
               },
             },
           },
@@ -284,7 +294,9 @@ export const startTestSession = async (req: Request, res: Response, next: NextFu
       ...session,
       test: {
         ...session.test,
-        testQuestions: formatTestQuestions(session.test.testQuestions as unknown as TestQuestion[]),
+        testQuestions: formatTestQuestions(
+          session.test.testQuestions as unknown as TestQuestion[],
+        ),
       },
     };
 
@@ -293,8 +305,8 @@ export const startTestSession = async (req: Request, res: Response, next: NextFu
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error starting test session:', error);
-    next(ErrorFactory.internal('Failed to start test session'));
+    Logger.error("Error starting test session:", error);
+    next(ErrorFactory.internal("Failed to start test session"));
   }
 };
 
@@ -302,13 +314,25 @@ export const startTestSession = async (req: Request, res: Response, next: NextFu
  * Submit an answer
  * POST /api/practice/sessions/:sessionId/answer
  */
-export const submitAnswer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const submitAnswer = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
-    const { sessionId, questionId, selectedAnswerIndex, timeSpentSeconds, isFlagged } = req.body;
+    const {
+      sessionId,
+      questionId,
+      selectedAnswerIndex,
+      timeSpentSeconds,
+      isFlagged,
+    } = req.body;
 
     // Validate required fields
     if (!sessionId || !questionId || selectedAnswerIndex === undefined) {
-      throw ErrorFactory.badRequest('sessionId, questionId, and selectedAnswerIndex are required');
+      throw ErrorFactory.badRequest(
+        "sessionId, questionId, and selectedAnswerIndex are required",
+      );
     }
 
     // Get the question to check correct answer
@@ -317,7 +341,7 @@ export const submitAnswer = async (req: Request, res: Response, next: NextFuncti
     });
 
     if (!question) {
-      throw ErrorFactory.notFound('Question');
+      throw ErrorFactory.notFound("Question");
     }
 
     const isCorrect = selectedAnswerIndex === question.correctAnswerIndex;
@@ -352,8 +376,8 @@ export const submitAnswer = async (req: Request, res: Response, next: NextFuncti
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error submitting answer:', error);
-    next(ErrorFactory.internal('Failed to submit answer'));
+    Logger.error("Error submitting answer:", error);
+    next(ErrorFactory.internal("Failed to submit answer"));
   }
 };
 
@@ -361,12 +385,16 @@ export const submitAnswer = async (req: Request, res: Response, next: NextFuncti
  * Toggle flag on a question
  * POST /api/practice/sessions/:sessionId/flag
  */
-export const toggleFlag = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const toggleFlag = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { sessionId, questionId } = req.body;
 
     if (!sessionId || !questionId) {
-      throw ErrorFactory.badRequest('sessionId and questionId are required');
+      throw ErrorFactory.badRequest("sessionId and questionId are required");
     }
 
     // Get current answer
@@ -411,289 +439,209 @@ export const toggleFlag = async (req: Request, res: Response, next: NextFunction
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error toggling flag:', error);
-    next(ErrorFactory.internal('Failed to toggle flag'));
+    Logger.error("Error toggling flag:", error);
+    next(ErrorFactory.internal("Failed to toggle flag"));
   }
 };
-
-/**
- * Update user progress for a domain
- */
-async function updateDomainProgress(
-  userId: string,
-  domainId: string,
-  total: number,
-  correct: number,
-  totalTime: number
-): Promise<void> {
-  try {
-    await prisma.userProgress.upsert({
-      where: {
-        userId_domainId: {
-          userId,
-          domainId,
-        },
-      },
-      update: {
-        questionsAnswered: {
-          increment: total,
-        },
-        correctAnswers: {
-          increment: correct,
-        },
-        averageTimePerQuestion: totalTime / total,
-        lastActivityAt: new Date(),
-      },
-      create: {
-        userId,
-        domainId,
-        questionsAnswered: total,
-        correctAnswers: correct,
-        averageTimePerQuestion: totalTime / total,
-      },
-    });
-  } catch (e) {
-    Logger.warn(`Could not update progress for domain ${domainId}:`, e);
-  }
-}
-
-/**
- * Update study streak for user
- */
-async function updateStudyStreak(userId: string): Promise<void> {
-  try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const streak = await prisma.studyStreak.findUnique({
-      where: { userId },
-    });
-
-    if (!streak) {
-      await prisma.studyStreak.create({
-        data: {
-          userId,
-          currentStreak: 1,
-          longestStreak: 1,
-          lastStudyDate: today,
-          totalStudyDays: 1,
-        },
-      });
-    } else {
-      const lastStudy = new Date(streak.lastStudyDate);
-      lastStudy.setHours(0, 0, 0, 0);
-      const diffDays = Math.floor((today.getTime() - lastStudy.getTime()) / (1000 * 60 * 60 * 24));
-
-      if (diffDays === 1) {
-        const newStreak = streak.currentStreak + 1;
-        await prisma.studyStreak.update({
-          where: { userId },
-          data: {
-            currentStreak: newStreak,
-            longestStreak: Math.max(newStreak, streak.longestStreak),
-            lastStudyDate: today,
-            totalStudyDays: streak.totalStudyDays + 1,
-          },
-        });
-      } else if (diffDays > 1) {
-        await prisma.studyStreak.update({
-          where: { userId },
-          data: {
-            currentStreak: 1,
-            lastStudyDate: today,
-            totalStudyDays: streak.totalStudyDays + 1,
-          },
-        });
-      } else if (diffDays === 0) {
-        // Same day, just update lastStudyDate
-        await prisma.studyStreak.update({
-          where: { userId },
-          data: { lastStudyDate: today },
-        });
-      }
-    }
-  } catch (e) {
-    Logger.warn('Could not update study streak:', e);
-  }
-}
 
 /**
  * Complete a test session
  * PUT /api/practice/sessions/:sessionId/complete
  * Uses database transaction for atomic updates
  */
-export const completeTestSession = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const completeTestSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
     // Use transaction to ensure all updates are atomic
-    const result = await prisma.$transaction(async (tx) => {
-      // Get session with answers and questions (with domain info)
-      const session = await tx.userTestSession.findUnique({
-        where: { id: sessionId },
-        include: {
-          answers: {
-            include: {
-              question: {
-                select: {
-                  id: true,
-                  domainId: true,
+    const result = await prisma.$transaction(
+      async (tx) => {
+        // Get session with answers and questions (with domain info)
+        const session = await tx.userTestSession.findUnique({
+          where: { id: sessionId },
+          include: {
+            answers: {
+              include: {
+                question: {
+                  select: {
+                    id: true,
+                    domainId: true,
+                  },
                 },
               },
             },
           },
-        },
-      });
+        });
 
-      if (!session) {
-        throw ErrorFactory.notFound('Session');
-      }
-
-      // Only count answers with selectedAnswerIndex >= 0 (actually answered)
-      const validAnswers = session.answers.filter(a => a.selectedAnswerIndex >= 0);
-      const correctAnswers = validAnswers.filter(a => a.isCorrect).length;
-      const score = session.totalQuestions > 0
-        ? Math.round((correctAnswers / session.totalQuestions) * 100)
-        : 0;
-
-      // Calculate time analytics
-      const totalTimeSpent = validAnswers.reduce((sum: number, a) => sum + a.timeSpentSeconds, 0);
-      const avgTimePerQuestion = validAnswers.length > 0
-        ? Math.round(totalTimeSpent / validAnswers.length)
-        : 0;
-
-      // Update session
-      const updatedSession = await tx.userTestSession.update({
-        where: { id: sessionId },
-        data: {
-          status: 'COMPLETED',
-          completedAt: new Date(),
-          score,
-          correctAnswers,
-        },
-        include: {
-          answers: {
-            include: {
-              question: {
-                include: {
-                  domain: true,
-                },
-              },
-            },
-          },
-          test: true,
-        },
-      });
-
-      // Update user progress for each domain
-      const domainProgress: Record<string, { total: number; correct: number; totalTime: number }> = {};
-
-      for (const answer of validAnswers) {
-        const domainId = answer.question.domainId;
-        if (!domainProgress[domainId]) {
-          domainProgress[domainId] = {
-            total: 0,
-            correct: 0,
-            totalTime: 0,
-          };
+        if (!session) {
+          throw ErrorFactory.notFound("Session");
         }
-        domainProgress[domainId].total += 1;
-        if (answer.isCorrect) domainProgress[domainId].correct += 1;
-        domainProgress[domainId].totalTime += answer.timeSpentSeconds;
-      }
 
-      // Update each domain's progress within transaction
-      for (const [domainId, progress] of Object.entries(domainProgress)) {
-        await tx.userProgress.upsert({
-          where: {
-            userId_domainId: {
+        // Only count answers with selectedAnswerIndex >= 0 (actually answered)
+        const validAnswers = session.answers.filter(
+          (a) => a.selectedAnswerIndex >= 0,
+        );
+        const correctAnswers = validAnswers.filter((a) => a.isCorrect).length;
+        const score =
+          session.totalQuestions > 0
+            ? Math.round((correctAnswers / session.totalQuestions) * 100)
+            : 0;
+
+        // Calculate time analytics
+        const totalTimeSpent = validAnswers.reduce(
+          (sum: number, a) => sum + a.timeSpentSeconds,
+          0,
+        );
+        const avgTimePerQuestion =
+          validAnswers.length > 0
+            ? Math.round(totalTimeSpent / validAnswers.length)
+            : 0;
+
+        // Update session
+        const updatedSession = await tx.userTestSession.update({
+          where: { id: sessionId },
+          data: {
+            status: "COMPLETED",
+            completedAt: new Date(),
+            score,
+            correctAnswers,
+          },
+          include: {
+            answers: {
+              include: {
+                question: {
+                  include: {
+                    domain: true,
+                  },
+                },
+              },
+            },
+            test: true,
+          },
+        });
+
+        // Update user progress for each domain
+        const domainProgress: Record<
+          string,
+          { total: number; correct: number; totalTime: number }
+        > = {};
+
+        for (const answer of validAnswers) {
+          const domainId = answer.question.domainId;
+          if (!domainProgress[domainId]) {
+            domainProgress[domainId] = {
+              total: 0,
+              correct: 0,
+              totalTime: 0,
+            };
+          }
+          domainProgress[domainId].total += 1;
+          if (answer.isCorrect) {
+            domainProgress[domainId].correct += 1;
+          }
+          domainProgress[domainId].totalTime += answer.timeSpentSeconds;
+        }
+
+        // Update each domain's progress within transaction
+        for (const [domainId, progress] of Object.entries(domainProgress)) {
+          await tx.userProgress.upsert({
+            where: {
+              userId_domainId: {
+                userId: session.userId,
+                domainId,
+              },
+            },
+            update: {
+              questionsAnswered: {
+                increment: progress.total,
+              },
+              correctAnswers: {
+                increment: progress.correct,
+              },
+              averageTimePerQuestion: progress.totalTime / progress.total,
+              lastActivityAt: new Date(),
+            },
+            create: {
               userId: session.userId,
               domainId,
+              questionsAnswered: progress.total,
+              correctAnswers: progress.correct,
+              averageTimePerQuestion: progress.totalTime / progress.total,
             },
-          },
-          update: {
-            questionsAnswered: {
-              increment: progress.total,
-            },
-            correctAnswers: {
-              increment: progress.correct,
-            },
-            averageTimePerQuestion: progress.totalTime / progress.total,
-            lastActivityAt: new Date(),
-          },
-          create: {
-            userId: session.userId,
-            domainId,
-            questionsAnswered: progress.total,
-            correctAnswers: progress.correct,
-            averageTimePerQuestion: progress.totalTime / progress.total,
-          },
-        });
-      }
-
-      // Update study streak within transaction
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const streak = await tx.studyStreak.findUnique({
-        where: { userId: session.userId },
-      });
-
-      if (!streak) {
-        await tx.studyStreak.create({
-          data: {
-            userId: session.userId,
-            currentStreak: 1,
-            longestStreak: 1,
-            lastStudyDate: today,
-            totalStudyDays: 1,
-          },
-        });
-      } else {
-        const lastStudy = new Date(streak.lastStudyDate);
-        lastStudy.setHours(0, 0, 0, 0);
-        const diffDays = Math.floor((today.getTime() - lastStudy.getTime()) / (1000 * 60 * 60 * 24));
-
-        if (diffDays === 1) {
-          const newStreak = streak.currentStreak + 1;
-          await tx.studyStreak.update({
-            where: { userId: session.userId },
-            data: {
-              currentStreak: newStreak,
-              longestStreak: Math.max(newStreak, streak.longestStreak),
-              lastStudyDate: today,
-              totalStudyDays: streak.totalStudyDays + 1,
-            },
-          });
-        } else if (diffDays > 1) {
-          await tx.studyStreak.update({
-            where: { userId: session.userId },
-            data: {
-              currentStreak: 1,
-              lastStudyDate: today,
-              totalStudyDays: streak.totalStudyDays + 1,
-            },
-          });
-        } else if (diffDays === 0) {
-          await tx.studyStreak.update({
-            where: { userId: session.userId },
-            data: { lastStudyDate: today },
           });
         }
-      }
 
-      return {
-        updatedSession,
-        analytics: {
-          totalTimeSpent,
-          avgTimePerQuestion,
-          flaggedCount: session.answers.filter(a => a.isFlagged).length,
-        },
-      };
-    }, {
-      maxWait: 5000, // Maximum time to wait for transaction slot
-      timeout: 10000, // Maximum time for transaction to complete
-    });
+        // Update study streak within transaction
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const streak = await tx.studyStreak.findUnique({
+          where: { userId: session.userId },
+        });
+
+        if (!streak) {
+          await tx.studyStreak.create({
+            data: {
+              userId: session.userId,
+              currentStreak: 1,
+              longestStreak: 1,
+              lastStudyDate: today,
+              totalStudyDays: 1,
+            },
+          });
+        } else {
+          const lastStudy = new Date(streak.lastStudyDate);
+          lastStudy.setHours(0, 0, 0, 0);
+          const diffDays = Math.floor(
+            (today.getTime() - lastStudy.getTime()) / (1000 * 60 * 60 * 24),
+          );
+
+          if (diffDays === 1) {
+            const newStreak = streak.currentStreak + 1;
+            await tx.studyStreak.update({
+              where: { userId: session.userId },
+              data: {
+                currentStreak: newStreak,
+                longestStreak: Math.max(newStreak, streak.longestStreak),
+                lastStudyDate: today,
+                totalStudyDays: streak.totalStudyDays + 1,
+              },
+            });
+          } else if (diffDays > 1) {
+            await tx.studyStreak.update({
+              where: { userId: session.userId },
+              data: {
+                currentStreak: 1,
+                lastStudyDate: today,
+                totalStudyDays: streak.totalStudyDays + 1,
+              },
+            });
+          } else if (diffDays === 0) {
+            await tx.studyStreak.update({
+              where: { userId: session.userId },
+              data: { lastStudyDate: today },
+            });
+          }
+        }
+
+        return {
+          updatedSession,
+          analytics: {
+            totalTimeSpent,
+            avgTimePerQuestion,
+            flaggedCount: session.answers.filter((a) => a.isFlagged).length,
+          },
+        };
+      },
+      {
+        maxWait: 5000, // Maximum time to wait for transaction slot
+        timeout: 10000, // Maximum time for transaction to complete
+      },
+    );
 
     res.json({
       ...result.updatedSession,
@@ -703,8 +651,8 @@ export const completeTestSession = async (req: Request, res: Response, next: Nex
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error completing test session:', error);
-    next(ErrorFactory.internal('Failed to complete test session'));
+    Logger.error("Error completing test session:", error);
+    next(ErrorFactory.internal("Failed to complete test session"));
   }
 };
 
@@ -712,7 +660,11 @@ export const completeTestSession = async (req: Request, res: Response, next: Nex
  * Get session review data
  * GET /api/practice/sessions/:sessionId/review
  */
-export const getSessionReview = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getSessionReview = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { sessionId } = req.params;
 
@@ -735,25 +687,30 @@ export const getSessionReview = async (req: Request, res: Response, next: NextFu
             },
           },
           orderBy: {
-            answeredAt: 'asc',
+            answeredAt: "asc",
           },
         },
       },
     });
 
     if (!session) {
-      throw ErrorFactory.notFound('Session');
+      throw ErrorFactory.notFound("Session");
     }
 
-    if (session.status !== 'COMPLETED') {
-      throw ErrorFactory.badRequest('Session not completed yet');
+    if (session.status !== "COMPLETED") {
+      throw ErrorFactory.badRequest("Session not completed yet");
     }
 
     // Calculate domain breakdown
-    const domainBreakdown: Record<string, { name: string; color: string; total: number; correct: number }> = {};
+    const domainBreakdown: Record<
+      string,
+      { name: string; color: string; total: number; correct: number }
+    > = {};
 
     for (const answer of session.answers as unknown as AnswerWithQuestion[]) {
-      if (answer.selectedAnswerIndex < 0) continue;
+      if (answer.selectedAnswerIndex < 0) {
+        continue;
+      }
 
       const domain = answer.question.domain;
       if (!domainBreakdown[domain.id]) {
@@ -765,11 +722,15 @@ export const getSessionReview = async (req: Request, res: Response, next: NextFu
         };
       }
       domainBreakdown[domain.id].total++;
-      if (answer.isCorrect) domainBreakdown[domain.id].correct++;
+      if (answer.isCorrect) {
+        domainBreakdown[domain.id].correct++;
+      }
     }
 
     // Format questions for review
-    const reviewQuestions = (session.answers as unknown as AnswerWithQuestion[]).map(answer => ({
+    const reviewQuestions = (
+      session.answers as unknown as AnswerWithQuestion[]
+    ).map((answer) => ({
       id: answer.question.id,
       questionText: answer.question.questionText,
       scenario: answer.question.scenario,
@@ -787,19 +748,29 @@ export const getSessionReview = async (req: Request, res: Response, next: NextFu
     }));
 
     // Separate flagged and incorrect for quick access
-    const flaggedQuestions = reviewQuestions.filter(q => q.isFlagged);
-    const incorrectQuestions = reviewQuestions.filter(q => !q.isCorrect && q.selectedAnswerIndex >= 0);
+    const flaggedQuestions = reviewQuestions.filter((q) => q.isFlagged);
+    const incorrectQuestions = reviewQuestions.filter(
+      (q) => !q.isCorrect && q.selectedAnswerIndex >= 0,
+    );
 
     // Calculate time analytics
-    const validAnswers = session.answers.filter(a => a.selectedAnswerIndex >= 0);
-    const totalTimeSpent = validAnswers.reduce((sum, a) => sum + a.timeSpentSeconds, 0);
-    const avgTimePerQuestion = validAnswers.length > 0
-      ? Math.round(totalTimeSpent / validAnswers.length)
-      : 0;
+    const validAnswers = session.answers.filter(
+      (a) => a.selectedAnswerIndex >= 0,
+    );
+    const totalTimeSpent = validAnswers.reduce(
+      (sum, a) => sum + a.timeSpentSeconds,
+      0,
+    );
+    const avgTimePerQuestion =
+      validAnswers.length > 0
+        ? Math.round(totalTimeSpent / validAnswers.length)
+        : 0;
 
     // Find slowest questions
-    const sortedByTime = [...validAnswers].sort((a, b) => b.timeSpentSeconds - a.timeSpentSeconds);
-    const slowestQuestions = sortedByTime.slice(0, 3).map(a => ({
+    const sortedByTime = [...validAnswers].sort(
+      (a, b) => b.timeSpentSeconds - a.timeSpentSeconds,
+    );
+    const slowestQuestions = sortedByTime.slice(0, 3).map((a) => ({
       questionId: a.questionId,
       time: a.timeSpentSeconds,
     }));
@@ -827,8 +798,8 @@ export const getSessionReview = async (req: Request, res: Response, next: NextFu
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error getting session review:', error);
-    next(ErrorFactory.internal('Failed to get session review'));
+    Logger.error("Error getting session review:", error);
+    next(ErrorFactory.internal("Failed to get session review"));
   }
 };
 
@@ -836,7 +807,11 @@ export const getSessionReview = async (req: Request, res: Response, next: NextFu
  * Get user's sessions
  * GET /api/practice/users/:userId/sessions
  */
-export const getUserSessions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getUserSessions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { userId } = req.params;
 
@@ -851,7 +826,7 @@ export const getUserSessions = async (req: Request, res: Response, next: NextFun
           },
         },
       },
-      orderBy: { startedAt: 'desc' },
+      orderBy: { startedAt: "desc" },
     });
 
     res.json(sessions);
@@ -859,7 +834,7 @@ export const getUserSessions = async (req: Request, res: Response, next: NextFun
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching user sessions:', error);
-    next(ErrorFactory.internal('Failed to fetch user sessions'));
+    Logger.error("Error fetching user sessions:", error);
+    next(ErrorFactory.internal("Failed to fetch user sessions"));
   }
 };
