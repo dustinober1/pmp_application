@@ -27,6 +27,17 @@ model User {
   testSessions UserTestSession[]
   studyStreak  StudyStreak?
   dailyGoal    DailyGoal?
+  
+  // Adaptive Learning Engine relations
+  learningProfile   LearningProfile?
+  examSessions      ExamSession[]
+  studyPlans        StudyPlan[]
+  annotations       Annotation[]
+  bookmarks         Bookmark[]
+  discussionComments DiscussionComment[]
+  commentVotes      CommentVote[]
+  commentReports    CommentReport[]
+  certification     UserCertification?
 
   @@index([email])
   @@map("users")
@@ -41,6 +52,7 @@ model Domain {
   flashCards       FlashCard[]
   questions        Question[]
   progress         UserProgress[]
+  domainMasteries  DomainMastery[]
 
   @@map("domains")
 }
@@ -63,6 +75,11 @@ model Question {
   domain             Domain         @relation(fields: [domainId], references: [id], onDelete: Cascade)
   testQuestions      TestQuestion[]
   answers            UserAnswer[]
+  examAnswers        ExamAnswer[]
+  annotations        Annotation[]
+  bookmarks          Bookmark[]
+  discussionComments DiscussionComment[]
+  explanation_deep   QuestionExplanation?
 
   @@index([domainId])
   @@index([createdBy])
@@ -239,6 +256,234 @@ model RefreshToken {
   @@index([tokenHash])
   @@index([expiresAt])
   @@map("refresh_tokens")
+}
+
+// Adaptive Learning Engine Models
+
+model LearningProfile {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  lastCalculatedAt  DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  domainMasteries   DomainMastery[]
+  insights          Insight[]
+
+  @@map("learning_profiles")
+}
+
+model DomainMastery {
+  id                String   @id @default(uuid())
+  profileId         String
+  domainId          String
+  score             Float    @default(50)
+  trend             String   @default("stable")
+  accuracyRate      Float    @default(0)
+  consistencyScore  Float    @default(0)
+  difficultyScore   Float    @default(0)
+  questionCount     Int      @default(0)
+  lastActivityAt    DateTime @default(now())
+  peakScore         Float    @default(50)
+  profile           LearningProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  domain            Domain   @relation(fields: [domainId], references: [id])
+
+  @@unique([profileId, domainId])
+  @@index([profileId])
+  @@index([domainId])
+  @@map("domain_masteries")
+}
+
+model Insight {
+  id          String   @id @default(uuid())
+  profileId   String
+  type        String
+  title       String
+  message     String
+  priority    String   @default("medium")
+  actionUrl   String?
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  profile     LearningProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, createdAt])
+  @@map("insights")
+}
+
+// Exam Simulator Models
+
+model ExamSession {
+  id               String    @id @default(uuid())
+  userId           String
+  startedAt        DateTime  @default(now())
+  completedAt      DateTime?
+  breakTakenAt     DateTime?
+  status           String    @default("in_progress")
+  score            Int?
+  passed           Boolean?
+  totalTimeSeconds Int?
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers          ExamAnswer[]
+
+  @@index([userId, status])
+  @@map("exam_sessions")
+}
+
+model ExamAnswer {
+  id                  String      @id @default(uuid())
+  sessionId           String
+  questionId          String
+  selectedAnswerIndex Int
+  isCorrect           Boolean
+  timeSpentSeconds    Int
+  answeredAt          DateTime    @default(now())
+  session             ExamSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question            Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, questionId])
+  @@index([sessionId])
+  @@map("exam_answers")
+}
+
+// Study Plan Models
+
+model StudyPlan {
+  id              String   @id @default(uuid())
+  userId          String
+  targetExamDate  DateTime
+  hoursPerDay     Float
+  status          String   @default("active")
+  progressStatus  String   @default("on_track")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks           StudyTask[]
+
+  @@index([userId, status])
+  @@map("study_plans")
+}
+
+model StudyTask {
+  id               String    @id @default(uuid())
+  planId           String
+  date             DateTime
+  type             String
+  description      String
+  estimatedMinutes Int
+  domainFocus      String?
+  isCompleted      Boolean   @default(false)
+  completedAt      DateTime?
+  plan             StudyPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@index([planId, date])
+  @@map("study_tasks")
+}
+
+// Annotation Models
+
+model Annotation {
+  id          String   @id @default(uuid())
+  userId      String
+  questionId  String
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([userId])
+  @@map("annotations")
+}
+
+model Bookmark {
+  id          String   @id @default(uuid())
+  userId      String
+  questionId  String
+  category    String   @default("review_later")
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([userId, category])
+  @@map("bookmarks")
+}
+
+// Discussion Models
+
+model DiscussionComment {
+  id               String    @id @default(uuid())
+  questionId       String
+  userId           String
+  content          String
+  parentId         String?
+  upvotes          Int       @default(0)
+  isExpertVerified Boolean   @default(false)
+  isHidden         Boolean   @default(false)
+  reportCount      Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  question         Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent           DiscussionComment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies          DiscussionComment[] @relation("CommentReplies")
+  votes            CommentVote[]
+  reports          CommentReport[]
+
+  @@index([questionId, createdAt])
+  @@index([questionId, upvotes])
+  @@map("discussion_comments")
+}
+
+model CommentVote {
+  id        String   @id @default(uuid())
+  commentId String
+  userId    String
+  createdAt DateTime @default(now())
+  comment   DiscussionComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+  @@map("comment_votes")
+}
+
+model CommentReport {
+  id        String   @id @default(uuid())
+  commentId String
+  userId    String
+  reason    String
+  createdAt DateTime @default(now())
+  comment   DiscussionComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+  @@map("comment_reports")
+}
+
+// Question Enhancement
+
+model QuestionExplanation {
+  id              String   @id @default(uuid())
+  questionId      String   @unique
+  choiceIndex     Int
+  explanation     String
+  misconception   String?
+  pmbokReference  String?
+  question        Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("question_explanations")
+}
+
+// User Enhancement
+
+model UserCertification {
+  id           String    @id @default(uuid())
+  userId       String    @unique
+  isPmpCertified Boolean @default(false)
+  verifiedAt   DateTime?
+  certificateId String?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_certifications")
 }
 
 
