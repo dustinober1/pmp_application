@@ -29,6 +29,9 @@ Thumbs.db
 
 # Testing
 coverage/
+playwright-report/
+playwright/.auth/
+test-results/
 
 # Python
 venv/
