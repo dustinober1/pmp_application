@@ -70,6 +70,7 @@ export interface QuestionCandidate {
   difficulty: Difficulty;
   methodology: string;
   masteryLevel: number;
+  lastIncorrectAt: Date | null;
 }
 
 // =============================================================================
@@ -99,6 +100,8 @@ export class QuestionSelector {
       // Get user's mastery levels and knowledge gaps
       const masteryLevels = await masteryCalculator.getAllMasteryLevels(userId);
       const knowledgeGaps = await knowledgeGapIdentifier.identifyGaps(userId);
+
+      const domainAccuracy = await this.getRecentDomainAccuracy(userId);
 
       // Get consecutive answer patterns for difficulty adjustment
       const consecutivePatterns =
@@ -130,6 +133,7 @@ export class QuestionSelector {
         knowledgeGaps,
         distribution.gap,
         consecutivePatterns,
+        domainAccuracy,
       );
       selectedQuestions.push(...gapQuestions);
 
@@ -139,6 +143,7 @@ export class QuestionSelector {
         masteryLevels,
         distribution.maintenance,
         consecutivePatterns,
+        domainAccuracy,
         selectedQuestions.map((q) => q.id),
       );
       selectedQuestions.push(...maintenanceQuestions);
@@ -149,6 +154,7 @@ export class QuestionSelector {
         masteryLevels,
         distribution.stretch,
         consecutivePatterns,
+        domainAccuracy,
         selectedQuestions.map((q) => q.id),
       );
       selectedQuestions.push(...stretchQuestions);
@@ -193,7 +199,29 @@ export class QuestionSelector {
       };
     }
 
-    // Get questions with recent answer data
+    // Get last incorrect answer per question for spaced repetition
+    const incorrectAnswerMap = new Map<string, Date>();
+
+    const recentIncorrectAnswers = await prisma.userAnswer.findMany({
+      where: {
+        session: { userId },
+        isCorrect: false,
+      },
+      orderBy: { answeredAt: "desc" },
+      take: 500,
+      select: {
+        questionId: true,
+        answeredAt: true,
+      },
+    });
+
+    for (const answer of recentIncorrectAnswers) {
+      if (!incorrectAnswerMap.has(answer.questionId)) {
+        incorrectAnswerMap.set(answer.questionId, answer.answeredAt);
+      }
+    }
+
+    // Get questions with recent correct answer data
     const questions = await prisma.question.findMany({
       where: whereClause,
       include: {
@@ -232,6 +260,8 @@ export class QuestionSelector {
         continue; // Skip this question
       }
 
+      const lastIncorrectAt = incorrectAnswerMap.get(question.id) || null;
+
       const masteryLevel = masteryMap.get(question.domainId) || 50; // Default neutral mastery
 
       candidates.push({
@@ -246,6 +276,7 @@ export class QuestionSelector {
         difficulty: question.difficulty as Difficulty,
         methodology: question.methodology,
         masteryLevel,
+        lastIncorrectAt,
       });
     }
 
@@ -260,20 +291,40 @@ export class QuestionSelector {
     knowledgeGaps: Array<{ domainId: string; priorityScore: number }>,
     count: number,
     consecutivePatterns: Map<string, { correct: number; incorrect: number }>,
+    domainAccuracy: Map<string, number>,
   ): Promise<SelectedQuestion[]> {
     if (count === 0) {
       return [];
     }
 
     // Get gap domain IDs sorted by priority
+    const gapPriority = new Map(
+      knowledgeGaps.map((gap) => [gap.domainId, gap.priorityScore]),
+    );
+
     const gapDomainIds = knowledgeGaps
       .sort((a, b) => b.priorityScore - a.priorityScore)
       .map((gap) => gap.domainId);
 
     // Filter candidates to gap domains
-    const gapCandidates = candidates.filter((c) =>
-      gapDomainIds.includes(c.domainId),
-    );
+    const gapCandidates = candidates
+      .filter((c) => gapDomainIds.includes(c.domainId))
+      .sort((a, b) => {
+        const aPriority = gapPriority.get(a.domainId) || 0;
+        const bPriority = gapPriority.get(b.domainId) || 0;
+
+        const aRepeat = a.lastIncorrectAt ? 1 : 0;
+        const bRepeat = b.lastIncorrectAt ? 1 : 0;
+        if (aRepeat !== bRepeat) {
+          return bRepeat - aRepeat;
+        }
+
+        if (aRepeat === 1 && bRepeat === 1) {
+          return b.lastIncorrectAt!.getTime() - a.lastIncorrectAt!.getTime();
+        }
+
+        return bPriority - aPriority;
+      });
 
     if (gapCandidates.length === 0) {
       // No gap questions available, return empty array
@@ -285,10 +336,115 @@ export class QuestionSelector {
       gapCandidates,
       count,
       consecutivePatterns,
+      domainAccuracy,
       "gap",
     );
 
     return selected;
+  }
+
+  private pickBestCandidate(
+    candidates: QuestionCandidate[],
+    selectionReason: "gap" | "maintenance" | "stretch",
+  ): QuestionCandidate | undefined {
+    if (candidates.length === 0) {
+      return undefined;
+    }
+
+    const sorted = [...candidates].sort((a, b) => {
+      const aRepeat = a.lastIncorrectAt ? 1 : 0;
+      const bRepeat = b.lastIncorrectAt ? 1 : 0;
+      if (aRepeat !== bRepeat) {
+        return bRepeat - aRepeat;
+      }
+
+      if (aRepeat === 1 && bRepeat === 1) {
+        return b.lastIncorrectAt!.getTime() - a.lastIncorrectAt!.getTime();
+      }
+
+      if (selectionReason === "stretch") {
+        return (
+          DIFFICULTY_VALUES[b.difficulty] - DIFFICULTY_VALUES[a.difficulty]
+        );
+      }
+
+      return DIFFICULTY_VALUES[a.difficulty] - DIFFICULTY_VALUES[b.difficulty];
+    });
+
+    return sorted[0];
+  }
+
+  private getPreferredDifficultyForDomain(
+    domainId: string,
+    consecutivePatterns: Map<string, { correct: number; incorrect: number }>,
+    domainAccuracy: Map<string, number>,
+  ): Difficulty {
+    const domainPattern = consecutivePatterns.get(domainId) || {
+      correct: 0,
+      incorrect: 0,
+    };
+
+    if (domainPattern.incorrect >= CONSECUTIVE_INCORRECT_THRESHOLD) {
+      return "EASY";
+    }
+
+    if (domainPattern.correct >= CONSECUTIVE_CORRECT_THRESHOLD) {
+      return "HARD";
+    }
+
+    const accuracy = domainAccuracy.get(domainId);
+    if (accuracy === undefined) {
+      return "MEDIUM";
+    }
+
+    if (accuracy < 50) {
+      return "EASY";
+    }
+
+    if (accuracy > 80) {
+      return "HARD";
+    }
+
+    return "MEDIUM";
+  }
+
+  private async getRecentDomainAccuracy(
+    userId: string,
+  ): Promise<Map<string, number>> {
+    const answers = await prisma.userAnswer.findMany({
+      where: {
+        session: { userId },
+      },
+      include: {
+        question: {
+          select: {
+            domainId: true,
+          },
+        },
+      },
+      orderBy: { answeredAt: "desc" },
+      take: 200,
+    });
+
+    const counts = new Map<string, { total: number; correct: number }>();
+    for (const answer of answers) {
+      const domainId = answer.question.domainId;
+      const current = counts.get(domainId) || { total: 0, correct: 0 };
+      current.total += 1;
+      if (answer.isCorrect) {
+        current.correct += 1;
+      }
+      counts.set(domainId, current);
+    }
+
+    const accuracy = new Map<string, number>();
+    for (const [domainId, c] of counts) {
+      if (c.total > 0) {
+        accuracy.set(domainId, (c.correct / c.total) * 100);
+      }
+    }
+
+    return accuracy;
   }
 
   /**
@@ -299,6 +455,7 @@ export class QuestionSelector {
     masteryLevels: Array<{ domainId: string; score: number }>,
     count: number,
     consecutivePatterns: Map<string, { correct: number; incorrect: number }>,
+    domainAccuracy: Map<string, number>,
     excludeIds: string[],
   ): Promise<SelectedQuestion[]> {
     if (count === 0) {
@@ -326,6 +483,7 @@ export class QuestionSelector {
       maintenanceCandidates,
       count,
       consecutivePatterns,
+      domainAccuracy,
       "maintenance",
     );
 
@@ -340,6 +498,7 @@ export class QuestionSelector {
     masteryLevels: Array<{ domainId: string; score: number }>,
     count: number,
     consecutivePatterns: Map<string, { correct: number; incorrect: number }>,
+    domainAccuracy: Map<string, number>,
     excludeIds: string[],
   ): Promise<SelectedQuestion[]> {
     if (count === 0) {
@@ -371,6 +530,7 @@ export class QuestionSelector {
       stretchCandidates,
       count,
       consecutivePatterns,
+      domainAccuracy,
       "stretch",
     );
 
@@ -384,34 +544,39 @@ export class QuestionSelector {
     candidates: QuestionCandidate[],
     count: number,
     consecutivePatterns: Map<string, { correct: number; incorrect: number }>,
+    domainAccuracy: Map<string, number>,
     selectionReason: "gap" | "maintenance" | "stretch",
   ): SelectedQuestion[] {
     const selected: SelectedQuestion[] = [];
     const availableCandidates = [...candidates];
 
     for (let i = 0; i < count && availableCandidates.length > 0; i++) {
-      // Get consecutive patterns for this domain (if any)
-      const domainPattern = consecutivePatterns.get(
-        availableCandidates[0]?.domainId,
-      ) || { correct: 0, incorrect: 0 };
-
-      // Adjust difficulty preference based on consecutive patterns
-      let preferredDifficulty: Difficulty = "MEDIUM"; // Default
-
-      if (domainPattern.incorrect >= CONSECUTIVE_INCORRECT_THRESHOLD) {
-        preferredDifficulty = "EASY";
-      } else if (domainPattern.correct >= CONSECUTIVE_CORRECT_THRESHOLD) {
-        preferredDifficulty = "HARD";
+      const nextCandidateDomainId = availableCandidates[0]?.domainId;
+      if (!nextCandidateDomainId) {
+        break;
       }
 
-      // Find best candidate matching preferred difficulty
-      let bestCandidate = availableCandidates.find(
+      const preferredDifficulty = this.getPreferredDifficultyForDomain(
+        nextCandidateDomainId,
+        consecutivePatterns,
+        domainAccuracy,
+      );
+
+      const difficultyMatches = availableCandidates.filter(
         (c) => c.difficulty === preferredDifficulty,
+      );
+
+      let bestCandidate = this.pickBestCandidate(
+        difficultyMatches,
+        selectionReason,
       );
 
       // If no exact match, take any available candidate
       if (!bestCandidate) {
-        bestCandidate = availableCandidates[0];
+        bestCandidate = this.pickBestCandidate(
+          availableCandidates,
+          selectionReason,
+        );
       }
 
       if (bestCandidate) {

@@ -229,7 +229,7 @@ This document contains the detailed task breakdown for all 20 user stories requi
     - _Requirements: Story 6_
 
 - [ ] 18. Implement adaptive question selection
-  - [ ] 18.1 Create question selection algorithm
+  - [x] 18.1 Create question selection algorithm
     - Implement difficulty adjustment based on accuracy
     - Weight questions by domain weakness
     - Implement spaced repetition for missed questions
