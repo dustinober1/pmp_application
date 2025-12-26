@@ -23,6 +23,8 @@ const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const StudyPlanPage = lazy(() => import('./pages/StudyPlanPage'));
 const StudyPlanDashboardPage = lazy(() => import('./pages/StudyPlanDashboardPage'));
+const SystemHealthPage = lazy(() => import('./pages/SystemHealthPage'));
+const AuditLogPage = lazy(() => import('./pages/AuditLogPage'));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -150,6 +152,26 @@ function AppRoutes() {
             <Layout>
               <ProtectedRoute>
                 <AdminPage />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+        <Route
+          path="/admin/system-health"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <SystemHealthPage />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+        <Route
+          path="/admin/audit-logs"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <AuditLogPage />
               </ProtectedRoute>
             </Layout>
           }

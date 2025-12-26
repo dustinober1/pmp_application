@@ -5,7 +5,7 @@ import type { DashboardStats, AdminUser, AdminQuestion, AdminTest } from '../ser
 import { questionService } from '../services/questionService';
 import { useAuth } from '../contexts/AuthContext';
 import type { Domain } from '../types';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorMessage from '../components/ui/ErrorMessage';
 
@@ -26,9 +26,25 @@ const AdminPage: React.FC = () => {
         <div className="min-h-screen bg-gray-100 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">⚙️ Admin Panel</h1>
-                    <p className="text-gray-600 mt-1">Manage users, questions, and content</p>
+                <div className="flex justify-between items-start mb-8">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900">⚙️ Admin Panel</h1>
+                        <p className="text-gray-600 mt-1">Manage users, questions, and content</p>
+                    </div>
+                    <div className="flex gap-3">
+                        <Link
+                            to="/admin/system-health"
+                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+                        >
+                            🔧 System Health
+                        </Link>
+                        <Link
+                            to="/admin/audit-logs"
+                            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+                        >
+                            📋 Audit Logs
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Tabs */}

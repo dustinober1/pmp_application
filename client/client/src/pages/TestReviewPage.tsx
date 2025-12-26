@@ -5,6 +5,7 @@ import { practiceService } from '../services/practiceService';
 import type { SessionReview, DomainBreakdown, ReviewQuestion } from '../types';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorMessage from '../components/ui/ErrorMessage';
+import CommentThread from '../components/discussion/CommentThread';
 
 type FilterType = 'all' | 'incorrect' | 'flagged' | 'correct';
 
@@ -13,6 +14,7 @@ const TestReviewPage: React.FC = () => {
     const navigate = useNavigate();
     const [filter, setFilter] = useState<FilterType>('all');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [commentCount, setCommentCount] = useState(0);
 
     const { data, isLoading, error } = useQuery<SessionReview>({
         queryKey: ['session-review', sessionId],
@@ -95,6 +97,12 @@ const TestReviewPage: React.FC = () => {
                                 Take Another Test
                             </Link>
                         </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 mt-2 text-sm text-gray-600">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
+                            🗨️ {commentCount} {commentCount === 1 ? 'comment' : 'comments'}
+                        </span>
                     </div>
 
                     {/* Score and Stats */}
@@ -319,6 +327,16 @@ const TestReviewPage: React.FC = () => {
                 ) : (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
                         <p className="text-gray-600">No questions match the selected filter.</p>
+                    </div>
+                )}
+
+                {/* Discussion */}
+                {currentQuestion && (
+                    <div className="mt-8">
+                        <CommentThread
+                            questionId={currentQuestion.id}
+                            onCountChange={setCommentCount}
+                        />
                     </div>
                 )}
             </div>

@@ -307,38 +307,38 @@ This document contains the detailed task breakdown for all 20 user stories requi
 
 ## Story 8: Implement Discussion Forum
 
-- [ ] 25. Implement discussion backend
-  - [ ] 25.1 Create discussion API endpoints
+- [x] 25. Implement discussion backend
+  - [x] 25.1 Create discussion API endpoints
     - Add GET /api/questions/:id/comments endpoint
     - Add POST /api/questions/:id/comments endpoint
     - Add PUT /api/comments/:id endpoint
     - Add DELETE /api/comments/:id endpoint
     - _Requirements: Story 8_
-  - [ ] 25.2 Implement voting system
+  - [x] 25.2 Implement voting system
     - Add POST /api/comments/:id/vote endpoint
     - Add DELETE /api/comments/:id/vote endpoint
     - Update comment upvote count on vote
     - _Requirements: Story 8_
-  - [ ] 25.3 Implement moderation features
+  - [x] 25.3 Implement moderation features
     - Add POST /api/comments/:id/report endpoint
     - Add PUT /api/admin/comments/:id/hide endpoint
     - Add PUT /api/admin/comments/:id/verify endpoint
     - _Requirements: Story 8_
 
-- [ ] 26. Build discussion UI
-  - [ ] 26.1 Create comment components
+- [x] 26. Build discussion UI
+  - [x] 26.1 Create comment components
     - Create CommentThread component
     - Create CommentForm component
     - Create CommentVoteButton component
     - Create ReplyForm component
     - _Requirements: Story 8_
-  - [ ] 26.2 Integrate discussion into question view
+  - [x] 26.2 Integrate discussion into question view
     - Add discussion section to question review page
     - Add comment count indicator
     - Add sorting options (newest, most upvoted)
     - _Requirements: Story 8_
 
-- [ ] 27. Checkpoint - Verify discussion functionality
+- [x] 27. Checkpoint - Verify discussion functionality
   - Test comment creation, voting, and moderation
   - Verify nested replies work correctly
 

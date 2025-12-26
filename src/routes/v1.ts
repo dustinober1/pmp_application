@@ -23,6 +23,8 @@ import adminRoutes from "./admin";
 import adaptiveRoutes from "./adaptive";
 import learningRoutes from "./learning";
 import studyPlanRoutes from "./studyPlans";
+import discussionRoutes from "./discussion";
+import notificationRoutes from "./notifications";
 
 const router = Router();
 
@@ -83,6 +85,12 @@ router.use("/learning", learningRoutes);
 
 // Study plan routes
 router.use("/study-plans", studyPlanRoutes);
+
+// Discussion routes
+router.use("/", discussionRoutes);
+
+// Notification routes
+router.use("/", notificationRoutes);
 
 // =============================================================================
 // API Info Endpoint

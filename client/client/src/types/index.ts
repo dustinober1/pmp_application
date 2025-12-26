@@ -168,3 +168,27 @@ export interface APIError {
         status?: number;
     };
 }
+
+export interface DiscussionUser {
+    id: string;
+    firstName: string;
+    lastName: string;
+    role: string;
+}
+
+export interface DiscussionComment {
+    id: string;
+    questionId: string;
+    userId: string;
+    content: string;
+    parentId: string | null;
+    upvotes: number;
+    isExpertVerified: boolean;
+    isHidden: boolean;
+    reportCount: number;
+    createdAt: string;
+    updatedAt: string;
+    user: DiscussionUser;
+    hasVoted: boolean;
+    replies: DiscussionComment[];
+}

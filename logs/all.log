@@ -211,3 +211,155 @@
 {"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T03:00:37.691Z"}
 {"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T03:00:37.691Z"}
 {"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T03:00:37.700Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T03:19:46.802Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T03:19:46.965Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T03:19:48.732Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T03:19:48.732Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T03:19:48.738Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T03:19:48.738Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T03:19:48.738Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T03:19:48.745Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T03:20:26.392Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T03:20:26.557Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T03:20:28.323Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T03:20:28.323Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T03:20:28.330Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T03:20:28.330Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T03:20:28.330Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T03:20:28.337Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T03:21:11.964Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T03:21:12.117Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T03:21:13.861Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T03:21:13.861Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T03:21:13.867Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T03:21:13.867Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T03:21:13.867Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T03:21:13.875Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T03:24:51.968Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T03:24:52.134Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T03:24:53.892Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T03:24:53.892Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T03:24:53.898Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T03:24:53.898Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T03:24:53.898Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T03:24:53.905Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T03:24:56.332Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T03:24:56.449Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T03:24:58.117Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T03:24:58.117Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T03:24:58.123Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T03:24:58.124Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T03:24:58.124Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T03:24:58.131Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T03:27:28.356Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T03:27:28.534Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T03:27:30.761Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T03:27:30.761Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T03:27:30.773Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T03:27:30.773Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T03:27:30.774Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T03:27:30.784Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T03:27:58.537Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T03:27:58.693Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T03:28:00.584Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T03:28:00.584Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T03:28:00.590Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T03:28:00.590Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T03:28:00.590Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T03:28:00.598Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:47:29.012Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:47:29.175Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:47:31.786Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:47:31.787Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:47:31.798Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:47:31.798Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:47:31.798Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:47:31.831Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:48:37.286Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:48:37.445Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:48:39.716Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:48:39.717Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:48:39.722Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:48:39.722Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:48:39.723Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:48:39.730Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:49:57.075Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:49:57.305Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:50:00.007Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:50:00.007Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:50:00.014Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:50:00.014Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:50:00.014Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:50:00.029Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:51:25.451Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:51:25.653Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:51:27.953Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:51:27.953Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:51:27.959Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:51:27.959Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:51:27.959Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:51:28.687Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:52:00.109Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:52:00.299Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:52:03.489Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:52:03.489Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:52:03.499Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:52:03.500Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:52:03.500Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:52:03.527Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:52:26.595Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:52:26.773Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:52:29.621Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:52:29.621Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:52:29.630Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:52:29.630Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:52:29.630Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:52:29.646Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:52:49.733Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:52:49.922Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:52:52.671Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:52:52.671Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:52:52.677Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:52:52.677Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:52:52.677Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:52:52.692Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:53:34.349Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:53:34.489Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:53:36.546Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:53:36.546Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:53:36.552Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:53:36.552Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:53:36.552Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:53:36.565Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:53:57.031Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:53:57.226Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:53:59.224Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:53:59.224Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:53:59.230Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:53:59.230Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:53:59.230Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:53:59.242Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:54:41.744Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:54:41.886Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:54:43.779Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:54:43.779Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:54:43.784Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:54:43.784Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:54:43.785Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:54:44.284Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:55:17.521Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:55:17.666Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:55:19.506Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:55:19.506Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:55:19.511Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:55:19.511Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:55:19.511Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:55:19.523Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T12:55:47.005Z"}
+{"connectTimeout":"10s","connectionLimit":10,"environment":"development","idleTimeout":"300s","level":"info","message":"Database connection pool configured:","poolTimeout":"20s","timestamp":"2025-12-26T12:55:47.155Z"}
+{"level":"warn","message":"Recommended environment variable not set: ALLOWED_ORIGINS","timestamp":"2025-12-26T12:55:49.066Z"}
+{"level":"warn","message":"Recommended environment variable not set: REDIS_URL","timestamp":"2025-12-26T12:55:49.066Z"}
+{"level":"info","message":"🚀 Server running on port 3001 in development mode","timestamp":"2025-12-26T12:55:49.071Z"}
+{"level":"info","message":"📱 Health check: http://localhost:3001/health","timestamp":"2025-12-26T12:55:49.072Z"}
+{"level":"info","message":"📚 API Docs: http://localhost:3001/api-docs","timestamp":"2025-12-26T12:55:49.072Z"}
+{"level":"info","message":"Redis Client Connected","timestamp":"2025-12-26T12:55:49.086Z"}
