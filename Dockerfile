@@ -106,6 +106,16 @@ COPY --from=backend-builder /app/dist ./dist
 # Copy built frontend from frontend-builder stage
 COPY --from=frontend-builder /app/client/dist ./public
 
+# Copy JSON data files for seeding
+COPY pmp_2026_people_bank.json ./data/
+COPY pmp_2026_process_bank.json ./data/
+COPY pmp_2026_business_bank.json ./data/
+COPY pmp_flashcards_master.json ./data/
+
+# Copy startup script
+COPY scripts/startup.sh ./startup.sh
+RUN chmod +x ./startup.sh
+
 # Set ownership to non-root user
 RUN chown -R appuser:nodejs /app
 
@@ -120,11 +130,11 @@ ENV PORT=3001
 EXPOSE 3001
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3001/health || exit 1
 
 # Use dumb-init for proper signal handling
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
-# Start the application (run migrations first, then start server)
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/server.js"]
+# Start the application using the startup script
+CMD ["./startup.sh"]
