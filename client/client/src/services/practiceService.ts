@@ -15,10 +15,15 @@ export const practiceService = {
   },
 
   // Start a new test session
-  startSession: async (testId: string, userId: string): Promise<UserTestSession> => {
+  startSession: async (
+    testId: string,
+    userId: string,
+    adaptiveMode?: boolean,
+  ): Promise<UserTestSession> => {
     const response = await api.post('/practice/sessions/start', {
       testId,
       userId,
+      adaptiveMode,
     });
     return response.data;
   },

@@ -20,9 +20,11 @@ const PracticeTestsPage: React.FC = () => {
     queryFn: practiceService.getTests,
   });
 
+  const [adaptiveMode, setAdaptiveMode] = React.useState(false);
+
   const startSessionMutation = useMutation({
-    mutationFn: ({ testId, userId }: { testId: string; userId: string }) =>
-      practiceService.startSession(testId, userId),
+    mutationFn: ({ testId, userId, adaptiveMode }: { testId: string; userId: string; adaptiveMode: boolean }) =>
+      practiceService.startSession(testId, userId, adaptiveMode),
   });
 
   const handleStartTest = async (testId: string) => {
@@ -30,7 +32,7 @@ const PracticeTestsPage: React.FC = () => {
       console.log('Starting test for ID:', testId);
       // For now, use a mock user ID - this would come from authentication
       const userId = 'mock-user-id';
-      const session = await startSessionMutation.mutateAsync({ testId, userId });
+      const session = await startSessionMutation.mutateAsync({ testId, userId, adaptiveMode });
       console.log('Session created:', session);
       if (session && session.id) {
         console.log('Navigating to session:', session.id);
@@ -127,9 +129,20 @@ const PracticeTestsPage: React.FC = () => {
             {/* Test Actions */}
             <div className="p-6 bg-gray-50">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-sm text-gray-600">Ready to start</span>
+                <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-sm text-gray-600">Ready to start</span>
+                  </div>
+                  <label className="flex items-center space-x-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      checked={adaptiveMode}
+                      onChange={(e) => setAdaptiveMode(e.target.checked)}
+                      className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                    />
+                    <span>Adaptive Mode</span>
+                  </label>
                 </div>
                 <button
                   onClick={() => handleStartTest(test.id)}

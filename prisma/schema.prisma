@@ -75,6 +75,7 @@ model Question {
   domain             Domain         @relation(fields: [domainId], references: [id], onDelete: Cascade)
   testQuestions      TestQuestion[]
   answers            UserAnswer[]
+  sessionQuestions   SessionQuestion[]
   examAnswers        ExamAnswer[]
   annotations        Annotation[]
   bookmarks          Bookmark[]
@@ -148,6 +149,7 @@ model UserTestSession {
   totalQuestions   Int
   correctAnswers   Int?
   answers          UserAnswer[]
+  sessionQuestions SessionQuestion[]
   test             PracticeTest @relation(fields: [testId], references: [id], onDelete: Cascade)
   user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -155,6 +157,21 @@ model UserTestSession {
   @@index([testId])
   @@index([userId, status]) // Composite for user's active/completed sessions
   @@map("user_test_sessions")
+}
+
+model SessionQuestion {
+  id         String          @id @default(uuid())
+  sessionId  String
+  questionId String
+  orderIndex Int
+  session    UserTestSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question   Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, questionId])
+  @@index([sessionId])
+  @@index([questionId])
+  @@index([sessionId, orderIndex])
+  @@map("session_questions")
 }
 
 model UserAnswer {

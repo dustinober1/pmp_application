@@ -2,12 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../services/database";
 import Logger from "../utils/logger";
 import { AppError, ErrorFactory } from "../utils/AppError";
+import { questionSelector } from "../services/adaptive";
 
 // Type definitions for Prisma includes
 interface TestQuestion {
   question: {
     id: string;
-    choices: string;
+    choices: string[];
     correctAnswerIndex: number;
     domainId: string;
     questionText: string;
@@ -49,7 +50,10 @@ interface AnswerWithQuestion {
 /**
  * Parse JSON choices from question
  */
-function parseChoices(choicesJson: string): string[] {
+function parseChoices(choicesJson: string | string[]): string[] {
+  if (Array.isArray(choicesJson)) {
+    return choicesJson;
+  }
   try {
     return JSON.parse(choicesJson);
   } catch {
@@ -231,7 +235,7 @@ export const startTestSession = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { testId } = req.body;
+    const { testId, adaptiveMode } = req.body;
 
     if (!req.user) {
       throw ErrorFactory.unauthorized();
@@ -260,7 +264,74 @@ export const startTestSession = async (
       throw ErrorFactory.notFound("Test");
     }
 
-    // Create test session
+    if (adaptiveMode) {
+      // Adaptive mode: select questions via adaptive engine and persist session questions
+      const selected = await questionSelector.selectQuestions({
+        userId,
+        count: test.totalQuestions,
+      });
+
+      // Create session first
+      const session = await prisma.userTestSession.create({
+        data: {
+          userId,
+          testId,
+          timeLimitMinutes: test.timeLimitMinutes,
+          totalQuestions: selected.length,
+          status: "IN_PROGRESS",
+        },
+      });
+
+      // Persist session questions with order
+      await prisma.sessionQuestion.createMany({
+        data: selected.map((q, idx) => ({
+          sessionId: session.id,
+          questionId: q.id,
+          orderIndex: idx,
+        })),
+      });
+
+      // Fetch session with sessionQuestions populated for response
+      const fullSession = await prisma.userTestSession.findUniqueOrThrow({
+        where: { id: session.id },
+        include: {
+          sessionQuestions: {
+            include: {
+              question: {
+                include: {
+                  domain: true,
+                },
+              },
+            },
+            orderBy: { orderIndex: "asc" },
+          },
+          test: true,
+        },
+      });
+
+      const testQuestions = fullSession.sessionQuestions.map(
+        (sq): TestQuestion => ({
+          orderIndex: sq.orderIndex,
+          question: {
+            ...sq.question,
+            choices: parseChoices(sq.question.choices),
+          },
+        }),
+      );
+
+      const formattedSession = {
+        ...fullSession,
+        test: {
+          ...fullSession.test,
+          testQuestions,
+        },
+      };
+
+      res.json(formattedSession);
+      return;
+    }
+
+    // Standard mode: use predefined test questions
     const session = await prisma.userTestSession.create({
       data: {
         userId,
@@ -289,7 +360,6 @@ export const startTestSession = async (
       },
     });
 
-    // Parse choices for each question
     const formattedSession = {
       ...session,
       test: {
@@ -301,6 +371,7 @@ export const startTestSession = async (
     };
 
     res.json(formattedSession);
+    return;
   } catch (error) {
     if (error instanceof AppError) {
       return next(error);

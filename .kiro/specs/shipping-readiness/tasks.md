@@ -234,7 +234,7 @@ This document contains the detailed task breakdown for all 20 user stories requi
     - Weight questions by domain weakness
     - Implement spaced repetition for missed questions
     - _Requirements: Story 6_
-  - [ ] 18.2 Integrate adaptive selection into practice tests
+  - [x] 18.2 Integrate adaptive selection into practice tests
     - Modify practice test start to use adaptive selection
     - Add "Adaptive Mode" option for practice tests
     - _Requirements: Story 6_
