@@ -65,12 +65,21 @@ const RegisterPage: React.FC = () => {
             navigate('/', { replace: true });
         } catch (err) {
             if (axios.isAxiosError(err)) {
-                const errorData = err.response?.data?.error;
-                setError(
-                    typeof errorData === 'string'
-                        ? errorData
-                        : (errorData?.message || 'Registration failed. Please try again.')
-                );
+                const responseData = err.response?.data;
+
+                // Handle Zod validation errors (array of details)
+                if (responseData?.details && Array.isArray(responseData.details)) {
+                    const messages = responseData.details.map(
+                        (d: { path?: string; message?: string }) => d.message || 'Validation error'
+                    );
+                    setError(messages.join('. '));
+                } else if (typeof responseData?.error === 'string') {
+                    setError(responseData.error);
+                } else if (responseData?.error?.message) {
+                    setError(responseData.error.message);
+                } else {
+                    setError('Registration failed. Please try again.');
+                }
             } else {
                 setError('An unexpected error occurred. Please try again.');
             }
