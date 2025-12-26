@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "crypto";
 
 // Extend Express Request type
 declare global {
@@ -23,7 +23,7 @@ export const correlationIdMiddleware = (
   const existingCorrelationId = req.headers["x-correlation-id"] as string;
 
   // Use existing or generate new correlation ID
-  const correlationId = existingCorrelationId || uuidv4();
+  const correlationId = existingCorrelationId || randomUUID();
 
   // Attach to request object
   req.correlationId = correlationId;
