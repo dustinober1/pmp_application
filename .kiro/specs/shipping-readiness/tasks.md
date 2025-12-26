@@ -228,7 +228,7 @@ This document contains the detailed task breakdown for all 20 user stories requi
     - Add GET /api/learning/recommendations endpoint
     - _Requirements: Story 6_
 
-- [ ] 18. Implement adaptive question selection
+- [x] 18. Implement adaptive question selection
   - [x] 18.1 Create question selection algorithm
     - Implement difficulty adjustment based on accuracy
     - Weight questions by domain weakness
@@ -239,18 +239,18 @@ This document contains the detailed task breakdown for all 20 user stories requi
     - Add "Adaptive Mode" option for practice tests
     - _Requirements: Story 6_
 
-- [ ] 19. Build mastery visualization UI
+- [x] 19. Build mastery visualization UI
   - [x] 19.1 Create mastery dashboard components
     - Create DomainMasteryChart component
     - Create MasteryTrendGraph component
     - Create WeaknessIndicator component
     - _Requirements: Story 6_
   - [x] 19.2 Integrate mastery UI into dashboard
-    - Add mastery section to main dashboard
+    - Add mastery section to main dashboardx
     - Add domain drill-down views
     - _Requirements: Story 6_
 
-- [ ] 20. Checkpoint - Verify adaptive learning functionality
+- [x] 20. Checkpoint - Verify adaptive learning functionality
   - Test mastery calculations with sample data
   - Verify question selection adapts to performance
 
