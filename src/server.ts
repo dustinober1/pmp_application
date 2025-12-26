@@ -251,6 +251,15 @@ if (!isProd || process.env.ENABLE_SWAGGER === "true") {
 }
 
 // =============================================================================
+// Debug Endpoints (disabled by default)
+// =============================================================================
+if (process.env.ENABLE_DEBUG_ENDPOINTS === "true") {
+  app.get("/debug/sentry", (_req: Request, _res: Response) => {
+    throw new Error("Sentry test error (debug endpoint)");
+  });
+}
+
+// =============================================================================
 // Health Check Endpoint
 // =============================================================================
 app.get("/health", async (req: Request, res: Response) => {
