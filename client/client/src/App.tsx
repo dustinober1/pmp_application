@@ -9,6 +9,7 @@ import './App.css';
 import './styles/auth.css';
 import './styles/dashboard.css';
 import './styles/mobile.css';
+import './styles/study-plan.css';
 
 // Lazy load pages for code splitting
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -20,6 +21,8 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
+const StudyPlanPage = lazy(() => import('./pages/StudyPlanPage'));
+const StudyPlanDashboardPage = lazy(() => import('./pages/StudyPlanDashboardPage'));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -149,6 +152,22 @@ function AppRoutes() {
                 <AdminPage />
               </ProtectedRoute>
             </Layout>
+          }
+        />
+        <Route
+          path="/study-plan"
+          element={
+            <ProtectedRoute>
+              <StudyPlanPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/study-plan/dashboard"
+          element={
+            <ProtectedRoute>
+              <StudyPlanDashboardPage />
+            </ProtectedRoute>
           }
         />
 

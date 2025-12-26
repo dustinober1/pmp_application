@@ -1,0 +1,521 @@
+/* Study Plan Wizard Styles */
+.study-plan-wizard {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.wizard-header {
+  margin-bottom: 2rem;
+}
+
+.wizard-header h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.step-indicator {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.step-indicator::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #e5e7eb;
+  z-index: 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  border: 2px solid white;
+}
+
+.step.active .step-number {
+  background: #6366f1;
+  color: white;
+}
+
+.step.completed .step-number {
+  background: #10b981;
+  color: white;
+}
+
+.step-title {
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-align: center;
+  font-weight: 500;
+}
+
+.step.active .step-title {
+  color: #6366f1;
+  font-weight: 600;
+}
+
+.step.completed .step-title {
+  color: #10b981;
+}
+
+.wizard-content {
+  margin-bottom: 2rem;
+  min-height: 400px;
+}
+
+.step-header {
+  margin-bottom: 2rem;
+}
+
+.step-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.step-header p {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.step-content {
+  margin-bottom: 1rem;
+}
+
+.wizard-footer {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+}
+
+.footer-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Exam Date Picker */
+.exam-date-picker {
+  margin-bottom: 1rem;
+}
+
+.exam-date-picker .form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.15s;
+}
+
+.exam-date-picker .form-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.exam-date-picker .form-input.error {
+  border-color: #ef4444;
+}
+
+.exam-date-picker .form-error {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.exam-date-picker .form-help {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Hours Per Day Selector */
+.hours-per-day-selector {
+  margin-bottom: 1rem;
+}
+
+.hours-input-container {
+  margin-bottom: 1rem;
+}
+
+.slider-container {
+  margin-bottom: 1.5rem;
+}
+
+.hours-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e5e7eb;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.hours-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hours-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slider-value {
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-top: 0.5rem;
+}
+
+.quick-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.quick-options-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.option-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.option-button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.option-button:hover {
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+.option-button.active {
+  background: #6366f1;
+  border-color: #6366f1;
+  color: white;
+}
+
+.hours-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.weekly-hours {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.study-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Plan Preview */
+.plan-preview {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.plan-preview.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.plan-preview.empty {
+  text-align: center;
+  padding: 3rem;
+}
+
+.preview-header {
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.preview-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.plan-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.summary-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.preview-content {
+  padding: 1.5rem;
+}
+
+.empty-message {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skeleton-line {
+  height: 16px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-line:nth-child(2) {
+  width: 80%;
+}
+
+.skeleton-line:nth-child(3) {
+  width: 60%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.weekly-breakdown {
+  margin-bottom: 2rem;
+}
+
+.weekly-breakdown h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.week-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 1rem;
+  background: white;
+}
+
+.week-card.more-weeks {
+  background: #f9fafb;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #6b7280;
+}
+
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.week-number {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.week-hours {
+  font-size: 0.875rem;
+  color: #6366f1;
+  font-weight: 500;
+}
+
+.week-focus {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.focus-area {
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.recommendations h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.recommendation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommendation-item {
+  padding: 0.75rem;
+  background: #f0f9ff;
+  border-left: 4px solid #0ea5e9;
+  margin-bottom: 0.5rem;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.875rem;
+  color: #0c4a6e;
+}
+
+/* Existing Plan Notice */
+.existing-plan-notice {
+  text-align: center;
+  padding: 2rem;
+}
+
+.existing-plan-notice h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.existing-plan-notice p {
+  color: #6b7280;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.existing-plan-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .study-plan-wizard {
+    padding: 1rem;
+  }
+  
+  .step-indicator {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .step-indicator::before {
+    display: none;
+  }
+  
+  .step {
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .step-number {
+    margin-bottom: 0;
+    margin-right: 1rem;
+  }
+  
+  .weeks-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .plan-summary {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .existing-plan-actions {
+    flex-direction: column;
+  }
+}
