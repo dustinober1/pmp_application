@@ -64,14 +64,24 @@ export const CACHE_PREFIX = {
 // =============================================================================
 
 class CacheService {
-  private client: RedisClientType;
+  private client: RedisClientType | null = null;
   private isConnected: boolean = false;
   private connectionRetries: number = 0;
   private maxRetries: number = 5;
+  private isDisabled: boolean = false;
 
   constructor() {
+    // Skip Redis entirely if REDIS_URL is not configured
+    if (!process.env.REDIS_URL) {
+      Logger.warn(
+        "Redis not configured (REDIS_URL not set). Caching disabled.",
+      );
+      this.isDisabled = true;
+      return;
+    }
+
     this.client = createClient({
-      url: process.env.REDIS_URL || "redis://localhost:6379",
+      url: process.env.REDIS_URL,
       socket: {
         reconnectStrategy: (retries) => {
           if (retries > this.maxRetries) {
@@ -89,6 +99,10 @@ class CacheService {
   }
 
   private setupEventHandlers(): void {
+    if (!this.client) {
+      return;
+    }
+
     this.client.on("error", (err) => {
       Logger.error("Redis Client Error", err);
       this.isConnected = false;
@@ -112,6 +126,10 @@ class CacheService {
   }
 
   private async connect(): Promise<void> {
+    if (!this.client) {
+      return;
+    }
+
     try {
       if (!this.client.isOpen) {
         await this.client.connect();
@@ -129,7 +147,7 @@ class CacheService {
    * Get value from cache
    */
   public async get<T>(key: string): Promise<T | null> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return null;
     }
 
@@ -150,7 +168,7 @@ class CacheService {
     value: T,
     ttlSeconds: number = CACHE_TTL.MEDIUM,
   ): Promise<void> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return;
     }
 
@@ -167,7 +185,7 @@ class CacheService {
    * Delete a key from cache
    */
   public async del(key: string): Promise<void> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return;
     }
 
@@ -187,7 +205,7 @@ class CacheService {
    * Use with caution - KEYS command can be slow on large datasets
    */
   public async delPattern(pattern: string): Promise<number> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return 0;
     }
 
@@ -234,7 +252,7 @@ class CacheService {
    * Check if key exists
    */
   public async exists(key: string): Promise<boolean> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return false;
     }
 
@@ -251,7 +269,7 @@ class CacheService {
    * Get TTL for a key (in seconds)
    */
   public async ttl(key: string): Promise<number> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return -1;
     }
 
@@ -267,7 +285,7 @@ class CacheService {
    * Increment a counter
    */
   public async incr(key: string): Promise<number> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return 0;
     }
 
@@ -283,7 +301,7 @@ class CacheService {
    * Set expiration on an existing key
    */
   public async expire(key: string, ttlSeconds: number): Promise<boolean> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return false;
     }
 
@@ -310,7 +328,15 @@ class CacheService {
   }> {
     const start = Date.now();
 
-    if (!this.isConnected) {
+    if (this.isDisabled) {
+      return {
+        status: "disabled",
+        latencyMs: 0,
+        message: "Redis not configured",
+      };
+    }
+
+    if (!this.isConnected || !this.client) {
       return {
         status: "unhealthy",
         latencyMs: 0,
@@ -337,7 +363,7 @@ class CacheService {
    * Get cache statistics
    */
   public async getStats(): Promise<Record<string, unknown> | null> {
-    if (!this.isConnected) {
+    if (this.isDisabled || !this.isConnected || !this.client) {
       return null;
     }
 
@@ -371,6 +397,10 @@ class CacheService {
    * Gracefully disconnect from Redis
    */
   public async disconnect(): Promise<void> {
+    if (this.isDisabled || !this.client) {
+      return;
+    }
+
     try {
       await this.client.quit();
       Logger.info("Redis client disconnected gracefully");
