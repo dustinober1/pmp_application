@@ -32,7 +32,14 @@ export const reviewFlashcardSchema = z.object({
 export const dueCardsSchema = z.object({
   query: z.object({
     limit: z.coerce.number().int().min(1).max(50).default(20),
-    domain: z.string().uuid().optional(),
+    // Allow 'all' or a valid UUID for domain filtering
+    domain: z
+      .string()
+      .optional()
+      .transform((val) => (val === "all" ? undefined : val))
+      .refine((val) => !val || z.string().uuid().safeParse(val).success, {
+        message: "Domain must be 'all' or a valid UUID",
+      }),
   }),
 });
 
