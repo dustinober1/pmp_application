@@ -1,7 +1,7 @@
 # =============================================================================
-# PMP Application - Production Dockerfile
+# PMP Application - Production Dockerfile (Full Stack)
 # =============================================================================
-# Multi-stage build for optimal image size and security
+# Multi-stage build for both frontend and backend
 # 
 # Security features:
 # - Pinned base image versions
@@ -12,12 +12,32 @@
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# Build Stage
+# Frontend Build Stage
 # -----------------------------------------------------------------------------
-# Using specific pinned version for reproducible builds
-FROM node:20.10-alpine3.19 AS builder
+FROM node:20.10-alpine3.19 AS frontend-builder
 
-# Add labels for image metadata
+WORKDIR /app/client
+
+# Copy frontend package files
+COPY client/client/package*.json ./
+
+# Install frontend dependencies
+RUN npm ci --no-audit --no-fund
+
+# Copy frontend source
+COPY client/client/ ./
+
+# Set the API URL for production build
+ENV VITE_API_URL=/api
+
+# Build frontend
+RUN npm run build
+
+# -----------------------------------------------------------------------------
+# Backend Build Stage
+# -----------------------------------------------------------------------------
+FROM node:20.10-alpine3.19 AS backend-builder
+
 LABEL maintainer="dustinober1"
 LABEL org.opencontainers.image.source="https://github.com/dustinober1/pmp_application"
 LABEL org.opencontainers.image.description="PMP Practice Application - Build Stage"
@@ -51,7 +71,6 @@ RUN npm prune --production
 # -----------------------------------------------------------------------------
 FROM node:20.10-alpine3.19 AS runner
 
-# Add labels for image metadata
 LABEL maintainer="dustinober1"
 LABEL org.opencontainers.image.source="https://github.com/dustinober1/pmp_application"
 LABEL org.opencontainers.image.description="PMP Practice Application - Production"
@@ -66,7 +85,6 @@ RUN apk add --no-cache \
     && rm -rf /var/cache/apk/*
 
 # Create non-root user for security
-# Using fixed UID/GID for consistency across deployments
 RUN addgroup --system --gid 1001 nodejs \
     && adduser --system --uid 1001 --ingroup nodejs appuser
 
@@ -82,8 +100,11 @@ RUN npm pkg delete scripts.prepare \
 # Generate Prisma client in production
 RUN npx prisma generate
 
-# Copy built application from builder stage
-COPY --from=builder /app/dist ./dist
+# Copy built backend from builder stage
+COPY --from=backend-builder /app/dist ./dist
+
+# Copy built frontend from frontend-builder stage
+COPY --from=frontend-builder /app/client/dist ./public
 
 # Set ownership to non-root user
 RUN chown -R appuser:nodejs /app
@@ -98,15 +119,11 @@ ENV PORT=3001
 # Expose port
 EXPOSE 3001
 
-# Health check with proper intervals
-# - interval: Time between health checks
-# - timeout: Time to wait for response
-# - start-period: Grace period for container startup
-# - retries: Number of failures before unhealthy
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3001/health || exit 1
 
-# Use dumb-init for proper signal handling (prevents zombie processes)
+# Use dumb-init for proper signal handling
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 # Start the application

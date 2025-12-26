@@ -10,6 +10,7 @@ import express, {
   NextFunction,
   ErrorRequestHandler,
 } from "express";
+import path from "path";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -48,11 +49,7 @@ for (const envVar of recommendedEnvVars) {
   }
 }
 
-// Validate ALLOWED_ORIGINS is set in production
-if (process.env.NODE_ENV === "production" && !process.env.ALLOWED_ORIGINS) {
-  Logger.error("ALLOWED_ORIGINS must be set in production");
-  process.exit(1);
-}
+// Note: ALLOWED_ORIGINS is optional when frontend is served from the same container
 
 // =============================================================================
 // Initialize Express App
@@ -331,15 +328,42 @@ app.get("/api/versions", (req: Request, res: Response) => {
 });
 
 // =============================================================================
-// 404 Handler
+// Static File Serving (Production Frontend)
 // =============================================================================
-app.use((req: Request, res: Response) => {
-  res.status(404).json({
-    error: {
-      message: "Endpoint not found",
-      code: "NOT_FOUND",
-      status: 404,
-    },
+const publicPath = path.join(__dirname, "..", "public");
+
+// Serve static files from the public directory
+app.use(express.static(publicPath));
+
+// =============================================================================
+// SPA Fallback - Serve React app for all non-API routes
+// =============================================================================
+app.use((req: Request, res: Response, _next: NextFunction) => {
+  // If this is an API request that wasn't handled, return 404 JSON
+  if (req.path.startsWith("/api")) {
+    res.status(404).json({
+      error: {
+        message: "Endpoint not found",
+        code: "NOT_FOUND",
+        status: 404,
+      },
+    });
+    return;
+  }
+
+  // For all other routes, serve the React app's index.html (SPA fallback)
+  const indexPath = path.join(publicPath, "index.html");
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      // If index.html doesn't exist (dev mode), return simple 404
+      res.status(404).json({
+        error: {
+          message: "Frontend not available",
+          code: "NOT_FOUND",
+          status: 404,
+        },
+      });
+    }
   });
 });
 
