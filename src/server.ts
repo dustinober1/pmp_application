@@ -1,20 +1,28 @@
-import express, { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import dotenv from 'dotenv';
-import rateLimit from 'express-rate-limit';
-import compression from 'compression';
-import swaggerUi from 'swagger-ui-express';
-import Logger from './utils/logger';
-import { prisma } from './services/database';
-import { cache } from './services/cache';
-import { swaggerSpec } from './config/swagger';
-import { correlationIdMiddleware } from './middleware/correlationId';
-import { AppError } from './utils/AppError';
-import v1Routes from './routes/v1';
-import { observability } from './services/observability';
-import { checkDatabaseHealth } from './services/database';
+// Import Sentry instrumentation FIRST before any other imports
+import { Sentry, captureErrorWithContext } from "./instrumentation";
+
+import express, {
+  Request,
+  Response,
+  NextFunction,
+  ErrorRequestHandler,
+} from "express";
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import dotenv from "dotenv";
+import rateLimit from "express-rate-limit";
+import compression from "compression";
+import swaggerUi from "swagger-ui-express";
+import Logger from "./utils/logger";
+import { prisma } from "./services/database";
+import { cache } from "./services/cache";
+import { swaggerSpec } from "./config/swagger";
+import { correlationIdMiddleware } from "./middleware/correlationId";
+import { AppError } from "./utils/AppError";
+import v1Routes from "./routes/v1";
+import { observability } from "./services/observability";
+import { checkDatabaseHealth } from "./services/database";
 
 // Load environment variables
 dotenv.config();
@@ -22,8 +30,8 @@ dotenv.config();
 // =============================================================================
 // Environment Validation
 // =============================================================================
-const requiredEnvVars = ['JWT_SECRET'];
-const recommendedEnvVars = ['ALLOWED_ORIGINS', 'DATABASE_URL', 'REDIS_URL'];
+const requiredEnvVars = ["JWT_SECRET"];
+const recommendedEnvVars = ["ALLOWED_ORIGINS", "DATABASE_URL", "REDIS_URL"];
 
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
@@ -39,8 +47,8 @@ for (const envVar of recommendedEnvVars) {
 }
 
 // Validate ALLOWED_ORIGINS is set in production
-if (process.env.NODE_ENV === 'production' && !process.env.ALLOWED_ORIGINS) {
-  Logger.error('ALLOWED_ORIGINS must be set in production');
+if (process.env.NODE_ENV === "production" && !process.env.ALLOWED_ORIGINS) {
+  Logger.error("ALLOWED_ORIGINS must be set in production");
   process.exit(1);
 }
 
@@ -49,11 +57,11 @@ if (process.env.NODE_ENV === 'production' && !process.env.ALLOWED_ORIGINS) {
 // =============================================================================
 const app = express();
 const PORT = process.env.PORT || 3001;
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === "production";
 
 // Trust proxy for proper rate limiting behind reverse proxy
 if (isProd) {
-  app.set('trust proxy', 1);
+  app.set("trust proxy", 1);
 }
 
 // =============================================================================
@@ -69,7 +77,9 @@ app.use(observability.metricsMiddleware());
 // =============================================================================
 // Prometheus Metrics Endpoint
 // =============================================================================
-app.get('/metrics', (req: Request, res: Response) => observability.getMetrics(req, res));
+app.get("/metrics", (req: Request, res: Response) =>
+  observability.getMetrics(req, res),
+);
 
 // =============================================================================
 // Response Compression
@@ -77,13 +87,13 @@ app.get('/metrics', (req: Request, res: Response) => observability.getMetrics(re
 app.use(
   compression({
     filter: (req, res) => {
-      if (req.headers['x-no-compression']) {
+      if (req.headers["x-no-compression"]) {
         return false;
       }
       return compression.filter(req, res);
     },
     level: 6, // Balanced compression level
-  })
+  }),
 );
 
 // =============================================================================
@@ -97,9 +107,9 @@ app.use(
         defaultSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles for Swagger UI
         scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts for Swagger UI
-        imgSrc: ["'self'", 'data:', 'https:'],
+        imgSrc: ["'self'", "data:", "https:"],
         connectSrc: ["'self'"],
-        fontSrc: ["'self'", 'https:', 'data:'],
+        fontSrc: ["'self'", "https:", "data:"],
         objectSrc: ["'none'"],
         mediaSrc: ["'self'"],
         frameSrc: ["'none'"],
@@ -107,7 +117,7 @@ app.use(
       },
     },
     // Prevent clickjacking
-    frameguard: { action: 'deny' },
+    frameguard: { action: "deny" },
     // Prevent MIME type sniffing
     noSniff: true,
     // Hide X-Powered-By header
@@ -125,26 +135,26 @@ app.use(
     // Disable DNS prefetching
     dnsPrefetchControl: { allow: false },
     // Don't allow the app to be embedded in iframes
-    permittedCrossDomainPolicies: { permittedPolicies: 'none' },
+    permittedCrossDomainPolicies: { permittedPolicies: "none" },
     // Referrer policy for privacy
-    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
     // Cross-Origin settings
     crossOriginEmbedderPolicy: false, // Disable for Swagger UI compatibility
-    crossOriginOpenerPolicy: { policy: 'same-origin' },
-    crossOriginResourcePolicy: { policy: 'same-origin' },
-  })
+    crossOriginOpenerPolicy: { policy: "same-origin" },
+    crossOriginResourcePolicy: { policy: "same-origin" },
+  }),
 );
 
 // =============================================================================
 // CORS Configuration
 // =============================================================================
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
-  : ['http://localhost:5173', 'http://localhost:3000'];
+  ? process.env.ALLOWED_ORIGINS.split(",").map((origin) => origin.trim())
+  : ["http://localhost:5173", "http://localhost:3000"];
 
 // Warn in production if using default origins
 if (isProd && !process.env.ALLOWED_ORIGINS) {
-  Logger.warn('Using default CORS origins in production - this is insecure!');
+  Logger.warn("Using default CORS origins in production - this is insecure!");
 }
 
 app.use(
@@ -154,7 +164,7 @@ app.use(
       // In production, you might want to be stricter here
       if (!origin) {
         if (isProd) {
-          Logger.debug('Request with no origin received');
+          Logger.debug("Request with no origin received");
         }
         return callback(null, true);
       }
@@ -163,15 +173,15 @@ app.use(
         callback(null, true);
       } else {
         Logger.warn(`CORS blocked request from origin: ${origin}`);
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Correlation-ID'],
-    exposedHeaders: ['X-Correlation-ID'],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Correlation-ID"],
+    exposedHeaders: ["X-Correlation-ID"],
     maxAge: 86400, // 24 hours - browsers can cache preflight requests
-  })
+  }),
 );
 
 // =============================================================================
@@ -183,11 +193,11 @@ const generalLimiter = rateLimit({
   max: isProd ? 100 : 1000, // More lenient in development
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many requests, please try again later.' },
-  skip: (req) => req.path === '/health', // Don't rate limit health checks
+  message: { error: "Too many requests, please try again later." },
+  skip: (req) => req.path === "/health", // Don't rate limit health checks
   keyGenerator: (req) => {
     // Use X-Forwarded-For in production behind proxy
-    return req.ip || req.socket.remoteAddress || 'unknown';
+    return req.ip || req.socket.remoteAddress || "unknown";
   },
 });
 
@@ -196,14 +206,17 @@ app.use(generalLimiter);
 // =============================================================================
 // Request Logging
 // =============================================================================
-morgan.token('correlation-id', (req: Request) => req.correlationId || '-');
+morgan.token("correlation-id", (req: Request) => req.correlationId || "-");
 app.use(
-  morgan(':correlation-id :method :url :status :res[content-length] - :response-time ms', {
-    stream: {
-      write: (message: string) => Logger.http(message.trim()),
+  morgan(
+    ":correlation-id :method :url :status :res[content-length] - :response-time ms",
+    {
+      stream: {
+        write: (message: string) => Logger.http(message.trim()),
+      },
+      skip: (req) => req.path === "/health", // Don't log health checks
     },
-    skip: (req) => req.path === '/health', // Don't log health checks
-  })
+  ),
 );
 
 // =============================================================================
@@ -211,38 +224,38 @@ app.use(
 // =============================================================================
 app.use(
   express.json({
-    limit: '10mb',
+    limit: "10mb",
     strict: true, // Only accept arrays and objects
-  })
+  }),
 );
 app.use(
   express.urlencoded({
     extended: true,
-    limit: '10mb',
+    limit: "10mb",
     parameterLimit: 1000,
-  })
+  }),
 );
 
 // =============================================================================
 // API Documentation (disable in production if desired)
 // =============================================================================
-if (!isProd || process.env.ENABLE_SWAGGER === 'true') {
+if (!isProd || process.env.ENABLE_SWAGGER === "true") {
   app.use(
-    '/api-docs',
+    "/api-docs",
     swaggerUi.serve,
     swaggerUi.setup(swaggerSpec, {
-      customCss: '.swagger-ui .topbar { display: none }',
-      customSiteTitle: 'PMP Application API Docs',
-    })
+      customCss: ".swagger-ui .topbar { display: none }",
+      customSiteTitle: "PMP Application API Docs",
+    }),
   );
 }
 
 // =============================================================================
 // Health Check Endpoint
 // =============================================================================
-app.get('/health', async (req: Request, res: Response) => {
+app.get("/health", async (req: Request, res: Response) => {
   interface HealthStatus {
-    status: 'OK' | 'DEGRADED' | 'DOWN';
+    status: "OK" | "DEGRADED" | "DOWN";
     timestamp: string;
     version: string;
     uptime: number;
@@ -253,17 +266,22 @@ app.get('/health', async (req: Request, res: Response) => {
     };
   }
 
-  const [dbHealth, redisHealth] = await Promise.all([checkDatabaseHealth(), cache.healthCheck()]);
+  const [dbHealth, redisHealth] = await Promise.all([
+    checkDatabaseHealth(),
+    cache.healthCheck(),
+  ]);
 
-  const isDegraded = dbHealth.status !== 'healthy' || redisHealth.status !== 'healthy';
-  const isDown = dbHealth.status !== 'healthy' && redisHealth.status !== 'healthy';
+  const isDegraded =
+    dbHealth.status !== "healthy" || redisHealth.status !== "healthy";
+  const isDown =
+    dbHealth.status !== "healthy" && redisHealth.status !== "healthy";
 
   const health: HealthStatus = {
-    status: isDown ? 'DOWN' : isDegraded ? 'DEGRADED' : 'OK',
+    status: isDown ? "DOWN" : isDegraded ? "DEGRADED" : "OK",
     timestamp: new Date().toISOString(),
-    version: process.env.npm_package_version || '1.0.0',
+    version: process.env.npm_package_version || "1.0.0",
     uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development',
+    environment: process.env.NODE_ENV || "development",
     services: {
       database: {
         status: dbHealth.status,
@@ -286,18 +304,18 @@ app.get('/health', async (req: Request, res: Response) => {
 // API Routes - Versioned
 // =============================================================================
 // Version 1 API (current stable)
-app.use('/api/v1', v1Routes);
+app.use("/api/v1", v1Routes);
 
 // Alias /api/* to latest version (currently v1) for backward compatibility
-app.use('/api', v1Routes);
+app.use("/api", v1Routes);
 
 // API versioning info endpoint
-app.get('/api/versions', (req: Request, res: Response) => {
+app.get("/api/versions", (req: Request, res: Response) => {
   res.json({
-    current: 'v1',
-    supported: ['v1'],
+    current: "v1",
+    supported: ["v1"],
     deprecated: [],
-    docs: '/api-docs',
+    docs: "/api-docs",
   });
 });
 
@@ -307,8 +325,8 @@ app.get('/api/versions', (req: Request, res: Response) => {
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     error: {
-      message: 'Endpoint not found',
-      code: 'NOT_FOUND',
+      message: "Endpoint not found",
+      code: "NOT_FOUND",
       status: 404,
     },
   });
@@ -327,7 +345,7 @@ const errorHandler: ErrorRequestHandler = (
   err: ErrorWithStatus | AppError,
   req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ): void => {
   // Check if it's our custom AppError
   if (err instanceof AppError) {
@@ -341,7 +359,7 @@ const errorHandler: ErrorRequestHandler = (
   }
 
   // Handle other errors with statusCode/code properties
-  if ('statusCode' in err && 'code' in err && err.statusCode && err.code) {
+  if ("statusCode" in err && "code" in err && err.statusCode && err.code) {
     Logger.warn(`Error: ${err.message}`, {
       code: err.code,
       path: req.path,
@@ -364,15 +382,23 @@ const errorHandler: ErrorRequestHandler = (
     correlationId: req.correlationId,
   });
 
+  // Capture error in Sentry with request context
+  captureErrorWithContext(err, {
+    path: req.path,
+    method: req.method,
+    correlationId: req.correlationId,
+    userAgent: req.headers["user-agent"],
+  });
+
   // Don't expose internal errors in production
-  const message = isProd ? 'Internal server error' : err.message;
+  const message = isProd ? "Internal server error" : err.message;
 
   const statusCode = err.status || err.statusCode || 500;
 
   res.status(statusCode).json({
     error: {
       message,
-      code: 'INTERNAL_ERROR',
+      code: "INTERNAL_ERROR",
       status: statusCode,
     },
   });
@@ -390,34 +416,40 @@ const gracefulShutdown = async (signal: string) => {
   setTimeout(async () => {
     try {
       await prisma.$disconnect();
-      Logger.info('Database connection closed');
+      Logger.info("Database connection closed");
     } catch (error) {
-      Logger.error('Error closing database connection', error);
+      Logger.error("Error closing database connection", error);
     }
     process.exit(0);
   }, 10000); // 10 second grace period
 };
 
-process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 // Handle uncaught exceptions
-process.on('uncaughtException', (error) => {
-  Logger.error('Uncaught Exception:', error);
+process.on("uncaughtException", (error) => {
+  Logger.error("Uncaught Exception:", error);
+  Sentry.captureException(error);
   process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-  Logger.error('Unhandled Rejection at:', { promise, reason });
+process.on("unhandledRejection", (reason, promise) => {
+  Logger.error("Unhandled Rejection at:", { promise, reason });
+  if (reason instanceof Error) {
+    Sentry.captureException(reason);
+  }
 });
 
 // =============================================================================
 // Start Server
 // =============================================================================
 app.listen(PORT, () => {
-  Logger.info(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+  Logger.info(
+    `🚀 Server running on port ${PORT} in ${process.env.NODE_ENV || "development"} mode`,
+  );
   Logger.info(`📱 Health check: http://localhost:${PORT}/health`);
-  if (!isProd || process.env.ENABLE_SWAGGER === 'true') {
+  if (!isProd || process.env.ENABLE_SWAGGER === "true") {
     Logger.info(`📚 API Docs: http://localhost:${PORT}/api-docs`);
   }
 });
