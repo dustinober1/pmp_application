@@ -240,12 +240,12 @@ This document contains the detailed task breakdown for all 20 user stories requi
     - _Requirements: Story 6_
 
 - [ ] 19. Build mastery visualization UI
-  - [ ] 19.1 Create mastery dashboard components
+  - [x] 19.1 Create mastery dashboard components
     - Create DomainMasteryChart component
     - Create MasteryTrendGraph component
     - Create WeaknessIndicator component
     - _Requirements: Story 6_
-  - [ ] 19.2 Integrate mastery UI into dashboard
+  - [x] 19.2 Integrate mastery UI into dashboard
     - Add mastery section to main dashboard
     - Add domain drill-down views
     - _Requirements: Story 6_
@@ -258,27 +258,27 @@ This document contains the detailed task breakdown for all 20 user stories requi
 
 ## Story 7: Implement Study Plan Generation
 
-- [ ] 21. Implement study plan generation
-  - [ ] 21.1 Create study plan algorithm
+- [x] 21. Implement study plan generation
+  - [x] 21.1 Create study plan algorithm
     - Calculate days until exam date
     - Distribute study hours across domains
     - Weight weak domains more heavily
     - Generate daily task recommendations
     - _Requirements: Story 7_
-  - [ ] 21.2 Create study plan API endpoints
+  - [x] 21.2 Create study plan API endpoints
     - Add POST /api/study-plans to create plan
     - Add GET /api/study-plans/active to get current plan
     - Add PUT /api/study-plans/:id to update plan
     - Add GET /api/study-plans/:id/tasks to get tasks
     - _Requirements: Story 7_
 
-- [ ] 22. Implement study plan tracking
-  - [ ] 22.1 Create task completion tracking
+- [x] 22. Implement study plan tracking
+  - [x] 22.1 Create task completion tracking
     - Add PUT /api/study-plans/tasks/:id/complete endpoint
     - Update plan progress on task completion
     - Recalculate plan status (on_track, behind, ahead)
     - _Requirements: Story 7_
-  - [ ] 22.2 Implement plan adjustment logic
+  - [x] 22.2 Implement plan adjustment logic
     - Detect when user is behind schedule
     - Redistribute remaining tasks
     - Generate catch-up recommendations

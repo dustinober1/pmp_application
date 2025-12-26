@@ -22,6 +22,7 @@ import progressRoutes from "./progress";
 import adminRoutes from "./admin";
 import adaptiveRoutes from "./adaptive";
 import learningRoutes from "./learning";
+import studyPlanRoutes from "./studyPlans";
 
 const router = Router();
 
@@ -79,6 +80,9 @@ router.use("/adaptive", adaptiveRoutes);
 
 // Learning routes (alias for adaptive mastery/profile/recommendations)
 router.use("/learning", learningRoutes);
+
+// Study plan routes
+router.use("/study-plans", studyPlanRoutes);
 
 // =============================================================================
 // API Info Endpoint
