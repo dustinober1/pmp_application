@@ -12,31 +12,32 @@
  * postgresql://user:pass@host:5432/db?connection_limit=10&pool_timeout=20
  */
 
-import { PrismaClient, Prisma } from '@prisma/client';
-import Logger from '../utils/logger';
+import { PrismaClient, Prisma } from "@prisma/client";
+import Logger from "../utils/logger";
+import { Sentry } from "../instrumentation";
 
 // =============================================================================
 // Configuration
 // =============================================================================
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === "production";
 
 // Connection pool settings (read from env with defaults)
 const POOL_CONFIG = {
   // Maximum number of connections in the pool
-  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || '10', 10),
+  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || "10", 10),
   // Pool timeout in seconds (how long to wait for a connection)
-  poolTimeout: parseInt(process.env.DB_POOL_TIMEOUT || '20', 10),
+  poolTimeout: parseInt(process.env.DB_POOL_TIMEOUT || "20", 10),
   // Connect timeout in seconds
-  connectTimeout: parseInt(process.env.DB_CONNECT_TIMEOUT || '10', 10),
+  connectTimeout: parseInt(process.env.DB_CONNECT_TIMEOUT || "10", 10),
   // Idle timeout for connections in seconds
-  idleTimeout: parseInt(process.env.DB_IDLE_TIMEOUT || '300', 10),
+  idleTimeout: parseInt(process.env.DB_IDLE_TIMEOUT || "300", 10),
 };
 
 // Log levels based on environment
 const logLevels: Prisma.LogLevel[] = isProd
-  ? ['error', 'warn']
-  : ['query', 'info', 'warn', 'error'];
+  ? ["error", "warn"]
+  : ["query", "info", "warn", "error"];
 
 // =============================================================================
 // Singleton Pattern
@@ -51,11 +52,11 @@ const globalForPrisma = globalThis as unknown as {
  */
 const createPrismaClient = (): PrismaClient => {
   // Build connection URL with pool parameters if not already included
-  let databaseUrl = process.env.DATABASE_URL || '';
+  let databaseUrl = process.env.DATABASE_URL || "";
 
   // Check if pool parameters are already in URL
-  if (!databaseUrl.includes('connection_limit')) {
-    const separator = databaseUrl.includes('?') ? '&' : '?';
+  if (!databaseUrl.includes("connection_limit")) {
+    const separator = databaseUrl.includes("?") ? "&" : "?";
     databaseUrl += `${separator}connection_limit=${POOL_CONFIG.connectionLimit}`;
     databaseUrl += `&pool_timeout=${POOL_CONFIG.poolTimeout}`;
     databaseUrl += `&connect_timeout=${POOL_CONFIG.connectTimeout}`;
@@ -63,7 +64,7 @@ const createPrismaClient = (): PrismaClient => {
 
   const client = new PrismaClient({
     log: logLevels.map((level) => ({
-      emit: 'event' as const,
+      emit: "event" as const,
       level,
     })),
     datasources: {
@@ -73,33 +74,56 @@ const createPrismaClient = (): PrismaClient => {
     },
   });
 
+  client.$use(async (params: Prisma.MiddlewareParams, next) => {
+    const spanName = params.model
+      ? `db.${params.model}.${params.action}`
+      : `db.${params.action}`;
+
+    return Sentry.startSpan(
+      {
+        name: spanName,
+        op: "db.prisma",
+        onlyIfParent: true,
+        attributes: {
+          "db.operation": params.action,
+          ...(params.model ? { "db.model": params.model } : {}),
+        },
+      },
+      () => next(params),
+    );
+  });
+
   // =============================================================================
   // Event Logging
   // =============================================================================
 
   // Log queries in development (with timing)
   if (!isProd) {
-    client.$on('query', (e: Prisma.QueryEvent) => {
+    client.$on("query", (e: Prisma.QueryEvent) => {
       if (e.duration > 100) {
-        Logger.warn(`Slow query (${e.duration}ms): ${e.query.substring(0, 200)}...`);
+        Logger.warn(
+          `Slow query (${e.duration}ms): ${e.query.substring(0, 200)}...`,
+        );
       } else {
-        Logger.debug(`Query (${e.duration}ms): ${e.query.substring(0, 100)}...`);
+        Logger.debug(
+          `Query (${e.duration}ms): ${e.query.substring(0, 100)}...`,
+        );
       }
     });
   }
 
   // Log warnings and errors in all environments
-  client.$on('warn', (e) => {
-    Logger.warn('Prisma warning:', e);
+  client.$on("warn", (e) => {
+    Logger.warn("Prisma warning:", e);
   });
 
-  client.$on('error', (e) => {
-    Logger.error('Prisma error:', e);
+  client.$on("error", (e) => {
+    Logger.error("Prisma error:", e);
   });
 
   // Log info events
-  client.$on('info', (e) => {
-    Logger.info('Prisma info:', e);
+  client.$on("info", (e) => {
+    Logger.info("Prisma info:", e);
   });
 
   return client;
@@ -121,7 +145,7 @@ if (!isProd) {
 // =============================================================================
 
 interface DatabaseHealth {
-  status: 'healthy' | 'unhealthy';
+  status: "healthy" | "unhealthy";
   latencyMs: number;
   message?: string;
 }
@@ -135,14 +159,14 @@ export async function checkDatabaseHealth(): Promise<DatabaseHealth> {
   try {
     await prisma.$queryRaw`SELECT 1`;
     return {
-      status: 'healthy',
+      status: "healthy",
       latencyMs: Date.now() - start,
     };
   } catch (error) {
     return {
-      status: 'unhealthy',
+      status: "unhealthy",
       latencyMs: Date.now() - start,
-      message: error instanceof Error ? error.message : 'Unknown error',
+      message: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }
@@ -168,7 +192,7 @@ export async function getDatabaseMetrics() {
       connectTimeout: POOL_CONFIG.connectTimeout,
     };
   } catch (error) {
-    Logger.error('Failed to get database metrics:', error);
+    Logger.error("Failed to get database metrics:", error);
     return null;
   }
 }
@@ -183,14 +207,14 @@ export async function getDatabaseMetrics() {
 export async function disconnectDatabase(): Promise<void> {
   try {
     await prisma.$disconnect();
-    Logger.info('Database disconnected gracefully');
+    Logger.info("Database disconnected gracefully");
   } catch (error) {
-    Logger.error('Error disconnecting from database:', error);
+    Logger.error("Error disconnecting from database:", error);
   }
 }
 
 // Handle process termination
-process.on('beforeExit', async () => {
+process.on("beforeExit", async () => {
   await disconnectDatabase();
 });
 
@@ -201,7 +225,7 @@ process.on('beforeExit', async () => {
 // Re-export transaction type for use in controllers
 export type PrismaTransaction = Omit<
   PrismaClient,
-  '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+  "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
 >;
 
 /**
@@ -214,10 +238,10 @@ export const TRANSACTION_CONFIG = {
 };
 
 // Log pool configuration on startup
-Logger.info('Database connection pool configured:', {
+Logger.info("Database connection pool configured:", {
   connectionLimit: POOL_CONFIG.connectionLimit,
   poolTimeout: `${POOL_CONFIG.poolTimeout}s`,
   connectTimeout: `${POOL_CONFIG.connectTimeout}s`,
   idleTimeout: `${POOL_CONFIG.idleTimeout}s`,
-  environment: isProd ? 'production' : 'development',
+  environment: isProd ? "production" : "development",
 });

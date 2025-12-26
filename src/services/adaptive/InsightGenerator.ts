@@ -240,7 +240,8 @@ export class InsightGenerator {
     const insights: Insight[] = [];
 
     try {
-      const masteryLevels = await masteryCalculator.getAllMasteryLevels(userId);
+      const masteryLevels =
+        await masteryCalculator.getAllMasteryLevels(_userId);
 
       for (const mastery of masteryLevels) {
         if (mastery.trend === "improving" && mastery.score > 75) {

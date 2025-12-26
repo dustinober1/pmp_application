@@ -332,6 +332,10 @@ app.use((req: Request, res: Response) => {
   });
 });
 
+// Sentry Express error handler must be registered after all routes,
+// but before any other error-handling middleware.
+Sentry.setupExpressErrorHandler(app);
+
 // =============================================================================
 // Global Error Handler
 // =============================================================================

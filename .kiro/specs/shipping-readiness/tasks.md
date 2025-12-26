@@ -85,7 +85,7 @@ This document contains the detailed task breakdown for all 20 user stories requi
     - _Requirements: Story 3_
 
 - [ ] 6. Implement performance monitoring
-  - [ ] 6.1 Add Sentry performance tracing
+  - [x] 6.1 Add Sentry performance tracing
     - Enable transaction tracing for API routes
     - Add custom spans for database queries
     - Configure sampling rate for performance data
