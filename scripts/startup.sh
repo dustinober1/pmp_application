@@ -9,6 +9,8 @@ npx prisma migrate deploy
 
 # Check if database needs seeding
 echo "🔍 Checking if database needs seeding..."
+
+# Check question count
 QUESTION_COUNT=$(node -e "
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -21,9 +23,36 @@ prisma.question.count().then(c => {
 });
 " 2>/dev/null || echo "0")
 
-echo "   Current question count: $QUESTION_COUNT"
+# Check flashcard count
+FLASHCARD_COUNT=$(node -e "
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+prisma.flashCard.count().then(c => {
+  console.log(c);
+  prisma.\$disconnect();
+}).catch(() => {
+  console.log(0);
+  process.exit(0);
+});
+" 2>/dev/null || echo "0")
 
+echo "   Current question count: $QUESTION_COUNT"
+echo "   Current flashcard count: $FLASHCARD_COUNT"
+
+# Seed if questions OR flashcards are missing, or if FORCE_RESEED is set
+NEEDS_SEED="false"
 if [ "$QUESTION_COUNT" = "0" ] || [ "$QUESTION_COUNT" -lt "10" ]; then
+  NEEDS_SEED="true"
+fi
+if [ "$FLASHCARD_COUNT" = "0" ] || [ "$FLASHCARD_COUNT" -lt "10" ]; then
+  NEEDS_SEED="true"
+fi
+if [ "$FORCE_RESEED" = "true" ]; then
+  echo "⚠️  FORCE_RESEED is set, will reseed database..."
+  NEEDS_SEED="true"
+fi
+
+if [ "$NEEDS_SEED" = "true" ]; then
   echo "📝 Database needs seeding..."
   
   # Run seed script (creates domains, admin user, sample data)
