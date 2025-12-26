@@ -21,6 +21,7 @@ import authRoutes from "./auth";
 import progressRoutes from "./progress";
 import adminRoutes from "./admin";
 import adaptiveRoutes from "./adaptive";
+import learningRoutes from "./learning";
 
 const router = Router();
 
@@ -76,6 +77,9 @@ router.use("/admin", adminRoutes);
 // Adaptive Learning routes
 router.use("/adaptive", adaptiveRoutes);
 
+// Learning routes (alias for adaptive mastery/profile/recommendations)
+router.use("/learning", learningRoutes);
+
 // =============================================================================
 // API Info Endpoint
 // =============================================================================
@@ -92,6 +96,7 @@ router.get("/", (req, res) => {
       progress: "/api/v1/progress",
       admin: "/api/v1/admin",
       adaptive: "/api/v1/adaptive",
+      learning: "/api/v1/learning",
     },
   });
 });

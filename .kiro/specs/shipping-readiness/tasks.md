@@ -222,7 +222,7 @@ This document contains the detailed task breakdown for all 20 user stories requi
     - Calculate consistency score
     - Track difficulty progression
     - _Requirements: Story 6_
-  - [ ] 17.2 Create mastery API endpoints
+  - [x] 17.2 Create mastery API endpoints
     - Add GET /api/learning/profile endpoint
     - Add GET /api/learning/mastery/:domainId endpoint
     - Add GET /api/learning/recommendations endpoint
