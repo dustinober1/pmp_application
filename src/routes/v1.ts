@@ -25,6 +25,7 @@ import learningRoutes from "./learning";
 import studyPlanRoutes from "./studyPlans";
 import discussionRoutes from "./discussion";
 import notificationRoutes from "./notifications";
+import leaderboardRoutes from "./leaderboard";
 
 const router = Router();
 
@@ -91,6 +92,9 @@ router.use("/", discussionRoutes);
 
 // Notification routes
 router.use("/", notificationRoutes);
+
+// Leaderboard routes
+router.use("/leaderboard", leaderboardRoutes);
 
 // =============================================================================
 // API Info Endpoint

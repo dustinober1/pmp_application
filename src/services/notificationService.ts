@@ -200,7 +200,7 @@ export const notificationService = {
         title: input.title,
         body: input.body,
         link: input.link,
-        metadata: input.metadata,
+        metadata: input.metadata as ReturnType<typeof JSON.parse> | undefined,
       },
     });
 

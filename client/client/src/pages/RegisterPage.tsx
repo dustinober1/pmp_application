@@ -65,7 +65,12 @@ const RegisterPage: React.FC = () => {
             navigate('/', { replace: true });
         } catch (err) {
             if (axios.isAxiosError(err)) {
-                setError(err.response?.data?.error || 'Registration failed. Please try again.');
+                const errorData = err.response?.data?.error;
+                setError(
+                    typeof errorData === 'string'
+                        ? errorData
+                        : (errorData?.message || 'Registration failed. Please try again.')
+                );
             } else {
                 setError('An unexpected error occurred. Please try again.');
             }

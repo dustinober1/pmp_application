@@ -1,8 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { prisma } from '../services/database';
-import Logger from '../utils/logger';
-import { isTokenBlacklisted, areUserTokensRevoked } from '../services/tokenBlacklist';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { prisma } from "../services/database";
+import Logger from "../utils/logger";
+import {
+  isTokenBlacklisted,
+  areUserTokensRevoked,
+} from "../services/tokenBlacklist";
 
 // Extend Express Request type to include user
 declare global {
@@ -22,7 +25,7 @@ declare global {
 const getJwtSecret = () => {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    throw new Error('JWT_SECRET environment variable is not defined');
+    throw new Error("JWT_SECRET environment variable is not defined");
   }
   return secret;
 };
@@ -42,14 +45,14 @@ export interface JWTPayload {
 export const authenticateToken = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
 
     if (!token) {
-      res.status(401).json({ error: 'Authentication required' });
+      res.status(401).json({ error: "Authentication required" });
       return;
     }
 
@@ -58,13 +61,16 @@ export const authenticateToken = async (
     // Check if this specific token is blacklisted (logout)
     const tokenId = decoded.jti || token;
     if (await isTokenBlacklisted(tokenId)) {
-      res.status(401).json({ error: 'Token has been revoked' });
+      res.status(401).json({ error: "Token has been revoked" });
       return;
     }
 
     // Check if all user tokens were revoked (password change, admin action)
-    if (decoded.iat && (await areUserTokensRevoked(decoded.userId, decoded.iat))) {
-      res.status(401).json({ error: 'Session has been invalidated' });
+    if (
+      decoded.iat &&
+      (await areUserTokensRevoked(decoded.userId, decoded.iat))
+    ) {
+      res.status(401).json({ error: "Session has been invalidated" });
       return;
     }
 
@@ -81,7 +87,7 @@ export const authenticateToken = async (
     });
 
     if (!user) {
-      res.status(401).json({ error: 'User not found' });
+      res.status(401).json({ error: "User not found" });
       return;
     }
 
@@ -89,25 +95,29 @@ export const authenticateToken = async (
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-      res.status(403).json({ error: 'Invalid or expired token' });
+      res.status(403).json({ error: "Invalid or expired token" });
       return;
     }
-    Logger.error('Auth middleware error:', error);
-    res.status(500).json({ error: 'Authentication failed' });
+    Logger.error("Auth middleware error:", error);
+    res.status(500).json({ error: "Authentication failed" });
   }
 };
 
 /**
  * Middleware to check if user has admin role
  */
-export const requireAdmin = (req: Request, res: Response, next: NextFunction): void => {
+export const requireAdmin = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void => {
   if (!req.user) {
-    res.status(401).json({ error: 'Authentication required' });
+    res.status(401).json({ error: "Authentication required" });
     return;
   }
 
-  if (req.user.role !== 'ADMIN') {
-    res.status(403).json({ error: 'Admin access required' });
+  if (req.user.role !== "ADMIN") {
+    res.status(403).json({ error: "Admin access required" });
     return;
   }
 
@@ -120,11 +130,11 @@ export const requireAdmin = (req: Request, res: Response, next: NextFunction): v
 export const optionalAuth = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1];
+    const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
       next();
@@ -159,7 +169,11 @@ export const optionalAuth = async (
  * Generate JWT token for a user
  * Short-lived access token (15 minutes) - use with refresh tokens
  */
-export const generateToken = (user: { id: string; email: string; role: string }): string => {
+export const generateToken = (user: {
+  id: string;
+  email: string;
+  role: string;
+}): string => {
   const payload: JWTPayload = {
     userId: user.id,
     email: user.email,
@@ -167,7 +181,7 @@ export const generateToken = (user: { id: string; email: string; role: string })
   };
 
   // Short-lived access token for better security
-  return jwt.sign(payload, getJwtSecret(), { expiresIn: '15m' });
+  return jwt.sign(payload, getJwtSecret(), { expiresIn: "15m" });
 };
 
 /**
@@ -185,7 +199,7 @@ export const generateLongLivedToken = (user: {
     role: user.role,
   };
 
-  return jwt.sign(payload, getJwtSecret(), { expiresIn: '7d' });
+  return jwt.sign(payload, getJwtSecret(), { expiresIn: "7d" });
 };
 
 export { getJwtSecret };

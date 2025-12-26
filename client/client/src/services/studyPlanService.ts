@@ -49,13 +49,13 @@ export interface CompleteTaskResponse {
 
 class StudyPlanService {
   async createStudyPlan(data: CreateStudyPlanRequest): Promise<StudyPlan> {
-    const response = await api.post('/api/v1/study-plans', data);
+    const response = await api.post('/study-plans', data);
     return response.data;
   }
 
   async getActiveStudyPlan(): Promise<StudyPlan | null> {
     try {
-      const response = await api.get('/api/v1/study-plans/active');
+      const response = await api.get('/study-plans/active');
       return response.data;
     } catch (error: any) {
       if (error.response?.status === 404) {
@@ -66,22 +66,22 @@ class StudyPlanService {
   }
 
   async updateStudyPlan(id: string, data: UpdateStudyPlanRequest): Promise<StudyPlan> {
-    const response = await api.put(`/api/v1/study-plans/${id}`, data);
+    const response = await api.put(`/study-plans/${id}`, data);
     return response.data;
   }
 
   async getStudyPlanTasks(planId: string): Promise<StudyPlanTask[]> {
-    const response = await api.get(`/api/v1/study-plans/${planId}/tasks`);
+    const response = await api.get(`/study-plans/${planId}/tasks`);
     return response.data;
   }
 
   async completeTask(taskId: string): Promise<CompleteTaskResponse> {
-    const response = await api.put(`/api/v1/study-plans/tasks/${taskId}/complete`);
+    const response = await api.put(`/study-plans/tasks/${taskId}/complete`);
     return response.data;
   }
 
   async deleteStudyPlan(id: string): Promise<void> {
-    await api.delete(`/api/v1/study-plans/${id}`);
+    await api.delete(`/study-plans/${id}`);
   }
 }
 

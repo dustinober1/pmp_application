@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 // Import Sentry instrumentation FIRST before any other imports
 import { Sentry, captureErrorWithContext } from "./instrumentation";
 
@@ -10,7 +13,6 @@ import express, {
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
 import compression from "compression";
 import swaggerUi from "swagger-ui-express";

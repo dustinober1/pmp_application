@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { prisma } from '../services/database';
-import { cache } from '../services/cache';
-import Logger from '../utils/logger';
-import { AppError, ErrorFactory } from '../utils/AppError';
+import { Request, Response, NextFunction } from "express";
+import { prisma } from "../services/database";
+import { cache } from "../services/cache";
+import Logger from "../utils/logger";
+import { AppError, ErrorFactory } from "../utils/AppError";
 
 // Type-safe where clause for questions
 interface QuestionWhereClause {
@@ -15,12 +15,16 @@ interface QuestionWhereClause {
  * Get questions with pagination and filtering
  * GET /api/questions
  */
-export const getQuestions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getQuestions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { domain, difficulty, limit = 10, offset = 0 } = req.query;
 
     // Create a cache key based on query parameters
-    const cacheKey = `questions:${domain || 'all'}:${difficulty || 'all'}:${limit}:${offset}`;
+    const cacheKey = `questions:${domain || "all"}:${difficulty || "all"}:${limit}:${offset}`;
 
     // Check cache first
     const cachedData = await cache.get(cacheKey);
@@ -31,11 +35,11 @@ export const getQuestions = async (req: Request, res: Response, next: NextFuncti
 
     const where: QuestionWhereClause = { isActive: true };
 
-    if (domain && domain !== 'all') {
+    if (domain && domain !== "all") {
       where.domainId = domain as string;
     }
 
-    if (difficulty && difficulty !== 'all') {
+    if (difficulty && difficulty !== "all") {
       where.difficulty = difficulty as string;
     }
 
@@ -53,7 +57,7 @@ export const getQuestions = async (req: Request, res: Response, next: NextFuncti
       },
       take: Number(limit),
       skip: Number(offset),
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
 
     const total = await prisma.question.count({ where });
@@ -76,8 +80,8 @@ export const getQuestions = async (req: Request, res: Response, next: NextFuncti
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching questions:', error);
-    next(ErrorFactory.internal('Failed to fetch questions'));
+    Logger.error("Error fetching questions:", error);
+    next(ErrorFactory.internal("Failed to fetch questions"));
   }
 };
 
@@ -85,7 +89,11 @@ export const getQuestions = async (req: Request, res: Response, next: NextFuncti
  * Get a single question by ID
  * GET /api/questions/:id
  */
-export const getQuestionById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getQuestionById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { id } = req.params;
     const cacheKey = `question:${id}`;
@@ -111,7 +119,7 @@ export const getQuestionById = async (req: Request, res: Response, next: NextFun
     });
 
     if (!question) {
-      throw ErrorFactory.notFound('Question');
+      throw ErrorFactory.notFound("Question");
     }
 
     // Cache single question for longer (1 hour) as they don't change often
@@ -122,8 +130,8 @@ export const getQuestionById = async (req: Request, res: Response, next: NextFun
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching question:', error);
-    next(ErrorFactory.internal('Failed to fetch question'));
+    Logger.error("Error fetching question:", error);
+    next(ErrorFactory.internal("Failed to fetch question"));
   }
 };
 
@@ -131,9 +139,13 @@ export const getQuestionById = async (req: Request, res: Response, next: NextFun
  * Get all domains
  * GET /api/questions/domains
  */
-export const getDomains = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getDomains = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
-    const cacheKey = 'domains:all';
+    const cacheKey = "domains:all";
     const cachedDomains = await cache.get(cacheKey);
 
     if (cachedDomains) {
@@ -146,15 +158,15 @@ export const getDomains = async (req: Request, res: Response, next: NextFunction
         _count: {
           select: {
             questions: {
-              where: { isActive: true }
+              where: { isActive: true },
             },
             flashCards: {
-              where: { isActive: true }
-            }
-          }
-        }
+              where: { isActive: true },
+            },
+          },
+        },
       },
-      orderBy: { name: 'asc' }
+      orderBy: { name: "asc" },
     });
 
     // Cache domains for 1 hour
@@ -165,7 +177,7 @@ export const getDomains = async (req: Request, res: Response, next: NextFunction
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching domains:', error);
-    next(ErrorFactory.internal('Failed to fetch domains'));
+    Logger.error("Error fetching domains:", error);
+    next(ErrorFactory.internal("Failed to fetch domains"));
   }
 };

@@ -192,3 +192,16 @@ export interface DiscussionComment {
     hasVoted: boolean;
     replies: DiscussionComment[];
 }
+
+export interface Notification {
+    id: string;
+    userId: string;
+    type: string;
+    title: string;
+    body: string;
+    link?: string;
+    metadata?: Record<string, unknown>;
+    isRead: boolean;
+    readAt?: string;
+    createdAt: string;
+}

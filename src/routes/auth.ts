@@ -1,21 +1,21 @@
-import { Router } from 'express';
+import { Router } from "express";
 import {
-    register,
-    login,
-    logout,
-    getMe,
-    updateProfile,
-    changePassword,
-    refreshAccessToken,
-} from '../controllers/auth';
-import { authenticateToken, optionalAuth } from '../middleware/auth';
-import { validateResult } from '../middleware/validation';
+  register,
+  login,
+  logout,
+  getMe,
+  updateProfile,
+  changePassword,
+  refreshAccessToken,
+} from "../controllers/auth";
+import { authenticateToken, optionalAuth } from "../middleware/auth";
+import { validateResult } from "../middleware/validation";
 import {
-    registerSchema,
-    loginSchema,
-    updateProfileSchema,
-    changePasswordSchema,
-} from '../schemas/auth.schema';
+  registerSchema,
+  loginSchema,
+  updateProfileSchema,
+  changePasswordSchema,
+} from "../schemas/auth.schema";
 
 const router = Router();
 
@@ -51,7 +51,7 @@ const router = Router();
  *       409:
  *         description: Email already exists
  */
-router.post('/register', validateResult(registerSchema), register);
+router.post("/register", validateResult(registerSchema), register);
 
 /**
  * @openapi
@@ -78,7 +78,7 @@ router.post('/register', validateResult(registerSchema), register);
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', validateResult(loginSchema), login);
+router.post("/login", validateResult(loginSchema), login);
 
 /**
  * @openapi
@@ -102,7 +102,7 @@ router.post('/login', validateResult(loginSchema), login);
  *       401:
  *         description: Invalid or expired refresh token
  */
-router.post('/refresh', refreshAccessToken);
+router.post("/refresh", refreshAccessToken);
 
 /**
  * @openapi
@@ -126,7 +126,7 @@ router.post('/refresh', refreshAccessToken);
  *       200:
  *         description: Logout successful
  */
-router.post('/logout', optionalAuth, logout);
+router.post("/logout", optionalAuth, logout);
 
 /**
  * @openapi
@@ -142,7 +142,7 @@ router.post('/logout', optionalAuth, logout);
  *       401:
  *         description: Not authenticated
  */
-router.get('/me', authenticateToken, getMe);
+router.get("/me", authenticateToken, getMe);
 
 /**
  * @openapi
@@ -171,7 +171,12 @@ router.get('/me', authenticateToken, getMe);
  *       401:
  *         description: Not authenticated
  */
-router.put('/profile', authenticateToken, validateResult(updateProfileSchema), updateProfile);
+router.put(
+  "/profile",
+  authenticateToken,
+  validateResult(updateProfileSchema),
+  updateProfile,
+);
 
 /**
  * @openapi
@@ -200,6 +205,11 @@ router.put('/profile', authenticateToken, validateResult(updateProfileSchema), u
  *       401:
  *         description: Not authenticated or wrong password
  */
-router.put('/password', authenticateToken, validateResult(changePasswordSchema), changePassword);
+router.put(
+  "/password",
+  authenticateToken,
+  validateResult(changePasswordSchema),
+  changePassword,
+);
 
 export default router;

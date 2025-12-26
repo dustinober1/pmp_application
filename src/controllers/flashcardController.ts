@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { prisma } from '../services/database';
-import { cache } from '../services/cache';
-import Logger from '../utils/logger';
-import { AppError, ErrorFactory } from '../utils/AppError';
+import { Request, Response, NextFunction } from "express";
+import { prisma } from "../services/database";
+import { cache } from "../services/cache";
+import Logger from "../utils/logger";
+import { AppError, ErrorFactory } from "../utils/AppError";
 
 // Type definitions for better type safety
 interface FlashcardWhereClause {
@@ -14,10 +14,10 @@ interface FlashcardWhereClause {
 
 // Difficulty quality mapping - using const assertion for type safety
 const DIFFICULTY_QUALITY_MAP = {
-  'AGAIN': 0,
-  'HARD': 1,
-  'GOOD': 2,
-  'EASY': 3,
+  AGAIN: 0,
+  HARD: 1,
+  GOOD: 2,
+  EASY: 3,
 } as const;
 
 type DifficultyLevel = keyof typeof DIFFICULTY_QUALITY_MAP;
@@ -29,20 +29,24 @@ const SM2_CONSTANTS = {
   MAX_INTERVAL_DAYS: 365,
   INITIAL_EASE_FACTOR: 2.5,
   INITIAL_INTERVAL: 1,
-  LEARNING_THRESHOLD: 7,    // Days - cards with interval < 7 are "learning"
-  MASTERED_THRESHOLD: 30,   // Days - cards with interval >= 30 are "mastered"
+  LEARNING_THRESHOLD: 7, // Days - cards with interval < 7 are "learning"
+  MASTERED_THRESHOLD: 30, // Days - cards with interval >= 30 are "mastered"
 } as const;
 
 /**
  * Get flashcards with pagination and filtering
  * GET /api/flashcards
  */
-export const getFlashcards = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getFlashcards = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { domain, difficulty, category, limit = 20, offset = 0 } = req.query;
 
     // Create cache key based on query parameters
-    const cacheKey = `flashcards:${domain || 'all'}:${difficulty || 'all'}:${category || 'all'}:${limit}:${offset}`;
+    const cacheKey = `flashcards:${domain || "all"}:${difficulty || "all"}:${category || "all"}:${limit}:${offset}`;
 
     // Check cache first
     const cachedData = await cache.get(cacheKey);
@@ -53,15 +57,15 @@ export const getFlashcards = async (req: Request, res: Response, next: NextFunct
 
     const where: FlashcardWhereClause = { isActive: true };
 
-    if (domain && domain !== 'all') {
+    if (domain && domain !== "all") {
       where.domainId = domain as string;
     }
 
-    if (difficulty && difficulty !== 'all') {
+    if (difficulty && difficulty !== "all") {
       where.difficulty = difficulty as string;
     }
 
-    if (category && category !== 'all') {
+    if (category && category !== "all") {
       where.category = category as string;
     }
 
@@ -79,7 +83,7 @@ export const getFlashcards = async (req: Request, res: Response, next: NextFunct
       },
       take: Number(limit),
       skip: Number(offset),
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
 
     const total = await prisma.flashCard.count({ where });
@@ -102,8 +106,8 @@ export const getFlashcards = async (req: Request, res: Response, next: NextFunct
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching flashcards:', error);
-    next(ErrorFactory.internal('Failed to fetch flashcards'));
+    Logger.error("Error fetching flashcards:", error);
+    next(ErrorFactory.internal("Failed to fetch flashcards"));
   }
 };
 
@@ -111,7 +115,11 @@ export const getFlashcards = async (req: Request, res: Response, next: NextFunct
  * Get a single flashcard by ID
  * GET /api/flashcards/:id
  */
-export const getFlashcardById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getFlashcardById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { id } = req.params;
 
@@ -138,7 +146,7 @@ export const getFlashcardById = async (req: Request, res: Response, next: NextFu
     });
 
     if (!flashcard) {
-      throw ErrorFactory.notFound('Flashcard');
+      throw ErrorFactory.notFound("Flashcard");
     }
 
     // Cache single flashcard for 1 hour
@@ -149,8 +157,8 @@ export const getFlashcardById = async (req: Request, res: Response, next: NextFu
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching flashcard:', error);
-    next(ErrorFactory.internal('Failed to fetch flashcard'));
+    Logger.error("Error fetching flashcard:", error);
+    next(ErrorFactory.internal("Failed to fetch flashcard"));
   }
 };
 
@@ -158,10 +166,14 @@ export const getFlashcardById = async (req: Request, res: Response, next: NextFu
  * Get all flashcard categories
  * GET /api/flashcards/categories
  */
-export const getFlashcardCategories = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getFlashcardCategories = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     // Check cache first
-    const cacheKey = 'flashcard:categories';
+    const cacheKey = "flashcard:categories";
     const cachedCategories = await cache.get(cacheKey);
     if (cachedCategories) {
       res.json(cachedCategories);
@@ -169,17 +181,17 @@ export const getFlashcardCategories = async (req: Request, res: Response, next: 
     }
 
     const categories = await prisma.flashCard.groupBy({
-      by: ['category'],
+      by: ["category"],
       where: { isActive: true },
       _count: {
         category: true,
       },
       orderBy: {
-        category: 'asc',
+        category: "asc",
       },
     });
 
-    const result = categories.map(cat => ({
+    const result = categories.map((cat) => ({
       name: cat.category,
       count: cat._count.category,
     }));
@@ -192,8 +204,8 @@ export const getFlashcardCategories = async (req: Request, res: Response, next: 
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching flashcard categories:', error);
-    next(ErrorFactory.internal('Failed to fetch flashcard categories'));
+    Logger.error("Error fetching flashcard categories:", error);
+    next(ErrorFactory.internal("Failed to fetch flashcard categories"));
   }
 };
 
@@ -201,7 +213,11 @@ export const getFlashcardCategories = async (req: Request, res: Response, next: 
  * Get cards due for review using spaced repetition
  * GET /api/flashcards/due
  */
-export const getDueCards = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getDueCards = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     if (!req.user) {
       throw ErrorFactory.unauthorized();
@@ -216,14 +232,17 @@ export const getDueCards = async (req: Request, res: Response, next: NextFunctio
       where: {
         userId,
         nextReviewAt: { lte: now },
-        flashCard: domain && domain !== 'all' ? { domainId: domain as string } : undefined,
+        flashCard:
+          domain && domain !== "all"
+            ? { domainId: domain as string }
+            : undefined,
       },
       include: {
         flashCard: {
           include: { domain: true },
         },
       },
-      orderBy: { nextReviewAt: 'asc' },
+      orderBy: { nextReviewAt: "asc" },
       take: Number(limit),
     });
 
@@ -233,21 +252,21 @@ export const getDueCards = async (req: Request, res: Response, next: NextFunctio
       select: { flashCardId: true },
     });
 
-    const reviewedIds = reviewedCardIds.map(r => r.flashCardId);
+    const reviewedIds = reviewedCardIds.map((r) => r.flashCardId);
 
     const newCards = await prisma.flashCard.findMany({
       where: {
         isActive: true,
         id: { notIn: reviewedIds },
-        ...(domain && domain !== 'all' ? { domainId: domain as string } : {}),
+        ...(domain && domain !== "all" ? { domainId: domain as string } : {}),
       },
       include: { domain: true },
       take: Math.max(0, Number(limit) - reviews.length),
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: "asc" },
     });
 
     // Combine due cards and new cards
-    const dueCards = reviews.map(r => ({
+    const dueCards = reviews.map((r) => ({
       ...r.flashCard,
       reviewInfo: {
         easeFactor: r.easeFactor,
@@ -258,7 +277,7 @@ export const getDueCards = async (req: Request, res: Response, next: NextFunctio
       },
     }));
 
-    const newCardsFormatted = newCards.map(card => ({
+    const newCardsFormatted = newCards.map((card) => ({
       ...card,
       reviewInfo: null, // New card, never reviewed
     }));
@@ -272,15 +291,15 @@ export const getDueCards = async (req: Request, res: Response, next: NextFunctio
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error fetching due cards:', error);
-    next(ErrorFactory.internal('Failed to fetch due cards'));
+    Logger.error("Error fetching due cards:", error);
+    next(ErrorFactory.internal("Failed to fetch due cards"));
   }
 };
 
 /**
  * SM-2 Algorithm Implementation
  * Calculates new ease factor, interval, and lapses based on review quality
- * 
+ *
  * @param quality - 0 (Again), 1 (Hard), 2 (Good), 3 (Easy)
  * @param easeFactor - Current ease factor (multiplier for interval)
  * @param interval - Current interval in days
@@ -291,7 +310,7 @@ function calculateSM2(
   quality: number,
   easeFactor: number,
   interval: number,
-  lapses: number
+  lapses: number,
 ): { newEaseFactor: number; newInterval: number; newLapses: number } {
   let newEaseFactor = easeFactor;
   let newInterval = interval;
@@ -331,7 +350,7 @@ function calculateSM2(
   // Ensure ease factor stays in reasonable bounds
   newEaseFactor = Math.max(
     SM2_CONSTANTS.MIN_EASE_FACTOR,
-    Math.min(SM2_CONSTANTS.MAX_EASE_FACTOR, newEaseFactor)
+    Math.min(SM2_CONSTANTS.MAX_EASE_FACTOR, newEaseFactor),
   );
 
   // Cap interval at maximum days
@@ -344,14 +363,18 @@ function calculateSM2(
  * Validate difficulty level
  */
 function isValidDifficulty(difficulty: unknown): difficulty is DifficultyLevel {
-  return typeof difficulty === 'string' && difficulty in DIFFICULTY_QUALITY_MAP;
+  return typeof difficulty === "string" && difficulty in DIFFICULTY_QUALITY_MAP;
 }
 
 /**
  * Review a flashcard with spaced repetition
  * POST /api/flashcards/:id/review
  */
-export const reviewCard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const reviewCard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     if (!req.user) {
       throw ErrorFactory.unauthorized();
@@ -363,10 +386,9 @@ export const reviewCard = async (req: Request, res: Response, next: NextFunction
 
     // Validate difficulty level
     if (!isValidDifficulty(difficulty)) {
-      throw ErrorFactory.validation(
-        'Invalid difficulty level',
-        { validValues: Object.keys(DIFFICULTY_QUALITY_MAP) }
-      );
+      throw ErrorFactory.validation("Invalid difficulty level", {
+        validValues: Object.keys(DIFFICULTY_QUALITY_MAP),
+      });
     }
 
     const quality = DIFFICULTY_QUALITY_MAP[difficulty];
@@ -377,7 +399,7 @@ export const reviewCard = async (req: Request, res: Response, next: NextFunction
     });
 
     if (!flashcard) {
-      throw ErrorFactory.notFound('Flashcard');
+      throw ErrorFactory.notFound("Flashcard");
     }
 
     // Get existing review or create defaults
@@ -390,8 +412,10 @@ export const reviewCard = async (req: Request, res: Response, next: NextFunction
       },
     });
 
-    const currentEaseFactor = existingReview?.easeFactor || SM2_CONSTANTS.INITIAL_EASE_FACTOR;
-    const currentInterval = existingReview?.interval || SM2_CONSTANTS.INITIAL_INTERVAL;
+    const currentEaseFactor =
+      existingReview?.easeFactor || SM2_CONSTANTS.INITIAL_EASE_FACTOR;
+    const currentInterval =
+      existingReview?.interval || SM2_CONSTANTS.INITIAL_INTERVAL;
     const currentLapses = existingReview?.lapses || 0;
     const currentReviewCount = existingReview?.reviewCount || 0;
 
@@ -400,7 +424,7 @@ export const reviewCard = async (req: Request, res: Response, next: NextFunction
       quality,
       currentEaseFactor,
       currentInterval,
-      currentLapses
+      currentLapses,
     );
 
     // Calculate next review date
@@ -442,10 +466,10 @@ export const reviewCard = async (req: Request, res: Response, next: NextFunction
     });
 
     // Update daily goal progress
-    await updateDailyProgress(userId, 'flashcard');
+    await updateDailyProgress(userId, "flashcard");
 
     res.json({
-      message: 'Card reviewed successfully',
+      message: "Card reviewed successfully",
       review: {
         easeFactor: review.easeFactor,
         interval: review.interval,
@@ -457,8 +481,8 @@ export const reviewCard = async (req: Request, res: Response, next: NextFunction
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error reviewing card:', error);
-    next(ErrorFactory.internal('Failed to review card'));
+    Logger.error("Error reviewing card:", error);
+    next(ErrorFactory.internal("Failed to review card"));
   }
 };
 
@@ -467,7 +491,10 @@ export const reviewCard = async (req: Request, res: Response, next: NextFunction
  * @param userId - User ID
  * @param type - Type of activity (flashcard or question)
  */
-async function updateDailyProgress(userId: string, type: 'flashcard' | 'question'): Promise<void> {
+async function updateDailyProgress(
+  userId: string,
+  type: "flashcard" | "question",
+): Promise<void> {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -481,8 +508,8 @@ async function updateDailyProgress(userId: string, type: 'flashcard' | 'question
       await prisma.dailyGoal.create({
         data: {
           userId,
-          cardsReviewedToday: type === 'flashcard' ? 1 : 0,
-          questionsAnsweredToday: type === 'question' ? 1 : 0,
+          cardsReviewedToday: type === "flashcard" ? 1 : 0,
+          questionsAnsweredToday: type === "question" ? 1 : 0,
           lastResetDate: today,
         },
       });
@@ -496,8 +523,8 @@ async function updateDailyProgress(userId: string, type: 'flashcard' | 'question
         await prisma.dailyGoal.update({
           where: { userId },
           data: {
-            cardsReviewedToday: type === 'flashcard' ? 1 : 0,
-            questionsAnsweredToday: type === 'question' ? 1 : 0,
+            cardsReviewedToday: type === "flashcard" ? 1 : 0,
+            questionsAnsweredToday: type === "question" ? 1 : 0,
             lastResetDate: today,
           },
         });
@@ -505,15 +532,16 @@ async function updateDailyProgress(userId: string, type: 'flashcard' | 'question
         // Same day - increment counter
         await prisma.dailyGoal.update({
           where: { userId },
-          data: type === 'flashcard'
-            ? { cardsReviewedToday: { increment: 1 } }
-            : { questionsAnsweredToday: { increment: 1 } },
+          data:
+            type === "flashcard"
+              ? { cardsReviewedToday: { increment: 1 } }
+              : { questionsAnsweredToday: { increment: 1 } },
         });
       }
     }
   } catch (error) {
     // Log but don't fail the main operation
-    Logger.warn('Could not update daily progress:', error);
+    Logger.warn("Could not update daily progress:", error);
   }
 }
 
@@ -521,7 +549,11 @@ async function updateDailyProgress(userId: string, type: 'flashcard' | 'question
  * Get study statistics
  * GET /api/flashcards/stats
  */
-export const getStudyStats = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getStudyStats = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     if (!req.user) {
       throw ErrorFactory.unauthorized();
@@ -568,7 +600,7 @@ export const getStudyStats = async (req: Request, res: Response, next: NextFunct
     });
 
     // Check if goal needs resetting
-    let goalProgress = {
+    const goalProgress = {
       flashcardGoal: dailyGoal?.flashcardGoal || 20,
       cardsReviewedToday: 0,
       questionsGoal: dailyGoal?.questionsGoal || 25,
@@ -591,15 +623,15 @@ export const getStudyStats = async (req: Request, res: Response, next: NextFunct
 
     // Get mastery breakdown
     const masteryBreakdown = await prisma.flashCardReview.groupBy({
-      by: ['interval'],
+      by: ["interval"],
       where: { userId },
       _count: true,
     });
 
     // Categorize by mastery level
-    let learning = 0;   // interval < 7
-    let reviewing = 0;  // 7 <= interval < 30
-    let mastered = 0;   // interval >= 30
+    let learning = 0; // interval < 7
+    let reviewing = 0; // 7 <= interval < 30
+    let mastered = 0; // interval >= 30
 
     for (const group of masteryBreakdown) {
       if (group.interval < SM2_CONSTANTS.LEARNING_THRESHOLD) {
@@ -630,8 +662,8 @@ export const getStudyStats = async (req: Request, res: Response, next: NextFunct
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error getting study stats:', error);
-    next(ErrorFactory.internal('Failed to get study stats'));
+    Logger.error("Error getting study stats:", error);
+    next(ErrorFactory.internal("Failed to get study stats"));
   }
 };
 
@@ -639,7 +671,11 @@ export const getStudyStats = async (req: Request, res: Response, next: NextFunct
  * Update daily goals
  * PUT /api/flashcards/goals
  */
-export const updateDailyGoals = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const updateDailyGoals = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     if (!req.user) {
       throw ErrorFactory.unauthorized();
@@ -649,12 +685,18 @@ export const updateDailyGoals = async (req: Request, res: Response, next: NextFu
     const { flashcardGoal, questionsGoal } = req.body;
 
     // Validate goal values
-    if (flashcardGoal !== undefined && (typeof flashcardGoal !== 'number' || flashcardGoal < 1)) {
-      throw ErrorFactory.validation('Flashcard goal must be a positive number');
+    if (
+      flashcardGoal !== undefined &&
+      (typeof flashcardGoal !== "number" || flashcardGoal < 1)
+    ) {
+      throw ErrorFactory.validation("Flashcard goal must be a positive number");
     }
 
-    if (questionsGoal !== undefined && (typeof questionsGoal !== 'number' || questionsGoal < 1)) {
-      throw ErrorFactory.validation('Questions goal must be a positive number');
+    if (
+      questionsGoal !== undefined &&
+      (typeof questionsGoal !== "number" || questionsGoal < 1)
+    ) {
+      throw ErrorFactory.validation("Questions goal must be a positive number");
     }
 
     const goal = await prisma.dailyGoal.upsert({
@@ -671,7 +713,7 @@ export const updateDailyGoals = async (req: Request, res: Response, next: NextFu
     });
 
     res.json({
-      message: 'Goals updated',
+      message: "Goals updated",
       goals: {
         flashcardGoal: goal.flashcardGoal,
         questionsGoal: goal.questionsGoal,
@@ -681,7 +723,7 @@ export const updateDailyGoals = async (req: Request, res: Response, next: NextFu
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Error updating goals:', error);
-    next(ErrorFactory.internal('Failed to update goals'));
+    Logger.error("Error updating goals:", error);
+    next(ErrorFactory.internal("Failed to update goals"));
   }
 };

@@ -1,24 +1,32 @@
-import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcryptjs';
-import { prisma } from '../services/database';
-import { generateToken } from '../middleware/auth';
-import Logger from '../utils/logger';
-import { AppError, ErrorFactory } from '../utils/AppError';
+import { Request, Response, NextFunction } from "express";
+import bcrypt from "bcryptjs";
+import { prisma } from "../services/database";
+import { generateToken } from "../middleware/auth";
+import Logger from "../utils/logger";
+import { AppError, ErrorFactory } from "../utils/AppError";
 import {
   generateRefreshToken,
   storeRefreshToken,
   validateRefreshToken,
   rotateRefreshToken,
   revokeAllUserRefreshTokens,
-} from '../services/refreshToken';
-import { checkAccountLockout, recordFailedAttempt, clearLockout } from '../services/accountLockout';
+} from "../services/refreshToken";
+import {
+  checkAccountLockout,
+  recordFailedAttempt,
+  clearLockout,
+} from "../services/accountLockout";
 
 /**
  * Register a new user
  * POST /api/auth/register
  * Validation handled by Zod middleware using registerSchema
  */
-export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { email, password, firstName, lastName } = req.body;
 
@@ -28,7 +36,7 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     });
 
     if (existingUser) {
-      throw ErrorFactory.conflict('Email already registered');
+      throw ErrorFactory.conflict("Email already registered");
     }
 
     // Hash password
@@ -42,7 +50,7 @@ export const register = async (req: Request, res: Response, next: NextFunction):
         passwordHash,
         firstName: firstName.trim(),
         lastName: lastName.trim(),
-        role: 'USER',
+        role: "USER",
       },
       select: {
         id: true,
@@ -59,12 +67,17 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     const refreshToken = generateRefreshToken();
 
     // Store refresh token
-    await storeRefreshToken(user.id, refreshToken, req.headers['user-agent'], req.ip);
+    await storeRefreshToken(
+      user.id,
+      refreshToken,
+      req.headers["user-agent"],
+      req.ip,
+    );
 
     Logger.info(`New user registered: ${user.email}`);
 
     res.status(201).json({
-      message: 'Registration successful',
+      message: "Registration successful",
       user,
       token: accessToken,
       refreshToken,
@@ -73,8 +86,8 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Registration error:', error);
-    next(ErrorFactory.internal('Registration failed'));
+    Logger.error("Registration error:", error);
+    next(ErrorFactory.internal("Registration failed"));
   }
 };
 
@@ -83,7 +96,11 @@ export const register = async (req: Request, res: Response, next: NextFunction):
  * POST /api/auth/login
  * Validation handled by Zod middleware using loginSchema
  */
-export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { email, password } = req.body;
     const normalizedEmail = email.toLowerCase();
@@ -92,12 +109,14 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     const lockoutStatus = await checkAccountLockout(normalizedEmail);
     if (lockoutStatus.isLocked) {
       const minutesRemaining = lockoutStatus.lockoutEndsAt
-        ? Math.ceil((lockoutStatus.lockoutEndsAt.getTime() - Date.now()) / 60000)
+        ? Math.ceil(
+            (lockoutStatus.lockoutEndsAt.getTime() - Date.now()) / 60000,
+          )
         : 15;
       throw new AppError(
         `Account is locked due to too many failed attempts. Try again in ${minutesRemaining} minutes.`,
         423,
-        'ACCOUNT_LOCKED'
+        "ACCOUNT_LOCKED",
       );
     }
 
@@ -109,7 +128,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     if (!user) {
       // Record failed attempt even if user doesn't exist (prevents timing attacks)
       await recordFailedAttempt(normalizedEmail);
-      throw ErrorFactory.unauthorized('Invalid email or password');
+      throw ErrorFactory.unauthorized("Invalid email or password");
     }
 
     // Verify password
@@ -120,16 +139,16 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
 
       if (status.isLocked) {
         throw new AppError(
-          'Account is now locked due to too many failed attempts. Try again later.',
+          "Account is now locked due to too many failed attempts. Try again later.",
           423,
-          'ACCOUNT_LOCKED'
+          "ACCOUNT_LOCKED",
         );
       }
 
       throw new AppError(
         `Invalid email or password. ${status.remainingAttempts} attempts remaining.`,
         401,
-        'UNAUTHORIZED'
+        "UNAUTHORIZED",
       );
     }
 
@@ -141,12 +160,17 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     const refreshToken = generateRefreshToken();
 
     // Store refresh token
-    await storeRefreshToken(user.id, refreshToken, req.headers['user-agent'], req.ip);
+    await storeRefreshToken(
+      user.id,
+      refreshToken,
+      req.headers["user-agent"],
+      req.ip,
+    );
 
     Logger.info(`User logged in: ${user.email}`);
 
     res.json({
-      message: 'Login successful',
+      message: "Login successful",
       user: {
         id: user.id,
         email: user.email,
@@ -161,8 +185,8 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Login error:', error);
-    next(ErrorFactory.internal('Login failed'));
+    Logger.error("Login error:", error);
+    next(ErrorFactory.internal("Login failed"));
   }
 };
 
@@ -173,20 +197,20 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
 export const refreshAccessToken = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     const { refreshToken } = req.body;
 
     if (!refreshToken) {
-      throw ErrorFactory.badRequest('Refresh token is required');
+      throw ErrorFactory.badRequest("Refresh token is required");
     }
 
     // Validate the refresh token
     const tokenData = await validateRefreshToken(refreshToken);
 
     if (!tokenData) {
-      throw ErrorFactory.unauthorized('Invalid or expired refresh token');
+      throw ErrorFactory.unauthorized("Invalid or expired refresh token");
     }
 
     // Get user data
@@ -202,7 +226,7 @@ export const refreshAccessToken = async (
     });
 
     if (!user) {
-      throw ErrorFactory.unauthorized('User not found');
+      throw ErrorFactory.unauthorized("User not found");
     }
 
     // Generate new access token
@@ -212,8 +236,8 @@ export const refreshAccessToken = async (
     const newRefreshToken = await rotateRefreshToken(
       tokenData.tokenId,
       user.id,
-      req.headers['user-agent'],
-      req.ip
+      req.headers["user-agent"],
+      req.ip,
     );
 
     Logger.info(`Token refreshed for user: ${user.email}`);
@@ -226,8 +250,8 @@ export const refreshAccessToken = async (
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Token refresh error:', error);
-    next(ErrorFactory.internal('Token refresh failed'));
+    Logger.error("Token refresh error:", error);
+    next(ErrorFactory.internal("Token refresh failed"));
   }
 };
 
@@ -235,7 +259,11 @@ export const refreshAccessToken = async (
  * Get current user profile
  * GET /api/auth/me
  */
-export const getMe = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getMe = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     if (!req.user) {
       throw ErrorFactory.unauthorized();
@@ -261,7 +289,7 @@ export const getMe = async (req: Request, res: Response, next: NextFunction): Pr
     });
 
     if (!user) {
-      throw ErrorFactory.notFound('User');
+      throw ErrorFactory.notFound("User");
     }
 
     // Get progress stats
@@ -289,8 +317,8 @@ export const getMe = async (req: Request, res: Response, next: NextFunction): Pr
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Get me error:', error);
-    next(ErrorFactory.internal('Failed to get user profile'));
+    Logger.error("Get me error:", error);
+    next(ErrorFactory.internal("Failed to get user profile"));
   }
 };
 
@@ -302,7 +330,7 @@ export const getMe = async (req: Request, res: Response, next: NextFunction): Pr
 export const updateProfile = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     if (!req.user) {
@@ -329,15 +357,15 @@ export const updateProfile = async (
     Logger.info(`User profile updated: ${updatedUser.email}`);
 
     res.json({
-      message: 'Profile updated successfully',
+      message: "Profile updated successfully",
       user: updatedUser,
     });
   } catch (error) {
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Update profile error:', error);
-    next(ErrorFactory.internal('Failed to update profile'));
+    Logger.error("Update profile error:", error);
+    next(ErrorFactory.internal("Failed to update profile"));
   }
 };
 
@@ -349,7 +377,7 @@ export const updateProfile = async (
 export const changePassword = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     if (!req.user) {
@@ -364,14 +392,17 @@ export const changePassword = async (
     });
 
     if (!user) {
-      throw ErrorFactory.notFound('User');
+      throw ErrorFactory.notFound("User");
     }
 
     // Verify current password
-    const isValidPassword = await bcrypt.compare(currentPassword, user.passwordHash);
+    const isValidPassword = await bcrypt.compare(
+      currentPassword,
+      user.passwordHash,
+    );
 
     if (!isValidPassword) {
-      throw ErrorFactory.unauthorized('Current password is incorrect');
+      throw ErrorFactory.unauthorized("Current password is incorrect");
     }
 
     // Hash new password
@@ -389,13 +420,16 @@ export const changePassword = async (
 
     Logger.info(`User password changed: ${user.email}`);
 
-    res.json({ message: 'Password changed successfully. Please log in again on all devices.' });
+    res.json({
+      message:
+        "Password changed successfully. Please log in again on all devices.",
+    });
   } catch (error) {
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Change password error:', error);
-    next(ErrorFactory.internal('Failed to change password'));
+    Logger.error("Change password error:", error);
+    next(ErrorFactory.internal("Failed to change password"));
   }
 };
 
@@ -403,16 +437,21 @@ export const changePassword = async (
  * Logout (revoke refresh tokens and blacklist access token)
  * POST /api/auth/logout
  */
-export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const logout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { refreshToken, logoutAll } = req.body;
 
     // Import token blacklist functions
-    const { blacklistToken, blacklistUserTokens } = await import('../services/tokenBlacklist');
+    const { blacklistToken, blacklistUserTokens } =
+      await import("../services/tokenBlacklist");
 
     // Blacklist the access token from the request header
     const authHeader = req.headers.authorization;
-    const accessToken = authHeader && authHeader.split(' ')[1];
+    const accessToken = authHeader && authHeader.split(" ")[1];
 
     if (accessToken) {
       // Blacklist this specific access token (15 minute TTL since that's the token lifetime)
@@ -431,18 +470,18 @@ export const logout = async (req: Request, res: Response, next: NextFunction): P
       // Validate and revoke just this token
       const tokenData = await validateRefreshToken(refreshToken);
       if (tokenData) {
-        const { revokeRefreshToken } = await import('../services/refreshToken');
+        const { revokeRefreshToken } = await import("../services/refreshToken");
         await revokeRefreshToken(tokenData.tokenId);
       }
     }
 
-    res.json({ message: 'Logged out successfully' });
+    res.json({ message: "Logged out successfully" });
   } catch (error) {
     if (error instanceof AppError) {
       return next(error);
     }
-    Logger.error('Logout error:', error);
+    Logger.error("Logout error:", error);
     // Still return success - don't leak info about token validity
-    res.json({ message: 'Logged out successfully' });
+    res.json({ message: "Logged out successfully" });
   }
 };

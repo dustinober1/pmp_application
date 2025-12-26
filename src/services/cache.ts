@@ -11,8 +11,8 @@
  * - Graceful degradation on Redis failure
  */
 
-import { createClient, RedisClientType } from 'redis';
-import Logger from '../utils/logger';
+import { createClient, RedisClientType } from "redis";
+import Logger from "../utils/logger";
 
 // =============================================================================
 // Standardized TTL Constants (in seconds)
@@ -49,14 +49,14 @@ export const CACHE_TTL = {
 // =============================================================================
 
 export const CACHE_PREFIX = {
-  FLASHCARDS: 'flashcards',
-  QUESTIONS: 'questions',
-  DOMAINS: 'domains',
-  PROGRESS: 'progress',
-  TESTS: 'tests',
-  USER: 'user',
-  SESSION: 'session',
-  LOCKOUT: 'lockout',
+  FLASHCARDS: "flashcards",
+  QUESTIONS: "questions",
+  DOMAINS: "domains",
+  PROGRESS: "progress",
+  TESTS: "tests",
+  USER: "user",
+  SESSION: "session",
+  LOCKOUT: "lockout",
 } as const;
 
 // =============================================================================
@@ -71,12 +71,12 @@ class CacheService {
 
   constructor() {
     this.client = createClient({
-      url: process.env.REDIS_URL || 'redis://localhost:6379',
+      url: process.env.REDIS_URL || "redis://localhost:6379",
       socket: {
         reconnectStrategy: (retries) => {
           if (retries > this.maxRetries) {
-            Logger.error('Redis max reconnection attempts reached');
-            return new Error('Max retries reached');
+            Logger.error("Redis max reconnection attempts reached");
+            return new Error("Max retries reached");
           }
           // Exponential backoff: 100ms, 200ms, 400ms, 800ms, 1600ms
           return Math.min(retries * 100, 3000);
@@ -89,24 +89,24 @@ class CacheService {
   }
 
   private setupEventHandlers(): void {
-    this.client.on('error', (err) => {
-      Logger.error('Redis Client Error', err);
+    this.client.on("error", (err) => {
+      Logger.error("Redis Client Error", err);
       this.isConnected = false;
     });
 
-    this.client.on('connect', () => {
-      Logger.info('Redis Client Connected');
+    this.client.on("connect", () => {
+      Logger.info("Redis Client Connected");
       this.isConnected = true;
       this.connectionRetries = 0;
     });
 
-    this.client.on('reconnecting', () => {
+    this.client.on("reconnecting", () => {
       this.connectionRetries++;
       Logger.warn(`Redis reconnecting (attempt ${this.connectionRetries})`);
     });
 
-    this.client.on('end', () => {
-      Logger.warn('Redis connection closed');
+    this.client.on("end", () => {
+      Logger.warn("Redis connection closed");
       this.isConnected = false;
     });
   }
@@ -117,7 +117,7 @@ class CacheService {
         await this.client.connect();
       }
     } catch (error) {
-      Logger.error('Failed to connect to Redis', error);
+      Logger.error("Failed to connect to Redis", error);
     }
   }
 
@@ -145,7 +145,11 @@ class CacheService {
   /**
    * Set value in cache with TTL
    */
-  public async set<T>(key: string, value: T, ttlSeconds: number = CACHE_TTL.MEDIUM): Promise<void> {
+  public async set<T>(
+    key: string,
+    value: T,
+    ttlSeconds: number = CACHE_TTL.MEDIUM,
+  ): Promise<void> {
     if (!this.isConnected) {
       return;
     }
@@ -299,28 +303,32 @@ class CacheService {
   /**
    * Check Redis health
    */
-  public async healthCheck(): Promise<{ status: string; latencyMs: number; message?: string }> {
+  public async healthCheck(): Promise<{
+    status: string;
+    latencyMs: number;
+    message?: string;
+  }> {
     const start = Date.now();
 
     if (!this.isConnected) {
       return {
-        status: 'unhealthy',
+        status: "unhealthy",
         latencyMs: 0,
-        message: 'Not connected',
+        message: "Not connected",
       };
     }
 
     try {
       await this.client.ping();
       return {
-        status: 'healthy',
+        status: "healthy",
         latencyMs: Date.now() - start,
       };
     } catch (error) {
       return {
-        status: 'unhealthy',
+        status: "unhealthy",
         latencyMs: Date.now() - start,
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: error instanceof Error ? error.message : "Unknown error",
       };
     }
   }
@@ -334,7 +342,7 @@ class CacheService {
     }
 
     try {
-      const info = await this.client.info('memory');
+      const info = await this.client.info("memory");
       const keyCount = await this.client.dbSize();
 
       return {
@@ -343,7 +351,7 @@ class CacheService {
         memoryInfo: info,
       };
     } catch (error) {
-      Logger.error('Failed to get cache stats', error);
+      Logger.error("Failed to get cache stats", error);
       return null;
     }
   }
@@ -365,9 +373,9 @@ class CacheService {
   public async disconnect(): Promise<void> {
     try {
       await this.client.quit();
-      Logger.info('Redis client disconnected gracefully');
+      Logger.info("Redis client disconnected gracefully");
     } catch (error) {
-      Logger.error('Error disconnecting Redis client', error);
+      Logger.error("Error disconnecting Redis client", error);
     }
   }
 }
@@ -385,8 +393,11 @@ export const cache = new CacheService();
 /**
  * Build a cache key with namespace
  */
-export function buildCacheKey(prefix: string, ...parts: (string | number)[]): string {
-  return [prefix, ...parts].join(':');
+export function buildCacheKey(
+  prefix: string,
+  ...parts: (string | number)[]
+): string {
+  return [prefix, ...parts].join(":");
 }
 
 /**
@@ -401,6 +412,6 @@ export function buildUserCacheKey(
 }
 
 // Handle graceful shutdown
-process.on('beforeExit', async () => {
+process.on("beforeExit", async () => {
   await cache.disconnect();
 });
