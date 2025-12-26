@@ -114,3 +114,4 @@
 {"code":"INTERNAL_ERROR","correlationId":"ad8db995-590c-4b41-9bd2-31af30ff3649","level":"warn","message":"AppError: Login failed","path":"/api/v1/auth/login","timestamp":"2025-12-25T15:16:32.272Z"}
 {"level":"http","message":"ad8db995-590c-4b41-9bd2-31af30ff3649 POST /api/v1/auth/login 500 73 - 2.899 ms","timestamp":"2025-12-25T15:16:32.272Z"}
 {"level":"http","message":"6546b37e-6299-4ae2-b6c2-5d6dda11903b GET /api/v1/adaptive/profile 401 35 - 0.150 ms","timestamp":"2025-12-25T15:16:32.277Z"}
+{"level":"warn","message":"[Sentry] DSN not configured, error tracking disabled","timestamp":"2025-12-26T02:51:12.430Z"}

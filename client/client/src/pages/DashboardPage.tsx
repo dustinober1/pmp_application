@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import progressService from '../services/progressService';
 import type { DashboardData } from '../services/progressService';
+import adaptiveService from '../services/adaptiveService';
+import DomainMasteryChart from '../components/mastery/DomainMasteryChart';
+import MasteryTrendGraph from '../components/mastery/MasteryTrendGraph';
+import WeaknessIndicator from '../components/mastery/WeaknessIndicator';
 import { SkeletonDashboard } from '../components/ui/Skeleton';
 
 const DashboardPage: React.FC = () => {
@@ -10,6 +15,12 @@ const DashboardPage: React.FC = () => {
     const [data, setData] = useState<DashboardData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const {
+        data: masteryData,
+        isLoading: masteryLoading,
+        error: masteryError,
+        refetch: refetchMastery,
+    } = useQuery({ queryKey: ['learning-profile'], queryFn: adaptiveService.getLearningProfile });
 
     useEffect(() => {
         const fetchDashboard = async () => {
@@ -163,6 +174,31 @@ const DashboardPage: React.FC = () => {
                                 </div>
                             )}
                         </div>
+                    </section>
+
+                    {/* Mastery Overview */}
+                    <section className="dashboard-card mastery-overview">
+                        <div className="flex items-center justify-between mb-3">
+                            <h2>Mastery Overview</h2>
+                            {masteryError && (
+                                <button className="btn-secondary btn-sm" onClick={() => refetchMastery()}>
+                                    Retry
+                                </button>
+                            )}
+                        </div>
+                        {masteryLoading ? (
+                            <div className="text-sm text-gray-600">Loading mastery...</div>
+                        ) : masteryError ? (
+                            <div className="text-sm text-red-600">Failed to load mastery.</div>
+                        ) : masteryData ? (
+                            <div className="space-y-4">
+                                <DomainMasteryChart mastery={masteryData.domainMasteries} />
+                                <MasteryTrendGraph mastery={masteryData.domainMasteries} />
+                                <WeaknessIndicator gaps={masteryData.knowledgeGaps} />
+                            </div>
+                        ) : (
+                            <div className="text-sm text-gray-600">No mastery data yet.</div>
+                        )}
                     </section>
 
                     {/* Weekly Activity */}
