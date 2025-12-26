@@ -208,6 +208,26 @@ export class MasteryCalculator {
         });
       }
 
+      // Apply inactivity decay before recalculating, if needed
+      const now = new Date();
+      const inactivityDays = Math.floor(
+        (now.getTime() - mastery.lastActivityAt.getTime()) /
+          (1000 * 60 * 60 * 24),
+      );
+
+      const decayedScore = applyMasteryDecay(
+        mastery.score,
+        mastery.peakScore,
+        inactivityDays,
+      );
+
+      if (decayedScore !== mastery.score) {
+        mastery = await prisma.domainMastery.update({
+          where: { id: mastery.id },
+          data: { score: decayedScore },
+        });
+      }
+
       // Calculate new mastery score
       const newScore = calculateMasteryScore({
         accuracyRate: mastery.accuracyRate,
@@ -257,6 +277,8 @@ export class MasteryCalculator {
    */
   async getAllMasteryLevels(userId: string): Promise<MasteryLevel[]> {
     try {
+      await this.applyDecay(userId);
+
       const profile = await prisma.learningProfile.findUnique({
         where: { userId },
         include: {

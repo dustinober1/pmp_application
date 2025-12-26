@@ -216,7 +216,7 @@ This document contains the detailed task breakdown for all 20 user stories requi
 ## Story 6: Implement Adaptive Learning Engine
 
 - [ ] 17. Implement mastery tracking system
-  - [ ] 17.1 Create mastery calculation service
+  - [x] 17.1 Create mastery calculation service
     - Implement mastery score algorithm
     - Calculate accuracy rate per domain
     - Calculate consistency score
