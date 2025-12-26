@@ -262,6 +262,51 @@ async function importQuestions() {
   const totalQ = await prisma.question.count();
   const totalF = await prisma.flashCard.count();
   console.log('  📊 Total in database: ' + totalQ + ' questions, ' + totalF + ' flashcards');
+  
+  // Link questions to practice test via TestQuestion junction table
+  const practiceTest = await prisma.practiceTest.findFirst({
+    where: { name: 'PMP Practice Test 1' }
+  });
+  
+  if (practiceTest) {
+    const existingLinks = await prisma.testQuestion.count({
+      where: { testId: practiceTest.id }
+    });
+    
+    if (existingLinks < 10) {
+      console.log('  🔗 Linking questions to practice test...');
+      
+      // Get questions (limit to 185 for the standard test)
+      const questions = await prisma.question.findMany({
+        where: { isActive: true },
+        take: 185,
+        orderBy: { id: 'asc' }
+      });
+      
+      // Delete old links if any
+      await prisma.testQuestion.deleteMany({
+        where: { testId: practiceTest.id }
+      });
+      
+      // Create new TestQuestion links
+      let linkedCount = 0;
+      for (let i = 0; i < questions.length; i++) {
+        try {
+          await prisma.testQuestion.create({
+            data: {
+              testId: practiceTest.id,
+              questionId: questions[i].id,
+              orderIndex: i
+            }
+          });
+          linkedCount++;
+        } catch (e) {
+          // Skip duplicates
+        }
+      }
+      console.log('  ✅ Linked ' + linkedCount + ' questions to practice test');
+    }
+  }
 }
 
 importQuestions()
