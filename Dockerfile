@@ -126,5 +126,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
 # Use dumb-init for proper signal handling
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
-# Start the application
-CMD ["node", "dist/server.js"]
+# Start the application (run migrations first, then start server)
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/server.js"]
