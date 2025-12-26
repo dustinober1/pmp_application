@@ -20,7 +20,7 @@ const PracticeTestsPage: React.FC = () => {
     queryFn: practiceService.getTests,
   });
 
-  const [adaptiveMode, setAdaptiveMode] = React.useState(false);
+  const [adaptiveMode, setAdaptiveMode] = React.useState(true);
 
   const startSessionMutation = useMutation({
     mutationFn: ({ testId, userId, adaptiveMode }: { testId: string; userId: string; adaptiveMode: boolean }) =>

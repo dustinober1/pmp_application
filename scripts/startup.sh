@@ -201,19 +201,23 @@ async function importQuestions() {
     let fcImported = 0;
     for (const fc of flashcards) {
       try {
+        // JSON uses 'front' and 'back', not 'frontText' and 'backText'
+        const frontText = fc.front || fc.frontText;
+        const backText = fc.back || fc.backText;
+        
         const existing = await prisma.flashCard.findFirst({
-          where: { frontText: fc.frontText ? fc.frontText.substring(0, 200) : '' }
+          where: { frontText: frontText ? frontText.substring(0, 200) : '' }
         });
         
-        if (!existing && fc.frontText && fc.backText) {
+        if (!existing && frontText && backText) {
           const domainId = domainMap[(fc.domain || 'process').toLowerCase()] || domains[0].id;
           await prisma.flashCard.create({
             data: {
               domainId: domainId,
-              frontText: fc.frontText,
-              backText: fc.backText,
-              category: fc.category || 'General',
-              difficulty: (fc.difficulty || 'MEDIUM').toUpperCase(),
+              frontText: frontText,
+              backText: backText,
+              category: fc.topic || fc.category || 'General',
+              difficulty: (fc.difficulty || 'MEDIUM').toUpperCase().replace('SITUATIONAL TRIGGER', 'HARD').replace('TERM DEFINITION', 'EASY'),
               createdBy: adminUser.id,
             },
           });
