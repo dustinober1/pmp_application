@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/pmp_application/',
   plugins: [
     react(),
     tailwindcss(),
@@ -13,12 +14,6 @@ export default defineConfig({
     hmr: {
       overlay: false
     },
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001',
-        changeOrigin: true,
-      }
-    }
   },
   resolve: {
     alias: {
