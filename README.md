@@ -9,7 +9,7 @@ A free, open-source static web application for PMP (Project Management Professio
 
 ## 🎁 Support This Project
 
-This tool is completely free and open source. If you find it helpful, please consider supporting its development:
+This tool is completely free and open source. If you find it helpf
 
 - [**GitHub Sponsors**](https://github.com/sponsors/dustinober) - Monthly donations
 - [**Buy Me a Coffee**](https://www.buymeacoffee.com/dustinober) - One-time donations
@@ -82,10 +82,13 @@ npm run build
 
 The built files will be in `client/client/dist/` and can be served by any static hosting service.
 
+Legacy backend code, historical CI workflows, and raw data exports are archived under `archive/legacy-backend/`.
+
 ## 📁 Project Structure
 
 ```
 pmp_application/
+├── archive/legacy-backend/ # Legacy backend code and tooling (archived)
 ├── client/client/          # React frontend (Vite)
 │   ├── public/
 │   │   ├── data/           # Question and flashcard JSON data
@@ -122,4 +125,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 - PMP exam content based on PMBOK Guide 7th Edition
 - SM-2 Algorithm by Piotr Wozniak
 - Icons from Heroicons
-- Built with React, Express, Prisma, and PostgreSQL
+- Built with React, TypeScript, and Vite

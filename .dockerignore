@@ -1,7 +1,0 @@
-node_modules
-client/client/node_modules
-.git
-dist
-coverage
-npm-debug.log
-.DS_Store
