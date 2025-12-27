@@ -25,6 +25,15 @@ export interface PasswordChangeData {
     newPassword: string;
 }
 
+export interface ForgotPasswordData {
+    email: string;
+}
+
+export interface ResetPasswordData {
+    token: string;
+    newPassword: string;
+}
+
 const TOKEN_KEY = 'authToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 const USER_KEY = 'authUser';
@@ -169,6 +178,22 @@ export const changePassword = async (data: PasswordChangeData): Promise<{ messag
     return response.data;
 };
 
+/**
+ * Request a password reset email
+ */
+export const requestPasswordReset = async (data: ForgotPasswordData): Promise<{ message: string }> => {
+    const response = await api.post('/auth/password/forgot', data);
+    return response.data;
+};
+
+/**
+ * Reset password using token
+ */
+export const resetPassword = async (data: ResetPasswordData): Promise<{ message: string }> => {
+    const response = await api.post('/auth/password/reset', data);
+    return response.data;
+};
+
 export default {
     register,
     login,
@@ -177,6 +202,8 @@ export default {
     getMe,
     updateProfile,
     changePassword,
+    requestPasswordReset,
+    resetPassword,
     getStoredToken,
     getStoredRefreshToken,
     getStoredUser,

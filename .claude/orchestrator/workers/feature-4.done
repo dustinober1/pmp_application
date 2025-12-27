@@ -1,0 +1,50 @@
+# Feature 4: Update practice test API to show domain breakdown
+
+## Summary
+Updated the practice test API endpoints to include domain breakdown information in the response.
+
+## Changes Made
+
+### src/controllers/practiceController.ts
+
+1. **getPracticeTests (GET /api/practice/tests)**
+   - Added query to fetch all domains for full-spectrum test fallback
+   - Updated Prisma query to include `domains` relation (via TestDomain junction table)
+   - Added transformation to format domain data with `isFullSpectrum` flag
+   - For tests with no TestDomain entries: returns all domains and sets `isFullSpectrum: true`
+   - For domain-specific tests: returns only the linked domains and sets `isFullSpectrum: false`
+
+2. **getPracticeTestById (GET /api/practice/tests/:id)**
+   - Same domain breakdown logic as getPracticeTests
+   - Added `domains` and `isFullSpectrum` fields to the response
+
+## Response Format
+Both endpoints now return tests with this additional structure:
+
+```json
+{
+  "id": "test-uuid",
+  "name": "Test Name",
+  "description": "...",
+  "totalQuestions": 50,
+  "timeLimitMinutes": 90,
+  "isFullSpectrum": false,
+  "domains": [
+    {
+      "id": "domain-uuid",
+      "name": "People",
+      "color": "#3B82F6",
+      "weightPercentage": 33
+    }
+  ],
+  "_count": { ... }
+}
+```
+
+## Backward Compatibility
+- Existing API consumers will continue to work
+- New fields (`isFullSpectrum`, `domains`) are additive
+- The raw `domains` junction table data is removed from the response to provide a clean API
+
+## Testing
+- TypeScript compilation passes with no errors

@@ -12,10 +12,16 @@ import {
   revokeAllUserRefreshTokens,
 } from "../services/refreshToken";
 import {
+  createPasswordResetToken,
+  findValidPasswordResetToken,
+} from "../services/passwordReset";
+import {
   checkAccountLockout,
   recordFailedAttempt,
   clearLockout,
 } from "../services/accountLockout";
+import { notificationService } from "../services/notificationService";
+import { blacklistUserTokens } from "../services/tokenBlacklist";
 
 /**
  * Register a new user
@@ -366,6 +372,121 @@ export const updateProfile = async (
     }
     Logger.error("Update profile error:", error);
     next(ErrorFactory.internal("Failed to update profile"));
+  }
+};
+
+/**
+ * Request password reset
+ * POST /api/auth/password/forgot
+ */
+export const requestPasswordReset = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { email } = req.body;
+    const normalizedEmail = email.toLowerCase();
+
+    const user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+      select: { id: true, email: true },
+    });
+
+    if (user) {
+      const token = await createPasswordResetToken(
+        user.id,
+        req.headers["user-agent"],
+        req.ip,
+      );
+      const appBaseUrl = (
+        process.env.APP_BASE_URL || "http://localhost:5173"
+      ).replace(/\/$/, "");
+      const resetLink = `${appBaseUrl}/reset-password?token=${encodeURIComponent(token)}`;
+      try {
+        await notificationService.sendPasswordResetEmail(user.id, resetLink);
+      } catch (sendError) {
+        Logger.error("Password reset email failed:", sendError);
+      }
+      Logger.info(`Password reset requested: ${user.email}`);
+    }
+
+    res.json({
+      message:
+        "If an account exists for that email, a reset link has been sent.",
+    });
+  } catch (error) {
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error("Password reset request error:", error);
+    next(ErrorFactory.internal("Failed to request password reset"));
+  }
+};
+
+/**
+ * Reset password
+ * POST /api/auth/password/reset
+ */
+export const resetPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { token, newPassword } = req.body;
+
+    const resetToken = await findValidPasswordResetToken(token);
+    if (!resetToken) {
+      throw ErrorFactory.invalidToken("Reset token is invalid or expired");
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: resetToken.userId },
+    });
+
+    if (!user) {
+      throw ErrorFactory.invalidToken("Reset token is invalid or expired");
+    }
+
+    const saltRounds = 12;
+    const passwordHash = await bcrypt.hash(newPassword, saltRounds);
+
+    await prisma.$transaction(async (tx) => {
+      const used = await tx.passwordResetToken.updateMany({
+        where: { id: resetToken.id, usedAt: null },
+        data: { usedAt: new Date() },
+      });
+
+      if (used.count === 0) {
+        throw ErrorFactory.invalidToken("Reset token is invalid or expired");
+      }
+
+      await tx.user.update({
+        where: { id: resetToken.userId },
+        data: { passwordHash },
+      });
+
+      await tx.passwordResetToken.deleteMany({
+        where: { userId: resetToken.userId, id: { not: resetToken.id } },
+      });
+    });
+
+    await revokeAllUserRefreshTokens(resetToken.userId);
+    await blacklistUserTokens(resetToken.userId);
+    await clearLockout(user.email);
+
+    Logger.info(`User password reset: ${user.email}`);
+
+    res.json({
+      message: "Password reset successfully. Please log in again.",
+    });
+  } catch (error) {
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error("Password reset error:", error);
+    next(ErrorFactory.internal("Failed to reset password"));
   }
 };
 

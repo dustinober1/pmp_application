@@ -1,0 +1,76 @@
+# Feature 3: Test Generation Utility for Domain-Specific Tests
+
+## Status: COMPLETED
+
+## Summary
+Created a comprehensive test generation utility service that enables generating domain-specific practice tests with optional difficulty and methodology distributions.
+
+## Files Created
+- `src/services/testGenerator.ts` - Main test generator service
+
+## Implementation Details
+
+### Core Function: `generateTestByDomain(options)`
+Generates question IDs for a domain-specific test with the following features:
+
+#### Parameters (GenerateTestOptions)
+- `domainIds: string[]` - Array of domain IDs to include (empty = all domains)
+- `questionCount: number` - Total questions to include
+- `difficultyDistribution?: DifficultyDistribution` - Optional (easy/medium/hard percentages)
+- `methodologyDistribution?: MethodologyDistribution` - Optional (predictive/agile/hybrid percentages)
+- `useWeightedDistribution?: boolean` - Balance questions by domain weight (default: true)
+- `excludeQuestionIds?: string[]` - Exclude specific questions (for avoiding recently used)
+
+#### Returns (GenerateTestResult)
+- `questionIds: string[]` - Selected question IDs for the test
+- `domainBreakdown` - Actual vs target counts per domain
+- `difficultyBreakdown` - Actual vs target counts per difficulty
+- `methodologyBreakdown` - Actual vs target counts per methodology
+- `warnings: string[]` - Any constraints that couldn't be satisfied
+
+### Additional Utility Functions
+1. `getAllDomains()` - Get all available domains
+2. `getQuestionCountForDomain(domainId, excludeIds)` - Count available questions per domain
+3. `getQuestionCountsByDomain(excludeIds)` - Get counts for all domains
+4. `validateQuestionAvailability(domainIds, count, excludeIds)` - Check if enough questions exist
+
+### Key Features
+- Weighted distribution based on domain weightPercentage (33% People, 41% Process, 26% Business)
+- Optional even distribution across domains
+- Random shuffling for unpredictable test generation
+- Graceful handling of insufficient questions with warnings
+- Full TypeScript types with JSDoc documentation
+
+## Usage Examples
+
+```typescript
+// Generate a 50-question People domain test
+const result = await generateTestByDomain({
+  domainIds: ['people-domain-uuid'],
+  questionCount: 50,
+});
+
+// Generate a mixed domain test with difficulty distribution
+const result = await generateTestByDomain({
+  domainIds: ['people-uuid', 'process-uuid'],
+  questionCount: 100,
+  difficultyDistribution: { easy: 20, medium: 60, hard: 20 },
+  useWeightedDistribution: true,
+});
+
+// Full-spectrum test (all domains)
+const result = await generateTestByDomain({
+  domainIds: [], // Empty = all domains
+  questionCount: 185,
+});
+```
+
+## Integration Points
+- Ready for use by Admin API (`src/controllers/adminController.ts`)
+- Ready for use by seed scripts (`prisma/seed.ts`)
+- Uses existing database service (`src/services/database.ts`)
+
+## Notes
+- The code compiles successfully (verified with esbuild)
+- Existing TypeScript errors in adminController.ts are unrelated and were present before this feature
+- The Prisma client is properly imported and used

@@ -1,0 +1,74 @@
+You are a worker agent focused on implementing a single feature.
+
+## Your Task
+Create test generation utility for domain-specific tests
+
+## Orchestration Context
+Add the ability for tests to be broken down by task area/domain, not just one big test. Currently, PracticeTest represents one large test with 185 questions. We need to support creating tests that focus on specific domains (People, Process, Business Environment) or combinations of domains.
+
+Current structure:
+- Questions belong to Domains via domainId
+- Tests link to questions via TestQuestion junction table
+- 3 domains exist: People (33%), Process (41%), Business Environment (26%)
+
+Requirements:
+1. Support creating domain-specific tests (e.g., "People Domain Practice Test")
+2. Allow tests to include questions from one or multiple domains
+3. Update admin API to accept domain filters when creating tests
+4. Update user-facing API to show domain coverage for each test
+5. Add sample domain-specific tests to seed data
+6. Maintain backward compatibility with existing full-length tests
+
+
+## Instructions
+1. Focus ONLY on implementing this specific feature
+2. Make small, incremental changes
+3. Test your changes as you go
+4. When you are DONE, create a file at: .claude/orchestrator/workers/feature-3.done
+   with a brief summary of what you implemented
+5. Do NOT commit your changes - the orchestrator will handle commits
+
+## Important
+- Do not work on other features
+- If you encounter a blocker, document it in the .done file and stop
+- Keep changes minimal and focused
+- NEVER commit, stage, or git add ANY of these files:
+  - .claude/ (entire directory - orchestrator state, logs, prompts, worker files)
+  - claude-progress.txt
+  - init.sh
+  - *.prompt, *.log, *.done, *.status files in .claude/
+
+
+## Additional Context
+You need to create a test generation utility for domain-specific tests.
+
+Purpose:
+- Provide a helper function that can generate tests filtered by domain(s)
+- This will be used by the admin API and seed scripts to easily create domain-specific tests
+
+Requirements:
+1. Create a new file: `src/services/testGenerator.ts` (or similar location)
+2. Implement a function like `generateTestByDomain` that:
+   - Accepts parameters: domainIds (array), questionCount (number), optional test metadata
+   - Queries questions from those specific domains
+   - Optionally respects difficulty distribution (e.g., 30% easy, 50% medium, 20% hard)
+   - Optionally respects methodology distribution (predictive, agile, hybrid)
+   - Returns question IDs suitable for creating a test
+   - Should handle edge cases (not enough questions in domain, etc.)
+
+3. Consider including these features:
+   - Balance questions across multiple domains if multiple domainIds provided
+   - Apply the domain weightPercentage when distributing questions
+   - Ensure random selection to avoid predictable tests
+   - Option to exclude recently used questions (optional for future enhancement)
+
+Implementation approach:
+- Use Prisma to query questions filtered by domainId
+- Use proper TypeScript typing
+- Add JSDoc comments explaining the function parameters
+- Export the function for use in other parts of the codebase
+- Keep it simple for now - focus on basic domain filtering and random selection
+
+Test the implementation if database is available, otherwise just ensure the code is syntactically correct.
+
+Begin implementing the feature now.

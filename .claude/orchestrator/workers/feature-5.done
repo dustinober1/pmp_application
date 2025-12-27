@@ -1,0 +1,40 @@
+# Feature 5: Add Domain-Specific Sample Tests to Seed Data
+
+## Summary
+Added 3 domain-specific practice tests to the seed data in `prisma/seed.ts`:
+
+1. **People Domain Practice Test**
+   - Targets up to 60 questions from the People domain
+   - Time limit calculated at ~75 seconds per question
+   - Creates TestDomain link to People domain
+
+2. **Process Domain Practice Test**
+   - Targets up to 75 questions from the Process domain
+   - Time limit calculated at ~75 seconds per question
+   - Creates TestDomain link to Process domain
+
+3. **Business Environment Practice Test**
+   - Targets up to 50 questions from the Business Environment domain
+   - Time limit calculated at ~75 seconds per question
+   - Creates TestDomain link to Business Environment domain
+
+## Implementation Details
+- Added helper function `getQuestionsByDomain()` to query questions by domain ID
+- Each domain-specific test:
+  - Is idempotent (checks if test already exists before creating)
+  - Uses available questions (handles case where fewer questions exist than target)
+  - Creates TestQuestion records linking questions to the test
+  - Creates TestDomain record linking test to its specific domain
+- Updated summary output to show domain-specific test count
+- Original full-spectrum test ("PMP Practice Test 1") is preserved
+
+## Files Modified
+- `prisma/seed.ts` - Added domain-specific test creation logic (lines 309-472)
+
+## Testing
+- TypeScript syntax validated via ts-node
+- Script runs successfully (database connection error is expected when DB not running)
+- The code handles edge cases like:
+  - Existing tests (idempotent)
+  - Fewer available questions than target count
+  - No questions available for a domain

@@ -80,6 +80,35 @@
   flex-shrink: 0;
 }
 
+.auth-success {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem;
+  background: #ecfdf3;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  color: #15803d;
+  font-size: 0.9rem;
+}
+
+.success-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.auth-note {
+  padding: 0.875rem 1rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  color: #1d4ed8;
+  font-size: 0.9rem;
+}
+
 /* Form Styles */
 .auth-form {
   display: flex;
@@ -123,6 +152,13 @@
 
 .form-group input::placeholder {
   color: #9ca3af;
+}
+
+.auth-helper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.5rem;
+  font-size: 0.85rem;
 }
 
 /* Password Strength Indicator */

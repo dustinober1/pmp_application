@@ -19,6 +19,8 @@ const TestSessionPage = lazy(() => import('./pages/TestSessionPage'));
 const TestReviewPage = lazy(() => import('./pages/TestReviewPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const StudyPlanPage = lazy(() => import('./pages/StudyPlanPage'));
@@ -84,6 +86,8 @@ function AppRoutes() {
             </AuthRedirect>
           }
         />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         {/* Routes with layout */}
         <Route

@@ -1,0 +1,75 @@
+You are a worker agent focused on implementing a single feature.
+
+## Your Task
+Update test validation to ensure domain coverage requirements
+
+## Orchestration Context
+Add the ability for tests to be broken down by task area/domain, not just one big test. Currently, PracticeTest represents one large test with 185 questions. We need to support creating tests that focus on specific domains (People, Process, Business Environment) or combinations of domains.
+
+Current structure:
+- Questions belong to Domains via domainId
+- Tests link to questions via TestQuestion junction table
+- 3 domains exist: People (33%), Process (41%), Business Environment (26%)
+
+Requirements:
+1. Support creating domain-specific tests (e.g., "People Domain Practice Test")
+2. Allow tests to include questions from one or multiple domains
+3. Update admin API to accept domain filters when creating tests
+4. Update user-facing API to show domain coverage for each test
+5. Add sample domain-specific tests to seed data
+6. Maintain backward compatibility with existing full-length tests
+
+
+## Instructions
+1. Focus ONLY on implementing this specific feature
+2. Make small, incremental changes
+3. Test your changes as you go
+4. When you are DONE, create a file at: .claude/orchestrator/workers/feature-6.done
+   with a brief summary of what you implemented
+5. Do NOT commit your changes - the orchestrator will handle commits
+
+## Important
+- Do not work on other features
+- If you encounter a blocker, document it in the .done file and stop
+- Keep changes minimal and focused
+- NEVER commit, stage, or git add ANY of these files:
+  - .claude/ (entire directory - orchestrator state, logs, prompts, worker files)
+  - claude-progress.txt
+  - init.sh
+  - *.prompt, *.log, *.done, *.status files in .claude/
+
+
+## Additional Context
+You need to update test validation to ensure domain coverage requirements.
+
+Purpose:
+Add validation logic to ensure that tests meet proper domain coverage requirements when using domain filtering.
+
+Requirements:
+1. Validate that when creating domain-specific tests, there are enough questions available
+2. Optionally warn if domain distribution doesn't match expected weightings
+3. Add validation helper functions that can be used by the admin API
+
+Implementation approach:
+1. Add validation functions to `src/services/testGenerator.ts` or create a new `src/services/testValidator.ts`
+2. Implement functions like:
+   - `validateDomainTestRequirements(domainIds, questionCount)` - Check if enough questions exist
+   - `validateDomainDistribution(domainIds, questionCount)` - Validate distribution makes sense
+   - `getRecommendedQuestionCount(domainIds)` - Suggest appropriate question count based on available questions
+
+3. Optionally integrate validation into the admin API:
+   - Call validation before creating a test
+   - Return helpful error messages if requirements aren't met
+   - Suggest corrective actions (e.g., "Only 45 questions available for People domain, requested 60")
+
+4. Consider these edge cases:
+   - No questions available for a domain
+   - Insufficient questions for requested count
+   - Invalid domain IDs
+   - Empty domain selection for domain-specific test
+
+5. Add appropriate TypeScript types and JSDoc comments
+
+Make sure validation is helpful but doesn't block legitimate use cases. Focus on providing warnings and recommendations rather than hard failures where appropriate.
+
+Begin implementing the feature now.

@@ -1,0 +1,71 @@
+You are a worker agent focused on implementing a single feature.
+
+## Your Task
+Update admin test creation API to accept domain filter parameters
+
+## Orchestration Context
+Add the ability for tests to be broken down by task area/domain, not just one big test. Currently, PracticeTest represents one large test with 185 questions. We need to support creating tests that focus on specific domains (People, Process, Business Environment) or combinations of domains.
+
+Current structure:
+- Questions belong to Domains via domainId
+- Tests link to questions via TestQuestion junction table
+- 3 domains exist: People (33%), Process (41%), Business Environment (26%)
+
+Requirements:
+1. Support creating domain-specific tests (e.g., "People Domain Practice Test")
+2. Allow tests to include questions from one or multiple domains
+3. Update admin API to accept domain filters when creating tests
+4. Update user-facing API to show domain coverage for each test
+5. Add sample domain-specific tests to seed data
+6. Maintain backward compatibility with existing full-length tests
+
+
+## Instructions
+1. Focus ONLY on implementing this specific feature
+2. Make small, incremental changes
+3. Test your changes as you go
+4. When you are DONE, create a file at: .claude/orchestrator/workers/feature-2.done
+   with a brief summary of what you implemented
+5. Do NOT commit your changes - the orchestrator will handle commits
+
+## Important
+- Do not work on other features
+- If you encounter a blocker, document it in the .done file and stop
+- Keep changes minimal and focused
+- NEVER commit, stage, or git add ANY of these files:
+  - .claude/ (entire directory - orchestrator state, logs, prompts, worker files)
+  - claude-progress.txt
+  - init.sh
+  - *.prompt, *.log, *.done, *.status files in .claude/
+
+
+## Additional Context
+You need to update the admin test creation API to accept domain filter parameters.
+
+Current implementation:
+- Admin API is at src/controllers/adminController.ts
+- The createTest endpoint accepts: name, description, timeLimitMinutes, questionIds (optional)
+- It creates a PracticeTest and optionally creates TestQuestion records
+
+New requirement:
+- Add optional `domainIds` parameter (array of domain UUIDs) to the createTest request
+- If domainIds is provided, create TestDomain records linking the test to those domains
+- If domainIds is not provided or empty, the test remains full-spectrum (all domains)
+- Validate that provided domainIds exist in the database
+- Update the TypeScript types/interfaces for the request body
+
+Implementation steps:
+1. Read src/controllers/adminController.ts to understand the current createTest implementation
+2. Update the request body interface/type to include optional domainIds: string[]
+3. Add validation to check that domainIds exist (query the Domain table)
+4. After creating the PracticeTest, if domainIds is provided, create TestDomain records
+5. Use Prisma's createMany for efficient bulk insert
+6. Ensure proper error handling for invalid domain IDs
+7. Test the changes if possible
+
+Make sure to:
+- Handle the case where domainIds is an empty array (treat as full-spectrum)
+- Return appropriate error messages if domain IDs are invalid
+- Keep the code clean and consistent with existing patterns in the file
+
+Begin implementing the feature now.

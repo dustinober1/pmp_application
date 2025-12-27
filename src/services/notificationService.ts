@@ -226,6 +226,20 @@ export const notificationService = {
     return notification;
   },
 
+  async sendPasswordResetEmail(userId: string, resetLink: string) {
+    await sendEmail(
+      userId,
+      "Reset your PMP Practice Test password",
+      [
+        "We received a request to reset your password.",
+        "",
+        `Reset your password: ${resetLink}`,
+        "",
+        "If you did not request this, you can safely ignore this email.",
+      ].join("\n"),
+    );
+  },
+
   async sendTestCompletion(params: {
     userId: string;
     testName: string;

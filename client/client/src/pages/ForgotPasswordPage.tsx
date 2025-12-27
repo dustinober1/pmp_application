@@ -1,46 +1,26 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../contexts/AuthContext';
+import authService from '../services/authService';
 
-interface LocationState {
-    from?: {
-        pathname: string;
-    };
-}
-
-const LoginPage: React.FC = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { login, isLoading: authLoading } = useAuth();
-
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
+const ForgotPasswordPage: React.FC = () => {
+    const [email, setEmail] = useState('');
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    // Get redirect path from location state or default to home
-    const from = (location.state as LocationState)?.from?.pathname || '/';
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-        setError('');
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        setMessage('');
         setIsSubmitting(true);
 
         try {
-            await login(formData);
-            navigate(from, { replace: true });
+            const response = await authService.requestPasswordReset({ email });
+            setMessage(response.message || 'Check your email for a reset link.');
         } catch (err) {
             if (axios.isAxiosError(err)) {
-                setError(err.response?.data?.error || 'Login failed. Please try again.');
+                setError(err.response?.data?.error || 'Request failed. Please try again.');
             } else {
                 setError('An unexpected error occurred. Please try again.');
             }
@@ -48,14 +28,6 @@ const LoginPage: React.FC = () => {
             setIsSubmitting(false);
         }
     };
-
-    if (authLoading) {
-        return (
-            <div className="auth-loading">
-                <div className="spinner"></div>
-            </div>
-        );
-    }
 
     return (
         <div className="auth-page">
@@ -67,8 +39,8 @@ const LoginPage: React.FC = () => {
                                 <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L19.85 7 12 9.72 4.15 7 12 4.18zM4 8.5l7 3.5v7.5l-7-3.5V8.5zm9 11V12l7-3.5v7.5l-7 3.5z" />
                             </svg>
                         </div>
-                        <h1>Welcome Back</h1>
-                        <p>Sign in to continue your PMP preparation</p>
+                        <h1>Reset Your Password</h1>
+                        <p>Enter your email and we will send you a reset link</p>
                     </div>
 
                     {error && (
@@ -80,6 +52,15 @@ const LoginPage: React.FC = () => {
                         </div>
                     )}
 
+                    {message && (
+                        <div className="auth-success">
+                            <svg viewBox="0 0 24 24" fill="currentColor" className="success-icon">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg>
+                            <span>{message}</span>
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="auth-form">
                         <div className="form-group">
                             <label htmlFor="email">Email Address</label>
@@ -87,32 +68,16 @@ const LoginPage: React.FC = () => {
                                 type="email"
                                 id="email"
                                 name="email"
-                                value={formData.email}
-                                onChange={handleChange}
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    setError('');
+                                }}
                                 placeholder="you@example.com"
                                 required
                                 autoComplete="email"
                                 autoFocus
                             />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder="••••••••"
-                                required
-                                autoComplete="current-password"
-                            />
-                        </div>
-                        <div className="auth-helper">
-                            <Link to="/forgot-password" className="auth-link">
-                                Forgot password?
-                            </Link>
                         </div>
 
                         <button
@@ -123,50 +88,44 @@ const LoginPage: React.FC = () => {
                             {isSubmitting ? (
                                 <>
                                     <span className="button-spinner"></span>
-                                    Signing in...
+                                    Sending reset link...
                                 </>
                             ) : (
-                                'Sign In'
+                                'Send reset link'
                             )}
                         </button>
                     </form>
 
                     <div className="auth-footer">
                         <p>
-                            Don't have an account?{' '}
-                            <Link to="/register" className="auth-link">
-                                Create one
+                            Remembered your password?{' '}
+                            <Link to="/login" className="auth-link">
+                                Sign in
                             </Link>
                         </p>
                     </div>
                 </div>
 
                 <div className="auth-features">
-                    <h2>Start Your PMP Journey</h2>
+                    <h2>Stay on Track</h2>
                     <ul>
                         <li>
                             <svg viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                             </svg>
-                            <span>995+ Practice Questions</span>
+                            <span>Pick up where you left off</span>
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                             </svg>
-                            <span>Domain-Specific Flashcards</span>
+                            <span>Your progress stays safe</span>
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                             </svg>
-                            <span>Progress Tracking</span>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                            </svg>
-                            <span>Detailed Explanations</span>
+                            <span>Secure account recovery</span>
                         </li>
                     </ul>
                 </div>
@@ -175,4 +134,4 @@ const LoginPage: React.FC = () => {
     );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;

@@ -108,6 +108,25 @@ export const changePasswordSchema = z.object({
 });
 
 /**
+ * Forgot password schema
+ */
+export const forgotPasswordSchema = z.object({
+  body: z.object({
+    email: emailSchema,
+  }),
+});
+
+/**
+ * Reset password schema
+ */
+export const resetPasswordSchema = z.object({
+  body: z.object({
+    token: z.string().min(1, "Reset token is required"),
+    newPassword: passwordSchema,
+  }),
+});
+
+/**
  * Refresh token schema
  */
 export const refreshTokenSchema = z.object({

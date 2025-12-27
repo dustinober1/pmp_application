@@ -1,0 +1,77 @@
+You are a worker agent focused on implementing a single feature.
+
+## Your Task
+Add domain-specific sample tests to seed data
+
+## Orchestration Context
+Add the ability for tests to be broken down by task area/domain, not just one big test. Currently, PracticeTest represents one large test with 185 questions. We need to support creating tests that focus on specific domains (People, Process, Business Environment) or combinations of domains.
+
+Current structure:
+- Questions belong to Domains via domainId
+- Tests link to questions via TestQuestion junction table
+- 3 domains exist: People (33%), Process (41%), Business Environment (26%)
+
+Requirements:
+1. Support creating domain-specific tests (e.g., "People Domain Practice Test")
+2. Allow tests to include questions from one or multiple domains
+3. Update admin API to accept domain filters when creating tests
+4. Update user-facing API to show domain coverage for each test
+5. Add sample domain-specific tests to seed data
+6. Maintain backward compatibility with existing full-length tests
+
+
+## Instructions
+1. Focus ONLY on implementing this specific feature
+2. Make small, incremental changes
+3. Test your changes as you go
+4. When you are DONE, create a file at: .claude/orchestrator/workers/feature-5.done
+   with a brief summary of what you implemented
+5. Do NOT commit your changes - the orchestrator will handle commits
+
+## Important
+- Do not work on other features
+- If you encounter a blocker, document it in the .done file and stop
+- Keep changes minimal and focused
+- NEVER commit, stage, or git add ANY of these files:
+  - .claude/ (entire directory - orchestrator state, logs, prompts, worker files)
+  - claude-progress.txt
+  - init.sh
+  - *.prompt, *.log, *.done, *.status files in .claude/
+
+
+## Additional Context
+You need to add domain-specific sample tests to the seed data.
+
+Current implementation:
+- Seed file is at `prisma/seed.ts`
+- Currently creates one full-spectrum test: "PMP Practice Test 1" with 185 questions
+- Has 3 domains: People, Process, Business Environment
+- Has sample questions distributed across domains
+
+New requirements:
+1. Add 3 new domain-specific practice tests (one for each domain)
+2. Use the new testGenerator service to generate questions for each test
+3. Create TestDomain records linking tests to their respective domains
+4. Keep the existing full-spectrum test
+
+Suggested tests to add:
+- "People Domain Practice Test" - 60 questions from People domain
+- "Process Domain Practice Test" - 75 questions from Process domain  
+- "Business Environment Practice Test" - 50 questions from Business Environment domain
+
+Implementation approach:
+1. Read `prisma/seed.ts` to understand current structure
+2. Import the testGenerator service: `import { generateTestByDomain } from '../src/services/testGenerator';`
+3. After creating the main full-spectrum test, add domain-specific tests
+4. For each domain-specific test:
+   - Get the domain ID by querying the domain by name
+   - Use generateTestByDomain to get question IDs for that domain
+   - Create the PracticeTest record
+   - Create TestQuestion records linking questions to the test
+   - Create TestDomain record linking the test to the specific domain
+5. Handle cases where there might not be enough questions (use available count)
+6. Add appropriate console.log statements for visibility during seeding
+
+Make sure the seed script runs without errors and creates all test data properly.
+
+Begin implementing the feature now.

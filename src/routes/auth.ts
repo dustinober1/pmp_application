@@ -5,6 +5,8 @@ import {
   logout,
   getMe,
   updateProfile,
+  requestPasswordReset,
+  resetPassword,
   changePassword,
   refreshAccessToken,
 } from "../controllers/auth";
@@ -14,6 +16,8 @@ import {
   registerSchema,
   loginSchema,
   updateProfileSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
   changePasswordSchema,
 } from "../schemas/auth.schema";
 
@@ -79,6 +83,64 @@ router.post("/register", validateResult(registerSchema), register);
  *         description: Invalid credentials
  */
 router.post("/login", validateResult(loginSchema), login);
+
+/**
+ * @openapi
+ * /api/auth/password/forgot:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Request password reset
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email]
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: Reset email sent if account exists
+ */
+router.post(
+  "/password/forgot",
+  validateResult(forgotPasswordSchema),
+  requestPasswordReset,
+);
+
+/**
+ * @openapi
+ * /api/auth/password/reset:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Reset password with token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [token, newPassword]
+ *             properties:
+ *               token:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *                 minLength: 8
+ *     responses:
+ *       200:
+ *         description: Password reset successful
+ *       403:
+ *         description: Invalid or expired reset token
+ */
+router.post(
+  "/password/reset",
+  validateResult(resetPasswordSchema),
+  resetPassword,
+);
 
 /**
  * @openapi
