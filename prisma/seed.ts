@@ -306,6 +306,171 @@ async function main() {
 
   console.log('✅ Added questions to practice test');
 
+  // =========================================================================
+  // Create Domain-Specific Practice Tests
+  // =========================================================================
+  console.log('\n📝 Creating domain-specific practice tests...');
+
+  // Helper function to get questions by domain
+  async function getQuestionsByDomain(domainId: string): Promise<string[]> {
+    const questions = await prisma.question.findMany({
+      where: {
+        domainId,
+        isActive: true,
+      },
+      select: { id: true },
+    });
+    return questions.map(q => q.id);
+  }
+
+  // Create People Domain Practice Test
+  const peopleDomain = domains[0]; // People domain
+  const peopleQuestionIds = await getQuestionsByDomain(peopleDomain.id);
+
+  let peopleDomainTest = await prisma.practiceTest.findFirst({
+    where: { name: 'People Domain Practice Test' }
+  });
+
+  if (!peopleDomainTest && peopleQuestionIds.length > 0) {
+    const questionCount = Math.min(60, peopleQuestionIds.length);
+    peopleDomainTest = await prisma.practiceTest.create({
+      data: {
+        name: 'People Domain Practice Test',
+        description: `Practice test focusing on the People domain - ${questionCount} questions covering team leadership, conflict resolution, and stakeholder management`,
+        totalQuestions: questionCount,
+        timeLimitMinutes: Math.round(questionCount * 1.25), // ~75 seconds per question
+        isActive: true,
+      },
+    });
+
+    // Link questions to test
+    await Promise.all(
+      peopleQuestionIds.slice(0, questionCount).map((questionId, index) =>
+        prisma.testQuestion.create({
+          data: {
+            testId: peopleDomainTest!.id,
+            questionId,
+            orderIndex: index,
+          },
+        })
+      )
+    );
+
+    // Create TestDomain link
+    await prisma.testDomain.create({
+      data: {
+        testId: peopleDomainTest.id,
+        domainId: peopleDomain.id,
+      },
+    });
+
+    console.log(`✅ Created People Domain Practice Test (${questionCount} questions)`);
+  } else if (peopleDomainTest) {
+    console.log('✅ Found existing People Domain Practice Test');
+  } else {
+    console.log('⚠️  No questions available for People Domain test');
+  }
+
+  // Create Process Domain Practice Test
+  const processDomain = domains[1]; // Process domain
+  const processQuestionIds = await getQuestionsByDomain(processDomain.id);
+
+  let processDomainTest = await prisma.practiceTest.findFirst({
+    where: { name: 'Process Domain Practice Test' }
+  });
+
+  if (!processDomainTest && processQuestionIds.length > 0) {
+    const questionCount = Math.min(75, processQuestionIds.length);
+    processDomainTest = await prisma.practiceTest.create({
+      data: {
+        name: 'Process Domain Practice Test',
+        description: `Practice test focusing on the Process domain - ${questionCount} questions covering project planning, execution, and monitoring`,
+        totalQuestions: questionCount,
+        timeLimitMinutes: Math.round(questionCount * 1.25), // ~75 seconds per question
+        isActive: true,
+      },
+    });
+
+    // Link questions to test
+    await Promise.all(
+      processQuestionIds.slice(0, questionCount).map((questionId, index) =>
+        prisma.testQuestion.create({
+          data: {
+            testId: processDomainTest!.id,
+            questionId,
+            orderIndex: index,
+          },
+        })
+      )
+    );
+
+    // Create TestDomain link
+    await prisma.testDomain.create({
+      data: {
+        testId: processDomainTest.id,
+        domainId: processDomain.id,
+      },
+    });
+
+    console.log(`✅ Created Process Domain Practice Test (${questionCount} questions)`);
+  } else if (processDomainTest) {
+    console.log('✅ Found existing Process Domain Practice Test');
+  } else {
+    console.log('⚠️  No questions available for Process Domain test');
+  }
+
+  // Create Business Environment Domain Practice Test
+  const businessDomain = domains[2]; // Business Environment domain
+  const businessQuestionIds = await getQuestionsByDomain(businessDomain.id);
+
+  let businessDomainTest = await prisma.practiceTest.findFirst({
+    where: { name: 'Business Environment Practice Test' }
+  });
+
+  if (!businessDomainTest && businessQuestionIds.length > 0) {
+    const questionCount = Math.min(50, businessQuestionIds.length);
+    businessDomainTest = await prisma.practiceTest.create({
+      data: {
+        name: 'Business Environment Practice Test',
+        description: `Practice test focusing on the Business Environment domain - ${questionCount} questions covering organizational strategy and compliance`,
+        totalQuestions: questionCount,
+        timeLimitMinutes: Math.round(questionCount * 1.25), // ~75 seconds per question
+        isActive: true,
+      },
+    });
+
+    // Link questions to test
+    await Promise.all(
+      businessQuestionIds.slice(0, questionCount).map((questionId, index) =>
+        prisma.testQuestion.create({
+          data: {
+            testId: businessDomainTest!.id,
+            questionId,
+            orderIndex: index,
+          },
+        })
+      )
+    );
+
+    // Create TestDomain link
+    await prisma.testDomain.create({
+      data: {
+        testId: businessDomainTest.id,
+        domainId: businessDomain.id,
+      },
+    });
+
+    console.log(`✅ Created Business Environment Practice Test (${questionCount} questions)`);
+  } else if (businessDomainTest) {
+    console.log('✅ Found existing Business Environment Practice Test');
+  } else {
+    console.log('⚠️  No questions available for Business Environment Domain test');
+  }
+
+  // Count domain-specific tests created
+  const domainTestCount = [peopleDomainTest, processDomainTest, businessDomainTest].filter(Boolean).length;
+  console.log(`\n✅ Domain-specific tests summary: ${domainTestCount} tests available`);
+
   // Create sample flashcards
   const flashcards = [
     {
@@ -348,7 +513,8 @@ async function main() {
   console.log(`   • 3 domains`);
   console.log(`   • ${createdQuestions.length} sample questions`);
   console.log(`   • ${flashcards.length} flashcards`);
-  console.log(`   • 1 practice test`);
+  console.log(`   • 1 full-spectrum practice test`);
+  console.log(`   • ${domainTestCount} domain-specific practice tests`);
   console.log(`   • 1 admin user`);
 }
 

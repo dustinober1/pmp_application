@@ -2,6 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../services/database";
 import Logger from "../utils/logger";
 import { AppError, ErrorFactory } from "../utils/AppError";
+import {
+  validateDomainTestRequirements,
+  validateDomainCoverage,
+  getRecommendedQuestionCount,
+} from "../services/testGenerator";
 
 // Type definitions for admin queries
 interface QuestionWhereClause {
@@ -539,6 +544,17 @@ export const getTests = async (
 /**
  * Create a practice test
  * POST /api/admin/tests
+ *
+ * Request body:
+ * - name: string (required)
+ * - description: string (required)
+ * - timeLimitMinutes: number (optional, defaults to 230)
+ * - questionIds: string[] (optional) - specific question IDs to include
+ * - domainIds: string[] (optional) - domain IDs to associate with this test
+ *   If provided and non-empty, creates TestDomain records linking the test to those domains.
+ *   If empty or not provided, test is considered full-spectrum (all domains).
+ * - validateCoverage: boolean (optional, defaults to true) - whether to validate domain coverage
+ * - strictValidation: boolean (optional, defaults to false) - if true, fail on warnings too
  */
 export const createTest = async (
   req: Request,
@@ -546,10 +562,81 @@ export const createTest = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { name, description, timeLimitMinutes, questionIds } = req.body;
+    const {
+      name,
+      description,
+      timeLimitMinutes,
+      questionIds,
+      domainIds,
+      validateCoverage = true,
+      strictValidation = false,
+    } = req.body;
 
     if (!name || !description) {
       throw ErrorFactory.badRequest("Name and description are required");
+    }
+
+    // Validate domainIds if provided and non-empty
+    if (domainIds && Array.isArray(domainIds) && domainIds.length > 0) {
+      // Check that all provided domain IDs exist
+      const existingDomains = await prisma.domain.findMany({
+        where: { id: { in: domainIds } },
+        select: { id: true },
+      });
+
+      const existingDomainIds = new Set(existingDomains.map((d) => d.id));
+      const invalidDomainIds = domainIds.filter(
+        (id: string) => !existingDomainIds.has(id),
+      );
+
+      if (invalidDomainIds.length > 0) {
+        throw ErrorFactory.badRequest(
+          `Invalid domain IDs: ${invalidDomainIds.join(", ")}`,
+        );
+      }
+    }
+
+    // Perform domain coverage validation if enabled and domain-specific test
+    let validationWarnings: string[] = [];
+    if (
+      validateCoverage &&
+      domainIds &&
+      Array.isArray(domainIds) &&
+      domainIds.length > 0 &&
+      questionIds &&
+      questionIds.length > 0
+    ) {
+      const validation = await validateDomainTestRequirements(
+        domainIds,
+        questionIds.length,
+      );
+
+      // Collect error messages
+      const errorMessages = validation.messages
+        .filter((m) => m.severity === "error")
+        .map((m) => m.message);
+
+      // Collect warning messages
+      const warningMessages = validation.messages
+        .filter((m) => m.severity === "warning")
+        .map((m) => m.message);
+
+      // If validation failed (has errors), throw an error
+      if (!validation.isValid) {
+        throw ErrorFactory.badRequest(
+          `Domain coverage validation failed: ${errorMessages.join("; ")}`,
+        );
+      }
+
+      // If strict validation is enabled and there are warnings, throw an error
+      if (strictValidation && validation.hasWarnings) {
+        throw ErrorFactory.badRequest(
+          `Domain coverage validation warnings (strict mode): ${warningMessages.join("; ")}`,
+        );
+      }
+
+      // Store warnings to include in response
+      validationWarnings = warningMessages;
     }
 
     const test = await prisma.practiceTest.create({
@@ -572,9 +659,37 @@ export const createTest = async (
       });
     }
 
+    // Create TestDomain records if domainIds provided and non-empty
+    if (domainIds && Array.isArray(domainIds) && domainIds.length > 0) {
+      await prisma.testDomain.createMany({
+        data: domainIds.map((domainId: string) => ({
+          testId: test.id,
+          domainId,
+        })),
+      });
+    }
+
+    // Fetch the test with its domain associations for the response
+    const testWithDomains = await prisma.practiceTest.findUnique({
+      where: { id: test.id },
+      include: {
+        domains: {
+          include: {
+            domain: {
+              select: { id: true, name: true, color: true },
+            },
+          },
+        },
+        _count: {
+          select: { testQuestions: true },
+        },
+      },
+    });
+
     res.status(201).json({
       message: "Practice test created successfully",
-      test,
+      test: testWithDomains,
+      ...(validationWarnings.length > 0 && { warnings: validationWarnings }),
     });
   } catch (error) {
     if (error instanceof AppError) {
@@ -582,6 +697,94 @@ export const createTest = async (
     }
     Logger.error("Error creating test:", error);
     next(ErrorFactory.internal("Failed to create test"));
+  }
+};
+
+/**
+ * Validate domain coverage for a proposed test
+ * POST /api/admin/tests/validate-coverage
+ *
+ * Request body:
+ * - domainIds: string[] (required) - domain IDs to validate
+ * - questionCount: number (required) - proposed number of questions
+ *
+ * Returns validation result with:
+ * - isValid: boolean
+ * - messages: array of validation messages with severity and suggestions
+ * - stats: availability and distribution statistics
+ * - recommendation: recommended question count based on available questions
+ */
+export const validateTestCoverage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { domainIds, questionCount } = req.body;
+
+    if (!Array.isArray(domainIds)) {
+      throw ErrorFactory.badRequest("domainIds must be an array");
+    }
+
+    if (typeof questionCount !== "number" || questionCount <= 0) {
+      throw ErrorFactory.badRequest("questionCount must be a positive number");
+    }
+
+    const validation = await validateDomainCoverage(domainIds, questionCount);
+
+    res.json({
+      isValid: validation.overallValid,
+      hasWarnings: validation.requirements.hasWarnings,
+      messages: validation.overallMessages,
+      requirements: validation.requirements,
+      distribution: validation.distribution,
+      recommendation: validation.recommendation,
+    });
+  } catch (error) {
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error("Error validating test coverage:", error);
+    next(ErrorFactory.internal("Failed to validate test coverage"));
+  }
+};
+
+/**
+ * Get recommended question count for a domain-specific test
+ * GET /api/admin/tests/recommended-count
+ *
+ * Query params:
+ * - domainIds: string (comma-separated domain IDs, optional - if not provided, considers all domains)
+ *
+ * Returns recommendation with:
+ * - recommended: suggested question count
+ * - minimum: minimum viable count
+ * - maximum: maximum possible count
+ * - explanation: human-readable explanation
+ * - domainBreakdown: per-domain recommendations
+ */
+export const getTestRecommendedCount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { domainIds: domainIdsParam } = req.query;
+
+    let domainIds: string[] = [];
+    if (domainIdsParam && typeof domainIdsParam === "string") {
+      domainIds = domainIdsParam.split(",").filter((id) => id.trim());
+    }
+
+    const recommendation = await getRecommendedQuestionCount(domainIds);
+
+    res.json(recommendation);
+  } catch (error) {
+    if (error instanceof AppError) {
+      return next(error);
+    }
+    Logger.error("Error getting recommended count:", error);
+    next(ErrorFactory.internal("Failed to get recommended count"));
   }
 };
 

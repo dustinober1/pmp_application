@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
@@ -21,34 +21,35 @@ model User {
   flashCardReviews  FlashCardReview[]
   createdFlashCards FlashCard[]       @relation("FlashCardCreatedBy")
   createdQuestions  Question[]        @relation("CreatedBy")
-  refreshTokens     RefreshToken[]
+  refreshTokens        RefreshToken[]
+  passwordResetTokens  PasswordResetToken[]
 
   progress     UserProgress[]
   testSessions UserTestSession[]
   studyStreak  StudyStreak?
   dailyGoal    DailyGoal?
-  
+
   // Adaptive Learning Engine relations
-  learningProfile   LearningProfile?
-  examSessions      ExamSession[]
-  studyPlans        StudyPlan[]
-  annotations       Annotation[]
-  bookmarks         Bookmark[]
-  discussionComments DiscussionComment[]
-  commentVotes      CommentVote[]
-  commentReports    CommentReport[]
-  certification     UserCertification?
-  notifications     Notification[]
+  learningProfile           LearningProfile?
+  examSessions              ExamSession[]
+  studyPlans                StudyPlan[]
+  annotations               Annotation[]
+  bookmarks                 Bookmark[]
+  discussionComments        DiscussionComment[]
+  commentVotes              CommentVote[]
+  commentReports            CommentReport[]
+  certification             UserCertification?
+  notifications             Notification[]
   notificationSubscriptions NotificationSubscription[]
-  notificationPreference NotificationPreference?
+  notificationPreference    NotificationPreference?
 
   @@index([email])
   @@map("users")
 }
 
 model Domain {
-  id               String         @id @default(uuid())
-  name             String         @unique
+  id               String          @id @default(uuid())
+  name             String          @unique
   description      String
   weightPercentage Float
   color            String
@@ -56,26 +57,28 @@ model Domain {
   questions        Question[]
   progress         UserProgress[]
   domainMasteries  DomainMastery[]
+  // Tests that focus on this domain
+  tests            TestDomain[]
 
   @@map("domains")
 }
 
 model Question {
-  id                 String         @id @default(uuid())
+  id                 String               @id @default(uuid())
   domainId           String
   questionText       String
   scenario           String?
   choices            String
-  correctAnswerIndex Int            @default(0)
+  correctAnswerIndex Int                  @default(0)
   explanation        String
-  difficulty         String         @default("MEDIUM")
-  methodology        String         @default("HYBRID")
-  isActive           Boolean        @default(true)
+  difficulty         String               @default("MEDIUM")
+  methodology        String               @default("HYBRID")
+  isActive           Boolean              @default(true)
   createdBy          String
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
-  creator            User           @relation("CreatedBy", fields: [createdBy], references: [id])
-  domain             Domain         @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  creator            User                 @relation("CreatedBy", fields: [createdBy], references: [id])
+  domain             Domain               @relation(fields: [domainId], references: [id], onDelete: Cascade)
   testQuestions      TestQuestion[]
   answers            UserAnswer[]
   sessionQuestions   SessionQuestion[]
@@ -107,7 +110,7 @@ model FlashCard {
 
   @@index([domainId])
   @@index([createdBy])
-  @@index([isActive, domainId])  // Composite for filtered domain queries
+  @@index([isActive, domainId]) // Composite for filtered domain queries
   @@index([isActive, difficulty]) // Composite for difficulty filtering
   @@map("flashcards")
 }
@@ -122,6 +125,9 @@ model PracticeTest {
   createdAt        DateTime          @default(now())
   testQuestions    TestQuestion[]
   sessions         UserTestSession[]
+  // Domain filtering: links test to specific domain(s) it covers
+  // If empty, test includes questions from all domains (full-spectrum test)
+  domains          TestDomain[]
 
   @@map("practice_tests")
 }
@@ -140,21 +146,37 @@ model TestQuestion {
   @@map("test_questions")
 }
 
+// Junction table for domain-specific test filtering
+// Allows tests to be associated with specific domain(s)
+// Tests without any TestDomain entries are full-spectrum tests (all domains)
+model TestDomain {
+  id       String       @id @default(uuid())
+  testId   String
+  domainId String
+  test     PracticeTest @relation(fields: [testId], references: [id], onDelete: Cascade)
+  domain   Domain       @relation(fields: [domainId], references: [id], onDelete: Cascade)
+
+  @@unique([testId, domainId])
+  @@index([testId])
+  @@index([domainId])
+  @@map("test_domains")
+}
+
 model UserTestSession {
-  id               String       @id @default(uuid())
+  id               String            @id @default(uuid())
   userId           String
   testId           String
-  startedAt        DateTime     @default(now())
+  startedAt        DateTime          @default(now())
   completedAt      DateTime?
   timeLimitMinutes Int
-  status           String       @default("IN_PROGRESS")
+  status           String            @default("IN_PROGRESS")
   score            Int?
   totalQuestions   Int
   correctAnswers   Int?
   answers          UserAnswer[]
   sessionQuestions SessionQuestion[]
-  test             PracticeTest @relation(fields: [testId], references: [id], onDelete: Cascade)
-  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  test             PracticeTest      @relation(fields: [testId], references: [id], onDelete: Cascade)
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([testId])
@@ -253,7 +275,7 @@ model DailyGoal {
   flashcardGoal          Int      @default(20) // Cards to review per day
   questionsGoal          Int      @default(25) // Questions to answer per day
   cardsReviewedToday     Int      @default(0)
-  questionsAnsweredToday Int    @default(0)
+  questionsAnsweredToday Int      @default(0)
   lastResetDate          DateTime @default(now())
   user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -262,15 +284,15 @@ model DailyGoal {
 }
 
 model RefreshToken {
-  id          String   @id @default(uuid())
-  userId      String
-  tokenHash   String   @unique
-  expiresAt   DateTime
-  createdAt   DateTime @default(now())
-  revokedAt   DateTime?
-  userAgent   String?
-  ipAddress   String?
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String    @id @default(uuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+  userAgent String?
+  ipAddress String?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([tokenHash])
@@ -278,33 +300,50 @@ model RefreshToken {
   @@map("refresh_tokens")
 }
 
+model PasswordResetToken {
+  id          String    @id @default(uuid())
+  userId      String
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+  usedAt      DateTime?
+  userAgent   String?
+  ipAddress   String?
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
+}
+
 // Adaptive Learning Engine Models
 
 model LearningProfile {
-  id                String   @id @default(uuid())
-  userId            String   @unique
-  lastCalculatedAt  DateTime @default(now())
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  domainMasteries   DomainMastery[]
-  insights          Insight[]
+  id               String          @id @default(uuid())
+  userId           String          @unique
+  lastCalculatedAt DateTime        @default(now())
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  domainMasteries  DomainMastery[]
+  insights         Insight[]
 
   @@map("learning_profiles")
 }
 
 model DomainMastery {
-  id                String   @id @default(uuid())
-  profileId         String
-  domainId          String
-  score             Float    @default(50)
-  trend             String   @default("stable")
-  accuracyRate      Float    @default(0)
-  consistencyScore  Float    @default(0)
-  difficultyScore   Float    @default(0)
-  questionCount     Int      @default(0)
-  lastActivityAt    DateTime @default(now())
-  peakScore         Float    @default(50)
-  profile           LearningProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  domain            Domain   @relation(fields: [domainId], references: [id])
+  id               String          @id @default(uuid())
+  profileId        String
+  domainId         String
+  score            Float           @default(50)
+  trend            String          @default("stable")
+  accuracyRate     Float           @default(0)
+  consistencyScore Float           @default(0)
+  difficultyScore  Float           @default(0)
+  questionCount    Int             @default(0)
+  lastActivityAt   DateTime        @default(now())
+  peakScore        Float           @default(50)
+  profile          LearningProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  domain           Domain          @relation(fields: [domainId], references: [id])
 
   @@unique([profileId, domainId])
   @@index([profileId])
@@ -313,16 +352,16 @@ model DomainMastery {
 }
 
 model Insight {
-  id          String   @id @default(uuid())
-  profileId   String
-  type        String
-  title       String
-  message     String
-  priority    String   @default("medium")
-  actionUrl   String?
-  isRead      Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  profile     LearningProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  id        String          @id @default(uuid())
+  profileId String
+  type      String
+  title     String
+  message   String
+  priority  String          @default("medium")
+  actionUrl String?
+  isRead    Boolean         @default(false)
+  createdAt DateTime        @default(now())
+  profile   LearningProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId, createdAt])
   @@map("insights")
@@ -331,16 +370,16 @@ model Insight {
 // Exam Simulator Models
 
 model ExamSession {
-  id               String    @id @default(uuid())
+  id               String       @id @default(uuid())
   userId           String
-  startedAt        DateTime  @default(now())
+  startedAt        DateTime     @default(now())
   completedAt      DateTime?
   breakTakenAt     DateTime?
-  status           String    @default("in_progress")
+  status           String       @default("in_progress")
   score            Int?
   passed           Boolean?
   totalTimeSeconds Int?
-  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   answers          ExamAnswer[]
 
   @@index([userId, status])
@@ -366,16 +405,16 @@ model ExamAnswer {
 // Study Plan Models
 
 model StudyPlan {
-  id              String   @id @default(uuid())
-  userId          String
-  targetExamDate  DateTime
-  hoursPerDay     Float
-  status          String   @default("active")
-  progressStatus  String   @default("on_track")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tasks           StudyTask[]
+  id             String      @id @default(uuid())
+  userId         String
+  targetExamDate DateTime
+  hoursPerDay    Float
+  status         String      @default("active")
+  progressStatus String      @default("on_track")
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks          StudyTask[]
 
   @@index([userId, status])
   @@map("study_plans")
@@ -400,14 +439,14 @@ model StudyTask {
 // Annotation Models
 
 model Annotation {
-  id          String   @id @default(uuid())
-  userId      String
-  questionId  String
-  content     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  id         String   @id @default(uuid())
+  userId     String
+  questionId String
+  content    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@unique([userId, questionId])
   @@index([userId])
@@ -415,13 +454,13 @@ model Annotation {
 }
 
 model Bookmark {
-  id          String   @id @default(uuid())
-  userId      String
-  questionId  String
-  category    String   @default("review_later")
-  createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  id         String   @id @default(uuid())
+  userId     String
+  questionId String
+  category   String   @default("review_later")
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@unique([userId, questionId])
   @@index([userId, category])
@@ -431,20 +470,20 @@ model Bookmark {
 // Discussion Models
 
 model DiscussionComment {
-  id               String    @id @default(uuid())
+  id               String              @id @default(uuid())
   questionId       String
   userId           String
   content          String
   parentId         String?
-  upvotes          Int       @default(0)
-  isExpertVerified Boolean   @default(false)
-  isHidden         Boolean   @default(false)
-  reportCount      Int       @default(0)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  question         Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  parent           DiscussionComment? @relation("CommentReplies", fields: [parentId], references: [id])
+  upvotes          Int                 @default(0)
+  isExpertVerified Boolean             @default(false)
+  isHidden         Boolean             @default(false)
+  reportCount      Int                 @default(0)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  question         Question            @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent           DiscussionComment?  @relation("CommentReplies", fields: [parentId], references: [id])
   replies          DiscussionComment[] @relation("CommentReplies")
   votes            CommentVote[]
   reports          CommentReport[]
@@ -455,25 +494,25 @@ model DiscussionComment {
 }
 
 model CommentVote {
-  id        String   @id @default(uuid())
+  id        String            @id @default(uuid())
   commentId String
   userId    String
-  createdAt DateTime @default(now())
+  createdAt DateTime          @default(now())
   comment   DiscussionComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([commentId, userId])
   @@map("comment_votes")
 }
 
 model CommentReport {
-  id        String   @id @default(uuid())
+  id        String            @id @default(uuid())
   commentId String
   userId    String
   reason    String
-  createdAt DateTime @default(now())
+  createdAt DateTime          @default(now())
   comment   DiscussionComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([commentId, userId])
   @@map("comment_reports")
@@ -482,13 +521,13 @@ model CommentReport {
 // Question Enhancement
 
 model QuestionExplanation {
-  id              String   @id @default(uuid())
-  questionId      String   @unique
-  choiceIndex     Int
-  explanation     String
-  misconception   String?
-  pmbokReference  String?
-  question        Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  id             String   @id @default(uuid())
+  questionId     String   @unique
+  choiceIndex    Int
+  explanation    String
+  misconception  String?
+  pmbokReference String?
+  question       Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@map("question_explanations")
 }
@@ -496,12 +535,12 @@ model QuestionExplanation {
 // User Enhancement
 
 model UserCertification {
-  id           String    @id @default(uuid())
-  userId       String    @unique
-  isPmpCertified Boolean @default(false)
-  verifiedAt   DateTime?
-  certificateId String?
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String    @id @default(uuid())
+  userId         String    @unique
+  isPmpCertified Boolean   @default(false)
+  verifiedAt     DateTime?
+  certificateId  String?
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_certifications")
 }
@@ -509,17 +548,17 @@ model UserCertification {
 // Notification Models
 
 model Notification {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   userId    String
   type      String
   title     String
   body      String
   link      String?
   metadata  Json?
-  isRead    Boolean  @default(false)
+  isRead    Boolean   @default(false)
   readAt    DateTime?
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, createdAt])
   @@index([userId, isRead, createdAt])
@@ -559,18 +598,18 @@ model NotificationPreference {
 // Audit Log Model
 
 model AuditLog {
-  id          String   @id @default(uuid())
-  userId      String?
-  userEmail   String?
-  action      String
-  entityType  String
-  entityId    String?
-  oldValues   Json?
-  newValues   Json?
-  ipAddress   String?
-  userAgent   String?
-  metadata    Json?
-  createdAt   DateTime @default(now())
+  id         String   @id @default(uuid())
+  userId     String?
+  userEmail  String?
+  action     String
+  entityType String
+  entityId   String?
+  oldValues  Json?
+  newValues  Json?
+  ipAddress  String?
+  userAgent  String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
 
   @@index([userId])
   @@index([action])
@@ -579,5 +618,3 @@ model AuditLog {
   @@index([userId, createdAt])
   @@map("audit_logs")
 }
-
-

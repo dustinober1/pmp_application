@@ -13,6 +13,8 @@ import {
   createTest,
   updateTest,
   deleteTest,
+  validateTestCoverage,
+  getTestRecommendedCount,
   getFlashcards,
   createFlashcard,
   updateFlashcard,
@@ -33,8 +35,9 @@ import {
 const router = Router();
 
 // All admin routes require authentication and admin role
-router.use(authenticateToken as any);
-router.use(requireAdmin as any);
+
+router.use(authenticateToken);
+router.use(requireAdmin);
 
 // Dashboard
 router.get("/dashboard", getDashboardStats);
@@ -53,6 +56,8 @@ router.delete("/questions/:id", deleteQuestion);
 // Practice Test Management
 router.get("/tests", getTests);
 router.post("/tests", createTest);
+router.post("/tests/validate-coverage", validateTestCoverage);
+router.get("/tests/recommended-count", getTestRecommendedCount);
 router.put("/tests/:id", updateTest);
 router.delete("/tests/:id", deleteTest);
 

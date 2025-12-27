@@ -85,6 +85,17 @@ export const getPracticeTests = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    // Fetch all domains for full-spectrum tests
+    const allDomains = await prisma.domain.findMany({
+      select: {
+        id: true,
+        name: true,
+        color: true,
+        weightPercentage: true,
+      },
+      orderBy: { name: "asc" },
+    });
+
     const tests = await prisma.practiceTest.findMany({
       where: { isActive: true },
       include: {
@@ -94,11 +105,40 @@ export const getPracticeTests = async (
             sessions: true,
           },
         },
+        domains: {
+          include: {
+            domain: {
+              select: {
+                id: true,
+                name: true,
+                color: true,
+                weightPercentage: true,
+              },
+            },
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });
 
-    res.json(tests);
+    // Transform tests to include domain breakdown
+    const testsWithDomains = tests.map((test) => {
+      const isFullSpectrum = test.domains.length === 0;
+      const domains = isFullSpectrum
+        ? allDomains
+        : test.domains.map((td) => td.domain);
+
+      // Remove the raw domains junction table data from response
+      const { domains: _rawDomains, ...testData } = test;
+
+      return {
+        ...testData,
+        isFullSpectrum,
+        domains,
+      };
+    });
+
+    res.json(testsWithDomains);
   } catch (error) {
     if (error instanceof AppError) {
       return next(error);
@@ -120,6 +160,17 @@ export const getPracticeTestById = async (
   try {
     const { id } = req.params;
 
+    // Fetch all domains for full-spectrum tests
+    const allDomains = await prisma.domain.findMany({
+      select: {
+        id: true,
+        name: true,
+        color: true,
+        weightPercentage: true,
+      },
+      orderBy: { name: "asc" },
+    });
+
     const test = await prisma.practiceTest.findUnique({
       where: { id },
       include: {
@@ -140,6 +191,18 @@ export const getPracticeTestById = async (
             sessions: true,
           },
         },
+        domains: {
+          include: {
+            domain: {
+              select: {
+                id: true,
+                name: true,
+                color: true,
+                weightPercentage: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -147,12 +210,23 @@ export const getPracticeTestById = async (
       throw ErrorFactory.notFound("Practice test");
     }
 
+    // Determine if full-spectrum test and get domains
+    const isFullSpectrum = test.domains.length === 0;
+    const domains = isFullSpectrum
+      ? allDomains
+      : test.domains.map((td) => td.domain);
+
+    // Remove the raw domains junction table data and add clean domain info
+    const { domains: _rawDomains, ...testData } = test;
+
     // Parse choices for each question
     const formattedTest = {
-      ...test,
+      ...testData,
       testQuestions: formatTestQuestions(
         test.testQuestions as unknown as TestQuestion[],
       ),
+      isFullSpectrum,
+      domains,
     };
 
     res.json(formattedTest);
