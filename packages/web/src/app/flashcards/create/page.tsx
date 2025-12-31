@@ -153,8 +153,9 @@ export default function CreateFlashcardPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Domain</label>
+                <label htmlFor="domain-select" className="block text-sm font-medium mb-1">Domain</label>
                 <select
+                  id="domain-select"
                   value={selectedDomainId}
                   onChange={e => setSelectedDomainId(e.target.value)}
                   className="w-full p-2 rounded-md bg-[var(--background)] border border-[var(--border)] focus:border-[var(--primary)] outline-none transition"
@@ -169,8 +170,9 @@ export default function CreateFlashcardPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Task</label>
+                <label htmlFor="task-select" className="block text-sm font-medium mb-1">Task</label>
                 <select
+                  id="task-select"
                   value={selectedTaskId}
                   onChange={e => setSelectedTaskId(e.target.value)}
                   className="w-full p-2 rounded-md bg-[var(--background)] border border-[var(--border)] focus:border-[var(--primary)] outline-none transition"
@@ -187,8 +189,9 @@ export default function CreateFlashcardPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Front (Question/Term)</label>
+              <label htmlFor="front-input" className="block text-sm font-medium mb-1">Front (Question/Term)</label>
               <textarea
+                id="front-input"
                 value={front}
                 onChange={e => setFront(e.target.value)}
                 rows={3}
@@ -199,8 +202,9 @@ export default function CreateFlashcardPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Back (Answer/Definition)</label>
+              <label htmlFor="back-input" className="block text-sm font-medium mb-1">Back (Answer/Definition)</label>
               <textarea
+                id="back-input"
                 value={back}
                 onChange={e => setBack(e.target.value)}
                 rows={5}
