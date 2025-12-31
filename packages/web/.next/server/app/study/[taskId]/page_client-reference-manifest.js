@@ -10,6 +10,7 @@ globalThis.__RSC_MANIFEST['/study/[taskId]/page'] = {
     2298: { '*': { id: '2586', name: '*', chunks: [], async: false } },
     2842: { '*': { id: '2387', name: '*', chunks: [], async: false } },
     3065: { '*': { id: '6831', name: '*', chunks: [], async: false } },
+    3304: { '*': { id: '9999', name: '*', chunks: [], async: false } },
     3859: { '*': { id: '1633', name: '*', chunks: [], async: false } },
     4734: { '*': { id: '5716', name: '*', chunks: [], async: false } },
     5024: { '*': { id: '7274', name: '*', chunks: [], async: false } },
@@ -66,28 +67,16 @@ globalThis.__RSC_MANIFEST['/study/[taskId]/page'] = {
       chunks: ['185', 'static/chunks/app/layout-47a98fb5e0ac5213.js'],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page.tsx': {
-      id: 1285,
-      name: '*',
-      chunks: [],
-      async: false,
-    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/session/[sessionId]/page.tsx':
+      { id: 4734, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/page.tsx': {
       id: 3065,
       name: '*',
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/session/[sessionId]/page.tsx':
-      { id: 4734, name: '*', chunks: [], async: false },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/formulas/page.tsx': {
-      id: 2298,
-      name: '*',
-      chunks: [],
-      async: false,
-    },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx': {
-      id: 5024,
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page.tsx': {
+      id: 1285,
       name: '*',
       chunks: [],
       async: false,
@@ -114,14 +103,14 @@ globalThis.__RSC_MANIFEST['/study/[taskId]/page'] = {
       ],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/page.tsx': {
-      id: 2842,
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/formulas/page.tsx': {
+      id: 2298,
       name: '*',
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/session/[sessionId]/page.tsx':
-      { id: 1652, name: '*', chunks: [], async: false },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx':
+      { id: 3304, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/register/page.tsx': {
       id: 6088,
       name: '*',
@@ -152,11 +141,25 @@ globalThis.__RSC_MANIFEST['/study/[taskId]/page'] = {
       ],
       async: false,
     },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx': {
+      id: 5024,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/page.tsx': {
+      id: 2842,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/session/[sessionId]/page.tsx':
+      { id: 1652, name: '*', chunks: [], async: false },
   },
   entryCSSFiles: {
     '/Users/dustinober/Projects/pmp_application/packages/web/src/': [],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout': [
-      'static/css/59bc55b136c90ed4.css',
+      'static/css/bf80c3a6db624d82.css',
     ],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/page': [],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/study/page': [],

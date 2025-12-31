@@ -21,6 +21,12 @@
       "namedRegex": "^/flashcards/session/(?<nxtPsessionId>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/practice/mock/session/[sessionId]",
+      "regex": "^/practice/mock/session/([^/]+?)(?:/)?$",
+      "routeKeys": { "nxtPsessionId": "nxtPsessionId" },
+      "namedRegex": "^/practice/mock/session/(?<nxtPsessionId>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/practice/session/[sessionId]",
       "regex": "^/practice/session/([^/]+?)(?:/)?$",
       "routeKeys": { "nxtPsessionId": "nxtPsessionId" },
