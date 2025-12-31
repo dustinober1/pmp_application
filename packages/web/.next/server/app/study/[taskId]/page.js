@@ -8853,13 +8853,13 @@
                             l.jsx('span', { children: '/' }),
                             (0, l.jsxs)('span', {
                               className: 'text-white',
-                              children: ['Task ', u.taskNumber || u.code],
+                              children: ['Task ', u.code],
                             }),
                           ],
                         }),
                         l.jsx('h1', {
                           className: 'text-3xl font-bold text-white mb-2',
-                          children: u.title || u.name,
+                          children: u.name,
                         }),
                         l.jsx('p', { className: 'text-xl text-gray-400', children: u.description }),
                       ],

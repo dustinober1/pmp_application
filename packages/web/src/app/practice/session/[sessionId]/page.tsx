@@ -111,7 +111,7 @@ export default function PracticeSessionPage() {
         updatedQuestions[currentIndex] = {
           ...questionToUpdate,
           userAnswerId: selectedOptionId,
-        };
+        } as PracticeQuestion & { userAnswerId?: string };
         return {
           ...prev,
           questions: updatedQuestions,
@@ -200,6 +200,8 @@ export default function PracticeSessionPage() {
   // Calculate progress safely
   const progressPercent =
     session.questions.length > 0 ? Math.round((currentIndex / session.questions.length) * 100) : 0;
+
+  if (!currentQuestion) return null;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6 md:py-8 h-[calc(100vh-64px)] flex flex-col">

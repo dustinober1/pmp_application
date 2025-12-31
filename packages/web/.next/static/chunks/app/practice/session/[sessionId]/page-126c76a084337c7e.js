@@ -328,181 +328,185 @@
           });
         let C = d.questions[m],
           I = d.questions.length > 0 ? Math.round((m / d.questions.length) * 100) : 0;
-        return (0, s.jsxs)('div', {
-          className: 'max-w-5xl mx-auto px-4 py-6 md:py-8 h-[calc(100vh-64px)] flex flex-col',
-          children: [
-            (0, s.jsxs)('div', {
-              className: 'mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4',
+        return C
+          ? (0, s.jsxs)('div', {
+              className: 'max-w-5xl mx-auto px-4 py-6 md:py-8 h-[calc(100vh-64px)] flex flex-col',
               children: [
                 (0, s.jsxs)('div', {
-                  className: 'flex items-center space-x-4',
+                  className: 'mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4',
                   children: [
-                    (0, s.jsx)('button', {
-                      onClick: () => t.push('/practice'),
-                      className: 'text-gray-400 hover:text-white transition',
-                      children: '← Exit',
-                    }),
                     (0, s.jsxs)('div', {
-                      className: 'px-3 py-1 bg-gray-800 rounded text-xs text-gray-400 font-mono',
-                      children: ['Q', m + 1, '/', d.questions.length],
+                      className: 'flex items-center space-x-4',
+                      children: [
+                        (0, s.jsx)('button', {
+                          onClick: () => t.push('/practice'),
+                          className: 'text-gray-400 hover:text-white transition',
+                          children: '← Exit',
+                        }),
+                        (0, s.jsxs)('div', {
+                          className:
+                            'px-3 py-1 bg-gray-800 rounded text-xs text-gray-400 font-mono',
+                          children: ['Q', m + 1, '/', d.questions.length],
+                        }),
+                        C.difficulty &&
+                          (0, s.jsx)('span', {
+                            className:
+                              'px-2 py-0.5 rounded text-xs font-medium uppercase border '.concat(
+                                'easy' === C.difficulty
+                                  ? 'border-green-800 text-green-400 bg-green-900/20'
+                                  : 'medium' === C.difficulty
+                                    ? 'border-yellow-800 text-yellow-400 bg-yellow-900/20'
+                                    : 'border-red-800 text-red-400 bg-red-900/20'
+                              ),
+                            children: C.difficulty,
+                          }),
+                      ],
                     }),
-                    C.difficulty &&
-                      (0, s.jsx)('span', {
+                    (0, s.jsx)('div', {
+                      className: 'flex-1 max-w-md mx-auto w-full',
+                      children: (0, s.jsx)('div', {
+                        className: 'h-2 bg-gray-800 rounded-full overflow-hidden',
+                        children: (0, s.jsx)('div', {
+                          className: 'h-full bg-primary-600 transition-all duration-300',
+                          style: { width: ''.concat(I, '%') },
+                        }),
+                      }),
+                    }),
+                    (0, s.jsx)('div', { className: 'w-20 hidden md:block' }),
+                  ],
+                }),
+                (0, s.jsxs)('div', {
+                  ref: k,
+                  className: 'flex-1 overflow-y-auto mb-6 pr-2 custom-scrollbar',
+                  children: [
+                    (0, s.jsxs)('div', {
+                      className: 'bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8 mb-6',
+                      children: [
+                        (0, s.jsx)('h2', {
+                          className:
+                            'text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed',
+                          children: C.questionText,
+                        }),
+                        (0, s.jsx)('div', {
+                          className: 'space-y-3',
+                          children: C.options.map(e => {
+                            let t = f === e.id,
+                              r = (null == b ? void 0 : b.correctOptionId) === e.id,
+                              a = b && t && !b.isCorrect,
+                              o =
+                                'w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group relative';
+                            return (
+                              b
+                                ? r
+                                  ? (o += ' bg-green-900/30 border-green-500/50')
+                                  : a
+                                    ? (o += ' bg-red-900/30 border-red-500/50')
+                                    : (o += ' border-gray-800 opacity-60')
+                                : t
+                                  ? (o += ' bg-primary-900/20 border-primary-500')
+                                  : (o +=
+                                      ' bg-gray-800/50 border-gray-700 hover:border-gray-600 hover:bg-gray-800'),
+                              (0, s.jsxs)(
+                                'button',
+                                {
+                                  onClick: () => !b && g(e.id),
+                                  disabled: !!b || p,
+                                  className: o,
+                                  children: [
+                                    (0, s.jsx)('div', {
+                                      className:
+                                        'mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors '.concat(
+                                          b
+                                            ? r
+                                              ? 'border-green-500 bg-green-500'
+                                              : a
+                                                ? 'border-red-500 bg-red-500'
+                                                : 'border-gray-600'
+                                            : t
+                                              ? 'border-primary-500 bg-primary-500'
+                                              : 'border-gray-500 group-hover:border-gray-400'
+                                        ),
+                                      children:
+                                        (b && (r || a)) || t
+                                          ? (0, s.jsx)('div', {
+                                              className: 'w-2 h-2 bg-white rounded-full',
+                                            })
+                                          : null,
+                                    }),
+                                    (0, s.jsx)('span', {
+                                      className: 'text-base '.concat(
+                                        b && (r || a) ? 'text-white' : 'text-gray-300'
+                                      ),
+                                      children: e.text,
+                                    }),
+                                  ],
+                                },
+                                e.id
+                              )
+                            );
+                          }),
+                        }),
+                      ],
+                    }),
+                    b &&
+                      (0, s.jsxs)('div', {
                         className:
-                          'px-2 py-0.5 rounded text-xs font-medium uppercase border '.concat(
-                            'easy' === C.difficulty
-                              ? 'border-green-800 text-green-400 bg-green-900/20'
-                              : 'medium' === C.difficulty
-                                ? 'border-yellow-800 text-yellow-400 bg-yellow-900/20'
-                                : 'border-red-800 text-red-400 bg-red-900/20'
+                          'rounded-xl p-6 mb-6 border animate-in fade-in slide-in-from-bottom-4 duration-300 '.concat(
+                            b.isCorrect
+                              ? 'bg-green-900/20 border-green-800'
+                              : 'bg-red-900/20 border-red-800'
                           ),
-                        children: C.difficulty,
+                        children: [
+                          (0, s.jsx)('div', {
+                            className: 'flex items-center mb-3',
+                            children: (0, s.jsx)('span', {
+                              className: 'text-2xl mr-3 '.concat(
+                                b.isCorrect ? 'text-green-400' : 'text-red-400'
+                              ),
+                              children: b.isCorrect ? '✓ Correct' : '✗ Incorrect',
+                            }),
+                          }),
+                          (0, s.jsxs)('div', {
+                            className: 'text-gray-300 leading-relaxed',
+                            children: [
+                              (0, s.jsx)('span', {
+                                className: 'font-semibold text-white block mb-1',
+                                children: 'Explanation:',
+                              }),
+                              b.explanation,
+                            ],
+                          }),
+                        ],
                       }),
                   ],
                 }),
                 (0, s.jsx)('div', {
-                  className: 'flex-1 max-w-md mx-auto w-full',
-                  children: (0, s.jsx)('div', {
-                    className: 'h-2 bg-gray-800 rounded-full overflow-hidden',
-                    children: (0, s.jsx)('div', {
-                      className: 'h-full bg-primary-600 transition-all duration-300',
-                      style: { width: ''.concat(I, '%') },
-                    }),
-                  }),
-                }),
-                (0, s.jsx)('div', { className: 'w-20 hidden md:block' }),
-              ],
-            }),
-            (0, s.jsxs)('div', {
-              ref: k,
-              className: 'flex-1 overflow-y-auto mb-6 pr-2 custom-scrollbar',
-              children: [
-                (0, s.jsxs)('div', {
-                  className: 'bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8 mb-6',
-                  children: [
-                    (0, s.jsx)('h2', {
-                      className: 'text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed',
-                      children: C.questionText,
-                    }),
-                    (0, s.jsx)('div', {
-                      className: 'space-y-3',
-                      children: C.options.map(e => {
-                        let t = f === e.id,
-                          r = (null == b ? void 0 : b.correctOptionId) === e.id,
-                          a = b && t && !b.isCorrect,
-                          o =
-                            'w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group relative';
-                        return (
-                          b
-                            ? r
-                              ? (o += ' bg-green-900/30 border-green-500/50')
-                              : a
-                                ? (o += ' bg-red-900/30 border-red-500/50')
-                                : (o += ' border-gray-800 opacity-60')
-                            : t
-                              ? (o += ' bg-primary-900/20 border-primary-500')
-                              : (o +=
-                                  ' bg-gray-800/50 border-gray-700 hover:border-gray-600 hover:bg-gray-800'),
-                          (0, s.jsxs)(
-                            'button',
-                            {
-                              onClick: () => !b && g(e.id),
-                              disabled: !!b || p,
-                              className: o,
-                              children: [
-                                (0, s.jsx)('div', {
-                                  className:
-                                    'mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors '.concat(
-                                      b
-                                        ? r
-                                          ? 'border-green-500 bg-green-500'
-                                          : a
-                                            ? 'border-red-500 bg-red-500'
-                                            : 'border-gray-600'
-                                        : t
-                                          ? 'border-primary-500 bg-primary-500'
-                                          : 'border-gray-500 group-hover:border-gray-400'
-                                    ),
-                                  children:
-                                    (b && (r || a)) || t
-                                      ? (0, s.jsx)('div', {
-                                          className: 'w-2 h-2 bg-white rounded-full',
-                                        })
-                                      : null,
-                                }),
-                                (0, s.jsx)('span', {
-                                  className: 'text-base '.concat(
-                                    b && (r || a) ? 'text-white' : 'text-gray-300'
-                                  ),
-                                  children: e.text,
-                                }),
-                              ],
-                            },
-                            e.id
-                          )
-                        );
-                      }),
-                    }),
-                  ],
-                }),
-                b &&
-                  (0, s.jsxs)('div', {
-                    className:
-                      'rounded-xl p-6 mb-6 border animate-in fade-in slide-in-from-bottom-4 duration-300 '.concat(
-                        b.isCorrect
-                          ? 'bg-green-900/20 border-green-800'
-                          : 'bg-red-900/20 border-red-800'
-                      ),
-                    children: [
-                      (0, s.jsx)('div', {
-                        className: 'flex items-center mb-3',
-                        children: (0, s.jsx)('span', {
-                          className: 'text-2xl mr-3 '.concat(
-                            b.isCorrect ? 'text-green-400' : 'text-red-400'
-                          ),
-                          children: b.isCorrect ? '✓ Correct' : '✗ Incorrect',
-                        }),
-                      }),
-                      (0, s.jsxs)('div', {
-                        className: 'text-gray-300 leading-relaxed',
+                  className: 'pt-4 border-t border-gray-800 flex justify-end',
+                  children: b
+                    ? (0, s.jsxs)('button', {
+                        onClick: N,
+                        className:
+                          'px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-900/20 flex items-center',
                         children: [
-                          (0, s.jsx)('span', {
-                            className: 'font-semibold text-white block mb-1',
-                            children: 'Explanation:',
-                          }),
-                          b.explanation,
+                          m === d.questions.length - 1 ? 'Finish Session' : 'Next Question',
+                          (0, s.jsx)('span', { className: 'ml-2', children: '→' }),
                         ],
+                      })
+                    : (0, s.jsx)('button', {
+                        onClick: j,
+                        disabled: !f || p,
+                        className:
+                          'px-8 py-3 rounded-lg font-medium transition-all transform active:scale-95 '.concat(
+                            !f || p
+                              ? 'bg-gray-800 text-gray-500 cursor-not-allowed hidden'
+                              : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-primary-900/20'
+                          ),
+                        children: p ? 'Submitting...' : 'Submit Answer',
                       }),
-                    ],
-                  }),
+                }),
               ],
-            }),
-            (0, s.jsx)('div', {
-              className: 'pt-4 border-t border-gray-800 flex justify-end',
-              children: b
-                ? (0, s.jsxs)('button', {
-                    onClick: N,
-                    className:
-                      'px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-900/20 flex items-center',
-                    children: [
-                      m === d.questions.length - 1 ? 'Finish Session' : 'Next Question',
-                      (0, s.jsx)('span', { className: 'ml-2', children: '→' }),
-                    ],
-                  })
-                : (0, s.jsx)('button', {
-                    onClick: j,
-                    disabled: !f || p,
-                    className:
-                      'px-8 py-3 rounded-lg font-medium transition-all transform active:scale-95 '.concat(
-                        !f || p
-                          ? 'bg-gray-800 text-gray-500 cursor-not-allowed hidden'
-                          : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-primary-900/20'
-                      ),
-                    children: p ? 'Submitting...' : 'Submit Answer',
-                  }),
-            }),
-          ],
-        });
+            })
+          : null;
       }
     },
     7070: function (e, t, r) {

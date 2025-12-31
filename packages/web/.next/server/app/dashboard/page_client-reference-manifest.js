@@ -9,6 +9,7 @@ globalThis.__RSC_MANIFEST['/dashboard/page'] = {
     1939: { '*': { id: '6581', name: '*', chunks: [], async: false } },
     2023: { '*': { id: '9224', name: '*', chunks: [], async: false } },
     2298: { '*': { id: '2586', name: '*', chunks: [], async: false } },
+    2691: { '*': { id: '8856', name: '*', chunks: [], async: false } },
     2842: { '*': { id: '2387', name: '*', chunks: [], async: false } },
     3065: { '*': { id: '6831', name: '*', chunks: [], async: false } },
     3304: { '*': { id: '9999', name: '*', chunks: [], async: false } },
@@ -20,6 +21,7 @@ globalThis.__RSC_MANIFEST['/dashboard/page'] = {
     6080: { '*': { id: '2928', name: '*', chunks: [], async: false } },
     6088: { '*': { id: '2254', name: '*', chunks: [], async: false } },
     6340: { '*': { id: '6568', name: '*', chunks: [], async: false } },
+    7290: { '*': { id: '6992', name: '*', chunks: [], async: false } },
     7864: { '*': { id: '7005', name: '*', chunks: [], async: false } },
     7942: { '*': { id: '3658', name: '*', chunks: [], async: false } },
     8416: { '*': { id: '2218', name: '*', chunks: [], async: false } },
@@ -71,12 +73,39 @@ globalThis.__RSC_MANIFEST['/dashboard/page'] = {
       chunks: ['185', 'static/chunks/app/layout-dc23756aa61f175f.js'],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/reset-password/page.tsx':
-      { id: 8416, name: '*', chunks: [], async: false },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/checkout/page.tsx': {
+      id: 7290,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/forgot-password/page.tsx':
       { id: 6080, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/verify-email/page.tsx': {
       id: 1939,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page.tsx': {
+      id: 1285,
+      name: '*',
+      chunks: [
+        '340',
+        'static/chunks/340-3b5055cb4808afe3.js',
+        '644',
+        'static/chunks/644-ace66983acd500c9.js',
+        '702',
+        'static/chunks/app/dashboard/page-64cda6e71f33a5a9.js',
+      ],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/reset-password/page.tsx':
+      { id: 8416, name: '*', chunks: [], async: false },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/session/[sessionId]/page.tsx':
+      { id: 4734, name: '*', chunks: [], async: false },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx': {
+      id: 5024,
       name: '*',
       chunks: [],
       async: false,
@@ -93,35 +122,12 @@ globalThis.__RSC_MANIFEST['/dashboard/page'] = {
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx': {
-      id: 5024,
-      name: '*',
-      chunks: [],
-      async: false,
-    },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/session/[sessionId]/page.tsx':
-      { id: 4734, name: '*', chunks: [], async: false },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page.tsx': {
-      id: 1285,
-      name: '*',
-      chunks: [
-        '340',
-        'static/chunks/340-3b5055cb4808afe3.js',
-        '644',
-        'static/chunks/644-ace66983acd500c9.js',
-        '702',
-        'static/chunks/app/dashboard/page-64cda6e71f33a5a9.js',
-      ],
-      async: false,
-    },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/page.tsx': {
       id: 2842,
       name: '*',
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx':
-      { id: 3304, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/node_modules/next/dist/client/link.js': {
       id: 6340,
       name: '*',
@@ -144,28 +150,36 @@ globalThis.__RSC_MANIFEST['/dashboard/page'] = {
       ],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/register/page.tsx': {
-      id: 6088,
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/pricing/page.tsx': {
+      id: 2691,
       name: '*',
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/session/[sessionId]/page.tsx':
-      { id: 1652, name: '*', chunks: [], async: false },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/study/page.tsx': {
-      id: 7864,
-      name: '*',
-      chunks: [],
-      async: false,
-    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx':
+      { id: 3304, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/team/dashboard/page.tsx': {
       id: 9556,
       name: '*',
       chunks: [],
       async: false,
     },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/session/[sessionId]/page.tsx':
+      { id: 1652, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/study/[taskId]/page.tsx': {
       id: 7942,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/study/page.tsx': {
+      id: 7864,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/register/page.tsx': {
+      id: 6088,
       name: '*',
       chunks: [],
       async: false,
@@ -174,7 +188,7 @@ globalThis.__RSC_MANIFEST['/dashboard/page'] = {
   entryCSSFiles: {
     '/Users/dustinober/Projects/pmp_application/packages/web/src/': [],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout': [
-      'static/css/218c79bd05c90a1d.css',
+      'static/css/b4dd4fe17b791b34.css',
     ],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/page': [],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page': [],

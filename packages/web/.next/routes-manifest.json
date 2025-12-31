@@ -66,6 +66,12 @@
       "namedRegex": "^/auth/verify\\-email(?:/)?$"
     },
     {
+      "page": "/checkout",
+      "regex": "^/checkout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/checkout(?:/)?$"
+    },
+    {
       "page": "/dashboard",
       "regex": "^/dashboard(?:/)?$",
       "routeKeys": {},
@@ -94,6 +100,12 @@
       "regex": "^/practice(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/practice(?:/)?$"
+    },
+    {
+      "page": "/pricing",
+      "regex": "^/pricing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pricing(?:/)?$"
     },
     {
       "page": "/register",

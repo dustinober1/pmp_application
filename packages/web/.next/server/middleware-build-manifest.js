@@ -13,13 +13,13 @@
     '/_app': [
       'static/chunks/webpack-f429638b3b64c980.js',
       'static/chunks/framework-3664cab31236a9fa.js',
-      'static/chunks/main-468853a9445949a3.js',
+      'static/chunks/main-490412db40446f43.js',
       'static/chunks/pages/_app-10a93ab5b7c32eb3.js',
     ],
     '/_error': [
       'static/chunks/webpack-f429638b3b64c980.js',
       'static/chunks/framework-3664cab31236a9fa.js',
-      'static/chunks/main-468853a9445949a3.js',
+      'static/chunks/main-490412db40446f43.js',
       'static/chunks/pages/_error-2d792b2a41857be4.js',
     ],
   },

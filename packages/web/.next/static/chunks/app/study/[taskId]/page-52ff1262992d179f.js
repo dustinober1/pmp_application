@@ -38,9 +38,10 @@
                 a && m(a);
                 try {
                   let t = await (0, i.Nv)('/domains/tasks/'.concat(e, '/study-guide'));
-                  t.data &&
-                    (x(t.data.studyGuide),
-                    t.data.studyGuide.sections.length > 0 && f(t.data.studyGuide.sections[0].id));
+                  if (t.data && (x(t.data.studyGuide), t.data.studyGuide.sections.length > 0)) {
+                    let e = t.data.studyGuide.sections[0];
+                    e && f(e.id);
+                  }
                 } catch (e) {
                   console.warn('Study guide not found', e);
                 }
@@ -77,13 +78,13 @@
                           (0, a.jsx)('span', { children: '/' }),
                           (0, a.jsxs)('span', {
                             className: 'text-white',
-                            children: ['Task ', h.taskNumber || h.code],
+                            children: ['Task ', h.code],
                           }),
                         ],
                       }),
                       (0, a.jsx)('h1', {
                         className: 'text-3xl font-bold text-white mb-2',
-                        children: h.title || h.name,
+                        children: h.name,
                       }),
                       (0, a.jsx)('p', {
                         className: 'text-xl text-gray-400',

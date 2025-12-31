@@ -37,7 +37,10 @@ export default function StudyGuidePage() {
           if (guideResponse.data) {
             setGuide(guideResponse.data.studyGuide);
             if (guideResponse.data.studyGuide.sections.length > 0) {
-              setActiveSection(guideResponse.data.studyGuide.sections[0].id);
+              const firstSection = guideResponse.data.studyGuide.sections[0];
+              if (firstSection) {
+                setActiveSection(firstSection.id);
+              }
             }
           }
         } catch (err) {
@@ -87,9 +90,9 @@ export default function StudyGuidePage() {
             Study Guide
           </button>
           <span>/</span>
-          <span className="text-white">Task {task.taskNumber || task.code}</span>
+          <span className="text-white">Task {task.code}</span>
         </div>
-        <h1 className="text-3xl font-bold text-white mb-2">{task.title || task.name}</h1>
+        <h1 className="text-3xl font-bold text-white mb-2">{task.name}</h1>
         <p className="text-xl text-gray-400">{task.description}</p>
       </div>
 

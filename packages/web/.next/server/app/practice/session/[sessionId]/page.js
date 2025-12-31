@@ -275,150 +275,154 @@
             });
           let $ = c.questions[m],
             C = c.questions.length > 0 ? Math.round((m / c.questions.length) * 100) : 0;
-          return (0, r.jsxs)('div', {
-            className: 'max-w-5xl mx-auto px-4 py-6 md:py-8 h-[calc(100vh-64px)] flex flex-col',
-            children: [
-              (0, r.jsxs)('div', {
-                className: 'mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4',
+          return $
+            ? (0, r.jsxs)('div', {
+                className: 'max-w-5xl mx-auto px-4 py-6 md:py-8 h-[calc(100vh-64px)] flex flex-col',
                 children: [
                   (0, r.jsxs)('div', {
-                    className: 'flex items-center space-x-4',
+                    className:
+                      'mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4',
                     children: [
-                      r.jsx('button', {
-                        onClick: () => t.push('/practice'),
-                        className: 'text-gray-400 hover:text-white transition',
-                        children: '← Exit',
-                      }),
                       (0, r.jsxs)('div', {
-                        className: 'px-3 py-1 bg-gray-800 rounded text-xs text-gray-400 font-mono',
-                        children: ['Q', m + 1, '/', c.questions.length],
+                        className: 'flex items-center space-x-4',
+                        children: [
+                          r.jsx('button', {
+                            onClick: () => t.push('/practice'),
+                            className: 'text-gray-400 hover:text-white transition',
+                            children: '← Exit',
+                          }),
+                          (0, r.jsxs)('div', {
+                            className:
+                              'px-3 py-1 bg-gray-800 rounded text-xs text-gray-400 font-mono',
+                            children: ['Q', m + 1, '/', c.questions.length],
+                          }),
+                          $.difficulty &&
+                            r.jsx('span', {
+                              className: `px-2 py-0.5 rounded text-xs font-medium uppercase border ${'easy' === $.difficulty ? 'border-green-800 text-green-400 bg-green-900/20' : 'medium' === $.difficulty ? 'border-yellow-800 text-yellow-400 bg-yellow-900/20' : 'border-red-800 text-red-400 bg-red-900/20'}`,
+                              children: $.difficulty,
+                            }),
+                        ],
                       }),
-                      $.difficulty &&
-                        r.jsx('span', {
-                          className: `px-2 py-0.5 rounded text-xs font-medium uppercase border ${'easy' === $.difficulty ? 'border-green-800 text-green-400 bg-green-900/20' : 'medium' === $.difficulty ? 'border-yellow-800 text-yellow-400 bg-yellow-900/20' : 'border-red-800 text-red-400 bg-red-900/20'}`,
-                          children: $.difficulty,
+                      r.jsx('div', {
+                        className: 'flex-1 max-w-md mx-auto w-full',
+                        children: r.jsx('div', {
+                          className: 'h-2 bg-gray-800 rounded-full overflow-hidden',
+                          children: r.jsx('div', {
+                            className: 'h-full bg-primary-600 transition-all duration-300',
+                            style: { width: `${C}%` },
+                          }),
+                        }),
+                      }),
+                      r.jsx('div', { className: 'w-20 hidden md:block' }),
+                    ],
+                  }),
+                  (0, r.jsxs)('div', {
+                    ref: S,
+                    className: 'flex-1 overflow-y-auto mb-6 pr-2 custom-scrollbar',
+                    children: [
+                      (0, r.jsxs)('div', {
+                        className: 'bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8 mb-6',
+                        children: [
+                          r.jsx('h2', {
+                            className:
+                              'text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed',
+                            children: $.questionText,
+                          }),
+                          r.jsx('div', {
+                            className: 'space-y-3',
+                            children: $.options.map(e => {
+                              let t = p === e.id,
+                                s = f?.correctOptionId === e.id,
+                                a = f && t && !f.isCorrect,
+                                o =
+                                  'w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group relative';
+                              return (
+                                f
+                                  ? s
+                                    ? (o += ' bg-green-900/30 border-green-500/50')
+                                    : a
+                                      ? (o += ' bg-red-900/30 border-red-500/50')
+                                      : (o += ' border-gray-800 opacity-60')
+                                  : t
+                                    ? (o += ' bg-primary-900/20 border-primary-500')
+                                    : (o +=
+                                        ' bg-gray-800/50 border-gray-700 hover:border-gray-600 hover:bg-gray-800'),
+                                (0, r.jsxs)(
+                                  'button',
+                                  {
+                                    onClick: () => !f && g(e.id),
+                                    disabled: !!f || x,
+                                    className: o,
+                                    children: [
+                                      r.jsx('div', {
+                                        className: `mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors ${f ? (s ? 'border-green-500 bg-green-500' : a ? 'border-red-500 bg-red-500' : 'border-gray-600') : t ? 'border-primary-500 bg-primary-500' : 'border-gray-500 group-hover:border-gray-400'}`,
+                                        children:
+                                          (f && (s || a)) || t
+                                            ? r.jsx('div', {
+                                                className: 'w-2 h-2 bg-white rounded-full',
+                                              })
+                                            : null,
+                                      }),
+                                      r.jsx('span', {
+                                        className: `text-base ${f && (s || a) ? 'text-white' : 'text-gray-300'}`,
+                                        children: e.text,
+                                      }),
+                                    ],
+                                  },
+                                  e.id
+                                )
+                              );
+                            }),
+                          }),
+                        ],
+                      }),
+                      f &&
+                        (0, r.jsxs)('div', {
+                          className: `rounded-xl p-6 mb-6 border animate-in fade-in slide-in-from-bottom-4 duration-300 ${f.isCorrect ? 'bg-green-900/20 border-green-800' : 'bg-red-900/20 border-red-800'}`,
+                          children: [
+                            r.jsx('div', {
+                              className: 'flex items-center mb-3',
+                              children: r.jsx('span', {
+                                className: `text-2xl mr-3 ${f.isCorrect ? 'text-green-400' : 'text-red-400'}`,
+                                children: f.isCorrect ? '✓ Correct' : '✗ Incorrect',
+                              }),
+                            }),
+                            (0, r.jsxs)('div', {
+                              className: 'text-gray-300 leading-relaxed',
+                              children: [
+                                r.jsx('span', {
+                                  className: 'font-semibold text-white block mb-1',
+                                  children: 'Explanation:',
+                                }),
+                                f.explanation,
+                              ],
+                            }),
+                          ],
                         }),
                     ],
                   }),
                   r.jsx('div', {
-                    className: 'flex-1 max-w-md mx-auto w-full',
-                    children: r.jsx('div', {
-                      className: 'h-2 bg-gray-800 rounded-full overflow-hidden',
-                      children: r.jsx('div', {
-                        className: 'h-full bg-primary-600 transition-all duration-300',
-                        style: { width: `${C}%` },
-                      }),
-                    }),
-                  }),
-                  r.jsx('div', { className: 'w-20 hidden md:block' }),
-                ],
-              }),
-              (0, r.jsxs)('div', {
-                ref: S,
-                className: 'flex-1 overflow-y-auto mb-6 pr-2 custom-scrollbar',
-                children: [
-                  (0, r.jsxs)('div', {
-                    className: 'bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8 mb-6',
-                    children: [
-                      r.jsx('h2', {
-                        className:
-                          'text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed',
-                        children: $.questionText,
-                      }),
-                      r.jsx('div', {
-                        className: 'space-y-3',
-                        children: $.options.map(e => {
-                          let t = p === e.id,
-                            s = f?.correctOptionId === e.id,
-                            a = f && t && !f.isCorrect,
-                            o =
-                              'w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group relative';
-                          return (
-                            f
-                              ? s
-                                ? (o += ' bg-green-900/30 border-green-500/50')
-                                : a
-                                  ? (o += ' bg-red-900/30 border-red-500/50')
-                                  : (o += ' border-gray-800 opacity-60')
-                              : t
-                                ? (o += ' bg-primary-900/20 border-primary-500')
-                                : (o +=
-                                    ' bg-gray-800/50 border-gray-700 hover:border-gray-600 hover:bg-gray-800'),
-                            (0, r.jsxs)(
-                              'button',
-                              {
-                                onClick: () => !f && g(e.id),
-                                disabled: !!f || x,
-                                className: o,
-                                children: [
-                                  r.jsx('div', {
-                                    className: `mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors ${f ? (s ? 'border-green-500 bg-green-500' : a ? 'border-red-500 bg-red-500' : 'border-gray-600') : t ? 'border-primary-500 bg-primary-500' : 'border-gray-500 group-hover:border-gray-400'}`,
-                                    children:
-                                      (f && (s || a)) || t
-                                        ? r.jsx('div', {
-                                            className: 'w-2 h-2 bg-white rounded-full',
-                                          })
-                                        : null,
-                                  }),
-                                  r.jsx('span', {
-                                    className: `text-base ${f && (s || a) ? 'text-white' : 'text-gray-300'}`,
-                                    children: e.text,
-                                  }),
-                                ],
-                              },
-                              e.id
-                            )
-                          );
-                        }),
-                      }),
-                    ],
-                  }),
-                  f &&
-                    (0, r.jsxs)('div', {
-                      className: `rounded-xl p-6 mb-6 border animate-in fade-in slide-in-from-bottom-4 duration-300 ${f.isCorrect ? 'bg-green-900/20 border-green-800' : 'bg-red-900/20 border-red-800'}`,
-                      children: [
-                        r.jsx('div', {
-                          className: 'flex items-center mb-3',
-                          children: r.jsx('span', {
-                            className: `text-2xl mr-3 ${f.isCorrect ? 'text-green-400' : 'text-red-400'}`,
-                            children: f.isCorrect ? '✓ Correct' : '✗ Incorrect',
-                          }),
-                        }),
-                        (0, r.jsxs)('div', {
-                          className: 'text-gray-300 leading-relaxed',
+                    className: 'pt-4 border-t border-gray-800 flex justify-end',
+                    children: f
+                      ? (0, r.jsxs)('button', {
+                          onClick: N,
+                          className:
+                            'px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-900/20 flex items-center',
                           children: [
-                            r.jsx('span', {
-                              className: 'font-semibold text-white block mb-1',
-                              children: 'Explanation:',
-                            }),
-                            f.explanation,
+                            m === c.questions.length - 1 ? 'Finish Session' : 'Next Question',
+                            r.jsx('span', { className: 'ml-2', children: '→' }),
                           ],
+                        })
+                      : r.jsx('button', {
+                          onClick: k,
+                          disabled: !p || x,
+                          className: `px-8 py-3 rounded-lg font-medium transition-all transform active:scale-95 ${!p || x ? 'bg-gray-800 text-gray-500 cursor-not-allowed hidden' : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-primary-900/20'}`,
+                          children: x ? 'Submitting...' : 'Submit Answer',
                         }),
-                      ],
-                    }),
+                  }),
                 ],
-              }),
-              r.jsx('div', {
-                className: 'pt-4 border-t border-gray-800 flex justify-end',
-                children: f
-                  ? (0, r.jsxs)('button', {
-                      onClick: N,
-                      className:
-                        'px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-900/20 flex items-center',
-                      children: [
-                        m === c.questions.length - 1 ? 'Finish Session' : 'Next Question',
-                        r.jsx('span', { className: 'ml-2', children: '→' }),
-                      ],
-                    })
-                  : r.jsx('button', {
-                      onClick: k,
-                      disabled: !p || x,
-                      className: `px-8 py-3 rounded-lg font-medium transition-all transform active:scale-95 ${!p || x ? 'bg-gray-800 text-gray-500 cursor-not-allowed hidden' : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-primary-900/20'}`,
-                      children: x ? 'Submitting...' : 'Submit Answer',
-                    }),
-              }),
-            ],
-          });
+              })
+            : null;
         }
       },
       3592: (e, t, s) => {
