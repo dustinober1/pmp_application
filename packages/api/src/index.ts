@@ -30,24 +30,24 @@ const app = express();
 // Security middleware
 app.use(helmet());
 app.use(
-    cors({
-        origin: env.CORS_ORIGIN,
-        credentials: true,
-    })
+  cors({
+    origin: env.CORS_ORIGIN,
+    credentials: true,
+  })
 );
 
 // Rate limiting
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: {
-        error: {
-            code: 'RATE_LIMITED',
-            message: 'Too many requests, please try again later',
-        },
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: {
+      code: 'RATE_LIMITED',
+      message: 'Too many requests, please try again later',
     },
+  },
 });
 app.use('/api', limiter);
 
@@ -58,14 +58,14 @@ app.use(express.urlencoded({ extended: true }));
 // Request ID and logging
 app.use(requestIdMiddleware);
 app.use(
-    morgan(':method :url :status :response-time ms - :req[x-request-id]', {
-        stream: {
-            write: (message: string) => {
-                // eslint-disable-next-line no-console
-                console.log(message.trim());
-            },
-        },
-    })
+  morgan(':method :url :status :response-time ms - :req[x-request-id]', {
+    stream: {
+      write: (message: string) => {
+        // eslint-disable-next-line no-console
+        console.log(message.trim());
+      },
+    },
+  })
 );
 
 // API Routes
@@ -88,10 +88,10 @@ app.use(errorHandler);
 const PORT = env.PORT;
 
 app.listen(PORT, () => {
-    // eslint-disable-next-line no-console
-    console.log(`🚀 PMP Study API running on port ${PORT}`);
-    // eslint-disable-next-line no-console
-    console.log(`📚 Environment: ${env.NODE_ENV}`);
+  // eslint-disable-next-line no-console
+  console.log(`🚀 PMP Study API running on port ${PORT}`);
+  // eslint-disable-next-line no-console
+  console.log(`📚 Environment: ${env.NODE_ENV}`);
 });
 
 export default app;

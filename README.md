@@ -44,26 +44,31 @@ pmp_application/
 
 1. Clone the repository
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Start the database (using Docker):
+
    ```bash
    docker-compose up -d
    ```
 
 4. Set up environment variables:
+
    ```bash
    cp packages/api/.env.example packages/api/.env
    ```
 
 5. Run database migrations:
+
    ```bash
    npm run db:migrate
    ```
 
 6. Generate Prisma client:
+
    ```bash
    npm run db:generate
    ```
@@ -85,16 +90,16 @@ pmp_application/
 
 ## Subscription Tiers
 
-| Feature | Free | Mid-Level | High-End | Corporate |
-|---------|------|-----------|----------|-----------|
-| Study Guides | Limited | Full | Full | Full |
-| Flashcards | 50 | Unlimited | Unlimited | Unlimited |
-| Questions/Domain | 25 | 100 | 200 | 200 |
-| Mock Exams | ❌ | ❌ | ✅ | ✅ |
-| Formula Calculator | ❌ | ❌ | ✅ | ✅ |
-| Custom Flashcards | ❌ | ❌ | ✅ | ✅ |
-| Advanced Analytics | ❌ | ✅ | ✅ | ✅ |
-| Team Management | ❌ | ❌ | ❌ | ✅ |
+| Feature            | Free    | Mid-Level | High-End  | Corporate |
+| ------------------ | ------- | --------- | --------- | --------- |
+| Study Guides       | Limited | Full      | Full      | Full      |
+| Flashcards         | 50      | Unlimited | Unlimited | Unlimited |
+| Questions/Domain   | 25      | 100       | 200       | 200       |
+| Mock Exams         | ❌      | ❌        | ✅        | ✅        |
+| Formula Calculator | ❌      | ❌        | ✅        | ✅        |
+| Custom Flashcards  | ❌      | ❌        | ✅        | ✅        |
+| Advanced Analytics | ❌      | ✅        | ✅        | ✅        |
+| Team Management    | ❌      | ❌        | ❌        | ✅        |
 
 ## License
 

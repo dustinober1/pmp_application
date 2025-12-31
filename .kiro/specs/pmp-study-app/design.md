@@ -14,11 +14,11 @@ graph TB
         WEB[React Web App]
         PWA[Progressive Web App]
     end
-    
+
     subgraph "API Gateway"
         GW[API Gateway / Load Balancer]
     end
-    
+
     subgraph "Application Layer"
         AUTH[Auth Service]
         STUDY[Study Content Service]
@@ -27,17 +27,17 @@ graph TB
         BILLING[Billing Service]
         TEAM[Team Management Service]
     end
-    
+
     subgraph "External Services"
         PAYPAL[PayPal API]
         EMAIL[Email Service]
     end
-    
+
     subgraph "Data Layer"
         PG[(PostgreSQL)]
         REDIS[(Redis Cache)]
     end
-    
+
     WEB --> GW
     PWA --> GW
     GW --> AUTH
@@ -46,7 +46,7 @@ graph TB
     GW --> ANALYTICS
     GW --> BILLING
     GW --> TEAM
-    
+
     AUTH --> PG
     AUTH --> REDIS
     STUDY --> PG
@@ -218,7 +218,7 @@ interface Flashcard {
   domainId: string;
   taskId: string;
   front: string; // Question or term
-  back: string;  // Answer or definition
+  back: string; // Answer or definition
   isCustom: boolean;
   createdBy?: string;
 }
@@ -242,9 +242,9 @@ interface SessionStats {
 interface CardReviewData {
   cardId: string;
   userId: string;
-  easeFactor: number;      // SM-2 algorithm ease factor
-  interval: number;        // Days until next review
-  repetitions: number;     // Successful repetitions in a row
+  easeFactor: number; // SM-2 algorithm ease factor
+  interval: number; // Days until next review
+  repetitions: number; // Successful repetitions in a row
   nextReviewDate: Date;
   lastReviewDate: Date;
 }
@@ -330,14 +330,14 @@ interface Formula {
   id: string;
   name: string;
   category: FormulaCategory;
-  expression: string;        // e.g., "CPI = EV / AC"
+  expression: string; // e.g., "CPI = EV / AC"
   variables: FormulaVariable[];
   description: string;
   whenToUse: string;
   example: FormulaExample;
 }
 
-type FormulaCategory = 
+type FormulaCategory =
   | 'earned_value'
   | 'scheduling'
   | 'cost'
@@ -413,7 +413,7 @@ interface DomainProgress {
 }
 
 interface ReadinessScore {
-  score: number;           // 0-100
+  score: number; // 0-100
   confidence: 'low' | 'medium' | 'high';
   breakdown: {
     studyCompletion: number;
@@ -503,26 +503,26 @@ erDiagram
     User ||--o{ StudyActivity : logs
     User ||--o{ CustomFlashcard : creates
     User }o--o| TeamMember : "belongs to"
-    
+
     Team ||--o{ TeamMember : contains
     Team ||--o{ TeamGoal : has
     Team ||--o| User : "administered by"
-    
+
     SubscriptionTier ||--o{ UserSubscription : defines
-    
+
     Domain ||--o{ Task : contains
     Task ||--o{ StudyGuide : has
     Task ||--o{ Flashcard : contains
     Task ||--o{ PracticeQuestion : contains
-    
+
     StudyGuide ||--o{ StudySection : contains
     StudyGuide }o--o{ Formula : references
-    
+
     Formula ||--o{ FormulaVariable : has
     Formula ||--o{ PracticeQuestion : "related to"
-    
+
     PracticeQuestion ||--o{ QuestionOption : has
-    
+
     User {
         string id PK
         string email UK
@@ -534,7 +534,7 @@ erDiagram
         datetime createdAt
         datetime updatedAt
     }
-    
+
     UserSubscription {
         string id PK
         string userId FK
@@ -545,7 +545,7 @@ erDiagram
         string paypalSubscriptionId
         datetime createdAt
     }
-    
+
     SubscriptionTier {
         string id PK
         string name
@@ -553,7 +553,7 @@ erDiagram
         string billingPeriod
         json features
     }
-    
+
     Domain {
         string id PK
         string name
@@ -562,7 +562,7 @@ erDiagram
         int weightPercentage
         int orderIndex
     }
-    
+
     Task {
         string id PK
         string domainId FK
@@ -572,7 +572,7 @@ erDiagram
         json enablers
         int orderIndex
     }
-    
+
     StudyGuide {
         string id PK
         string taskId FK
@@ -580,7 +580,7 @@ erDiagram
         datetime createdAt
         datetime updatedAt
     }
-    
+
     StudySection {
         string id PK
         string studyGuideId FK
@@ -588,7 +588,7 @@ erDiagram
         text content
         int orderIndex
     }
-    
+
     Flashcard {
         string id PK
         string domainId FK
@@ -598,7 +598,7 @@ erDiagram
         boolean isCustom
         string createdBy FK
     }
-    
+
     FlashcardReview {
         string id PK
         string userId FK
@@ -609,7 +609,7 @@ erDiagram
         datetime nextReviewDate
         datetime lastReviewDate
     }
-    
+
     PracticeQuestion {
         string id PK
         string domainId FK
@@ -619,14 +619,14 @@ erDiagram
         text explanation
         string difficulty
     }
-    
+
     QuestionOption {
         string id PK
         string questionId FK
         text text
         boolean isCorrect
     }
-    
+
     QuestionAttempt {
         string id PK
         string userId FK
@@ -636,7 +636,7 @@ erDiagram
         int timeSpentMs
         datetime attemptedAt
     }
-    
+
     Formula {
         string id PK
         string name
@@ -646,7 +646,7 @@ erDiagram
         text whenToUse
         json example
     }
-    
+
     FormulaVariable {
         string id PK
         string formulaId FK
@@ -655,7 +655,7 @@ erDiagram
         string description
         string unit
     }
-    
+
     StudyProgress {
         string id PK
         string userId FK
@@ -663,7 +663,7 @@ erDiagram
         boolean completed
         datetime completedAt
     }
-    
+
     StudyActivity {
         string id PK
         string userId FK
@@ -672,7 +672,7 @@ erDiagram
         int durationMs
         datetime createdAt
     }
-    
+
     Team {
         string id PK
         string name
@@ -680,7 +680,7 @@ erDiagram
         int licenseCount
         datetime createdAt
     }
-    
+
     TeamMember {
         string id PK
         string teamId FK
@@ -688,7 +688,7 @@ erDiagram
         string role
         datetime joinedAt
     }
-    
+
     TeamGoal {
         string id PK
         string teamId FK
@@ -698,105 +698,103 @@ erDiagram
     }
 ```
 
-
-
 ## Correctness Properties
 
-*A property is a characteristic or behavior that should hold true across all valid executions of a system—essentially, a formal statement about what the system should do. Properties serve as the bridge between human-readable specifications and machine-verifiable correctness guarantees.*
+_A property is a characteristic or behavior that should hold true across all valid executions of a system—essentially, a formal statement about what the system should do. Properties serve as the bridge between human-readable specifications and machine-verifiable correctness guarantees._
 
 ### Property 1: Tier Feature Hierarchy
 
-*For any* two subscription tiers where tier A is higher than tier B (Corporate > High-End > Mid-Level > Free), all features available in tier B shall also be available in tier A.
+_For any_ two subscription tiers where tier A is higher than tier B (Corporate > High-End > Mid-Level > Free), all features available in tier B shall also be available in tier A.
 
 **Validates: Requirements 2.2, 2.3, 2.4, 2.5**
 
 ### Property 2: Tier-Restricted Feature Access
 
-*For any* user and any tier-restricted feature, access to that feature shall be granted if and only if the user's current subscription tier includes that feature.
+_For any_ user and any tier-restricted feature, access to that feature shall be granted if and only if the user's current subscription tier includes that feature.
 
 **Validates: Requirements 5.7, 6.7, 7.3, 8.6, 8.7, 9.1**
 
 ### Property 3: Content Domain/Task Organization
 
-*For any* content item (study guide, flashcard, or practice question), it shall be associated with exactly one valid domain and one valid task from the 2026 PMI Exam Content Outline.
+_For any_ content item (study guide, flashcard, or practice question), it shall be associated with exactly one valid domain and one valid task from the 2026 PMI Exam Content Outline.
 
 **Validates: Requirements 4.1, 5.1, 6.1, 10.2**
 
 ### Property 4: Subscription State Consistency
 
-*For any* subscription state transition triggered by a payment event, the resulting subscription status shall be consistent with the payment outcome: successful payment activates/renews subscription, failed payment maintains current status or triggers grace period.
+_For any_ subscription state transition triggered by a payment event, the resulting subscription status shall be consistent with the payment outcome: successful payment activates/renews subscription, failed payment maintains current status or triggers grace period.
 
 **Validates: Requirements 3.2, 3.3, 3.5, 3.6**
 
 ### Property 5: Analytics Calculation Accuracy
 
-*For any* user with recorded study activity, the dashboard statistics (overall progress, domain performance, accuracy rates) shall be mathematically consistent with the underlying activity data.
+_For any_ user with recorded study activity, the dashboard statistics (overall progress, domain performance, accuracy rates) shall be mathematically consistent with the underlying activity data.
 
 **Validates: Requirements 8.2, 8.3, 8.4, 8.5**
 
 ### Property 6: Spaced Repetition Algorithm Correctness
 
-*For any* flashcard review with a given rating, the next review interval shall be calculated according to the SM-2 algorithm: "Know It" increases interval, "Learning" maintains or slightly increases, "Don't Know" resets to minimum interval.
+_For any_ flashcard review with a given rating, the next review interval shall be calculated according to the SM-2 algorithm: "Know It" increases interval, "Learning" maintains or slightly increases, "Don't Know" resets to minimum interval.
 
 **Validates: Requirements 5.4, 5.5**
 
 ### Property 7: Practice Session Statistics Accuracy
 
-*For any* completed practice session, the session statistics (score percentage, correct count, time per question, domain breakdown) shall accurately reflect the actual answers submitted during the session.
+_For any_ completed practice session, the session statistics (score percentage, correct count, time per question, domain breakdown) shall accurately reflect the actual answers submitted during the session.
 
 **Validates: Requirements 6.3, 6.4**
 
 ### Property 8: User Registration Round-Trip
 
-*For any* valid registration data, registering a user and then logging in with the same credentials shall successfully authenticate and return valid tokens.
+_For any_ valid registration data, registering a user and then logging in with the same credentials shall successfully authenticate and return valid tokens.
 
 **Validates: Requirements 1.1, 1.3**
 
 ### Property 9: Duplicate Email Prevention
 
-*For any* registered user email, attempting to register a new account with the same email shall fail with an appropriate error.
+_For any_ registered user email, attempting to register a new account with the same email shall fail with an appropriate error.
 
 **Validates: Requirements 1.2**
 
 ### Property 10: Progress Persistence Round-Trip
 
-*For any* study activity (section completion, flashcard review, question attempt), recording the activity and then querying user progress shall return data reflecting that activity.
+_For any_ study activity (section completion, flashcard review, question attempt), recording the activity and then querying user progress shall return data reflecting that activity.
 
 **Validates: Requirements 4.4, 11.1, 11.2, 11.4**
 
 ### Property 11: Question Non-Repetition
 
-*For any* practice session within a category, questions shall not repeat until all questions in that category have been presented to the user.
+_For any_ practice session within a category, questions shall not repeat until all questions in that category have been presented to the user.
 
 **Validates: Requirements 6.5**
 
 ### Property 12: Formula Calculator Correctness
 
-*For any* formula and valid input values, the calculator shall produce results that match the mathematical definition of the formula within floating-point precision tolerance.
+_For any_ formula and valid input values, the calculator shall produce results that match the mathematical definition of the formula within floating-point precision tolerance.
 
 **Validates: Requirements 7.4**
 
 ### Property 13: Failed Login Attempt Tracking
 
-*For any* sequence of failed login attempts for a user, the failed attempt counter shall accurately reflect the number of failures, and account lockout shall occur after exactly 5 failures within 15 minutes.
+_For any_ sequence of failed login attempts for a user, the failed attempt counter shall accurately reflect the number of failures, and account lockout shall occur after exactly 5 failures within 15 minutes.
 
 **Validates: Requirements 1.4, 1.5**
 
 ### Property 14: Incorrect Answer Flagging
 
-*For any* incorrectly answered practice question, the question shall be flagged for review and shall appear with higher probability in subsequent sessions.
+_For any_ incorrectly answered practice question, the question shall be flagged for review and shall appear with higher probability in subsequent sessions.
 
 **Validates: Requirements 6.6**
 
 ### Property 15: Team Member Access Control
 
-*For any* team member removal action, the removed member shall immediately lose access to team features while their historical activity data shall remain available for reporting.
+_For any_ team member removal action, the removed member shall immediately lose access to team features while their historical activity data shall remain available for reporting.
 
 **Validates: Requirements 9.7**
 
 ### Property 16: Subscription Cancellation Access Preservation
 
-*For any* subscription cancellation, the user shall retain full tier access until the end of the current billing period.
+_For any_ subscription cancellation, the user shall retain full tier access until the end of the current billing period.
 
 **Validates: Requirements 3.6**
 
@@ -804,57 +802,58 @@ erDiagram
 
 ### Authentication Errors
 
-| Error Code | Condition | Response |
-|------------|-----------|----------|
-| AUTH_001 | Invalid email format | 400 Bad Request with validation message |
-| AUTH_002 | Email already registered | 409 Conflict with suggestion to login |
-| AUTH_003 | Invalid credentials | 401 Unauthorized (generic message) |
-| AUTH_004 | Account locked | 403 Forbidden with unlock time |
-| AUTH_005 | Invalid/expired token | 401 Unauthorized with refresh suggestion |
-| AUTH_006 | Email not verified | 403 Forbidden with resend option |
+| Error Code | Condition                | Response                                 |
+| ---------- | ------------------------ | ---------------------------------------- |
+| AUTH_001   | Invalid email format     | 400 Bad Request with validation message  |
+| AUTH_002   | Email already registered | 409 Conflict with suggestion to login    |
+| AUTH_003   | Invalid credentials      | 401 Unauthorized (generic message)       |
+| AUTH_004   | Account locked           | 403 Forbidden with unlock time           |
+| AUTH_005   | Invalid/expired token    | 401 Unauthorized with refresh suggestion |
+| AUTH_006   | Email not verified       | 403 Forbidden with resend option         |
 
 ### Subscription Errors
 
-| Error Code | Condition | Response |
-|------------|-----------|----------|
-| SUB_001 | PayPal payment failed | 402 Payment Required with retry option |
-| SUB_002 | Invalid tier selection | 400 Bad Request |
-| SUB_003 | Feature not available in tier | 403 Forbidden with upgrade suggestion |
-| SUB_004 | Subscription expired | 403 Forbidden with renewal option |
-| SUB_005 | PayPal webhook validation failed | 400 Bad Request (logged for investigation) |
+| Error Code | Condition                        | Response                                   |
+| ---------- | -------------------------------- | ------------------------------------------ |
+| SUB_001    | PayPal payment failed            | 402 Payment Required with retry option     |
+| SUB_002    | Invalid tier selection           | 400 Bad Request                            |
+| SUB_003    | Feature not available in tier    | 403 Forbidden with upgrade suggestion      |
+| SUB_004    | Subscription expired             | 403 Forbidden with renewal option          |
+| SUB_005    | PayPal webhook validation failed | 400 Bad Request (logged for investigation) |
 
 ### Content Errors
 
-| Error Code | Condition | Response |
-|------------|-----------|----------|
-| CONTENT_001 | Domain not found | 404 Not Found |
-| CONTENT_002 | Task not found | 404 Not Found |
-| CONTENT_003 | Study guide not found | 404 Not Found |
+| Error Code  | Condition                           | Response                              |
+| ----------- | ----------------------------------- | ------------------------------------- |
+| CONTENT_001 | Domain not found                    | 404 Not Found                         |
+| CONTENT_002 | Task not found                      | 404 Not Found                         |
+| CONTENT_003 | Study guide not found               | 404 Not Found                         |
 | CONTENT_004 | Flashcard limit reached (Free tier) | 403 Forbidden with upgrade suggestion |
-| CONTENT_005 | Question limit reached (Free tier) | 403 Forbidden with upgrade suggestion |
+| CONTENT_005 | Question limit reached (Free tier)  | 403 Forbidden with upgrade suggestion |
 
 ### Session Errors
 
-| Error Code | Condition | Response |
-|------------|-----------|----------|
-| SESSION_001 | Session not found | 404 Not Found |
-| SESSION_002 | Session already completed | 400 Bad Request |
-| SESSION_003 | Invalid answer submission | 400 Bad Request |
-| SESSION_004 | Mock exam time expired | 400 Bad Request with auto-submit |
+| Error Code  | Condition                 | Response                         |
+| ----------- | ------------------------- | -------------------------------- |
+| SESSION_001 | Session not found         | 404 Not Found                    |
+| SESSION_002 | Session already completed | 400 Bad Request                  |
+| SESSION_003 | Invalid answer submission | 400 Bad Request                  |
+| SESSION_004 | Mock exam time expired    | 400 Bad Request with auto-submit |
 
 ### Team Management Errors
 
-| Error Code | Condition | Response |
-|------------|-----------|----------|
-| TEAM_001 | Not authorized (not admin) | 403 Forbidden |
-| TEAM_002 | License limit reached | 400 Bad Request with upgrade option |
-| TEAM_003 | Invalid invitation token | 400 Bad Request |
-| TEAM_004 | Member not found | 404 Not Found |
-| TEAM_005 | Cannot remove self as admin | 400 Bad Request |
+| Error Code | Condition                   | Response                            |
+| ---------- | --------------------------- | ----------------------------------- |
+| TEAM_001   | Not authorized (not admin)  | 403 Forbidden                       |
+| TEAM_002   | License limit reached       | 400 Bad Request with upgrade option |
+| TEAM_003   | Invalid invitation token    | 400 Bad Request                     |
+| TEAM_004   | Member not found            | 404 Not Found                       |
+| TEAM_005   | Cannot remove self as admin | 400 Bad Request                     |
 
 ### Global Error Handling Strategy
 
 1. All errors return consistent JSON structure:
+
 ```typescript
 interface ErrorResponse {
   error: {
@@ -891,6 +890,7 @@ This application uses both unit tests and property-based tests for comprehensive
 ### Property-Based Test Configuration
 
 Each property test must:
+
 - Run minimum 100 iterations
 - Reference the design document property number
 - Use tag format: **Feature: pmp-study-app, Property {number}: {property_text}**
@@ -898,6 +898,7 @@ Each property test must:
 ### Test Categories
 
 #### Unit Tests
+
 - Authentication flow edge cases (invalid inputs, boundary conditions)
 - Subscription tier feature matrix verification
 - Formula calculation examples with known results
@@ -905,6 +906,7 @@ Each property test must:
 - Error response format validation
 
 #### Property-Based Tests
+
 - Property 1: Tier hierarchy (generate tier pairs, verify superset)
 - Property 2: Feature access (generate user/feature combinations)
 - Property 3: Content organization (generate content, verify associations)
@@ -929,7 +931,7 @@ Each property test must:
 const userGenerator = fc.record({
   email: fc.emailAddress(),
   password: fc.string({ minLength: 8, maxLength: 64 }),
-  name: fc.string({ minLength: 1, maxLength: 100 })
+  name: fc.string({ minLength: 1, maxLength: 100 }),
 });
 
 const tierGenerator = fc.constantFrom('free', 'mid-level', 'high-end', 'corporate');
@@ -939,14 +941,14 @@ const flashcardRatingGenerator = fc.constantFrom('know_it', 'learning', 'dont_kn
 const practiceAnswerGenerator = fc.record({
   questionId: fc.uuid(),
   selectedOptionId: fc.uuid(),
-  timeSpentMs: fc.integer({ min: 1000, max: 300000 })
+  timeSpentMs: fc.integer({ min: 1000, max: 300000 }),
 });
 
 const formulaInputGenerator = fc.record({
   EV: fc.float({ min: 0, max: 1000000 }),
   AC: fc.float({ min: 0.01, max: 1000000 }),
   PV: fc.float({ min: 0, max: 1000000 }),
-  BAC: fc.float({ min: 0.01, max: 1000000 })
+  BAC: fc.float({ min: 0.01, max: 1000000 }),
 });
 ```
 

@@ -165,4 +165,3 @@ A comprehensive PMP (Project Management Professional) Study Application designed
 3. IF network connectivity is lost during a study session THEN THE System SHALL cache progress locally and sync when connection is restored
 4. THE System SHALL maintain complete history of user activity for analytics and progress tracking
 5. WHEN a user's subscription expires THEN THE System SHALL preserve their progress data for 90 days to allow reactivation
-

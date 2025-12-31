@@ -8,15 +8,15 @@ const router = Router();
 
 // Validation schemas
 const domainIdSchema = z.object({
-    id: z.string().uuid('Invalid domain ID'),
+  id: z.string().uuid('Invalid domain ID'),
 });
 
 const taskIdSchema = z.object({
-    taskId: z.string().uuid('Invalid task ID'),
+  taskId: z.string().uuid('Invalid task ID'),
 });
 
 const sectionIdSchema = z.object({
-    sectionId: z.string().uuid('Invalid section ID'),
+  sectionId: z.string().uuid('Invalid section ID'),
 });
 
 /**
@@ -24,15 +24,15 @@ const sectionIdSchema = z.object({
  * Get all domains
  */
 router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-        const domains = await contentService.getDomains();
-        res.json({
-            success: true,
-            data: { domains },
-        });
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const domains = await contentService.getDomains();
+    res.json({
+      success: true,
+      data: { domains },
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 /**
@@ -40,28 +40,28 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
  * Get domain by ID with tasks
  */
 router.get(
-    '/:id',
-    validateParams(domainIdSchema),
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const domain = await contentService.getDomainById(req.params.id!);
+  '/:id',
+  validateParams(domainIdSchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const domain = await contentService.getDomainById(req.params.id!);
 
-            if (!domain) {
-                res.status(404).json({
-                    success: false,
-                    error: { code: 'CONTENT_001', message: 'Domain not found' },
-                });
-                return;
-            }
+      if (!domain) {
+        res.status(404).json({
+          success: false,
+          error: { code: 'CONTENT_001', message: 'Domain not found' },
+        });
+        return;
+      }
 
-            res.json({
-                success: true,
-                data: { domain },
-            });
-        } catch (error) {
-            next(error);
-        }
+      res.json({
+        success: true,
+        data: { domain },
+      });
+    } catch (error) {
+      next(error);
     }
+  }
 );
 
 /**
@@ -69,19 +69,19 @@ router.get(
  * Get tasks by domain
  */
 router.get(
-    '/:id/tasks',
-    validateParams(domainIdSchema),
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const tasks = await contentService.getTasksByDomain(req.params.id!);
-            res.json({
-                success: true,
-                data: { tasks },
-            });
-        } catch (error) {
-            next(error);
-        }
+  '/:id/tasks',
+  validateParams(domainIdSchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const tasks = await contentService.getTasksByDomain(req.params.id!);
+      res.json({
+        success: true,
+        data: { tasks },
+      });
+    } catch (error) {
+      next(error);
     }
+  }
 );
 
 /**
@@ -89,29 +89,29 @@ router.get(
  * Get study guide for a task
  */
 router.get(
-    '/tasks/:taskId/study-guide',
-    validateParams(taskIdSchema),
-    optionalAuthMiddleware,
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const studyGuide = await contentService.getStudyGuide(req.params.taskId!);
+  '/tasks/:taskId/study-guide',
+  validateParams(taskIdSchema),
+  optionalAuthMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const studyGuide = await contentService.getStudyGuide(req.params.taskId!);
 
-            if (!studyGuide) {
-                res.status(404).json({
-                    success: false,
-                    error: { code: 'CONTENT_003', message: 'Study guide not found' },
-                });
-                return;
-            }
+      if (!studyGuide) {
+        res.status(404).json({
+          success: false,
+          error: { code: 'CONTENT_003', message: 'Study guide not found' },
+        });
+        return;
+      }
 
-            res.json({
-                success: true,
-                data: { studyGuide },
-            });
-        } catch (error) {
-            next(error);
-        }
+      res.json({
+        success: true,
+        data: { studyGuide },
+      });
+    } catch (error) {
+      next(error);
     }
+  }
 );
 
 /**
@@ -119,40 +119,36 @@ router.get(
  * Mark a section as complete
  */
 router.post(
-    '/progress/sections/:sectionId/complete',
-    authMiddleware,
-    validateParams(sectionIdSchema),
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            await contentService.markSectionComplete(req.user!.userId, req.params.sectionId!);
-            res.json({
-                success: true,
-                message: 'Section marked as complete',
-            });
-        } catch (error) {
-            next(error);
-        }
+  '/progress/sections/:sectionId/complete',
+  authMiddleware,
+  validateParams(sectionIdSchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await contentService.markSectionComplete(req.user!.userId, req.params.sectionId!);
+      res.json({
+        success: true,
+        message: 'Section marked as complete',
+      });
+    } catch (error) {
+      next(error);
     }
+  }
 );
 
 /**
  * GET /api/domains/progress
  * Get user's study progress
  */
-router.get(
-    '/progress',
-    authMiddleware,
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const progress = await contentService.getUserProgress(req.user!.userId);
-            res.json({
-                success: true,
-                data: { progress },
-            });
-        } catch (error) {
-            next(error);
-        }
-    }
-);
+router.get('/progress', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const progress = await contentService.getUserProgress(req.user!.userId);
+    res.json({
+      success: true,
+      data: { progress },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default router;

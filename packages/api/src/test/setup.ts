@@ -8,25 +8,25 @@ process.env.DATABASE_URL = 'postgresql://pmp_user:pmp_password@localhost:5432/pm
 
 // Mock Prisma Client for unit tests
 jest.mock('@prisma/client', () => ({
-    PrismaClient: jest.fn().mockImplementation(() => ({
-        $connect: jest.fn(),
-        $disconnect: jest.fn(),
-        $queryRaw: jest.fn(),
-        user: {
-            findUnique: jest.fn(),
-            findMany: jest.fn(),
-            create: jest.fn(),
-            update: jest.fn(),
-            delete: jest.fn(),
-        },
-        userSubscription: {
-            findUnique: jest.fn(),
-            findMany: jest.fn(),
-            create: jest.fn(),
-            update: jest.fn(),
-        },
-        // Add more models as needed
-    })),
+  PrismaClient: jest.fn().mockImplementation(() => ({
+    $connect: jest.fn(),
+    $disconnect: jest.fn(),
+    $queryRaw: jest.fn(),
+    user: {
+      findUnique: jest.fn(),
+      findMany: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      delete: jest.fn(),
+    },
+    userSubscription: {
+      findUnique: jest.fn(),
+      findMany: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+    },
+    // Add more models as needed
+  })),
 }));
 
 // Global test timeout
@@ -34,5 +34,5 @@ jest.setTimeout(30000);
 
 // Cleanup after all tests
 afterAll(async () => {
-    // Add any cleanup logic here
+  // Add any cleanup logic here
 });

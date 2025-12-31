@@ -12,344 +12,340 @@ const MAX_FAILED_ATTEMPTS = 5;
 const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
 
 export class AuthService {
-    /**
-     * Register a new user
-     */
-    async register(data: RegisterInput): Promise<AuthResult> {
-        // Check if email already exists
-        const existingUser = await prisma.user.findUnique({
-            where: { email: data.email.toLowerCase() },
-        });
+  /**
+   * Register a new user
+   */
+  async register(data: RegisterInput): Promise<AuthResult> {
+    // Check if email already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email.toLowerCase() },
+    });
 
-        if (existingUser) {
-            throw AppError.conflict(
-                AUTH_ERRORS.AUTH_002.message,
-                AUTH_ERRORS.AUTH_002.code,
-                'Please login instead'
-            );
-        }
-
-        // Hash password
-        const passwordHash = await bcrypt.hash(data.password, SALT_ROUNDS);
-
-        // Create user
-        const user = await prisma.user.create({
-            data: {
-                email: data.email.toLowerCase(),
-                passwordHash,
-                name: data.name,
-                emailVerifyToken: uuidv4(),
-            },
-        });
-
-        // Create free tier subscription
-        const freeTier = await prisma.subscriptionTier.findFirst({
-            where: { name: 'free' },
-        });
-
-        if (freeTier) {
-            await prisma.userSubscription.create({
-                data: {
-                    userId: user.id,
-                    tierId: freeTier.id,
-                    status: 'active',
-                    startDate: new Date(),
-                    endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year
-                },
-            });
-        }
-
-        // Generate tokens
-        const tokens = await this.generateTokens(user.id, user.email, freeTier?.id || 'free');
-
-        // TODO: Send verification email
-
-        return {
-            user: this.sanitizeUser(user),
-            tokens,
-        };
+    if (existingUser) {
+      throw AppError.conflict(
+        AUTH_ERRORS.AUTH_002.message,
+        AUTH_ERRORS.AUTH_002.code,
+        'Please login instead'
+      );
     }
 
-    /**
-     * Login with email and password
-     */
-    async login(credentials: LoginInput): Promise<AuthResult> {
-        const email = credentials.email.toLowerCase();
+    // Hash password
+    const passwordHash = await bcrypt.hash(data.password, SALT_ROUNDS);
 
-        const user = await prisma.user.findUnique({
-            where: { email },
-            include: {
-                subscription: {
-                    include: { tier: true },
-                },
-            },
-        });
+    // Create user
+    const user = await prisma.user.create({
+      data: {
+        email: data.email.toLowerCase(),
+        passwordHash,
+        name: data.name,
+        emailVerifyToken: uuidv4(),
+      },
+    });
 
-        if (!user) {
-            throw AppError.unauthorized(AUTH_ERRORS.AUTH_003.message, AUTH_ERRORS.AUTH_003.code);
-        }
+    // Create free tier subscription
+    const freeTier = await prisma.subscriptionTier.findFirst({
+      where: { name: 'free' },
+    });
 
-        // Check if account is locked
-        if (user.lockedUntil && user.lockedUntil > new Date()) {
-            throw AppError.forbidden(
-                AUTH_ERRORS.AUTH_004.message,
-                AUTH_ERRORS.AUTH_004.code,
-                `Account locked until ${user.lockedUntil.toISOString()}`
-            );
-        }
-
-        // Verify password
-        const isValidPassword = await bcrypt.compare(credentials.password, user.passwordHash);
-
-        if (!isValidPassword) {
-            // Increment failed login attempts
-            const newFailedAttempts = user.failedLoginAttempts + 1;
-            const updates: { failedLoginAttempts: number; lockedUntil?: Date } = {
-                failedLoginAttempts: newFailedAttempts,
-            };
-
-            // Lock account if max attempts reached
-            if (newFailedAttempts >= MAX_FAILED_ATTEMPTS) {
-                updates.lockedUntil = new Date(Date.now() + LOCKOUT_DURATION_MS);
-            }
-
-            await prisma.user.update({
-                where: { id: user.id },
-                data: updates,
-            });
-
-            throw AppError.unauthorized(AUTH_ERRORS.AUTH_003.message, AUTH_ERRORS.AUTH_003.code);
-        }
-
-        // Reset failed attempts on successful login
-        if (user.failedLoginAttempts > 0) {
-            await prisma.user.update({
-                where: { id: user.id },
-                data: {
-                    failedLoginAttempts: 0,
-                    lockedUntil: null,
-                },
-            });
-        }
-
-        // Check email verification (optional - can be enforced later)
-        // if (!user.emailVerified) {
-        //   throw AppError.forbidden(AUTH_ERRORS.AUTH_006.message, AUTH_ERRORS.AUTH_006.code);
-        // }
-
-        // Generate tokens
-        const tierId = user.subscription?.tierId || 'free';
-        const tokens = await this.generateTokens(user.id, user.email, tierId);
-
-        return {
-            user: this.sanitizeUser(user),
-            tokens,
-        };
+    if (freeTier) {
+      await prisma.userSubscription.create({
+        data: {
+          userId: user.id,
+          tierId: freeTier.id,
+          status: 'active',
+          startDate: new Date(),
+          endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year
+        },
+      });
     }
 
-    /**
-     * Refresh access token using refresh token
-     */
-    async refreshToken(refreshToken: string): Promise<TokenPair> {
-        // Find the refresh token
-        const storedToken = await prisma.refreshToken.findUnique({
-            where: { token: refreshToken },
-            include: {
-                user: {
-                    include: {
-                        subscription: true,
-                    },
-                },
-            },
-        });
+    // Generate tokens
+    const tokens = await this.generateTokens(user.id, user.email, freeTier?.id || 'free');
 
-        if (!storedToken || storedToken.expiresAt < new Date()) {
-            // Delete expired token if found
-            if (storedToken) {
-                await prisma.refreshToken.delete({ where: { id: storedToken.id } });
-            }
-            throw AppError.unauthorized(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
-        }
+    // TODO: Send verification email
 
-        // Delete old token
+    return {
+      user: this.sanitizeUser(user),
+      tokens,
+    };
+  }
+
+  /**
+   * Login with email and password
+   */
+  async login(credentials: LoginInput): Promise<AuthResult> {
+    const email = credentials.email.toLowerCase();
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        subscription: {
+          include: { tier: true },
+        },
+      },
+    });
+
+    if (!user) {
+      throw AppError.unauthorized(AUTH_ERRORS.AUTH_003.message, AUTH_ERRORS.AUTH_003.code);
+    }
+
+    // Check if account is locked
+    if (user.lockedUntil && user.lockedUntil > new Date()) {
+      throw AppError.forbidden(
+        AUTH_ERRORS.AUTH_004.message,
+        AUTH_ERRORS.AUTH_004.code,
+        `Account locked until ${user.lockedUntil.toISOString()}`
+      );
+    }
+
+    // Verify password
+    const isValidPassword = await bcrypt.compare(credentials.password, user.passwordHash);
+
+    if (!isValidPassword) {
+      // Increment failed login attempts
+      const newFailedAttempts = user.failedLoginAttempts + 1;
+      const updates: { failedLoginAttempts: number; lockedUntil?: Date } = {
+        failedLoginAttempts: newFailedAttempts,
+      };
+
+      // Lock account if max attempts reached
+      if (newFailedAttempts >= MAX_FAILED_ATTEMPTS) {
+        updates.lockedUntil = new Date(Date.now() + LOCKOUT_DURATION_MS);
+      }
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: updates,
+      });
+
+      throw AppError.unauthorized(AUTH_ERRORS.AUTH_003.message, AUTH_ERRORS.AUTH_003.code);
+    }
+
+    // Reset failed attempts on successful login
+    if (user.failedLoginAttempts > 0) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          failedLoginAttempts: 0,
+          lockedUntil: null,
+        },
+      });
+    }
+
+    // Check email verification (optional - can be enforced later)
+    // if (!user.emailVerified) {
+    //   throw AppError.forbidden(AUTH_ERRORS.AUTH_006.message, AUTH_ERRORS.AUTH_006.code);
+    // }
+
+    // Generate tokens
+    const tierId = user.subscription?.tierId || 'free';
+    const tokens = await this.generateTokens(user.id, user.email, tierId);
+
+    return {
+      user: this.sanitizeUser(user),
+      tokens,
+    };
+  }
+
+  /**
+   * Refresh access token using refresh token
+   */
+  async refreshToken(refreshToken: string): Promise<TokenPair> {
+    // Find the refresh token
+    const storedToken = await prisma.refreshToken.findUnique({
+      where: { token: refreshToken },
+      include: {
+        user: {
+          include: {
+            subscription: true,
+          },
+        },
+      },
+    });
+
+    if (!storedToken || storedToken.expiresAt < new Date()) {
+      // Delete expired token if found
+      if (storedToken) {
         await prisma.refreshToken.delete({ where: { id: storedToken.id } });
-
-        // Generate new tokens
-        const tierId = storedToken.user.subscription?.tierId || 'free';
-        return this.generateTokens(storedToken.userId, storedToken.user.email, tierId);
+      }
+      throw AppError.unauthorized(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
     }
 
-    /**
-     * Logout - invalidate refresh token
-     */
-    async logout(userId: string, refreshToken?: string): Promise<void> {
-        if (refreshToken) {
-            await prisma.refreshToken.deleteMany({
-                where: { token: refreshToken },
-            });
-        } else {
-            // Delete all refresh tokens for user
-            await prisma.refreshToken.deleteMany({
-                where: { userId },
-            });
-        }
+    // Delete old token
+    await prisma.refreshToken.delete({ where: { id: storedToken.id } });
+
+    // Generate new tokens
+    const tierId = storedToken.user.subscription?.tierId || 'free';
+    return this.generateTokens(storedToken.userId, storedToken.user.email, tierId);
+  }
+
+  /**
+   * Logout - invalidate refresh token
+   */
+  async logout(userId: string, refreshToken?: string): Promise<void> {
+    if (refreshToken) {
+      await prisma.refreshToken.deleteMany({
+        where: { token: refreshToken },
+      });
+    } else {
+      // Delete all refresh tokens for user
+      await prisma.refreshToken.deleteMany({
+        where: { userId },
+      });
+    }
+  }
+
+  /**
+   * Request password reset
+   */
+  async requestPasswordReset(email: string): Promise<void> {
+    const user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    // Always return success to prevent email enumeration
+    if (!user) {
+      return;
     }
 
-    /**
-     * Request password reset
-     */
-    async requestPasswordReset(email: string): Promise<void> {
-        const user = await prisma.user.findUnique({
-            where: { email: email.toLowerCase() },
-        });
+    // Generate reset token
+    const token = uuidv4();
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-        // Always return success to prevent email enumeration
-        if (!user) {
-            return;
-        }
+    await prisma.passwordReset.create({
+      data: {
+        userId: user.id,
+        token,
+        expiresAt,
+      },
+    });
 
-        // Generate reset token
-        const token = uuidv4();
-        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    // TODO: Send password reset email
+    // eslint-disable-next-line no-console
+    console.log(`Password reset token for ${email}: ${token}`);
+  }
 
-        await prisma.passwordReset.create({
-            data: {
-                userId: user.id,
-                token,
-                expiresAt,
-            },
-        });
+  /**
+   * Reset password using token
+   */
+  async resetPassword(token: string, newPassword: string): Promise<void> {
+    const resetRecord = await prisma.passwordReset.findUnique({
+      where: { token },
+      include: { user: true },
+    });
 
-        // TODO: Send password reset email
-        // eslint-disable-next-line no-console
-        console.log(`Password reset token for ${email}: ${token}`);
+    if (!resetRecord || resetRecord.expiresAt < new Date() || resetRecord.usedAt) {
+      throw AppError.badRequest(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
     }
 
-    /**
-     * Reset password using token
-     */
-    async resetPassword(token: string, newPassword: string): Promise<void> {
-        const resetRecord = await prisma.passwordReset.findUnique({
-            where: { token },
-            include: { user: true },
-        });
+    // Hash new password
+    const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
 
-        if (!resetRecord || resetRecord.expiresAt < new Date() || resetRecord.usedAt) {
-            throw AppError.badRequest(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
-        }
+    // Update password and mark token as used
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: resetRecord.userId },
+        data: {
+          passwordHash,
+          failedLoginAttempts: 0,
+          lockedUntil: null,
+        },
+      }),
+      prisma.passwordReset.update({
+        where: { id: resetRecord.id },
+        data: { usedAt: new Date() },
+      }),
+      // Invalidate all refresh tokens
+      prisma.refreshToken.deleteMany({
+        where: { userId: resetRecord.userId },
+      }),
+    ]);
+  }
 
-        // Hash new password
-        const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+  /**
+   * Verify email
+   */
+  async verifyEmail(token: string): Promise<void> {
+    const user = await prisma.user.findFirst({
+      where: { emailVerifyToken: token },
+    });
 
-        // Update password and mark token as used
-        await prisma.$transaction([
-            prisma.user.update({
-                where: { id: resetRecord.userId },
-                data: {
-                    passwordHash,
-                    failedLoginAttempts: 0,
-                    lockedUntil: null,
-                },
-            }),
-            prisma.passwordReset.update({
-                where: { id: resetRecord.id },
-                data: { usedAt: new Date() },
-            }),
-            // Invalidate all refresh tokens
-            prisma.refreshToken.deleteMany({
-                where: { userId: resetRecord.userId },
-            }),
-        ]);
+    if (!user) {
+      throw AppError.badRequest(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
     }
 
-    /**
-     * Verify email
-     */
-    async verifyEmail(token: string): Promise<void> {
-        const user = await prisma.user.findFirst({
-            where: { emailVerifyToken: token },
-        });
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerified: true,
+        emailVerifyToken: null,
+      },
+    });
+  }
 
-        if (!user) {
-            throw AppError.badRequest(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
-        }
+  /**
+   * Generate access and refresh tokens
+   */
+  private async generateTokens(userId: string, email: string, tierId: string): Promise<TokenPair> {
+    const accessToken = jwt.sign({ userId, email, tierId }, env.JWT_SECRET, {
+      expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+    });
 
-        await prisma.user.update({
-            where: { id: user.id },
-            data: {
-                emailVerified: true,
-                emailVerifyToken: null,
-            },
-        });
-    }
+    const refreshToken = jwt.sign({ userId, type: 'refresh' }, env.JWT_REFRESH_SECRET, {
+      expiresIn: env.JWT_REFRESH_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+    });
 
-    /**
-     * Generate access and refresh tokens
-     */
-    private async generateTokens(userId: string, email: string, tierId: string): Promise<TokenPair> {
-        const accessToken = jwt.sign(
-            { userId, email, tierId },
-            env.JWT_SECRET,
-            { expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'] }
-        );
+    // Store refresh token
+    await prisma.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      },
+    });
 
-        const refreshToken = jwt.sign(
-            { userId, type: 'refresh' },
-            env.JWT_REFRESH_SECRET,
-            { expiresIn: env.JWT_REFRESH_EXPIRES_IN as jwt.SignOptions['expiresIn'] }
-        );
+    return {
+      accessToken,
+      refreshToken,
+      expiresIn: 15 * 60, // 15 minutes in seconds
+    };
+  }
 
-        // Store refresh token
-        await prisma.refreshToken.create({
-            data: {
-                token: refreshToken,
-                userId,
-                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-            },
-        });
+  /**
+   * Get user by ID
+   */
+  async getUserById(userId: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
 
-        return {
-            accessToken,
-            refreshToken,
-            expiresIn: 15 * 60, // 15 minutes in seconds
-        };
-    }
+    return user ? this.sanitizeUser(user) : null;
+  }
 
-    /**
-     * Get user by ID
-     */
-    async getUserById(userId: string): Promise<User | null> {
-        const user = await prisma.user.findUnique({
-            where: { id: userId },
-        });
-
-        return user ? this.sanitizeUser(user) : null;
-    }
-
-    /**
-     * Remove sensitive fields from user object
-     */
-    private sanitizeUser(user: {
-        id: string;
-        email: string;
-        name: string;
-        emailVerified: boolean;
-        failedLoginAttempts: number;
-        lockedUntil: Date | null;
-        createdAt: Date;
-        updatedAt: Date;
-    }): User {
-        return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            emailVerified: user.emailVerified,
-            failedLoginAttempts: user.failedLoginAttempts,
-            lockedUntil: user.lockedUntil,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
-        };
-    }
+  /**
+   * Remove sensitive fields from user object
+   */
+  private sanitizeUser(user: {
+    id: string;
+    email: string;
+    name: string;
+    emailVerified: boolean;
+    failedLoginAttempts: number;
+    lockedUntil: Date | null;
+    createdAt: Date;
+    updatedAt: Date;
+  }): User {
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      emailVerified: user.emailVerified,
+      failedLoginAttempts: user.failedLoginAttempts,
+      lockedUntil: user.lockedUntil,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+  }
 }
 
 export const authService = new AuthService();

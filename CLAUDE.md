@@ -11,6 +11,7 @@ A comprehensive PMP (Project Management Professional) study platform for the 202
 ## Development Commands
 
 ### Workspace-level Commands
+
 ```bash
 # Install all dependencies
 npm install
@@ -32,6 +33,7 @@ npm run format:check
 ```
 
 ### Package-specific Commands
+
 ```bash
 # API server (packages/api)
 npm run dev:api          # Start API dev server on port 3001
@@ -48,20 +50,28 @@ npm run build:shared     # Build shared types
 ```
 
 ### Database Commands
+
 ```bash
 # All database commands run in the API package
 npm run db:generate      # Generate Prisma client (run after schema changes)
 npm run db:migrate       # Create and apply new migration
 npm run db:push          # Push schema changes without migration (dev only)
 npm run db:seed          # Seed database with initial data
-npm run db:studio        # Open Prisma Studio GUI
+npm run db:studio        # Open Prisma Studio GUI (visual database browser)
 
 # Start PostgreSQL + Redis with Docker
 docker-compose up -d
 docker-compose down
 ```
 
+### Utility Commands
+
+```bash
+npm run clean            # Remove node_modules and dist folders across all packages
+```
+
 ### Testing Commands
+
 ```bash
 # Run all tests
 npm test
@@ -79,6 +89,7 @@ npx jest -w @pmp/api --testNamePattern "should validate email"
 ## Architecture
 
 ### Monorepo Structure
+
 - `packages/api/` - Express backend with Prisma ORM
 - `packages/web/` - Next.js frontend with TailwindCSS
 - `packages/shared/` - Shared TypeScript types and constants used by both API and web
@@ -123,6 +134,7 @@ validators/                  # Zod schemas for request validation
 ```
 
 **Key Patterns**:
+
 - All routes use `/api` prefix (e.g., `/api/auth/login`)
 - Routes call services for business logic; services use Prisma for database access
 - Authentication: JWT access tokens (15m) + refresh tokens (7d)
@@ -132,6 +144,7 @@ validators/                  # Zod schemas for request validation
 ### Database Schema (Prisma)
 
 **Core Models**:
+
 - `User` - Authentication, profile, relations to all user data
 - `SubscriptionTier` - Tier definitions with `features` JSON field
 - `UserSubscription` - User's current subscription, PayPal ID, status
@@ -144,6 +157,7 @@ validators/                  # Zod schemas for request validation
 - `Team` + `TeamMember` - Corporate features (admin/member roles)
 
 **Important Relationships**:
+
 - Study content hierarchy: `Domain` → `Task` → `StudyGuide` → `StudySection[]`
 - Flashcard reviews use SM-2: `easeFactor`, `interval`, `repetitions`, `nextReviewDate`
 - Questions can be linked to formulas via `QuestionFormula` join table
@@ -153,15 +167,46 @@ validators/                  # Zod schemas for request validation
 ### Shared Package (@pmp/shared)
 
 Exports TypeScript types and constants used by both API and web:
+
 - Types: `JwtPayload`, `TierFeatures`, `FlashcardRating`, etc.
 - Error codes: `AUTH_ERRORS`, `SUBSCRIPTION_ERRORS`, etc.
 - Constants: `TIER_HIERARCHY`, tier feature limits
 
 Both API and web import from `@pmp/shared` - changes here affect both.
 
+### Web Frontend Architecture (packages/web/src)
+
+**Next.js App Router Pattern**: File-based routing in `app/` directory
+
+```
+app/
+  ├── layout.tsx              # Root layout with Providers wrapper
+  ├── page.tsx                # Home page
+  ├── providers.tsx           # Context providers (Auth, etc.)
+  └── globals.css             # Global styles with Tailwind
+
+contexts/
+  └── AuthContext.tsx         # Auth state, token management, refresh flow
+
+lib/
+  └── api.ts                  # Centralized API client with typed endpoints
+```
+
+**Key Patterns**:
+
+- Next.js 14 App Router with `app/` directory (not Pages Router)
+- Client components marked with `'use client'` directive
+- JWT tokens stored in `localStorage`: `accessToken` (15min) + `refreshToken` (7d)
+- API client (`lib/api.ts`) exports typed API functions organized by feature:
+  - `authApi`, `subscriptionApi`, `contentApi`, `flashcardApi`, `practiceApi`, `dashboardApi`, `formulaApi`, `searchApi`
+- Auth context (`contexts/AuthContext.tsx`) provides `useAuth()` hook with login/logout/register/refreshToken
+- Root layout wraps app with `Providers` component containing `AuthProvider`
+- API URL configurable via `NEXT_PUBLIC_API_URL` (defaults to `http://localhost:3001/api`)
+
 ### Authentication & Authorization
 
 **JWT Flow**:
+
 1. `/api/auth/login` returns access token (15m) + refresh token (7d)
 2. Access token stored client-side, sent in `Authorization: Bearer <token>`
 3. `authMiddleware` verifies JWT, checks user exists and not locked
@@ -169,6 +214,7 @@ Both API and web import from `@pmp/shared` - changes here affect both.
 5. `/api/auth/refresh` exchanges refresh token for new access token
 
 **Subscription Enforcement**:
+
 - `requireTier('mid-level')` - User must have at least mid-level tier
 - `requireFeature('mockExams')` - User must have specific feature enabled
 - Tiers: `free` < `mid-level` < `high-end` < `corporate` (see `TIER_HIERARCHY`)
@@ -177,6 +223,7 @@ Both API and web import from `@pmp/shared` - changes here affect both.
 ### Spaced Repetition (SM-2 Algorithm)
 
 Implemented in `flashcard.service.ts` for `FlashcardReview`:
+
 - User rates cards: `know_it`, `learning`, `dont_know`
 - Algorithm calculates: `easeFactor`, `interval` (days), `nextReviewDate`
 - Cards due for review returned by `/api/flashcards/due`
@@ -185,6 +232,7 @@ Implemented in `flashcard.service.ts` for `FlashcardReview`:
 ### Environment Setup
 
 Required environment variables (see `packages/api/src/config/env.ts`):
+
 - `DATABASE_URL` - PostgreSQL connection string
 - `JWT_SECRET` - Min 32 chars for access tokens
 - `JWT_REFRESH_SECRET` - Min 32 chars for refresh tokens
@@ -225,22 +273,26 @@ API uses `fast-check` for property-based testing (see existing test files for ex
 ## Key Implementation Details
 
 ### Subscription Tiers
+
 - Features stored as JSON in `SubscriptionTier.features` (type: `TierFeatures`)
 - Free tier always exists, created by seed script
 - Grace period: Users get limited time after subscription expires
 - Corporate tier includes team management features
 
 ### Mock Exams
+
 - 230-minute time limit enforced
 - Track via `PracticeSession` with `isMockExam: true`
 - Only available to high-end and corporate tiers
 
 ### Formula Calculator
+
 - Formulas stored with variables: `Formula` → `FormulaVariable[]`
 - Example field shows sample calculation (JSON)
 - Categories: `earned_value`, `scheduling`, `cost`, etc.
 
 ### Team Management (Corporate)
+
 - Teams have license count limiting member slots
 - Admins can invite via email (token-based invitations)
 - Team alerts auto-generated for: behind schedule, inactive, struggling members
