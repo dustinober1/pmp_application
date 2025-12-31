@@ -1,4 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import { FormulaCategory } from '@pmp/shared';
 import { formulaService } from '../services/formula.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { requireFeature } from '../middleware/tier.middleware';

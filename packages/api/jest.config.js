@@ -8,7 +8,9 @@ module.exports = {
     '^.+\\.ts$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@pmp/shared(.*)$': '<rootDir>/../shared/src$1',
+    '^@pmp/shared$': '<rootDir>/../shared/src/index.ts',
+    '^@pmp/shared/(.*)$': '<rootDir>/../shared/src/$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1',
   },
   collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/index.ts'],
   coverageThreshold: {

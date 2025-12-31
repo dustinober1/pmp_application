@@ -28,7 +28,7 @@ export function adminMiddleware(req: Request, _res: Response, next: NextFunction
   const isAdmin =
     adminEmails.includes(req.user.email.toLowerCase()) ||
     adminEmails.some(
-      email => email.startsWith('*@') && req.user!.email.endsWith(email.substring(1))
+      email => email.startsWith('*@') && req.user!.email.toLowerCase().endsWith(email.substring(1))
     );
 
   if (!isAdmin) {

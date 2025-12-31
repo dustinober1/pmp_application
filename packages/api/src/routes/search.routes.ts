@@ -25,7 +25,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const q = req.query.q as string;
-      const limit = typeof req.query.limit === 'string' ? parseInt(req.query.limit, 10) : 20;
+      const limit = req.query.limit as unknown as number;
       const results = await contentService.searchContent(q, limit);
       res.json({
         success: true,

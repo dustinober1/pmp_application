@@ -54,7 +54,7 @@ router.get(
     try {
       const domainId = req.query.domainId as string | undefined;
       const taskId = req.query.taskId as string | undefined;
-      const limit = typeof req.query.limit === 'string' ? parseInt(req.query.limit, 10) : 50;
+      const limit = req.query.limit as unknown as number;
 
       const flashcards = await flashcardService.getFlashcards({
         domainId,
@@ -79,7 +79,7 @@ router.get(
  */
 router.get('/review', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const limit = typeof req.query.limit === 'string' ? parseInt(req.query.limit, 10) : 20;
+    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 20;
     const flashcards = await flashcardService.getDueForReview(req.user!.userId, limit);
 
     res.json({
