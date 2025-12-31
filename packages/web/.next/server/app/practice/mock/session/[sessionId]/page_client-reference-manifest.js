@@ -23,6 +23,7 @@ globalThis.__RSC_MANIFEST['/practice/mock/session/[sessionId]/page'] = {
     7864: { '*': { id: '7005', name: '*', chunks: [], async: false } },
     7942: { '*': { id: '3658', name: '*', chunks: [], async: false } },
     8416: { '*': { id: '2218', name: '*', chunks: [], async: false } },
+    9556: { '*': { id: '1013', name: '*', chunks: [], async: false } },
     9799: { '*': { id: '3592', name: '*', chunks: [], async: false } },
   },
   edgeSSRModuleMapping: {},
@@ -72,28 +73,20 @@ globalThis.__RSC_MANIFEST['/practice/mock/session/[sessionId]/page'] = {
     },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/reset-password/page.tsx':
       { id: 8416, name: '*', chunks: [], async: false },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/forgot-password/page.tsx':
+      { id: 6080, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/verify-email/page.tsx': {
       id: 1939,
       name: '*',
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/forgot-password/page.tsx':
-      { id: 6080, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/page.tsx': {
       id: 3065,
       name: '*',
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page.tsx': {
-      id: 1285,
-      name: '*',
-      chunks: [],
-      async: false,
-    },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/session/[sessionId]/page.tsx':
-      { id: 4734, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/formulas/page.tsx': {
       id: 2298,
       name: '*',
@@ -106,13 +99,34 @@ globalThis.__RSC_MANIFEST['/practice/mock/session/[sessionId]/page'] = {
       chunks: [],
       async: false,
     },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/session/[sessionId]/page.tsx':
+      { id: 4734, name: '*', chunks: [], async: false },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page.tsx': {
+      id: 1285,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/page.tsx': {
+      id: 2842,
+      name: '*',
+      chunks: [
+        '340',
+        'static/chunks/340-3b5055cb4808afe3.js',
+        '644',
+        'static/chunks/644-ace66983acd500c9.js',
+        '472',
+        'static/chunks/app/practice/page-87c2e6ea4182638f.js',
+      ],
+      async: false,
+    },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx':
       {
         id: 3304,
         name: '*',
         chunks: [
           '329',
-          'static/chunks/app/practice/mock/session/%5BsessionId%5D/page-35022d4e5a5373a9.js',
+          'static/chunks/app/practice/mock/session/%5BsessionId%5D/page-9d819e9c0bba56ee.js',
         ],
         async: false,
       },
@@ -138,25 +152,6 @@ globalThis.__RSC_MANIFEST['/practice/mock/session/[sessionId]/page'] = {
       ],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/study/[taskId]/page.tsx': {
-      id: 7942,
-      name: '*',
-      chunks: [],
-      async: false,
-    },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/page.tsx': {
-      id: 2842,
-      name: '*',
-      chunks: [
-        '340',
-        'static/chunks/340-3b5055cb4808afe3.js',
-        '644',
-        'static/chunks/644-ace66983acd500c9.js',
-        '472',
-        'static/chunks/app/practice/page-87c2e6ea4182638f.js',
-      ],
-      async: false,
-    },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/register/page.tsx': {
       id: 6088,
       name: '*',
@@ -171,11 +166,23 @@ globalThis.__RSC_MANIFEST['/practice/mock/session/[sessionId]/page'] = {
       chunks: [],
       async: false,
     },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/team/dashboard/page.tsx': {
+      id: 9556,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/study/[taskId]/page.tsx': {
+      id: 7942,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
   },
   entryCSSFiles: {
     '/Users/dustinober/Projects/pmp_application/packages/web/src/': [],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout': [
-      'static/css/8db4ac3bdd3e26e7.css',
+      'static/css/218c79bd05c90a1d.css',
     ],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/page': [],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/page': [],

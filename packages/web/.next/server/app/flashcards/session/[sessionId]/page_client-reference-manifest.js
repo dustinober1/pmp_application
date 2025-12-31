@@ -23,6 +23,7 @@ globalThis.__RSC_MANIFEST['/flashcards/session/[sessionId]/page'] = {
     7864: { '*': { id: '7005', name: '*', chunks: [], async: false } },
     7942: { '*': { id: '3658', name: '*', chunks: [], async: false } },
     8416: { '*': { id: '2218', name: '*', chunks: [], async: false } },
+    9556: { '*': { id: '1013', name: '*', chunks: [], async: false } },
     9799: { '*': { id: '3592', name: '*', chunks: [], async: false } },
   },
   edgeSSRModuleMapping: {},
@@ -72,14 +73,14 @@ globalThis.__RSC_MANIFEST['/flashcards/session/[sessionId]/page'] = {
     },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/reset-password/page.tsx':
       { id: 8416, name: '*', chunks: [], async: false },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/forgot-password/page.tsx':
+      { id: 6080, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/verify-email/page.tsx': {
       id: 1939,
       name: '*',
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/forgot-password/page.tsx':
-      { id: 6080, name: '*', chunks: [], async: false },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/page.tsx': {
       id: 3065,
       name: '*',
@@ -93,8 +94,14 @@ globalThis.__RSC_MANIFEST['/flashcards/session/[sessionId]/page'] = {
       ],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page.tsx': {
-      id: 1285,
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/formulas/page.tsx': {
+      id: 2298,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx': {
+      id: 5024,
       name: '*',
       chunks: [],
       async: false,
@@ -109,14 +116,14 @@ globalThis.__RSC_MANIFEST['/flashcards/session/[sessionId]/page'] = {
         ],
         async: false,
       },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/formulas/page.tsx': {
-      id: 2298,
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/dashboard/page.tsx': {
+      id: 1285,
       name: '*',
       chunks: [],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx': {
-      id: 5024,
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/page.tsx': {
+      id: 2842,
       name: '*',
       chunks: [],
       async: false,
@@ -145,18 +152,6 @@ globalThis.__RSC_MANIFEST['/flashcards/session/[sessionId]/page'] = {
       ],
       async: false,
     },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/study/[taskId]/page.tsx': {
-      id: 7942,
-      name: '*',
-      chunks: [],
-      async: false,
-    },
-    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/page.tsx': {
-      id: 2842,
-      name: '*',
-      chunks: [],
-      async: false,
-    },
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/register/page.tsx': {
       id: 6088,
       name: '*',
@@ -171,11 +166,23 @@ globalThis.__RSC_MANIFEST['/flashcards/session/[sessionId]/page'] = {
       chunks: [],
       async: false,
     },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/team/dashboard/page.tsx': {
+      id: 9556,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
+    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/study/[taskId]/page.tsx': {
+      id: 7942,
+      name: '*',
+      chunks: [],
+      async: false,
+    },
   },
   entryCSSFiles: {
     '/Users/dustinober/Projects/pmp_application/packages/web/src/': [],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout': [
-      'static/css/8db4ac3bdd3e26e7.css',
+      'static/css/218c79bd05c90a1d.css',
     ],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/page': [],
     '/Users/dustinober/Projects/pmp_application/packages/web/src/app/flashcards/page': [],

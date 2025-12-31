@@ -1,18 +1,19 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/auth/reset-password/page": "app/auth/reset-password/page.js",
-  "/auth/verify-email/page": "app/auth/verify-email/page.js",
   "/auth/forgot-password/page": "app/auth/forgot-password/page.js",
+  "/auth/verify-email/page": "app/auth/verify-email/page.js",
   "/flashcards/page": "app/flashcards/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/flashcards/session/[sessionId]/page": "app/flashcards/session/[sessionId]/page.js",
   "/formulas/page": "app/formulas/page.js",
   "/login/page": "app/login/page.js",
+  "/flashcards/session/[sessionId]/page": "app/flashcards/session/[sessionId]/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/practice/page": "app/practice/page.js",
   "/practice/mock/session/[sessionId]/page": "app/practice/mock/session/[sessionId]/page.js",
   "/page": "app/page.js",
-  "/study/[taskId]/page": "app/study/[taskId]/page.js",
-  "/practice/page": "app/practice/page.js",
   "/register/page": "app/register/page.js",
   "/practice/session/[sessionId]/page": "app/practice/session/[sessionId]/page.js",
-  "/study/page": "app/study/page.js"
+  "/study/page": "app/study/page.js",
+  "/team/dashboard/page": "app/team/dashboard/page.js",
+  "/study/[taskId]/page": "app/study/[taskId]/page.js"
 }

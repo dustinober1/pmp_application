@@ -101,7 +101,18 @@
       "routeKeys": {},
       "namedRegex": "^/register(?:/)?$"
     },
-    { "page": "/study", "regex": "^/study(?:/)?$", "routeKeys": {}, "namedRegex": "^/study(?:/)?$" }
+    {
+      "page": "/study",
+      "regex": "^/study(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/study(?:/)?$"
+    },
+    {
+      "page": "/team/dashboard",
+      "regex": "^/team/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/team/dashboard(?:/)?$"
+    }
   ],
   "dataRoutes": [],
   "rsc": {

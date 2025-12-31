@@ -115,6 +115,7 @@ export default function MockExamSessionPage() {
       const updatedQuestions = [...prev.questions];
       const currentQ = updatedQuestions[currentIndex];
 
+      if (!currentQ) return prev;
       // Only update if changed
       if (currentQ.userAnswerId === optionId) return prev;
 

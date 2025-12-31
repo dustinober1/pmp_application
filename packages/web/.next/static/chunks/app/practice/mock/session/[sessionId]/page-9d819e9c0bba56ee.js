@@ -1,0 +1,770 @@
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+  [329],
+  {
+    784: function (e, t, r) {
+      Promise.resolve().then(r.bind(r, 3304));
+    },
+    1695: function (e, t, r) {
+      'use strict';
+      var s = r(1219);
+      (r.o(s, 'useParams') &&
+        r.d(t, {
+          useParams: function () {
+            return s.useParams;
+          },
+        }),
+        r.o(s, 'useRouter') &&
+          r.d(t, {
+            useRouter: function () {
+              return s.useRouter;
+            },
+          }),
+        r.o(s, 'useSearchParams') &&
+          r.d(t, {
+            useSearchParams: function () {
+              return s.useSearchParams;
+            },
+          }));
+    },
+    4859: function (e, t, r) {
+      'use strict';
+      var s, a;
+      e.exports =
+        (null == (s = r.g.process) ? void 0 : s.env) &&
+        'object' == typeof (null == (a = r.g.process) ? void 0 : a.env)
+          ? r.g.process
+          : r(9566);
+    },
+    9566: function (e) {
+      !(function () {
+        var t = {
+            229: function (e) {
+              var t,
+                r,
+                s,
+                a = (e.exports = {});
+              function n() {
+                throw Error('setTimeout has not been defined');
+              }
+              function o() {
+                throw Error('clearTimeout has not been defined');
+              }
+              function i(e) {
+                if (t === setTimeout) return setTimeout(e, 0);
+                if ((t === n || !t) && setTimeout) return ((t = setTimeout), setTimeout(e, 0));
+                try {
+                  return t(e, 0);
+                } catch (r) {
+                  try {
+                    return t.call(null, e, 0);
+                  } catch (r) {
+                    return t.call(this, e, 0);
+                  }
+                }
+              }
+              !(function () {
+                try {
+                  t = 'function' == typeof setTimeout ? setTimeout : n;
+                } catch (e) {
+                  t = n;
+                }
+                try {
+                  r = 'function' == typeof clearTimeout ? clearTimeout : o;
+                } catch (e) {
+                  r = o;
+                }
+              })();
+              var c = [],
+                l = !1,
+                d = -1;
+              function u() {
+                l && s && ((l = !1), s.length ? (c = s.concat(c)) : (d = -1), c.length && m());
+              }
+              function m() {
+                if (!l) {
+                  var e = i(u);
+                  l = !0;
+                  for (var t = c.length; t; ) {
+                    for (s = c, c = []; ++d < t; ) s && s[d].run();
+                    ((d = -1), (t = c.length));
+                  }
+                  ((s = null),
+                    (l = !1),
+                    (function (e) {
+                      if (r === clearTimeout) return clearTimeout(e);
+                      if ((r === o || !r) && clearTimeout)
+                        return ((r = clearTimeout), clearTimeout(e));
+                      try {
+                        r(e);
+                      } catch (t) {
+                        try {
+                          return r.call(null, e);
+                        } catch (t) {
+                          return r.call(this, e);
+                        }
+                      }
+                    })(e));
+                }
+              }
+              function h(e, t) {
+                ((this.fun = e), (this.array = t));
+              }
+              function f() {}
+              ((a.nextTick = function (e) {
+                var t = Array(arguments.length - 1);
+                if (arguments.length > 1)
+                  for (var r = 1; r < arguments.length; r++) t[r - 1] = arguments[r];
+                (c.push(new h(e, t)), 1 !== c.length || l || i(m));
+              }),
+                (h.prototype.run = function () {
+                  this.fun.apply(null, this.array);
+                }),
+                (a.title = 'browser'),
+                (a.browser = !0),
+                (a.env = {}),
+                (a.argv = []),
+                (a.version = ''),
+                (a.versions = {}),
+                (a.on = f),
+                (a.addListener = f),
+                (a.once = f),
+                (a.off = f),
+                (a.removeListener = f),
+                (a.removeAllListeners = f),
+                (a.emit = f),
+                (a.prependListener = f),
+                (a.prependOnceListener = f),
+                (a.listeners = function (e) {
+                  return [];
+                }),
+                (a.binding = function (e) {
+                  throw Error('process.binding is not supported');
+                }),
+                (a.cwd = function () {
+                  return '/';
+                }),
+                (a.chdir = function (e) {
+                  throw Error('process.chdir is not supported');
+                }),
+                (a.umask = function () {
+                  return 0;
+                }));
+            },
+          },
+          r = {};
+        function s(e) {
+          var a = r[e];
+          if (void 0 !== a) return a.exports;
+          var n = (r[e] = { exports: {} }),
+            o = !0;
+          try {
+            (t[e](n, n.exports, s), (o = !1));
+          } finally {
+            o && delete r[e];
+          }
+          return n.exports;
+        }
+        s.ab = '//';
+        var a = s(229);
+        e.exports = a;
+      })();
+    },
+    3304: function (e, t, r) {
+      'use strict';
+      (r.r(t),
+        r.d(t, {
+          default: function () {
+            return c;
+          },
+        }));
+      var s = r(7573),
+        a = r(7653),
+        n = r(1695),
+        o = r(7070),
+        i = r(5118);
+      function c() {
+        let { sessionId: e } = (0, n.useParams)(),
+          t = (0, n.useRouter)(),
+          { user: r } = (0, o.a)(),
+          [c, l] = (0, a.useState)(!0),
+          [d, u] = (0, a.useState)(null),
+          [m, h] = (0, a.useState)(0),
+          [f, g] = (0, a.useState)(null),
+          [x, p] = (0, a.useState)(!1),
+          [y, b] = (0, a.useState)(0),
+          [v, w] = (0, a.useState)(!1),
+          [S, j] = (0, a.useState)(!1),
+          k = (0, a.useRef)(null),
+          T = (0, a.useRef)(null);
+        ((0, a.useEffect)(() => {
+          async function t() {
+            if (e)
+              try {
+                l(!0);
+                let t = await (0, i.Nv)('/practice/sessions/'.concat(e));
+                if (t.data) {
+                  u(t.data);
+                  let e = 75 * t.data.questions.length;
+                  if ((b(e), t.data.questions.length > 0)) {
+                    let e = t.data.questions[0];
+                    e && g(e.userAnswerId || null);
+                  }
+                }
+              } catch (e) {
+                console.error('Failed to fetch session', e);
+              } finally {
+                l(!1);
+              }
+          }
+          r && t();
+        }, [e, r]),
+          (0, a.useEffect)(() => {
+            if (!c && !S && d)
+              return (
+                (k.current = setInterval(() => {
+                  b(e => (e <= 1 ? (clearInterval(k.current), I(), 0) : e - 1));
+                }, 1e3)),
+                () => {
+                  k.current && clearInterval(k.current);
+                }
+              );
+          }, [c, S, d]),
+          (0, a.useEffect)(() => {
+            (d && d.questions[m] && g(d.questions[m].userAnswerId || null),
+              T.current && (T.current.scrollTop = 0));
+          }, [m, d]));
+        let N = async t => {
+            if (
+              (g(t),
+              u(e => {
+                if (!e) return null;
+                let r = [...e.questions],
+                  s = r[m];
+                if (!s || s.userAnswerId === t) return e;
+                r[m] = { ...s, userAnswerId: t };
+                let a = r.filter(e => e.userAnswerId).length;
+                return { ...e, questions: r, progress: { ...e.progress, answered: a } };
+              }),
+              d && d.questions[m])
+            )
+              try {
+                await (0, i.Nv)(
+                  '/practice/sessions/'.concat(e, '/answers/').concat(d.questions[m].id),
+                  { method: 'POST', body: { selectedOptionId: t, timeSpentMs: 0 } }
+                );
+              } catch (e) {
+                console.error('Failed to sync answer', e);
+              }
+          },
+          P = e => {
+            (h(e), w(!1));
+          },
+          I = async () => {
+            if (e) {
+              p(!0);
+              try {
+                (await (0, i.Nv)('/practice/sessions/'.concat(e, '/complete'), { method: 'POST' }),
+                  j(!0),
+                  t.push('/dashboard'));
+              } catch (e) {
+                (console.error('Failed to complete exam', e), p(!1));
+              }
+            }
+          },
+          A = e => {
+            let t = Math.floor(e / 3600);
+            return ''
+              .concat(t > 0 ? t + ':' : '')
+              .concat(
+                Math.floor((e % 3600) / 60)
+                  .toString()
+                  .padStart(2, '0'),
+                ':'
+              )
+              .concat((e % 60).toString().padStart(2, '0'));
+          };
+        if (c)
+          return (0, s.jsx)('div', {
+            className: 'flex justify-center items-center min-h-[60vh]',
+            children: (0, s.jsx)('div', {
+              className: 'animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600',
+            }),
+          });
+        if (!d)
+          return (0, s.jsxs)('div', {
+            className: 'max-w-4xl mx-auto px-4 py-8 text-center text-white',
+            children: [
+              'Session not found.',
+              ' ',
+              (0, s.jsx)('button', {
+                onClick: () => t.push('/practice'),
+                className: 'text-primary-400 underline',
+                children: 'Back',
+              }),
+            ],
+          });
+        let E = d.questions[m];
+        if (!E) return (0, s.jsx)('div', { children: 'Loading...' });
+        let O = d.progress.answered,
+          C = d.questions.length,
+          R = Math.round((O / C) * 100);
+        return v
+          ? (0, s.jsxs)('div', {
+              className: 'max-w-5xl mx-auto px-4 py-8',
+              children: [
+                (0, s.jsxs)('div', {
+                  className: 'flex justify-between items-center mb-6',
+                  children: [
+                    (0, s.jsx)('h1', {
+                      className: 'text-2xl font-bold text-white',
+                      children: 'Review Your Answers',
+                    }),
+                    (0, s.jsx)('div', {
+                      className: 'text-xl font-mono text-primary-400',
+                      children: A(y),
+                    }),
+                  ],
+                }),
+                (0, s.jsx)('div', {
+                  className: 'bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6',
+                  children: (0, s.jsx)('div', {
+                    className: 'grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3',
+                    children: d.questions.map((e, t) =>
+                      (0, s.jsx)(
+                        'button',
+                        {
+                          onClick: () => P(t),
+                          className:
+                            'p-2 rounded text-sm font-medium border transition-colors '.concat(
+                              e.userAnswerId
+                                ? 'bg-primary-900/40 border-primary-600 text-white'
+                                : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500'
+                            ),
+                          children: t + 1,
+                        },
+                        e.id
+                      )
+                    ),
+                  }),
+                }),
+                (0, s.jsxs)('div', {
+                  className: 'flex justify-between',
+                  children: [
+                    (0, s.jsx)('button', {
+                      onClick: () => w(!1),
+                      className:
+                        'px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition',
+                      children: 'Return to Exam',
+                    }),
+                    (0, s.jsx)('button', {
+                      onClick: I,
+                      disabled: x,
+                      className:
+                        'px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg',
+                      children: x ? 'Submitting...' : 'Submit Exam',
+                    }),
+                  ],
+                }),
+              ],
+            })
+          : (0, s.jsxs)('div', {
+              className: 'max-w-6xl mx-auto px-4 py-6 flex flex-col h-[calc(100vh-64px)]',
+              children: [
+                (0, s.jsxs)('div', {
+                  className:
+                    'flex items-center justify-between mb-6 bg-gray-900/50 p-4 rounded-xl border border-gray-800',
+                  children: [
+                    (0, s.jsxs)('div', {
+                      className: 'flex items-center space-x-4',
+                      children: [
+                        (0, s.jsxs)('span', {
+                          className: 'text-gray-400 font-medium',
+                          children: [
+                            'Question ',
+                            m + 1,
+                            ' ',
+                            (0, s.jsxs)('span', {
+                              className: 'text-gray-600',
+                              children: ['/ ', C],
+                            }),
+                          ],
+                        }),
+                        (0, s.jsx)('div', {
+                          className:
+                            'h-4 w-32 bg-gray-800 rounded-full overflow-hidden hidden sm:block',
+                          children: (0, s.jsx)('div', {
+                            className: 'h-full bg-primary-600 transition-all duration-500',
+                            style: { width: ''.concat(R, '%') },
+                          }),
+                        }),
+                      ],
+                    }),
+                    (0, s.jsxs)('div', {
+                      className: 'flex items-center space-x-6',
+                      children: [
+                        (0, s.jsx)('div', {
+                          className:
+                            'text-2xl font-mono font-bold text-primary-400 tracking-wider bg-gray-900 px-4 py-1 rounded-lg border border-gray-800 shadow-inner',
+                          children: A(y),
+                        }),
+                        (0, s.jsx)('button', {
+                          onClick: () => w(!0),
+                          className: 'text-sm text-gray-400 hover:text-white underline',
+                          children: 'Review All',
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                (0, s.jsxs)('div', {
+                  className: 'flex-1 flex gap-6 overflow-hidden',
+                  children: [
+                    (0, s.jsx)('div', {
+                      className: 'flex-1 flex flex-col overflow-y-auto pr-2 custom-scrollbar',
+                      ref: T,
+                      children: (0, s.jsxs)('div', {
+                        className:
+                          'bg-gray-900 border border-gray-800 rounded-xl p-8 mb-6 shadow-sm',
+                        children: [
+                          (0, s.jsx)('p', {
+                            className:
+                              'text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed',
+                            children: E.questionText,
+                          }),
+                          (0, s.jsx)('div', {
+                            className: 'space-y-3',
+                            children: E.options.map(e => {
+                              let t = f === e.id;
+                              return (0, s.jsxs)(
+                                'button',
+                                {
+                                  onClick: () => N(e.id),
+                                  className:
+                                    'w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group '.concat(
+                                      t
+                                        ? 'bg-primary-900/20 border-primary-500 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
+                                        : 'bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:border-gray-500'
+                                    ),
+                                  children: [
+                                    (0, s.jsx)('div', {
+                                      className:
+                                        'mt-0.5 w-6 h-6 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors '.concat(
+                                          t
+                                            ? 'border-primary-500 bg-primary-500'
+                                            : 'border-gray-600 group-hover:border-gray-500'
+                                        ),
+                                      children:
+                                        t &&
+                                        (0, s.jsx)('div', {
+                                          className: 'w-2.5 h-2.5 bg-white rounded-full',
+                                        }),
+                                    }),
+                                    (0, s.jsx)('span', {
+                                      className: 'text-lg '.concat(
+                                        t ? 'text-white' : 'text-gray-300'
+                                      ),
+                                      children: e.text,
+                                    }),
+                                  ],
+                                },
+                                e.id
+                              );
+                            }),
+                          }),
+                        ],
+                      }),
+                    }),
+                    (0, s.jsx)('div', {
+                      className:
+                        'w-20 hidden lg:flex flex-col gap-2 overflow-y-auto custom-scrollbar bg-gray-900/30 p-2 rounded-xl border border-gray-800/50',
+                      children: d.questions.map((e, t) => {
+                        let r = t === m,
+                          a = !!e.userAnswerId;
+                        return (0, s.jsx)(
+                          'button',
+                          {
+                            onClick: () => h(t),
+                            className:
+                              'w-full aspect-square rounded flex items-center justify-center text-sm font-bold transition-all '.concat(
+                                r
+                                  ? 'bg-primary-600 text-white shadow-lg scale-105'
+                                  : a
+                                    ? 'bg-primary-900/30 text-primary-400 border border-primary-900'
+                                    : 'bg-gray-800 text-gray-500 hover:bg-gray-700'
+                              ),
+                            children: t + 1,
+                          },
+                          e.id
+                        );
+                      }),
+                    }),
+                  ],
+                }),
+                (0, s.jsxs)('div', {
+                  className:
+                    'border-t border-gray-800 pt-6 mt-2 flex justify-between items-center bg-background py-4',
+                  children: [
+                    (0, s.jsx)('button', {
+                      onClick: () => {
+                        m > 0 && h(e => e - 1);
+                      },
+                      disabled: 0 === m,
+                      className: 'px-6 py-2.5 rounded-lg border font-medium transition '.concat(
+                        0 === m
+                          ? 'border-gray-800 text-gray-600 cursor-not-allowed'
+                          : 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white'
+                      ),
+                      children: '← Previous',
+                    }),
+                    (0, s.jsx)('div', {
+                      className: 'flex gap-4',
+                      children: (0, s.jsx)('button', {
+                        onClick: () => {},
+                        className: 'px-4 py-2.5 text-gray-400 hover:text-yellow-400 transition',
+                        children: 'Flag for Review',
+                      }),
+                    }),
+                    (0, s.jsxs)('button', {
+                      onClick: () => {
+                        d && (m < d.questions.length - 1 ? h(e => e + 1) : w(!0));
+                      },
+                      className:
+                        'px-8 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition shadow-lg hover:shadow-primary-900/20 flex items-center',
+                      children: [
+                        m === C - 1 ? 'Review Exam' : 'Next Question',
+                        (0, s.jsx)('span', { className: 'ml-2', children: '→' }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            });
+      }
+    },
+    7070: function (e, t, r) {
+      'use strict';
+      r.d(t, {
+        H: function () {
+          return c;
+        },
+        a: function () {
+          return l;
+        },
+      });
+      var s = r(7573),
+        a = r(7653),
+        n = r(4859);
+      let o = (0, a.createContext)(void 0),
+        i = n.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+      function c(e) {
+        let { children: t } = e,
+          [r, n] = (0, a.useState)({ user: null, token: null, isLoading: !0, isAuthenticated: !1 });
+        (0, a.useEffect)(() => {
+          let e = localStorage.getItem('accessToken');
+          e ? c(e) : n(e => ({ ...e, isLoading: !1 }));
+        }, []);
+        let c = async e => {
+            try {
+              let t = await fetch(''.concat(i, '/auth/me'), {
+                headers: { Authorization: 'Bearer '.concat(e) },
+              });
+              if (t.ok) {
+                let r = await t.json();
+                n({ user: r.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
+              } else await m();
+            } catch (e) {
+              (console.error('Failed to fetch user:', e), u());
+            }
+          },
+          l = async (e, t) => {
+            let r = await fetch(''.concat(i, '/auth/login'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: e, password: t }),
+              }),
+              s = await r.json();
+            if (!r.ok) {
+              var a;
+              throw Error(
+                (null === (a = s.error) || void 0 === a ? void 0 : a.message) || 'Login failed'
+              );
+            }
+            let { accessToken: o, refreshToken: c, user: l } = s.data;
+            (localStorage.setItem('accessToken', o),
+              localStorage.setItem('refreshToken', c),
+              n({ user: l, token: o, isLoading: !1, isAuthenticated: !0 }));
+          },
+          d = async (e, t, r) => {
+            let s = await fetch(''.concat(i, '/auth/register'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: e, password: t, name: r }),
+              }),
+              a = await s.json();
+            if (!s.ok) {
+              var o;
+              throw Error(
+                (null === (o = a.error) || void 0 === o ? void 0 : o.message) ||
+                  'Registration failed'
+              );
+            }
+            let { accessToken: c, refreshToken: l, user: d } = a.data;
+            (localStorage.setItem('accessToken', c),
+              localStorage.setItem('refreshToken', l),
+              n({ user: d, token: c, isLoading: !1, isAuthenticated: !0 }));
+          },
+          u = () => {
+            (localStorage.removeItem('accessToken'),
+              localStorage.removeItem('refreshToken'),
+              n({ user: null, token: null, isLoading: !1, isAuthenticated: !1 }));
+          },
+          m = async () => {
+            let e = localStorage.getItem('refreshToken');
+            if (!e) {
+              u();
+              return;
+            }
+            try {
+              let t = await fetch(''.concat(i, '/auth/refresh'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ refreshToken: e }),
+              });
+              if (t.ok) {
+                let { accessToken: e, refreshToken: r } = (await t.json()).data;
+                (localStorage.setItem('accessToken', e),
+                  localStorage.setItem('refreshToken', r),
+                  await c(e));
+              } else u();
+            } catch (e) {
+              (console.error('Token refresh failed:', e), u());
+            }
+          };
+        return (0, s.jsx)(o.Provider, {
+          value: { ...r, login: l, register: d, logout: u, refreshToken: m },
+          children: t,
+        });
+      }
+      function l() {
+        let e = (0, a.useContext)(o);
+        if (void 0 === e) throw Error('useAuth must be used within an AuthProvider');
+        return e;
+      }
+    },
+    5118: function (e, t, r) {
+      'use strict';
+      r.d(t, {
+        Lc: function () {
+          return i;
+        },
+        Nv: function () {
+          return n;
+        },
+        Sh: function () {
+          return d;
+        },
+        kx: function () {
+          return l;
+        },
+        sA: function () {
+          return o;
+        },
+        tF: function () {
+          return c;
+        },
+      });
+      let s = r(4859).env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+      async function a() {
+        return localStorage.getItem('accessToken');
+      }
+      async function n(e) {
+        let t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {},
+          { method: r = 'GET', body: n, token: o } = t,
+          i = null != o ? o : await a(),
+          c = { 'Content-Type': 'application/json' };
+        i && (c.Authorization = 'Bearer '.concat(i));
+        let l = await fetch(''.concat(s).concat(e), {
+            method: r,
+            headers: c,
+            body: n ? JSON.stringify(n) : void 0,
+          }),
+          d = await l.json();
+        if (!l.ok) {
+          var u;
+          throw Error(
+            (null === (u = d.error) || void 0 === u ? void 0 : u.message) || 'Request failed'
+          );
+        }
+        return d;
+      }
+      let o = {
+          getDomains: () => n('/domains'),
+          getDomain: e => n('/domains/'.concat(e)),
+          getTasks: e => n('/domains/'.concat(e, '/tasks')),
+          getStudyGuide: e => n('/domains/tasks/'.concat(e, '/study-guide')),
+          markSectionComplete: e =>
+            n('/domains/progress/sections/'.concat(e, '/complete'), { method: 'POST' }),
+          getProgress: () => n('/domains/progress'),
+        },
+        i = {
+          getFlashcards: e => {
+            let t = new URLSearchParams();
+            return (
+              (null == e ? void 0 : e.domainId) && t.set('domainId', e.domainId),
+              (null == e ? void 0 : e.taskId) && t.set('taskId', e.taskId),
+              (null == e ? void 0 : e.limit) && t.set('limit', String(e.limit)),
+              n('/flashcards?'.concat(t))
+            );
+          },
+          getDueForReview: e => n('/flashcards/review'.concat(e ? '?limit='.concat(e) : '')),
+          getStats: () => n('/flashcards/stats'),
+          startSession: e => n('/flashcards/sessions', { method: 'POST', body: e }),
+          recordResponse: (e, t, r, s) =>
+            n('/flashcards/sessions/'.concat(e, '/responses/').concat(t), {
+              method: 'POST',
+              body: { rating: r, timeSpentMs: s },
+            }),
+          completeSession: e =>
+            n('/flashcards/sessions/'.concat(e, '/complete'), { method: 'POST' }),
+          createCustom: e => n('/flashcards/custom', { method: 'POST', body: e }),
+        },
+        c = {
+          startSession: e => n('/practice/sessions', { method: 'POST', body: e }),
+          submitAnswer: (e, t, r, s) =>
+            n('/practice/sessions/'.concat(e, '/answers/').concat(t), {
+              method: 'POST',
+              body: { selectedOptionId: r, timeSpentMs: s },
+            }),
+          completeSession: e => n('/practice/sessions/'.concat(e, '/complete'), { method: 'POST' }),
+          startMockExam: () => n('/practice/mock-exams', { method: 'POST' }),
+          getFlagged: () => n('/practice/flagged'),
+          flagQuestion: e => n('/practice/questions/'.concat(e, '/flag'), { method: 'POST' }),
+          unflagQuestion: e => n('/practice/questions/'.concat(e, '/flag'), { method: 'DELETE' }),
+          getStats: () => n('/practice/stats'),
+        },
+        l = {
+          getDashboard: () => n('/dashboard'),
+          getStreak: () => n('/dashboard/streak'),
+          getProgress: () => n('/dashboard/progress'),
+          getActivity: e => n('/dashboard/activity'.concat(e ? '?limit='.concat(e) : '')),
+          getReviews: e => n('/dashboard/reviews'.concat(e ? '?limit='.concat(e) : '')),
+          getWeakAreas: () => n('/dashboard/weak-areas'),
+          getReadiness: () => n('/dashboard/readiness'),
+          getRecommendations: () => n('/dashboard/recommendations'),
+        },
+        d = {
+          getFormulas: e => n('/formulas'.concat(e ? '?category='.concat(e) : '')),
+          getFormula: e => n('/formulas/'.concat(e)),
+          calculate: (e, t) =>
+            n('/formulas/'.concat(e, '/calculate'), { method: 'POST', body: { inputs: t } }),
+          getVariables: () => n('/formulas/variables'),
+        };
+    },
+  },
+  function (e) {
+    (e.O(0, [293, 528, 744], function () {
+      return e((e.s = 784));
+    }),
+      (_N_E = e.O()));
+  },
+]);

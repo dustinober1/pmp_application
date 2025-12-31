@@ -182,7 +182,7 @@
                   if (!e) return null;
                   let s = [...e.questions],
                     r = s[m];
-                  if (r.userAnswerId === t) return e;
+                  if (!r || r.userAnswerId === t) return e;
                   s[m] = { ...r, userAnswerId: t };
                   let a = s.filter(e => e.userAnswerId).length;
                   return { ...e, questions: s, progress: { ...e.progress, answered: a } };
