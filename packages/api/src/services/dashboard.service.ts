@@ -516,11 +516,12 @@ export class DashboardService {
         return `Viewed study guide`;
       case 'flashcard_session':
         return `Completed flashcard session`;
-      case 'practice_complete':
+      case 'practice_complete': {
         const score = metadata?.scorePercentage as number;
         return score
           ? `Completed practice session with ${score}% score`
           : 'Completed practice session';
+      }
       case 'mock_exam':
         return 'Completed mock exam';
       default:

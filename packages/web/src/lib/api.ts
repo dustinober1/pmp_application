@@ -116,8 +116,12 @@ export const flashcardApi = {
 
 // Practice API
 export const practiceApi = {
-  startSession: (options: { domainIds?: string[]; taskIds?: string[]; questionCount?: number }) =>
-    apiRequest('/practice/sessions', { method: 'POST', body: options }),
+  startSession: (options: {
+    domainIds?: string[];
+    taskIds?: string[];
+    questionCount?: number;
+    prioritizeFlagged?: boolean;
+  }) => apiRequest('/practice/sessions', { method: 'POST', body: options }),
   submitAnswer: (
     sessionId: string,
     questionId: string,

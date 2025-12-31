@@ -31,7 +31,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const category = req.query.category as string | undefined;
-      const formulas = await formulaService.getFormulas(category as any);
+      const formulas = await formulaService.getFormulas(category as FormulaCategory);
 
       res.json({
         success: true,

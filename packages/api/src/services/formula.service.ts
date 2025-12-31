@@ -234,7 +234,7 @@ export class FormulaService {
         return EV - PV;
 
       case 'EAC':
-      case 'ESTIMATE AT COMPLETION':
+      case 'ESTIMATE AT COMPLETION': {
         if (CPI) {
           const result = BAC / CPI;
           steps.push({
@@ -253,9 +253,10 @@ export class FormulaService {
           value: result,
         });
         return result;
+      }
 
       case 'ETC':
-      case 'ESTIMATE TO COMPLETE':
+      case 'ESTIMATE TO COMPLETE': {
         const etc = EAC - AC;
         steps.push({
           stepNumber: 1,
@@ -264,9 +265,10 @@ export class FormulaService {
           value: etc,
         });
         return etc;
+      }
 
       case 'VAC':
-      case 'VARIANCE AT COMPLETION':
+      case 'VARIANCE AT COMPLETION': {
         const vac = BAC - EAC;
         steps.push({
           stepNumber: 1,
@@ -275,9 +277,10 @@ export class FormulaService {
           value: vac,
         });
         return vac;
+      }
 
       case 'TCPI':
-      case 'TO-COMPLETE PERFORMANCE INDEX':
+      case 'TO-COMPLETE PERFORMANCE INDEX': {
         if (EAC > 0) {
           const tcpi = (BAC - EV) / (EAC - AC);
           steps.push({
@@ -296,6 +299,7 @@ export class FormulaService {
           value: tcpiBac,
         });
         return tcpiBac;
+      }
 
       default:
         throw new Error(`Unknown EV formula: ${formulaName}`);

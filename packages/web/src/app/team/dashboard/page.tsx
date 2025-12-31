@@ -37,6 +37,10 @@ export default function TeamDashboardPage() {
 
       // For MVP, pick the first team
       const currentTeam = teams[0];
+      if (!currentTeam) {
+        setLoading(false);
+        return;
+      }
       setTeam(currentTeam);
 
       // 2. Get Dashboard Data for this Team
@@ -69,9 +73,10 @@ export default function TeamDashboardPage() {
       setInviteResult({ type: 'success', message: `Invitation sent to ${inviteEmail}` });
       setInviteEmail('');
       // Refresh dashboard to potentially update stats/license counts if we tracked pending invites (optional)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Invite failed', error);
-      setInviteResult({ type: 'error', message: error.message || 'Failed to send invitation' });
+      const message = error instanceof Error ? error.message : 'Failed to send invitation';
+      setInviteResult({ type: 'error', message });
     } finally {
       setInviting(false);
     }

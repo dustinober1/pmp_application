@@ -39,3 +39,4 @@ packages/api/prisma/*.db-journal
 # Misc
 *.tgz
 .cache/
+.next/
