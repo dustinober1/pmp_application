@@ -1,1 +1,813 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[973],{8146:function(e,t,r){"use strict";r.d(t,{default:function(){return a.a}});var s=r(6340),a=r.n(s)},1695:function(e,t,r){"use strict";var s=r(1219);r.o(s,"useParams")&&r.d(t,{useParams:function(){return s.useParams}}),r.o(s,"useRouter")&&r.d(t,{useRouter:function(){return s.useRouter}}),r.o(s,"useSearchParams")&&r.d(t,{useSearchParams:function(){return s.useSearchParams}})},4859:function(e,t,r){"use strict";var s,a;e.exports=(null==(s=r.g.process)?void 0:s.env)&&"object"==typeof(null==(a=r.g.process)?void 0:a.env)?r.g.process:r(9566)},9566:function(e){!function(){var t={229:function(e){var t,r,s,a=e.exports={};function n(){throw Error("setTimeout has not been defined")}function o(){throw Error("clearTimeout has not been defined")}function c(e){if(t===setTimeout)return setTimeout(e,0);if((t===n||!t)&&setTimeout)return t=setTimeout,setTimeout(e,0);try{return t(e,0)}catch(r){try{return t.call(null,e,0)}catch(r){return t.call(this,e,0)}}}!function(){try{t="function"==typeof setTimeout?setTimeout:n}catch(e){t=n}try{r="function"==typeof clearTimeout?clearTimeout:o}catch(e){r=o}}();var i=[],l=!1,d=-1;function u(){l&&s&&(l=!1,s.length?i=s.concat(i):d=-1,i.length&&h())}function h(){if(!l){var e=c(u);l=!0;for(var t=i.length;t;){for(s=i,i=[];++d<t;)s&&s[d].run();d=-1,t=i.length}s=null,l=!1,function(e){if(r===clearTimeout)return clearTimeout(e);if((r===o||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(e);try{r(e)}catch(t){try{return r.call(null,e)}catch(t){return r.call(this,e)}}}(e)}}function m(e,t){this.fun=e,this.array=t}function f(){}a.nextTick=function(e){var t=Array(arguments.length-1);if(arguments.length>1)for(var r=1;r<arguments.length;r++)t[r-1]=arguments[r];i.push(new m(e,t)),1!==i.length||l||c(h)},m.prototype.run=function(){this.fun.apply(null,this.array)},a.title="browser",a.browser=!0,a.env={},a.argv=[],a.version="",a.versions={},a.on=f,a.addListener=f,a.once=f,a.off=f,a.removeListener=f,a.removeAllListeners=f,a.emit=f,a.prependListener=f,a.prependOnceListener=f,a.listeners=function(e){return[]},a.binding=function(e){throw Error("process.binding is not supported")},a.cwd=function(){return"/"},a.chdir=function(e){throw Error("process.chdir is not supported")},a.umask=function(){return 0}}},r={};function s(e){var a=r[e];if(void 0!==a)return a.exports;var n=r[e]={exports:{}},o=!0;try{t[e](n,n.exports,s),o=!1}finally{o&&delete r[e]}return n.exports}s.ab="//";var a=s(229);e.exports=a}()},6973:function(e,t,r){"use strict";r.d(t,{w:function(){return d}});var s=r(7573),a=r(8146),n=r(7070),o=r(7653),c=r(1695),i=r(5118);function l(e){let{open:t,setOpen:r}=e,n=(0,c.useRouter)(),[l,d]=(0,o.useState)(""),[u,h]=(0,o.useState)([]),[m,f]=(0,o.useState)(!1),x=(0,o.useRef)(null);return((0,o.useEffect)(()=>{t&&setTimeout(()=>{var e;null===(e=x.current)||void 0===e||e.focus()},100)},[t]),(0,o.useEffect)(()=>{let e=setTimeout(async()=>{if(l.trim().length>=2){f(!0);try{let e=await (0,i.Nv)("/search?q=".concat(encodeURIComponent(l),"&limit=10"));e.data&&h(e.data.results)}catch(e){console.error("Search failed",e)}finally{f(!1)}}else h([])},300);return()=>clearTimeout(e)},[l]),(0,o.useEffect)(()=>{let e=e=>{"k"===e.key&&(e.metaKey||e.ctrlKey)&&(e.preventDefault(),r(!t)),"Escape"===e.key&&t&&r(!1)};return window.addEventListener("keydown",e),()=>window.removeEventListener("keydown",e)},[t,r]),(0,o.useEffect)(()=>{r(!1),d("")},[n,r]),t)?(0,s.jsxs)("div",{className:"relative z-[100]",role:"dialog","aria-modal":"true",children:[(0,s.jsx)("div",{className:"fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity",onClick:()=>r(!1)}),(0,s.jsx)("div",{className:"fixed inset-0 z-10 w-screen overflow-y-auto p-4 sm:p-6 md:p-20",children:(0,s.jsxs)("div",{className:"mx-auto max-w-2xl transform divide-y divide-gray-800 rounded-xl bg-gray-900 border border-gray-700 shadow-2xl transition-all",children:[(0,s.jsxs)("div",{className:"relative",children:[(0,s.jsx)("div",{className:"pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400",children:(0,s.jsx)("svg",{className:"h-5 w-5",viewBox:"0 0 20 20",fill:"currentColor","aria-hidden":"true",children:(0,s.jsx)("path",{fillRule:"evenodd",d:"M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z",clipRule:"evenodd"})})}),(0,s.jsx)("input",{ref:x,type:"text",className:"h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white placeholder:text-gray-400 focus:ring-0 sm:text-sm",placeholder:"Search study guides, flashcards, questions...",value:l,onChange:e=>d(e.target.value)})]}),m?(0,s.jsx)("div",{className:"p-4 text-center text-sm text-gray-400",children:"Searching..."}):0===u.length&&l.trim().length>=2?(0,s.jsxs)("div",{className:"p-4 text-center text-sm text-gray-400",children:['No results found for "',l,'"']}):u.length>0?(0,s.jsx)("ul",{className:"max-h-96 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-200",children:u.map(e=>(0,s.jsx)("li",{children:(0,s.jsxs)(a.default,{href:function(e){switch(e.type){case"study_guide":return"/study/".concat(e.taskId);case"flashcard":return"/flashcards";case"question":return"/practice";case"formula":return"/formulas";default:return"/dashboard"}}(e),className:"group flex select-none items-center px-4 py-2 hover:bg-gray-800 hover:text-white",children:[(0,s.jsx)("span",{className:"flex-none text-xl mr-3",children:function(e){switch(e){case"study_guide":return"\uD83D\uDCDA";case"flashcard":return"\uD83D\uDDC2️";case"question":return"❓";case"formula":return"∑";default:return"\uD83D\uDCC4"}}(e.type)}),(0,s.jsxs)("div",{className:"flex-auto truncate",children:[(0,s.jsx)("p",{className:"truncate font-medium",children:e.title}),(0,s.jsx)("p",{className:"truncate text-xs text-gray-500",children:e.excerpt})]}),(0,s.jsx)("span",{className:"ml-3 flex-none text-xs font-medium text-gray-500 capitalize",children:e.type.replace("_"," ")})]})},"".concat(e.type,"-").concat(e.id)))}):(0,s.jsx)("div",{className:"py-14 px-6 text-center text-sm sm:px-14",children:(0,s.jsxs)("p",{className:"mt-4 text-gray-400",children:["Press"," ",(0,s.jsx)("kbd",{className:"mx-1 flex h-5 w-5 items-center justify-center rounded border border-gray-700 bg-gray-800 font-semibold text-white sm:mx-2",children:"↵"})," ","to select,"," ",(0,s.jsx)("kbd",{className:"mx-1 flex h-5 w-5 items-center justify-center rounded border border-gray-700 bg-gray-800 font-semibold text-white sm:mx-2",children:"Esc"})," ","to close"]})})]})})]}):null}function d(){let{user:e,isAuthenticated:t,logout:r}=(0,n.a)(),[c,i]=(0,o.useState)(!1),[d,u]=(0,o.useState)(!1);return(0,s.jsxs)(s.Fragment,{children:[(0,s.jsx)("nav",{className:"glass border-b border-[var(--border)] sticky top-0 z-50",children:(0,s.jsxs)("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",children:[(0,s.jsxs)("div",{className:"flex justify-between h-16",children:[(0,s.jsx)("div",{className:"flex items-center",children:(0,s.jsxs)(a.default,{href:"/",className:"flex items-center gap-2",children:[(0,s.jsx)("div",{className:"w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center",children:(0,s.jsx)("span",{className:"text-white font-bold text-sm",children:"PM"})}),(0,s.jsx)("span",{className:"font-semibold text-lg hidden sm:block",children:"PMP Study Pro"})]})}),t&&(0,s.jsxs)("div",{className:"hidden md:flex items-center gap-6",children:[(0,s.jsx)(a.default,{href:"/dashboard",className:"text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition",children:"Dashboard"}),(0,s.jsx)(a.default,{href:"/study",className:"text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition",children:"Study"}),(0,s.jsx)(a.default,{href:"/flashcards",className:"text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition",children:"Flashcards"}),(0,s.jsx)(a.default,{href:"/practice",className:"text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition",children:"Practice"}),(0,s.jsx)(a.default,{href:"/formulas",className:"text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition",children:"Formulas"})]}),(0,s.jsxs)("div",{className:"flex items-center gap-4",children:[t&&(0,s.jsx)("button",{type:"button",onClick:()=>u(!0),className:"p-2 text-gray-400 hover:text-white transition-colors","aria-label":"Search",children:(0,s.jsx)("svg",{className:"h-5 w-5",viewBox:"0 0 20 20",fill:"currentColor","aria-hidden":"true",children:(0,s.jsx)("path",{fillRule:"evenodd",d:"M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z",clipRule:"evenodd"})})}),t?(0,s.jsxs)("div",{className:"flex items-center gap-3",children:[(0,s.jsxs)("div",{className:"hidden sm:block text-sm",children:[(0,s.jsx)("p",{className:"font-medium",children:null==e?void 0:e.name}),(0,s.jsxs)("p",{className:"text-[var(--foreground-muted)] text-xs capitalize",children:[null==e?void 0:e.tier," Tier"]})]}),(0,s.jsx)("button",{onClick:r,className:"btn btn-secondary text-sm",children:"Logout"})]}):(0,s.jsxs)("div",{className:"flex items-center gap-2",children:[(0,s.jsx)(a.default,{href:"/login",className:"btn btn-secondary text-sm",children:"Login"}),(0,s.jsx)(a.default,{href:"/register",className:"btn btn-primary text-sm",children:"Get Started"})]}),t&&(0,s.jsx)("button",{onClick:()=>i(!c),className:"md:hidden p-2 text-[var(--foreground-muted)]",children:(0,s.jsx)("svg",{className:"w-6 h-6",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24",children:c?(0,s.jsx)("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M6 18L18 6M6 6l12 12"}):(0,s.jsx)("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M4 6h16M4 12h16M4 18h16"})})})]})]}),t&&c&&(0,s.jsx)("div",{className:"md:hidden py-4 border-t border-[var(--border)]",children:(0,s.jsxs)("div",{className:"flex flex-col gap-2",children:[(0,s.jsx)(a.default,{href:"/dashboard",className:"px-4 py-2 hover:bg-[var(--secondary)] rounded-lg",children:"Dashboard"}),(0,s.jsx)(a.default,{href:"/study",className:"px-4 py-2 hover:bg-[var(--secondary)] rounded-lg",children:"Study"}),(0,s.jsx)(a.default,{href:"/flashcards",className:"px-4 py-2 hover:bg-[var(--secondary)] rounded-lg",children:"Flashcards"}),(0,s.jsx)(a.default,{href:"/practice",className:"px-4 py-2 hover:bg-[var(--secondary)] rounded-lg",children:"Practice"}),(0,s.jsx)(a.default,{href:"/formulas",className:"px-4 py-2 hover:bg-[var(--secondary)] rounded-lg",children:"Formulas"})]})})]})}),(0,s.jsx)(l,{open:d,setOpen:u})]})}},7070:function(e,t,r){"use strict";r.d(t,{H:function(){return i},a:function(){return l}});var s=r(7573),a=r(7653),n=r(4859);let o=(0,a.createContext)(void 0),c=n.env.NEXT_PUBLIC_API_URL||"http://localhost:3001/api";function i(e){let{children:t}=e,[r,n]=(0,a.useState)({user:null,token:null,isLoading:!0,isAuthenticated:!1});(0,a.useEffect)(()=>{let e=localStorage.getItem("accessToken");e?i(e):n(e=>({...e,isLoading:!1}))},[]);let i=async e=>{try{let t=await fetch("".concat(c,"/auth/me"),{headers:{Authorization:"Bearer ".concat(e)}});if(t.ok){let r=await t.json();n({user:r.data.user,token:e,isLoading:!1,isAuthenticated:!0})}else await h()}catch(e){console.error("Failed to fetch user:",e),u()}},l=async(e,t)=>{let r=await fetch("".concat(c,"/auth/login"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e,password:t})}),s=await r.json();if(!r.ok){var a;throw Error((null===(a=s.error)||void 0===a?void 0:a.message)||"Login failed")}let{accessToken:o,refreshToken:i,user:l}=s.data;localStorage.setItem("accessToken",o),localStorage.setItem("refreshToken",i),n({user:l,token:o,isLoading:!1,isAuthenticated:!0})},d=async(e,t,r)=>{let s=await fetch("".concat(c,"/auth/register"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e,password:t,name:r})}),a=await s.json();if(!s.ok){var o;throw Error((null===(o=a.error)||void 0===o?void 0:o.message)||"Registration failed")}let{accessToken:i,refreshToken:l,user:d}=a.data;localStorage.setItem("accessToken",i),localStorage.setItem("refreshToken",l),n({user:d,token:i,isLoading:!1,isAuthenticated:!0})},u=()=>{localStorage.removeItem("accessToken"),localStorage.removeItem("refreshToken"),n({user:null,token:null,isLoading:!1,isAuthenticated:!1})},h=async()=>{let e=localStorage.getItem("refreshToken");if(!e){u();return}try{let t=await fetch("".concat(c,"/auth/refresh"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({refreshToken:e})});if(t.ok){let{accessToken:e,refreshToken:r}=(await t.json()).data;localStorage.setItem("accessToken",e),localStorage.setItem("refreshToken",r),await i(e)}else u()}catch(e){console.error("Token refresh failed:",e),u()}};return(0,s.jsx)(o.Provider,{value:{...r,login:l,register:d,logout:u,refreshToken:h},children:t})}function l(){let e=(0,a.useContext)(o);if(void 0===e)throw Error("useAuth must be used within an AuthProvider");return e}},5118:function(e,t,r){"use strict";r.d(t,{Lc:function(){return c},Nv:function(){return n},Sh:function(){return d},kx:function(){return l},sA:function(){return o},tF:function(){return i}});let s=r(4859).env.NEXT_PUBLIC_API_URL||"http://localhost:3001/api";async function a(){return localStorage.getItem("accessToken")}async function n(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},{method:r="GET",body:n,token:o}=t,c=null!=o?o:await a(),i={"Content-Type":"application/json"};c&&(i.Authorization="Bearer ".concat(c));let l=await fetch("".concat(s).concat(e),{method:r,headers:i,body:n?JSON.stringify(n):void 0}),d=await l.json();if(!l.ok){var u;throw Error((null===(u=d.error)||void 0===u?void 0:u.message)||"Request failed")}return d}let o={getDomains:()=>n("/domains"),getDomain:e=>n("/domains/".concat(e)),getTasks:e=>n("/domains/".concat(e,"/tasks")),getStudyGuide:e=>n("/domains/tasks/".concat(e,"/study-guide")),markSectionComplete:e=>n("/domains/progress/sections/".concat(e,"/complete"),{method:"POST"}),getProgress:()=>n("/domains/progress")},c={getFlashcards:e=>{let t=new URLSearchParams;return(null==e?void 0:e.domainId)&&t.set("domainId",e.domainId),(null==e?void 0:e.taskId)&&t.set("taskId",e.taskId),(null==e?void 0:e.limit)&&t.set("limit",String(e.limit)),n("/flashcards?".concat(t))},getDueForReview:e=>n("/flashcards/review".concat(e?"?limit=".concat(e):"")),getStats:()=>n("/flashcards/stats"),startSession:e=>n("/flashcards/sessions",{method:"POST",body:e}),recordResponse:(e,t,r,s)=>n("/flashcards/sessions/".concat(e,"/responses/").concat(t),{method:"POST",body:{rating:r,timeSpentMs:s}}),completeSession:e=>n("/flashcards/sessions/".concat(e,"/complete"),{method:"POST"}),createCustom:e=>n("/flashcards/custom",{method:"POST",body:e})},i={startSession:e=>n("/practice/sessions",{method:"POST",body:e}),submitAnswer:(e,t,r,s)=>n("/practice/sessions/".concat(e,"/answers/").concat(t),{method:"POST",body:{selectedOptionId:r,timeSpentMs:s}}),completeSession:e=>n("/practice/sessions/".concat(e,"/complete"),{method:"POST"}),startMockExam:()=>n("/practice/mock-exams",{method:"POST"}),getFlagged:()=>n("/practice/flagged"),flagQuestion:e=>n("/practice/questions/".concat(e,"/flag"),{method:"POST"}),unflagQuestion:e=>n("/practice/questions/".concat(e,"/flag"),{method:"DELETE"}),getStats:()=>n("/practice/stats")},l={getDashboard:()=>n("/dashboard"),getStreak:()=>n("/dashboard/streak"),getProgress:()=>n("/dashboard/progress"),getActivity:e=>n("/dashboard/activity".concat(e?"?limit=".concat(e):"")),getReviews:e=>n("/dashboard/reviews".concat(e?"?limit=".concat(e):"")),getWeakAreas:()=>n("/dashboard/weak-areas"),getReadiness:()=>n("/dashboard/readiness"),getRecommendations:()=>n("/dashboard/recommendations")},d={getFormulas:e=>n("/formulas".concat(e?"?category=".concat(e):"")),getFormula:e=>n("/formulas/".concat(e)),calculate:(e,t)=>n("/formulas/".concat(e,"/calculate"),{method:"POST",body:{inputs:t}}),getVariables:()=>n("/formulas/variables")}}}]);
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+  [973],
+  {
+    8146: function (e, t, r) {
+      'use strict';
+      r.d(t, {
+        default: function () {
+          return a.a;
+        },
+      });
+      var s = r(6340),
+        a = r.n(s);
+    },
+    1695: function (e, t, r) {
+      'use strict';
+      var s = r(1219);
+      (r.o(s, 'useParams') &&
+        r.d(t, {
+          useParams: function () {
+            return s.useParams;
+          },
+        }),
+        r.o(s, 'useRouter') &&
+          r.d(t, {
+            useRouter: function () {
+              return s.useRouter;
+            },
+          }),
+        r.o(s, 'useSearchParams') &&
+          r.d(t, {
+            useSearchParams: function () {
+              return s.useSearchParams;
+            },
+          }));
+    },
+    4859: function (e, t, r) {
+      'use strict';
+      var s, a;
+      e.exports =
+        (null == (s = r.g.process) ? void 0 : s.env) &&
+        'object' == typeof (null == (a = r.g.process) ? void 0 : a.env)
+          ? r.g.process
+          : r(9566);
+    },
+    9566: function (e) {
+      !(function () {
+        var t = {
+            229: function (e) {
+              var t,
+                r,
+                s,
+                a = (e.exports = {});
+              function n() {
+                throw Error('setTimeout has not been defined');
+              }
+              function o() {
+                throw Error('clearTimeout has not been defined');
+              }
+              function c(e) {
+                if (t === setTimeout) return setTimeout(e, 0);
+                if ((t === n || !t) && setTimeout) return ((t = setTimeout), setTimeout(e, 0));
+                try {
+                  return t(e, 0);
+                } catch (r) {
+                  try {
+                    return t.call(null, e, 0);
+                  } catch (r) {
+                    return t.call(this, e, 0);
+                  }
+                }
+              }
+              !(function () {
+                try {
+                  t = 'function' == typeof setTimeout ? setTimeout : n;
+                } catch (e) {
+                  t = n;
+                }
+                try {
+                  r = 'function' == typeof clearTimeout ? clearTimeout : o;
+                } catch (e) {
+                  r = o;
+                }
+              })();
+              var i = [],
+                l = !1,
+                d = -1;
+              function u() {
+                l && s && ((l = !1), s.length ? (i = s.concat(i)) : (d = -1), i.length && h());
+              }
+              function h() {
+                if (!l) {
+                  var e = c(u);
+                  l = !0;
+                  for (var t = i.length; t; ) {
+                    for (s = i, i = []; ++d < t; ) s && s[d].run();
+                    ((d = -1), (t = i.length));
+                  }
+                  ((s = null),
+                    (l = !1),
+                    (function (e) {
+                      if (r === clearTimeout) return clearTimeout(e);
+                      if ((r === o || !r) && clearTimeout)
+                        return ((r = clearTimeout), clearTimeout(e));
+                      try {
+                        r(e);
+                      } catch (t) {
+                        try {
+                          return r.call(null, e);
+                        } catch (t) {
+                          return r.call(this, e);
+                        }
+                      }
+                    })(e));
+                }
+              }
+              function m(e, t) {
+                ((this.fun = e), (this.array = t));
+              }
+              function f() {}
+              ((a.nextTick = function (e) {
+                var t = Array(arguments.length - 1);
+                if (arguments.length > 1)
+                  for (var r = 1; r < arguments.length; r++) t[r - 1] = arguments[r];
+                (i.push(new m(e, t)), 1 !== i.length || l || c(h));
+              }),
+                (m.prototype.run = function () {
+                  this.fun.apply(null, this.array);
+                }),
+                (a.title = 'browser'),
+                (a.browser = !0),
+                (a.env = {}),
+                (a.argv = []),
+                (a.version = ''),
+                (a.versions = {}),
+                (a.on = f),
+                (a.addListener = f),
+                (a.once = f),
+                (a.off = f),
+                (a.removeListener = f),
+                (a.removeAllListeners = f),
+                (a.emit = f),
+                (a.prependListener = f),
+                (a.prependOnceListener = f),
+                (a.listeners = function (e) {
+                  return [];
+                }),
+                (a.binding = function (e) {
+                  throw Error('process.binding is not supported');
+                }),
+                (a.cwd = function () {
+                  return '/';
+                }),
+                (a.chdir = function (e) {
+                  throw Error('process.chdir is not supported');
+                }),
+                (a.umask = function () {
+                  return 0;
+                }));
+            },
+          },
+          r = {};
+        function s(e) {
+          var a = r[e];
+          if (void 0 !== a) return a.exports;
+          var n = (r[e] = { exports: {} }),
+            o = !0;
+          try {
+            (t[e](n, n.exports, s), (o = !1));
+          } finally {
+            o && delete r[e];
+          }
+          return n.exports;
+        }
+        s.ab = '//';
+        var a = s(229);
+        e.exports = a;
+      })();
+    },
+    6973: function (e, t, r) {
+      'use strict';
+      r.d(t, {
+        w: function () {
+          return d;
+        },
+      });
+      var s = r(7573),
+        a = r(8146),
+        n = r(7070),
+        o = r(7653),
+        c = r(1695),
+        i = r(5118);
+      function l(e) {
+        let { open: t, setOpen: r } = e,
+          n = (0, c.useRouter)(),
+          [l, d] = (0, o.useState)(''),
+          [u, h] = (0, o.useState)([]),
+          [m, f] = (0, o.useState)(!1),
+          x = (0, o.useRef)(null);
+        return ((0, o.useEffect)(() => {
+          t &&
+            setTimeout(() => {
+              var e;
+              null === (e = x.current) || void 0 === e || e.focus();
+            }, 100);
+        }, [t]),
+        (0, o.useEffect)(() => {
+          let e = setTimeout(async () => {
+            if (l.trim().length >= 2) {
+              f(!0);
+              try {
+                let e = await (0, i.Nv)('/search?q='.concat(encodeURIComponent(l), '&limit=10'));
+                e.data && h(e.data.results);
+              } catch (e) {
+                console.error('Search failed', e);
+              } finally {
+                f(!1);
+              }
+            } else h([]);
+          }, 300);
+          return () => clearTimeout(e);
+        }, [l]),
+        (0, o.useEffect)(() => {
+          let e = e => {
+            ('k' === e.key && (e.metaKey || e.ctrlKey) && (e.preventDefault(), r(!t)),
+              'Escape' === e.key && t && r(!1));
+          };
+          return (
+            window.addEventListener('keydown', e),
+            () => window.removeEventListener('keydown', e)
+          );
+        }, [t, r]),
+        (0, o.useEffect)(() => {
+          (r(!1), d(''));
+        }, [n, r]),
+        t)
+          ? (0, s.jsxs)('div', {
+              className: 'relative z-[100]',
+              role: 'dialog',
+              'aria-modal': 'true',
+              children: [
+                (0, s.jsx)('div', {
+                  className: 'fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity',
+                  onClick: () => r(!1),
+                }),
+                (0, s.jsx)('div', {
+                  className: 'fixed inset-0 z-10 w-screen overflow-y-auto p-4 sm:p-6 md:p-20',
+                  children: (0, s.jsxs)('div', {
+                    className:
+                      'mx-auto max-w-2xl transform divide-y divide-gray-800 rounded-xl bg-gray-900 border border-gray-700 shadow-2xl transition-all',
+                    children: [
+                      (0, s.jsxs)('div', {
+                        className: 'relative',
+                        children: [
+                          (0, s.jsx)('div', {
+                            className:
+                              'pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400',
+                            children: (0, s.jsx)('svg', {
+                              className: 'h-5 w-5',
+                              viewBox: '0 0 20 20',
+                              fill: 'currentColor',
+                              'aria-hidden': 'true',
+                              children: (0, s.jsx)('path', {
+                                fillRule: 'evenodd',
+                                d: 'M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z',
+                                clipRule: 'evenodd',
+                              }),
+                            }),
+                          }),
+                          (0, s.jsx)('input', {
+                            ref: x,
+                            type: 'text',
+                            className:
+                              'h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white placeholder:text-gray-400 focus:ring-0 sm:text-sm',
+                            placeholder: 'Search study guides, flashcards, questions...',
+                            value: l,
+                            onChange: e => d(e.target.value),
+                          }),
+                        ],
+                      }),
+                      m
+                        ? (0, s.jsx)('div', {
+                            className: 'p-4 text-center text-sm text-gray-400',
+                            children: 'Searching...',
+                          })
+                        : 0 === u.length && l.trim().length >= 2
+                          ? (0, s.jsxs)('div', {
+                              className: 'p-4 text-center text-sm text-gray-400',
+                              children: ['No results found for "', l, '"'],
+                            })
+                          : u.length > 0
+                            ? (0, s.jsx)('ul', {
+                                className:
+                                  'max-h-96 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-200',
+                                children: u.map(e =>
+                                  (0, s.jsx)(
+                                    'li',
+                                    {
+                                      children: (0, s.jsxs)(a.default, {
+                                        href: (function (e) {
+                                          switch (e.type) {
+                                            case 'study_guide':
+                                              return '/study/'.concat(e.taskId);
+                                            case 'flashcard':
+                                              return '/flashcards';
+                                            case 'question':
+                                              return '/practice';
+                                            case 'formula':
+                                              return '/formulas';
+                                            default:
+                                              return '/dashboard';
+                                          }
+                                        })(e),
+                                        className:
+                                          'group flex select-none items-center px-4 py-2 hover:bg-gray-800 hover:text-white',
+                                        children: [
+                                          (0, s.jsx)('span', {
+                                            className: 'flex-none text-xl mr-3',
+                                            children: (function (e) {
+                                              switch (e) {
+                                                case 'study_guide':
+                                                  return '\uD83D\uDCDA';
+                                                case 'flashcard':
+                                                  return '\uD83D\uDDC2️';
+                                                case 'question':
+                                                  return '❓';
+                                                case 'formula':
+                                                  return '∑';
+                                                default:
+                                                  return '\uD83D\uDCC4';
+                                              }
+                                            })(e.type),
+                                          }),
+                                          (0, s.jsxs)('div', {
+                                            className: 'flex-auto truncate',
+                                            children: [
+                                              (0, s.jsx)('p', {
+                                                className: 'truncate font-medium',
+                                                children: e.title,
+                                              }),
+                                              (0, s.jsx)('p', {
+                                                className: 'truncate text-xs text-gray-500',
+                                                children: e.excerpt,
+                                              }),
+                                            ],
+                                          }),
+                                          (0, s.jsx)('span', {
+                                            className:
+                                              'ml-3 flex-none text-xs font-medium text-gray-500 capitalize',
+                                            children: e.type.replace('_', ' '),
+                                          }),
+                                        ],
+                                      }),
+                                    },
+                                    ''.concat(e.type, '-').concat(e.id)
+                                  )
+                                ),
+                              })
+                            : (0, s.jsx)('div', {
+                                className: 'py-14 px-6 text-center text-sm sm:px-14',
+                                children: (0, s.jsxs)('p', {
+                                  className: 'mt-4 text-gray-400',
+                                  children: [
+                                    'Press',
+                                    ' ',
+                                    (0, s.jsx)('kbd', {
+                                      className:
+                                        'mx-1 flex h-5 w-5 items-center justify-center rounded border border-gray-700 bg-gray-800 font-semibold text-white sm:mx-2',
+                                      children: '↵',
+                                    }),
+                                    ' ',
+                                    'to select,',
+                                    ' ',
+                                    (0, s.jsx)('kbd', {
+                                      className:
+                                        'mx-1 flex h-5 w-5 items-center justify-center rounded border border-gray-700 bg-gray-800 font-semibold text-white sm:mx-2',
+                                      children: 'Esc',
+                                    }),
+                                    ' ',
+                                    'to close',
+                                  ],
+                                }),
+                              }),
+                    ],
+                  }),
+                }),
+              ],
+            })
+          : null;
+      }
+      function d() {
+        let { user: e, isAuthenticated: t, logout: r } = (0, n.a)(),
+          [c, i] = (0, o.useState)(!1),
+          [d, u] = (0, o.useState)(!1);
+        return (0, s.jsxs)(s.Fragment, {
+          children: [
+            (0, s.jsx)('nav', {
+              className: 'glass border-b border-[var(--border)] sticky top-0 z-50',
+              children: (0, s.jsxs)('div', {
+                className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8',
+                children: [
+                  (0, s.jsxs)('div', {
+                    className: 'flex justify-between h-16',
+                    children: [
+                      (0, s.jsx)('div', {
+                        className: 'flex items-center',
+                        children: (0, s.jsxs)(a.default, {
+                          href: '/',
+                          className: 'flex items-center gap-2',
+                          children: [
+                            (0, s.jsx)('div', {
+                              className:
+                                'w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center',
+                              children: (0, s.jsx)('span', {
+                                className: 'text-white font-bold text-sm',
+                                children: 'PM',
+                              }),
+                            }),
+                            (0, s.jsx)('span', {
+                              className: 'font-semibold text-lg hidden sm:block',
+                              children: 'PMP Study Pro',
+                            }),
+                          ],
+                        }),
+                      }),
+                      t &&
+                        (0, s.jsxs)('div', {
+                          className: 'hidden md:flex items-center gap-6',
+                          children: [
+                            (0, s.jsx)(a.default, {
+                              href: '/dashboard',
+                              className:
+                                'text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition',
+                              children: 'Dashboard',
+                            }),
+                            (0, s.jsx)(a.default, {
+                              href: '/study',
+                              className:
+                                'text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition',
+                              children: 'Study',
+                            }),
+                            (0, s.jsx)(a.default, {
+                              href: '/flashcards',
+                              className:
+                                'text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition',
+                              children: 'Flashcards',
+                            }),
+                            (0, s.jsx)(a.default, {
+                              href: '/practice',
+                              className:
+                                'text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition',
+                              children: 'Practice',
+                            }),
+                            (0, s.jsx)(a.default, {
+                              href: '/formulas',
+                              className:
+                                'text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition',
+                              children: 'Formulas',
+                            }),
+                          ],
+                        }),
+                      (0, s.jsxs)('div', {
+                        className: 'flex items-center gap-4',
+                        children: [
+                          t &&
+                            (0, s.jsx)('button', {
+                              type: 'button',
+                              onClick: () => u(!0),
+                              className: 'p-2 text-gray-400 hover:text-white transition-colors',
+                              'aria-label': 'Search',
+                              children: (0, s.jsx)('svg', {
+                                className: 'h-5 w-5',
+                                viewBox: '0 0 20 20',
+                                fill: 'currentColor',
+                                'aria-hidden': 'true',
+                                children: (0, s.jsx)('path', {
+                                  fillRule: 'evenodd',
+                                  d: 'M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z',
+                                  clipRule: 'evenodd',
+                                }),
+                              }),
+                            }),
+                          t
+                            ? (0, s.jsxs)('div', {
+                                className: 'flex items-center gap-3',
+                                children: [
+                                  (0, s.jsxs)('div', {
+                                    className: 'hidden sm:block text-sm',
+                                    children: [
+                                      (0, s.jsx)('p', {
+                                        className: 'font-medium',
+                                        children: null == e ? void 0 : e.name,
+                                      }),
+                                      (0, s.jsxs)('p', {
+                                        className:
+                                          'text-[var(--foreground-muted)] text-xs capitalize',
+                                        children: [null == e ? void 0 : e.tier, ' Tier'],
+                                      }),
+                                    ],
+                                  }),
+                                  (0, s.jsx)('button', {
+                                    onClick: r,
+                                    className: 'btn btn-secondary text-sm',
+                                    children: 'Logout',
+                                  }),
+                                ],
+                              })
+                            : (0, s.jsxs)('div', {
+                                className: 'flex items-center gap-2',
+                                children: [
+                                  (0, s.jsx)(a.default, {
+                                    href: '/login',
+                                    className: 'btn btn-secondary text-sm',
+                                    children: 'Login',
+                                  }),
+                                  (0, s.jsx)(a.default, {
+                                    href: '/register',
+                                    className: 'btn btn-primary text-sm',
+                                    children: 'Get Started',
+                                  }),
+                                ],
+                              }),
+                          t &&
+                            (0, s.jsx)('button', {
+                              onClick: () => i(!c),
+                              className: 'md:hidden p-2 text-[var(--foreground-muted)]',
+                              children: (0, s.jsx)('svg', {
+                                className: 'w-6 h-6',
+                                fill: 'none',
+                                stroke: 'currentColor',
+                                viewBox: '0 0 24 24',
+                                children: c
+                                  ? (0, s.jsx)('path', {
+                                      strokeLinecap: 'round',
+                                      strokeLinejoin: 'round',
+                                      strokeWidth: 2,
+                                      d: 'M6 18L18 6M6 6l12 12',
+                                    })
+                                  : (0, s.jsx)('path', {
+                                      strokeLinecap: 'round',
+                                      strokeLinejoin: 'round',
+                                      strokeWidth: 2,
+                                      d: 'M4 6h16M4 12h16M4 18h16',
+                                    }),
+                              }),
+                            }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  t &&
+                    c &&
+                    (0, s.jsx)('div', {
+                      className: 'md:hidden py-4 border-t border-[var(--border)]',
+                      children: (0, s.jsxs)('div', {
+                        className: 'flex flex-col gap-2',
+                        children: [
+                          (0, s.jsx)(a.default, {
+                            href: '/dashboard',
+                            className: 'px-4 py-2 hover:bg-[var(--secondary)] rounded-lg',
+                            children: 'Dashboard',
+                          }),
+                          (0, s.jsx)(a.default, {
+                            href: '/study',
+                            className: 'px-4 py-2 hover:bg-[var(--secondary)] rounded-lg',
+                            children: 'Study',
+                          }),
+                          (0, s.jsx)(a.default, {
+                            href: '/flashcards',
+                            className: 'px-4 py-2 hover:bg-[var(--secondary)] rounded-lg',
+                            children: 'Flashcards',
+                          }),
+                          (0, s.jsx)(a.default, {
+                            href: '/practice',
+                            className: 'px-4 py-2 hover:bg-[var(--secondary)] rounded-lg',
+                            children: 'Practice',
+                          }),
+                          (0, s.jsx)(a.default, {
+                            href: '/formulas',
+                            className: 'px-4 py-2 hover:bg-[var(--secondary)] rounded-lg',
+                            children: 'Formulas',
+                          }),
+                        ],
+                      }),
+                    }),
+                ],
+              }),
+            }),
+            (0, s.jsx)(l, { open: d, setOpen: u }),
+          ],
+        });
+      }
+    },
+    7070: function (e, t, r) {
+      'use strict';
+      r.d(t, {
+        H: function () {
+          return i;
+        },
+        a: function () {
+          return l;
+        },
+      });
+      var s = r(7573),
+        a = r(7653),
+        n = r(4859);
+      let o = (0, a.createContext)(void 0),
+        c = n.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+      function i(e) {
+        let { children: t } = e,
+          [r, n] = (0, a.useState)({ user: null, token: null, isLoading: !0, isAuthenticated: !1 });
+        (0, a.useEffect)(() => {
+          let e = localStorage.getItem('accessToken');
+          e ? i(e) : n(e => ({ ...e, isLoading: !1 }));
+        }, []);
+        let i = async e => {
+            try {
+              let t = await fetch(''.concat(c, '/auth/me'), {
+                headers: { Authorization: 'Bearer '.concat(e) },
+              });
+              if (t.ok) {
+                let r = await t.json();
+                n({ user: r.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
+              } else await h();
+            } catch (e) {
+              (console.error('Failed to fetch user:', e), u());
+            }
+          },
+          l = async (e, t) => {
+            let r = await fetch(''.concat(c, '/auth/login'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: e, password: t }),
+              }),
+              s = await r.json();
+            if (!r.ok) {
+              var a;
+              throw Error(
+                (null === (a = s.error) || void 0 === a ? void 0 : a.message) || 'Login failed'
+              );
+            }
+            let { accessToken: o, refreshToken: i, user: l } = s.data;
+            (localStorage.setItem('accessToken', o),
+              localStorage.setItem('refreshToken', i),
+              n({ user: l, token: o, isLoading: !1, isAuthenticated: !0 }));
+          },
+          d = async (e, t, r) => {
+            let s = await fetch(''.concat(c, '/auth/register'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: e, password: t, name: r }),
+              }),
+              a = await s.json();
+            if (!s.ok) {
+              var o;
+              throw Error(
+                (null === (o = a.error) || void 0 === o ? void 0 : o.message) ||
+                  'Registration failed'
+              );
+            }
+            let { accessToken: i, refreshToken: l, user: d } = a.data;
+            (localStorage.setItem('accessToken', i),
+              localStorage.setItem('refreshToken', l),
+              n({ user: d, token: i, isLoading: !1, isAuthenticated: !0 }));
+          },
+          u = () => {
+            (localStorage.removeItem('accessToken'),
+              localStorage.removeItem('refreshToken'),
+              n({ user: null, token: null, isLoading: !1, isAuthenticated: !1 }));
+          },
+          h = async () => {
+            let e = localStorage.getItem('refreshToken');
+            if (!e) {
+              u();
+              return;
+            }
+            try {
+              let t = await fetch(''.concat(c, '/auth/refresh'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ refreshToken: e }),
+              });
+              if (t.ok) {
+                let { accessToken: e, refreshToken: r } = (await t.json()).data;
+                (localStorage.setItem('accessToken', e),
+                  localStorage.setItem('refreshToken', r),
+                  await i(e));
+              } else u();
+            } catch (e) {
+              (console.error('Token refresh failed:', e), u());
+            }
+          };
+        return (0, s.jsx)(o.Provider, {
+          value: { ...r, login: l, register: d, logout: u, refreshToken: h },
+          children: t,
+        });
+      }
+      function l() {
+        let e = (0, a.useContext)(o);
+        if (void 0 === e) throw Error('useAuth must be used within an AuthProvider');
+        return e;
+      }
+    },
+    5118: function (e, t, r) {
+      'use strict';
+      r.d(t, {
+        Lc: function () {
+          return c;
+        },
+        Nv: function () {
+          return n;
+        },
+        Sh: function () {
+          return d;
+        },
+        kx: function () {
+          return l;
+        },
+        sA: function () {
+          return o;
+        },
+        tF: function () {
+          return i;
+        },
+      });
+      let s = r(4859).env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+      async function a() {
+        return localStorage.getItem('accessToken');
+      }
+      async function n(e) {
+        let t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {},
+          { method: r = 'GET', body: n, token: o } = t,
+          c = null != o ? o : await a(),
+          i = { 'Content-Type': 'application/json' };
+        c && (i.Authorization = 'Bearer '.concat(c));
+        let l = await fetch(''.concat(s).concat(e), {
+            method: r,
+            headers: i,
+            body: n ? JSON.stringify(n) : void 0,
+          }),
+          d = await l.json();
+        if (!l.ok) {
+          var u;
+          throw Error(
+            (null === (u = d.error) || void 0 === u ? void 0 : u.message) || 'Request failed'
+          );
+        }
+        return d;
+      }
+      let o = {
+          getDomains: () => n('/domains'),
+          getDomain: e => n('/domains/'.concat(e)),
+          getTasks: e => n('/domains/'.concat(e, '/tasks')),
+          getStudyGuide: e => n('/domains/tasks/'.concat(e, '/study-guide')),
+          markSectionComplete: e =>
+            n('/domains/progress/sections/'.concat(e, '/complete'), { method: 'POST' }),
+          getProgress: () => n('/domains/progress'),
+        },
+        c = {
+          getFlashcards: e => {
+            let t = new URLSearchParams();
+            return (
+              (null == e ? void 0 : e.domainId) && t.set('domainId', e.domainId),
+              (null == e ? void 0 : e.taskId) && t.set('taskId', e.taskId),
+              (null == e ? void 0 : e.limit) && t.set('limit', String(e.limit)),
+              n('/flashcards?'.concat(t))
+            );
+          },
+          getDueForReview: e => n('/flashcards/review'.concat(e ? '?limit='.concat(e) : '')),
+          getStats: () => n('/flashcards/stats'),
+          startSession: e => n('/flashcards/sessions', { method: 'POST', body: e }),
+          recordResponse: (e, t, r, s) =>
+            n('/flashcards/sessions/'.concat(e, '/responses/').concat(t), {
+              method: 'POST',
+              body: { rating: r, timeSpentMs: s },
+            }),
+          completeSession: e =>
+            n('/flashcards/sessions/'.concat(e, '/complete'), { method: 'POST' }),
+          createCustom: e => n('/flashcards/custom', { method: 'POST', body: e }),
+        },
+        i = {
+          startSession: e => n('/practice/sessions', { method: 'POST', body: e }),
+          submitAnswer: (e, t, r, s) =>
+            n('/practice/sessions/'.concat(e, '/answers/').concat(t), {
+              method: 'POST',
+              body: { selectedOptionId: r, timeSpentMs: s },
+            }),
+          completeSession: e => n('/practice/sessions/'.concat(e, '/complete'), { method: 'POST' }),
+          startMockExam: () => n('/practice/mock-exams', { method: 'POST' }),
+          getFlagged: () => n('/practice/flagged'),
+          flagQuestion: e => n('/practice/questions/'.concat(e, '/flag'), { method: 'POST' }),
+          unflagQuestion: e => n('/practice/questions/'.concat(e, '/flag'), { method: 'DELETE' }),
+          getStats: () => n('/practice/stats'),
+        },
+        l = {
+          getDashboard: () => n('/dashboard'),
+          getStreak: () => n('/dashboard/streak'),
+          getProgress: () => n('/dashboard/progress'),
+          getActivity: e => n('/dashboard/activity'.concat(e ? '?limit='.concat(e) : '')),
+          getReviews: e => n('/dashboard/reviews'.concat(e ? '?limit='.concat(e) : '')),
+          getWeakAreas: () => n('/dashboard/weak-areas'),
+          getReadiness: () => n('/dashboard/readiness'),
+          getRecommendations: () => n('/dashboard/recommendations'),
+        },
+        d = {
+          getFormulas: e => n('/formulas'.concat(e ? '?category='.concat(e) : '')),
+          getFormula: e => n('/formulas/'.concat(e)),
+          calculate: (e, t) =>
+            n('/formulas/'.concat(e, '/calculate'), { method: 'POST', body: { inputs: t } }),
+          getVariables: () => n('/formulas/variables'),
+        };
+    },
+  },
+]);

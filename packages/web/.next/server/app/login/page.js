@@ -1,1 +1,569 @@
-(()=>{var e={};e.id=626,e.ids=[626],e.modules={2934:e=>{"use strict";e.exports=require("next/dist/client/components/action-async-storage.external.js")},4580:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external.js")},5869:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external.js")},399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},2362:(e,t,r)=>{"use strict";r.r(t),r.d(t,{GlobalError:()=>o.a,__next_app__:()=>m,originalPathname:()=>u,pages:()=>d,routeModule:()=>p,tree:()=>c}),r(2396),r(4773),r(7824);var s=r(3282),a=r(5736),n=r(3906),o=r.n(n),i=r(6880),l={};for(let e in i)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(l[e]=()=>i[e]);r.d(t,l);let c=["",{children:["login",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(r.bind(r,2396)),"/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx"]}]},{}]},{layout:[()=>Promise.resolve().then(r.bind(r,4773)),"/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout.tsx"],"not-found":[()=>Promise.resolve().then(r.t.bind(r,7824,23)),"next/dist/client/components/not-found-error"]}],d=["/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx"],u="/login/page",m={require:r,loadChunk:()=>Promise.resolve()},p=new s.AppPageRouteModule({definition:{kind:a.x.APP_PAGE,page:"/login/page",pathname:"/login",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:c}})},9674:(e,t,r)=>{Promise.resolve().then(r.t.bind(r,4424,23)),Promise.resolve().then(r.t.bind(r,7752,23)),Promise.resolve().then(r.t.bind(r,5275,23)),Promise.resolve().then(r.t.bind(r,9842,23)),Promise.resolve().then(r.t.bind(r,1633,23)),Promise.resolve().then(r.t.bind(r,9224,23))},5653:(e,t,r)=>{Promise.resolve().then(r.bind(r,3592))},5449:(e,t,r)=>{Promise.resolve().then(r.bind(r,7274))},649:(e,t,r)=>{"use strict";r.d(t,{default:()=>a.a});var s=r(6568),a=r.n(s)},1043:(e,t,r)=>{"use strict";var s=r(2854);r.o(s,"useParams")&&r.d(t,{useParams:function(){return s.useParams}}),r.o(s,"useRouter")&&r.d(t,{useRouter:function(){return s.useRouter}}),r.o(s,"useSearchParams")&&r.d(t,{useSearchParams:function(){return s.useSearchParams}})},7274:(e,t,r)=>{"use strict";r.r(t),r.d(t,{default:()=>l});var s=r(3227),a=r(3677),n=r(1043),o=r(649),i=r(2278);function l(){let e=(0,n.useRouter)(),{login:t,isLoading:r}=(0,i.a)(),[l,c]=(0,a.useState)(""),[d,u]=(0,a.useState)(""),[m,p]=(0,a.useState)(""),[h,f]=(0,a.useState)(!1),g=async r=>{r.preventDefault(),p(""),f(!0);try{await t(l,d),e.push("/dashboard")}catch(e){p(e instanceof Error?e.message:"Login failed")}finally{f(!1)}};return(0,s.jsxs)("div",{className:"min-h-screen flex items-center justify-center px-4 py-12",children:[s.jsx("div",{className:"absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-purple-600 to-indigo-800 opacity-5"}),(0,s.jsxs)("div",{className:"card w-full max-w-md animate-slideUp relative",children:[(0,s.jsxs)("div",{className:"text-center mb-8",children:[s.jsx(o.default,{href:"/",className:"inline-flex items-center gap-2 mb-6",children:s.jsx("div",{className:"w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center",children:s.jsx("span",{className:"text-white font-bold",children:"PM"})})}),s.jsx("h1",{className:"text-2xl font-bold",children:"Welcome Back"}),s.jsx("p",{className:"text-[var(--foreground-muted)] mt-2",children:"Sign in to continue your PMP journey"})]}),(0,s.jsxs)("form",{onSubmit:g,className:"space-y-4",children:[m&&s.jsx("div",{className:"p-3 rounded-lg bg-[var(--error-light)] text-[var(--error)] text-sm",children:m}),(0,s.jsxs)("div",{children:[s.jsx("label",{htmlFor:"email",className:"block text-sm font-medium mb-1",children:"Email"}),s.jsx("input",{id:"email",type:"email",value:l,onChange:e=>c(e.target.value),className:"input",placeholder:"you@example.com",required:!0})]}),(0,s.jsxs)("div",{children:[s.jsx("label",{htmlFor:"password",className:"block text-sm font-medium mb-1",children:"Password"}),s.jsx("input",{id:"password",type:"password",value:d,onChange:e=>u(e.target.value),className:"input",placeholder:"••••••••",required:!0})]}),(0,s.jsxs)("div",{className:"flex items-center justify-between text-sm",children:[(0,s.jsxs)("label",{className:"flex items-center gap-2",children:[s.jsx("input",{type:"checkbox",className:"rounded border-[var(--border)]"}),s.jsx("span",{children:"Remember me"})]}),s.jsx(o.default,{href:"/forgot-password",className:"text-[var(--primary)] hover:underline",children:"Forgot password?"})]}),s.jsx("button",{type:"submit",disabled:h||r,className:"btn btn-primary w-full",children:h?"Signing in...":"Sign In"})]}),(0,s.jsxs)("p",{className:"text-center text-sm text-[var(--foreground-muted)] mt-6",children:["Don't have an account?"," ",s.jsx(o.default,{href:"/register",className:"text-[var(--primary)] font-medium hover:underline",children:"Sign up for free"})]})]})]})}},3592:(e,t,r)=>{"use strict";r.d(t,{Providers:()=>n});var s=r(3227),a=r(2278);function n({children:e}){return s.jsx(a.H,{children:e})}},2278:(e,t,r)=>{"use strict";r.d(t,{H:()=>i,a:()=>l});var s=r(3227),a=r(3677);let n=(0,a.createContext)(void 0),o=process.env.NEXT_PUBLIC_API_URL||"http://localhost:3001/api";function i({children:e}){let[t,r]=(0,a.useState)({user:null,token:null,isLoading:!0,isAuthenticated:!1}),i=async e=>{try{let t=await fetch(`${o}/auth/me`,{headers:{Authorization:`Bearer ${e}`}});if(t.ok){let s=await t.json();r({user:s.data.user,token:e,isLoading:!1,isAuthenticated:!0})}else await u()}catch(e){console.error("Failed to fetch user:",e),d()}},l=async(e,t)=>{let s=await fetch(`${o}/auth/login`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e,password:t})}),a=await s.json();if(!s.ok)throw Error(a.error?.message||"Login failed");let{accessToken:n,refreshToken:i,user:l}=a.data;localStorage.setItem("accessToken",n),localStorage.setItem("refreshToken",i),r({user:l,token:n,isLoading:!1,isAuthenticated:!0})},c=async(e,t,s)=>{let a=await fetch(`${o}/auth/register`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e,password:t,name:s})}),n=await a.json();if(!a.ok)throw Error(n.error?.message||"Registration failed");let{accessToken:i,refreshToken:l,user:c}=n.data;localStorage.setItem("accessToken",i),localStorage.setItem("refreshToken",l),r({user:c,token:i,isLoading:!1,isAuthenticated:!0})},d=()=>{localStorage.removeItem("accessToken"),localStorage.removeItem("refreshToken"),r({user:null,token:null,isLoading:!1,isAuthenticated:!1})},u=async()=>{let e=localStorage.getItem("refreshToken");if(!e){d();return}try{let t=await fetch(`${o}/auth/refresh`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({refreshToken:e})});if(t.ok){let{accessToken:e,refreshToken:r}=(await t.json()).data;localStorage.setItem("accessToken",e),localStorage.setItem("refreshToken",r),await i(e)}else d()}catch(e){console.error("Token refresh failed:",e),d()}};return s.jsx(n.Provider,{value:{...t,login:l,register:c,logout:d,refreshToken:u},children:e})}function l(){let e=(0,a.useContext)(n);if(void 0===e)throw Error("useAuth must be used within an AuthProvider");return e}},4773:(e,t,r)=>{"use strict";r.r(t),r.d(t,{default:()=>l,metadata:()=>i});var s=r(9013),a=r(5900),n=r.n(a);r(5556);let o=(0,r(3189).createProxy)(String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/providers.tsx#Providers`),i={title:"PMP Study Pro",description:"Comprehensive study platform for the 2026 PMP certification exam",keywords:["PMP","Project Management","Certification","Study","Exam Prep"]};function l({children:e}){return s.jsx("html",{lang:"en",children:s.jsx("body",{className:n().className,children:s.jsx(o,{children:e})})})}},2396:(e,t,r)=>{"use strict";r.r(t),r.d(t,{default:()=>s});let s=(0,r(3189).createProxy)(String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx#default`)},5556:()=>{}};var t=require("../../webpack-runtime.js");t.C(e);var r=e=>t(t.s=e),s=t.X(0,[136,568],()=>r(2362));module.exports=s})();
+(() => {
+  var e = {};
+  ((e.id = 626),
+    (e.ids = [626]),
+    (e.modules = {
+      2934: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/action-async-storage.external.js');
+      },
+      4580: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/request-async-storage.external.js');
+      },
+      5869: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/static-generation-async-storage.external.js');
+      },
+      399: e => {
+        'use strict';
+        e.exports = require('next/dist/compiled/next-server/app-page.runtime.prod.js');
+      },
+      2362: (e, t, s) => {
+        'use strict';
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => i.a,
+            __next_app__: () => m,
+            originalPathname: () => u,
+            pages: () => d,
+            routeModule: () => h,
+            tree: () => c,
+          }),
+          s(2396),
+          s(4773),
+          s(7824));
+        var a = s(3282),
+          r = s(5736),
+          o = s(3906),
+          i = s.n(o),
+          n = s(6880),
+          l = {};
+        for (let e in n)
+          0 >
+            [
+              'default',
+              'tree',
+              'pages',
+              'GlobalError',
+              'originalPathname',
+              '__next_app__',
+              'routeModule',
+            ].indexOf(e) && (l[e] = () => n[e]);
+        s.d(t, l);
+        let c = [
+            '',
+            {
+              children: [
+                'login',
+                {
+                  children: [
+                    '__PAGE__',
+                    {},
+                    {
+                      page: [
+                        () => Promise.resolve().then(s.bind(s, 2396)),
+                        '/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx',
+                      ],
+                    },
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 4773)),
+                '/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout.tsx',
+              ],
+              'not-found': [
+                () => Promise.resolve().then(s.t.bind(s, 7824, 23)),
+                'next/dist/client/components/not-found-error',
+              ],
+            },
+          ],
+          d = ['/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx'],
+          u = '/login/page',
+          m = { require: s, loadChunk: () => Promise.resolve() },
+          h = new a.AppPageRouteModule({
+            definition: {
+              kind: r.x.APP_PAGE,
+              page: '/login/page',
+              pathname: '/login',
+              bundlePath: '',
+              filename: '',
+              appPaths: [],
+            },
+            userland: { loaderTree: c },
+          });
+      },
+      9674: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 4424, 23)),
+          Promise.resolve().then(s.t.bind(s, 7752, 23)),
+          Promise.resolve().then(s.t.bind(s, 5275, 23)),
+          Promise.resolve().then(s.t.bind(s, 9842, 23)),
+          Promise.resolve().then(s.t.bind(s, 1633, 23)),
+          Promise.resolve().then(s.t.bind(s, 9224, 23)));
+      },
+      5653: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 4076));
+      },
+      5449: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 7274));
+      },
+      649: (e, t, s) => {
+        'use strict';
+        s.d(t, { default: () => r.a });
+        var a = s(6568),
+          r = s.n(a);
+      },
+      1043: (e, t, s) => {
+        'use strict';
+        var a = s(2854);
+        (s.o(a, 'useParams') &&
+          s.d(t, {
+            useParams: function () {
+              return a.useParams;
+            },
+          }),
+          s.o(a, 'useRouter') &&
+            s.d(t, {
+              useRouter: function () {
+                return a.useRouter;
+              },
+            }),
+          s.o(a, 'useSearchParams') &&
+            s.d(t, {
+              useSearchParams: function () {
+                return a.useSearchParams;
+              },
+            }));
+      },
+      7274: (e, t, s) => {
+        'use strict';
+        (s.r(t), s.d(t, { default: () => l }));
+        var a = s(3227),
+          r = s(3677),
+          o = s(1043),
+          i = s(649),
+          n = s(2278);
+        function l() {
+          let e = (0, o.useRouter)(),
+            { login: t, isLoading: s } = (0, n.a)(),
+            [l, c] = (0, r.useState)(''),
+            [d, u] = (0, r.useState)(''),
+            [m, h] = (0, r.useState)(''),
+            [p, g] = (0, r.useState)(!1),
+            f = async s => {
+              (s.preventDefault(), h(''), g(!0));
+              try {
+                (await t(l, d), e.push('/dashboard'));
+              } catch (e) {
+                h(e instanceof Error ? e.message : 'Login failed');
+              } finally {
+                g(!1);
+              }
+            };
+          return (0, a.jsxs)('div', {
+            className: 'min-h-screen flex items-center justify-center px-4 py-12',
+            children: [
+              a.jsx('div', {
+                className:
+                  'absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-purple-600 to-indigo-800 opacity-5',
+              }),
+              (0, a.jsxs)('div', {
+                className: 'card w-full max-w-md animate-slideUp relative',
+                children: [
+                  (0, a.jsxs)('div', {
+                    className: 'text-center mb-8',
+                    children: [
+                      a.jsx(i.default, {
+                        href: '/',
+                        className: 'inline-flex items-center gap-2 mb-6',
+                        children: a.jsx('div', {
+                          className:
+                            'w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center',
+                          children: a.jsx('span', {
+                            className: 'text-white font-bold',
+                            children: 'PM',
+                          }),
+                        }),
+                      }),
+                      a.jsx('h1', { className: 'text-2xl font-bold', children: 'Welcome Back' }),
+                      a.jsx('p', {
+                        className: 'text-[var(--foreground-muted)] mt-2',
+                        children: 'Sign in to continue your PMP journey',
+                      }),
+                    ],
+                  }),
+                  (0, a.jsxs)('form', {
+                    onSubmit: f,
+                    className: 'space-y-4',
+                    children: [
+                      m &&
+                        a.jsx('div', {
+                          className:
+                            'p-3 rounded-lg bg-[var(--error-light)] text-[var(--error)] text-sm',
+                          children: m,
+                        }),
+                      (0, a.jsxs)('div', {
+                        children: [
+                          a.jsx('label', {
+                            htmlFor: 'email',
+                            className: 'block text-sm font-medium mb-1',
+                            children: 'Email',
+                          }),
+                          a.jsx('input', {
+                            id: 'email',
+                            type: 'email',
+                            value: l,
+                            onChange: e => c(e.target.value),
+                            className: 'input',
+                            placeholder: 'you@example.com',
+                            required: !0,
+                          }),
+                        ],
+                      }),
+                      (0, a.jsxs)('div', {
+                        children: [
+                          a.jsx('label', {
+                            htmlFor: 'password',
+                            className: 'block text-sm font-medium mb-1',
+                            children: 'Password',
+                          }),
+                          a.jsx('input', {
+                            id: 'password',
+                            type: 'password',
+                            value: d,
+                            onChange: e => u(e.target.value),
+                            className: 'input',
+                            placeholder: '••••••••',
+                            required: !0,
+                          }),
+                        ],
+                      }),
+                      (0, a.jsxs)('div', {
+                        className: 'flex items-center justify-between text-sm',
+                        children: [
+                          (0, a.jsxs)('label', {
+                            className: 'flex items-center gap-2',
+                            children: [
+                              a.jsx('input', {
+                                type: 'checkbox',
+                                className: 'rounded border-[var(--border)]',
+                              }),
+                              a.jsx('span', { children: 'Remember me' }),
+                            ],
+                          }),
+                          a.jsx(i.default, {
+                            href: '/forgot-password',
+                            className: 'text-[var(--primary)] hover:underline',
+                            children: 'Forgot password?',
+                          }),
+                        ],
+                      }),
+                      a.jsx('button', {
+                        type: 'submit',
+                        disabled: p || s,
+                        className: 'btn btn-primary w-full',
+                        children: p ? 'Signing in...' : 'Sign In',
+                      }),
+                    ],
+                  }),
+                  (0, a.jsxs)('p', {
+                    className: 'text-center text-sm text-[var(--foreground-muted)] mt-6',
+                    children: [
+                      "Don't have an account?",
+                      ' ',
+                      a.jsx(i.default, {
+                        href: '/register',
+                        className: 'text-[var(--primary)] font-medium hover:underline',
+                        children: 'Sign up for free',
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          });
+        }
+      },
+      4076: (e, t, s) => {
+        'use strict';
+        s.d(t, { Providers: () => l });
+        var a = s(3227),
+          r = s(2278),
+          o = s(7674);
+        let i = 'pmp_offline_sync_queue';
+        class n {
+          constructor() {
+            ((this.queue = []), (this.isSyncing = !1));
+          }
+          loadQueue() {
+            let e = localStorage.getItem(i);
+            e && (this.queue = JSON.parse(e));
+          }
+          saveQueue() {
+            localStorage.setItem(i, JSON.stringify(this.queue));
+          }
+          async queueAction(e, t) {
+            let s = { id: crypto.randomUUID(), type: e, payload: t, timestamp: Date.now() };
+            (this.queue.push(s), this.saveQueue(), navigator.onLine && (await this.sync()));
+          }
+          async sync() {
+            if (this.isSyncing || 0 === this.queue.length || !navigator.onLine) return;
+            this.isSyncing = !0;
+            let e = [],
+              t = [...this.queue];
+            for (let s of (console.log(`[Sync] Processing ${t.length} actions...`), t))
+              try {
+                await this.processAction(s);
+              } catch (t) {
+                (console.error(`[Sync] Failed to process action ${s.id}`, t), e.push(s));
+              }
+            ((this.queue = e),
+              this.saveQueue(),
+              (this.isSyncing = !1),
+              0 === e.length
+                ? console.log('[Sync] Synchronization complete.')
+                : console.warn(`[Sync] Completed with ${e.length} failures.`));
+          }
+          async processAction(e) {
+            switch (e.type) {
+              case 'MARK_SECTION_COMPLETE':
+                await (0, o.Nv)(`/study/sections/${e.payload.sectionId}/complete`, {
+                  method: 'POST',
+                });
+                break;
+              case 'SUBMIT_FLASHCARD_RESULT':
+                await (0, o.Nv)(`/flashcards/${e.payload.flashcardId}/review`, {
+                  method: 'POST',
+                  body: JSON.stringify({ quality: e.payload.quality }),
+                });
+                break;
+              default:
+                console.warn('Unknown action type', e.type);
+            }
+          }
+        }
+        function l({ children: e }) {
+          return a.jsx(r.H, { children: e });
+        }
+        new n();
+      },
+      2278: (e, t, s) => {
+        'use strict';
+        s.d(t, { H: () => n, a: () => l });
+        var a = s(3227),
+          r = s(3677);
+        let o = (0, r.createContext)(void 0),
+          i = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+        function n({ children: e }) {
+          let [t, s] = (0, r.useState)({
+              user: null,
+              token: null,
+              isLoading: !0,
+              isAuthenticated: !1,
+            }),
+            n = async e => {
+              try {
+                let t = await fetch(`${i}/auth/me`, { headers: { Authorization: `Bearer ${e}` } });
+                if (t.ok) {
+                  let a = await t.json();
+                  s({ user: a.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
+                } else await u();
+              } catch (e) {
+                (console.error('Failed to fetch user:', e), d());
+              }
+            },
+            l = async (e, t) => {
+              let a = await fetch(`${i}/auth/login`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: e, password: t }),
+                }),
+                r = await a.json();
+              if (!a.ok) throw Error(r.error?.message || 'Login failed');
+              let { accessToken: o, refreshToken: n, user: l } = r.data;
+              (localStorage.setItem('accessToken', o),
+                localStorage.setItem('refreshToken', n),
+                s({ user: l, token: o, isLoading: !1, isAuthenticated: !0 }));
+            },
+            c = async (e, t, a) => {
+              let r = await fetch(`${i}/auth/register`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: e, password: t, name: a }),
+                }),
+                o = await r.json();
+              if (!r.ok) throw Error(o.error?.message || 'Registration failed');
+              let { accessToken: n, refreshToken: l, user: c } = o.data;
+              (localStorage.setItem('accessToken', n),
+                localStorage.setItem('refreshToken', l),
+                s({ user: c, token: n, isLoading: !1, isAuthenticated: !0 }));
+            },
+            d = () => {
+              (localStorage.removeItem('accessToken'),
+                localStorage.removeItem('refreshToken'),
+                s({ user: null, token: null, isLoading: !1, isAuthenticated: !1 }));
+            },
+            u = async () => {
+              let e = localStorage.getItem('refreshToken');
+              if (!e) {
+                d();
+                return;
+              }
+              try {
+                let t = await fetch(`${i}/auth/refresh`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ refreshToken: e }),
+                });
+                if (t.ok) {
+                  let { accessToken: e, refreshToken: s } = (await t.json()).data;
+                  (localStorage.setItem('accessToken', e),
+                    localStorage.setItem('refreshToken', s),
+                    await n(e));
+                } else d();
+              } catch (e) {
+                (console.error('Token refresh failed:', e), d());
+              }
+            };
+          return a.jsx(o.Provider, {
+            value: { ...t, login: l, register: c, logout: d, refreshToken: u },
+            children: e,
+          });
+        }
+        function l() {
+          let e = (0, r.useContext)(o);
+          if (void 0 === e) throw Error('useAuth must be used within an AuthProvider');
+          return e;
+        }
+      },
+      7674: (e, t, s) => {
+        'use strict';
+        s.d(t, { Lc: () => n, Nv: () => o, Sh: () => d, kx: () => c, sA: () => i, tF: () => l });
+        let a = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+        async function r() {
+          return null;
+        }
+        async function o(e, t = {}) {
+          let { method: s = 'GET', body: o, token: i } = t,
+            n = i ?? (await r()),
+            l = { 'Content-Type': 'application/json' };
+          n && (l.Authorization = `Bearer ${n}`);
+          let c = await fetch(`${a}${e}`, {
+              method: s,
+              headers: l,
+              body: o ? JSON.stringify(o) : void 0,
+            }),
+            d = await c.json();
+          if (!c.ok) throw Error(d.error?.message || 'Request failed');
+          return d;
+        }
+        let i = {
+            getDomains: () => o('/domains'),
+            getDomain: e => o(`/domains/${e}`),
+            getTasks: e => o(`/domains/${e}/tasks`),
+            getStudyGuide: e => o(`/domains/tasks/${e}/study-guide`),
+            markSectionComplete: e =>
+              o(`/domains/progress/sections/${e}/complete`, { method: 'POST' }),
+            getProgress: () => o('/domains/progress'),
+          },
+          n = {
+            getFlashcards: e => {
+              let t = new URLSearchParams();
+              return (
+                e?.domainId && t.set('domainId', e.domainId),
+                e?.taskId && t.set('taskId', e.taskId),
+                e?.limit && t.set('limit', String(e.limit)),
+                o(`/flashcards?${t}`)
+              );
+            },
+            getDueForReview: e => o(`/flashcards/review${e ? `?limit=${e}` : ''}`),
+            getStats: () => o('/flashcards/stats'),
+            startSession: e => o('/flashcards/sessions', { method: 'POST', body: e }),
+            recordResponse: (e, t, s, a) =>
+              o(`/flashcards/sessions/${e}/responses/${t}`, {
+                method: 'POST',
+                body: { rating: s, timeSpentMs: a },
+              }),
+            completeSession: e => o(`/flashcards/sessions/${e}/complete`, { method: 'POST' }),
+            createCustom: e => o('/flashcards/custom', { method: 'POST', body: e }),
+          },
+          l = {
+            startSession: e => o('/practice/sessions', { method: 'POST', body: e }),
+            submitAnswer: (e, t, s, a) =>
+              o(`/practice/sessions/${e}/answers/${t}`, {
+                method: 'POST',
+                body: { selectedOptionId: s, timeSpentMs: a },
+              }),
+            completeSession: e => o(`/practice/sessions/${e}/complete`, { method: 'POST' }),
+            startMockExam: () => o('/practice/mock-exams', { method: 'POST' }),
+            getFlagged: () => o('/practice/flagged'),
+            flagQuestion: e => o(`/practice/questions/${e}/flag`, { method: 'POST' }),
+            unflagQuestion: e => o(`/practice/questions/${e}/flag`, { method: 'DELETE' }),
+            getStats: () => o('/practice/stats'),
+          },
+          c = {
+            getDashboard: () => o('/dashboard'),
+            getStreak: () => o('/dashboard/streak'),
+            getProgress: () => o('/dashboard/progress'),
+            getActivity: e => o(`/dashboard/activity${e ? `?limit=${e}` : ''}`),
+            getReviews: e => o(`/dashboard/reviews${e ? `?limit=${e}` : ''}`),
+            getWeakAreas: () => o('/dashboard/weak-areas'),
+            getReadiness: () => o('/dashboard/readiness'),
+            getRecommendations: () => o('/dashboard/recommendations'),
+          },
+          d = {
+            getFormulas: e => o(`/formulas${e ? `?category=${e}` : ''}`),
+            getFormula: e => o(`/formulas/${e}`),
+            calculate: (e, t) =>
+              o(`/formulas/${e}/calculate`, { method: 'POST', body: { inputs: t } }),
+            getVariables: () => o('/formulas/variables'),
+          };
+      },
+      4773: (e, t, s) => {
+        'use strict';
+        (s.r(t), s.d(t, { default: () => l, metadata: () => n }));
+        var a = s(9013),
+          r = s(5900),
+          o = s.n(r);
+        s(5556);
+        let i = (0, s(3189).createProxy)(
+            String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/providers.tsx#Providers`
+          ),
+          n = {
+            title: 'PMP Study Pro',
+            description: 'Comprehensive study platform for the 2026 PMP certification exam',
+            keywords: ['PMP', 'Project Management', 'Certification', 'Study', 'Exam Prep'],
+            manifest: '/manifest.json',
+            themeColor: '#7c3aed',
+            viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+            appleWebApp: { capable: !0, statusBarStyle: 'default', title: 'PMP Pro' },
+          };
+        function l({ children: e }) {
+          return a.jsx('html', {
+            lang: 'en',
+            children: a.jsx('body', {
+              className: o().className,
+              children: a.jsx(i, { children: e }),
+            }),
+          });
+        }
+      },
+      2396: (e, t, s) => {
+        'use strict';
+        (s.r(t), s.d(t, { default: () => a }));
+        let a = (0, s(3189).createProxy)(
+          String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/login/page.tsx#default`
+        );
+      },
+      5556: () => {},
+    }));
+  var t = require('../../webpack-runtime.js');
+  t.C(e);
+  var s = e => t((t.s = e)),
+    a = t.X(0, [136, 568], () => s(2362));
+  module.exports = a;
+})();

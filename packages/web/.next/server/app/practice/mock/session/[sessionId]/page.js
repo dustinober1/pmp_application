@@ -1,1 +1,730 @@
-(()=>{var e={};e.id=329,e.ids=[329],e.modules={2934:e=>{"use strict";e.exports=require("next/dist/client/components/action-async-storage.external.js")},4580:e=>{"use strict";e.exports=require("next/dist/client/components/request-async-storage.external.js")},5869:e=>{"use strict";e.exports=require("next/dist/client/components/static-generation-async-storage.external.js")},399:e=>{"use strict";e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},2813:(e,t,s)=>{"use strict";s.r(t),s.d(t,{GlobalError:()=>i.a,__next_app__:()=>m,originalPathname:()=>u,pages:()=>c,routeModule:()=>h,tree:()=>d}),s(5019),s(4773),s(7824);var r=s(3282),a=s(5736),o=s(3906),i=s.n(o),n=s(6880),l={};for(let e in n)0>["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(e)&&(l[e]=()=>n[e]);s.d(t,l);let d=["",{children:["practice",{children:["mock",{children:["session",{children:["[sessionId]",{children:["__PAGE__",{},{page:[()=>Promise.resolve().then(s.bind(s,5019)),"/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx"]}]},{}]},{}]},{}]},{}]},{layout:[()=>Promise.resolve().then(s.bind(s,4773)),"/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout.tsx"],"not-found":[()=>Promise.resolve().then(s.t.bind(s,7824,23)),"next/dist/client/components/not-found-error"]}],c=["/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx"],u="/practice/mock/session/[sessionId]/page",m={require:s,loadChunk:()=>Promise.resolve()},h=new r.AppPageRouteModule({definition:{kind:a.x.APP_PAGE,page:"/practice/mock/session/[sessionId]/page",pathname:"/practice/mock/session/[sessionId]",bundlePath:"",filename:"",appPaths:[]},userland:{loaderTree:d}})},9674:(e,t,s)=>{Promise.resolve().then(s.t.bind(s,4424,23)),Promise.resolve().then(s.t.bind(s,7752,23)),Promise.resolve().then(s.t.bind(s,5275,23)),Promise.resolve().then(s.t.bind(s,9842,23)),Promise.resolve().then(s.t.bind(s,1633,23)),Promise.resolve().then(s.t.bind(s,9224,23))},5653:(e,t,s)=>{Promise.resolve().then(s.bind(s,3592))},2933:(e,t,s)=>{Promise.resolve().then(s.bind(s,9999))},1043:(e,t,s)=>{"use strict";var r=s(2854);s.o(r,"useParams")&&s.d(t,{useParams:function(){return r.useParams}}),s.o(r,"useRouter")&&s.d(t,{useRouter:function(){return r.useRouter}}),s.o(r,"useSearchParams")&&s.d(t,{useSearchParams:function(){return r.useSearchParams}})},9999:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>l});var r=s(3227),a=s(3677),o=s(1043),i=s(2278),n=s(7674);function l(){let{sessionId:e}=(0,o.useParams)(),t=(0,o.useRouter)(),{user:s}=(0,i.a)(),[l,d]=(0,a.useState)(!0),[c,u]=(0,a.useState)(null),[m,h]=(0,a.useState)(0),[p,g]=(0,a.useState)(null),[x,b]=(0,a.useState)(!1),[f,y]=(0,a.useState)(0),[v,w]=(0,a.useState)(!1),[j,P]=(0,a.useState)(!1);(0,a.useRef)(null);let k=(0,a.useRef)(null),S=async t=>{if(g(t),u(e=>{if(!e)return null;let s=[...e.questions],r=s[m];if(!r||r.userAnswerId===t)return e;s[m]={...r,userAnswerId:t};let a=s.filter(e=>e.userAnswerId).length;return{...e,questions:s,progress:{...e.progress,answered:a}}}),c&&c.questions[m])try{await (0,n.Nv)(`/practice/sessions/${e}/answers/${c.questions[m].id}`,{method:"POST",body:{selectedOptionId:t,timeSpentMs:0}})}catch(e){console.error("Failed to sync answer",e)}},N=e=>{h(e),w(!1)},$=async()=>{if(e){b(!0);try{await (0,n.Nv)(`/practice/sessions/${e}/complete`,{method:"POST"}),P(!0),t.push("/dashboard")}catch(e){console.error("Failed to complete exam",e),b(!1)}}},T=e=>{let t=Math.floor(e/3600);return`${t>0?t+":":""}${Math.floor(e%3600/60).toString().padStart(2,"0")}:${(e%60).toString().padStart(2,"0")}`};if(l)return r.jsx("div",{className:"flex justify-center items-center min-h-[60vh]",children:r.jsx("div",{className:"animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"})});if(!c)return(0,r.jsxs)("div",{className:"max-w-4xl mx-auto px-4 py-8 text-center text-white",children:["Session not found."," ",r.jsx("button",{onClick:()=>t.push("/practice"),className:"text-primary-400 underline",children:"Back"})]});let I=c.questions[m];if(!I)return r.jsx("div",{children:"Loading..."});let _=c.progress.answered,A=c.questions.length,C=Math.round(_/A*100);return v?(0,r.jsxs)("div",{className:"max-w-5xl mx-auto px-4 py-8",children:[(0,r.jsxs)("div",{className:"flex justify-between items-center mb-6",children:[r.jsx("h1",{className:"text-2xl font-bold text-white",children:"Review Your Answers"}),r.jsx("div",{className:"text-xl font-mono text-primary-400",children:T(f)})]}),r.jsx("div",{className:"bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6",children:r.jsx("div",{className:"grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3",children:c.questions.map((e,t)=>r.jsx("button",{onClick:()=>N(t),className:`p-2 rounded text-sm font-medium border transition-colors ${e.userAnswerId?"bg-primary-900/40 border-primary-600 text-white":"bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500"}`,children:t+1},e.id))})}),(0,r.jsxs)("div",{className:"flex justify-between",children:[r.jsx("button",{onClick:()=>w(!1),className:"px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition",children:"Return to Exam"}),r.jsx("button",{onClick:$,disabled:x,className:"px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg",children:x?"Submitting...":"Submit Exam"})]})]}):(0,r.jsxs)("div",{className:"max-w-6xl mx-auto px-4 py-6 flex flex-col h-[calc(100vh-64px)]",children:[(0,r.jsxs)("div",{className:"flex items-center justify-between mb-6 bg-gray-900/50 p-4 rounded-xl border border-gray-800",children:[(0,r.jsxs)("div",{className:"flex items-center space-x-4",children:[(0,r.jsxs)("span",{className:"text-gray-400 font-medium",children:["Question ",m+1," ",(0,r.jsxs)("span",{className:"text-gray-600",children:["/ ",A]})]}),r.jsx("div",{className:"h-4 w-32 bg-gray-800 rounded-full overflow-hidden hidden sm:block",children:r.jsx("div",{className:"h-full bg-primary-600 transition-all duration-500",style:{width:`${C}%`}})})]}),(0,r.jsxs)("div",{className:"flex items-center space-x-6",children:[r.jsx("div",{className:"text-2xl font-mono font-bold text-primary-400 tracking-wider bg-gray-900 px-4 py-1 rounded-lg border border-gray-800 shadow-inner",children:T(f)}),r.jsx("button",{onClick:()=>w(!0),className:"text-sm text-gray-400 hover:text-white underline",children:"Review All"})]})]}),(0,r.jsxs)("div",{className:"flex-1 flex gap-6 overflow-hidden",children:[r.jsx("div",{className:"flex-1 flex flex-col overflow-y-auto pr-2 custom-scrollbar",ref:k,children:(0,r.jsxs)("div",{className:"bg-gray-900 border border-gray-800 rounded-xl p-8 mb-6 shadow-sm",children:[r.jsx("p",{className:"text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed",children:I.questionText}),r.jsx("div",{className:"space-y-3",children:I.options.map(e=>{let t=p===e.id;return(0,r.jsxs)("button",{onClick:()=>S(e.id),className:`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group ${t?"bg-primary-900/20 border-primary-500 shadow-[0_0_15px_rgba(59,130,246,0.1)]":"bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:border-gray-500"}`,children:[r.jsx("div",{className:`mt-0.5 w-6 h-6 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors ${t?"border-primary-500 bg-primary-500":"border-gray-600 group-hover:border-gray-500"}`,children:t&&r.jsx("div",{className:"w-2.5 h-2.5 bg-white rounded-full"})}),r.jsx("span",{className:`text-lg ${t?"text-white":"text-gray-300"}`,children:e.text})]},e.id)})})]})}),r.jsx("div",{className:"w-20 hidden lg:flex flex-col gap-2 overflow-y-auto custom-scrollbar bg-gray-900/30 p-2 rounded-xl border border-gray-800/50",children:c.questions.map((e,t)=>{let s=t===m,a=!!e.userAnswerId;return r.jsx("button",{onClick:()=>h(t),className:`w-full aspect-square rounded flex items-center justify-center text-sm font-bold transition-all ${s?"bg-primary-600 text-white shadow-lg scale-105":a?"bg-primary-900/30 text-primary-400 border border-primary-900":"bg-gray-800 text-gray-500 hover:bg-gray-700"}`,children:t+1},e.id)})})]}),(0,r.jsxs)("div",{className:"border-t border-gray-800 pt-6 mt-2 flex justify-between items-center bg-background py-4",children:[r.jsx("button",{onClick:()=>{m>0&&h(e=>e-1)},disabled:0===m,className:`px-6 py-2.5 rounded-lg border font-medium transition ${0===m?"border-gray-800 text-gray-600 cursor-not-allowed":"border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white"}`,children:"← Previous"}),r.jsx("div",{className:"flex gap-4",children:r.jsx("button",{onClick:()=>{},className:"px-4 py-2.5 text-gray-400 hover:text-yellow-400 transition",children:"Flag for Review"})}),(0,r.jsxs)("button",{onClick:()=>{c&&(m<c.questions.length-1?h(e=>e+1):w(!0))},className:"px-8 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition shadow-lg hover:shadow-primary-900/20 flex items-center",children:[m===A-1?"Review Exam":"Next Question",r.jsx("span",{className:"ml-2",children:"→"})]})]})]})}},3592:(e,t,s)=>{"use strict";s.d(t,{Providers:()=>o});var r=s(3227),a=s(2278);function o({children:e}){return r.jsx(a.H,{children:e})}},2278:(e,t,s)=>{"use strict";s.d(t,{H:()=>n,a:()=>l});var r=s(3227),a=s(3677);let o=(0,a.createContext)(void 0),i=process.env.NEXT_PUBLIC_API_URL||"http://localhost:3001/api";function n({children:e}){let[t,s]=(0,a.useState)({user:null,token:null,isLoading:!0,isAuthenticated:!1}),n=async e=>{try{let t=await fetch(`${i}/auth/me`,{headers:{Authorization:`Bearer ${e}`}});if(t.ok){let r=await t.json();s({user:r.data.user,token:e,isLoading:!1,isAuthenticated:!0})}else await u()}catch(e){console.error("Failed to fetch user:",e),c()}},l=async(e,t)=>{let r=await fetch(`${i}/auth/login`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e,password:t})}),a=await r.json();if(!r.ok)throw Error(a.error?.message||"Login failed");let{accessToken:o,refreshToken:n,user:l}=a.data;localStorage.setItem("accessToken",o),localStorage.setItem("refreshToken",n),s({user:l,token:o,isLoading:!1,isAuthenticated:!0})},d=async(e,t,r)=>{let a=await fetch(`${i}/auth/register`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e,password:t,name:r})}),o=await a.json();if(!a.ok)throw Error(o.error?.message||"Registration failed");let{accessToken:n,refreshToken:l,user:d}=o.data;localStorage.setItem("accessToken",n),localStorage.setItem("refreshToken",l),s({user:d,token:n,isLoading:!1,isAuthenticated:!0})},c=()=>{localStorage.removeItem("accessToken"),localStorage.removeItem("refreshToken"),s({user:null,token:null,isLoading:!1,isAuthenticated:!1})},u=async()=>{let e=localStorage.getItem("refreshToken");if(!e){c();return}try{let t=await fetch(`${i}/auth/refresh`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({refreshToken:e})});if(t.ok){let{accessToken:e,refreshToken:s}=(await t.json()).data;localStorage.setItem("accessToken",e),localStorage.setItem("refreshToken",s),await n(e)}else c()}catch(e){console.error("Token refresh failed:",e),c()}};return r.jsx(o.Provider,{value:{...t,login:l,register:d,logout:c,refreshToken:u},children:e})}function l(){let e=(0,a.useContext)(o);if(void 0===e)throw Error("useAuth must be used within an AuthProvider");return e}},7674:(e,t,s)=>{"use strict";s.d(t,{Lc:()=>n,Nv:()=>o,Sh:()=>c,kx:()=>d,sA:()=>i,tF:()=>l});let r=process.env.NEXT_PUBLIC_API_URL||"http://localhost:3001/api";async function a(){return null}async function o(e,t={}){let{method:s="GET",body:o,token:i}=t,n=i??await a(),l={"Content-Type":"application/json"};n&&(l.Authorization=`Bearer ${n}`);let d=await fetch(`${r}${e}`,{method:s,headers:l,body:o?JSON.stringify(o):void 0}),c=await d.json();if(!d.ok)throw Error(c.error?.message||"Request failed");return c}let i={getDomains:()=>o("/domains"),getDomain:e=>o(`/domains/${e}`),getTasks:e=>o(`/domains/${e}/tasks`),getStudyGuide:e=>o(`/domains/tasks/${e}/study-guide`),markSectionComplete:e=>o(`/domains/progress/sections/${e}/complete`,{method:"POST"}),getProgress:()=>o("/domains/progress")},n={getFlashcards:e=>{let t=new URLSearchParams;return e?.domainId&&t.set("domainId",e.domainId),e?.taskId&&t.set("taskId",e.taskId),e?.limit&&t.set("limit",String(e.limit)),o(`/flashcards?${t}`)},getDueForReview:e=>o(`/flashcards/review${e?`?limit=${e}`:""}`),getStats:()=>o("/flashcards/stats"),startSession:e=>o("/flashcards/sessions",{method:"POST",body:e}),recordResponse:(e,t,s,r)=>o(`/flashcards/sessions/${e}/responses/${t}`,{method:"POST",body:{rating:s,timeSpentMs:r}}),completeSession:e=>o(`/flashcards/sessions/${e}/complete`,{method:"POST"}),createCustom:e=>o("/flashcards/custom",{method:"POST",body:e})},l={startSession:e=>o("/practice/sessions",{method:"POST",body:e}),submitAnswer:(e,t,s,r)=>o(`/practice/sessions/${e}/answers/${t}`,{method:"POST",body:{selectedOptionId:s,timeSpentMs:r}}),completeSession:e=>o(`/practice/sessions/${e}/complete`,{method:"POST"}),startMockExam:()=>o("/practice/mock-exams",{method:"POST"}),getFlagged:()=>o("/practice/flagged"),flagQuestion:e=>o(`/practice/questions/${e}/flag`,{method:"POST"}),unflagQuestion:e=>o(`/practice/questions/${e}/flag`,{method:"DELETE"}),getStats:()=>o("/practice/stats")},d={getDashboard:()=>o("/dashboard"),getStreak:()=>o("/dashboard/streak"),getProgress:()=>o("/dashboard/progress"),getActivity:e=>o(`/dashboard/activity${e?`?limit=${e}`:""}`),getReviews:e=>o(`/dashboard/reviews${e?`?limit=${e}`:""}`),getWeakAreas:()=>o("/dashboard/weak-areas"),getReadiness:()=>o("/dashboard/readiness"),getRecommendations:()=>o("/dashboard/recommendations")},c={getFormulas:e=>o(`/formulas${e?`?category=${e}`:""}`),getFormula:e=>o(`/formulas/${e}`),calculate:(e,t)=>o(`/formulas/${e}/calculate`,{method:"POST",body:{inputs:t}}),getVariables:()=>o("/formulas/variables")}},4773:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>l,metadata:()=>n});var r=s(9013),a=s(5900),o=s.n(a);s(5556);let i=(0,s(3189).createProxy)(String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/providers.tsx#Providers`),n={title:"PMP Study Pro",description:"Comprehensive study platform for the 2026 PMP certification exam",keywords:["PMP","Project Management","Certification","Study","Exam Prep"]};function l({children:e}){return r.jsx("html",{lang:"en",children:r.jsx("body",{className:o().className,children:r.jsx(i,{children:e})})})}},5019:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>r});let r=(0,s(3189).createProxy)(String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx#default`)},5556:()=>{}};var t=require("../../../../../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[136],()=>s(2813));module.exports=r})();
+(() => {
+  var e = {};
+  ((e.id = 329),
+    (e.ids = [329]),
+    (e.modules = {
+      2934: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/action-async-storage.external.js');
+      },
+      4580: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/request-async-storage.external.js');
+      },
+      5869: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/static-generation-async-storage.external.js');
+      },
+      399: e => {
+        'use strict';
+        e.exports = require('next/dist/compiled/next-server/app-page.runtime.prod.js');
+      },
+      2813: (e, t, s) => {
+        'use strict';
+        (s.r(t),
+          s.d(t, {
+            GlobalError: () => i.a,
+            __next_app__: () => m,
+            originalPathname: () => u,
+            pages: () => c,
+            routeModule: () => h,
+            tree: () => d,
+          }),
+          s(5019),
+          s(4773),
+          s(7824));
+        var r = s(3282),
+          a = s(5736),
+          o = s(3906),
+          i = s.n(o),
+          n = s(6880),
+          l = {};
+        for (let e in n)
+          0 >
+            [
+              'default',
+              'tree',
+              'pages',
+              'GlobalError',
+              'originalPathname',
+              '__next_app__',
+              'routeModule',
+            ].indexOf(e) && (l[e] = () => n[e]);
+        s.d(t, l);
+        let d = [
+            '',
+            {
+              children: [
+                'practice',
+                {
+                  children: [
+                    'mock',
+                    {
+                      children: [
+                        'session',
+                        {
+                          children: [
+                            '[sessionId]',
+                            {
+                              children: [
+                                '__PAGE__',
+                                {},
+                                {
+                                  page: [
+                                    () => Promise.resolve().then(s.bind(s, 5019)),
+                                    '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx',
+                                  ],
+                                },
+                              ],
+                            },
+                            {},
+                          ],
+                        },
+                        {},
+                      ],
+                    },
+                    {},
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(s.bind(s, 4773)),
+                '/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout.tsx',
+              ],
+              'not-found': [
+                () => Promise.resolve().then(s.t.bind(s, 7824, 23)),
+                'next/dist/client/components/not-found-error',
+              ],
+            },
+          ],
+          c = [
+            '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx',
+          ],
+          u = '/practice/mock/session/[sessionId]/page',
+          m = { require: s, loadChunk: () => Promise.resolve() },
+          h = new r.AppPageRouteModule({
+            definition: {
+              kind: a.x.APP_PAGE,
+              page: '/practice/mock/session/[sessionId]/page',
+              pathname: '/practice/mock/session/[sessionId]',
+              bundlePath: '',
+              filename: '',
+              appPaths: [],
+            },
+            userland: { loaderTree: d },
+          });
+      },
+      9674: (e, t, s) => {
+        (Promise.resolve().then(s.t.bind(s, 4424, 23)),
+          Promise.resolve().then(s.t.bind(s, 7752, 23)),
+          Promise.resolve().then(s.t.bind(s, 5275, 23)),
+          Promise.resolve().then(s.t.bind(s, 9842, 23)),
+          Promise.resolve().then(s.t.bind(s, 1633, 23)),
+          Promise.resolve().then(s.t.bind(s, 9224, 23)));
+      },
+      5653: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 4076));
+      },
+      2933: (e, t, s) => {
+        Promise.resolve().then(s.bind(s, 9999));
+      },
+      1043: (e, t, s) => {
+        'use strict';
+        var r = s(2854);
+        (s.o(r, 'useParams') &&
+          s.d(t, {
+            useParams: function () {
+              return r.useParams;
+            },
+          }),
+          s.o(r, 'useRouter') &&
+            s.d(t, {
+              useRouter: function () {
+                return r.useRouter;
+              },
+            }),
+          s.o(r, 'useSearchParams') &&
+            s.d(t, {
+              useSearchParams: function () {
+                return r.useSearchParams;
+              },
+            }));
+      },
+      9999: (e, t, s) => {
+        'use strict';
+        (s.r(t), s.d(t, { default: () => l }));
+        var r = s(3227),
+          a = s(3677),
+          o = s(1043),
+          i = s(2278),
+          n = s(7674);
+        function l() {
+          let { sessionId: e } = (0, o.useParams)(),
+            t = (0, o.useRouter)(),
+            { user: s } = (0, i.a)(),
+            [l, d] = (0, a.useState)(!0),
+            [c, u] = (0, a.useState)(null),
+            [m, h] = (0, a.useState)(0),
+            [p, g] = (0, a.useState)(null),
+            [x, y] = (0, a.useState)(!1),
+            [f, b] = (0, a.useState)(0),
+            [w, v] = (0, a.useState)(!1),
+            [S, P] = (0, a.useState)(!1);
+          (0, a.useRef)(null);
+          let j = (0, a.useRef)(null),
+            k = async t => {
+              if (
+                (g(t),
+                u(e => {
+                  if (!e) return null;
+                  let s = [...e.questions],
+                    r = s[m];
+                  if (!r || r.userAnswerId === t) return e;
+                  s[m] = { ...r, userAnswerId: t };
+                  let a = s.filter(e => e.userAnswerId).length;
+                  return { ...e, questions: s, progress: { ...e.progress, answered: a } };
+                }),
+                c && c.questions[m])
+              )
+                try {
+                  await (0, n.Nv)(`/practice/sessions/${e}/answers/${c.questions[m].id}`, {
+                    method: 'POST',
+                    body: { selectedOptionId: t, timeSpentMs: 0 },
+                  });
+                } catch (e) {
+                  console.error('Failed to sync answer', e);
+                }
+            },
+            N = e => {
+              (h(e), v(!1));
+            },
+            $ = async () => {
+              if (e) {
+                y(!0);
+                try {
+                  (await (0, n.Nv)(`/practice/sessions/${e}/complete`, { method: 'POST' }),
+                    P(!0),
+                    t.push('/dashboard'));
+                } catch (e) {
+                  (console.error('Failed to complete exam', e), y(!1));
+                }
+              }
+            },
+            T = e => {
+              let t = Math.floor(e / 3600);
+              return `${t > 0 ? t + ':' : ''}${Math.floor((e % 3600) / 60)
+                .toString()
+                .padStart(2, '0')}:${(e % 60).toString().padStart(2, '0')}`;
+            };
+          if (l)
+            return r.jsx('div', {
+              className: 'flex justify-center items-center min-h-[60vh]',
+              children: r.jsx('div', {
+                className: 'animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600',
+              }),
+            });
+          if (!c)
+            return (0, r.jsxs)('div', {
+              className: 'max-w-4xl mx-auto px-4 py-8 text-center text-white',
+              children: [
+                'Session not found.',
+                ' ',
+                r.jsx('button', {
+                  onClick: () => t.push('/practice'),
+                  className: 'text-primary-400 underline',
+                  children: 'Back',
+                }),
+              ],
+            });
+          let I = c.questions[m];
+          if (!I) return r.jsx('div', { children: 'Loading...' });
+          let _ = c.progress.answered,
+            A = c.questions.length,
+            q = Math.round((_ / A) * 100);
+          return w
+            ? (0, r.jsxs)('div', {
+                className: 'max-w-5xl mx-auto px-4 py-8',
+                children: [
+                  (0, r.jsxs)('div', {
+                    className: 'flex justify-between items-center mb-6',
+                    children: [
+                      r.jsx('h1', {
+                        className: 'text-2xl font-bold text-white',
+                        children: 'Review Your Answers',
+                      }),
+                      r.jsx('div', {
+                        className: 'text-xl font-mono text-primary-400',
+                        children: T(f),
+                      }),
+                    ],
+                  }),
+                  r.jsx('div', {
+                    className: 'bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6',
+                    children: r.jsx('div', {
+                      className: 'grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3',
+                      children: c.questions.map((e, t) =>
+                        r.jsx(
+                          'button',
+                          {
+                            onClick: () => N(t),
+                            className: `p-2 rounded text-sm font-medium border transition-colors ${e.userAnswerId ? 'bg-primary-900/40 border-primary-600 text-white' : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500'}`,
+                            children: t + 1,
+                          },
+                          e.id
+                        )
+                      ),
+                    }),
+                  }),
+                  (0, r.jsxs)('div', {
+                    className: 'flex justify-between',
+                    children: [
+                      r.jsx('button', {
+                        onClick: () => v(!1),
+                        className:
+                          'px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition',
+                        children: 'Return to Exam',
+                      }),
+                      r.jsx('button', {
+                        onClick: $,
+                        disabled: x,
+                        className:
+                          'px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg',
+                        children: x ? 'Submitting...' : 'Submit Exam',
+                      }),
+                    ],
+                  }),
+                ],
+              })
+            : (0, r.jsxs)('div', {
+                className: 'max-w-6xl mx-auto px-4 py-6 flex flex-col h-[calc(100vh-64px)]',
+                children: [
+                  (0, r.jsxs)('div', {
+                    className:
+                      'flex items-center justify-between mb-6 bg-gray-900/50 p-4 rounded-xl border border-gray-800',
+                    children: [
+                      (0, r.jsxs)('div', {
+                        className: 'flex items-center space-x-4',
+                        children: [
+                          (0, r.jsxs)('span', {
+                            className: 'text-gray-400 font-medium',
+                            children: [
+                              'Question ',
+                              m + 1,
+                              ' ',
+                              (0, r.jsxs)('span', {
+                                className: 'text-gray-600',
+                                children: ['/ ', A],
+                              }),
+                            ],
+                          }),
+                          r.jsx('div', {
+                            className:
+                              'h-4 w-32 bg-gray-800 rounded-full overflow-hidden hidden sm:block',
+                            children: r.jsx('div', {
+                              className: 'h-full bg-primary-600 transition-all duration-500',
+                              style: { width: `${q}%` },
+                            }),
+                          }),
+                        ],
+                      }),
+                      (0, r.jsxs)('div', {
+                        className: 'flex items-center space-x-6',
+                        children: [
+                          r.jsx('div', {
+                            className:
+                              'text-2xl font-mono font-bold text-primary-400 tracking-wider bg-gray-900 px-4 py-1 rounded-lg border border-gray-800 shadow-inner',
+                            children: T(f),
+                          }),
+                          r.jsx('button', {
+                            onClick: () => v(!0),
+                            className: 'text-sm text-gray-400 hover:text-white underline',
+                            children: 'Review All',
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  (0, r.jsxs)('div', {
+                    className: 'flex-1 flex gap-6 overflow-hidden',
+                    children: [
+                      r.jsx('div', {
+                        className: 'flex-1 flex flex-col overflow-y-auto pr-2 custom-scrollbar',
+                        ref: j,
+                        children: (0, r.jsxs)('div', {
+                          className:
+                            'bg-gray-900 border border-gray-800 rounded-xl p-8 mb-6 shadow-sm',
+                          children: [
+                            r.jsx('p', {
+                              className:
+                                'text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed',
+                              children: I.questionText,
+                            }),
+                            r.jsx('div', {
+                              className: 'space-y-3',
+                              children: I.options.map(e => {
+                                let t = p === e.id;
+                                return (0, r.jsxs)(
+                                  'button',
+                                  {
+                                    onClick: () => k(e.id),
+                                    className: `w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group ${t ? 'bg-primary-900/20 border-primary-500 shadow-[0_0_15px_rgba(59,130,246,0.1)]' : 'bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:border-gray-500'}`,
+                                    children: [
+                                      r.jsx('div', {
+                                        className: `mt-0.5 w-6 h-6 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors ${t ? 'border-primary-500 bg-primary-500' : 'border-gray-600 group-hover:border-gray-500'}`,
+                                        children:
+                                          t &&
+                                          r.jsx('div', {
+                                            className: 'w-2.5 h-2.5 bg-white rounded-full',
+                                          }),
+                                      }),
+                                      r.jsx('span', {
+                                        className: `text-lg ${t ? 'text-white' : 'text-gray-300'}`,
+                                        children: e.text,
+                                      }),
+                                    ],
+                                  },
+                                  e.id
+                                );
+                              }),
+                            }),
+                          ],
+                        }),
+                      }),
+                      r.jsx('div', {
+                        className:
+                          'w-20 hidden lg:flex flex-col gap-2 overflow-y-auto custom-scrollbar bg-gray-900/30 p-2 rounded-xl border border-gray-800/50',
+                        children: c.questions.map((e, t) => {
+                          let s = t === m,
+                            a = !!e.userAnswerId;
+                          return r.jsx(
+                            'button',
+                            {
+                              onClick: () => h(t),
+                              className: `w-full aspect-square rounded flex items-center justify-center text-sm font-bold transition-all ${s ? 'bg-primary-600 text-white shadow-lg scale-105' : a ? 'bg-primary-900/30 text-primary-400 border border-primary-900' : 'bg-gray-800 text-gray-500 hover:bg-gray-700'}`,
+                              children: t + 1,
+                            },
+                            e.id
+                          );
+                        }),
+                      }),
+                    ],
+                  }),
+                  (0, r.jsxs)('div', {
+                    className:
+                      'border-t border-gray-800 pt-6 mt-2 flex justify-between items-center bg-background py-4',
+                    children: [
+                      r.jsx('button', {
+                        onClick: () => {
+                          m > 0 && h(e => e - 1);
+                        },
+                        disabled: 0 === m,
+                        className: `px-6 py-2.5 rounded-lg border font-medium transition ${0 === m ? 'border-gray-800 text-gray-600 cursor-not-allowed' : 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white'}`,
+                        children: '← Previous',
+                      }),
+                      r.jsx('div', {
+                        className: 'flex gap-4',
+                        children: r.jsx('button', {
+                          onClick: () => {},
+                          className: 'px-4 py-2.5 text-gray-400 hover:text-yellow-400 transition',
+                          children: 'Flag for Review',
+                        }),
+                      }),
+                      (0, r.jsxs)('button', {
+                        onClick: () => {
+                          c && (m < c.questions.length - 1 ? h(e => e + 1) : v(!0));
+                        },
+                        className:
+                          'px-8 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition shadow-lg hover:shadow-primary-900/20 flex items-center',
+                        children: [
+                          m === A - 1 ? 'Review Exam' : 'Next Question',
+                          r.jsx('span', { className: 'ml-2', children: '→' }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              });
+        }
+      },
+      4076: (e, t, s) => {
+        'use strict';
+        s.d(t, { Providers: () => l });
+        var r = s(3227),
+          a = s(2278),
+          o = s(7674);
+        let i = 'pmp_offline_sync_queue';
+        class n {
+          constructor() {
+            ((this.queue = []), (this.isSyncing = !1));
+          }
+          loadQueue() {
+            let e = localStorage.getItem(i);
+            e && (this.queue = JSON.parse(e));
+          }
+          saveQueue() {
+            localStorage.setItem(i, JSON.stringify(this.queue));
+          }
+          async queueAction(e, t) {
+            let s = { id: crypto.randomUUID(), type: e, payload: t, timestamp: Date.now() };
+            (this.queue.push(s), this.saveQueue(), navigator.onLine && (await this.sync()));
+          }
+          async sync() {
+            if (this.isSyncing || 0 === this.queue.length || !navigator.onLine) return;
+            this.isSyncing = !0;
+            let e = [],
+              t = [...this.queue];
+            for (let s of (console.log(`[Sync] Processing ${t.length} actions...`), t))
+              try {
+                await this.processAction(s);
+              } catch (t) {
+                (console.error(`[Sync] Failed to process action ${s.id}`, t), e.push(s));
+              }
+            ((this.queue = e),
+              this.saveQueue(),
+              (this.isSyncing = !1),
+              0 === e.length
+                ? console.log('[Sync] Synchronization complete.')
+                : console.warn(`[Sync] Completed with ${e.length} failures.`));
+          }
+          async processAction(e) {
+            switch (e.type) {
+              case 'MARK_SECTION_COMPLETE':
+                await (0, o.Nv)(`/study/sections/${e.payload.sectionId}/complete`, {
+                  method: 'POST',
+                });
+                break;
+              case 'SUBMIT_FLASHCARD_RESULT':
+                await (0, o.Nv)(`/flashcards/${e.payload.flashcardId}/review`, {
+                  method: 'POST',
+                  body: JSON.stringify({ quality: e.payload.quality }),
+                });
+                break;
+              default:
+                console.warn('Unknown action type', e.type);
+            }
+          }
+        }
+        function l({ children: e }) {
+          return r.jsx(a.H, { children: e });
+        }
+        new n();
+      },
+      2278: (e, t, s) => {
+        'use strict';
+        s.d(t, { H: () => n, a: () => l });
+        var r = s(3227),
+          a = s(3677);
+        let o = (0, a.createContext)(void 0),
+          i = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+        function n({ children: e }) {
+          let [t, s] = (0, a.useState)({
+              user: null,
+              token: null,
+              isLoading: !0,
+              isAuthenticated: !1,
+            }),
+            n = async e => {
+              try {
+                let t = await fetch(`${i}/auth/me`, { headers: { Authorization: `Bearer ${e}` } });
+                if (t.ok) {
+                  let r = await t.json();
+                  s({ user: r.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
+                } else await u();
+              } catch (e) {
+                (console.error('Failed to fetch user:', e), c());
+              }
+            },
+            l = async (e, t) => {
+              let r = await fetch(`${i}/auth/login`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: e, password: t }),
+                }),
+                a = await r.json();
+              if (!r.ok) throw Error(a.error?.message || 'Login failed');
+              let { accessToken: o, refreshToken: n, user: l } = a.data;
+              (localStorage.setItem('accessToken', o),
+                localStorage.setItem('refreshToken', n),
+                s({ user: l, token: o, isLoading: !1, isAuthenticated: !0 }));
+            },
+            d = async (e, t, r) => {
+              let a = await fetch(`${i}/auth/register`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: e, password: t, name: r }),
+                }),
+                o = await a.json();
+              if (!a.ok) throw Error(o.error?.message || 'Registration failed');
+              let { accessToken: n, refreshToken: l, user: d } = o.data;
+              (localStorage.setItem('accessToken', n),
+                localStorage.setItem('refreshToken', l),
+                s({ user: d, token: n, isLoading: !1, isAuthenticated: !0 }));
+            },
+            c = () => {
+              (localStorage.removeItem('accessToken'),
+                localStorage.removeItem('refreshToken'),
+                s({ user: null, token: null, isLoading: !1, isAuthenticated: !1 }));
+            },
+            u = async () => {
+              let e = localStorage.getItem('refreshToken');
+              if (!e) {
+                c();
+                return;
+              }
+              try {
+                let t = await fetch(`${i}/auth/refresh`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ refreshToken: e }),
+                });
+                if (t.ok) {
+                  let { accessToken: e, refreshToken: s } = (await t.json()).data;
+                  (localStorage.setItem('accessToken', e),
+                    localStorage.setItem('refreshToken', s),
+                    await n(e));
+                } else c();
+              } catch (e) {
+                (console.error('Token refresh failed:', e), c());
+              }
+            };
+          return r.jsx(o.Provider, {
+            value: { ...t, login: l, register: d, logout: c, refreshToken: u },
+            children: e,
+          });
+        }
+        function l() {
+          let e = (0, a.useContext)(o);
+          if (void 0 === e) throw Error('useAuth must be used within an AuthProvider');
+          return e;
+        }
+      },
+      7674: (e, t, s) => {
+        'use strict';
+        s.d(t, { Lc: () => n, Nv: () => o, Sh: () => c, kx: () => d, sA: () => i, tF: () => l });
+        let r = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+        async function a() {
+          return null;
+        }
+        async function o(e, t = {}) {
+          let { method: s = 'GET', body: o, token: i } = t,
+            n = i ?? (await a()),
+            l = { 'Content-Type': 'application/json' };
+          n && (l.Authorization = `Bearer ${n}`);
+          let d = await fetch(`${r}${e}`, {
+              method: s,
+              headers: l,
+              body: o ? JSON.stringify(o) : void 0,
+            }),
+            c = await d.json();
+          if (!d.ok) throw Error(c.error?.message || 'Request failed');
+          return c;
+        }
+        let i = {
+            getDomains: () => o('/domains'),
+            getDomain: e => o(`/domains/${e}`),
+            getTasks: e => o(`/domains/${e}/tasks`),
+            getStudyGuide: e => o(`/domains/tasks/${e}/study-guide`),
+            markSectionComplete: e =>
+              o(`/domains/progress/sections/${e}/complete`, { method: 'POST' }),
+            getProgress: () => o('/domains/progress'),
+          },
+          n = {
+            getFlashcards: e => {
+              let t = new URLSearchParams();
+              return (
+                e?.domainId && t.set('domainId', e.domainId),
+                e?.taskId && t.set('taskId', e.taskId),
+                e?.limit && t.set('limit', String(e.limit)),
+                o(`/flashcards?${t}`)
+              );
+            },
+            getDueForReview: e => o(`/flashcards/review${e ? `?limit=${e}` : ''}`),
+            getStats: () => o('/flashcards/stats'),
+            startSession: e => o('/flashcards/sessions', { method: 'POST', body: e }),
+            recordResponse: (e, t, s, r) =>
+              o(`/flashcards/sessions/${e}/responses/${t}`, {
+                method: 'POST',
+                body: { rating: s, timeSpentMs: r },
+              }),
+            completeSession: e => o(`/flashcards/sessions/${e}/complete`, { method: 'POST' }),
+            createCustom: e => o('/flashcards/custom', { method: 'POST', body: e }),
+          },
+          l = {
+            startSession: e => o('/practice/sessions', { method: 'POST', body: e }),
+            submitAnswer: (e, t, s, r) =>
+              o(`/practice/sessions/${e}/answers/${t}`, {
+                method: 'POST',
+                body: { selectedOptionId: s, timeSpentMs: r },
+              }),
+            completeSession: e => o(`/practice/sessions/${e}/complete`, { method: 'POST' }),
+            startMockExam: () => o('/practice/mock-exams', { method: 'POST' }),
+            getFlagged: () => o('/practice/flagged'),
+            flagQuestion: e => o(`/practice/questions/${e}/flag`, { method: 'POST' }),
+            unflagQuestion: e => o(`/practice/questions/${e}/flag`, { method: 'DELETE' }),
+            getStats: () => o('/practice/stats'),
+          },
+          d = {
+            getDashboard: () => o('/dashboard'),
+            getStreak: () => o('/dashboard/streak'),
+            getProgress: () => o('/dashboard/progress'),
+            getActivity: e => o(`/dashboard/activity${e ? `?limit=${e}` : ''}`),
+            getReviews: e => o(`/dashboard/reviews${e ? `?limit=${e}` : ''}`),
+            getWeakAreas: () => o('/dashboard/weak-areas'),
+            getReadiness: () => o('/dashboard/readiness'),
+            getRecommendations: () => o('/dashboard/recommendations'),
+          },
+          c = {
+            getFormulas: e => o(`/formulas${e ? `?category=${e}` : ''}`),
+            getFormula: e => o(`/formulas/${e}`),
+            calculate: (e, t) =>
+              o(`/formulas/${e}/calculate`, { method: 'POST', body: { inputs: t } }),
+            getVariables: () => o('/formulas/variables'),
+          };
+      },
+      4773: (e, t, s) => {
+        'use strict';
+        (s.r(t), s.d(t, { default: () => l, metadata: () => n }));
+        var r = s(9013),
+          a = s(5900),
+          o = s.n(a);
+        s(5556);
+        let i = (0, s(3189).createProxy)(
+            String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/providers.tsx#Providers`
+          ),
+          n = {
+            title: 'PMP Study Pro',
+            description: 'Comprehensive study platform for the 2026 PMP certification exam',
+            keywords: ['PMP', 'Project Management', 'Certification', 'Study', 'Exam Prep'],
+            manifest: '/manifest.json',
+            themeColor: '#7c3aed',
+            viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+            appleWebApp: { capable: !0, statusBarStyle: 'default', title: 'PMP Pro' },
+          };
+        function l({ children: e }) {
+          return r.jsx('html', {
+            lang: 'en',
+            children: r.jsx('body', {
+              className: o().className,
+              children: r.jsx(i, { children: e }),
+            }),
+          });
+        }
+      },
+      5019: (e, t, s) => {
+        'use strict';
+        (s.r(t), s.d(t, { default: () => r }));
+        let r = (0, s(3189).createProxy)(
+          String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx#default`
+        );
+      },
+      5556: () => {},
+    }));
+  var t = require('../../../../../webpack-runtime.js');
+  t.C(e);
+  var s = e => t((t.s = e)),
+    r = t.X(0, [136], () => s(2813));
+  module.exports = r;
+})();
