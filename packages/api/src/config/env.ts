@@ -35,6 +35,9 @@ const envSchema = z.object({
 
   // Logging
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+
+  // Admin
+  ADMIN_EMAILS: z.string().optional(),
 });
 
 type Env = z.infer<typeof envSchema>;

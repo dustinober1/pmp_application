@@ -1,1 +1,11 @@
-{"/_not-found/page":"/_not-found","/flashcards/page":"/flashcards","/formulas/page":"/formulas","/page":"/","/practice/page":"/practice","/study/page":"/study","/dashboard/page":"/dashboard","/login/page":"/login","/register/page":"/register"}
+{
+  "/_not-found/page": "/_not-found",
+  "/flashcards/page": "/flashcards",
+  "/formulas/page": "/formulas",
+  "/page": "/",
+  "/practice/page": "/practice",
+  "/study/page": "/study",
+  "/dashboard/page": "/dashboard",
+  "/login/page": "/login",
+  "/register/page": "/register"
+}

@@ -25,6 +25,9 @@
     "db:migrate": "npm run db:migrate -w @pmp/api",
     "db:push": "npm run db:push -w @pmp/api",
     "db:seed": "npm run db:seed -w @pmp/api",
+    "docs:generate": "cd .claude/agents && node dist/docs-agent.js generate .claude/docs",
+    "docs:drift": "cd .claude/agents && node dist/docs-agent.js drift",
+    "docs:suggest": "cd .claude/agents && node dist/docs-agent.js suggest",
     "clean": "rm -rf node_modules packages/*/node_modules packages/*/dist"
   },
   "devDependencies": {

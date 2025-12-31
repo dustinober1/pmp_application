@@ -475,6 +475,395 @@ export class TeamService {
       createdAt: team.createdAt,
     };
   }
+
+  /**
+   * Create a team goal
+   */
+  async createGoal(
+    teamId: string,
+    adminId: string,
+    data: { type: string; target: number; deadline: Date }
+  ): Promise<{ id: string; type: string; target: number; deadline: Date }> {
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+    });
+
+    if (!team || team.adminId !== adminId) {
+      throw AppError.forbidden('Only team admin can create goals');
+    }
+
+    const goal = await prisma.teamGoal.create({
+      data: {
+        teamId,
+        type: data.type,
+        target: data.target,
+        deadline: data.deadline,
+      },
+    });
+
+    return {
+      id: goal.id,
+      type: goal.type,
+      target: goal.target,
+      deadline: goal.deadline,
+    };
+  }
+
+  /**
+   * Get team goals with progress
+   */
+  async getGoals(
+    teamId: string,
+    userId: string
+  ): Promise<
+    Array<{
+      id: string;
+      type: string;
+      target: number;
+      deadline: Date;
+      currentProgress: number;
+      isComplete: boolean;
+    }>
+  > {
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+      include: { members: true, goals: true },
+    });
+
+    if (!team) {
+      throw AppError.notFound('Team not found');
+    }
+
+    const isMember = team.members.some(m => m.userId === userId);
+    if (!isMember) {
+      throw AppError.forbidden('Not a team member');
+    }
+
+    // Calculate progress for each goal
+    const goalsWithProgress = await Promise.all(
+      team.goals.map(async goal => {
+        const progress = await this.calculateGoalProgress(team.id, goal.type, team.members.length);
+        return {
+          id: goal.id,
+          type: goal.type,
+          target: goal.target,
+          deadline: goal.deadline,
+          currentProgress: progress,
+          isComplete: progress >= goal.target,
+        };
+      })
+    );
+
+    return goalsWithProgress;
+  }
+
+  /**
+   * Delete a team goal
+   */
+  async deleteGoal(teamId: string, adminId: string, goalId: string): Promise<void> {
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+    });
+
+    if (!team || team.adminId !== adminId) {
+      throw AppError.forbidden('Only team admin can delete goals');
+    }
+
+    await prisma.teamGoal.delete({
+      where: { id: goalId },
+    });
+  }
+
+  /**
+   * Remove member with data preservation (11.5)
+   * Removes access but preserves historical data
+   */
+  async removeMemberWithDataPreservation(
+    teamId: string,
+    adminId: string,
+    memberId: string
+  ): Promise<{ preserved: boolean; message: string }> {
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+    });
+
+    if (!team || team.adminId !== adminId) {
+      throw AppError.forbidden('Only team admin can remove members');
+    }
+
+    if (memberId === adminId) {
+      throw AppError.badRequest('Cannot remove yourself as admin');
+    }
+
+    // Get member info before removal
+    const member = await prisma.teamMember.findFirst({
+      where: { teamId, userId: memberId },
+      include: { user: true },
+    });
+
+    if (!member) {
+      throw AppError.notFound('Member not found');
+    }
+
+    // Store historical record before removal
+    await prisma.$transaction([
+      // Remove team membership but keep user data intact
+      prisma.teamMember.deleteMany({
+        where: { teamId, userId: memberId },
+      }),
+      // Create an alert for admin about removal
+      prisma.teamAlert.create({
+        data: {
+          teamId,
+          memberId,
+          memberName: member.user.name,
+          type: 'inactive',
+          message: `${member.user.name} was removed from the team. Historical data preserved.`,
+        },
+      }),
+    ]);
+
+    return {
+      preserved: true,
+      message: `Member ${member.user.name} removed. Historical progress data preserved for reporting.`,
+    };
+  }
+
+  /**
+   * Generate team progress report (11.7)
+   */
+  async generateReport(
+    teamId: string,
+    adminId: string,
+    options: {
+      startDate?: Date;
+      endDate?: Date;
+      format?: 'json' | 'csv';
+    } = {}
+  ): Promise<{
+    teamId: string;
+    teamName: string;
+    generatedAt: Date;
+    period: { start: Date; end: Date };
+    summary: {
+      totalMembers: number;
+      activeMembers: number;
+      averageProgress: number;
+      totalStudyHours: number;
+      goalsCompleted: number;
+      goalsTotal: number;
+    };
+    memberDetails: Array<{
+      userId: string;
+      userName: string;
+      progress: number;
+      studyHours: number;
+      questionsAnswered: number;
+      accuracy: number;
+      lastActiveDate: Date | null;
+    }>;
+    csvData?: string;
+  }> {
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+      include: {
+        members: { include: { user: true } },
+        goals: true,
+      },
+    });
+
+    if (!team || team.adminId !== adminId) {
+      throw AppError.forbidden('Only team admin can generate reports');
+    }
+
+    const endDate = options.endDate || new Date();
+    const startDate = options.startDate || new Date(endDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+    // Get member details
+    const memberDetails = await Promise.all(
+      team.members.map(async member => {
+        const [progress, studyStats, practiceStats, lastActivity] = await Promise.all([
+          this.getMemberStudyProgress(member.userId),
+          this.getMemberStudyStats(member.userId, startDate, endDate),
+          this.getMemberPracticeStats(member.userId, startDate, endDate),
+          this.getLastActivity(member.userId),
+        ]);
+
+        return {
+          userId: member.userId,
+          userName: member.user.name,
+          progress,
+          studyHours: Math.round((studyStats.totalMinutes / 60) * 10) / 10,
+          questionsAnswered: practiceStats.total,
+          accuracy: practiceStats.accuracy,
+          lastActiveDate: lastActivity,
+        };
+      })
+    );
+
+    // Calculate summary
+    const activeMembers = memberDetails.filter(m => m.progress > 0 || m.questionsAnswered > 0);
+    const totalStudyHours = memberDetails.reduce((sum, m) => sum + m.studyHours, 0);
+    const avgProgress =
+      memberDetails.length > 0
+        ? Math.round(memberDetails.reduce((sum, m) => sum + m.progress, 0) / memberDetails.length)
+        : 0;
+
+    // Calculate goal completion
+    const goalsWithProgress = await Promise.all(
+      team.goals.map(async goal => {
+        const progress = await this.calculateGoalProgress(team.id, goal.type, team.members.length);
+        return progress >= goal.target;
+      })
+    );
+    const goalsCompleted = goalsWithProgress.filter(Boolean).length;
+
+    const report = {
+      teamId,
+      teamName: team.name,
+      generatedAt: new Date(),
+      period: { start: startDate, end: endDate },
+      summary: {
+        totalMembers: team.members.length,
+        activeMembers: activeMembers.length,
+        averageProgress: avgProgress,
+        totalStudyHours: Math.round(totalStudyHours * 10) / 10,
+        goalsCompleted,
+        goalsTotal: team.goals.length,
+      },
+      memberDetails,
+      csvData: undefined as string | undefined,
+    };
+
+    // Generate CSV if requested
+    if (options.format === 'csv') {
+      const headers = [
+        'User ID',
+        'Name',
+        'Progress %',
+        'Study Hours',
+        'Questions',
+        'Accuracy %',
+        'Last Active',
+      ];
+      const rows = memberDetails.map(m => [
+        m.userId,
+        m.userName,
+        m.progress.toString(),
+        m.studyHours.toString(),
+        m.questionsAnswered.toString(),
+        m.accuracy.toString(),
+        m.lastActiveDate?.toISOString() || 'N/A',
+      ]);
+      report.csvData = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    }
+
+    return report;
+  }
+
+  /**
+   * Helper: Calculate goal progress
+   */
+  private async calculateGoalProgress(
+    teamId: string,
+    goalType: string,
+    memberCount: number
+  ): Promise<number> {
+    switch (goalType) {
+      case 'completion': {
+        // Average completion percentage across members
+        const members = await prisma.teamMember.findMany({
+          where: { teamId },
+          select: { userId: true },
+        });
+        const progresses = await Promise.all(
+          members.map(m => this.getMemberStudyProgress(m.userId))
+        );
+        return Math.round(progresses.reduce((sum, p) => sum + p, 0) / memberCount);
+      }
+      case 'accuracy': {
+        // Average practice accuracy
+        const members = await prisma.teamMember.findMany({
+          where: { teamId },
+          select: { userId: true },
+        });
+        const stats = await Promise.all(members.map(m => this.getMemberPracticeStats(m.userId)));
+        const validStats = stats.filter(s => s.total > 0);
+        return validStats.length > 0
+          ? Math.round(validStats.reduce((sum, s) => sum + s.accuracy, 0) / validStats.length)
+          : 0;
+      }
+      case 'study_time': {
+        // Total study hours
+        const members = await prisma.teamMember.findMany({
+          where: { teamId },
+          select: { userId: true },
+        });
+        const stats = await Promise.all(members.map(m => this.getMemberStudyStats(m.userId)));
+        return Math.round(stats.reduce((sum, s) => sum + s.totalMinutes, 0) / 60);
+      }
+      default:
+        return 0;
+    }
+  }
+
+  /**
+   * Helper: Get member study stats
+   */
+  private async getMemberStudyStats(
+    userId: string,
+    startDate?: Date,
+    endDate?: Date
+  ): Promise<{ totalMinutes: number; sessions: number }> {
+    const where: any = { userId };
+    if (startDate || endDate) {
+      where.createdAt = {};
+      if (startDate) where.createdAt.gte = startDate;
+      if (endDate) where.createdAt.lte = endDate;
+    }
+
+    const activities = await prisma.studyActivity.findMany({
+      where,
+      select: { durationMs: true },
+    });
+
+    const totalMs = activities.reduce((sum, a) => sum + a.durationMs, 0);
+    return {
+      totalMinutes: Math.round(totalMs / 60000),
+      sessions: activities.length,
+    };
+  }
+
+  /**
+   * Helper: Get member practice stats
+   */
+  private async getMemberPracticeStats(
+    userId: string,
+    startDate?: Date,
+    endDate?: Date
+  ): Promise<{ total: number; correct: number; accuracy: number }> {
+    const where: any = { userId };
+    if (startDate || endDate) {
+      where.createdAt = {};
+      if (startDate) where.createdAt.gte = startDate;
+      if (endDate) where.createdAt.lte = endDate;
+    }
+
+    const attempts = await prisma.questionAttempt.findMany({
+      where,
+      select: { isCorrect: true },
+    });
+
+    const total = attempts.length;
+    const correct = attempts.filter(a => a.isCorrect).length;
+    return {
+      total,
+      correct,
+      accuracy: total > 0 ? Math.round((correct / total) * 100) : 0,
+    };
+  }
+
+
 }
 
 export const teamService = new TeamService();

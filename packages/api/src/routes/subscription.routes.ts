@@ -176,4 +176,21 @@ router.post('/cancel', authMiddleware, async (req: Request, res: Response, next:
   }
 });
 
+/**
+ * POST /api/subscriptions/check-expiry
+ * Trigger expiry check (Cron job endpoint)
+ */
+router.post('/check-expiry', async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await subscriptionService.checkSubscriptionExpiry();
+    res.json({
+      success: true,
+      data: result,
+      message: `Processed ${result.processed} subscriptions. ${result.expired} expired.`,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

@@ -214,7 +214,7 @@ export class SubscriptionService {
   }
 
   /**
-   * Expire subscription after grace period
+   * Expire subscription after grace period (downgrade to free)
    */
   async expireSubscription(userId: string): Promise<void> {
     // Downgrade to free tier
@@ -224,14 +224,62 @@ export class SubscriptionService {
 
     if (!freeTier) return;
 
+    // We don't delete data here, we just downgrade access level (Requirement 11.5)
+    // Data is preserved for 90 days policy is handled by data retention job
     await prisma.userSubscription.update({
       where: { userId },
       data: {
         tierId: freeTier.id,
-        status: 'active',
-        endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+        status: 'active', // Active on free tier
+        endDate: new Date(Date.now() + 365 * 10 * 24 * 60 * 60 * 1000), // Long expiry for free tier
       },
     });
+
+    // Revoke team access if admin
+    const team = await prisma.team.findFirst({
+      where: { adminId: userId },
+    });
+
+    if (team) {
+      // In a real app we might disable the team or downgrade its limits
+      // For now, we'll log it (placeholder)
+      console.log(`User ${userId} downgraded. Team ${team.id} might need attention.`);
+    }
+  }
+
+  /**
+   * Check for expiring subscriptions (Cron job candidate)
+   */
+  async checkSubscriptionExpiry(): Promise<{ processed: number; expired: number }> {
+    const today = new Date();
+
+    // Find all expired subscriptions that are not 'free' tier
+    const expiredSubscriptions = await prisma.userSubscription.findMany({
+      where: {
+        endDate: { lt: today },
+        status: { in: ['active', 'grace_period'] },
+        tier: { name: { not: 'free' } },
+      },
+    });
+
+    let expiredCount = 0;
+
+    for (const sub of expiredSubscriptions) {
+      // If in active status, move to grace period first
+      if (sub.status === 'active') {
+        await this.setGracePeriod(sub.userId);
+      }
+      // If already in grace period (and now past it), expire
+      else if (sub.status === 'grace_period') {
+        await this.expireSubscription(sub.userId);
+        expiredCount++;
+      }
+    }
+
+    return {
+      processed: expiredSubscriptions.length,
+      expired: expiredCount,
+    };
   }
 
   /**
