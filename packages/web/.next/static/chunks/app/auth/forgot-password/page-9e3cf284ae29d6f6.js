@@ -1,0 +1,464 @@
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+  [47],
+  {
+    3154: function (e, t, r) {
+      Promise.resolve().then(r.bind(r, 6080));
+    },
+    8146: function (e, t, r) {
+      'use strict';
+      r.d(t, {
+        default: function () {
+          return a.a;
+        },
+      });
+      var s = r(6340),
+        a = r.n(s);
+    },
+    4859: function (e, t, r) {
+      'use strict';
+      var s, a;
+      e.exports =
+        (null == (s = r.g.process) ? void 0 : s.env) &&
+        'object' == typeof (null == (a = r.g.process) ? void 0 : a.env)
+          ? r.g.process
+          : r(9566);
+    },
+    9566: function (e) {
+      !(function () {
+        var t = {
+            229: function (e) {
+              var t,
+                r,
+                s,
+                a = (e.exports = {});
+              function n() {
+                throw Error('setTimeout has not been defined');
+              }
+              function o() {
+                throw Error('clearTimeout has not been defined');
+              }
+              function i(e) {
+                if (t === setTimeout) return setTimeout(e, 0);
+                if ((t === n || !t) && setTimeout) return ((t = setTimeout), setTimeout(e, 0));
+                try {
+                  return t(e, 0);
+                } catch (r) {
+                  try {
+                    return t.call(null, e, 0);
+                  } catch (r) {
+                    return t.call(this, e, 0);
+                  }
+                }
+              }
+              !(function () {
+                try {
+                  t = 'function' == typeof setTimeout ? setTimeout : n;
+                } catch (e) {
+                  t = n;
+                }
+                try {
+                  r = 'function' == typeof clearTimeout ? clearTimeout : o;
+                } catch (e) {
+                  r = o;
+                }
+              })();
+              var c = [],
+                l = !1,
+                d = -1;
+              function u() {
+                l && s && ((l = !1), s.length ? (c = s.concat(c)) : (d = -1), c.length && m());
+              }
+              function m() {
+                if (!l) {
+                  var e = i(u);
+                  l = !0;
+                  for (var t = c.length; t; ) {
+                    for (s = c, c = []; ++d < t; ) s && s[d].run();
+                    ((d = -1), (t = c.length));
+                  }
+                  ((s = null),
+                    (l = !1),
+                    (function (e) {
+                      if (r === clearTimeout) return clearTimeout(e);
+                      if ((r === o || !r) && clearTimeout)
+                        return ((r = clearTimeout), clearTimeout(e));
+                      try {
+                        r(e);
+                      } catch (t) {
+                        try {
+                          return r.call(null, e);
+                        } catch (t) {
+                          return r.call(this, e);
+                        }
+                      }
+                    })(e));
+                }
+              }
+              function h(e, t) {
+                ((this.fun = e), (this.array = t));
+              }
+              function f() {}
+              ((a.nextTick = function (e) {
+                var t = Array(arguments.length - 1);
+                if (arguments.length > 1)
+                  for (var r = 1; r < arguments.length; r++) t[r - 1] = arguments[r];
+                (c.push(new h(e, t)), 1 !== c.length || l || i(m));
+              }),
+                (h.prototype.run = function () {
+                  this.fun.apply(null, this.array);
+                }),
+                (a.title = 'browser'),
+                (a.browser = !0),
+                (a.env = {}),
+                (a.argv = []),
+                (a.version = ''),
+                (a.versions = {}),
+                (a.on = f),
+                (a.addListener = f),
+                (a.once = f),
+                (a.off = f),
+                (a.removeListener = f),
+                (a.removeAllListeners = f),
+                (a.emit = f),
+                (a.prependListener = f),
+                (a.prependOnceListener = f),
+                (a.listeners = function (e) {
+                  return [];
+                }),
+                (a.binding = function (e) {
+                  throw Error('process.binding is not supported');
+                }),
+                (a.cwd = function () {
+                  return '/';
+                }),
+                (a.chdir = function (e) {
+                  throw Error('process.chdir is not supported');
+                }),
+                (a.umask = function () {
+                  return 0;
+                }));
+            },
+          },
+          r = {};
+        function s(e) {
+          var a = r[e];
+          if (void 0 !== a) return a.exports;
+          var n = (r[e] = { exports: {} }),
+            o = !0;
+          try {
+            (t[e](n, n.exports, s), (o = !1));
+          } finally {
+            o && delete r[e];
+          }
+          return n.exports;
+        }
+        s.ab = '//';
+        var a = s(229);
+        e.exports = a;
+      })();
+    },
+    6080: function (e, t, r) {
+      'use strict';
+      (r.r(t),
+        r.d(t, {
+          default: function () {
+            return i;
+          },
+        }));
+      var s = r(7573),
+        a = r(7653),
+        n = r(8146),
+        o = r(5118);
+      function i() {
+        let [e, t] = (0, a.useState)(''),
+          [r, i] = (0, a.useState)('idle'),
+          [c, l] = (0, a.useState)(''),
+          d = async t => {
+            if ((t.preventDefault(), e)) {
+              (i('loading'), l(''));
+              try {
+                (await (0, o.Nv)('/auth/forgot-password', { method: 'POST', body: { email: e } }),
+                  i('success'));
+              } catch (e) {
+                (console.error('Password reset request failed', e),
+                  i('error'),
+                  l(e.message || 'Failed to send password reset email. Please try again later.'));
+              }
+            }
+          };
+        return 'success' === r
+          ? (0, s.jsx)('div', {
+              className:
+                'min-h-screen flex items-center justify-center bg-gray-900 px-4 py-12 sm:px-6 lg:px-8',
+              children: (0, s.jsxs)('div', {
+                className:
+                  'max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-gray-700 text-center',
+                children: [
+                  (0, s.jsx)('div', { className: 'text-5xl mb-4', children: '\uD83D\uDCE7' }),
+                  (0, s.jsx)('h2', {
+                    className: 'text-3xl font-extrabold text-white',
+                    children: 'Check your email',
+                  }),
+                  (0, s.jsxs)('p', {
+                    className: 'mt-2 text-sm text-gray-400',
+                    children: [
+                      'We have sent a password reset link to',
+                      ' ',
+                      (0, s.jsx)('span', { className: 'text-white font-medium', children: e }),
+                      '. Please check your inbox (and spam folder) and follow the instructions.',
+                    ],
+                  }),
+                  (0, s.jsx)('div', {
+                    className: 'mt-6',
+                    children: (0, s.jsx)(n.default, {
+                      href: '/login',
+                      className: 'font-medium text-primary-400 hover:text-primary-300 transition',
+                      children: 'Return to Login',
+                    }),
+                  }),
+                ],
+              }),
+            })
+          : (0, s.jsx)('div', {
+              className:
+                'min-h-screen flex items-center justify-center bg-gray-900 px-4 py-12 sm:px-6 lg:px-8',
+              children: (0, s.jsxs)('div', {
+                className: 'max-w-md w-full space-y-8',
+                children: [
+                  (0, s.jsxs)('div', {
+                    children: [
+                      (0, s.jsx)('h2', {
+                        className: 'mt-6 text-center text-3xl font-extrabold text-white',
+                        children: 'Reset your password',
+                      }),
+                      (0, s.jsx)('p', {
+                        className: 'mt-2 text-center text-sm text-gray-400',
+                        children:
+                          "Enter your email address and we'll send you a link to reset your password.",
+                      }),
+                    ],
+                  }),
+                  (0, s.jsxs)('form', {
+                    className: 'mt-8 space-y-6',
+                    onSubmit: d,
+                    children: [
+                      (0, s.jsx)('div', {
+                        className: 'rounded-md shadow-sm -space-y-px',
+                        children: (0, s.jsxs)('div', {
+                          children: [
+                            (0, s.jsx)('label', {
+                              htmlFor: 'email-address',
+                              className: 'sr-only',
+                              children: 'Email address',
+                            }),
+                            (0, s.jsx)('input', {
+                              id: 'email-address',
+                              name: 'email',
+                              type: 'email',
+                              autoComplete: 'email',
+                              required: !0,
+                              value: e,
+                              onChange: e => t(e.target.value),
+                              className:
+                                'appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm transition-colors',
+                              placeholder: 'Email address',
+                            }),
+                          ],
+                        }),
+                      }),
+                      'error' === r &&
+                        (0, s.jsx)('div', {
+                          className: 'rounded-md bg-red-900/30 p-4 border border-red-800',
+                          children: (0, s.jsx)('div', {
+                            className: 'flex',
+                            children: (0, s.jsxs)('div', {
+                              className: 'ml-3',
+                              children: [
+                                (0, s.jsx)('h3', {
+                                  className: 'text-sm font-medium text-red-400',
+                                  children: 'Error',
+                                }),
+                                (0, s.jsx)('div', {
+                                  className: 'mt-2 text-sm text-red-300',
+                                  children: (0, s.jsx)('p', { children: c }),
+                                }),
+                              ],
+                            }),
+                          }),
+                        }),
+                      (0, s.jsx)('div', {
+                        children: (0, s.jsx)('button', {
+                          type: 'submit',
+                          disabled: 'loading' === r,
+                          className:
+                            'group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white '.concat(
+                              'loading' === r
+                                ? 'bg-primary-700 cursor-not-allowed'
+                                : 'bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-primary-500',
+                              ' transition-colors shadow-lg hover:shadow-primary-900/20'
+                            ),
+                          children:
+                            'loading' === r
+                              ? (0, s.jsxs)('span', {
+                                  className: 'flex items-center',
+                                  children: [
+                                    (0, s.jsxs)('svg', {
+                                      className: 'animate-spin -ml-1 mr-3 h-5 w-5 text-white',
+                                      xmlns: 'http://www.w3.org/2000/svg',
+                                      fill: 'none',
+                                      viewBox: '0 0 24 24',
+                                      children: [
+                                        (0, s.jsx)('circle', {
+                                          className: 'opacity-25',
+                                          cx: '12',
+                                          cy: '12',
+                                          r: '10',
+                                          stroke: 'currentColor',
+                                          strokeWidth: '4',
+                                        }),
+                                        (0, s.jsx)('path', {
+                                          className: 'opacity-75',
+                                          fill: 'currentColor',
+                                          d: 'M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z',
+                                        }),
+                                      ],
+                                    }),
+                                    'Sending...',
+                                  ],
+                                })
+                              : 'Send Reset Link',
+                        }),
+                      }),
+                      (0, s.jsx)('div', {
+                        className: 'text-center',
+                        children: (0, s.jsx)(n.default, {
+                          href: '/login',
+                          className:
+                            'font-medium text-primary-400 hover:text-primary-300 transition text-sm',
+                          children: '← Back to Login',
+                        }),
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            });
+      }
+    },
+    5118: function (e, t, r) {
+      'use strict';
+      r.d(t, {
+        Lc: function () {
+          return i;
+        },
+        Nv: function () {
+          return n;
+        },
+        Sh: function () {
+          return d;
+        },
+        kx: function () {
+          return l;
+        },
+        sA: function () {
+          return o;
+        },
+        tF: function () {
+          return c;
+        },
+      });
+      let s = r(4859).env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+      async function a() {
+        return localStorage.getItem('accessToken');
+      }
+      async function n(e) {
+        let t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {},
+          { method: r = 'GET', body: n, token: o } = t,
+          i = null != o ? o : await a(),
+          c = { 'Content-Type': 'application/json' };
+        i && (c.Authorization = 'Bearer '.concat(i));
+        let l = await fetch(''.concat(s).concat(e), {
+            method: r,
+            headers: c,
+            body: n ? JSON.stringify(n) : void 0,
+          }),
+          d = await l.json();
+        if (!l.ok) {
+          var u;
+          throw Error(
+            (null === (u = d.error) || void 0 === u ? void 0 : u.message) || 'Request failed'
+          );
+        }
+        return d;
+      }
+      let o = {
+          getDomains: () => n('/domains'),
+          getDomain: e => n('/domains/'.concat(e)),
+          getTasks: e => n('/domains/'.concat(e, '/tasks')),
+          getStudyGuide: e => n('/domains/tasks/'.concat(e, '/study-guide')),
+          markSectionComplete: e =>
+            n('/domains/progress/sections/'.concat(e, '/complete'), { method: 'POST' }),
+          getProgress: () => n('/domains/progress'),
+        },
+        i = {
+          getFlashcards: e => {
+            let t = new URLSearchParams();
+            return (
+              (null == e ? void 0 : e.domainId) && t.set('domainId', e.domainId),
+              (null == e ? void 0 : e.taskId) && t.set('taskId', e.taskId),
+              (null == e ? void 0 : e.limit) && t.set('limit', String(e.limit)),
+              n('/flashcards?'.concat(t))
+            );
+          },
+          getDueForReview: e => n('/flashcards/review'.concat(e ? '?limit='.concat(e) : '')),
+          getStats: () => n('/flashcards/stats'),
+          startSession: e => n('/flashcards/sessions', { method: 'POST', body: e }),
+          recordResponse: (e, t, r, s) =>
+            n('/flashcards/sessions/'.concat(e, '/responses/').concat(t), {
+              method: 'POST',
+              body: { rating: r, timeSpentMs: s },
+            }),
+          completeSession: e =>
+            n('/flashcards/sessions/'.concat(e, '/complete'), { method: 'POST' }),
+          createCustom: e => n('/flashcards/custom', { method: 'POST', body: e }),
+        },
+        c = {
+          startSession: e => n('/practice/sessions', { method: 'POST', body: e }),
+          submitAnswer: (e, t, r, s) =>
+            n('/practice/sessions/'.concat(e, '/answers/').concat(t), {
+              method: 'POST',
+              body: { selectedOptionId: r, timeSpentMs: s },
+            }),
+          completeSession: e => n('/practice/sessions/'.concat(e, '/complete'), { method: 'POST' }),
+          startMockExam: () => n('/practice/mock-exams', { method: 'POST' }),
+          getFlagged: () => n('/practice/flagged'),
+          flagQuestion: e => n('/practice/questions/'.concat(e, '/flag'), { method: 'POST' }),
+          unflagQuestion: e => n('/practice/questions/'.concat(e, '/flag'), { method: 'DELETE' }),
+          getStats: () => n('/practice/stats'),
+        },
+        l = {
+          getDashboard: () => n('/dashboard'),
+          getStreak: () => n('/dashboard/streak'),
+          getProgress: () => n('/dashboard/progress'),
+          getActivity: e => n('/dashboard/activity'.concat(e ? '?limit='.concat(e) : '')),
+          getReviews: e => n('/dashboard/reviews'.concat(e ? '?limit='.concat(e) : '')),
+          getWeakAreas: () => n('/dashboard/weak-areas'),
+          getReadiness: () => n('/dashboard/readiness'),
+          getRecommendations: () => n('/dashboard/recommendations'),
+        },
+        d = {
+          getFormulas: e => n('/formulas'.concat(e ? '?category='.concat(e) : '')),
+          getFormula: e => n('/formulas/'.concat(e)),
+          calculate: (e, t) =>
+            n('/formulas/'.concat(e, '/calculate'), { method: 'POST', body: { inputs: t } }),
+          getVariables: () => n('/formulas/variables'),
+        };
+    },
+  },
+  function (e) {
+    (e.O(0, [340, 293, 528, 744], function () {
+      return e((e.s = 3154));
+    }),
+      (_N_E = e.O()));
+  },
+]);

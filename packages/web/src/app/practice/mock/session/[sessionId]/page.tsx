@@ -59,7 +59,9 @@ export default function MockExamSessionPage() {
           // Restore answer for first question if exists
           if (response.data.questions.length > 0) {
             const firstQ = response.data.questions[0];
-            setSelectedOptionId(firstQ.userAnswerId || null);
+            if (firstQ) {
+              setSelectedOptionId(firstQ.userAnswerId || null);
+            }
           }
         }
       } catch (error) {

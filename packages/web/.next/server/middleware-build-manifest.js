@@ -5,21 +5,21 @@
   lowPriorityFiles: [],
   rootMainFiles: [
     'static/chunks/webpack-f429638b3b64c980.js',
-    'static/chunks/1dd3208c-6ed69b2af984ef21.js',
-    'static/chunks/528-552865fae45684e5.js',
+    'static/chunks/1dd3208c-ae4cbf6a569521ed.js',
+    'static/chunks/528-7de1cccc99b7179f.js',
     'static/chunks/main-app-54f5ec5a29ee1a52.js',
   ],
   pages: {
     '/_app': [
       'static/chunks/webpack-f429638b3b64c980.js',
       'static/chunks/framework-3664cab31236a9fa.js',
-      'static/chunks/main-5924deea4fac0f90.js',
+      'static/chunks/main-0d7968749763a494.js',
       'static/chunks/pages/_app-10a93ab5b7c32eb3.js',
     ],
     '/_error': [
       'static/chunks/webpack-f429638b3b64c980.js',
       'static/chunks/framework-3664cab31236a9fa.js',
-      'static/chunks/main-5924deea4fac0f90.js',
+      'static/chunks/main-0d7968749763a494.js',
       'static/chunks/pages/_error-2d792b2a41857be4.js',
     ],
   },

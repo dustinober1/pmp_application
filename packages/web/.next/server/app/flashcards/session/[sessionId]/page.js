@@ -139,6 +139,12 @@
               useRouter: function () {
                 return r.useRouter;
               },
+            }),
+          t.o(r, 'useSearchParams') &&
+            t.d(s, {
+              useSearchParams: function () {
+                return r.useSearchParams;
+              },
             }));
       },
       5716: (e, s, t) => {

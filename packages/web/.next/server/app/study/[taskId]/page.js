@@ -299,6 +299,12 @@
               useRouter: function () {
                 return r.useRouter;
               },
+            }),
+          n.o(r, 'useSearchParams') &&
+            n.d(t, {
+              useSearchParams: function () {
+                return r.useSearchParams;
+              },
             }));
       },
       393: function (e, t, n) {

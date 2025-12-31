@@ -24,8 +24,8 @@
         (s.r(t),
           s.d(t, {
             GlobalError: () => i.a,
-            __next_app__: () => u,
-            originalPathname: () => m,
+            __next_app__: () => m,
+            originalPathname: () => u,
             pages: () => c,
             routeModule: () => h,
             tree: () => d,
@@ -103,8 +103,8 @@
           c = [
             '/Users/dustinober/Projects/pmp_application/packages/web/src/app/practice/mock/session/[sessionId]/page.tsx',
           ],
-          m = '/practice/mock/session/[sessionId]/page',
-          u = { require: s, loadChunk: () => Promise.resolve() },
+          u = '/practice/mock/session/[sessionId]/page',
+          m = { require: s, loadChunk: () => Promise.resolve() },
           h = new r.AppPageRouteModule({
             definition: {
               kind: a.x.APP_PAGE,
@@ -145,6 +145,12 @@
               useRouter: function () {
                 return r.useRouter;
               },
+            }),
+          s.o(r, 'useSearchParams') &&
+            s.d(t, {
+              useSearchParams: function () {
+                return r.useSearchParams;
+              },
             }));
       },
       9999: (e, t, s) => {
@@ -160,8 +166,8 @@
             t = (0, o.useRouter)(),
             { user: s } = (0, i.a)(),
             [l, d] = (0, a.useState)(!0),
-            [c, m] = (0, a.useState)(null),
-            [u, h] = (0, a.useState)(0),
+            [c, u] = (0, a.useState)(null),
+            [m, h] = (0, a.useState)(0),
             [p, g] = (0, a.useState)(null),
             [x, b] = (0, a.useState)(!1),
             [f, y] = (0, a.useState)(0),
@@ -172,19 +178,19 @@
             S = async t => {
               if (
                 (g(t),
-                m(e => {
+                u(e => {
                   if (!e) return null;
                   let s = [...e.questions],
-                    r = s[u];
+                    r = s[m];
                   if (r.userAnswerId === t) return e;
-                  s[u] = { ...r, userAnswerId: t };
+                  s[m] = { ...r, userAnswerId: t };
                   let a = s.filter(e => e.userAnswerId).length;
                   return { ...e, questions: s, progress: { ...e.progress, answered: a } };
                 }),
-                c && c.questions[u])
+                c && c.questions[m])
               )
                 try {
-                  await (0, n.Nv)(`/practice/sessions/${e}/answers/${c.questions[u].id}`, {
+                  await (0, n.Nv)(`/practice/sessions/${e}/answers/${c.questions[m].id}`, {
                     method: 'POST',
                     body: { selectedOptionId: t, timeSpentMs: 0 },
                   });
@@ -224,7 +230,8 @@
             return (0, r.jsxs)('div', {
               className: 'max-w-4xl mx-auto px-4 py-8 text-center text-white',
               children: [
-                'Session not found. ',
+                'Session not found.',
+                ' ',
                 r.jsx('button', {
                   onClick: () => t.push('/practice'),
                   className: 'text-primary-400 underline',
@@ -232,7 +239,7 @@
                 }),
               ],
             });
-          let I = c.questions[u];
+          let I = c.questions[m];
           if (!I) return r.jsx('div', { children: 'Loading...' });
           let _ = c.progress.answered,
             A = c.questions.length,
@@ -305,7 +312,7 @@
                             className: 'text-gray-400 font-medium',
                             children: [
                               'Question ',
-                              u + 1,
+                              m + 1,
                               ' ',
                               (0, r.jsxs)('span', {
                                 className: 'text-gray-600',
@@ -390,7 +397,7 @@
                         className:
                           'w-20 hidden lg:flex flex-col gap-2 overflow-y-auto custom-scrollbar bg-gray-900/30 p-2 rounded-xl border border-gray-800/50',
                         children: c.questions.map((e, t) => {
-                          let s = t === u,
+                          let s = t === m,
                             a = !!e.userAnswerId;
                           return r.jsx(
                             'button',
@@ -411,10 +418,10 @@
                     children: [
                       r.jsx('button', {
                         onClick: () => {
-                          u > 0 && h(e => e - 1);
+                          m > 0 && h(e => e - 1);
                         },
-                        disabled: 0 === u,
-                        className: `px-6 py-2.5 rounded-lg border font-medium transition ${0 === u ? 'border-gray-800 text-gray-600 cursor-not-allowed' : 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white'}`,
+                        disabled: 0 === m,
+                        className: `px-6 py-2.5 rounded-lg border font-medium transition ${0 === m ? 'border-gray-800 text-gray-600 cursor-not-allowed' : 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white'}`,
                         children: '← Previous',
                       }),
                       r.jsx('div', {
@@ -427,12 +434,12 @@
                       }),
                       (0, r.jsxs)('button', {
                         onClick: () => {
-                          c && (u < c.questions.length - 1 ? h(e => e + 1) : w(!0));
+                          c && (m < c.questions.length - 1 ? h(e => e + 1) : w(!0));
                         },
                         className:
                           'px-8 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition shadow-lg hover:shadow-primary-900/20 flex items-center',
                         children: [
-                          u === A - 1 ? 'Review Exam' : 'Next Question',
+                          m === A - 1 ? 'Review Exam' : 'Next Question',
                           r.jsx('span', { className: 'ml-2', children: '→' }),
                         ],
                       }),
@@ -471,7 +478,7 @@
                 if (t.ok) {
                   let r = await t.json();
                   s({ user: r.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
-                } else await m();
+                } else await u();
               } catch (e) {
                 (console.error('Failed to fetch user:', e), c());
               }
@@ -507,7 +514,7 @@
                 localStorage.removeItem('refreshToken'),
                 s({ user: null, token: null, isLoading: !1, isAuthenticated: !1 }));
             },
-            m = async () => {
+            u = async () => {
               let e = localStorage.getItem('refreshToken');
               if (!e) {
                 c();
@@ -530,7 +537,7 @@
               }
             };
           return r.jsx(o.Provider, {
-            value: { ...t, login: l, register: d, logout: c, refreshToken: m },
+            value: { ...t, login: l, register: d, logout: c, refreshToken: u },
             children: e,
           });
         }

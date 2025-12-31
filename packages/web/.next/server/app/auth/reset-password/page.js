@@ -1,0 +1,572 @@
+(() => {
+  var e = {};
+  ((e.id = 48),
+    (e.ids = [48]),
+    (e.modules = {
+      2934: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/action-async-storage.external.js');
+      },
+      4580: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/request-async-storage.external.js');
+      },
+      5869: e => {
+        'use strict';
+        e.exports = require('next/dist/client/components/static-generation-async-storage.external.js');
+      },
+      399: e => {
+        'use strict';
+        e.exports = require('next/dist/compiled/next-server/app-page.runtime.prod.js');
+      },
+      5323: (e, s, t) => {
+        'use strict';
+        (t.r(s),
+          t.d(s, {
+            GlobalError: () => i.a,
+            __next_app__: () => u,
+            originalPathname: () => m,
+            pages: () => c,
+            routeModule: () => h,
+            tree: () => l,
+          }),
+          t(4934),
+          t(4773),
+          t(7824));
+        var r = t(3282),
+          a = t(5736),
+          o = t(3906),
+          i = t.n(o),
+          n = t(6880),
+          d = {};
+        for (let e in n)
+          0 >
+            [
+              'default',
+              'tree',
+              'pages',
+              'GlobalError',
+              'originalPathname',
+              '__next_app__',
+              'routeModule',
+            ].indexOf(e) && (d[e] = () => n[e]);
+        t.d(s, d);
+        let l = [
+            '',
+            {
+              children: [
+                'auth',
+                {
+                  children: [
+                    'reset-password',
+                    {
+                      children: [
+                        '__PAGE__',
+                        {},
+                        {
+                          page: [
+                            () => Promise.resolve().then(t.bind(t, 4934)),
+                            '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/reset-password/page.tsx',
+                          ],
+                        },
+                      ],
+                    },
+                    {},
+                  ],
+                },
+                {},
+              ],
+            },
+            {
+              layout: [
+                () => Promise.resolve().then(t.bind(t, 4773)),
+                '/Users/dustinober/Projects/pmp_application/packages/web/src/app/layout.tsx',
+              ],
+              'not-found': [
+                () => Promise.resolve().then(t.t.bind(t, 7824, 23)),
+                'next/dist/client/components/not-found-error',
+              ],
+            },
+          ],
+          c = [
+            '/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/reset-password/page.tsx',
+          ],
+          m = '/auth/reset-password/page',
+          u = { require: t, loadChunk: () => Promise.resolve() },
+          h = new r.AppPageRouteModule({
+            definition: {
+              kind: a.x.APP_PAGE,
+              page: '/auth/reset-password/page',
+              pathname: '/auth/reset-password',
+              bundlePath: '',
+              filename: '',
+              appPaths: [],
+            },
+            userland: { loaderTree: l },
+          });
+      },
+      9674: (e, s, t) => {
+        (Promise.resolve().then(t.t.bind(t, 4424, 23)),
+          Promise.resolve().then(t.t.bind(t, 7752, 23)),
+          Promise.resolve().then(t.t.bind(t, 5275, 23)),
+          Promise.resolve().then(t.t.bind(t, 9842, 23)),
+          Promise.resolve().then(t.t.bind(t, 1633, 23)),
+          Promise.resolve().then(t.t.bind(t, 9224, 23)));
+      },
+      5653: (e, s, t) => {
+        Promise.resolve().then(t.bind(t, 3592));
+      },
+      2160: (e, s, t) => {
+        Promise.resolve().then(t.bind(t, 2218));
+      },
+      649: (e, s, t) => {
+        'use strict';
+        t.d(s, { default: () => a.a });
+        var r = t(6568),
+          a = t.n(r);
+      },
+      1043: (e, s, t) => {
+        'use strict';
+        var r = t(2854);
+        (t.o(r, 'useParams') &&
+          t.d(s, {
+            useParams: function () {
+              return r.useParams;
+            },
+          }),
+          t.o(r, 'useRouter') &&
+            t.d(s, {
+              useRouter: function () {
+                return r.useRouter;
+              },
+            }),
+          t.o(r, 'useSearchParams') &&
+            t.d(s, {
+              useSearchParams: function () {
+                return r.useSearchParams;
+              },
+            }));
+      },
+      2218: (e, s, t) => {
+        'use strict';
+        (t.r(s), t.d(s, { default: () => l }));
+        var r = t(3227),
+          a = t(3677),
+          o = t(649),
+          i = t(1043),
+          n = t(7674);
+        function d() {
+          let e = (0, i.useRouter)(),
+            s = (0, i.useSearchParams)().get('token'),
+            [t, d] = (0, a.useState)(''),
+            [l, c] = (0, a.useState)(''),
+            [m, u] = (0, a.useState)('idle'),
+            [h, p] = (0, a.useState)(''),
+            g = async r => {
+              if ((r.preventDefault(), !s)) {
+                (p('Invalid or missing reset token.'), u('error'));
+                return;
+              }
+              if (t !== l) {
+                (p('Passwords do not match.'), u('error'));
+                return;
+              }
+              if (t.length < 8) {
+                (p('Password must be at least 8 characters long.'), u('error'));
+                return;
+              }
+              (u('loading'), p(''));
+              try {
+                (await (0, n.Nv)('/auth/reset-password', {
+                  method: 'POST',
+                  body: { token: s, newPassword: t },
+                }),
+                  u('success'),
+                  setTimeout(() => {
+                    e.push('/login');
+                  }, 3e3));
+              } catch (e) {
+                (console.error('Password reset failed', e),
+                  u('error'),
+                  p(e.message || 'Failed to reset password. The link may have expired.'));
+              }
+            };
+          return s
+            ? 'success' === m
+              ? (0, r.jsxs)('div', {
+                  className:
+                    'max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-gray-700 text-center',
+                  children: [
+                    r.jsx('div', { className: 'text-5xl mb-4', children: '✅' }),
+                    r.jsx('h2', {
+                      className: 'text-3xl font-extrabold text-white',
+                      children: 'Password Reset!',
+                    }),
+                    r.jsx('p', {
+                      className: 'mt-2 text-sm text-gray-400',
+                      children:
+                        'Your password has been successfully reset. Redirecting you to login...',
+                    }),
+                    r.jsx('div', {
+                      className: 'mt-6',
+                      children: r.jsx(o.default, {
+                        href: '/login',
+                        className: 'font-medium text-primary-400 hover:text-primary-300 transition',
+                        children: 'Go to Login Now',
+                      }),
+                    }),
+                  ],
+                })
+              : (0, r.jsxs)('div', {
+                  className: 'max-w-md w-full space-y-8',
+                  children: [
+                    (0, r.jsxs)('div', {
+                      children: [
+                        r.jsx('h2', {
+                          className: 'mt-6 text-center text-3xl font-extrabold text-white',
+                          children: 'Set new password',
+                        }),
+                        r.jsx('p', {
+                          className: 'mt-2 text-center text-sm text-gray-400',
+                          children: 'Please enter your new password below.',
+                        }),
+                      ],
+                    }),
+                    (0, r.jsxs)('form', {
+                      className: 'mt-8 space-y-6',
+                      onSubmit: g,
+                      children: [
+                        (0, r.jsxs)('div', {
+                          className: 'rounded-md shadow-sm space-y-4',
+                          children: [
+                            (0, r.jsxs)('div', {
+                              children: [
+                                r.jsx('label', {
+                                  htmlFor: 'password',
+                                  className: 'block text-sm font-medium text-gray-400 mb-1',
+                                  children: 'New Password',
+                                }),
+                                r.jsx('input', {
+                                  id: 'password',
+                                  name: 'password',
+                                  type: 'password',
+                                  required: !0,
+                                  value: t,
+                                  onChange: e => d(e.target.value),
+                                  className:
+                                    'appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm transition-colors',
+                                  placeholder: '********',
+                                }),
+                              ],
+                            }),
+                            (0, r.jsxs)('div', {
+                              children: [
+                                r.jsx('label', {
+                                  htmlFor: 'confirm-password',
+                                  className: 'block text-sm font-medium text-gray-400 mb-1',
+                                  children: 'Confirm Password',
+                                }),
+                                r.jsx('input', {
+                                  id: 'confirm-password',
+                                  name: 'confirm-password',
+                                  type: 'password',
+                                  required: !0,
+                                  value: l,
+                                  onChange: e => c(e.target.value),
+                                  className:
+                                    'appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm transition-colors',
+                                  placeholder: '********',
+                                }),
+                              ],
+                            }),
+                          ],
+                        }),
+                        'error' === m &&
+                          r.jsx('div', {
+                            className: 'rounded-md bg-red-900/30 p-4 border border-red-800',
+                            children: r.jsx('div', {
+                              className: 'flex',
+                              children: (0, r.jsxs)('div', {
+                                className: 'ml-3',
+                                children: [
+                                  r.jsx('h3', {
+                                    className: 'text-sm font-medium text-red-400',
+                                    children: 'Error',
+                                  }),
+                                  r.jsx('div', {
+                                    className: 'mt-2 text-sm text-red-300',
+                                    children: r.jsx('p', { children: h }),
+                                  }),
+                                ],
+                              }),
+                            }),
+                          }),
+                        r.jsx('div', {
+                          children: r.jsx('button', {
+                            type: 'submit',
+                            disabled: 'loading' === m,
+                            className: `group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white ${'loading' === m ? 'bg-primary-700 cursor-not-allowed' : 'bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-primary-500'} transition-colors shadow-lg hover:shadow-primary-900/20`,
+                            children: 'loading' === m ? 'Resetting...' : 'Reset Password',
+                          }),
+                        }),
+                      ],
+                    }),
+                  ],
+                })
+            : (0, r.jsxs)('div', {
+                className:
+                  'max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-gray-700 text-center',
+                children: [
+                  r.jsx('div', { className: 'text-5xl mb-4', children: '⚠️' }),
+                  r.jsx('h2', {
+                    className: 'text-2xl font-bold text-white',
+                    children: 'Invalid Link',
+                  }),
+                  r.jsx('p', {
+                    className: 'mt-2 text-sm text-gray-400',
+                    children:
+                      'This password reset link is invalid or has expired. Please request a new one.',
+                  }),
+                  r.jsx('div', {
+                    className: 'mt-6',
+                    children: r.jsx(o.default, {
+                      href: '/auth/forgot-password',
+                      className: 'font-medium text-primary-400 hover:text-primary-300 transition',
+                      children: 'Request New Link',
+                    }),
+                  }),
+                ],
+              });
+        }
+        function l() {
+          return r.jsx('div', {
+            className:
+              'min-h-screen flex items-center justify-center bg-gray-900 px-4 py-12 sm:px-6 lg:px-8',
+            children: r.jsx(a.Suspense, {
+              fallback: r.jsx('div', { className: 'text-white', children: 'Loading...' }),
+              children: r.jsx(d, {}),
+            }),
+          });
+        }
+      },
+      3592: (e, s, t) => {
+        'use strict';
+        t.d(s, { Providers: () => o });
+        var r = t(3227),
+          a = t(2278);
+        function o({ children: e }) {
+          return r.jsx(a.H, { children: e });
+        }
+      },
+      2278: (e, s, t) => {
+        'use strict';
+        t.d(s, { H: () => n, a: () => d });
+        var r = t(3227),
+          a = t(3677);
+        let o = (0, a.createContext)(void 0),
+          i = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+        function n({ children: e }) {
+          let [s, t] = (0, a.useState)({
+              user: null,
+              token: null,
+              isLoading: !0,
+              isAuthenticated: !1,
+            }),
+            n = async e => {
+              try {
+                let s = await fetch(`${i}/auth/me`, { headers: { Authorization: `Bearer ${e}` } });
+                if (s.ok) {
+                  let r = await s.json();
+                  t({ user: r.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
+                } else await m();
+              } catch (e) {
+                (console.error('Failed to fetch user:', e), c());
+              }
+            },
+            d = async (e, s) => {
+              let r = await fetch(`${i}/auth/login`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: e, password: s }),
+                }),
+                a = await r.json();
+              if (!r.ok) throw Error(a.error?.message || 'Login failed');
+              let { accessToken: o, refreshToken: n, user: d } = a.data;
+              (localStorage.setItem('accessToken', o),
+                localStorage.setItem('refreshToken', n),
+                t({ user: d, token: o, isLoading: !1, isAuthenticated: !0 }));
+            },
+            l = async (e, s, r) => {
+              let a = await fetch(`${i}/auth/register`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: e, password: s, name: r }),
+                }),
+                o = await a.json();
+              if (!a.ok) throw Error(o.error?.message || 'Registration failed');
+              let { accessToken: n, refreshToken: d, user: l } = o.data;
+              (localStorage.setItem('accessToken', n),
+                localStorage.setItem('refreshToken', d),
+                t({ user: l, token: n, isLoading: !1, isAuthenticated: !0 }));
+            },
+            c = () => {
+              (localStorage.removeItem('accessToken'),
+                localStorage.removeItem('refreshToken'),
+                t({ user: null, token: null, isLoading: !1, isAuthenticated: !1 }));
+            },
+            m = async () => {
+              let e = localStorage.getItem('refreshToken');
+              if (!e) {
+                c();
+                return;
+              }
+              try {
+                let s = await fetch(`${i}/auth/refresh`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ refreshToken: e }),
+                });
+                if (s.ok) {
+                  let { accessToken: e, refreshToken: t } = (await s.json()).data;
+                  (localStorage.setItem('accessToken', e),
+                    localStorage.setItem('refreshToken', t),
+                    await n(e));
+                } else c();
+              } catch (e) {
+                (console.error('Token refresh failed:', e), c());
+              }
+            };
+          return r.jsx(o.Provider, {
+            value: { ...s, login: d, register: l, logout: c, refreshToken: m },
+            children: e,
+          });
+        }
+        function d() {
+          let e = (0, a.useContext)(o);
+          if (void 0 === e) throw Error('useAuth must be used within an AuthProvider');
+          return e;
+        }
+      },
+      7674: (e, s, t) => {
+        'use strict';
+        t.d(s, { Lc: () => n, Nv: () => o, Sh: () => c, kx: () => l, sA: () => i, tF: () => d });
+        let r = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+        async function a() {
+          return null;
+        }
+        async function o(e, s = {}) {
+          let { method: t = 'GET', body: o, token: i } = s,
+            n = i ?? (await a()),
+            d = { 'Content-Type': 'application/json' };
+          n && (d.Authorization = `Bearer ${n}`);
+          let l = await fetch(`${r}${e}`, {
+              method: t,
+              headers: d,
+              body: o ? JSON.stringify(o) : void 0,
+            }),
+            c = await l.json();
+          if (!l.ok) throw Error(c.error?.message || 'Request failed');
+          return c;
+        }
+        let i = {
+            getDomains: () => o('/domains'),
+            getDomain: e => o(`/domains/${e}`),
+            getTasks: e => o(`/domains/${e}/tasks`),
+            getStudyGuide: e => o(`/domains/tasks/${e}/study-guide`),
+            markSectionComplete: e =>
+              o(`/domains/progress/sections/${e}/complete`, { method: 'POST' }),
+            getProgress: () => o('/domains/progress'),
+          },
+          n = {
+            getFlashcards: e => {
+              let s = new URLSearchParams();
+              return (
+                e?.domainId && s.set('domainId', e.domainId),
+                e?.taskId && s.set('taskId', e.taskId),
+                e?.limit && s.set('limit', String(e.limit)),
+                o(`/flashcards?${s}`)
+              );
+            },
+            getDueForReview: e => o(`/flashcards/review${e ? `?limit=${e}` : ''}`),
+            getStats: () => o('/flashcards/stats'),
+            startSession: e => o('/flashcards/sessions', { method: 'POST', body: e }),
+            recordResponse: (e, s, t, r) =>
+              o(`/flashcards/sessions/${e}/responses/${s}`, {
+                method: 'POST',
+                body: { rating: t, timeSpentMs: r },
+              }),
+            completeSession: e => o(`/flashcards/sessions/${e}/complete`, { method: 'POST' }),
+            createCustom: e => o('/flashcards/custom', { method: 'POST', body: e }),
+          },
+          d = {
+            startSession: e => o('/practice/sessions', { method: 'POST', body: e }),
+            submitAnswer: (e, s, t, r) =>
+              o(`/practice/sessions/${e}/answers/${s}`, {
+                method: 'POST',
+                body: { selectedOptionId: t, timeSpentMs: r },
+              }),
+            completeSession: e => o(`/practice/sessions/${e}/complete`, { method: 'POST' }),
+            startMockExam: () => o('/practice/mock-exams', { method: 'POST' }),
+            getFlagged: () => o('/practice/flagged'),
+            flagQuestion: e => o(`/practice/questions/${e}/flag`, { method: 'POST' }),
+            unflagQuestion: e => o(`/practice/questions/${e}/flag`, { method: 'DELETE' }),
+            getStats: () => o('/practice/stats'),
+          },
+          l = {
+            getDashboard: () => o('/dashboard'),
+            getStreak: () => o('/dashboard/streak'),
+            getProgress: () => o('/dashboard/progress'),
+            getActivity: e => o(`/dashboard/activity${e ? `?limit=${e}` : ''}`),
+            getReviews: e => o(`/dashboard/reviews${e ? `?limit=${e}` : ''}`),
+            getWeakAreas: () => o('/dashboard/weak-areas'),
+            getReadiness: () => o('/dashboard/readiness'),
+            getRecommendations: () => o('/dashboard/recommendations'),
+          },
+          c = {
+            getFormulas: e => o(`/formulas${e ? `?category=${e}` : ''}`),
+            getFormula: e => o(`/formulas/${e}`),
+            calculate: (e, s) =>
+              o(`/formulas/${e}/calculate`, { method: 'POST', body: { inputs: s } }),
+            getVariables: () => o('/formulas/variables'),
+          };
+      },
+      4934: (e, s, t) => {
+        'use strict';
+        (t.r(s), t.d(s, { default: () => r }));
+        let r = (0, t(3189).createProxy)(
+          String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/auth/reset-password/page.tsx#default`
+        );
+      },
+      4773: (e, s, t) => {
+        'use strict';
+        (t.r(s), t.d(s, { default: () => d, metadata: () => n }));
+        var r = t(9013),
+          a = t(5900),
+          o = t.n(a);
+        t(5556);
+        let i = (0, t(3189).createProxy)(
+            String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/providers.tsx#Providers`
+          ),
+          n = {
+            title: 'PMP Study Pro',
+            description: 'Comprehensive study platform for the 2026 PMP certification exam',
+            keywords: ['PMP', 'Project Management', 'Certification', 'Study', 'Exam Prep'],
+          };
+        function d({ children: e }) {
+          return r.jsx('html', {
+            lang: 'en',
+            children: r.jsx('body', {
+              className: o().className,
+              children: r.jsx(i, { children: e }),
+            }),
+          });
+        }
+      },
+      5556: () => {},
+    }));
+  var s = require('../../../webpack-runtime.js');
+  s.C(e);
+  var t = e => s((s.s = e)),
+    r = s.X(0, [136, 568], () => t(5323));
+  module.exports = r;
+})();

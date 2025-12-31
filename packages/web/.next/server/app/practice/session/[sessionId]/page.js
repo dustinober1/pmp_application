@@ -139,6 +139,12 @@
               useRouter: function () {
                 return r.useRouter;
               },
+            }),
+          s.o(r, 'useSearchParams') &&
+            s.d(t, {
+              useSearchParams: function () {
+                return r.useSearchParams;
+              },
             }));
       },
       4767: (e, t, s) => {
@@ -160,13 +166,13 @@
             [x, b] = (0, a.useState)(!1),
             [f, y] = (0, a.useState)(null),
             [v, w] = (0, a.useState)(!1),
-            [j, P] = (0, a.useState)(Date.now()),
-            k = (0, a.useRef)(null),
-            S = async () => {
+            [P, j] = (0, a.useState)(Date.now()),
+            S = (0, a.useRef)(null),
+            k = async () => {
               if (!c || !e || !p) return;
               let t = c.questions[m];
               if (!t) return;
-              let s = Date.now() - j;
+              let s = Date.now() - P;
               b(!0);
               try {
                 let r = await (0, n.Nv)(`/practice/sessions/${e}/answers/${t.id}`, {
@@ -308,7 +314,7 @@
                 ],
               }),
               (0, r.jsxs)('div', {
-                ref: k,
+                ref: S,
                 className: 'flex-1 overflow-y-auto mb-6 pr-2 custom-scrollbar',
                 children: [
                   (0, r.jsxs)('div', {
@@ -405,7 +411,7 @@
                       ],
                     })
                   : r.jsx('button', {
-                      onClick: S,
+                      onClick: k,
                       disabled: !p || x,
                       className: `px-8 py-3 rounded-lg font-medium transition-all transform active:scale-95 ${!p || x ? 'bg-gray-800 text-gray-500 cursor-not-allowed hidden' : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-primary-900/20'}`,
                       children: x ? 'Submitting...' : 'Submit Answer',

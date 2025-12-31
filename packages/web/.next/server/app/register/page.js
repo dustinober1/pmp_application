@@ -27,14 +27,14 @@
             __next_app__: () => m,
             originalPathname: () => u,
             pages: () => d,
-            routeModule: () => p,
+            routeModule: () => h,
             tree: () => c,
           }),
           r(6870),
           r(4773),
           r(7824));
-        var s = r(3282),
-          a = r(5736),
+        var a = r(3282),
+          s = r(5736),
           i = r(3906),
           n = r.n(i),
           o = r(6880),
@@ -85,9 +85,9 @@
           d = ['/Users/dustinober/Projects/pmp_application/packages/web/src/app/register/page.tsx'],
           u = '/register/page',
           m = { require: r, loadChunk: () => Promise.resolve() },
-          p = new s.AppPageRouteModule({
+          h = new a.AppPageRouteModule({
             definition: {
-              kind: a.x.APP_PAGE,
+              kind: s.x.APP_PAGE,
               page: '/register/page',
               pathname: '/register',
               bundlePath: '',
@@ -113,54 +113,60 @@
       },
       649: (e, t, r) => {
         'use strict';
-        r.d(t, { default: () => a.a });
-        var s = r(6568),
-          a = r.n(s);
+        r.d(t, { default: () => s.a });
+        var a = r(6568),
+          s = r.n(a);
       },
       1043: (e, t, r) => {
         'use strict';
-        var s = r(2854);
-        (r.o(s, 'useParams') &&
+        var a = r(2854);
+        (r.o(a, 'useParams') &&
           r.d(t, {
             useParams: function () {
-              return s.useParams;
+              return a.useParams;
             },
           }),
-          r.o(s, 'useRouter') &&
+          r.o(a, 'useRouter') &&
             r.d(t, {
               useRouter: function () {
-                return s.useRouter;
+                return a.useRouter;
+              },
+            }),
+          r.o(a, 'useSearchParams') &&
+            r.d(t, {
+              useSearchParams: function () {
+                return a.useSearchParams;
               },
             }));
       },
       3592: (e, t, r) => {
         'use strict';
         r.d(t, { Providers: () => i });
-        var s = r(3227),
-          a = r(2278);
+        var a = r(3227),
+          s = r(2278);
         function i({ children: e }) {
-          return s.jsx(a.H, { children: e });
+          return a.jsx(s.H, { children: e });
         }
       },
       2254: (e, t, r) => {
         'use strict';
         (r.r(t), r.d(t, { default: () => l }));
-        var s = r(3227),
-          a = r(3677),
+        var a = r(3227),
+          s = r(3677),
           i = r(1043),
           n = r(649),
           o = r(2278);
         function l() {
           let e = (0, i.useRouter)(),
             { register: t, isLoading: r } = (0, o.a)(),
-            [l, c] = (0, a.useState)(''),
-            [d, u] = (0, a.useState)(''),
-            [m, p] = (0, a.useState)(''),
-            [h, x] = (0, a.useState)(''),
-            [f, g] = (0, a.useState)(''),
-            [v, b] = (0, a.useState)(!1),
+            [l, c] = (0, s.useState)(''),
+            [d, u] = (0, s.useState)(''),
+            [m, h] = (0, s.useState)(''),
+            [p, x] = (0, s.useState)(''),
+            [f, g] = (0, s.useState)(''),
+            [v, b] = (0, s.useState)(!1),
             P = async r => {
-              if ((r.preventDefault(), g(''), m !== h)) {
+              if ((r.preventDefault(), g(''), m !== p)) {
                 g('Passwords do not match');
                 return;
               }
@@ -177,59 +183,59 @@
                 b(!1);
               }
             };
-          return (0, s.jsxs)('div', {
+          return (0, a.jsxs)('div', {
             className: 'min-h-screen flex items-center justify-center px-4 py-12',
             children: [
-              s.jsx('div', {
+              a.jsx('div', {
                 className:
                   'absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-purple-600 to-indigo-800 opacity-5',
               }),
-              (0, s.jsxs)('div', {
+              (0, a.jsxs)('div', {
                 className: 'card w-full max-w-md animate-slideUp relative',
                 children: [
-                  (0, s.jsxs)('div', {
+                  (0, a.jsxs)('div', {
                     className: 'text-center mb-8',
                     children: [
-                      s.jsx(n.default, {
+                      a.jsx(n.default, {
                         href: '/',
                         className: 'inline-flex items-center gap-2 mb-6',
-                        children: s.jsx('div', {
+                        children: a.jsx('div', {
                           className:
                             'w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center',
-                          children: s.jsx('span', {
+                          children: a.jsx('span', {
                             className: 'text-white font-bold',
                             children: 'PM',
                           }),
                         }),
                       }),
-                      s.jsx('h1', {
+                      a.jsx('h1', {
                         className: 'text-2xl font-bold',
                         children: 'Create Your Account',
                       }),
-                      s.jsx('p', {
+                      a.jsx('p', {
                         className: 'text-[var(--foreground-muted)] mt-2',
                         children: 'Start your PMP certification journey today',
                       }),
                     ],
                   }),
-                  (0, s.jsxs)('form', {
+                  (0, a.jsxs)('form', {
                     onSubmit: P,
                     className: 'space-y-4',
                     children: [
                       f &&
-                        s.jsx('div', {
+                        a.jsx('div', {
                           className:
                             'p-3 rounded-lg bg-[var(--error-light)] text-[var(--error)] text-sm',
                           children: f,
                         }),
-                      (0, s.jsxs)('div', {
+                      (0, a.jsxs)('div', {
                         children: [
-                          s.jsx('label', {
+                          a.jsx('label', {
                             htmlFor: 'name',
                             className: 'block text-sm font-medium mb-1',
                             children: 'Full Name',
                           }),
-                          s.jsx('input', {
+                          a.jsx('input', {
                             id: 'name',
                             type: 'text',
                             value: l,
@@ -240,14 +246,14 @@
                           }),
                         ],
                       }),
-                      (0, s.jsxs)('div', {
+                      (0, a.jsxs)('div', {
                         children: [
-                          s.jsx('label', {
+                          a.jsx('label', {
                             htmlFor: 'email',
                             className: 'block text-sm font-medium mb-1',
                             children: 'Email',
                           }),
-                          s.jsx('input', {
+                          a.jsx('input', {
                             id: 'email',
                             type: 'email',
                             value: d,
@@ -258,40 +264,40 @@
                           }),
                         ],
                       }),
-                      (0, s.jsxs)('div', {
+                      (0, a.jsxs)('div', {
                         children: [
-                          s.jsx('label', {
+                          a.jsx('label', {
                             htmlFor: 'password',
                             className: 'block text-sm font-medium mb-1',
                             children: 'Password',
                           }),
-                          s.jsx('input', {
+                          a.jsx('input', {
                             id: 'password',
                             type: 'password',
                             value: m,
-                            onChange: e => p(e.target.value),
+                            onChange: e => h(e.target.value),
                             className: 'input',
                             placeholder: '••••••••',
                             required: !0,
                             minLength: 8,
                           }),
-                          s.jsx('p', {
+                          a.jsx('p', {
                             className: 'text-xs text-[var(--foreground-muted)] mt-1',
                             children: 'Minimum 8 characters',
                           }),
                         ],
                       }),
-                      (0, s.jsxs)('div', {
+                      (0, a.jsxs)('div', {
                         children: [
-                          s.jsx('label', {
+                          a.jsx('label', {
                             htmlFor: 'confirmPassword',
                             className: 'block text-sm font-medium mb-1',
                             children: 'Confirm Password',
                           }),
-                          s.jsx('input', {
+                          a.jsx('input', {
                             id: 'confirmPassword',
                             type: 'password',
-                            value: h,
+                            value: p,
                             onChange: e => x(e.target.value),
                             className: 'input',
                             placeholder: '••••••••',
@@ -299,20 +305,20 @@
                           }),
                         ],
                       }),
-                      (0, s.jsxs)('div', {
+                      (0, a.jsxs)('div', {
                         className: 'flex items-start gap-2 text-sm',
                         children: [
-                          s.jsx('input', {
+                          a.jsx('input', {
                             type: 'checkbox',
                             className: 'rounded border-[var(--border)] mt-1',
                             required: !0,
                           }),
-                          (0, s.jsxs)('span', {
+                          (0, a.jsxs)('span', {
                             className: 'text-[var(--foreground-muted)]',
                             children: [
                               'I agree to the',
                               ' ',
-                              s.jsx(n.default, {
+                              a.jsx(n.default, {
                                 href: '/terms',
                                 className: 'text-[var(--primary)] hover:underline',
                                 children: 'Terms of Service',
@@ -320,7 +326,7 @@
                               ' ',
                               'and',
                               ' ',
-                              s.jsx(n.default, {
+                              a.jsx(n.default, {
                                 href: '/privacy',
                                 className: 'text-[var(--primary)] hover:underline',
                                 children: 'Privacy Policy',
@@ -329,7 +335,7 @@
                           }),
                         ],
                       }),
-                      s.jsx('button', {
+                      a.jsx('button', {
                         type: 'submit',
                         disabled: v || r,
                         className: 'btn btn-primary w-full',
@@ -337,12 +343,12 @@
                       }),
                     ],
                   }),
-                  (0, s.jsxs)('p', {
+                  (0, a.jsxs)('p', {
                     className: 'text-center text-sm text-[var(--foreground-muted)] mt-6',
                     children: [
                       'Already have an account?',
                       ' ',
-                      s.jsx(n.default, {
+                      a.jsx(n.default, {
                         href: '/login',
                         className: 'text-[var(--primary)] font-medium hover:underline',
                         children: 'Sign in',
@@ -358,12 +364,12 @@
       2278: (e, t, r) => {
         'use strict';
         r.d(t, { H: () => o, a: () => l });
-        var s = r(3227),
-          a = r(3677);
-        let i = (0, a.createContext)(void 0),
+        var a = r(3227),
+          s = r(3677);
+        let i = (0, s.createContext)(void 0),
           n = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
         function o({ children: e }) {
-          let [t, r] = (0, a.useState)({
+          let [t, r] = (0, s.useState)({
               user: null,
               token: null,
               isLoading: !0,
@@ -373,34 +379,34 @@
               try {
                 let t = await fetch(`${n}/auth/me`, { headers: { Authorization: `Bearer ${e}` } });
                 if (t.ok) {
-                  let s = await t.json();
-                  r({ user: s.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
+                  let a = await t.json();
+                  r({ user: a.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
                 } else await u();
               } catch (e) {
                 (console.error('Failed to fetch user:', e), d());
               }
             },
             l = async (e, t) => {
-              let s = await fetch(`${n}/auth/login`, {
+              let a = await fetch(`${n}/auth/login`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ email: e, password: t }),
                 }),
-                a = await s.json();
-              if (!s.ok) throw Error(a.error?.message || 'Login failed');
-              let { accessToken: i, refreshToken: o, user: l } = a.data;
+                s = await a.json();
+              if (!a.ok) throw Error(s.error?.message || 'Login failed');
+              let { accessToken: i, refreshToken: o, user: l } = s.data;
               (localStorage.setItem('accessToken', i),
                 localStorage.setItem('refreshToken', o),
                 r({ user: l, token: i, isLoading: !1, isAuthenticated: !0 }));
             },
-            c = async (e, t, s) => {
-              let a = await fetch(`${n}/auth/register`, {
+            c = async (e, t, a) => {
+              let s = await fetch(`${n}/auth/register`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ email: e, password: t, name: s }),
+                  body: JSON.stringify({ email: e, password: t, name: a }),
                 }),
-                i = await a.json();
-              if (!a.ok) throw Error(i.error?.message || 'Registration failed');
+                i = await s.json();
+              if (!s.ok) throw Error(i.error?.message || 'Registration failed');
               let { accessToken: o, refreshToken: l, user: c } = i.data;
               (localStorage.setItem('accessToken', o),
                 localStorage.setItem('refreshToken', l),
@@ -433,13 +439,13 @@
                 (console.error('Token refresh failed:', e), d());
               }
             };
-          return s.jsx(i.Provider, {
+          return a.jsx(i.Provider, {
             value: { ...t, login: l, register: c, logout: d, refreshToken: u },
             children: e,
           });
         }
         function l() {
-          let e = (0, a.useContext)(i);
+          let e = (0, s.useContext)(i);
           if (void 0 === e) throw Error('useAuth must be used within an AuthProvider');
           return e;
         }
@@ -447,9 +453,9 @@
       4773: (e, t, r) => {
         'use strict';
         (r.r(t), r.d(t, { default: () => l, metadata: () => o }));
-        var s = r(9013),
-          a = r(5900),
-          i = r.n(a);
+        var a = r(9013),
+          s = r(5900),
+          i = r.n(s);
         r(5556);
         let n = (0, r(3189).createProxy)(
             String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/providers.tsx#Providers`
@@ -460,19 +466,19 @@
             keywords: ['PMP', 'Project Management', 'Certification', 'Study', 'Exam Prep'],
           };
         function l({ children: e }) {
-          return s.jsx('html', {
+          return a.jsx('html', {
             lang: 'en',
-            children: s.jsx('body', {
+            children: a.jsx('body', {
               className: i().className,
-              children: s.jsx(n, { children: e }),
+              children: a.jsx(n, { children: e }),
             }),
           });
         }
       },
       6870: (e, t, r) => {
         'use strict';
-        (r.r(t), r.d(t, { default: () => s }));
-        let s = (0, r(3189).createProxy)(
+        (r.r(t), r.d(t, { default: () => a }));
+        let a = (0, r(3189).createProxy)(
           String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/register/page.tsx#default`
         );
       },
@@ -481,6 +487,6 @@
   var t = require('../../webpack-runtime.js');
   t.C(e);
   var r = e => t((t.s = e)),
-    s = t.X(0, [136, 568], () => r(1518));
-  module.exports = s;
+    a = t.X(0, [136, 568], () => r(1518));
+  module.exports = a;
 })();

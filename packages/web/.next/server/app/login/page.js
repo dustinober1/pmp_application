@@ -23,7 +23,7 @@
         'use strict';
         (r.r(t),
           r.d(t, {
-            GlobalError: () => i.a,
+            GlobalError: () => o.a,
             __next_app__: () => m,
             originalPathname: () => u,
             pages: () => d,
@@ -36,10 +36,10 @@
         var s = r(3282),
           a = r(5736),
           n = r(3906),
-          i = r.n(n),
-          o = r(6880),
+          o = r.n(n),
+          i = r(6880),
           l = {};
-        for (let e in o)
+        for (let e in i)
           0 >
             [
               'default',
@@ -49,7 +49,7 @@
               'originalPathname',
               '__next_app__',
               'routeModule',
-            ].indexOf(e) && (l[e] = () => o[e]);
+            ].indexOf(e) && (l[e] = () => i[e]);
         r.d(t, l);
         let c = [
             '',
@@ -131,6 +131,12 @@
               useRouter: function () {
                 return s.useRouter;
               },
+            }),
+          r.o(s, 'useSearchParams') &&
+            r.d(t, {
+              useSearchParams: function () {
+                return s.useSearchParams;
+              },
             }));
       },
       7274: (e, t, r) => {
@@ -139,11 +145,11 @@
         var s = r(3227),
           a = r(3677),
           n = r(1043),
-          i = r(649),
-          o = r(2278);
+          o = r(649),
+          i = r(2278);
         function l() {
           let e = (0, n.useRouter)(),
-            { login: t, isLoading: r } = (0, o.a)(),
+            { login: t, isLoading: r } = (0, i.a)(),
             [l, c] = (0, a.useState)(''),
             [d, u] = (0, a.useState)(''),
             [m, p] = (0, a.useState)(''),
@@ -171,7 +177,7 @@
                   (0, s.jsxs)('div', {
                     className: 'text-center mb-8',
                     children: [
-                      s.jsx(i.default, {
+                      s.jsx(o.default, {
                         href: '/',
                         className: 'inline-flex items-center gap-2 mb-6',
                         children: s.jsx('div', {
@@ -249,7 +255,7 @@
                               s.jsx('span', { children: 'Remember me' }),
                             ],
                           }),
-                          s.jsx(i.default, {
+                          s.jsx(o.default, {
                             href: '/forgot-password',
                             className: 'text-[var(--primary)] hover:underline',
                             children: 'Forgot password?',
@@ -269,7 +275,7 @@
                     children: [
                       "Don't have an account?",
                       ' ',
-                      s.jsx(i.default, {
+                      s.jsx(o.default, {
                         href: '/register',
                         className: 'text-[var(--primary)] font-medium hover:underline',
                         children: 'Sign up for free',
@@ -293,21 +299,21 @@
       },
       2278: (e, t, r) => {
         'use strict';
-        r.d(t, { H: () => o, a: () => l });
+        r.d(t, { H: () => i, a: () => l });
         var s = r(3227),
           a = r(3677);
         let n = (0, a.createContext)(void 0),
-          i = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
-        function o({ children: e }) {
+          o = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+        function i({ children: e }) {
           let [t, r] = (0, a.useState)({
               user: null,
               token: null,
               isLoading: !0,
               isAuthenticated: !1,
             }),
-            o = async e => {
+            i = async e => {
               try {
-                let t = await fetch(`${i}/auth/me`, { headers: { Authorization: `Bearer ${e}` } });
+                let t = await fetch(`${o}/auth/me`, { headers: { Authorization: `Bearer ${e}` } });
                 if (t.ok) {
                   let s = await t.json();
                   r({ user: s.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
@@ -317,30 +323,30 @@
               }
             },
             l = async (e, t) => {
-              let s = await fetch(`${i}/auth/login`, {
+              let s = await fetch(`${o}/auth/login`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ email: e, password: t }),
                 }),
                 a = await s.json();
               if (!s.ok) throw Error(a.error?.message || 'Login failed');
-              let { accessToken: n, refreshToken: o, user: l } = a.data;
+              let { accessToken: n, refreshToken: i, user: l } = a.data;
               (localStorage.setItem('accessToken', n),
-                localStorage.setItem('refreshToken', o),
+                localStorage.setItem('refreshToken', i),
                 r({ user: l, token: n, isLoading: !1, isAuthenticated: !0 }));
             },
             c = async (e, t, s) => {
-              let a = await fetch(`${i}/auth/register`, {
+              let a = await fetch(`${o}/auth/register`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ email: e, password: t, name: s }),
                 }),
                 n = await a.json();
               if (!a.ok) throw Error(n.error?.message || 'Registration failed');
-              let { accessToken: o, refreshToken: l, user: c } = n.data;
-              (localStorage.setItem('accessToken', o),
+              let { accessToken: i, refreshToken: l, user: c } = n.data;
+              (localStorage.setItem('accessToken', i),
                 localStorage.setItem('refreshToken', l),
-                r({ user: c, token: o, isLoading: !1, isAuthenticated: !0 }));
+                r({ user: c, token: i, isLoading: !1, isAuthenticated: !0 }));
             },
             d = () => {
               (localStorage.removeItem('accessToken'),
@@ -354,7 +360,7 @@
                 return;
               }
               try {
-                let t = await fetch(`${i}/auth/refresh`, {
+                let t = await fetch(`${o}/auth/refresh`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ refreshToken: e }),
@@ -363,7 +369,7 @@
                   let { accessToken: e, refreshToken: r } = (await t.json()).data;
                   (localStorage.setItem('accessToken', e),
                     localStorage.setItem('refreshToken', r),
-                    await o(e));
+                    await i(e));
                 } else d();
               } catch (e) {
                 (console.error('Token refresh failed:', e), d());
@@ -382,15 +388,15 @@
       },
       4773: (e, t, r) => {
         'use strict';
-        (r.r(t), r.d(t, { default: () => l, metadata: () => o }));
+        (r.r(t), r.d(t, { default: () => l, metadata: () => i }));
         var s = r(9013),
           a = r(5900),
           n = r.n(a);
         r(5556);
-        let i = (0, r(3189).createProxy)(
+        let o = (0, r(3189).createProxy)(
             String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/providers.tsx#Providers`
           ),
-          o = {
+          i = {
             title: 'PMP Study Pro',
             description: 'Comprehensive study platform for the 2026 PMP certification exam',
             keywords: ['PMP', 'Project Management', 'Certification', 'Study', 'Exam Prep'],
@@ -400,7 +406,7 @@
             lang: 'en',
             children: s.jsx('body', {
               className: n().className,
-              children: s.jsx(i, { children: e }),
+              children: s.jsx(o, { children: e }),
             }),
           });
         }
