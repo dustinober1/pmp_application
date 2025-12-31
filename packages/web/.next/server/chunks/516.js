@@ -1,51 +1,57 @@
 ((exports.id = 516),
   (exports.ids = [516]),
   (exports.modules = {
-    9674: (e, t, s) => {
-      (Promise.resolve().then(s.t.bind(s, 4424, 23)),
-        Promise.resolve().then(s.t.bind(s, 7752, 23)),
-        Promise.resolve().then(s.t.bind(s, 5275, 23)),
-        Promise.resolve().then(s.t.bind(s, 9842, 23)),
-        Promise.resolve().then(s.t.bind(s, 1633, 23)),
-        Promise.resolve().then(s.t.bind(s, 9224, 23)));
+    9674: (e, s, t) => {
+      (Promise.resolve().then(t.t.bind(t, 4424, 23)),
+        Promise.resolve().then(t.t.bind(t, 7752, 23)),
+        Promise.resolve().then(t.t.bind(t, 5275, 23)),
+        Promise.resolve().then(t.t.bind(t, 9842, 23)),
+        Promise.resolve().then(t.t.bind(t, 1633, 23)),
+        Promise.resolve().then(t.t.bind(t, 9224, 23)));
     },
-    5653: (e, t, s) => {
-      Promise.resolve().then(s.bind(s, 3592));
+    5653: (e, s, t) => {
+      Promise.resolve().then(t.bind(t, 3592));
     },
-    649: (e, t, s) => {
+    649: (e, s, t) => {
       'use strict';
-      s.d(t, { default: () => a.a });
-      var r = s(6568),
-        a = s.n(r);
+      t.d(s, { default: () => a.a });
+      var r = t(6568),
+        a = t.n(r);
     },
-    1043: (e, t, s) => {
+    1043: (e, s, t) => {
       'use strict';
-      var r = s(2854);
-      s.o(r, 'useRouter') &&
-        s.d(t, {
-          useRouter: function () {
-            return r.useRouter;
+      var r = t(2854);
+      (t.o(r, 'useParams') &&
+        t.d(s, {
+          useParams: function () {
+            return r.useParams;
           },
-        });
+        }),
+        t.o(r, 'useRouter') &&
+          t.d(s, {
+            useRouter: function () {
+              return r.useRouter;
+            },
+          }));
     },
-    3592: (e, t, s) => {
+    3592: (e, s, t) => {
       'use strict';
-      s.d(t, { Providers: () => o });
-      var r = s(3227),
-        a = s(2278);
+      t.d(s, { Providers: () => o });
+      var r = t(3227),
+        a = t(2278);
       function o({ children: e }) {
         return r.jsx(a.H, { children: e });
       }
     },
-    7705: (e, t, s) => {
+    7705: (e, s, t) => {
       'use strict';
-      s.d(t, { w: () => n });
-      var r = s(3227),
-        a = s(649),
-        o = s(2278),
-        i = s(3677);
+      t.d(s, { w: () => n });
+      var r = t(3227),
+        a = t(649),
+        o = t(2278),
+        i = t(3677);
       function n() {
-        let { user: e, isAuthenticated: t, logout: s } = (0, o.a)(),
+        let { user: e, isAuthenticated: s, logout: t } = (0, o.a)(),
           [n, d] = (0, i.useState)(!1);
         return r.jsx('nav', {
           className: 'glass border-b border-[var(--border)] sticky top-0 z-50',
@@ -76,7 +82,7 @@
                       ],
                     }),
                   }),
-                  t &&
+                  s &&
                     (0, r.jsxs)('div', {
                       className: 'hidden md:flex items-center gap-6',
                       children: [
@@ -115,7 +121,7 @@
                   (0, r.jsxs)('div', {
                     className: 'flex items-center gap-4',
                     children: [
-                      t
+                      s
                         ? (0, r.jsxs)('div', {
                             className: 'flex items-center gap-3',
                             children: [
@@ -130,7 +136,7 @@
                                 ],
                               }),
                               r.jsx('button', {
-                                onClick: s,
+                                onClick: t,
                                 className: 'btn btn-secondary text-sm',
                                 children: 'Logout',
                               }),
@@ -151,7 +157,7 @@
                               }),
                             ],
                           }),
-                      t &&
+                      s &&
                         r.jsx('button', {
                           onClick: () => d(!n),
                           className: 'md:hidden p-2 text-[var(--foreground-muted)]',
@@ -179,7 +185,7 @@
                   }),
                 ],
               }),
-              t &&
+              s &&
                 n &&
                 r.jsx('div', {
                   className: 'md:hidden py-4 border-t border-[var(--border)]',
@@ -219,15 +225,15 @@
         });
       }
     },
-    2278: (e, t, s) => {
+    2278: (e, s, t) => {
       'use strict';
-      s.d(t, { H: () => n, a: () => d });
-      var r = s(3227),
-        a = s(3677);
+      t.d(s, { H: () => n, a: () => d });
+      var r = t(3227),
+        a = t(3677);
       let o = (0, a.createContext)(void 0),
         i = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
       function n({ children: e }) {
-        let [t, s] = (0, a.useState)({
+        let [s, t] = (0, a.useState)({
             user: null,
             token: null,
             isLoading: !0,
@@ -235,45 +241,45 @@
           }),
           n = async e => {
             try {
-              let t = await fetch(`${i}/auth/me`, { headers: { Authorization: `Bearer ${e}` } });
-              if (t.ok) {
-                let r = await t.json();
-                s({ user: r.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
+              let s = await fetch(`${i}/auth/me`, { headers: { Authorization: `Bearer ${e}` } });
+              if (s.ok) {
+                let r = await s.json();
+                t({ user: r.data.user, token: e, isLoading: !1, isAuthenticated: !0 });
               } else await h();
             } catch (e) {
               (console.error('Failed to fetch user:', e), c());
             }
           },
-          d = async (e, t) => {
+          d = async (e, s) => {
             let r = await fetch(`${i}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: e, password: t }),
+                body: JSON.stringify({ email: e, password: s }),
               }),
               a = await r.json();
             if (!r.ok) throw Error(a.error?.message || 'Login failed');
             let { accessToken: o, refreshToken: n, user: d } = a.data;
             (localStorage.setItem('accessToken', o),
               localStorage.setItem('refreshToken', n),
-              s({ user: d, token: o, isLoading: !1, isAuthenticated: !0 }));
+              t({ user: d, token: o, isLoading: !1, isAuthenticated: !0 }));
           },
-          l = async (e, t, r) => {
+          l = async (e, s, r) => {
             let a = await fetch(`${i}/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: e, password: t, name: r }),
+                body: JSON.stringify({ email: e, password: s, name: r }),
               }),
               o = await a.json();
             if (!a.ok) throw Error(o.error?.message || 'Registration failed');
             let { accessToken: n, refreshToken: d, user: l } = o.data;
             (localStorage.setItem('accessToken', n),
               localStorage.setItem('refreshToken', d),
-              s({ user: l, token: n, isLoading: !1, isAuthenticated: !0 }));
+              t({ user: l, token: n, isLoading: !1, isAuthenticated: !0 }));
           },
           c = () => {
             (localStorage.removeItem('accessToken'),
               localStorage.removeItem('refreshToken'),
-              s({ user: null, token: null, isLoading: !1, isAuthenticated: !1 }));
+              t({ user: null, token: null, isLoading: !1, isAuthenticated: !1 }));
           },
           h = async () => {
             let e = localStorage.getItem('refreshToken');
@@ -282,15 +288,15 @@
               return;
             }
             try {
-              let t = await fetch(`${i}/auth/refresh`, {
+              let s = await fetch(`${i}/auth/refresh`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ refreshToken: e }),
               });
-              if (t.ok) {
-                let { accessToken: e, refreshToken: s } = (await t.json()).data;
+              if (s.ok) {
+                let { accessToken: e, refreshToken: t } = (await s.json()).data;
                 (localStorage.setItem('accessToken', e),
-                  localStorage.setItem('refreshToken', s),
+                  localStorage.setItem('refreshToken', t),
                   await n(e));
               } else c();
             } catch (e) {
@@ -298,7 +304,7 @@
             }
           };
         return r.jsx(o.Provider, {
-          value: { ...t, login: d, register: l, logout: c, refreshToken: h },
+          value: { ...s, login: d, register: l, logout: c, refreshToken: h },
           children: e,
         });
       }
@@ -308,20 +314,20 @@
         return e;
       }
     },
-    7674: (e, t, s) => {
+    7674: (e, s, t) => {
       'use strict';
-      s.d(t, { Lc: () => n, Sh: () => c, kx: () => l, sA: () => i, tF: () => d });
+      t.d(s, { Lc: () => n, Nv: () => o, Sh: () => c, kx: () => l, sA: () => i, tF: () => d });
       let r = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
       async function a() {
         return null;
       }
-      async function o(e, t = {}) {
-        let { method: s = 'GET', body: o, token: i } = t,
+      async function o(e, s = {}) {
+        let { method: t = 'GET', body: o, token: i } = s,
           n = i ?? (await a()),
           d = { 'Content-Type': 'application/json' };
         n && (d.Authorization = `Bearer ${n}`);
         let l = await fetch(`${r}${e}`, {
-            method: s,
+            method: t,
             headers: d,
             body: o ? JSON.stringify(o) : void 0,
           }),
@@ -340,31 +346,31 @@
         },
         n = {
           getFlashcards: e => {
-            let t = new URLSearchParams();
+            let s = new URLSearchParams();
             return (
-              e?.domainId && t.set('domainId', e.domainId),
-              e?.taskId && t.set('taskId', e.taskId),
-              e?.limit && t.set('limit', String(e.limit)),
-              o(`/flashcards?${t}`)
+              e?.domainId && s.set('domainId', e.domainId),
+              e?.taskId && s.set('taskId', e.taskId),
+              e?.limit && s.set('limit', String(e.limit)),
+              o(`/flashcards?${s}`)
             );
           },
           getDueForReview: e => o(`/flashcards/review${e ? `?limit=${e}` : ''}`),
           getStats: () => o('/flashcards/stats'),
           startSession: e => o('/flashcards/sessions', { method: 'POST', body: e }),
-          recordResponse: (e, t, s, r) =>
-            o(`/flashcards/sessions/${e}/responses/${t}`, {
+          recordResponse: (e, s, t, r) =>
+            o(`/flashcards/sessions/${e}/responses/${s}`, {
               method: 'POST',
-              body: { rating: s, timeSpentMs: r },
+              body: { rating: t, timeSpentMs: r },
             }),
           completeSession: e => o(`/flashcards/sessions/${e}/complete`, { method: 'POST' }),
           createCustom: e => o('/flashcards/custom', { method: 'POST', body: e }),
         },
         d = {
           startSession: e => o('/practice/sessions', { method: 'POST', body: e }),
-          submitAnswer: (e, t, s, r) =>
-            o(`/practice/sessions/${e}/answers/${t}`, {
+          submitAnswer: (e, s, t, r) =>
+            o(`/practice/sessions/${e}/answers/${s}`, {
               method: 'POST',
-              body: { selectedOptionId: s, timeSpentMs: r },
+              body: { selectedOptionId: t, timeSpentMs: r },
             }),
           completeSession: e => o(`/practice/sessions/${e}/complete`, { method: 'POST' }),
           startMockExam: () => o('/practice/mock-exams', { method: 'POST' }),
@@ -386,19 +392,19 @@
         c = {
           getFormulas: e => o(`/formulas${e ? `?category=${e}` : ''}`),
           getFormula: e => o(`/formulas/${e}`),
-          calculate: (e, t) =>
-            o(`/formulas/${e}/calculate`, { method: 'POST', body: { inputs: t } }),
+          calculate: (e, s) =>
+            o(`/formulas/${e}/calculate`, { method: 'POST', body: { inputs: s } }),
           getVariables: () => o('/formulas/variables'),
         };
     },
-    4773: (e, t, s) => {
+    4773: (e, s, t) => {
       'use strict';
-      (s.r(t), s.d(t, { default: () => d, metadata: () => n }));
-      var r = s(9013),
-        a = s(5900),
-        o = s.n(a);
-      s(5556);
-      let i = (0, s(3189).createProxy)(
+      (t.r(s), t.d(s, { default: () => d, metadata: () => n }));
+      var r = t(9013),
+        a = t(5900),
+        o = t.n(a);
+      t(5556);
+      let i = (0, t(3189).createProxy)(
           String.raw`/Users/dustinober/Projects/pmp_application/packages/web/src/app/providers.tsx#Providers`
         ),
         n = {

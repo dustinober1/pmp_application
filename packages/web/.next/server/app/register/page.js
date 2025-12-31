@@ -120,12 +120,18 @@
       1043: (e, t, r) => {
         'use strict';
         var s = r(2854);
-        r.o(s, 'useRouter') &&
+        (r.o(s, 'useParams') &&
           r.d(t, {
-            useRouter: function () {
-              return s.useRouter;
+            useParams: function () {
+              return s.useParams;
             },
-          });
+          }),
+          r.o(s, 'useRouter') &&
+            r.d(t, {
+              useRouter: function () {
+                return s.useRouter;
+              },
+            }));
       },
       3592: (e, t, r) => {
         'use strict';
@@ -153,7 +159,7 @@
             [h, x] = (0, a.useState)(''),
             [f, g] = (0, a.useState)(''),
             [v, b] = (0, a.useState)(!1),
-            j = async r => {
+            P = async r => {
               if ((r.preventDefault(), g(''), m !== h)) {
                 g('Passwords do not match');
                 return;
@@ -207,7 +213,7 @@
                     ],
                   }),
                   (0, s.jsxs)('form', {
-                    onSubmit: j,
+                    onSubmit: P,
                     className: 'space-y-4',
                     children: [
                       f &&

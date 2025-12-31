@@ -25,7 +25,6 @@ import dashboardRouter from './routes/dashboard.routes';
 import teamRouter from './routes/team.routes';
 import searchRouter from './routes/search.routes';
 
-
 const app = express();
 
 // Security middleware
@@ -80,7 +79,6 @@ app.use('/api/formulas', formulaRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/search', searchRouter);
-
 
 // Error handling
 app.use(notFoundHandler);

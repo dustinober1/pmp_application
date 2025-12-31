@@ -35,16 +35,31 @@ export class PracticeService {
     // Shuffle questions for variety
     const shuffledQuestions = this.shuffleArray(rawQuestions);
 
-    // Create session
+    // Create session with questions linked
     const session = await prisma.practiceSession.create({
       data: {
         userId,
         totalQuestions: shuffledQuestions.length,
+        questions: {
+          create: shuffledQuestions.map(q => ({
+            questionId: q.id,
+          })),
+        },
+      },
+      include: {
+        questions: {
+          include: {
+            question: {
+              include: { options: true },
+            },
+          },
+        },
       },
     });
 
     // Map to API response format
-    const mappedQuestions: PracticeQuestion[] = shuffledQuestions.map(q => {
+    const mappedQuestions: PracticeQuestion[] = session.questions.map(sq => {
+      const q = sq.question;
       return {
         id: q.id,
         domainId: q.domainId,
@@ -55,12 +70,12 @@ export class PracticeService {
             id: o.id,
             questionId: o.questionId,
             text: o.text,
-            isCorrect: false, // Don't reveal correct answer
+            isCorrect: false,
           })
         ),
-        correctOptionId: '', // Don't reveal until answered
+        correctOptionId: '',
         difficulty: q.difficulty as Difficulty,
-        explanation: '', // Don't reveal explanation until answered
+        explanation: '',
         relatedFormulaIds: [],
         createdAt: q.createdAt,
       };
@@ -69,6 +84,75 @@ export class PracticeService {
     return {
       sessionId: session.id,
       questions: mappedQuestions,
+    };
+  }
+
+  /**
+   * Get an existing session with questions
+   */
+  async getSession(
+    sessionId: string,
+    userId: string
+  ): Promise<{
+    sessionId: string;
+    questions: PracticeQuestion[];
+    progress: { total: number; answered: number };
+  } | null> {
+    const session = await prisma.practiceSession.findUnique({
+      where: { id: sessionId },
+      include: {
+        questions: {
+          include: {
+            question: {
+              include: { options: true },
+            },
+          },
+          orderBy: { question: { createdAt: 'asc' } }, // Or some specific order
+        },
+      },
+    });
+
+    if (!session || session.userId !== userId) return null;
+
+    const answeredCount = session.questions.filter(q => q.selectedOptionId).length;
+
+    const mappedQuestions: PracticeQuestion[] = session.questions.map(sq => {
+      const q = sq.question;
+      const isAnswered = !!sq.selectedOptionId;
+
+      return {
+        id: q.id,
+        domainId: q.domainId,
+        taskId: q.taskId,
+        questionText: q.questionText,
+        options: q.options.map(
+          (o): QuestionOption => ({
+            id: o.id,
+            questionId: o.questionId,
+            text: o.text,
+            isCorrect: isAnswered ? o.isCorrect : false, // Reveal if answered? Or generally keep hidden until end?
+            // For practice mode, usually reveal immediately. For exam, hide.
+            // We'll stick to hiding unless we fetch answer specifically or pass a "showAnswers" flag.
+            // Current submitAnswer returns key info. Here we default to hidden for security/integrity.
+          })
+        ),
+        correctOptionId: isAnswered ? q.options.find(o => o.isCorrect)?.id || '' : '',
+        difficulty: q.difficulty as Difficulty,
+        explanation: isAnswered ? q.explanation : '',
+        relatedFormulaIds: [],
+        createdAt: q.createdAt,
+        // Helper prop for frontend to know it's answered
+        userAnswerId: sq.selectedOptionId || undefined,
+      } as PracticeQuestion & { userAnswerId?: string };
+    });
+
+    return {
+      sessionId: session.id,
+      questions: mappedQuestions,
+      progress: {
+        total: session.totalQuestions,
+        answered: answeredCount,
+      },
     };
   }
 
@@ -107,6 +191,20 @@ export class PracticeService {
       },
     });
 
+    // Update session question state
+    // We need to find the specific PracticeSessionQuestion record.
+    // Ensure we find the one belonging to this session.
+    // Since unique constraint on (sessionId, questionId) isn't explicit in generic findUnique, use findFirst or updateMany
+    await prisma.practiceSessionQuestion.updateMany({
+      where: { sessionId, questionId },
+      data: {
+        selectedOptionId,
+        isCorrect,
+        timeSpentMs,
+        answeredAt: new Date(),
+      },
+    });
+
     return {
       isCorrect,
       correctOptionId: correctOption?.id || '',
@@ -139,7 +237,8 @@ export class PracticeService {
 
     // Calculate results
     const correctCount = attempts.filter(a => a.isCorrect).length;
-    const totalQuestions = attempts.length;
+    // Use total questions from session for accurate scoring (treat unanswered as incorrect)
+    const totalQuestions = session.totalQuestions || attempts.length;
     const scorePercentage =
       totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
     const totalTimeMs = attempts.reduce((sum, a) => sum + (a.timeSpentMs || 0), 0);
@@ -206,7 +305,8 @@ export class PracticeService {
   ): Promise<{ sessionId: string; questions: PracticeQuestion[] }> {
     // Get questions proportional to domain weights
     const domains = await prisma.domain.findMany();
-    const allQuestions: PracticeQuestion[] = [];
+    // Collect all question IDs first to create session properly
+    const allQuestionData: { id: string; data: any }[] = [];
 
     for (const domain of domains) {
       // Calculate how many questions for this domain (based on weight)
@@ -219,44 +319,51 @@ export class PracticeService {
       });
 
       domainQuestions.forEach(q => {
-        allQuestions.push({
-          id: q.id,
-          domainId: q.domainId,
-          taskId: q.taskId,
-          questionText: q.questionText,
-          options: q.options.map(
-            (o): QuestionOption => ({
-              id: o.id,
-              questionId: o.questionId,
-              text: o.text,
-              isCorrect: false,
-            })
-          ),
-          correctOptionId: '',
-          difficulty: q.difficulty as Difficulty,
-          explanation: '',
-          relatedFormulaIds: [],
-          createdAt: q.createdAt,
-        });
+        allQuestionData.push({ id: q.id, data: q });
       });
     }
 
     // Shuffle all questions
-    const shuffledQuestions = this.shuffleArray(allQuestions);
+    const shuffledQuestions = this.shuffleArray(allQuestionData);
+    const finalQuestions = shuffledQuestions.slice(0, PMP_EXAM.TOTAL_QUESTIONS);
 
-    // Create mock exam session
+    // Create mock exam session with linked questions
     const session = await prisma.practiceSession.create({
       data: {
         userId,
         isMockExam: true,
-        totalQuestions: Math.min(shuffledQuestions.length, PMP_EXAM.TOTAL_QUESTIONS),
+        totalQuestions: finalQuestions.length,
         timeLimit: PMP_EXAM.TIME_LIMIT_MINUTES * 60 * 1000,
+        questions: {
+          create: finalQuestions.map(q => ({
+            questionId: q.id,
+          })),
+        },
       },
     });
 
     return {
       sessionId: session.id,
-      questions: shuffledQuestions.slice(0, PMP_EXAM.TOTAL_QUESTIONS),
+      questions: finalQuestions.map(entry => {
+        const q = entry.data;
+        return {
+          id: q.id,
+          domainId: q.domainId,
+          taskId: q.taskId,
+          questionText: q.questionText,
+          options: q.options.map((o: any) => ({
+            id: o.id,
+            questionId: o.questionId,
+            text: o.text,
+            isCorrect: false,
+          })),
+          correctOptionId: '',
+          difficulty: q.difficulty as Difficulty,
+          explanation: '',
+          relatedFormulaIds: [],
+          createdAt: q.createdAt,
+        };
+      }),
     };
   }
 

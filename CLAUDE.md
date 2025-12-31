@@ -64,6 +64,14 @@ docker-compose up -d
 docker-compose down
 ```
 
+### Documentation Commands
+
+```bash
+npm run docs:generate    # Generate API documentation, type docs, and schema docs
+npm run docs:drift       # Check for documentation drift (CI-friendly, exit code 1 if drift found)
+npm run docs:suggest     # Get CLAUDE.md update suggestions in markdown format
+```
+
 ### Utility Commands
 
 ```bash
@@ -240,6 +248,43 @@ Required environment variables (see `packages/api/src/config/env.ts`):
 - Optional: `REDIS_URL`, SMTP settings for email
 
 Copy `packages/api/.env.example` to `packages/api/.env` before starting.
+
+## Specialized Agents
+
+The `.claude/agents/` directory contains specialized TypeScript agents for common development tasks. These can be invoked via CLI or referenced when building features:
+
+| Agent                   | Purpose                                                                      |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| `db-cli.ts`             | Database operations: migrations, seed data, Prisma query patterns            |
+| `api-scaffold-agent.ts` | Generate route+service+validator triples following API patterns              |
+| `component-agent.ts`    | Generate Next.js components with TypeScript, Tailwind, auth integration      |
+| `test-agent.ts`         | Generate Jest tests with fast-check property-based testing                   |
+| `auth-agent.ts`         | Authentication flows: JWT, refresh tokens, password resets, OWASP compliance |
+| `subscription-agent.ts` | Tier management: `requireTier`/`requireFeature` middleware, enforcement      |
+| `sm2-cli.ts`            | Spaced repetition tuning: SM-2 algorithm optimization, A/B testing           |
+| `content-agent.ts`      | Content CRUD: study guides, flashcards, questions, formulas                  |
+| `team-agent.ts`         | Corporate features: teams, invitations, alerts, license management           |
+| `docs-agent.ts`         | Documentation generation: API docs, type docs, drift detection               |
+
+### Running Agents
+
+```bash
+# Example: Generate API documentation
+npx tsx .claude/agents/docs-agent.ts generate
+
+# Example: Run database CLI
+npx tsx .claude/agents/db-cli.ts --help
+```
+
+### Code Patterns Reference
+
+The `.claude/agents/patterns.md` file contains comprehensive code templates, naming conventions, and architecture patterns used throughout the codebase. Reference this when:
+
+- Adding new API endpoints
+- Creating frontend components
+- Writing tests
+- Working with Prisma queries
+- Implementing error handling
 
 ## Common Patterns
 

@@ -1,11 +1,14 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/flashcards/page": "app/flashcards/page.js",
+  "/flashcards/session/[sessionId]/page": "app/flashcards/session/[sessionId]/page.js",
   "/formulas/page": "app/formulas/page.js",
+  "/login/page": "app/login/page.js",
   "/page": "app/page.js",
   "/practice/page": "app/practice/page.js",
-  "/study/page": "app/study/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/login/page": "app/login/page.js",
-  "/register/page": "app/register/page.js"
+  "/practice/session/[sessionId]/page": "app/practice/session/[sessionId]/page.js",
+  "/register/page": "app/register/page.js",
+  "/study/[taskId]/page": "app/study/[taskId]/page.js",
+  "/study/page": "app/study/page.js"
 }

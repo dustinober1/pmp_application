@@ -56,6 +56,36 @@ router.post(
 );
 
 /**
+ * GET /api/practice/sessions/:id
+ * Get an existing practice session
+ */
+router.get(
+  '/sessions/:id',
+  authMiddleware,
+  validateParams(sessionIdSchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const session = await practiceService.getSession(req.params.id!, req.user!.userId);
+
+      if (!session) {
+        res.status(404).json({
+          success: false,
+          error: { code: 'NOT_FOUND', message: 'Session not found' },
+        });
+        return;
+      }
+
+      res.json({
+        success: true,
+        data: session,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/**
  * POST /api/practice/sessions/:id/answers/:questionId
  * Submit an answer for a question
  */

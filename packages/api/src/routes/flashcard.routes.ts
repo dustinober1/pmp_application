@@ -135,6 +135,36 @@ router.post(
 );
 
 /**
+ * GET /api/flashcards/sessions/:id
+ * Get an existing session
+ */
+router.get(
+  '/sessions/:id',
+  authMiddleware,
+  validateParams(sessionIdSchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const session = await flashcardService.getSession(req.params.id!, req.user!.userId);
+
+      if (!session) {
+        res.status(404).json({
+          success: false,
+          error: { code: 'NOT_FOUND', message: 'Session not found' },
+        });
+        return;
+      }
+
+      res.json({
+        success: true,
+        data: session,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/**
  * POST /api/flashcards/sessions/:id/responses/:cardId
  * Record a response for a flashcard
  */

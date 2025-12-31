@@ -157,6 +157,54 @@ export class FlashcardService {
   }
 
   /**
+   * Get an existing session with cards
+   */
+  async getSession(
+    sessionId: string,
+    userId: string
+  ): Promise<{
+    sessionId: string;
+    cards: Flashcard[];
+    progress: { total: number; answered: number };
+  } | null> {
+    const session = await prisma.flashcardSession.findUnique({
+      where: { id: sessionId },
+      include: {
+        cards: {
+          include: { card: true },
+          orderBy: { cardId: 'asc' }, // Consistent order
+        },
+      },
+    });
+
+    if (!session || session.userId !== userId) return null;
+
+    // Check progress
+    const answeredCount = session.cards.filter(c => c.rating !== null).length;
+
+    return {
+      sessionId: session.id,
+      cards: session.cards.map(sc => ({
+        id: sc.card.id,
+        domainId: sc.card.domainId,
+        taskId: sc.card.taskId,
+        front: sc.card.front,
+        back: sc.card.back,
+        isCustom: sc.card.isCustom,
+        createdBy: sc.card.createdBy || undefined,
+        createdAt: sc.card.createdAt,
+        // Include session-specific status in a real app, but for now just returning the card
+        // We might want to clear cards that are already answered from the frontend view
+        // or return them all and let frontend decide
+      })),
+      progress: {
+        total: session.cards.length,
+        answered: answeredCount,
+      },
+    };
+  }
+
+  /**
    * Record a flashcard response and update spaced repetition data
    */
   async recordResponse(

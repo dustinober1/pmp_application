@@ -58,7 +58,7 @@ describe('AuthService', () => {
     // Generate valid inputs using fast-check properties
     it('should handle valid email addresses', () => {
       fc.assert(
-        fc.property(fc.emailAddress(), (email) => {
+        fc.property(fc.emailAddress(), email => {
           // Email validation property
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           return emailRegex.test(email);
@@ -69,8 +69,12 @@ describe('AuthService', () => {
     it('should reject invalid UUIDs', () => {
       fc.assert(
         fc.property(
-          fc.string().filter(s => !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s)),
-          (invalidId) => {
+          fc
+            .string()
+            .filter(
+              s => !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s)
+            ),
+          invalidId => {
             // UUID validation property
             const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
             return !uuidRegex.test(invalidId);

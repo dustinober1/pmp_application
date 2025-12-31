@@ -8,7 +8,7 @@
     var a = (r[o] = { exports: {} }),
       u = !0;
     try {
-      (e[o](a, a.exports, t), (u = !1));
+      (e[o].call(a.exports, a, a.exports, t), (u = !1));
     } finally {
       u && delete r[o];
     }

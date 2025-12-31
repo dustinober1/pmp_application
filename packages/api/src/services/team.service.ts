@@ -862,8 +862,6 @@ export class TeamService {
       accuracy: total > 0 ? Math.round((correct / total) * 100) : 0,
     };
   }
-
-
 }
 
 export const teamService = new TeamService();

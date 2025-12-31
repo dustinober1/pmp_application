@@ -120,12 +120,18 @@
       1043: (e, t, r) => {
         'use strict';
         var s = r(2854);
-        r.o(s, 'useRouter') &&
+        (r.o(s, 'useParams') &&
           r.d(t, {
-            useRouter: function () {
-              return s.useRouter;
+            useParams: function () {
+              return s.useParams;
             },
-          });
+          }),
+          r.o(s, 'useRouter') &&
+            r.d(t, {
+              useRouter: function () {
+                return s.useRouter;
+              },
+            }));
       },
       7274: (e, t, r) => {
         'use strict';
@@ -141,15 +147,15 @@
             [l, c] = (0, a.useState)(''),
             [d, u] = (0, a.useState)(''),
             [m, p] = (0, a.useState)(''),
-            [h, g] = (0, a.useState)(!1),
-            f = async r => {
-              (r.preventDefault(), p(''), g(!0));
+            [h, f] = (0, a.useState)(!1),
+            g = async r => {
+              (r.preventDefault(), p(''), f(!0));
               try {
                 (await t(l, d), e.push('/dashboard'));
               } catch (e) {
                 p(e instanceof Error ? e.message : 'Login failed');
               } finally {
-                g(!1);
+                f(!1);
               }
             };
           return (0, s.jsxs)('div', {
@@ -185,7 +191,7 @@
                     ],
                   }),
                   (0, s.jsxs)('form', {
-                    onSubmit: f,
+                    onSubmit: g,
                     className: 'space-y-4',
                     children: [
                       m &&

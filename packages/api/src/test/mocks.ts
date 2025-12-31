@@ -76,7 +76,6 @@ export function mockFlashcard(overrides: Partial<Flashcard> = {}): Flashcard {
   };
 }
 
-
 /**
  * Generate mock practice question data
  */

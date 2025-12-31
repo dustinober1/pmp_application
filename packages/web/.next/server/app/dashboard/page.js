@@ -412,33 +412,35 @@
                                   (0, r.jsxs)('div', {
                                     className: 'space-y-3',
                                     children: [
-                                      c?.recentActivity?.slice(0, 5).map(e =>
-                                        r.jsxs(
-                                          'div',
-                                          {
-                                            className: 'flex items-start gap-3 text-sm',
-                                            children: [
-                                              r.jsx('div', {
-                                                className:
-                                                  'w-2 h-2 rounded-full bg-[var(--primary)] mt-2',
-                                              }),
-                                              r.jsxs('div', {
-                                                children: [
-                                                  r.jsx('p', { children: e.description }),
-                                                  r.jsx('p', {
-                                                    className:
-                                                      'text-xs text-[var(--foreground-muted)]',
-                                                    children: new Date(
-                                                      e.timestamp
-                                                    ).toLocaleDateString(),
-                                                  }),
-                                                ],
-                                              }),
-                                            ],
-                                          },
-                                          e.id
-                                        )
-                                      ),
+                                      c?.recentActivity
+                                        ?.slice(0, 5)
+                                        .map(e =>
+                                          r.jsxs(
+                                            'div',
+                                            {
+                                              className: 'flex items-start gap-3 text-sm',
+                                              children: [
+                                                r.jsx('div', {
+                                                  className:
+                                                    'w-2 h-2 rounded-full bg-[var(--primary)] mt-2',
+                                                }),
+                                                r.jsxs('div', {
+                                                  children: [
+                                                    r.jsx('p', { children: e.description }),
+                                                    r.jsx('p', {
+                                                      className:
+                                                        'text-xs text-[var(--foreground-muted)]',
+                                                      children: new Date(
+                                                        e.timestamp
+                                                      ).toLocaleDateString(),
+                                                    }),
+                                                  ],
+                                                }),
+                                              ],
+                                            },
+                                            e.id
+                                          )
+                                        ),
                                       (!c?.recentActivity || 0 === c.recentActivity.length) &&
                                         r.jsx('p', {
                                           className: 'text-sm text-[var(--foreground-muted)]',
