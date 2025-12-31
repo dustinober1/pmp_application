@@ -1,0 +1,474 @@
+// PMP Study Application Database Schema
+// Prisma schema for PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== USER & AUTHENTICATION ====================
+
+model User {
+  id                  String    @id @default(uuid())
+  email               String    @unique
+  passwordHash        String
+  name                String
+  emailVerified       Boolean   @default(false)
+  emailVerifyToken    String?
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  // Relations
+  subscription     UserSubscription?
+  studyProgress    StudyProgress[]
+  flashcardReviews FlashcardReview[]
+  questionAttempts QuestionAttempt[]
+  studyActivities  StudyActivity[]
+  customFlashcards Flashcard[]
+  refreshTokens    RefreshToken[]
+  passwordResets   PasswordReset[]
+  teamMemberships  TeamMember[]
+  ownedTeams       Team[]            @relation("TeamAdmin")
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model PasswordReset {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_resets")
+}
+
+// ==================== SUBSCRIPTION & BILLING ====================
+
+model SubscriptionTier {
+  id            String @id @default(uuid())
+  name          String @unique // 'free', 'mid-level', 'high-end', 'corporate'
+  displayName   String
+  price         Float
+  billingPeriod String // 'monthly', 'annual'
+  features      Json   // TierFeatures object
+  isActive      Boolean @default(true)
+  createdAt     DateTime @default(now())
+
+  subscriptions UserSubscription[]
+
+  @@map("subscription_tiers")
+}
+
+model UserSubscription {
+  id                   String   @id @default(uuid())
+  userId               String   @unique
+  tierId               String
+  status               String   // 'active', 'cancelled', 'expired', 'grace_period'
+  startDate            DateTime @default(now())
+  endDate              DateTime
+  paypalSubscriptionId String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tier SubscriptionTier @relation(fields: [tierId], references: [id])
+
+  @@map("user_subscriptions")
+}
+
+model PaymentTransaction {
+  id              String   @id @default(uuid())
+  userId          String
+  paypalOrderId   String   @unique
+  paypalPayerId   String?
+  amount          Float
+  currency        String   @default("USD")
+  status          String   // 'pending', 'completed', 'failed', 'refunded'
+  tierId          String
+  billingPeriod   String
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("payment_transactions")
+}
+
+// ==================== CONTENT: DOMAINS & TASKS ====================
+
+model Domain {
+  id               String @id @default(uuid())
+  name             String
+  code             String @unique // 'PEOPLE', 'PROCESS', 'BUSINESS'
+  description      String
+  weightPercentage Int
+  orderIndex       Int
+
+  tasks       Task[]
+  flashcards  Flashcard[]
+  questions   PracticeQuestion[]
+
+  @@map("domains")
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  domainId    String
+  code        String   @unique // '1.1', '2.3', etc.
+  name        String
+  description String
+  enablers    Json     // String array of enablers
+  orderIndex  Int
+
+  domain      Domain       @relation(fields: [domainId], references: [id])
+  studyGuide  StudyGuide?
+  flashcards  Flashcard[]
+  questions   PracticeQuestion[]
+
+  @@map("tasks")
+}
+
+// ==================== STUDY GUIDES ====================
+
+model StudyGuide {
+  id        String   @id @default(uuid())
+  taskId    String   @unique
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task     Task           @relation(fields: [taskId], references: [id])
+  sections StudySection[]
+
+  @@map("study_guides")
+}
+
+model StudySection {
+  id           String @id @default(uuid())
+  studyGuideId String
+  title        String
+  content      String // Markdown content
+  orderIndex   Int
+
+  studyGuide StudyGuide      @relation(fields: [studyGuideId], references: [id], onDelete: Cascade)
+  progress   StudyProgress[]
+
+  @@map("study_sections")
+}
+
+model StudyProgress {
+  id          String    @id @default(uuid())
+  userId      String
+  sectionId   String
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  section StudySection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sectionId])
+  @@map("study_progress")
+}
+
+// ==================== FLASHCARDS ====================
+
+model Flashcard {
+  id        String   @id @default(uuid())
+  domainId  String
+  taskId    String
+  front     String   // Question or term
+  back      String   // Answer or definition
+  isCustom  Boolean  @default(false)
+  createdBy String?  // User ID if custom
+  createdAt DateTime @default(now())
+
+  domain   Domain   @relation(fields: [domainId], references: [id])
+  task     Task     @relation(fields: [taskId], references: [id])
+  creator  User?    @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  reviews  FlashcardReview[]
+  sessions FlashcardSessionCard[]
+
+  @@map("flashcards")
+}
+
+model FlashcardReview {
+  id             String   @id @default(uuid())
+  userId         String
+  cardId         String
+  easeFactor     Float    @default(2.5) // SM-2 algorithm
+  interval       Int      @default(1)   // Days until next review
+  repetitions    Int      @default(0)   // Successful repetitions
+  nextReviewDate DateTime
+  lastReviewDate DateTime @default(now())
+
+  user User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card Flashcard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, cardId])
+  @@map("flashcard_reviews")
+}
+
+model FlashcardSession {
+  id          String    @id @default(uuid())
+  userId      String
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  totalCards  Int       @default(0)
+  knowIt      Int       @default(0)
+  learning    Int       @default(0)
+  dontKnow    Int       @default(0)
+  totalTimeMs Int       @default(0)
+
+  cards FlashcardSessionCard[]
+
+  @@map("flashcard_sessions")
+}
+
+model FlashcardSessionCard {
+  id          String   @id @default(uuid())
+  sessionId   String
+  cardId      String
+  rating      String?  // 'know_it', 'learning', 'dont_know'
+  timeSpentMs Int?
+  answeredAt  DateTime?
+
+  session FlashcardSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  card    Flashcard        @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@map("flashcard_session_cards")
+}
+
+// ==================== PRACTICE QUESTIONS ====================
+
+model PracticeQuestion {
+  id           String   @id @default(uuid())
+  domainId     String
+  taskId       String
+  questionText String
+  explanation  String
+  difficulty   String   // 'easy', 'medium', 'hard'
+  createdAt    DateTime @default(now())
+
+  domain   Domain           @relation(fields: [domainId], references: [id])
+  task     Task             @relation(fields: [taskId], references: [id])
+  options  QuestionOption[]
+  attempts QuestionAttempt[]
+  sessions PracticeSessionQuestion[]
+  formulas QuestionFormula[]
+
+  @@map("practice_questions")
+}
+
+model QuestionOption {
+  id         String  @id @default(uuid())
+  questionId String
+  text       String
+  isCorrect  Boolean
+
+  question PracticeQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("question_options")
+}
+
+model QuestionAttempt {
+  id               String   @id @default(uuid())
+  userId           String
+  questionId       String
+  sessionId        String?
+  selectedOptionId String
+  isCorrect        Boolean
+  timeSpentMs      Int
+  flagged          Boolean  @default(false)
+  attemptedAt      DateTime @default(now())
+
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question PracticeQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("question_attempts")
+}
+
+model PracticeSession {
+  id             String    @id @default(uuid())
+  userId         String
+  startedAt      DateTime  @default(now())
+  completedAt    DateTime?
+  totalQuestions Int       @default(0)
+  correctAnswers Int       @default(0)
+  totalTimeMs    Int       @default(0)
+  isMockExam     Boolean   @default(false)
+  timeLimit      Int?      // Minutes (230 for mock exam)
+
+  questions PracticeSessionQuestion[]
+
+  @@map("practice_sessions")
+}
+
+model PracticeSessionQuestion {
+  id               String    @id @default(uuid())
+  sessionId        String
+  questionId       String
+  selectedOptionId String?
+  isCorrect        Boolean?
+  timeSpentMs      Int?
+  answeredAt       DateTime?
+
+  session  PracticeSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question PracticeQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("practice_session_questions")
+}
+
+// ==================== FORMULAS ====================
+
+model Formula {
+  id          String   @id @default(uuid())
+  name        String
+  category    String   // 'earned_value', 'scheduling', 'cost', etc.
+  expression  String   // 'CPI = EV / AC'
+  description String
+  whenToUse   String
+  example     Json     // FormulaExample object
+  createdAt   DateTime @default(now())
+
+  variables FormulaVariable[]
+  questions QuestionFormula[]
+
+  @@map("formulas")
+}
+
+model FormulaVariable {
+  id          String  @id @default(uuid())
+  formulaId   String
+  symbol      String
+  name        String
+  description String
+  unit        String?
+
+  formula Formula @relation(fields: [formulaId], references: [id], onDelete: Cascade)
+
+  @@map("formula_variables")
+}
+
+model QuestionFormula {
+  questionId String
+  formulaId  String
+
+  question PracticeQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  formula  Formula          @relation(fields: [formulaId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, formulaId])
+  @@map("question_formulas")
+}
+
+// ==================== ANALYTICS & ACTIVITY ====================
+
+model StudyActivity {
+  id           String   @id @default(uuid())
+  userId       String
+  activityType String   // 'study_guide_view', 'flashcard_session', etc.
+  targetId     String
+  durationMs   Int      @default(0)
+  metadata     Json?
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("study_activities")
+}
+
+// ==================== TEAM MANAGEMENT (Corporate) ====================
+
+model Team {
+  id           String   @id @default(uuid())
+  name         String
+  adminId      String
+  licenseCount Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  admin       User         @relation("TeamAdmin", fields: [adminId], references: [id])
+  members     TeamMember[]
+  invitations TeamInvitation[]
+  goals       TeamGoal[]
+  alerts      TeamAlert[]
+
+  @@map("teams")
+}
+
+model TeamMember {
+  id       String   @id @default(uuid())
+  teamId   String
+  userId   String
+  role     String   // 'admin', 'member'
+  joinedAt DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@map("team_members")
+}
+
+model TeamInvitation {
+  id         String    @id @default(uuid())
+  teamId     String
+  email      String
+  token      String    @unique
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@map("team_invitations")
+}
+
+model TeamGoal {
+  id        String   @id @default(uuid())
+  teamId    String
+  type      String   // 'completion', 'accuracy', 'study_time'
+  target    Float
+  deadline  DateTime
+  createdAt DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@map("team_goals")
+}
+
+model TeamAlert {
+  id           String   @id @default(uuid())
+  teamId       String
+  memberId     String
+  memberName   String
+  type         String   // 'behind_schedule', 'inactive', 'struggling'
+  message      String
+  acknowledged Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@map("team_alerts")
+}
