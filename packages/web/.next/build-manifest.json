@@ -1,10 +1,12 @@
 {
-  "polyfillFiles": ["static/chunks/polyfills-42372ed130431b0a.js"],
+  "polyfillFiles": [
+    "static/chunks/polyfills-42372ed130431b0a.js"
+  ],
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/2zXRZEmOGRXBRc99NmNCZ/_buildManifest.js",
-    "static/2zXRZEmOGRXBRc99NmNCZ/_ssgManifest.js"
+    "static/HjkZaG_GB_-zcdYLCqDZ0/_buildManifest.js",
+    "static/HjkZaG_GB_-zcdYLCqDZ0/_ssgManifest.js"
   ],
   "rootMainFiles": [
     "static/chunks/webpack-f429638b3b64c980.js",
