@@ -56,7 +56,7 @@ export function requireFeature(feature: keyof TierFeatures) {
                 );
             }
 
-            const features = (subscription?.tier?.features as TierFeatures) || {};
+            const features = (subscription?.tier?.features as unknown as TierFeatures) || {} as TierFeatures;
             const featureValue = features[feature];
 
             // Check boolean features
