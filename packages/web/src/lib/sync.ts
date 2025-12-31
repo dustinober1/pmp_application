@@ -96,7 +96,7 @@ class SyncService {
   private async processAction(action: SyncAction) {
     switch (action.type) {
       case 'MARK_SECTION_COMPLETE':
-        await apiRequest(`/study/sections/${action.payload.sectionId}/complete`, {
+        await apiRequest(`/domains/progress/sections/${action.payload.sectionId}/complete`, {
           method: 'POST',
         });
         break;
