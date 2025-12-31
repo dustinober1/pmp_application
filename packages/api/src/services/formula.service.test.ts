@@ -248,11 +248,7 @@ describe('FormulaService', () => {
 
   describe('getRelatedQuestions', () => {
     it('should get related questions with default limit', async () => {
-      const mockRelations = [
-        { questionId: 'q1' },
-        { questionId: 'q2' },
-        { questionId: 'q3' },
-      ];
+      const mockRelations = [{ questionId: 'q1' }, { questionId: 'q2' }, { questionId: 'q3' }];
 
       (prisma.questionFormula.findMany as jest.Mock).mockResolvedValue(mockRelations);
 
@@ -303,8 +299,22 @@ describe('FormulaService', () => {
       example: { scenario: 'test', inputs: {}, solution: 'test', result: 1 },
       createdAt: mockDate,
       variables: [
-        { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-        { id: 'var-2', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
+        {
+          id: 'var-1',
+          formulaId: 'formula-1',
+          symbol: 'EV',
+          name: 'Earned Value',
+          description: 'desc',
+          unit: null,
+        },
+        {
+          id: 'var-2',
+          formulaId: 'formula-1',
+          symbol: 'AC',
+          name: 'Actual Cost',
+          description: 'desc',
+          unit: null,
+        },
       ],
     };
 
@@ -326,25 +336,23 @@ describe('FormulaService', () => {
     it('should throw error when missing required variables', async () => {
       (prisma.formula.findUnique as jest.Mock).mockResolvedValue(mockFormula);
 
-      await expect(
-        formulaService.calculateFormula('formula-1', { EV: 100 })
-      ).rejects.toThrow(AppError);
+      await expect(formulaService.calculateFormula('formula-1', { EV: 100 })).rejects.toThrow(
+        AppError
+      );
 
-      await expect(
-        formulaService.calculateFormula('formula-1', { EV: 100 })
-      ).rejects.toMatchObject({
-        message: 'Missing required variables: AC',
-        code: 'FORMULA_001',
-        statusCode: 400,
-      });
+      await expect(formulaService.calculateFormula('formula-1', { EV: 100 })).rejects.toMatchObject(
+        {
+          message: 'Missing required variables: AC',
+          code: 'FORMULA_001',
+          statusCode: 400,
+        }
+      );
     });
 
     it('should throw error when multiple variables are missing', async () => {
       (prisma.formula.findUnique as jest.Mock).mockResolvedValue(mockFormula);
 
-      await expect(
-        formulaService.calculateFormula('formula-1', {})
-      ).rejects.toMatchObject({
+      await expect(formulaService.calculateFormula('formula-1', {})).rejects.toMatchObject({
         message: 'Missing required variables: EV, AC',
         code: 'FORMULA_001',
       });
@@ -382,8 +390,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'SPI',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'PV', name: 'Planned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'PV',
+              name: 'Planned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(spiFormula);
@@ -417,8 +439,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'SV',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'PV', name: 'Planned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'PV',
+              name: 'Planned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(svFormula);
@@ -438,8 +474,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'EAC',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'BAC', name: 'Budget at Completion', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'CPI', name: 'Cost Performance Index', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'BAC',
+              name: 'Budget at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'CPI',
+              name: 'Cost Performance Index',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(eacFormula);
@@ -458,9 +508,30 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'Estimate at Completion',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'BAC', name: 'Budget at Completion', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'AC',
+              name: 'Actual Cost',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'BAC',
+              name: 'Budget at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(eacFormula);
@@ -480,8 +551,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'ETC',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EAC', name: 'Estimate at Completion', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EAC',
+              name: 'Estimate at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'AC',
+              name: 'Actual Cost',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(etcFormula);
@@ -500,8 +585,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'VAC',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'BAC', name: 'Budget at Completion', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'EAC', name: 'Estimate at Completion', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'BAC',
+              name: 'Budget at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'EAC',
+              name: 'Estimate at Completion',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(vacFormula);
@@ -520,10 +619,38 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'TCPI',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'BAC', name: 'Budget at Completion', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'EAC', name: 'Estimate at Completion', description: 'desc', unit: null },
-            { id: 'var-4', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'BAC',
+              name: 'Budget at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'EAC',
+              name: 'Estimate at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-4',
+              formulaId: 'formula-1',
+              symbol: 'AC',
+              name: 'Actual Cost',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(tcpiFormula);
@@ -546,9 +673,30 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'To-Complete Performance Index',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'BAC', name: 'Budget at Completion', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'BAC',
+              name: 'Budget at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'AC',
+              name: 'Actual Cost',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(tcpiFormula);
@@ -583,9 +731,30 @@ describe('FormulaService', () => {
           name: 'PERT',
           category: 'scheduling',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'O', name: 'Optimistic', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'M', name: 'Most Likely', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'P', name: 'Pessimistic', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'O',
+              name: 'Optimistic',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'M',
+              name: 'Most Likely',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'P',
+              name: 'Pessimistic',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(pertFormula);
@@ -607,9 +776,30 @@ describe('FormulaService', () => {
           name: 'PERT Estimate',
           category: 'scheduling',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'optimistic', name: 'Optimistic', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'mostLikely', name: 'Most Likely', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'pessimistic', name: 'Pessimistic', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'optimistic',
+              name: 'Optimistic',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'mostLikely',
+              name: 'Most Likely',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'pessimistic',
+              name: 'Pessimistic',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(pertFormula);
@@ -629,8 +819,22 @@ describe('FormulaService', () => {
           name: 'Standard Deviation',
           category: 'scheduling',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'optimistic', name: 'Optimistic', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'pessimistic', name: 'Pessimistic', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'optimistic',
+              name: 'Optimistic',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'pessimistic',
+              name: 'Pessimistic',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(sdFormula);
@@ -650,8 +854,22 @@ describe('FormulaService', () => {
           name: 'Standard Deviation',
           category: 'scheduling',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'O', name: 'Optimistic', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'P', name: 'Pessimistic', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'O',
+              name: 'Optimistic',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'P',
+              name: 'Pessimistic',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(sdFormula);
@@ -670,7 +888,14 @@ describe('FormulaService', () => {
           name: 'Variance',
           category: 'scheduling',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'standardDeviation', name: 'Standard Deviation', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'standardDeviation',
+              name: 'Standard Deviation',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(varianceFormula);
@@ -689,7 +914,14 @@ describe('FormulaService', () => {
           name: 'Variance',
           category: 'scheduling',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'SD', name: 'Standard Deviation', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'SD',
+              name: 'Standard Deviation',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(varianceFormula);
@@ -725,8 +957,22 @@ describe('FormulaService', () => {
           name: 'ROI',
           category: 'cost',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'benefit', name: 'Benefit', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'cost', name: 'Cost', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'benefit',
+              name: 'Benefit',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'cost',
+              name: 'Cost',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(roiFormula);
@@ -746,8 +992,22 @@ describe('FormulaService', () => {
           name: 'Return on Investment',
           category: 'cost',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'benefit', name: 'Benefit', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'cost', name: 'Cost', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'benefit',
+              name: 'Benefit',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'cost',
+              name: 'Cost',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(roiFormula);
@@ -766,9 +1026,30 @@ describe('FormulaService', () => {
           name: 'NPV',
           category: 'cost',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'cashFlow', name: 'Cash Flow', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'rate', name: 'Discount Rate', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'periods', name: 'Periods', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'cashFlow',
+              name: 'Cash Flow',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'rate',
+              name: 'Discount Rate',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'periods',
+              name: 'Periods',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(npvFormula);
@@ -789,9 +1070,30 @@ describe('FormulaService', () => {
           name: 'Net Present Value',
           category: 'cost',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'cashFlow', name: 'Cash Flow', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'rate', name: 'Discount Rate', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'periods', name: 'Periods', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'cashFlow',
+              name: 'Cash Flow',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'rate',
+              name: 'Discount Rate',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'periods',
+              name: 'Periods',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(npvFormula);
@@ -811,8 +1113,22 @@ describe('FormulaService', () => {
           name: 'Payback Period',
           category: 'cost',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'investment', name: 'Investment', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'annualCashFlow', name: 'Annual Cash Flow', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'investment',
+              name: 'Investment',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'annualCashFlow',
+              name: 'Annual Cash Flow',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(paybackFormula);
@@ -832,8 +1148,22 @@ describe('FormulaService', () => {
           name: 'UNKNOWN_COST',
           category: 'cost',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'benefit', name: 'Benefit', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'cost', name: 'Cost', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'benefit',
+              name: 'Benefit',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'cost',
+              name: 'Cost',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(unknownFormula);
@@ -854,7 +1184,14 @@ describe('FormulaService', () => {
           name: 'Communication Channels',
           category: 'communication',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'n', name: 'Number of people', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'n',
+              name: 'Number of people',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(channelsFormula);
@@ -874,7 +1211,14 @@ describe('FormulaService', () => {
           name: 'Communication Channels',
           category: 'communication',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'n', name: 'Number of people', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'n',
+              name: 'Number of people',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(channelsFormula);
@@ -892,14 +1236,19 @@ describe('FormulaService', () => {
           name: 'UNKNOWN_COMM',
           category: 'communication',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'n', name: 'Number of people', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'n',
+              name: 'Number of people',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(unknownFormula);
 
-        await expect(
-          formulaService.calculateFormula('formula-1', { n: 5 })
-        ).rejects.toMatchObject({
+        await expect(formulaService.calculateFormula('formula-1', { n: 5 })).rejects.toMatchObject({
           message: 'Calculation error',
           code: 'FORMULA_002',
         });
@@ -914,8 +1263,22 @@ describe('FormulaService', () => {
           category: 'probability',
           expression: 'a + b',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'a', name: 'Variable A', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'b', name: 'Variable B', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'a',
+              name: 'Variable A',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'b',
+              name: 'Variable B',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(genericFormula);
@@ -937,8 +1300,22 @@ describe('FormulaService', () => {
           category: 'probability',
           expression: 'x * y',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'x', name: 'Variable X', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'y', name: 'Variable Y', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'x',
+              name: 'Variable X',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'y',
+              name: 'Variable Y',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(genericFormula);
@@ -958,10 +1335,38 @@ describe('FormulaService', () => {
           category: 'probability',
           expression: '(a + b) * c / d',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'a', name: 'Variable A', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'b', name: 'Variable B', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'c', name: 'Variable C', description: 'desc', unit: null },
-            { id: 'var-4', formulaId: 'formula-1', symbol: 'd', name: 'Variable D', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'a',
+              name: 'Variable A',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'b',
+              name: 'Variable B',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'c',
+              name: 'Variable C',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-4',
+              formulaId: 'formula-1',
+              symbol: 'd',
+              name: 'Variable D',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(genericFormula);
@@ -983,8 +1388,22 @@ describe('FormulaService', () => {
           category: 'probability',
           expression: 'a + b',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'a', name: 'Variable A', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'b', name: 'Variable B', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'a',
+              name: 'Variable A',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'b',
+              name: 'Variable B',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(genericFormula);
@@ -1041,8 +1460,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'Schedule Performance Index',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'PV', name: 'Planned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'PV',
+              name: 'Planned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(spiFormula);
@@ -1060,8 +1493,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'SPI',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'PV', name: 'Planned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'PV',
+              name: 'Planned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(spiFormula);
@@ -1079,8 +1526,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'SPI',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'PV', name: 'Planned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'PV',
+              name: 'Planned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(spiFormula);
@@ -1134,8 +1595,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'Schedule Variance',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'PV', name: 'Planned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'PV',
+              name: 'Planned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(svFormula);
@@ -1153,8 +1628,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'SV',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'PV', name: 'Planned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'PV',
+              name: 'Planned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(svFormula);
@@ -1172,8 +1661,22 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'SV',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'PV', name: 'Planned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'PV',
+              name: 'Planned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(svFormula);
@@ -1191,9 +1694,30 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'TCPI',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'BAC', name: 'Budget at Completion', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'BAC',
+              name: 'Budget at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'AC',
+              name: 'Actual Cost',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(tcpiFormula);
@@ -1213,9 +1737,30 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'To-Complete Performance Index',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'BAC', name: 'Budget at Completion', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'BAC',
+              name: 'Budget at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'AC',
+              name: 'Actual Cost',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(tcpiFormula);
@@ -1242,8 +1787,22 @@ describe('FormulaService', () => {
           category: 'probability',
           expression: 'a + b',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'a', name: 'Variable A', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'b', name: 'Variable B', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'a',
+              name: 'Variable A',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'b',
+              name: 'Variable B',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(genericFormula);
@@ -1286,9 +1845,30 @@ describe('FormulaService', () => {
           ...mockFormula,
           name: 'EAC',
           variables: [
-            { id: 'var-1', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
-            { id: 'var-2', formulaId: 'formula-1', symbol: 'BAC', name: 'Budget at Completion', description: 'desc', unit: null },
-            { id: 'var-3', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
+            {
+              id: 'var-1',
+              formulaId: 'formula-1',
+              symbol: 'AC',
+              name: 'Actual Cost',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-2',
+              formulaId: 'formula-1',
+              symbol: 'BAC',
+              name: 'Budget at Completion',
+              description: 'desc',
+              unit: null,
+            },
+            {
+              id: 'var-3',
+              formulaId: 'formula-1',
+              symbol: 'EV',
+              name: 'Earned Value',
+              description: 'desc',
+              unit: null,
+            },
           ],
         };
         (prisma.formula.findUnique as jest.Mock).mockResolvedValue(eacFormula);
@@ -1353,7 +1933,19 @@ describe('FormulaService', () => {
     it('should include all expected EVM variables', () => {
       const result = formulaService.getEVMVariables();
 
-      const expectedVariables = ['EV', 'PV', 'AC', 'BAC', 'EAC', 'ETC', 'VAC', 'CPI', 'SPI', 'CV', 'SV'];
+      const expectedVariables = [
+        'EV',
+        'PV',
+        'AC',
+        'BAC',
+        'EAC',
+        'ETC',
+        'VAC',
+        'CPI',
+        'SPI',
+        'CV',
+        'SV',
+      ];
 
       expectedVariables.forEach(varName => {
         expect(result).toHaveProperty(varName);
@@ -1376,8 +1968,22 @@ describe('FormulaService', () => {
         example: { scenario: 'test', inputs: {}, solution: 'test', result: 1 },
         createdAt: mockDate,
         variables: [
-          { id: 'var-1', formulaId: 'formula-1', symbol: 'EV', name: 'Earned Value', description: 'desc', unit: null },
-          { id: 'var-2', formulaId: 'formula-1', symbol: 'AC', name: 'Actual Cost', description: 'desc', unit: null },
+          {
+            id: 'var-1',
+            formulaId: 'formula-1',
+            symbol: 'EV',
+            name: 'Earned Value',
+            description: 'desc',
+            unit: null,
+          },
+          {
+            id: 'var-2',
+            formulaId: 'formula-1',
+            symbol: 'AC',
+            name: 'Actual Cost',
+            description: 'desc',
+            unit: null,
+          },
         ],
       };
 
@@ -1408,9 +2014,30 @@ describe('FormulaService', () => {
         example: { scenario: 'test', inputs: {}, solution: 'test', result: 1 },
         createdAt: mockDate,
         variables: [
-          { id: 'var-1', formulaId: 'formula-1', symbol: 'O', name: 'Optimistic', description: 'desc', unit: null },
-          { id: 'var-2', formulaId: 'formula-1', symbol: 'M', name: 'Most Likely', description: 'desc', unit: null },
-          { id: 'var-3', formulaId: 'formula-1', symbol: 'P', name: 'Pessimistic', description: 'desc', unit: null },
+          {
+            id: 'var-1',
+            formulaId: 'formula-1',
+            symbol: 'O',
+            name: 'Optimistic',
+            description: 'desc',
+            unit: null,
+          },
+          {
+            id: 'var-2',
+            formulaId: 'formula-1',
+            symbol: 'M',
+            name: 'Most Likely',
+            description: 'desc',
+            unit: null,
+          },
+          {
+            id: 'var-3',
+            formulaId: 'formula-1',
+            symbol: 'P',
+            name: 'Pessimistic',
+            description: 'desc',
+            unit: null,
+          },
         ],
       };
 

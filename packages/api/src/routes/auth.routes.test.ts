@@ -91,9 +91,7 @@ describe('Auth Routes Integration Tests', () => {
 
       (authService.register as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send(validRegisterData);
+      const response = await request(app).post('/api/auth/register').send(validRegisterData);
 
       expect(response.status).toBe(201);
       expect(response.body).toEqual({
@@ -105,13 +103,11 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for invalid email format', async () => {
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'invalid-email',
-          password: 'Password123',
-          name: 'Test User',
-        });
+      const response = await request(app).post('/api/auth/register').send({
+        email: 'invalid-email',
+        password: 'Password123',
+        name: 'Test User',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -119,13 +115,11 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for weak password', async () => {
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'test@example.com',
-          password: 'weak',
-          name: 'Test User',
-        });
+      const response = await request(app).post('/api/auth/register').send({
+        email: 'test@example.com',
+        password: 'weak',
+        name: 'Test User',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -133,39 +127,33 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for password without uppercase letter', async () => {
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'test@example.com',
-          password: 'password123',
-          name: 'Test User',
-        });
+      const response = await request(app).post('/api/auth/register').send({
+        email: 'test@example.com',
+        password: 'password123',
+        name: 'Test User',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
     });
 
     it('should return 400 for password without lowercase letter', async () => {
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'test@example.com',
-          password: 'PASSWORD123',
-          name: 'Test User',
-        });
+      const response = await request(app).post('/api/auth/register').send({
+        email: 'test@example.com',
+        password: 'PASSWORD123',
+        name: 'Test User',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
     });
 
     it('should return 400 for password without number', async () => {
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'test@example.com',
-          password: 'PasswordABC',
-          name: 'Test User',
-        });
+      const response = await request(app).post('/api/auth/register').send({
+        email: 'test@example.com',
+        password: 'PasswordABC',
+        name: 'Test User',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -185,12 +173,10 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for missing name', async () => {
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'test@example.com',
-          password: 'Password123',
-        });
+      const response = await request(app).post('/api/auth/register').send({
+        email: 'test@example.com',
+        password: 'Password123',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -213,9 +199,7 @@ describe('Auth Routes Integration Tests', () => {
       const error = AppError.conflict('Email already exists', 'EMAIL_EXISTS');
       (authService.register as jest.Mock).mockRejectedValue(error);
 
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send(validRegisterData);
+      const response = await request(app).post('/api/auth/register').send(validRegisterData);
 
       expect(response.status).toBe(409);
       expect(response.body.error.code).toBe('EMAIL_EXISTS');
@@ -245,9 +229,7 @@ describe('Auth Routes Integration Tests', () => {
 
       (authService.login as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send(validLoginData);
+      const response = await request(app).post('/api/auth/login').send(validLoginData);
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
@@ -258,12 +240,10 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for invalid email format', async () => {
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send({
-          email: 'not-an-email',
-          password: 'Password123',
-        });
+      const response = await request(app).post('/api/auth/login').send({
+        email: 'not-an-email',
+        password: 'Password123',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -271,23 +251,19 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for missing password', async () => {
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send({
-          email: 'user@example.com',
-        });
+      const response = await request(app).post('/api/auth/login').send({
+        email: 'user@example.com',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
     });
 
     it('should return 400 for empty password', async () => {
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send({
-          email: 'user@example.com',
-          password: '',
-        });
+      const response = await request(app).post('/api/auth/login').send({
+        email: 'user@example.com',
+        password: '',
+      });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -297,9 +273,7 @@ describe('Auth Routes Integration Tests', () => {
       const error = AppError.unauthorized('Invalid credentials', 'INVALID_CREDENTIALS');
       (authService.login as jest.Mock).mockRejectedValue(error);
 
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send(validLoginData);
+      const response = await request(app).post('/api/auth/login').send(validLoginData);
 
       expect(response.status).toBe(401);
       expect(response.body.error.code).toBe('INVALID_CREDENTIALS');
@@ -309,9 +283,7 @@ describe('Auth Routes Integration Tests', () => {
       const error = AppError.forbidden('Account is locked', 'ACCOUNT_LOCKED');
       (authService.login as jest.Mock).mockRejectedValue(error);
 
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send(validLoginData);
+      const response = await request(app).post('/api/auth/login').send(validLoginData);
 
       expect(response.status).toBe(403);
       expect(response.body.error.code).toBe('ACCOUNT_LOCKED');
@@ -340,9 +312,7 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for missing refresh token', async () => {
-      const response = await request(app)
-        .post('/api/auth/refresh')
-        .send({});
+      const response = await request(app).post('/api/auth/refresh').send({});
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -350,9 +320,7 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for empty refresh token', async () => {
-      const response = await request(app)
-        .post('/api/auth/refresh')
-        .send({ refreshToken: '' });
+      const response = await request(app).post('/api/auth/refresh').send({ refreshToken: '' });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -558,9 +526,7 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for missing email', async () => {
-      const response = await request(app)
-        .post('/api/auth/forgot-password')
-        .send({});
+      const response = await request(app).post('/api/auth/forgot-password').send({});
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -602,19 +568,14 @@ describe('Auth Routes Integration Tests', () => {
     it('should reset password successfully', async () => {
       (authService.resetPassword as jest.Mock).mockResolvedValue(undefined);
 
-      const response = await request(app)
-        .post('/api/auth/reset-password')
-        .send(validResetData);
+      const response = await request(app).post('/api/auth/reset-password').send(validResetData);
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
         success: true,
         message: 'Password reset successful. You can now login with your new password.',
       });
-      expect(authService.resetPassword).toHaveBeenCalledWith(
-        'valid-reset-token',
-        'NewPassword123'
-      );
+      expect(authService.resetPassword).toHaveBeenCalledWith('valid-reset-token', 'NewPassword123');
     });
 
     it('should return 400 for missing token', async () => {
@@ -676,7 +637,7 @@ describe('Auth Routes Integration Tests', () => {
         .post('/api/auth/reset-password')
         .send({
           token: 'valid-token',
-          newPassword: 'P'.repeat(65) + 'assword123'
+          newPassword: 'P'.repeat(65) + 'assword123',
         });
 
       expect(response.status).toBe(400);
@@ -687,9 +648,7 @@ describe('Auth Routes Integration Tests', () => {
       const error = AppError.badRequest('Invalid or expired reset token', 'INVALID_RESET_TOKEN');
       (authService.resetPassword as jest.Mock).mockRejectedValue(error);
 
-      const response = await request(app)
-        .post('/api/auth/reset-password')
-        .send(validResetData);
+      const response = await request(app).post('/api/auth/reset-password').send(validResetData);
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('INVALID_RESET_TOKEN');
@@ -713,25 +672,24 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should return 400 for missing token', async () => {
-      const response = await request(app)
-        .post('/api/auth/verify-email')
-        .send({});
+      const response = await request(app).post('/api/auth/verify-email').send({});
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
     });
 
     it('should return 400 for empty token', async () => {
-      const response = await request(app)
-        .post('/api/auth/verify-email')
-        .send({ token: '' });
+      const response = await request(app).post('/api/auth/verify-email').send({ token: '' });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
     });
 
     it('should handle invalid verification token error', async () => {
-      const error = AppError.badRequest('Invalid or expired verification token', 'INVALID_VERIFICATION_TOKEN');
+      const error = AppError.badRequest(
+        'Invalid or expired verification token',
+        'INVALID_VERIFICATION_TOKEN'
+      );
       (authService.verifyEmail as jest.Mock).mockRejectedValue(error);
 
       const response = await request(app)
@@ -918,9 +876,7 @@ describe('Auth Routes Integration Tests', () => {
     });
 
     it('should handle empty request body', async () => {
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({});
+      const response = await request(app).post('/api/auth/register').send({});
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
@@ -934,14 +890,12 @@ describe('Auth Routes Integration Tests', () => {
 
       (authService.register as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          email: 'test@example.com',
-          password: 'Password123',
-          name: 'Test User',
-          extraField: 'should be ignored',
-        });
+      const response = await request(app).post('/api/auth/register').send({
+        email: 'test@example.com',
+        password: 'Password123',
+        name: 'Test User',
+        extraField: 'should be ignored',
+      });
 
       // Zod strips extra fields by default
       expect(response.status).toBe(201);
@@ -983,9 +937,7 @@ describe('Auth Routes Integration Tests', () => {
     it('should handle authorization header without Bearer prefix', async () => {
       const token = jwt.sign({ userId: 'user-1', email: 'user@example.com' }, env.JWT_SECRET);
 
-      const response = await request(app)
-        .get('/api/auth/me')
-        .set('Authorization', token);
+      const response = await request(app).get('/api/auth/me').set('Authorization', token);
 
       expect(response.status).toBe(401);
       expect(response.body.error.code).toBe(AUTH_ERRORS.AUTH_005.code);

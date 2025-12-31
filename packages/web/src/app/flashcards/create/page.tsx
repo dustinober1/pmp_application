@@ -153,7 +153,9 @@ export default function CreateFlashcardPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="domain-select" className="block text-sm font-medium mb-1">Domain</label>
+                <label htmlFor="domain-select" className="block text-sm font-medium mb-1">
+                  Domain
+                </label>
                 <select
                   id="domain-select"
                   value={selectedDomainId}
@@ -170,7 +172,9 @@ export default function CreateFlashcardPage() {
                 </select>
               </div>
               <div>
-                <label htmlFor="task-select" className="block text-sm font-medium mb-1">Task</label>
+                <label htmlFor="task-select" className="block text-sm font-medium mb-1">
+                  Task
+                </label>
                 <select
                   id="task-select"
                   value={selectedTaskId}
@@ -189,7 +193,9 @@ export default function CreateFlashcardPage() {
             </div>
 
             <div>
-              <label htmlFor="front-input" className="block text-sm font-medium mb-1">Front (Question/Term)</label>
+              <label htmlFor="front-input" className="block text-sm font-medium mb-1">
+                Front (Question/Term)
+              </label>
               <textarea
                 id="front-input"
                 value={front}
@@ -202,7 +208,9 @@ export default function CreateFlashcardPage() {
             </div>
 
             <div>
-              <label htmlFor="back-input" className="block text-sm font-medium mb-1">Back (Answer/Definition)</label>
+              <label htmlFor="back-input" className="block text-sm font-medium mb-1">
+                Back (Answer/Definition)
+              </label>
               <textarea
                 id="back-input"
                 value={back}

@@ -395,27 +395,21 @@ describe('POST /api/flashcards/sessions', () => {
   });
 
   it('should return 400 for cardCount less than 1', async () => {
-    const response = await request(app)
-      .post('/api/flashcards/sessions')
-      .send({ cardCount: 0 });
+    const response = await request(app).post('/api/flashcards/sessions').send({ cardCount: 0 });
 
     expect(response.status).toBe(400);
     expect(response.body.error).toBeDefined();
   });
 
   it('should return 400 for cardCount greater than 100', async () => {
-    const response = await request(app)
-      .post('/api/flashcards/sessions')
-      .send({ cardCount: 101 });
+    const response = await request(app).post('/api/flashcards/sessions').send({ cardCount: 101 });
 
     expect(response.status).toBe(400);
     expect(response.body.error).toBeDefined();
   });
 
   it('should handle service errors', async () => {
-    (flashcardService.startSession as jest.Mock).mockRejectedValueOnce(
-      new Error('Database error')
-    );
+    (flashcardService.startSession as jest.Mock).mockRejectedValueOnce(new Error('Database error'));
 
     const response = await request(app).post('/api/flashcards/sessions').send({});
 
@@ -632,9 +626,7 @@ describe('POST /api/flashcards/sessions/:id/complete', () => {
   it('should complete a flashcard session', async () => {
     (flashcardService.completeSession as jest.Mock).mockResolvedValueOnce(mockSessionStats);
 
-    const response = await request(app).post(
-      `/api/flashcards/sessions/${mockSessionId}/complete`
-    );
+    const response = await request(app).post(`/api/flashcards/sessions/${mockSessionId}/complete`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
@@ -657,9 +649,7 @@ describe('POST /api/flashcards/sessions/:id/complete', () => {
       new Error('Session not found')
     );
 
-    const response = await request(app).post(
-      `/api/flashcards/sessions/${mockSessionId}/complete`
-    );
+    const response = await request(app).post(`/api/flashcards/sessions/${mockSessionId}/complete`);
 
     expect(response.status).toBe(500);
   });
@@ -667,7 +657,9 @@ describe('POST /api/flashcards/sessions/:id/complete', () => {
 
 describe('POST /api/flashcards/custom', () => {
   it('should create a custom flashcard', async () => {
-    (flashcardService.createCustomFlashcard as jest.Mock).mockResolvedValueOnce(mockCustomFlashcard);
+    (flashcardService.createCustomFlashcard as jest.Mock).mockResolvedValueOnce(
+      mockCustomFlashcard
+    );
 
     const requestBody = {
       domainId: mockDomainId,
@@ -684,10 +676,7 @@ describe('POST /api/flashcards/custom', () => {
       data: { flashcard: mockCustomFlashcard },
       message: 'Custom flashcard created',
     });
-    expect(flashcardService.createCustomFlashcard).toHaveBeenCalledWith(
-      mockUserId,
-      requestBody
-    );
+    expect(flashcardService.createCustomFlashcard).toHaveBeenCalledWith(mockUserId, requestBody);
   });
 
   // Verify middleware usage implicitly via successful response
@@ -790,7 +779,9 @@ describe('POST /api/flashcards/custom', () => {
   });
 
   it('should accept front at max length (1000 characters)', async () => {
-    (flashcardService.createCustomFlashcard as jest.Mock).mockResolvedValueOnce(mockCustomFlashcard);
+    (flashcardService.createCustomFlashcard as jest.Mock).mockResolvedValueOnce(
+      mockCustomFlashcard
+    );
     const maxFront = 'a'.repeat(1000);
 
     const response = await request(app).post('/api/flashcards/custom').send({
@@ -804,7 +795,9 @@ describe('POST /api/flashcards/custom', () => {
   });
 
   it('should accept back at max length (2000 characters)', async () => {
-    (flashcardService.createCustomFlashcard as jest.Mock).mockResolvedValueOnce(mockCustomFlashcard);
+    (flashcardService.createCustomFlashcard as jest.Mock).mockResolvedValueOnce(
+      mockCustomFlashcard
+    );
     const maxBack = 'a'.repeat(2000);
 
     const response = await request(app).post('/api/flashcards/custom').send({
@@ -893,10 +886,13 @@ describe('Authentication middleware integration', () => {
 describe('Property-based testing for validation', () => {
   it('should validate UUID format for all UUID parameters', async () => {
     await fc.assert(
-      fc.asyncProperty(fc.string().filter(s => !isValidUUID(s)), async invalidUuid => {
-        const response = await request(app).get(`/api/flashcards?domainId=${invalidUuid}`);
-        expect(response.status).toBe(400);
-      }),
+      fc.asyncProperty(
+        fc.string().filter(s => !isValidUUID(s)),
+        async invalidUuid => {
+          const response = await request(app).get(`/api/flashcards?domainId=${invalidUuid}`);
+          expect(response.status).toBe(400);
+        }
+      ),
       { numRuns: 10 }
     );
   });
@@ -947,7 +943,6 @@ describe('Property-based testing for validation', () => {
 
 // Helper function to validate UUID format
 function isValidUUID(str: string): boolean {
-  const uuidRegex =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   return uuidRegex.test(str);
 }

@@ -347,7 +347,10 @@ describe('Domain Routes', () => {
         message: 'Section marked as complete',
       });
       expect(authMiddleware).toHaveBeenCalled();
-      expect(contentService.markSectionComplete).toHaveBeenCalledWith('test-user-id', validSectionUUID);
+      expect(contentService.markSectionComplete).toHaveBeenCalledWith(
+        'test-user-id',
+        validSectionUUID
+      );
     });
 
     it('should return 400 for invalid section UUID', async () => {
@@ -455,7 +458,7 @@ describe('Domain Routes', () => {
 
       const responses = await Promise.all(requests);
 
-      responses.forEach((response) => {
+      responses.forEach(response => {
         expect(response.status).toBe(200);
         expect(response.body.data.domain).toEqual(mockDomain);
       });
@@ -593,7 +596,10 @@ describe('Domain Routes', () => {
         .set('Authorization', 'Bearer test-token');
 
       expect(authMiddleware).toHaveBeenCalled();
-      expect(contentService.markSectionComplete).toHaveBeenCalledWith('test-user-id', validSectionUUID);
+      expect(contentService.markSectionComplete).toHaveBeenCalledWith(
+        'test-user-id',
+        validSectionUUID
+      );
     });
 
     it('should use optional auth middleware for study guide endpoint', async () => {

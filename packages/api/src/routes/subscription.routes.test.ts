@@ -303,7 +303,9 @@ describe('Subscription Routes Integration Tests', () => {
       expect(response.body.success).toBe(true);
       expect(response.body.data.paypalOrder).toBeDefined();
       expect(response.body.data.paypalOrder.orderId).toMatch(/^MOCK-ORDER-/);
-      expect(response.body.data.paypalOrder.approvalUrl).toMatch(/^https:\/\/www.sandbox.paypal.com/);
+      expect(response.body.data.paypalOrder.approvalUrl).toMatch(
+        /^https:\/\/www.sandbox.paypal.com/
+      );
       expect(response.body.data.paypalOrder.status).toBe('CREATED');
       expect(response.body.data.paypalOrder.tier).toEqual(mockMidTier);
       expect(response.body.message).toBe('Please complete payment with PayPal');
@@ -538,7 +540,8 @@ describe('Subscription Routes Integration Tests', () => {
 
       expect(response.body).toEqual({
         success: true,
-        message: 'Subscription cancelled. Access will continue until the end of your billing period.',
+        message:
+          'Subscription cancelled. Access will continue until the end of your billing period.',
       });
       expect(subscriptionService.cancelSubscription).toHaveBeenCalledWith('test-user-id');
     });

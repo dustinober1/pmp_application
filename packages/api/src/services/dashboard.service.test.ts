@@ -78,9 +78,7 @@ describe('DashboardService', () => {
         },
       ]);
 
-      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([
-        { sectionId: 'section-1' },
-      ]);
+      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([{ sectionId: 'section-1' }]);
 
       (prisma.questionAttempt.findMany as jest.Mock).mockResolvedValue([
         {
@@ -997,9 +995,7 @@ describe('DashboardService', () => {
           ],
         },
       ]);
-      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([
-        { sectionId: 'section-1' },
-      ]);
+      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([{ sectionId: 'section-1' }]);
       (prisma.questionAttempt.findMany as jest.Mock).mockResolvedValue([
         { isCorrect: true, question: { domainId: 'domain-1' } },
       ]);
@@ -1048,9 +1044,7 @@ describe('DashboardService', () => {
       // Need to adjust to get into 60-80 range
       // Content: 50% (1/2), Practice: 80% (8/10), Flashcard: 66% (4/6)
       // Overall: 50*0.4 + 80*0.4 + 66*0.2 = 20 + 32 + 13.2 = 65.2
-      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([
-        { sectionId: 'section-1' },
-      ]);
+      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([{ sectionId: 'section-1' }]);
       (prisma.questionAttempt.findMany as jest.Mock).mockResolvedValue([
         ...Array(8).fill({
           isCorrect: true,
@@ -1157,9 +1151,7 @@ describe('DashboardService', () => {
       // Content: 50% (1/2), Practice: 70% (7/10), Flashcard: 0% (0/10)
       // Overall: 50*0.4 + 70*0.4 + 0*0.2 = 20 + 28 + 0 = 48
       // Retention (0) is clearly the weakest
-      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([
-        { sectionId: 'section-1' },
-      ]);
+      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([{ sectionId: 'section-1' }]);
       (prisma.questionAttempt.findMany as jest.Mock).mockResolvedValue([
         ...Array(7).fill({
           isCorrect: true,
@@ -1344,9 +1336,7 @@ describe('DashboardService', () => {
           ],
         },
       ]);
-      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([
-        { sectionId: 'section-1' },
-      ]); // 50% progress
+      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([{ sectionId: 'section-1' }]); // 50% progress
 
       const result = await dashboardService.getRecommendations(userId);
 
@@ -1409,9 +1399,7 @@ describe('DashboardService', () => {
           ],
         },
       ]);
-      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([
-        { sectionId: 'section-1' },
-      ]); // 100% progress
+      (prisma.studyProgress.findMany as jest.Mock).mockResolvedValue([{ sectionId: 'section-1' }]); // 100% progress
 
       const result = await dashboardService.getRecommendations(userId);
 
@@ -1459,9 +1447,7 @@ describe('DashboardService', () => {
     it('should handle various activity dates', async () => {
       await fc.assert(
         fc.asyncProperty(fc.date(), async date => {
-          (prisma.studyActivity.findMany as jest.Mock).mockResolvedValue([
-            { createdAt: date },
-          ]);
+          (prisma.studyActivity.findMany as jest.Mock).mockResolvedValue([{ createdAt: date }]);
 
           const result = await dashboardService.getStudyStreak('user-123');
 
@@ -1520,13 +1506,9 @@ describe('DashboardService', () => {
     });
 
     it('should handle database errors gracefully', async () => {
-      (prisma.studyActivity.findMany as jest.Mock).mockRejectedValue(
-        new Error('Database error')
-      );
+      (prisma.studyActivity.findMany as jest.Mock).mockRejectedValue(new Error('Database error'));
 
-      await expect(dashboardService.getStudyStreak('user-123')).rejects.toThrow(
-        'Database error'
-      );
+      await expect(dashboardService.getStudyStreak('user-123')).rejects.toThrow('Database error');
     });
 
     it('should handle concurrent dashboard requests', async () => {
@@ -1698,11 +1680,7 @@ describe('DashboardService', () => {
           tasks: [
             {
               studyGuide: {
-                sections: [
-                  { id: 'section-1' },
-                  { id: 'section-2' },
-                  { id: 'section-3' },
-                ],
+                sections: [{ id: 'section-1' }, { id: 'section-2' }, { id: 'section-3' }],
               },
             },
           ],

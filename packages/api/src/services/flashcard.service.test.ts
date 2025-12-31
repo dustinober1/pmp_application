@@ -981,7 +981,9 @@ describe('FlashcardService', () => {
     it('should throw error when session not found', async () => {
       (prisma.flashcardSession.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(flashcardService.completeSession('session-1')).rejects.toThrow('Session not found');
+      await expect(flashcardService.completeSession('session-1')).rejects.toThrow(
+        'Session not found'
+      );
     });
 
     it('should handle session with all know_it ratings', async () => {
@@ -1286,11 +1288,7 @@ describe('FlashcardService', () => {
 
   describe('SM-2 Algorithm (calculateSM2)', () => {
     // Access private method for testing via any cast
-    const callCalculateSM2 = (
-      service: any,
-      existingReview: any,
-      rating: FlashcardRating
-    ) => {
+    const callCalculateSM2 = (service: any, existingReview: any, rating: FlashcardRating) => {
       return service.calculateSM2(existingReview, rating);
     };
 

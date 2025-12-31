@@ -682,7 +682,9 @@ describe('AuthService', () => {
     it('should silently succeed if user not found (prevent email enumeration)', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(authService.requestPasswordReset('nonexistent@example.com')).resolves.not.toThrow();
+      await expect(
+        authService.requestPasswordReset('nonexistent@example.com')
+      ).resolves.not.toThrow();
 
       expect(prisma.passwordReset.create).not.toHaveBeenCalled();
     });
@@ -819,12 +821,12 @@ describe('AuthService', () => {
 
       (prisma.passwordReset.findUnique as jest.Mock).mockResolvedValue(mockResetRecord);
       (bcrypt.hash as jest.Mock).mockResolvedValue('new-hashed-password');
-      (prisma.$transaction as jest.Mock).mockImplementation(async (operations) => {
+      (prisma.$transaction as jest.Mock).mockImplementation(async operations => {
         // Execute mocked operations
         return await Promise.all(operations);
       });
 
-      (prisma.user.update as jest.Mock).mockImplementation((args) => {
+      (prisma.user.update as jest.Mock).mockImplementation(args => {
         expect(args.data.failedLoginAttempts).toBe(0);
         expect(args.data.lockedUntil).toBeNull();
         return Promise.resolve({});
@@ -931,7 +933,7 @@ describe('AuthService', () => {
   describe('Property-Based Tests', () => {
     it('should handle various valid email formats', () => {
       fc.assert(
-        fc.property(fc.emailAddress(), (email) => {
+        fc.property(fc.emailAddress(), email => {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           return emailRegex.test(email);
         })
@@ -944,9 +946,9 @@ describe('AuthService', () => {
           fc
             .string()
             .filter(
-              (s) => !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s)
+              s => !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s)
             ),
-          (invalidId) => {
+          invalidId => {
             const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
             return !uuidRegex.test(invalidId);
           }
@@ -956,13 +958,10 @@ describe('AuthService', () => {
 
     it('should handle password strength variations', () => {
       fc.assert(
-        fc.property(
-          fc.string({ minLength: 8, maxLength: 128 }),
-          (password) => {
-            // Password can be any string between 8 and 128 characters
-            return password.length >= 8 && password.length <= 128;
-          }
-        ),
+        fc.property(fc.string({ minLength: 8, maxLength: 128 }), password => {
+          // Password can be any string between 8 and 128 characters
+          return password.length >= 8 && password.length <= 128;
+        }),
         { numRuns: 50 }
       );
     });

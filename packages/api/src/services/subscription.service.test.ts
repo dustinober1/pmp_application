@@ -7,11 +7,7 @@ import { SubscriptionService } from './subscription.service';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 import * as fc from 'fast-check';
-import {
-  TierName,
-  DEFAULT_TIER_FEATURES,
-  SUBSCRIPTION_ERRORS,
-} from '@pmp/shared';
+import { TierName, DEFAULT_TIER_FEATURES, SUBSCRIPTION_ERRORS } from '@pmp/shared';
 
 // Mock Prisma Client
 jest.mock('../config/database', () => ({
@@ -160,9 +156,7 @@ describe('SubscriptionService', () => {
         new Error('Database error')
       );
 
-      await expect(subscriptionService.getTierById('tier-id')).rejects.toThrow(
-        'Database error'
-      );
+      await expect(subscriptionService.getTierById('tier-id')).rejects.toThrow('Database error');
     });
   });
 
@@ -443,11 +437,7 @@ describe('SubscriptionService', () => {
       (prisma.subscriptionTier.findUnique as jest.Mock).mockResolvedValue(mockMidTier);
       (prisma.userSubscription.upsert as jest.Mock).mockResolvedValue(mockSubscription);
 
-      const result = await subscriptionService.createSubscription(
-        userId,
-        tierId,
-        'new-paypal-id'
-      );
+      const result = await subscriptionService.createSubscription(userId, tierId, 'new-paypal-id');
 
       expect(prisma.userSubscription.upsert).toHaveBeenCalledWith({
         where: { userId },
@@ -654,9 +644,7 @@ describe('SubscriptionService', () => {
       await subscriptionService.expireSubscription(userId);
 
       expect(prisma.team.findFirst).toHaveBeenCalled();
-      expect(console.log).not.toHaveBeenCalledWith(
-        expect.stringContaining('downgraded')
-      );
+      expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('downgraded'));
     });
   });
 
@@ -678,9 +666,7 @@ describe('SubscriptionService', () => {
       ];
 
       (prisma.userSubscription.findMany as jest.Mock).mockResolvedValue(expiredSubscriptions);
-      (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(
-        expiredSubscriptions[0]
-      );
+      (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(expiredSubscriptions[0]);
       (prisma.userSubscription.update as jest.Mock).mockResolvedValue({});
 
       const result = await subscriptionService.checkSubscriptionExpiry();
@@ -734,9 +720,7 @@ describe('SubscriptionService', () => {
 
       (prisma.userSubscription.findMany as jest.Mock).mockResolvedValue(expiredSubscriptions);
       (prisma.userSubscription.findUnique as jest.Mock).mockImplementation(({ where }) => {
-        return Promise.resolve(
-          expiredSubscriptions.find(sub => sub.userId === where.userId)
-        );
+        return Promise.resolve(expiredSubscriptions.find(sub => sub.userId === where.userId));
       });
       (prisma.subscriptionTier.findFirst as jest.Mock).mockResolvedValue(mockFreeTier);
       (prisma.userSubscription.update as jest.Mock).mockResolvedValue({});
@@ -1061,12 +1045,9 @@ describe('SubscriptionService', () => {
 
     it('should validate tier names', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom('free', 'mid-level', 'high-end', 'corporate'),
-          tierName => {
-            expect(['free', 'mid-level', 'high-end', 'corporate']).toContain(tierName);
-          }
-        )
+        fc.property(fc.constantFrom('free', 'mid-level', 'high-end', 'corporate'), tierName => {
+          expect(['free', 'mid-level', 'high-end', 'corporate']).toContain(tierName);
+        })
       );
     });
   });

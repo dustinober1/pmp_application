@@ -31,11 +31,7 @@ describe('requireTier middleware', () => {
       mockRequest.user = undefined;
 
       const middleware = requireTier('mid-level');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -65,11 +61,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('free');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(prisma.userSubscription.findUnique).toHaveBeenCalledWith({
         where: { userId: 'user-123' },
@@ -90,11 +82,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(null);
 
       const middleware = requireTier('free');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -118,11 +106,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('mid-level');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -155,11 +139,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('mid-level');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -183,11 +163,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('free');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -211,11 +187,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('high-end');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -248,11 +220,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('high-end');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -276,11 +244,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('mid-level');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -304,11 +268,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('corporate');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -341,11 +301,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('corporate');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -369,11 +325,7 @@ describe('requireTier middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireTier('free');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -394,11 +346,7 @@ describe('requireTier middleware', () => {
       );
 
       const middleware = requireTier('mid-level');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -426,11 +374,7 @@ describe('requireFeature middleware', () => {
       mockRequest.user = undefined;
 
       const middleware = requireFeature('mockExams');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -463,11 +407,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireFeature('mockExams');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -501,11 +441,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireFeature('mockExams');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -538,11 +474,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireFeature('mockExams');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -569,11 +501,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireFeature('mockExams');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -602,11 +530,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireFeature('mockExams');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -633,11 +557,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireFeature('mockExams');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -673,11 +593,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireFeature('flashcardsLimit');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -704,11 +620,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
       const middleware = requireFeature('flashcardsLimit');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -727,11 +639,7 @@ describe('requireFeature middleware', () => {
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(null);
 
       const middleware = requireFeature('flashcardsLimit');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
@@ -752,11 +660,7 @@ describe('requireFeature middleware', () => {
       );
 
       const middleware = requireFeature('mockExams');
-      await middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({

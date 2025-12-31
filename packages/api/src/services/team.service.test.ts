@@ -57,7 +57,7 @@ jest.mock('../config/database', () => ({
     questionAttempt: {
       findMany: jest.fn(),
     },
-    $transaction: jest.fn((callback) => {
+    $transaction: jest.fn(callback => {
       if (typeof callback === 'function') {
         return callback(prisma);
       }
@@ -1044,10 +1044,7 @@ describe('TeamService', () => {
       const userId = 'user-123';
       const mockTeam = {
         id: teamId,
-        members: [
-          { userId: 'user-123' },
-          { userId: 'user-456' },
-        ],
+        members: [{ userId: 'user-123' }, { userId: 'user-456' }],
         goals: [
           {
             id: 'goal-1',
@@ -1064,9 +1061,7 @@ describe('TeamService', () => {
         { userId: 'user-456' },
       ]);
       (prisma.studySection.count as jest.Mock).mockResolvedValue(100);
-      (prisma.studyProgress.count as jest.Mock)
-        .mockResolvedValueOnce(80)
-        .mockResolvedValueOnce(60);
+      (prisma.studyProgress.count as jest.Mock).mockResolvedValueOnce(80).mockResolvedValueOnce(60);
 
       const result = await teamService.getGoals(teamId, userId);
 
@@ -1081,10 +1076,7 @@ describe('TeamService', () => {
       const userId = 'user-123';
       const mockTeam = {
         id: teamId,
-        members: [
-          { userId: 'user-123' },
-          { userId: 'user-456' },
-        ],
+        members: [{ userId: 'user-123' }, { userId: 'user-456' }],
         goals: [
           {
             id: 'goal-1',
@@ -1107,10 +1099,7 @@ describe('TeamService', () => {
           { isCorrect: false },
           { isCorrect: true },
         ])
-        .mockResolvedValueOnce([
-          { isCorrect: true },
-          { isCorrect: true },
-        ]);
+        .mockResolvedValueOnce([{ isCorrect: true }, { isCorrect: true }]);
 
       const result = await teamService.getGoals(teamId, userId);
 
@@ -1124,9 +1113,7 @@ describe('TeamService', () => {
       const userId = 'user-123';
       const mockTeam = {
         id: teamId,
-        members: [
-          { userId: 'user-123' },
-        ],
+        members: [{ userId: 'user-123' }],
         goals: [
           {
             id: 'goal-1',
@@ -1138,9 +1125,7 @@ describe('TeamService', () => {
       };
 
       (prisma.team.findUnique as jest.Mock).mockResolvedValue(mockTeam);
-      (prisma.teamMember.findMany as jest.Mock).mockResolvedValue([
-        { userId: 'user-123' },
-      ]);
+      (prisma.teamMember.findMany as jest.Mock).mockResolvedValue([{ userId: 'user-123' }]);
       (prisma.studyActivity.findMany as jest.Mock).mockResolvedValue([
         { durationMs: 3600000 }, // 60 minutes
         { durationMs: 1800000 }, // 30 minutes
@@ -1221,9 +1206,7 @@ describe('TeamService', () => {
       };
 
       (prisma.team.findUnique as jest.Mock).mockResolvedValue(mockTeam);
-      (prisma.teamMember.findMany as jest.Mock).mockResolvedValue([
-        { userId: 'user-123' },
-      ]);
+      (prisma.teamMember.findMany as jest.Mock).mockResolvedValue([{ userId: 'user-123' }]);
       (prisma.questionAttempt.findMany as jest.Mock).mockResolvedValue([]);
 
       const result = await teamService.getGoals(teamId, userId);
@@ -1407,14 +1390,8 @@ describe('TeamService', () => {
         .mockResolvedValueOnce([{ durationMs: 3600000 }])
         .mockResolvedValueOnce([{ durationMs: 1800000 }]);
       (prisma.questionAttempt.findMany as jest.Mock)
-        .mockResolvedValueOnce([
-          { isCorrect: true },
-          { isCorrect: true },
-          { isCorrect: false },
-        ])
-        .mockResolvedValueOnce([
-          { isCorrect: true },
-        ]);
+        .mockResolvedValueOnce([{ isCorrect: true }, { isCorrect: true }, { isCorrect: false }])
+        .mockResolvedValueOnce([{ isCorrect: true }]);
       (prisma.studyActivity.findFirst as jest.Mock)
         .mockResolvedValueOnce({ createdAt: new Date() })
         .mockResolvedValueOnce({ createdAt: new Date() });
@@ -1559,9 +1536,7 @@ describe('TeamService', () => {
       (prisma.studyActivity.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.questionAttempt.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.studyActivity.findFirst as jest.Mock).mockResolvedValue(null);
-      (prisma.teamMember.findMany as jest.Mock).mockResolvedValue([
-        { userId: 'user-1' },
-      ]);
+      (prisma.teamMember.findMany as jest.Mock).mockResolvedValue([{ userId: 'user-1' }]);
 
       const result = await teamService.generateReport(teamId, adminId);
 

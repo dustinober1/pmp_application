@@ -54,7 +54,12 @@ export async function authMiddleware(
       next();
     } catch (jwtError) {
       if (jwtError instanceof AppError) throw jwtError;
-      if (jwtError instanceof Error && jwtError.name !== 'JsonWebTokenError' && jwtError.name !== 'TokenExpiredError') throw jwtError;
+      if (
+        jwtError instanceof Error &&
+        jwtError.name !== 'JsonWebTokenError' &&
+        jwtError.name !== 'TokenExpiredError'
+      )
+        throw jwtError;
       throw AppError.unauthorized(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
     }
   } catch (error) {

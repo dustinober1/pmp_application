@@ -197,11 +197,7 @@ describe('errorHandler middleware', () => {
 
   describe('AppError handling', () => {
     it('should handle AppError with all properties', () => {
-      const error = AppError.badRequest(
-        'Validation failed',
-        'VAL_001',
-        { fields: ['email'] }
-      );
+      const error = AppError.badRequest('Validation failed', 'VAL_001', { fields: ['email'] });
 
       errorHandler(error, mockRequest as Request, mockResponse as Response, mockNext);
 
@@ -219,11 +215,7 @@ describe('errorHandler middleware', () => {
     });
 
     it('should handle AppError with suggestion', () => {
-      const error = AppError.forbidden(
-        'Upgrade required',
-        'SUB_001',
-        'Please upgrade to premium'
-      );
+      const error = AppError.forbidden('Upgrade required', 'SUB_001', 'Please upgrade to premium');
 
       errorHandler(error, mockRequest as Request, mockResponse as Response, mockNext);
 
@@ -283,9 +275,7 @@ describe('errorHandler middleware', () => {
 
   describe('Zod error handling', () => {
     it('should handle ZodError', () => {
-      const zodError = new Error(JSON.stringify([
-        { field: 'email', message: 'Invalid email' }
-      ]));
+      const zodError = new Error(JSON.stringify([{ field: 'email', message: 'Invalid email' }]));
       zodError.name = 'ZodError';
 
       errorHandler(zodError, mockRequest as Request, mockResponse as Response, mockNext);

@@ -59,11 +59,7 @@ describe('authMiddleware', () => {
       (jwt.verify as jest.Mock).mockReturnValue(mockPayload);
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(jwt.verify).toHaveBeenCalledWith('valid-token', env.JWT_SECRET);
       expect(prisma.user.findUnique).toHaveBeenCalledWith({
@@ -99,11 +95,7 @@ describe('authMiddleware', () => {
       (jwt.verify as jest.Mock).mockReturnValue(mockPayload);
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockRequest.user).toEqual(mockPayload);
       expect(mockNext).toHaveBeenCalledWith();
@@ -114,11 +106,7 @@ describe('authMiddleware', () => {
     it('should throw unauthorized error if authorization header is missing', async () => {
       mockRequest.headers = {};
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -134,11 +122,7 @@ describe('authMiddleware', () => {
         authorization: 'Basic some-credentials',
       };
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -154,11 +138,7 @@ describe('authMiddleware', () => {
         authorization: 'Bearer',
       };
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -182,11 +162,7 @@ describe('authMiddleware', () => {
         throw error;
       });
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -208,11 +184,7 @@ describe('authMiddleware', () => {
         throw tokenExpiredError;
       });
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -234,11 +206,7 @@ describe('authMiddleware', () => {
         throw jwtError;
       });
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -267,11 +235,7 @@ describe('authMiddleware', () => {
       (jwt.verify as jest.Mock).mockReturnValue(mockPayload);
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -307,11 +271,7 @@ describe('authMiddleware', () => {
       (jwt.verify as jest.Mock).mockReturnValue(mockPayload);
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -336,11 +296,7 @@ describe('authMiddleware', () => {
         throw customError;
       });
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(customError);
     });
@@ -363,11 +319,7 @@ describe('authMiddleware', () => {
         new Error('Database connection failed')
       );
 
-      await authMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      await authMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -408,11 +360,7 @@ describe('optionalAuthMiddleware', () => {
 
       (jwt.verify as jest.Mock).mockReturnValue(mockPayload);
 
-      optionalAuthMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      optionalAuthMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(jwt.verify).toHaveBeenCalledWith('valid-token', env.JWT_SECRET);
       expect(mockRequest.user).toEqual(mockPayload);
@@ -424,11 +372,7 @@ describe('optionalAuthMiddleware', () => {
     it('should continue without user if no authorization header', () => {
       mockRequest.headers = {};
 
-      optionalAuthMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      optionalAuthMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(jwt.verify).not.toHaveBeenCalled();
       expect(mockRequest.user).toBeUndefined();
@@ -440,11 +384,7 @@ describe('optionalAuthMiddleware', () => {
         authorization: 'Basic some-credentials',
       };
 
-      optionalAuthMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      optionalAuthMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(jwt.verify).not.toHaveBeenCalled();
       expect(mockRequest.user).toBeUndefined();
@@ -456,11 +396,7 @@ describe('optionalAuthMiddleware', () => {
         authorization: 'Bearer',
       };
 
-      optionalAuthMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      optionalAuthMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(jwt.verify).not.toHaveBeenCalled();
       expect(mockRequest.user).toBeUndefined();
@@ -478,11 +414,7 @@ describe('optionalAuthMiddleware', () => {
         throw new Error('invalid token');
       });
 
-      optionalAuthMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      optionalAuthMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockRequest.user).toBeUndefined();
       expect(mockNext).toHaveBeenCalledWith();
@@ -499,11 +431,7 @@ describe('optionalAuthMiddleware', () => {
         throw tokenExpiredError;
       });
 
-      optionalAuthMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      optionalAuthMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockRequest.user).toBeUndefined();
       expect(mockNext).toHaveBeenCalledWith();
@@ -518,11 +446,7 @@ describe('optionalAuthMiddleware', () => {
         throw new Error('invalid signature');
       });
 
-      optionalAuthMiddleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      optionalAuthMiddleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockRequest.user).toBeUndefined();
       expect(mockNext).toHaveBeenCalledWith();

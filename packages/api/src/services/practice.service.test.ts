@@ -1495,12 +1495,9 @@ describe('PracticeService', () => {
 
     it('should validate difficulty filters', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom('easy', 'medium', 'hard'),
-          difficulty => {
-            expect(['easy', 'medium', 'hard']).toContain(difficulty);
-          }
-        )
+        fc.property(fc.constantFrom('easy', 'medium', 'hard'), difficulty => {
+          expect(['easy', 'medium', 'hard']).toContain(difficulty);
+        })
       );
     });
   });

@@ -201,9 +201,7 @@ describe('ContentService', () => {
     });
 
     it('should handle database errors', async () => {
-      (prisma.domain.findUnique as jest.Mock).mockRejectedValue(
-        new Error('Database error')
-      );
+      (prisma.domain.findUnique as jest.Mock).mockRejectedValue(new Error('Database error'));
 
       await expect(contentService.getDomainById('domain-123')).rejects.toThrow('Database error');
     });
@@ -354,16 +352,9 @@ describe('ContentService', () => {
         updatedAt,
       };
 
-      const mockFlashcards = [
-        { id: 'flashcard-1' },
-        { id: 'flashcard-2' },
-        { id: 'flashcard-3' },
-      ];
+      const mockFlashcards = [{ id: 'flashcard-1' }, { id: 'flashcard-2' }, { id: 'flashcard-3' }];
 
-      const mockQuestions = [
-        { id: 'question-1' },
-        { id: 'question-2' },
-      ];
+      const mockQuestions = [{ id: 'question-1' }, { id: 'question-2' }];
 
       (prisma.studyGuide.findUnique as jest.Mock).mockResolvedValue(mockGuide);
       (prisma.flashcard.findMany as jest.Mock).mockResolvedValue(mockFlashcards);
@@ -528,9 +519,7 @@ describe('ContentService', () => {
       const mockSection = { id: sectionId };
 
       (prisma.studySection.findUnique as jest.Mock).mockResolvedValue(mockSection);
-      (prisma.studyProgress.upsert as jest.Mock).mockRejectedValue(
-        new Error('Database error')
-      );
+      (prisma.studyProgress.upsert as jest.Mock).mockRejectedValue(new Error('Database error'));
 
       await expect(contentService.markSectionComplete(userId, sectionId)).rejects.toThrow(
         'Database error'
@@ -591,11 +580,7 @@ describe('ContentService', () => {
               studyGuide: {
                 id: 'guide-1',
                 taskId: 'task-1',
-                sections: [
-                  { id: 'section-1' },
-                  { id: 'section-2' },
-                  { id: 'section-3' },
-                ],
+                sections: [{ id: 'section-1' }, { id: 'section-2' }, { id: 'section-3' }],
               },
             },
           ],
@@ -664,9 +649,7 @@ describe('ContentService', () => {
         {
           id: 'domain-1',
           name: 'People',
-          tasks: [
-            { id: 'task-1', domainId: 'domain-1', studyGuide: null },
-          ],
+          tasks: [{ id: 'task-1', domainId: 'domain-1', studyGuide: null }],
         },
       ];
 
@@ -738,7 +721,8 @@ describe('ContentService', () => {
         {
           id: 'section-1',
           title: 'Project Management Basics',
-          content: 'This section covers the basics of project management and its importance in modern business.',
+          content:
+            'This section covers the basics of project management and its importance in modern business.',
           studyGuide: {
             id: 'guide-1',
             taskId: 'task-1',
@@ -762,7 +746,8 @@ describe('ContentService', () => {
         {
           id: 'question-1',
           questionText: 'Which of the following best describes project management?',
-          explanation: 'Project management involves planning, organizing, and controlling resources to achieve specific goals.',
+          explanation:
+            'Project management involves planning, organizing, and controlling resources to achieve specific goals.',
           domainId: 'domain-1',
           taskId: 'task-1',
           task: { id: 'task-1' },
@@ -817,7 +802,8 @@ describe('ContentService', () => {
           type: 'study_guide',
           id: 'guide-1',
           title: 'Project Management Basics',
-          excerpt: 'This section covers the basics of project management and its importance in modern business....',
+          excerpt:
+            'This section covers the basics of project management and its importance in modern business....',
           domainId: 'domain-1',
           taskId: 'task-1',
         },
@@ -825,7 +811,8 @@ describe('ContentService', () => {
           type: 'flashcard',
           id: 'flashcard-1',
           title: 'What is project management?',
-          excerpt: 'Project management is the application of knowledge, skills, tools, and techniques to project activities....',
+          excerpt:
+            'Project management is the application of knowledge, skills, tools, and techniques to project activities....',
           domainId: 'domain-1',
           taskId: 'task-1',
         },
@@ -833,7 +820,8 @@ describe('ContentService', () => {
           type: 'question',
           id: 'question-1',
           title: 'Which of the following best describes project management?',
-          excerpt: 'Project management involves planning, organizing, and controlling resources to achieve specific goals....',
+          excerpt:
+            'Project management involves planning, organizing, and controlling resources to achieve specific goals....',
           domainId: 'domain-1',
           taskId: 'task-1',
         },
@@ -1059,17 +1047,13 @@ describe('ContentService', () => {
     });
 
     it('should propagate database errors in searchContent', async () => {
-      (prisma.studySection.findMany as jest.Mock).mockRejectedValue(
-        new Error('Search failed')
-      );
+      (prisma.studySection.findMany as jest.Mock).mockRejectedValue(new Error('Search failed'));
 
       await expect(contentService.searchContent('test')).rejects.toThrow('Search failed');
     });
 
     it('should propagate database errors in getUserProgress', async () => {
-      (prisma.studySection.count as jest.Mock).mockRejectedValue(
-        new Error('Count failed')
-      );
+      (prisma.studySection.count as jest.Mock).mockRejectedValue(new Error('Count failed'));
 
       await expect(contentService.getUserProgress('user-123')).rejects.toThrow('Count failed');
     });
