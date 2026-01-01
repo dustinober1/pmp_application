@@ -28,6 +28,7 @@ import formulaRouter from './routes/formula.routes';
 import dashboardRouter from './routes/dashboard.routes';
 import teamRouter from './routes/team.routes';
 import searchRouter from './routes/search.routes';
+import ebookRouter from './routes/ebook.routes';
 
 const app = express();
 
@@ -122,6 +123,7 @@ app.use('/api/formulas', formulaRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/ebook', ebookRouter);
 
 // Error handling
 app.use(notFoundHandler);
