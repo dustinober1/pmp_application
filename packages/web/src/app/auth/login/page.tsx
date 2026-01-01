@@ -39,33 +39,36 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-purple-600 to-indigo-800 opacity-5"></div>
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+      {/* Organic Blur Shapes */}
+      <div className="blur-shape bg-md-primary w-96 h-96 top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="blur-shape bg-md-tertiary w-96 h-96 bottom-0 right-0 translate-x-1/2 translate-y-1/2"></div>
 
-      <div className="card w-full max-w-md animate-slideUp relative">
+      <div className="card w-full max-w-md animate-slideUp relative z-10 bg-md-surface-container">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold" aria-hidden="true">
+            <div className="w-10 h-10 rounded-full bg-md-primary flex items-center justify-center">
+              <span className="text-md-on-primary font-bold" aria-hidden="true">
                 PM
               </span>
             </div>
           </Link>
-          <h1 className="text-2xl font-bold">Welcome Back</h1>
-          <p className="text-[var(--foreground-muted)] mt-2">
-            Sign in to continue your PMP journey
-          </p>
+          <h1 className="text-2xl font-bold text-md-on-surface">Welcome Back</h1>
+          <p className="text-md-on-surface-variant mt-2">Sign in to continue your PMP journey</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="p-3 rounded-lg bg-[var(--error-light)] text-[var(--error)] text-sm">
+            <div className="p-3 rounded-lg bg-md-error-container text-md-on-error-container text-sm">
               {error}
             </div>
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium mb-1 text-md-on-surface-variant"
+            >
               Email
             </label>
             <input
@@ -80,7 +83,10 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium mb-1 text-md-on-surface-variant"
+            >
               Password
             </label>
             <input
@@ -95,11 +101,14 @@ export default function LoginPage() {
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" className="rounded border-[var(--border)]" />
+            <label className="flex items-center gap-2 text-md-on-surface-variant">
+              <input
+                type="checkbox"
+                className="rounded border-md-outline text-md-primary focus:ring-md-primary"
+              />
               <span>Remember me</span>
             </label>
-            <Link href="/auth/forgot-password" className="text-[var(--primary)] hover:underline">
+            <Link href="/auth/forgot-password" className="text-md-primary hover:underline">
               Forgot password?
             </Link>
           </div>
@@ -113,9 +122,9 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-[var(--foreground-muted)] mt-6">
+        <p className="text-center text-sm text-md-on-surface-variant mt-6">
           Don’t have an account?{' '}
-          <Link href="/auth/register" className="text-[var(--primary)] font-medium hover:underline">
+          <Link href="/auth/register" className="text-md-primary font-medium hover:underline">
             Sign up for free
           </Link>
         </p>

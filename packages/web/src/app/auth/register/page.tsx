@@ -46,33 +46,38 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-purple-600 to-indigo-800 opacity-5"></div>
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+      {/* Organic Blur Shapes */}
+      <div className="blur-shape bg-md-primary w-96 h-96 top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="blur-shape bg-md-tertiary w-96 h-96 bottom-0 right-0 translate-x-1/2 translate-y-1/2"></div>
 
-      <div className="card w-full max-w-md animate-slideUp relative">
+      <div className="card w-full max-w-md animate-slideUp relative z-10 bg-md-surface-container">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold" aria-hidden="true">
+            <div className="w-10 h-10 rounded-full bg-md-primary flex items-center justify-center">
+              <span className="text-md-on-primary font-bold" aria-hidden="true">
                 PM
               </span>
             </div>
           </Link>
-          <h1 className="text-2xl font-bold">Create Your Account</h1>
-          <p className="text-[var(--foreground-muted)] mt-2">
+          <h1 className="text-2xl font-bold text-md-on-surface">Create Your Account</h1>
+          <p className="text-md-on-surface-variant mt-2">
             Start your PMP certification journey today
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="p-3 rounded-lg bg-[var(--error-light)] text-[var(--error)] text-sm">
+            <div className="p-3 rounded-lg bg-md-error-container text-md-on-error-container text-sm">
               {error}
             </div>
           )}
 
           <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium mb-1 text-md-on-surface-variant"
+            >
               Full Name
             </label>
             <input
@@ -87,7 +92,10 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium mb-1 text-md-on-surface-variant"
+            >
               Email
             </label>
             <input
@@ -102,7 +110,10 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium mb-1 text-md-on-surface-variant"
+            >
               Password
             </label>
             <input
@@ -115,11 +126,14 @@ export default function RegisterPage() {
               required
               minLength={8}
             />
-            <p className="text-xs text-[var(--foreground-muted)] mt-1">Minimum 8 characters</p>
+            <p className="text-xs text-md-on-surface-variant mt-1">Minimum 8 characters</p>
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium mb-1 text-md-on-surface-variant"
+            >
               Confirm Password
             </label>
             <input
@@ -133,15 +147,19 @@ export default function RegisterPage() {
             />
           </div>
 
-          <div className="flex items-start gap-2 text-sm">
-            <input type="checkbox" className="rounded border-[var(--border)] mt-1" required />
-            <span className="text-[var(--foreground-muted)]">
+          <div className="flex items-start gap-2 text-sm text-md-on-surface-variant">
+            <input
+              type="checkbox"
+              className="rounded border-md-outline mt-1 text-md-primary focus:ring-md-primary"
+              required
+            />
+            <span>
               I agree to the{' '}
-              <Link href="/terms" className="text-[var(--primary)] hover:underline">
+              <Link href="/terms" className="text-md-primary hover:underline">
                 Terms of Service
               </Link>{' '}
               and{' '}
-              <Link href="/privacy" className="text-[var(--primary)] hover:underline">
+              <Link href="/privacy" className="text-md-primary hover:underline">
                 Privacy Policy
               </Link>
             </span>
@@ -156,9 +174,9 @@ export default function RegisterPage() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-[var(--foreground-muted)] mt-6">
+        <p className="text-center text-sm text-md-on-surface-variant mt-6">
           Already have an account?{' '}
-          <Link href="/auth/login" className="text-[var(--primary)] font-medium hover:underline">
+          <Link href="/auth/login" className="text-md-primary font-medium hover:underline">
             Sign in
           </Link>
         </p>

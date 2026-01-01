@@ -36,9 +36,9 @@ const ContentSecurityPolicy = [
   "form-action 'self'",
   "frame-ancestors 'none'",
   "img-src 'self' data: blob:",
-  "font-src 'self' data:",
+  "font-src 'self' data: fonts.gstatic.com",
   scriptSrc,
-  "style-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
   connectSrc,
 ].join('; ');
 

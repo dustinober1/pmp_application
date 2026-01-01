@@ -5,15 +5,18 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)] via-purple-600 to-indigo-800 opacity-10"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+        {/* Organic Blur Shapes */}
+        <div className="blur-shape bg-md-primary w-96 h-96 top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="blur-shape bg-md-tertiary w-96 h-96 bottom-0 right-0 translate-x-1/2 translate-y-1/2"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 relative z-10">
           <div className="text-center animate-slideUp">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              Pass the <span className="gradient-text">2026 PMP Exam</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-md-on-background">
+              Pass the <span className="text-gradient">2026 PMP Exam</span>
               <br />
               with Confidence
             </h1>
-            <p className="text-xl text-[var(--foreground-muted)] max-w-2xl mx-auto mb-8">
+            <p className="text-xl text-md-on-surface-variant max-w-2xl mx-auto mb-8">
               Comprehensive study materials, practice questions, and AI-powered insights designed to
               help you succeed on your first attempt.
             </p>
@@ -30,17 +33,19 @@ export default function HomePage() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-20 bg-[var(--background-alt)]">
+      <section className="py-20 bg-md-surface-container-low">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Everything You Need to Pass</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-md-on-surface">
+            Everything You Need to Pass
+          </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-              <div key={index} className="card hover:border-[var(--primary)] transition-colors">
-                <div className="w-12 h-12 rounded-lg bg-[var(--primary-light)] text-[var(--primary)] flex items-center justify-center mb-4">
+              <div key={index} className="card card-interactive group">
+                <div className="w-12 h-12 rounded-xl bg-md-primary-container text-md-on-primary-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-[var(--foreground-muted)]">{feature.description}</p>
+                <h3 className="text-lg font-semibold mb-2 text-md-on-surface">{feature.title}</h3>
+                <p className="text-md-on-surface-variant">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -53,8 +58,8 @@ export default function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {stats.map((stat, index) => (
               <div key={index}>
-                <p className="text-4xl font-bold gradient-text">{stat.value}</p>
-                <p className="text-[var(--foreground-muted)] mt-2">{stat.label}</p>
+                <p className="text-4xl font-bold text-gradient">{stat.value}</p>
+                <p className="text-md-on-surface-variant mt-2">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -62,29 +67,34 @@ export default function HomePage() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 bg-[var(--background-alt)]">
+      <section className="py-20 bg-md-surface-container-low">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-[var(--foreground-muted)] text-center mb-12 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-4 text-md-on-surface">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="text-md-on-surface-variant text-center mb-12 max-w-2xl mx-auto">
             Choose the plan that fits your study needs. Upgrade or downgrade anytime.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {pricing.map((tier, index) => (
               <div
                 key={index}
-                className={`card ${tier.popular ? 'border-[var(--primary)] ring-2 ring-[var(--primary)]' : ''}`}
+                className={`card relative ${tier.popular ? 'ring-2 ring-md-primary md:-translate-y-4 shadow-lg' : ''}`}
               >
                 {tier.popular && <span className="badge badge-primary mb-4">Most Popular</span>}
-                <h3 className="text-xl font-bold">{tier.name}</h3>
-                <p className="text-3xl font-bold mt-4">
+                <h3 className="text-xl font-bold text-md-on-surface">{tier.name}</h3>
+                <p className="text-3xl font-bold mt-4 text-md-on-surface">
                   ${tier.price}
-                  <span className="text-sm font-normal text-[var(--foreground-muted)]">/mo</span>
+                  <span className="text-sm font-normal text-md-on-surface-variant">/mo</span>
                 </p>
                 <ul className="mt-6 space-y-3">
                   {tier.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm">
+                    <li
+                      key={i}
+                      className="flex items-center gap-2 text-sm text-md-on-surface-variant"
+                    >
                       <svg
-                        className="w-5 h-5 text-[var(--success)]"
+                        className="w-5 h-5 text-md-primary"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -113,10 +123,13 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Ace Your PMP Exam?</h2>
-          <p className="text-[var(--foreground-muted)] mb-8">
+      <section className="py-20 relative overflow-hidden">
+        <div className="blur-shape bg-md-secondary w-full h-full opacity-10"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-3xl font-bold mb-4 text-md-on-surface">
+            Ready to Ace Your PMP Exam?
+          </h2>
+          <p className="text-md-on-surface-variant mb-8">
             Join thousands of successful PMP-certified professionals who studied with us.
           </p>
           <Link href="/auth/register" className="btn btn-primary text-lg px-8 py-3">
@@ -126,16 +139,16 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[var(--border)] py-12">
+      <footer className="border-t border-md-outline/20 py-12 bg-md-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">PM</span>
+              <div className="w-8 h-8 rounded-full bg-md-primary flex items-center justify-center">
+                <span className="text-md-on-primary font-bold text-sm">PM</span>
               </div>
-              <span className="font-semibold">PMP Study Pro</span>
+              <span className="font-semibold text-md-on-surface">PMP Study Pro</span>
             </div>
-            <p className="text-[var(--foreground-muted)] text-sm">
+            <p className="text-md-on-surface-variant text-sm">
               © 2024 PMP Study Pro. All rights reserved.
             </p>
           </div>
