@@ -1,50 +1,89 @@
 # Claude Orchestrator Progress Log
 # ===============================
 # Project: ~/Projects/pmp_application
-# Started: 2026-01-01T18:36:07.326Z
-# Last Updated: 2026-01-01T18:49:33.918Z
-# Status: paused
+# Started: 2026-01-01T22:23:41.711Z
+# Last Updated: 2026-01-01T22:51:05.000Z
+# Status: in_progress
 
 ## Summary
-- Total Features: 4
-- Completed: 1
+- Total Features: 10
+- Completed: 8
 - In Progress: 0
-- Pending: 3
+- Pending: 2
 - Failed: 0
 
 ## Task Description
-Fix E2E Playwright tests for PMP Study Application
+Incorporate the PMP 2026 ebook from ~/PMP-2026/guide into the website as a study resource with a freemium model:
 
-Context:
-- All 431 unit tests pass ✅
-- Coverage above 80% ✅
-- E2E tests exist but have Playwright configuration issues
+FREE CONTENT (accessible to all users):
+- Chapter 1: Fundamentals & Exam Overview (full access)
+- Chapter 5: Initiation (full access)
+- Chapter 11: Exam Prep (full access)
+- All chapter index pages (previews)
 
-E2E Test Issues:
-The E2E tests in packages/web/e2e/ are failing with "Playwright Test did not expect test.describe() to be called here" errors. This typically indicates:
-1. Missing or incorrect playwright.config.ts
-2. Test files importing wrong test runner
-3. Multiple versions of @playwright/test
+PREMIUM CONTENT (requires paid subscription):
+- Chapters 2-10: Strategic, Team Leadership, Stakeholder, Project Planning, Risk/Quality, Execution, Monitoring, AI in PM
+- Appendices
 
-Files to fix:
-- e2e/checkout.spec.ts - Checkout/Payment flow with PayPal
-- e2e/exam.spec.ts - Exam Simulation flow  
-- e2e/flashcard.spec.ts - Flashcard flow
-
-Goal:
-- Configure Playwright properly
-- Get all E2E tests runnable
-- Ensure happy path tests pass for critical user flows
+REQUIREMENTS:
+1. Design and implement database schema for storing ebook chapters and sections (parse markdown files from local directory)
+2. Create API endpoints for serving ebook content with subscription-based access control
+3. Build UI components for browsing and reading the ebook (chapter list, section navigation, markdown rendering)
+4. Integrate with existing subscription tier middleware (tier.middleware.ts)
+5. Add seed script to import all 114 markdown files into database
+6. Create study guide page accessible from main navigation
+7. Implement search functionality across ebook content
+8. Track reading progress for logged-in users
 
 ## Feature Status
-✅ [COMPLETED] feature-1: Configure Playwright for E2E tests - Fix playwright.config.ts and test imports to resolve 'test.describe() not expected' error
-⏳ [PENDING] feature-2: Fix Checkout E2E test - Ensure happy path flow works from Pricing to Dashboard
-⏳ [PENDING] feature-3: Fix Exam E2E test - Ensure happy path flow works from start to submit
-⏳ [PENDING] feature-4: Fix Flashcard E2E test - Ensure happy path flow works for flashcard study
+✅ [COMPLETED] feature-1: Design database schema for ebook content (chapters, sections, metadata) with markdown content storage
+✅ [COMPLETED] feature-2: Create seed script to parse and import 114 markdown files from ~/PMP-2026/guide into database
+✅ [COMPLETED] feature-3: Add Prisma models (EbookChapter, EbookSection) with orderIndex, isPremium flags, and tier access control
+✅ [COMPLETED] feature-4: Create API endpoints: GET /api/ebook (list chapters), GET /api/ebook/:chapterId, GET /api/ebook/:chapterId/:sectionId
+✅ [COMPLETED] feature-5: Implement subscription tier middleware integration for premium content access control
+⏳ [PENDING] feature-6: Build ebook UI components: ChapterList, SectionNavigation, MarkdownRenderer with Next.js
+⏳ [PENDING] feature-7: Create /study-guide page with chapter overview, navigation, and reading interface
+✅ [COMPLETED] feature-8: Implement search endpoint GET /api/ebook/search?q=query with full-text search across content
+✅ [COMPLETED] feature-9: Add reading progress tracking: UserEbookProgress model with lastReadSectionId, completedSectionIds
+✅ [COMPLETED] feature-10: Create freemium logic: free users get chapters 1, 5, 11; premium users get full access
 
-## Progress Log (last 5 entries)
-[2026-01-01T18:36:07.326Z] Orchestration initialized with 4 features
-[2026-01-01T18:36:21.225Z] Started worker for feature-1: Configure Playwright for E2E tests - Fix playwright.config.ts and test imports to resolve 'test.describe() not expected' error
-[2026-01-01T18:42:23.270Z] 🔔 Worker completed: feature-1 - use mark_complete to update status
-[2026-01-01T18:44:33.779Z] ✅ Completed: feature-1 - Configure Playwright for E2E tests - Fix playwright.config.ts and test imports to resolve 'test.describe() not expected' error
-[2026-01-01T18:49:33.918Z] ⏸️ Session paused - 0 worker(s) stopped
+## Progress Log (last 30 entries)
+[2026-01-01T22:23:41.712Z] Orchestration initialized with 10 features
+[2026-01-01T22:23:51.172Z] Set dependencies for feature-2: feature-3
+[2026-01-01T22:23:51.596Z] Set dependencies for feature-4: feature-3
+[2026-01-01T22:23:52.012Z] Set dependencies for feature-5: feature-4
+[2026-01-01T22:23:52.431Z] Set dependencies for feature-6: feature-4
+[2026-01-01T22:23:52.858Z] Set dependencies for feature-7: feature-6
+[2026-01-01T22:23:53.282Z] Set dependencies for feature-8: feature-4
+[2026-01-01T22:23:53.715Z] Set dependencies for feature-9: feature-3
+[2026-01-01T22:23:54.143Z] Set dependencies for feature-10: feature-4
+[2026-01-01T22:24:03.866Z] Started worker for feature-3: Add Prisma models (EbookChapter, EbookSection) with orderIndex, isPremium flags, and tier access control
+[2026-01-01T22:27:35.413Z] 🔔 Worker completed: feature-3 - use mark_complete to update status
+[2026-01-01T22:28:24.499Z] ✅ Completed: feature-3 - Add Prisma models (EbookChapter, EbookSection) with orderIndex, isPremium flags, and tier access control
+[2026-01-01T22:28:24.557Z] ✅ Completed: feature-1 - Design database schema for ebook content (chapters, sections, metadata) with markdown content storage
+[2026-01-01T22:28:33.720Z] Started worker for feature-2: Create seed script to parse and import 114 markdown files from ~/PMP-2026/guide into database
+[2026-01-01T22:31:55.455Z] 🔔 Worker completed: feature-2 - use mark_complete to update status
+[2026-01-01T22:33:04.983Z] ✅ Completed: feature-2 - Create seed script to parse and import 114 markdown files from ~/PMP-2026/guide into database
+[2026-01-01T22:33:09.692Z] Git commit: feat(api): add ebook database models and seed script
+
+- Add EbookChapter, EbookSection, UserEbookProgress Prisma models
+- Create seed-ebook.ts to import 114 markdown files from PMP-2026 guide
+- Import
+... (truncated)
+[2026-01-01T22:33:24.875Z] Started 2 parallel workers: feature-4, feature-9
+[2026-01-01T22:36:05.490Z] 🔔 Worker completed: feature-9 - use mark_complete to update status
+[2026-01-01T22:38:21.270Z] ✅ Completed: feature-9 - Add reading progress tracking: UserEbookProgress model with lastReadSectionId, completedSectionIds
+[2026-01-01T22:39:55.514Z] 🔔 Worker completed: feature-4 - use mark_complete to update status
+[2026-01-01T22:40:30.099Z] ✅ Completed: feature-4 - Create API endpoints: GET /api/ebook (list chapters), GET /api/ebook/:chapterId, GET /api/ebook/:chapterId/:sectionId
+[2026-01-01T22:40:34.853Z] Git commit: feat(api): add ebook API endpoints and progress tracking
+
+- Add ebook.service.ts with getAllChapters, getChapterBySlug, getSectionBySlug, searchContent
+- Add ebook-progress.service.ts with progress tr
+... (truncated)
+[2026-01-01T22:40:51.628Z] Started 3 parallel workers: feature-5, feature-8, feature-10
+[2026-01-01T22:47:45.595Z] 🔔 Worker completed: feature-5 - use mark_complete to update status
+[2026-01-01T22:47:55.613Z] 🔔 Worker completed: feature-10 - use mark_complete to update status
+[2026-01-01T22:50:25.633Z] 🔔 Worker completed: feature-8 - use mark_complete to update status
+[2026-01-01T22:51:04.274Z] ✅ Completed: feature-5 - Implement subscription tier middleware integration for premium content access control
+[2026-01-01T22:51:04.572Z] ✅ Completed: feature-8 - Implement search endpoint GET /api/ebook/search?q=query with full-text search across content
+[2026-01-01T22:51:05.000Z] ✅ Completed: feature-10 - Create freemium logic: free users get chapters 1, 5, 11; premium users get full access

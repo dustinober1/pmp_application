@@ -65,7 +65,25 @@ interface SearchResult {
   sectionSlug: string;
   sectionTitle: string;
   excerpt: string;
+  highlightedExcerpt?: string;
   relevanceScore: number;
+}
+
+interface SearchOptions {
+  page?: number;
+  limit?: number;
+}
+
+interface SearchResults {
+  results: SearchResult[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
 }
 
 export class EbookService {
@@ -232,11 +250,27 @@ export class EbookService {
 
   /**
    * Search across all section titles and content
-   * Returns results with chapter and section info
+   * Returns results with chapter and section info, with pagination support
    */
-  async searchContent(query: string, userTier: TierName | null): Promise<SearchResult[]> {
+  async searchContent(
+    query: string,
+    userTier: TierName | null,
+    options: SearchOptions = {}
+  ): Promise<SearchResults> {
+    const { page = 1, limit = 20 } = options;
+
     if (!query || query.trim().length < 2) {
-      return [];
+      return {
+        results: [],
+        pagination: {
+          page: 1,
+          limit,
+          total: 0,
+          totalPages: 0,
+          hasNext: false,
+          hasPrev: false,
+        },
+      };
     }
 
     const searchTerms = query.trim().toLowerCase();
@@ -283,7 +317,7 @@ export class EbookService {
     });
 
     // Calculate relevance scores and format results
-    const results: SearchResult[] = sections
+    const allResults: SearchResult[] = sections
       .map(section => {
         const titleLower = section.title.toLowerCase();
         const contentLower = section.content.toLowerCase();
@@ -307,19 +341,54 @@ export class EbookService {
           excerpt = section.content.slice(0, 200) + '...';
         }
 
+        // Highlight matched terms in excerpt
+        const highlightedExcerpt = this.highlightSearchTerms(excerpt, searchTerms);
+
         return {
           chapterSlug: section.chapter.slug,
           chapterTitle: section.chapter.title,
           sectionSlug: section.slug,
           sectionTitle: section.title,
           excerpt: excerpt.replace(/\n+/g, ' ').trim(),
+          highlightedExcerpt: highlightedExcerpt.replace(/\n+/g, ' ').trim(),
           relevanceScore,
         };
       })
-      .sort((a, b) => b.relevanceScore - a.relevanceScore)
-      .slice(0, 20); // Limit to 20 results
+      .sort((a, b) => b.relevanceScore - a.relevanceScore);
 
-    return results;
+    // Calculate pagination
+    const total = allResults.length;
+    const totalPages = Math.ceil(total / limit);
+    const validatedPage = Math.max(1, Math.min(page, totalPages || 1));
+    const startIndex = (validatedPage - 1) * limit;
+    const endIndex = startIndex + limit;
+
+    const paginatedResults = allResults.slice(startIndex, endIndex);
+
+    return {
+      results: paginatedResults,
+      pagination: {
+        page: validatedPage,
+        limit,
+        total,
+        totalPages,
+        hasNext: validatedPage < totalPages,
+        hasPrev: validatedPage > 1,
+      },
+    };
+  }
+
+  /**
+   * Highlight search terms in text using markdown bold syntax
+   */
+  private highlightSearchTerms(text: string, searchTerms: string): string {
+    if (!searchTerms) return text;
+
+    // Escape special regex characters in search terms
+    const escapedTerms = searchTerms.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escapedTerms})`, 'gi');
+
+    return text.replace(regex, '**$1**');
   }
 
   /**

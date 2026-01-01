@@ -119,14 +119,14 @@ router.get(
 /**
  * GET /api/ebook/search
  * Search across ebook content
- * Query params: q (search query)
+ * Query params: q (search query), page (pagination), limit (results per page)
  */
 router.get(
   '/search',
   optionalAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { q } = req.query;
+      const { q, page, limit } = req.query;
 
       // Get user's tier from subscription
       let userTier: TierName | null = null;
@@ -141,16 +141,37 @@ router.get(
       if (typeof q !== 'string') {
         res.json({
           success: true,
-          data: { results: [], count: 0 },
+          data: {
+            results: [],
+            pagination: {
+              page: 1,
+              limit: 20,
+              total: 0,
+              totalPages: 0,
+              hasNext: false,
+              hasPrev: false,
+            },
+          },
         });
         return;
       }
 
-      const results = await ebookService.searchContent(q, userTier);
+      // Parse pagination parameters
+      const pageNum = page ? parseInt(page as string, 10) : 1;
+      const limitNum = limit ? parseInt(limit as string, 10) : 20;
+
+      // Validate pagination parameters
+      const validatedPage = Math.max(1, pageNum);
+      const validatedLimit = Math.max(1, Math.min(100, limitNum)); // Max 100 results per page
+
+      const searchResults = await ebookService.searchContent(q, userTier, {
+        page: validatedPage,
+        limit: validatedLimit,
+      });
 
       res.json({
         success: true,
-        data: { results, count: results.length },
+        data: searchResults,
       });
     } catch (error) {
       next(error);
