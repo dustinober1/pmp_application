@@ -3,8 +3,19 @@ import { render, screen, fireEvent, waitFor, act, cleanup } from '@testing-libra
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import MockExamSessionPage from './page';
 
-const mockPush = vi.fn();
-const mockApiRequest = vi.fn();
+const { mockPush, mockApiRequest, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
+  return {
+    mockPush: vi.fn(),
+    mockApiRequest: vi.fn(),
+    mockToast: toastObj,
+  };
+});
 
 vi.mock('@/lib/api', () => ({
   apiRequest: (...args: unknown[]) => mockApiRequest(...args),
@@ -24,12 +35,7 @@ vi.mock('@/hooks/useRequireAuth', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    error: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    show: vi.fn(),
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/components/FullPageSkeleton', () => ({
