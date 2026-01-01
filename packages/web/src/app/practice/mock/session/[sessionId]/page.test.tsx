@@ -1,9 +1,10 @@
+import React from 'react';
 import { render, screen, fireEvent, waitFor, act, cleanup } from '@testing-library/react';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import MockExamSessionPage from './page';
 
-const mockApiRequest = vi.fn();
 const mockPush = vi.fn();
+const mockApiRequest = vi.fn();
 
 vi.mock('@/lib/api', () => ({
   apiRequest: (...args: unknown[]) => mockApiRequest(...args),
@@ -70,7 +71,6 @@ describe('MockExamSessionPage', () => {
   };
 
   beforeEach(() => {
-    cleanup(); // Clean up React DOM between tests
     vi.clearAllMocks();
     mockApiRequest.mockImplementation((url: string) => {
       if (url.includes('/practice/sessions/mock-session-123') && !url.includes('/answers')) {
@@ -84,6 +84,10 @@ describe('MockExamSessionPage', () => {
       }
       return Promise.resolve({ data: null });
     });
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('renders loading skeleton initially', () => {
