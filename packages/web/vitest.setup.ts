@@ -1,21 +1,22 @@
+import { vi } from 'vitest';
 import '@testing-library/jest-dom';
 
-// Mock localStorage for tests
+// Mock localStorage for tests - use vi.fn() for proper spy capability
 const localStorageMock = {
-  getItem: () => null,
-  setItem: () => {},
-  removeItem: () => {},
-  clear: () => {},
+  getItem: vi.fn(() => null),
+  setItem: vi.fn(() => {}),
+  removeItem: vi.fn(() => {}),
+  clear: vi.fn(() => {}),
   length: 0,
-  key: () => null,
+  key: vi.fn(() => null),
 };
 
-if (typeof globalThis.localStorage === 'undefined') {
-  Object.defineProperty(globalThis, 'localStorage', {
-    value: localStorageMock,
-    writable: true,
-  });
-}
+// Always define localStorage, replacing if it exists
+Object.defineProperty(globalThis, 'localStorage', {
+  value: localStorageMock,
+  writable: true,
+  configurable: true,
+});
 
 // Common browser APIs not implemented by JSDOM
 // Only define these in browser-like environments (jsdom)
@@ -44,4 +45,12 @@ class ResizeObserverMock {
 if (typeof globalThis.ResizeObserver === 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).ResizeObserver = ResizeObserverMock;
+}
+
+// Mock scrollIntoView for jsdom (not implemented by default)
+if (typeof window !== 'undefined' && window.HTMLElement) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  window.HTMLElement.prototype.scrollIntoView = function () {
+    return undefined;
+  };
 }

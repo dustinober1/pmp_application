@@ -1,21 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-// Mock localStorage before importing i18n
-const mockGetItem = vi.fn(() => null);
-const mockSetItem = vi.fn();
-Object.defineProperty(globalThis, 'localStorage', {
-  value: {
-    getItem: mockGetItem,
-    setItem: mockSetItem,
-    removeItem: vi.fn(),
-    clear: vi.fn(),
-    length: 0,
-    key: vi.fn(),
-  },
-  writable: true,
-});
-
-// Now import i18n after mocking localStorage
+// Import i18n after vitest.setup.ts has set up localStorage mock
 import i18n, { getInitialLocale, setLocale, SUPPORTED_LOCALES } from './i18n';
 import type { SupportedLocale } from './i18n';
 
@@ -62,7 +47,8 @@ describe('getInitialLocale', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetItem.mockReturnValue(null);
+    // Reset localStorage mock to return null
+    globalThis.localStorage.getItem.mockReturnValue(null);
     Object.defineProperty(globalThis, 'document', {
       value: { cookie: '' },
       writable: true,
@@ -90,7 +76,7 @@ describe('getInitialLocale', () => {
       value: { cookie: '' },
       writable: true,
     });
-    mockGetItem.mockReturnValue('es');
+    globalThis.localStorage.getItem.mockReturnValue('es');
 
     expect(getInitialLocale()).toBe('es');
   });
@@ -100,7 +86,7 @@ describe('getInitialLocale', () => {
       value: { cookie: '' },
       writable: true,
     });
-    mockGetItem.mockReturnValue(null);
+    globalThis.localStorage.getItem.mockReturnValue(null);
 
     const result = getInitialLocale();
     expect(['en', 'es']).toContain(result);
@@ -111,7 +97,7 @@ describe('getInitialLocale', () => {
       value: { cookie: 'pmp_locale=invalid' },
       writable: true,
     });
-    mockGetItem.mockReturnValue(null);
+    globalThis.localStorage.getItem.mockReturnValue(null);
 
     const result = getInitialLocale();
     expect(['en', 'es']).toContain(result);
@@ -163,7 +149,7 @@ describe('setLocale', () => {
   it('sets locale in localStorage', () => {
     setLocale('es' as SupportedLocale);
 
-    expect(mockSetItem).toHaveBeenCalledWith('pmp_locale', 'es');
+    expect(globalThis.localStorage.setItem).toHaveBeenCalledWith('pmp_locale', 'es');
   });
 
   it('changes i18n language', async () => {
