@@ -4,7 +4,17 @@ const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 // Import after mocking fetch
-import { apiRequest, authApi, flashcardApi, practiceApi, dashboardApi, formulaApi, searchApi, contentApi, subscriptionApi } from './api';
+import {
+  apiRequest,
+  authApi,
+  flashcardApi,
+  practiceApi,
+  dashboardApi,
+  formulaApi,
+  searchApi,
+  contentApi,
+  subscriptionApi,
+} from './api';
 
 describe('apiRequest', () => {
   beforeEach(() => {
@@ -183,7 +193,11 @@ describe('authApi', () => {
       expect.stringContaining('/auth/register'),
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify({ email: 'test@example.com', password: 'password', name: 'Test User' }),
+        body: JSON.stringify({
+          email: 'test@example.com',
+          password: 'password',
+          name: 'Test User',
+        }),
       })
     );
   });

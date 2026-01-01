@@ -196,9 +196,7 @@ describe('FlashcardsPage', () => {
     render(<FlashcardsPage />);
 
     await waitFor(() => {
-      expect(
-        screen.getByText(/no cards due right now/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/no cards due right now/i)).toBeInTheDocument();
     });
   });
 

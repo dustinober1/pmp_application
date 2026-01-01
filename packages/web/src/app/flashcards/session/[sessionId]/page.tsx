@@ -145,40 +145,35 @@ export default function FlashcardSessionPage() {
 
   if (!session) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-8 text-center bg-gray-900 border border-gray-800 rounded-lg">
-        <h1 className="text-2xl font-bold text-white mb-2">Session Not Found</h1>
-        <button
-          onClick={() => router.push('/flashcards')}
-          className="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 transition"
-        >
-          Back to Flashcards
-        </button>
+      <div className="min-h-screen flex items-center justify-center bg-md-background relative overflow-hidden">
+        <div className="blur-shape bg-md-error w-96 h-96 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="card max-w-md w-full text-center relative z-10">
+          <h1 className="text-2xl font-bold text-md-on-surface mb-4">Session Not Found</h1>
+          <button onClick={() => router.push('/flashcards')} className="btn btn-primary w-full">
+            Back to Flashcards
+          </button>
+        </div>
       </div>
     );
   }
 
   if (sessionComplete) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-xl">
-          <div className="text-6xl mb-4" aria-hidden="true">
+      <div className="min-h-screen flex items-center justify-center bg-md-background relative overflow-hidden">
+        <div className="blur-shape bg-md-success w-96 h-96 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="card max-w-lg w-full text-center relative z-10 p-12">
+          <div className="text-6xl mb-6 animate-bounce" aria-hidden="true">
             🎉
           </div>
-          <h1 className="text-3xl font-bold text-white mb-4">Session Complete!</h1>
-          <p className="text-gray-400 mb-8">
+          <h1 className="text-3xl font-bold text-md-on-surface mb-4">Session Complete!</h1>
+          <p className="text-md-on-surface-variant mb-8 text-lg">
             Great job! You’ve reviewed {session.cards.length} cards.
           </p>
-          <div className="flex justify-center space-x-4">
-            <button
-              onClick={() => router.push('/flashcards')}
-              className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
-            >
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button onClick={() => router.push('/flashcards')} className="btn btn-secondary">
               Back to Overview
             </button>
-            <button
-              onClick={() => router.push('/dashboard')}
-              className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition"
-            >
+            <button onClick={() => router.push('/dashboard')} className="btn btn-primary">
               Go to Dashboard
             </button>
           </div>
@@ -196,100 +191,120 @@ export default function FlashcardSessionPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 min-h-[80vh] flex flex-col">
-      {/* Header / Progress */}
-      <div className="mb-8 flex items-center justify-between">
-        <button
-          onClick={() => router.push('/flashcards')}
-          className="text-gray-400 hover:text-white transition"
-        >
-          &larr; Exit
-        </button>
-        <div className="flex-1 mx-8">
-          <div className="flex justify-between text-xs text-gray-400 mb-1">
-            <span>
-              Card {currentIndex + 1} of {session.cards.length}
-            </span>
-            <span>{Math.round(progress)}%</span>
-          </div>
-          <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-primary-500 transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
-        </div>
-        <div className="w-10"></div> {/* Spacer for balance */}
-      </div>
+    <div className="min-h-screen bg-md-background relative overflow-hidden flex flex-col">
+      {/* Organic Blur Shapes */}
+      <div className="blur-shape bg-md-primary w-96 h-96 top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="blur-shape bg-md-secondary w-96 h-96 bottom-0 right-0 translate-x-1/2 translate-y-1/2"></div>
 
-      {/* Card Area */}
-      <div className="flex-1 flex flex-col items-center justify-center mb-8">
-        <button
-          type="button"
-          className="w-full max-w-2xl aspect-[3/2] perspective-1000 cursor-pointer group"
-          onClick={handleFlip}
-          aria-label="Flip card"
-        >
-          <div
-            className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}
+      <div className="max-w-4xl mx-auto px-4 py-8 w-full flex-1 flex flex-col relative z-10">
+        {/* Header / Progress */}
+        <div className="mb-8 flex items-center justify-between">
+          <button
+            onClick={() => router.push('/flashcards')}
+            className="text-md-on-surface-variant hover:text-md-primary transition flex items-center gap-2 font-medium"
           >
-            {/* Front */}
-            <div className="absolute w-full h-full backface-hidden bg-gray-800 border-2 border-gray-700 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-lg group-hover:border-primary-500/50 transition-colors">
-              <span className="text-gray-500 text-sm uppercase tracking-wider mb-4">Question</span>
-              <h2 className="text-2xl md:text-3xl font-medium text-white">{currentCard.front}</h2>
-              <div className="absolute bottom-4 text-gray-500 text-xs">Click to flip</div>
+            &larr; Exit
+          </button>
+          <div className="flex-1 mx-8 max-w-md">
+            <div className="flex justify-between text-xs text-md-on-surface-variant mb-2 font-medium">
+              <span>
+                Card {currentIndex + 1} of {session.cards.length}
+              </span>
+              <span>{Math.round(progress)}%</span>
             </div>
-
-            {/* Back */}
-            <div className="absolute w-full h-full backface-hidden bg-gray-800 border-2 border-primary-900 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-lg rotate-y-180">
-              <span className="text-primary-400 text-sm uppercase tracking-wider mb-4">Answer</span>
-              <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">
-                {currentCard.back}
-              </p>
+            <div className="h-2 bg-md-surface-container-highest rounded-full overflow-hidden">
+              <div
+                className="h-full bg-md-primary transition-all duration-300 ease-standard"
+                style={{ width: `${progress}%` }}
+              ></div>
             </div>
           </div>
-        </button>
-      </div>
+          <div className="w-16"></div> {/* Spacer for balance */}
+        </div>
 
-      {/* Controls */}
-      <div className="h-24">
-        {isFlipped ? (
-          <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto w-full">
-            <button
-              onClick={() => handleRate('dont_know')}
-              disabled={ratingSubmitting}
-              className="py-4 bg-red-900/30 border border-red-800 text-red-200 rounded-xl hover:bg-red-900/50 transition"
+        {/* Card Area */}
+        <div className="flex-1 flex flex-col items-center justify-center mb-8">
+          <button
+            type="button"
+            className="w-full max-w-2xl aspect-[3/2] perspective-1000 cursor-pointer group focus:outline-none"
+            onClick={handleFlip}
+            aria-label="Flip card"
+          >
+            <div
+              className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}
             >
-              <div className="font-bold mb-1">Again</div>
-              <div className="text-xs opacity-70">&lt; 1 min • 1</div>
-            </button>
-            <button
-              onClick={() => handleRate('learning')}
-              disabled={ratingSubmitting}
-              className="py-4 bg-yellow-900/30 border border-yellow-800 text-yellow-200 rounded-xl hover:bg-yellow-900/50 transition"
-            >
-              <div className="font-bold mb-1">Hard</div>
-              <div className="text-xs opacity-70">2 days • 2</div>
-            </button>
-            <button
-              onClick={() => handleRate('know_it')}
-              disabled={ratingSubmitting}
-              className="py-4 bg-green-900/30 border border-green-800 text-green-200 rounded-xl hover:bg-green-900/50 transition"
-            >
-              <div className="font-bold mb-1">Easy</div>
-              <div className="text-xs opacity-70">4 days • 3</div>
-            </button>
-          </div>
-        ) : (
-          <div className="flex justify-center">
-            <button
-              onClick={handleFlip}
-              className="px-8 py-3 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition shadow-lg font-medium"
-            >
-              Show Answer
-            </button>
-          </div>
-        )}
+              {/* Front */}
+              <div className="absolute w-full h-full backface-hidden bg-md-surface-container border border-md-outline/10 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-lg group-hover:shadow-xl group-hover:scale-[1.01] transition-all duration-300">
+                <span className="text-md-primary text-sm font-bold uppercase tracking-wider mb-6 bg-md-primary/10 px-3 py-1 rounded-full">
+                  Question
+                </span>
+                <h2 className="text-2xl md:text-4xl font-medium text-md-on-surface leading-tight">
+                  {currentCard.front}
+                </h2>
+                <div className="absolute bottom-6 text-md-on-surface-variant/50 text-sm font-medium">
+                  Click or Space to flip
+                </div>
+              </div>
+
+              {/* Back */}
+              <div className="absolute w-full h-full backface-hidden bg-md-surface-container-high border-2 border-md-primary rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-xl rotate-y-180">
+                <span className="text-md-tertiary text-sm font-bold uppercase tracking-wider mb-6 bg-md-tertiary/10 px-3 py-1 rounded-full">
+                  Answer
+                </span>
+                <p className="text-xl md:text-2xl text-md-on-surface leading-relaxed font-medium">
+                  {currentCard.back}
+                </p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        {/* Controls */}
+        <div className="h-24">
+          {isFlipped ? (
+            <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto w-full">
+              <button
+                onClick={() => handleRate('dont_know')}
+                disabled={ratingSubmitting}
+                className="group py-4 bg-md-error-container/50 border border-md-error/20 text-md-on-error-container rounded-2xl hover:bg-md-error-container hover:scale-105 transition-all duration-200"
+              >
+                <div className="font-bold mb-1 text-lg">Again</div>
+                <div className="text-xs opacity-70 font-medium group-hover:opacity-100">
+                  {'< 1 min • 1'}
+                </div>
+              </button>
+              <button
+                onClick={() => handleRate('learning')}
+                disabled={ratingSubmitting}
+                className="group py-4 bg-md-secondary-container/50 border border-md-secondary/20 text-md-on-secondary-container rounded-2xl hover:bg-md-secondary-container hover:scale-105 transition-all duration-200"
+              >
+                <div className="font-bold mb-1 text-lg">Hard</div>
+                <div className="text-xs opacity-70 font-medium group-hover:opacity-100">
+                  2 days • 2
+                </div>
+              </button>
+              <button
+                onClick={() => handleRate('know_it')}
+                disabled={ratingSubmitting}
+                className="group py-4 bg-green-100 border border-green-200 text-green-800 rounded-2xl hover:bg-green-200 hover:scale-105 transition-all duration-200 dark:bg-green-900/30 dark:border-green-800 dark:text-green-200 dark:hover:bg-green-900/50"
+              >
+                <div className="font-bold mb-1 text-lg">Easy</div>
+                <div className="text-xs opacity-70 font-medium group-hover:opacity-100">
+                  4 days • 3
+                </div>
+              </button>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <button
+                onClick={handleFlip}
+                className="btn btn-primary px-12 h-14 text-lg shadow-lg hover:shadow-xl hover:-translate-y-1"
+              >
+                Show Answer
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -168,9 +168,9 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={submitting || isLoading}
-            className="btn btn-primary w-full"
+            className="btn btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {submitting ? 'Creating account...' : 'Create Account'}
+            {submitting ? 'Creating account...' : isLoading ? 'Loading...' : 'Create Account'}
           </button>
         </form>
 

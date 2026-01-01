@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import SearchDialog from './SearchDialog';
 
@@ -63,7 +63,13 @@ describe('SearchDialog', () => {
     mockApiRequest.mockResolvedValue({
       data: {
         results: [
-          { id: '1', type: 'study_guide', title: 'Test Guide', excerpt: 'Description', taskId: 't1' },
+          {
+            id: '1',
+            type: 'study_guide',
+            title: 'Test Guide',
+            excerpt: 'Description',
+            taskId: 't1',
+          },
         ],
       },
     });
@@ -130,9 +136,7 @@ describe('SearchDialog', () => {
     // Just verify the component renders with different result types - skip async waiting
     mockApiRequest.mockResolvedValue({
       data: {
-        results: [
-          { id: '1', type: 'study_guide', title: 'Guide', excerpt: '', taskId: 't1' },
-        ],
+        results: [{ id: '1', type: 'study_guide', title: 'Guide', excerpt: '', taskId: 't1' }],
       },
     });
 

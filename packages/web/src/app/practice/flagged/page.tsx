@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
@@ -20,13 +20,7 @@ export default function FlaggedQuestionsPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (canAccess) {
-      loadFlaggedQuestions();
-    }
-  }, [canAccess]);
-
-  const loadFlaggedQuestions = async () => {
+  const loadFlaggedQuestions = useCallback(async () => {
     try {
       const response = await apiRequest<{ questions: PracticeQuestion[] }>('/practice/flagged');
       setQuestions(response.data?.questions ?? []);
@@ -36,7 +30,13 @@ export default function FlaggedQuestionsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (canAccess) {
+      loadFlaggedQuestions();
+    }
+  }, [canAccess, loadFlaggedQuestions]);
 
   const handleUnflag = async (questionId: string, e: React.MouseEvent) => {
     e.stopPropagation();

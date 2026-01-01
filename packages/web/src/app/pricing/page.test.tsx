@@ -85,15 +85,9 @@ describe('PricingPage', () => {
   it('renders tier descriptions', () => {
     render(<PricingPage />);
 
-    expect(
-      screen.getByText(/perfect for exploring the platform/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/everything you need to pass the exam/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/manage a team of pmp candidates/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/perfect for exploring the platform/i)).toBeInTheDocument();
+    expect(screen.getByText(/everything you need to pass the exam/i)).toBeInTheDocument();
+    expect(screen.getByText(/manage a team of pmp candidates/i)).toBeInTheDocument();
   });
 
   it('shows Most Popular badge on Pro tier', () => {

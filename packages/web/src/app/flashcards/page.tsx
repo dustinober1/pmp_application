@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
@@ -25,13 +25,7 @@ export default function FlashcardsPage() {
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState<'review' | 'all' | null>(null);
 
-  useEffect(() => {
-    if (canAccess) {
-      fetchData();
-    }
-  }, [canAccess]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [statsRes, dueRes] = await Promise.all([
         apiRequest<{ stats: FlashcardStats }>('/flashcards/stats'),
@@ -45,7 +39,13 @@ export default function FlashcardsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (canAccess) {
+      fetchData();
+    }
+  }, [canAccess, fetchData]);
 
   const startSession = async (mode: 'review' | 'all') => {
     try {
@@ -73,48 +73,47 @@ export default function FlashcardsPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Organic Blur Shapes */}
+      <div className="blur-shape bg-md-primary w-96 h-96 top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="blur-shape bg-md-tertiary w-96 h-96 bottom-0 right-0 translate-x-1/2 translate-y-1/2"></div>
+
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold">Flashcards</h1>
-          <p className="text-[var(--foreground-muted)]">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl font-bold mb-4 text-md-on-background">Flashcards</h1>
+          <p className="text-xl text-md-on-surface-variant max-w-2xl mx-auto">
             Master key concepts with spaced repetition learning.
           </p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-[var(--success)]">{stats?.mastered || 0}</p>
-            <p className="text-sm text-[var(--foreground-muted)]">Mastered</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="card text-center hover:scale-105 transition-transform duration-300">
+            <p className="text-4xl font-bold text-md-primary mb-2">{stats?.mastered || 0}</p>
+            <p className="text-sm font-medium text-md-on-surface-variant">Mastered</p>
           </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-[var(--warning)]">{stats?.learning || 0}</p>
-            <p className="text-sm text-[var(--foreground-muted)]">Learning</p>
+          <div className="card text-center hover:scale-105 transition-transform duration-300">
+            <p className="text-4xl font-bold text-md-tertiary mb-2">{stats?.learning || 0}</p>
+            <p className="text-sm font-medium text-md-on-surface-variant">Learning</p>
           </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-[var(--primary)]">{dueCards}</p>
-            <p className="text-sm text-[var(--foreground-muted)]">Due Today</p>
+          <div className="card text-center hover:scale-105 transition-transform duration-300">
+            <p className="text-4xl font-bold text-md-error mb-2">{dueCards}</p>
+            <p className="text-sm font-medium text-md-on-surface-variant">Due Today</p>
           </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold">{stats?.totalCards || 0}</p>
-            <p className="text-sm text-[var(--foreground-muted)]">Total Cards</p>
+          <div className="card text-center hover:scale-105 transition-transform duration-300">
+            <p className="text-4xl font-bold text-md-on-surface mb-2">{stats?.totalCards || 0}</p>
+            <p className="text-sm font-medium text-md-on-surface-variant">Total Cards</p>
           </div>
         </div>
 
         {/* Action Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Review Due Cards */}
-          <div className="card hover:border-[var(--primary)] transition-colors">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center mb-4">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+          <div className="card group hover:shadow-lg transition-all duration-300 border border-transparent hover:border-md-primary/20">
+            <div className="w-14 h-14 rounded-2xl bg-md-primary-container text-md-on-primary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -123,8 +122,8 @@ export default function FlashcardsPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-lg font-semibold">Review Due Cards</h2>
-            <p className="text-sm text-[var(--foreground-muted)] mt-2">
+            <h2 className="text-xl font-bold mb-3 text-md-on-surface">Review Due Cards</h2>
+            <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               {dueCards > 0
                 ? `You have ${dueCards} cards due for review. Keep your streak going!`
                 : 'No cards due right now. Great job staying on top of your reviews!'}
@@ -132,21 +131,16 @@ export default function FlashcardsPage() {
             <button
               onClick={() => startSession('review')}
               disabled={dueCards === 0 || starting !== null}
-              className="btn btn-primary w-full mt-4"
+              className="btn btn-primary w-full"
             >
               {starting === 'review' ? 'Starting...' : 'Start Review'}
             </button>
           </div>
 
           {/* Study All Cards */}
-          <div className="card hover:border-[var(--primary)] transition-colors">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-4">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+          <div className="card group hover:shadow-lg transition-all duration-300 border border-transparent hover:border-md-secondary/20">
+            <div className="w-14 h-14 rounded-2xl bg-md-secondary-container text-md-on-secondary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -155,28 +149,23 @@ export default function FlashcardsPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-lg font-semibold">Study Session</h2>
-            <p className="text-sm text-[var(--foreground-muted)] mt-2">
+            <h2 className="text-xl font-bold mb-3 text-md-on-surface">Study Session</h2>
+            <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               Start a new study session with a mix of new and review cards.
             </p>
             <button
               onClick={() => startSession('all')}
               disabled={starting !== null}
-              className="btn btn-secondary w-full mt-4"
+              className="btn btn-secondary w-full"
             >
               {starting === 'all' ? 'Starting...' : 'Start Session'}
             </button>
           </div>
 
           {/* Create Custom */}
-          <div className="card hover:border-[var(--primary)] transition-colors">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center mb-4">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+          <div className="card group hover:shadow-lg transition-all duration-300 border border-transparent hover:border-md-tertiary/20">
+            <div className="w-14 h-14 rounded-2xl bg-md-tertiary-container text-md-on-tertiary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -185,45 +174,47 @@ export default function FlashcardsPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-lg font-semibold">Create Custom Card</h2>
-            <p className="text-sm text-[var(--foreground-muted)] mt-2">
+            <h2 className="text-xl font-bold mb-3 text-md-on-surface">Create Custom Card</h2>
+            <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               Create your own flashcards for concepts you want to remember.
             </p>
-            <Link href="/flashcards/create" className="btn btn-secondary w-full mt-4">
+            <Link href="/flashcards/create" className="btn btn-outline w-full justify-center">
               Create Card
             </Link>
           </div>
         </div>
 
         {/* How it works */}
-        <div className="card mt-8">
-          <h2 className="font-semibold mb-4">How Spaced Repetition Works</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-[var(--success-light)] text-[var(--success)] flex items-center justify-center mx-auto mb-3">
-                <span className="text-lg font-bold">1</span>
+        <div className="card mt-12 bg-md-surface-container-low border-none">
+          <h2 className="text-xl font-bold mb-8 text-center text-md-on-surface">
+            How Spaced Repetition Works
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center group">
+              <div className="w-16 h-16 rounded-full bg-md-primary/10 text-md-primary flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-bold">1</span>
               </div>
-              <p className="font-medium">Know It</p>
-              <p className="text-sm text-[var(--foreground-muted)] mt-1">
+              <p className="font-bold text-lg mb-2 text-md-on-surface">Know It</p>
+              <p className="text-md-on-surface-variant">
                 Cards you know well are shown less frequently.
               </p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-[var(--warning-light)] text-[var(--warning)] flex items-center justify-center mx-auto mb-3">
-                <span className="text-lg font-bold">2</span>
+            <div className="text-center group">
+              <div className="w-16 h-16 rounded-full bg-md-secondary/10 text-md-secondary flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-bold">2</span>
               </div>
-              <p className="font-medium">Learning</p>
-              <p className="text-sm text-[var(--foreground-muted)] mt-1">
-                Cards you’re learning are shown more often.
+              <p className="font-bold text-lg mb-2 text-md-on-surface">Learning</p>
+              <p className="text-md-on-surface-variant">
+                Cards you{"'"}re learning are shown more often.
               </p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-[var(--error-light)] text-[var(--error)] flex items-center justify-center mx-auto mb-3">
-                <span className="text-lg font-bold">3</span>
+            <div className="text-center group">
+              <div className="w-16 h-16 rounded-full bg-md-tertiary/10 text-md-tertiary flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-bold">3</span>
               </div>
-              <p className="font-medium">Don’t Know</p>
-              <p className="text-sm text-[var(--foreground-muted)] mt-1">
-                Cards you don’t know are shown again soon.
+              <p className="font-bold text-lg mb-2 text-md-on-surface">Don{"'"}t Know</p>
+              <p className="text-md-on-surface-variant">
+                Cards you don{"'"}t know are shown again soon.
               </p>
             </div>
           </div>

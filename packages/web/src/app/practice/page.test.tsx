@@ -167,7 +167,7 @@ describe('PracticePage', () => {
     await waitFor(() => {
       expect(screen.getByText('People')).toBeInTheDocument();
     });
-    
+
     // weakDomains may render differently, just verify the page loads
     expect(screen.getByRole('heading', { name: 'Practice Questions' })).toBeInTheDocument();
   });
@@ -178,7 +178,7 @@ describe('PracticePage', () => {
     await waitFor(() => {
       expect(screen.getByText('Flagged Questions')).toBeInTheDocument();
     });
-    
+
     const link = screen.getByRole('link', { name: 'View Flagged' });
     expect(link).toHaveAttribute('href', '/practice/flagged');
   });

@@ -20,7 +20,9 @@ function TestConsumer() {
       <div data-testid="authenticated">{auth.isAuthenticated.toString()}</div>
       <div data-testid="user">{auth.user ? auth.user.name : 'null'}</div>
       <button onClick={() => auth.login('test@example.com', 'password')}>Login</button>
-      <button onClick={() => auth.register('test@example.com', 'password', 'Test')}>Register</button>
+      <button onClick={() => auth.register('test@example.com', 'password', 'Test')}>
+        Register
+      </button>
       <button onClick={() => auth.logout()}>Logout</button>
       <button onClick={() => auth.refreshToken()}>Refresh</button>
       <button onClick={() => auth.refreshUser()}>RefreshUser</button>
@@ -46,7 +48,9 @@ describe('AuthContext', () => {
   it('starts with loading state and hydrates from API', async () => {
     mockedApiRequest.mockResolvedValueOnce({
       success: true,
-      data: { user: { id: '1', name: 'Test User', email: 'test@example.com', emailVerified: true } },
+      data: {
+        user: { id: '1', name: 'Test User', email: 'test@example.com', emailVerified: true },
+      },
     });
 
     render(

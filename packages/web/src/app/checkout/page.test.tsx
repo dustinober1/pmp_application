@@ -86,7 +86,9 @@ describe('CheckoutPage', () => {
     fireEvent.click(screen.getByRole('button'));
 
     await waitFor(() => {
-      expect(screen.getByText('Payment initialization failed. Please try again.')).toBeInTheDocument();
+      expect(
+        screen.getByText('Payment initialization failed. Please try again.')
+      ).toBeInTheDocument();
     });
   });
 
@@ -127,7 +129,9 @@ describe('CheckoutPage', () => {
     render(<CheckoutPage />);
 
     await waitFor(() => {
-      expect(screen.getByText(/by checking out, you agree to our terms of service/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/by checking out, you agree to our terms of service/i)
+      ).toBeInTheDocument();
     });
   });
 });

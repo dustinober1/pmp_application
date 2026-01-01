@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { apiRequest } from '@/lib/api';
 import type { PracticeQuestion } from '@pmp/shared';
@@ -50,43 +50,57 @@ export default function MockExamSessionPage() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const finishExam = useCallback(async () => {
+    if (!sessionId) return;
+    setIsSubmitting(true);
+    try {
+      await apiRequest(`/practice/sessions/${sessionId}/complete`, { method: 'POST' });
+      setExamComplete(true);
+      router.push('/dashboard'); // Or a results page
+    } catch (error) {
+      console.error('Failed to complete exam', error);
+      setIsSubmitting(false);
+      toast.error('Failed to submit exam. Please try again.');
+    }
+  }, [sessionId, router, toast]);
+
   // Initialize session
-  useEffect(() => {
-    async function fetchSession() {
-      if (!sessionId) return;
-      try {
-        setLoading(true);
-        const response = await apiRequest<SessionData>(`/practice/sessions/${sessionId}`);
+  const fetchSession = useCallback(async () => {
+    if (!sessionId) return;
+    try {
+      setLoading(true);
+      const response = await apiRequest<SessionData>(`/practice/sessions/${sessionId}`);
 
-        if (response.data) {
-          setSession(response.data);
+      if (response.data) {
+        setSession(response.data);
 
-          const timeRemainingMs =
-            typeof response.data.timeRemainingMs === 'number'
-              ? response.data.timeRemainingMs
-              : response.data.questions.length * FALLBACK_SECONDS_PER_QUESTION * 1000;
-          setTimeLeft(Math.max(0, Math.floor(timeRemainingMs / 1000)));
+        const timeRemainingMs =
+          typeof response.data.timeRemainingMs === 'number'
+            ? response.data.timeRemainingMs
+            : response.data.questions.length * FALLBACK_SECONDS_PER_QUESTION * 1000;
+        setTimeLeft(Math.max(0, Math.floor(timeRemainingMs / 1000)));
 
-          // Restore answer for first question if exists
-          if (response.data.questions.length > 0) {
-            const firstQ = response.data.questions[0];
-            if (firstQ) {
-              setSelectedOptionId(firstQ.userAnswerId || null);
-            }
+        // Restore answer for first question if exists
+        if (response.data.questions.length > 0) {
+          const firstQ = response.data.questions[0];
+          if (firstQ) {
+            setSelectedOptionId(firstQ.userAnswerId || null);
           }
         }
-      } catch (error) {
-        console.error('Failed to fetch session', error);
-        toast.error('Failed to load mock exam session.');
-      } finally {
-        setLoading(false);
       }
+    } catch (error) {
+      console.error('Failed to fetch session', error);
+      toast.error('Failed to load mock exam session.');
+    } finally {
+      setLoading(false);
     }
+  }, [sessionId, toast]);
 
+  useEffect(() => {
     if (canAccess) {
       void fetchSession();
     }
-  }, [canAccess, sessionId, toast]);
+  }, [canAccess, fetchSession]);
 
   // Timer Tick
   useEffect(() => {
@@ -96,7 +110,7 @@ export default function MockExamSessionPage() {
       setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timerRef.current!);
-          finishExam();
+          void finishExam();
           return 0;
         }
         return prev - 1;
@@ -106,7 +120,7 @@ export default function MockExamSessionPage() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [loading, examComplete, session]);
+  }, [loading, examComplete, session, finishExam]);
 
   // Sync current selection when index changes
   useEffect(() => {
@@ -188,20 +202,6 @@ export default function MockExamSessionPage() {
   const handlePrev = () => {
     if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
-    }
-  };
-
-  const finishExam = async () => {
-    if (!sessionId) return;
-    setIsSubmitting(true);
-    try {
-      await apiRequest(`/practice/sessions/${sessionId}/complete`, { method: 'POST' });
-      setExamComplete(true);
-      router.push('/dashboard'); // Or a results page
-    } catch (error) {
-      console.error('Failed to complete exam', error);
-      setIsSubmitting(false);
-      toast.error('Failed to submit exam. Please try again.');
     }
   };
 

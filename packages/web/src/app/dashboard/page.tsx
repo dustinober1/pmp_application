@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { apiRequest } from '@/lib/api';
@@ -46,13 +46,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (canAccess) {
-      fetchDashboard();
-    }
-  }, [canAccess]);
-
-  const fetchDashboard = async () => {
+  const fetchDashboard = useCallback(async () => {
     try {
       const response = await apiRequest<{ dashboard: DashboardData }>('/dashboard');
       setData(response.data?.dashboard ?? null);
@@ -62,7 +56,13 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (canAccess) {
+      fetchDashboard();
+    }
+  }, [canAccess, fetchDashboard]);
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;

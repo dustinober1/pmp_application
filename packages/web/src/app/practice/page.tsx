@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
@@ -34,13 +34,7 @@ export default function PracticePage() {
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
 
-  useEffect(() => {
-    if (canAccess) {
-      fetchData();
-    }
-  }, [canAccess]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [statsRes, domainsRes] = await Promise.all([
         apiRequest<{ stats: PracticeStats }>('/practice/stats'),
@@ -54,7 +48,13 @@ export default function PracticePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (canAccess) {
+      fetchData();
+    }
+  }, [canAccess, fetchData]);
 
   const startSession = async () => {
     setStarting(true);

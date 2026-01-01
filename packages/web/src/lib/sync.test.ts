@@ -1,23 +1,24 @@
 import { describe, it, expect } from 'vitest';
+import type { SyncActionType, SyncAction } from './sync';
 
-// Note: The SyncService singleton is created at module import time and 
+// Note: The SyncService singleton is created at module import time and
 // requires localStorage, which makes it difficult to test in isolation.
 // The sync functionality is tested indirectly through integration tests.
 
 describe('Sync module types', () => {
   it('exports SyncActionType type (compile-time check)', () => {
     // This is a compile-time test - if it compiles, the types exist
-    type Action = import('./sync').SyncActionType;
-    
+    const action: SyncActionType = 'MARK_SECTION_COMPLETE';
+
     // Runtime assertion that module structure is as expected
-    expect(true).toBe(true);
+    expect(action).toBe('MARK_SECTION_COMPLETE');
   });
 
   it('exports SyncAction interface (compile-time check)', () => {
     // This is a compile-time test
-    type ActionInterface = import('./sync').SyncAction;
-    
+    const action: Partial<SyncAction> = { type: 'MARK_SECTION_COMPLETE' };
+
     // Runtime assertion
-    expect(true).toBe(true);
+    expect(action.type).toBe('MARK_SECTION_COMPLETE');
   });
 });

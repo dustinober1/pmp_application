@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { apiRequest } from '@/lib/api';
 import { useToast } from '@/components/ToastProvider';
@@ -33,13 +33,7 @@ export default function FormulasPage() {
   const [loading, setLoading] = useState(true);
   const [calculating, setCalculating] = useState(false);
 
-  useEffect(() => {
-    if (canAccess) {
-      fetchFormulas();
-    }
-  }, [canAccess]);
-
-  const fetchFormulas = async () => {
+  const fetchFormulas = useCallback(async () => {
     try {
       const response = await apiRequest<{ formulas: Formula[] }>('/formulas');
       setFormulas(response.data?.formulas ?? []);
@@ -49,7 +43,13 @@ export default function FormulasPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (canAccess) {
+      fetchFormulas();
+    }
+  }, [canAccess, fetchFormulas]);
 
   const calculate = async () => {
     if (!selectedFormula) return;

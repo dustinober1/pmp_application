@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiRequest } from '@/lib/api';
 import type { TeamDashboard, Team } from '@pmp/shared';
@@ -22,13 +22,7 @@ export default function TeamDashboardPage() {
     message: string;
   } | null>(null);
 
-  useEffect(() => {
-    if (canAccess) {
-      void fetchTeamData();
-    }
-  }, [canAccess]);
-
-  const fetchTeamData = async () => {
+  const fetchTeamData = useCallback(async () => {
     try {
       setLoading(true);
       // 1. Get User's Teams
@@ -64,7 +58,13 @@ export default function TeamDashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (canAccess) {
+      void fetchTeamData();
+    }
+  }, [canAccess, fetchTeamData]);
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;

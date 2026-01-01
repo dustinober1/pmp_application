@@ -35,13 +35,7 @@ export default function StudyPage() {
     setSelectedDomain(prev => (prev === domainId ? null : domainId));
   }, []);
 
-  useEffect(() => {
-    if (canAccess) {
-      fetchDomains();
-    }
-  }, [canAccess]);
-
-  const fetchDomains = async () => {
+  const fetchDomains = useCallback(async () => {
     try {
       const response = await apiRequest<{ domains: Domain[] }>('/domains');
       setDomains(response.data?.domains ?? []);
@@ -51,7 +45,13 @@ export default function StudyPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (canAccess) {
+      fetchDomains();
+    }
+  }, [canAccess, fetchDomains]);
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;
