@@ -1,0 +1,34 @@
+services:
+  # API Service
+  - type: web
+    name: pmp-api
+    env: docker
+    dockerContext: .
+    dockerfilePath: ./packages/api/Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pmp-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://pmp-study-app.onrender.com # Update this with your frontend URL
+    healthCheckPath: /api/health
+
+databases:
+  # PostgreSQL Database
+  - name: pmp-db
+    databaseName: pmp_study_db
+    user: pmp_user
+    plan: free
+    region: oregon
+    version: "15"
