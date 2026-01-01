@@ -33,6 +33,13 @@ module "eks" {
   private_subnet_ids = module.vpc.private_subnet_ids
 }
 
+module "monitoring" {
+  source       = "../../modules/monitoring"
+  environment  = "prod"
+  cluster_name = module.eks.cluster_name
+  depends_on   = [module.eks]
+}
+
 variable "db_password" {
   type      = string
   sensitive = true

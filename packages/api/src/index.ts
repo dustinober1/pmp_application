@@ -15,6 +15,7 @@ import { requestIdMiddleware } from './middleware/requestId.middleware';
 import { env } from './config/env';
 import { csrfMiddleware } from './middleware/csrf.middleware';
 import { logger } from './utils/logger';
+import { register, httpRequestDurationMicroseconds, httpRequestsTotal } from './utils/metrics';
 
 // Import routes
 import healthRouter from './routes/health.routes';
@@ -73,6 +74,23 @@ app.use('/api', csrfMiddleware);
 
 // Request ID and logging
 app.use(requestIdMiddleware);
+
+// Metrics Middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    const route = req.route ? req.route.path : req.path;
+
+    httpRequestDurationMicroseconds
+      .labels(req.method, route, res.statusCode.toString())
+      .observe(duration / 1000);
+
+    httpRequestsTotal.labels(req.method, route, res.statusCode.toString()).inc();
+  });
+  next();
+});
+
 app.use(
   morgan(':method :url :status :response-time ms - :req[x-request-id]', {
     stream: {
@@ -82,6 +100,16 @@ app.use(
     },
   })
 );
+
+// Metrics Endpoint
+app.get('/metrics', async (req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+  } catch (ex) {
+    res.status(500).end(ex);
+  }
+});
 
 // API Routes
 app.use('/api/health', healthRouter);
