@@ -2,12 +2,18 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import FlaggedQuestionsPage from './page';
 import { vi } from 'vitest';
 
-const { mockPush, mockUseAuth, mockApiRequest, mockToastError } = vi.hoisted(() => {
+const { mockPush, mockUseAuth, mockApiRequest, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
   return {
     mockPush: vi.fn(),
     mockUseAuth: vi.fn(),
     mockApiRequest: vi.fn(),
-    mockToastError: vi.fn(),
+    mockToast: toastObj,
   };
 });
 
@@ -19,12 +25,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    error: mockToastError,
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/contexts/AuthContext', () => ({
@@ -110,11 +111,18 @@ describe('FlaggedQuestionsPage', () => {
       isLoading: false,
       user: { id: 'u1', emailVerified: true },
     });
+
+    let questionRemoved = false;
     mockApiRequest.mockImplementation((endpoint: string, options?: any) => {
       if (endpoint === '/practice/flagged') {
-        return Promise.resolve({ success: true, data: { questions: mockQuestions } });
+        // Return empty array after question has been removed
+        return Promise.resolve({
+          success: true,
+          data: { questions: questionRemoved ? [] : mockQuestions },
+        });
       }
-      if (endpoint === '/practice/questions/q1/flag' && options?.method === 'DELETE') {
+      if (endpoint.includes('/practice/questions/q1/flag') && options?.method === 'DELETE') {
+        questionRemoved = true;
         return Promise.resolve({ success: true, data: {} });
       }
       return Promise.reject(new Error(`Unexpected request: ${endpoint}`));
@@ -129,9 +137,13 @@ describe('FlaggedQuestionsPage', () => {
     const unflagButton = screen.getByTitle('Remove flag');
     fireEvent.click(unflagButton);
 
-    await waitFor(() => {
-      expect(screen.queryByText('Question 1')).not.toBeInTheDocument();
-    });
+    // Wait for the async operation to complete and state to update
+    await waitFor(
+      () => {
+        expect(screen.queryByText('Question 1')).not.toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
 
     // Should revert to empty state if last one removed
     expect(screen.getByText(/no flagged questions/i)).toBeInTheDocument();
