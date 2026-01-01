@@ -1,11 +1,19 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
-import { RegisterInput, LoginInput, AuthResult, TokenPair, User } from '@pmp/shared';
+import type {
+  RegisterInput,
+  LoginInput,
+  AuthResult,
+  TokenPair,
+  UserProfile,
+  TierName,
+} from '@pmp/shared';
 import prisma from '../config/database';
 import { env } from '../config/env';
 import { AppError } from '../middleware/error.middleware';
 import { AUTH_ERRORS } from '@pmp/shared';
+import { logger } from '../utils/logger';
 
 const SALT_ROUNDS = 12;
 const MAX_FAILED_ATTEMPTS = 5;
@@ -60,12 +68,13 @@ export class AuthService {
     }
 
     // Generate tokens
-    const tokens = await this.generateTokens(user.id, user.email, freeTier?.id || 'free');
+    const tierName = (freeTier?.name as TierName) || 'free';
+    const tokens = await this.generateTokens(user.id, user.email, tierName);
 
     // TODO: Send verification email
 
     return {
-      user: this.sanitizeUser(user),
+      user: { ...this.sanitizeUser(user), tier: tierName },
       tokens,
     };
   }
@@ -138,11 +147,11 @@ export class AuthService {
     // }
 
     // Generate tokens
-    const tierId = user.subscription?.tierId || 'free';
-    const tokens = await this.generateTokens(user.id, user.email, tierId);
+    const tierName = (user.subscription?.tier?.name as TierName) || 'free';
+    const tokens = await this.generateTokens(user.id, user.email, tierName);
 
     return {
-      user: this.sanitizeUser(user),
+      user: { ...this.sanitizeUser(user), tier: tierName },
       tokens,
     };
   }
@@ -157,7 +166,9 @@ export class AuthService {
       include: {
         user: {
           include: {
-            subscription: true,
+            subscription: {
+              include: { tier: true },
+            },
           },
         },
       },
@@ -175,8 +186,8 @@ export class AuthService {
     await prisma.refreshToken.delete({ where: { id: storedToken.id } });
 
     // Generate new tokens
-    const tierId = storedToken.user.subscription?.tierId || 'free';
-    return this.generateTokens(storedToken.userId, storedToken.user.email, tierId);
+    const tierName = (storedToken.user.subscription?.tier?.name as TierName) || 'free';
+    return this.generateTokens(storedToken.userId, storedToken.user.email, tierName);
   }
 
   /**
@@ -221,8 +232,9 @@ export class AuthService {
     });
 
     // TODO: Send password reset email
-    // eslint-disable-next-line no-console
-    console.log(`Password reset token for ${email}: ${token}`);
+    if (env.NODE_ENV !== 'production') {
+      logger.info(`Password reset token for ${email}: ${token}`);
+    }
   }
 
   /**
@@ -284,6 +296,36 @@ export class AuthService {
   }
 
   /**
+   * Generate a new email verification token for the current user.
+   *
+   * Note: This service currently only rotates the stored token. In production, this should
+   * send an email via a transactional email provider.
+   */
+  async resendVerification(userId: string): Promise<string | null> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { emailVerified: true },
+    });
+
+    if (!user) {
+      throw AppError.unauthorized(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
+    }
+
+    if (user.emailVerified) {
+      return null;
+    }
+
+    const emailVerifyToken = uuidv4();
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { emailVerifyToken },
+    });
+
+    return emailVerifyToken;
+  }
+
+  /**
    * Generate access and refresh tokens
    */
   private async generateTokens(userId: string, email: string, tierId: string): Promise<TokenPair> {
@@ -314,12 +356,20 @@ export class AuthService {
   /**
    * Get user by ID
    */
-  async getUserById(userId: string): Promise<User | null> {
+  async getUserById(userId: string): Promise<UserProfile | null> {
     const user = await prisma.user.findUnique({
       where: { id: userId },
+      include: {
+        subscription: {
+          include: { tier: true },
+        },
+      },
     });
 
-    return user ? this.sanitizeUser(user) : null;
+    if (!user) return null;
+
+    const tierName = (user.subscription?.tier?.name as TierName) || 'free';
+    return { ...this.sanitizeUser(user), tier: tierName };
   }
 
   /**
@@ -334,7 +384,7 @@ export class AuthService {
     lockedUntil: Date | null;
     createdAt: Date;
     updatedAt: Date;
-  }): User {
+  }): Omit<UserProfile, 'tier'> {
     return {
       id: user.id,
       email: user.email,

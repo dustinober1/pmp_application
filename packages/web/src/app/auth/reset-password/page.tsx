@@ -4,12 +4,14 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { apiRequest } from '../../../lib/api';
-import { PasswordReset } from '@pmp/shared';
+import type { PasswordReset } from '@pmp/shared';
+import { useToast } from '@/components/ToastProvider';
 
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
+  const toast = useToast();
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,20 +22,26 @@ function ResetPasswordForm() {
     e.preventDefault();
 
     if (!token) {
-      setErrorMessage('Invalid or missing reset token.');
+      const message = 'Invalid or missing reset token.';
+      setErrorMessage(message);
       setStatus('error');
+      toast.error(message);
       return;
     }
 
     if (password !== confirmPassword) {
-      setErrorMessage('Passwords do not match.');
+      const message = 'Passwords do not match.';
+      setErrorMessage(message);
       setStatus('error');
+      toast.error(message);
       return;
     }
 
     if (password.length < 8) {
-      setErrorMessage('Password must be at least 8 characters long.');
+      const message = 'Password must be at least 8 characters long.';
+      setErrorMessage(message);
       setStatus('error');
+      toast.error(message);
       return;
     }
 
@@ -47,19 +55,23 @@ function ResetPasswordForm() {
       });
       setStatus('success');
       setTimeout(() => {
-        router.push('/login');
+        router.push('/auth/login');
       }, 3000);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Password reset failed', error);
+      const message = 'Failed to reset password. The link may have expired.';
       setStatus('error');
-      setErrorMessage(error.message || 'Failed to reset password. The link may have expired.');
+      setErrorMessage(message);
+      toast.error(message);
     }
   };
 
   if (!token) {
     return (
       <div className="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-gray-700 text-center">
-        <div className="text-5xl mb-4">⚠️</div>
+        <div className="text-5xl mb-4" aria-hidden="true">
+          ⚠️
+        </div>
         <h2 className="text-2xl font-bold text-white">Invalid Link</h2>
         <p className="mt-2 text-sm text-gray-400">
           This password reset link is invalid or has expired. Please request a new one.
@@ -79,14 +91,16 @@ function ResetPasswordForm() {
   if (status === 'success') {
     return (
       <div className="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-gray-700 text-center">
-        <div className="text-5xl mb-4">✅</div>
+        <div className="text-5xl mb-4" aria-hidden="true">
+          ✅
+        </div>
         <h2 className="text-3xl font-extrabold text-white">Password Reset!</h2>
         <p className="mt-2 text-sm text-gray-400">
           Your password has been successfully reset. Redirecting you to login...
         </p>
         <div className="mt-6">
           <Link
-            href="/login"
+            href="/auth/login"
             className="font-medium text-primary-400 hover:text-primary-300 transition"
           >
             Go to Login Now

@@ -14,9 +14,9 @@ datasource db {
 
 model User {
   id                  String    @id @default(uuid())
-  email               String    @unique
+  email               String    @unique @db.VarChar(255)
   passwordHash        String
-  name                String
+  name                String @db.VarChar(255)
   emailVerified       Boolean   @default(false)
   emailVerifyToken    String?
   failedLoginAttempts Int       @default(0)
@@ -95,6 +95,7 @@ model UserSubscription {
   user User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   tier SubscriptionTier @relation(fields: [tierId], references: [id])
 
+  @@index([userId, status])
   @@map("user_subscriptions")
 }
 
@@ -168,7 +169,7 @@ model StudySection {
   id           String @id @default(uuid())
   studyGuideId String
   title        String
-  content      String // Markdown content
+  content      String @db.Text // Markdown content
   orderIndex   Int
 
   studyGuide StudyGuide      @relation(fields: [studyGuideId], references: [id], onDelete: Cascade)
@@ -317,7 +318,7 @@ model PracticeSession {
   correctAnswers Int       @default(0)
   totalTimeMs    Int       @default(0)
   isMockExam     Boolean   @default(false)
-  timeLimit      Int?      // Minutes (230 for mock exam)
+  timeLimit      Int?      // Milliseconds (230 minutes for mock exam)
 
   questions PracticeSessionQuestion[]
 
@@ -395,6 +396,7 @@ model StudyActivity {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, createdAt])
+  @@index([activityType])
   @@map("study_activities")
 }
 

@@ -1,4 +1,5 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 import { contentService } from '../services/content.service';
 import { optionalAuthMiddleware } from '../middleware/auth.middleware';
 import { z } from 'zod';

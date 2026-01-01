@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useEffect, useMemo, useState } from 'react';
 import { Navbar } from '@/components/Navbar';
-import { formulaApi } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
+import { useToast } from '@/components/ToastProvider';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 interface Formula {
   id: string;
@@ -22,8 +23,8 @@ interface CalcResult {
 }
 
 export default function FormulasPage() {
-  const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [formulas, setFormulas] = useState<Formula[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
@@ -33,23 +34,18 @@ export default function FormulasPage() {
   const [calculating, setCalculating] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [authLoading, isAuthenticated, router]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
+    if (canAccess) {
       fetchFormulas();
     }
-  }, [isAuthenticated]);
+  }, [canAccess]);
 
   const fetchFormulas = async () => {
     try {
-      const response = await formulaApi.getFormulas();
-      setFormulas((response as any).data?.formulas || []);
+      const response = await apiRequest<{ formulas: Formula[] }>('/formulas');
+      setFormulas(response.data?.formulas ?? []);
     } catch (error) {
       console.error('Failed to fetch formulas:', error);
+      toast.error('Failed to load formulas. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -67,27 +63,33 @@ export default function FormulasPage() {
         numericInputs[key] = parseFloat(value) || 0;
       }
 
-      const response = await formulaApi.calculate(selectedFormula.id, numericInputs);
-      setResult((response as any).data?.result);
+      const response = await apiRequest<{ result: CalcResult }>(
+        `/formulas/${selectedFormula.id}/calculate`,
+        { method: 'POST', body: { inputs: numericInputs } }
+      );
+      setResult(response.data?.result ?? null);
     } catch (error) {
       console.error('Calculation failed:', error);
+      toast.error('Calculation failed. Please check your inputs and try again.');
     } finally {
       setCalculating(false);
     }
   };
 
-  const categories = ['all', ...new Set(formulas.map(f => f.category))];
-  const filteredFormulas =
-    selectedCategory === 'all' ? formulas : formulas.filter(f => f.category === selectedCategory);
+  const categories = useMemo(
+    () => ['all', ...Array.from(new Set(formulas.map(f => f.category)))],
+    [formulas]
+  );
+  const filteredFormulas = useMemo(
+    () =>
+      selectedCategory === 'all' ? formulas : formulas.filter(f => f.category === selectedCategory),
+    [formulas, selectedCategory]
+  );
 
   const canUseCalculator = user?.tier === 'high-end' || user?.tier === 'corporate';
 
   if (authLoading || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-[var(--foreground-muted)]">Loading...</div>
-      </div>
-    );
+    return <FullPageSkeleton />;
   }
 
   return (
@@ -124,9 +126,10 @@ export default function FormulasPage() {
           <div className="lg:col-span-2">
             <div className="grid gap-4">
               {filteredFormulas.map(formula => (
-                <div
+                <button
                   key={formula.id}
-                  className={`card cursor-pointer transition ${
+                  type="button"
+                  className={`card w-full text-left cursor-pointer transition ${
                     selectedFormula?.id === formula.id
                       ? 'ring-2 ring-[var(--primary)]'
                       : 'hover:border-[var(--primary)]'
@@ -136,6 +139,7 @@ export default function FormulasPage() {
                     setInputs({});
                     setResult(null);
                   }}
+                  aria-pressed={selectedFormula?.id === formula.id}
                 >
                   <div className="flex items-start justify-between">
                     <div>
@@ -154,7 +158,7 @@ export default function FormulasPage() {
                   <p className="text-xs text-[var(--foreground-muted)] mt-2">
                     <strong>When to use:</strong> {formula.whenToUse}
                   </p>
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -180,20 +184,26 @@ export default function FormulasPage() {
 
                   {/* Dynamic inputs based on formula expression */}
                   <div className="space-y-3 mb-4">
-                    {getVariablesFromExpression(selectedFormula.expression).map(variable => (
-                      <div key={variable}>
-                        <label className="block text-sm font-medium mb-1">{variable}</label>
-                        <input
-                          type="number"
-                          value={inputs[variable] || ''}
-                          onChange={e =>
-                            setInputs(prev => ({ ...prev, [variable]: e.target.value }))
-                          }
-                          className="input"
-                          placeholder={`Enter ${variable}`}
-                        />
-                      </div>
-                    ))}
+                    {getVariablesFromExpression(selectedFormula.expression).map(variable => {
+                      const inputId = `variable-${variable.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
+                      return (
+                        <div key={variable}>
+                          <label htmlFor={inputId} className="block text-sm font-medium mb-1">
+                            {variable}
+                          </label>
+                          <input
+                            id={inputId}
+                            type="number"
+                            value={inputs[variable] || ''}
+                            onChange={e =>
+                              setInputs(prev => ({ ...prev, [variable]: e.target.value }))
+                            }
+                            className="input"
+                            placeholder={`Enter ${variable}`}
+                          />
+                        </div>
+                      );
+                    })}
                   </div>
 
                   <button

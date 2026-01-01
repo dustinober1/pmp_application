@@ -5,7 +5,8 @@
 
 import { FlashcardService } from './flashcard.service';
 import prisma from '../config/database';
-import { FlashcardRating, SM2_DEFAULTS } from '@pmp/shared';
+import type { FlashcardRating } from '@pmp/shared';
+import { SM2_DEFAULTS } from '@pmp/shared';
 import * as fc from 'fast-check';
 
 // Mock dependencies

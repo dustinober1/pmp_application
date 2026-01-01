@@ -3,7 +3,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 interface ApiOptions {
   method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   body?: unknown;
-  token?: string | null;
 }
 
 interface ApiResponse<T> {
@@ -16,40 +15,115 @@ interface ApiResponse<T> {
   message?: string;
 }
 
-async function getToken(): Promise<string | null> {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem('accessToken');
+const CSRF_COOKIE = 'pmp_csrf_token';
+const GET_CACHE_TTL_MS = 30_000;
+const getCache = new Map<string, { expiresAt: number; value: unknown }>();
+
+function isCacheableGet(endpoint: string): boolean {
+  if (!endpoint.startsWith('/')) return false;
+  if (endpoint.startsWith('/auth/')) return false;
+  if (endpoint.includes('/sessions/')) return false;
+  if (endpoint.startsWith('/search')) return false;
+  return true;
+}
+
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const cookies = document.cookie ? document.cookie.split('; ') : [];
+  for (const cookie of cookies) {
+    const [key, ...rest] = cookie.split('=');
+    if (key === name) return decodeURIComponent(rest.join('='));
+  }
+  return null;
 }
 
 export async function apiRequest<T>(
   endpoint: string,
-  options: ApiOptions = {}
+  options: ApiOptions = {},
+  retryOnAuthFailure: boolean = true
 ): Promise<ApiResponse<T>> {
-  const { method = 'GET', body, token } = options;
+  const { method = 'GET', body } = options;
 
-  const accessToken = token ?? (await getToken());
+  if (typeof window !== 'undefined' && method === 'GET' && isCacheableGet(endpoint)) {
+    const cached = getCache.get(endpoint);
+    if (cached && cached.expiresAt > Date.now()) {
+      return cached.value as ApiResponse<T>;
+    }
+  }
 
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    ...(body ? { 'Content-Type': 'application/json' } : {}),
   };
 
-  if (accessToken) {
-    headers['Authorization'] = `Bearer ${accessToken}`;
+  const isStateChanging = method !== 'GET';
+  if (isStateChanging) {
+    const csrfToken = getCookie(CSRF_COOKIE) || (await ensureCsrfCookie());
+    if (csrfToken) headers['X-CSRF-Token'] = csrfToken;
   }
 
   const response = await fetch(`${API_URL}${endpoint}`, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
+    credentials: 'include',
   });
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error?.message || 'Request failed');
+  if (response.status === 401 && retryOnAuthFailure) {
+    const refreshed = await tryRefreshSession();
+    if (refreshed) {
+      return apiRequest(endpoint, options, false);
+    }
   }
 
-  return data;
+  const data = (await safeJson(response)) as ApiResponse<T> | null;
+
+  if (!response.ok) {
+    throw new Error(data?.error?.message || 'Request failed');
+  }
+
+  const result = data || ({ success: true } as ApiResponse<T>);
+
+  if (typeof window !== 'undefined' && method === 'GET' && isCacheableGet(endpoint)) {
+    getCache.set(endpoint, { expiresAt: Date.now() + GET_CACHE_TTL_MS, value: result });
+  }
+
+  return result;
+}
+
+async function safeJson(response: Response): Promise<unknown | null> {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+async function ensureCsrfCookie(): Promise<string | null> {
+  if (typeof window === 'undefined') return null;
+
+  const existing = getCookie(CSRF_COOKIE);
+  if (existing) return existing;
+
+  const response = await fetch(`${API_URL}/auth/csrf`, { credentials: 'include' });
+  if (!response.ok) return null;
+  const json = (await safeJson(response)) as ApiResponse<{ csrfToken: string }> | null;
+  return json?.data?.csrfToken || getCookie(CSRF_COOKIE);
+}
+
+async function tryRefreshSession(): Promise<boolean> {
+  if (typeof window === 'undefined') return false;
+
+  const csrfToken = getCookie(CSRF_COOKIE) || (await ensureCsrfCookie());
+  const headers: Record<string, string> = {};
+  if (csrfToken) headers['X-CSRF-Token'] = csrfToken;
+
+  const response = await fetch(`${API_URL}/auth/refresh`, {
+    method: 'POST',
+    headers,
+    credentials: 'include',
+  });
+
+  return response.ok;
 }
 
 // Auth API
@@ -122,15 +196,15 @@ export const practiceApi = {
     questionCount?: number;
     prioritizeFlagged?: boolean;
   }) => apiRequest('/practice/sessions', { method: 'POST', body: options }),
-  submitAnswer: (
-    sessionId: string,
-    questionId: string,
-    selectedOptionId: string,
-    timeSpentMs: number
-  ) =>
-    apiRequest(`/practice/sessions/${sessionId}/answers/${questionId}`, {
+  submitAnswer: (params: {
+    sessionId: string;
+    questionId: string;
+    selectedOptionId: string;
+    timeSpentMs: number;
+  }) =>
+    apiRequest(`/practice/sessions/${params.sessionId}/answers/${params.questionId}`, {
       method: 'POST',
-      body: { selectedOptionId, timeSpentMs },
+      body: { selectedOptionId: params.selectedOptionId, timeSpentMs: params.timeSpentMs },
     }),
   completeSession: (sessionId: string) =>
     apiRequest(`/practice/sessions/${sessionId}/complete`, { method: 'POST' }),

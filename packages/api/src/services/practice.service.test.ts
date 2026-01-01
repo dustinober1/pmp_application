@@ -7,7 +7,8 @@ import { PracticeService } from './practice.service';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 import * as fc from 'fast-check';
-import { PMP_EXAM, Difficulty } from '@pmp/shared';
+import type { Difficulty } from '@pmp/shared';
+import { PMP_EXAM } from '@pmp/shared';
 
 // Mock Prisma Client
 jest.mock('../config/database', () => ({

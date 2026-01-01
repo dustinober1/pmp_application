@@ -2,9 +2,18 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useAuth } from '../../../../../contexts/AuthContext';
-import { apiRequest } from '../../../../../lib/api';
-import { PracticeQuestion } from '@pmp/shared';
+import { apiRequest } from '@/lib/api';
+import type { PracticeQuestion } from '@pmp/shared';
+import { useToast } from '@/components/ToastProvider';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import {
+  MockExamFooter,
+  MockExamHeader,
+  MockExamQuestionCard,
+  MockExamReviewScreen,
+  MockExamSideNav,
+} from './MockExamComponents';
 
 interface SessionProgress {
   total: number;
@@ -15,14 +24,18 @@ interface SessionData {
   sessionId: string;
   questions: (PracticeQuestion & { userAnswerId?: string })[];
   progress: SessionProgress;
-  timeRemaining?: number; // Optional, if backend tracks it, otherwise we calculate
-  totalTimeMinutes?: number;
+  timeRemainingMs?: number;
+  timeLimitMs?: number;
+  startedAt?: string;
 }
 
+const FALLBACK_SECONDS_PER_QUESTION = 75;
+
 export default function MockExamSessionPage() {
-  const { sessionId } = useParams();
+  const { sessionId } = useParams<{ sessionId: string }>();
   const router = useRouter();
-  const { user } = useAuth();
+  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<SessionData | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,13 +61,11 @@ export default function MockExamSessionPage() {
         if (response.data) {
           setSession(response.data);
 
-          // Logic to determine time left
-          // Assuming 230 minutes for 180 questions (standard PMP) or scaled based on question count
-          // For now, let's assume standard PMP timing of ~1.2 mins per question if not provided is safe default
-          // But ideally backend provides start time or time remaining.
-          // Using a default of 75 seconds per question for now if not explicit.
-          const totalSeconds = response.data.questions.length * 75;
-          setTimeLeft(totalSeconds);
+          const timeRemainingMs =
+            typeof response.data.timeRemainingMs === 'number'
+              ? response.data.timeRemainingMs
+              : response.data.questions.length * FALLBACK_SECONDS_PER_QUESTION * 1000;
+          setTimeLeft(Math.max(0, Math.floor(timeRemainingMs / 1000)));
 
           // Restore answer for first question if exists
           if (response.data.questions.length > 0) {
@@ -66,15 +77,16 @@ export default function MockExamSessionPage() {
         }
       } catch (error) {
         console.error('Failed to fetch session', error);
+        toast.error('Failed to load mock exam session.');
       } finally {
         setLoading(false);
       }
     }
 
-    if (user) {
-      fetchSession();
+    if (canAccess) {
+      void fetchSession();
     }
-  }, [sessionId, user]);
+  }, [canAccess, sessionId, toast]);
 
   // Timer Tick
   useEffect(() => {
@@ -148,6 +160,13 @@ export default function MockExamSessionPage() {
         );
       } catch (err) {
         console.error('Failed to sync answer', err);
+        const message = err instanceof Error ? err.message : 'Failed to submit answer';
+        if (message.toLowerCase().includes('time expired')) {
+          toast.error('Time is up — submitting your exam.');
+          void finishExam();
+        } else {
+          toast.error('Failed to submit answer. Please try again.');
+        }
       }
     }
   };
@@ -182,6 +201,7 @@ export default function MockExamSessionPage() {
     } catch (error) {
       console.error('Failed to complete exam', error);
       setIsSubmitting(false);
+      toast.error('Failed to submit exam. Please try again.');
     }
   };
 
@@ -192,12 +212,8 @@ export default function MockExamSessionPage() {
     return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </div>
-    );
+  if (authLoading || loading) {
+    return <FullPageSkeleton />;
   }
 
   if (!session) {
@@ -213,7 +229,7 @@ export default function MockExamSessionPage() {
 
   const currentQuestion = session.questions[currentIndex];
   // Safe guard access
-  if (!currentQuestion) return <div>Loading...</div>;
+  if (!currentQuestion) return <FullPageSkeleton />;
 
   const answeredCount = session.progress.answered;
   const totalCount = session.questions.length;
@@ -222,176 +238,55 @@ export default function MockExamSessionPage() {
   // Review Screen
   if (showReview) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white">Review Your Answers</h1>
-          <div className="text-xl font-mono text-primary-400">{formatTime(timeLeft)}</div>
-        </div>
-
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
-          <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3">
-            {session.questions.map((q, idx) => (
-              <button
-                key={q.id}
-                onClick={() => jumpToQuestion(idx)}
-                className={`p-2 rounded text-sm font-medium border transition-colors ${
-                  q.userAnswerId
-                    ? 'bg-primary-900/40 border-primary-600 text-white'
-                    : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500'
-                }`}
-              >
-                {idx + 1}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex justify-between">
-          <button
-            onClick={() => setShowReview(false)}
-            className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
-          >
-            Return to Exam
-          </button>
-          <button
-            onClick={finishExam}
-            disabled={isSubmitting}
-            className="px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg"
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit Exam'}
-          </button>
-        </div>
-      </div>
+      <MockExamReviewScreen
+        questions={session.questions}
+        timeLeftSeconds={timeLeft}
+        onJumpToQuestion={jumpToQuestion}
+        onReturnToExam={() => setShowReview(false)}
+        onSubmitExam={finishExam}
+        isSubmitting={isSubmitting}
+        formatTime={formatTime}
+      />
     );
   }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col h-[calc(100vh-64px)]">
       {/* Header Bar */}
-      <div className="flex items-center justify-between mb-6 bg-gray-900/50 p-4 rounded-xl border border-gray-800">
-        <div className="flex items-center space-x-4">
-          <span className="text-gray-400 font-medium">
-            Question {currentIndex + 1} <span className="text-gray-600">/ {totalCount}</span>
-          </span>
-          <div className="h-4 w-32 bg-gray-800 rounded-full overflow-hidden hidden sm:block">
-            <div
-              className="h-full bg-primary-600 transition-all duration-500"
-              style={{ width: `${progressPercent}%` }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="flex items-center space-x-6">
-          <div className="text-2xl font-mono font-bold text-primary-400 tracking-wider bg-gray-900 px-4 py-1 rounded-lg border border-gray-800 shadow-inner">
-            {formatTime(timeLeft)}
-          </div>
-          <button
-            onClick={() => setShowReview(true)}
-            className="text-sm text-gray-400 hover:text-white underline"
-          >
-            Review All
-          </button>
-        </div>
-      </div>
+      <MockExamHeader
+        currentIndex={currentIndex}
+        totalCount={totalCount}
+        progressPercent={progressPercent}
+        timeLeftSeconds={timeLeft}
+        onShowReview={() => setShowReview(true)}
+        formatTime={formatTime}
+      />
 
       <div className="flex-1 flex gap-6 overflow-hidden">
         {/* Main Question Area */}
         <div className="flex-1 flex flex-col overflow-y-auto pr-2 custom-scrollbar" ref={scrollRef}>
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 mb-6 shadow-sm">
-            <p className="text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed">
-              {currentQuestion.questionText}
-            </p>
-
-            <div className="space-y-3">
-              {currentQuestion.options.map(option => {
-                const isSelected = selectedOptionId === option.id;
-                return (
-                  <button
-                    key={option.id}
-                    onClick={() => handleOptionSelect(option.id)}
-                    className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group ${
-                      isSelected
-                        ? 'bg-primary-900/20 border-primary-500 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
-                        : 'bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:border-gray-500'
-                    }`}
-                  >
-                    <div
-                      className={`mt-0.5 w-6 h-6 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors ${
-                        isSelected
-                          ? 'border-primary-500 bg-primary-500'
-                          : 'border-gray-600 group-hover:border-gray-500'
-                      }`}
-                    >
-                      {isSelected && <div className="w-2.5 h-2.5 bg-white rounded-full"></div>}
-                    </div>
-                    <span className={`text-lg ${isSelected ? 'text-white' : 'text-gray-300'}`}>
-                      {option.text}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          <MockExamQuestionCard
+            question={currentQuestion}
+            selectedOptionId={selectedOptionId}
+            onSelectOption={handleOptionSelect}
+          />
         </div>
 
         {/* Side Navigation (Desktop) */}
-        <div className="w-20 hidden lg:flex flex-col gap-2 overflow-y-auto custom-scrollbar bg-gray-900/30 p-2 rounded-xl border border-gray-800/50">
-          {session.questions.map((q, idx) => {
-            const isActive = idx === currentIndex;
-            const isAnswered = !!q.userAnswerId;
-
-            return (
-              <button
-                key={q.id}
-                onClick={() => setCurrentIndex(idx)}
-                className={`w-full aspect-square rounded flex items-center justify-center text-sm font-bold transition-all ${
-                  isActive
-                    ? 'bg-primary-600 text-white shadow-lg scale-105'
-                    : isAnswered
-                      ? 'bg-primary-900/30 text-primary-400 border border-primary-900'
-                      : 'bg-gray-800 text-gray-500 hover:bg-gray-700'
-                }`}
-              >
-                {idx + 1}
-              </button>
-            );
-          })}
-        </div>
+        <MockExamSideNav
+          questions={session.questions}
+          currentIndex={currentIndex}
+          onSelectIndex={setCurrentIndex}
+        />
       </div>
 
       {/* Footer Controls */}
-      <div className="border-t border-gray-800 pt-6 mt-2 flex justify-between items-center bg-background py-4">
-        <button
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-          className={`px-6 py-2.5 rounded-lg border font-medium transition ${
-            currentIndex === 0
-              ? 'border-gray-800 text-gray-600 cursor-not-allowed'
-              : 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white'
-          }`}
-        >
-          &larr; Previous
-        </button>
-
-        <div className="flex gap-4">
-          <button
-            onClick={() => {
-              // Flag logic could go here
-            }}
-            className="px-4 py-2.5 text-gray-400 hover:text-yellow-400 transition"
-          >
-            Flag for Review
-          </button>
-        </div>
-
-        <button
-          onClick={handleNext}
-          className="px-8 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition shadow-lg hover:shadow-primary-900/20 flex items-center"
-        >
-          {currentIndex === totalCount - 1 ? 'Review Exam' : 'Next Question'}
-          <span className="ml-2">&rarr;</span>
-        </button>
-      </div>
+      <MockExamFooter
+        canGoPrev={currentIndex > 0}
+        onPrev={handlePrev}
+        onNext={handleNext}
+        nextLabel={currentIndex === totalCount - 1 ? 'Review Exam' : 'Next Question'}
+      />
     </div>
   );
 }

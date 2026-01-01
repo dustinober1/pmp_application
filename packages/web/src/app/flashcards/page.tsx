@@ -3,9 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
-import { flashcardApi } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
+import { useToast } from '@/components/ToastProvider';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 interface FlashcardStats {
   mastered: number;
@@ -16,33 +18,30 @@ interface FlashcardStats {
 
 export default function FlashcardsPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [stats, setStats] = useState<FlashcardStats | null>(null);
   const [dueCards, setDueCards] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [starting, setStarting] = useState<'review' | 'all' | null>(null);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [authLoading, isAuthenticated, router]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
+    if (canAccess) {
       fetchData();
     }
-  }, [isAuthenticated]);
+  }, [canAccess]);
 
   const fetchData = async () => {
     try {
       const [statsRes, dueRes] = await Promise.all([
-        flashcardApi.getStats(),
-        flashcardApi.getDueForReview(10),
+        apiRequest<{ stats: FlashcardStats }>('/flashcards/stats'),
+        apiRequest<{ flashcards: unknown[] }>('/flashcards/review?limit=10'),
       ]);
-      setStats((statsRes as any).data?.stats);
-      setDueCards((dueRes as any).data?.cards?.length || 0);
+      setStats(statsRes.data?.stats ?? null);
+      setDueCards(dueRes.data?.flashcards?.length ?? 0);
     } catch (error) {
       console.error('Failed to fetch flashcard data:', error);
+      toast.error('Failed to load flashcards. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -50,24 +49,27 @@ export default function FlashcardsPage() {
 
   const startSession = async (mode: 'review' | 'all') => {
     try {
+      setStarting(mode);
       const options =
         mode === 'review' ? { prioritizeReview: true, cardCount: 20 } : { cardCount: 20 };
-      const response = await flashcardApi.startSession(options);
-      const sessionId = (response as any).data?.sessionId;
+      const response = await apiRequest<{ sessionId: string }>('/flashcards/sessions', {
+        method: 'POST',
+        body: options,
+      });
+      const sessionId = response.data?.sessionId;
       if (sessionId) {
         router.push(`/flashcards/session/${sessionId}`);
       }
     } catch (error) {
       console.error('Failed to start session:', error);
+      toast.error('Failed to start session. Please try again.');
+    } finally {
+      setStarting(null);
     }
   };
 
   if (authLoading || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-[var(--foreground-muted)]">Loading...</div>
-      </div>
-    );
+    return <FullPageSkeleton />;
   }
 
   return (
@@ -129,10 +131,10 @@ export default function FlashcardsPage() {
             </p>
             <button
               onClick={() => startSession('review')}
-              disabled={dueCards === 0}
+              disabled={dueCards === 0 || starting !== null}
               className="btn btn-primary w-full mt-4"
             >
-              Start Review
+              {starting === 'review' ? 'Starting...' : 'Start Review'}
             </button>
           </div>
 
@@ -157,8 +159,12 @@ export default function FlashcardsPage() {
             <p className="text-sm text-[var(--foreground-muted)] mt-2">
               Start a new study session with a mix of new and review cards.
             </p>
-            <button onClick={() => startSession('all')} className="btn btn-secondary w-full mt-4">
-              Start Session
+            <button
+              onClick={() => startSession('all')}
+              disabled={starting !== null}
+              className="btn btn-secondary w-full mt-4"
+            >
+              {starting === 'all' ? 'Starting...' : 'Start Session'}
             </button>
           </div>
 
@@ -208,16 +214,16 @@ export default function FlashcardsPage() {
               </div>
               <p className="font-medium">Learning</p>
               <p className="text-sm text-[var(--foreground-muted)] mt-1">
-                Cards you're learning are shown more often.
+                Cards you’re learning are shown more often.
               </p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 rounded-full bg-[var(--error-light)] text-[var(--error)] flex items-center justify-center mx-auto mb-3">
                 <span className="text-lg font-bold">3</span>
               </div>
-              <p className="font-medium">Don't Know</p>
+              <p className="font-medium">Don’t Know</p>
               <p className="text-sm text-[var(--foreground-muted)] mt-1">
-                Cards you don't know are shown again soon.
+                Cards you don’t know are shown again soon.
               </p>
             </div>
           </div>

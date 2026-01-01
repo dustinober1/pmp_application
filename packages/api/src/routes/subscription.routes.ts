@@ -1,4 +1,5 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 import { subscriptionService } from '../services/subscription.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { validateBody } from '../middleware/validation.middleware';

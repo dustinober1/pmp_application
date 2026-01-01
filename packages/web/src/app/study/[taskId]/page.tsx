@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useAuth } from '../../../contexts/AuthContext';
-import { apiRequest } from '../../../lib/api';
-import ReactMarkdown from 'react-markdown';
-import { Task, StudyGuide } from '@pmp/shared';
+import { apiRequest } from '@/lib/api';
+import dynamic from 'next/dynamic';
+import rehypeSanitize from 'rehype-sanitize';
+import type { Task, StudyGuide } from '@pmp/shared';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { useToast } from '@/components/ToastProvider';
+
+const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 
 export default function StudyGuidePage() {
   const { taskId } = useParams();
   const router = useRouter();
-  const { user } = useAuth();
+  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [loading, setLoading] = useState(true);
   const [task, setTask] = useState<Task | null>(null);
   const [guide, setGuide] = useState<StudyGuide | null>(null);
@@ -48,22 +54,19 @@ export default function StudyGuidePage() {
         }
       } catch (error) {
         console.error('Failed to fetch data', error);
+        toast.error('Failed to load study guide. Please try again.');
       } finally {
         setLoading(false);
       }
     }
 
-    if (user) {
-      fetchData();
+    if (canAccess) {
+      void fetchData();
     }
-  }, [taskId, user]);
+  }, [canAccess, taskId, toast]);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </div>
-    );
+  if (authLoading || loading) {
+    return <FullPageSkeleton />;
   }
 
   if (!task) {
@@ -135,13 +138,19 @@ export default function StudyGuidePage() {
                   onClick={() => router.push('/flashcards')}
                   className="w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center"
                 >
-                  <span className="mr-2">🗂️</span> Related Flashcards
+                  <span className="mr-2" aria-hidden="true">
+                    🗂️
+                  </span>{' '}
+                  Related Flashcards
                 </button>
                 <button
                   onClick={() => router.push('/formulas')}
                   className="w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center"
                 >
-                  <span className="mr-2">∑</span> Related Formulas
+                  <span className="mr-2" aria-hidden="true">
+                    ∑
+                  </span>{' '}
+                  Related Formulas
                 </button>
               </div>
             </div>
@@ -179,7 +188,9 @@ export default function StudyGuidePage() {
                       <h2 className="text-xl font-semibold text-white">{section.title}</h2>
                     </div>
                     <div className="px-6 py-6 prose prose-invert max-w-none prose-p:text-gray-300 prose-headings:text-white prose-strong:text-white prose-a:text-primary-400 prose-code:text-primary-300">
-                      <ReactMarkdown>{section.content}</ReactMarkdown>
+                      <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                        {section.content}
+                      </ReactMarkdown>
                     </div>
                   </div>
                 </section>

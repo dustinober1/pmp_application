@@ -18,7 +18,7 @@ export default function PricingPage() {
       description: 'Perfect for exploring the platform and starting your PMP journey.',
       features: DEFAULT_TIER_FEATURES['free'],
       buttonText: user ? 'Current Plan' : 'Get Started',
-      buttonHref: user ? '/dashboard' : '/register',
+      buttonHref: user ? '/dashboard' : '/auth/register',
       highlight: false,
     },
     {
@@ -122,7 +122,7 @@ export default function PricingPage() {
               >
                 {tier.buttonText}
               </Link>
-              <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
+              <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
                 <li className="flex gap-x-3">
                   <span className="text-primary-400">✓</span>
                   {tier.features.studyGuidesAccess === 'full'

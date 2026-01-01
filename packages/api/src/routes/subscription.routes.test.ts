@@ -4,12 +4,14 @@
  */
 
 import request from 'supertest';
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 import subscriptionRouter from './subscription.routes';
 import { subscriptionService } from '../services/subscription.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { errorHandler } from '../middleware/error.middleware';
-import { DEFAULT_TIER_FEATURES, SubscriptionTier } from '@pmp/shared';
+import type { SubscriptionTier } from '@pmp/shared';
+import { DEFAULT_TIER_FEATURES } from '@pmp/shared';
 
 // Mock the subscription service
 jest.mock('../services/subscription.service');

@@ -48,26 +48,24 @@
   --gradient-success: linear-gradient(135deg, #10b981 0%, #34d399 100%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: #f8fafc;
-    --foreground-muted: #94a3b8;
-    --background: #0f172a;
-    --background-alt: #1e293b;
+:root.dark {
+  --foreground: #f8fafc;
+  --foreground-muted: #94a3b8;
+  --background: #0f172a;
+  --background-alt: #1e293b;
 
-    --primary: #818cf8;
-    --primary-hover: #6366f1;
-    --primary-light: #312e81;
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --primary-light: #312e81;
 
-    --secondary: #1e293b;
-    --secondary-hover: #334155;
-    --secondary-foreground: #e2e8f0;
+  --secondary: #1e293b;
+  --secondary-hover: #334155;
+  --secondary-foreground: #e2e8f0;
 
-    --border: #334155;
-    --border-hover: #475569;
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
-  }
+  --border: #334155;
+  --border-hover: #475569;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
 }
 
 * {
@@ -170,10 +168,8 @@ body {
   -webkit-backdrop-filter: blur(10px);
 }
 
-@media (prefers-color-scheme: dark) {
-  .glass {
-    background: rgba(30, 41, 59, 0.8);
-  }
+.dark .glass {
+  background: rgba(30, 41, 59, 0.8);
 }
 
 /* Gradient text */

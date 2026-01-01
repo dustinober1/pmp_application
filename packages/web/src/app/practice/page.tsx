@@ -3,9 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
-import { practiceApi, contentApi } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
+import { useToast } from '@/components/ToastProvider';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 interface PracticeStats {
   totalSessions: number;
@@ -23,7 +25,8 @@ interface Domain {
 
 export default function PracticePage() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [stats, setStats] = useState<PracticeStats | null>(null);
   const [domains, setDomains] = useState<Domain[]>([]);
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
@@ -32,27 +35,22 @@ export default function PracticePage() {
   const [starting, setStarting] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [authLoading, isAuthenticated, router]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
+    if (canAccess) {
       fetchData();
     }
-  }, [isAuthenticated]);
+  }, [canAccess]);
 
   const fetchData = async () => {
     try {
       const [statsRes, domainsRes] = await Promise.all([
-        practiceApi.getStats(),
-        contentApi.getDomains(),
+        apiRequest<{ stats: PracticeStats }>('/practice/stats'),
+        apiRequest<{ domains: Domain[] }>('/domains'),
       ]);
-      setStats((statsRes as any).data?.stats);
-      setDomains((domainsRes as any).data?.domains || []);
+      setStats(statsRes.data?.stats ?? null);
+      setDomains(domainsRes.data?.domains ?? []);
     } catch (error) {
       console.error('Failed to fetch data:', error);
+      toast.error('Failed to load practice data. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -61,16 +59,20 @@ export default function PracticePage() {
   const startSession = async () => {
     setStarting(true);
     try {
-      const response = await practiceApi.startSession({
-        domainIds: selectedDomains.length > 0 ? selectedDomains : undefined,
-        questionCount,
+      const response = await apiRequest<{ sessionId: string }>('/practice/sessions', {
+        method: 'POST',
+        body: {
+          domainIds: selectedDomains.length > 0 ? selectedDomains : undefined,
+          questionCount,
+        },
       });
-      const sessionId = (response as any).data?.sessionId;
+      const sessionId = response.data?.sessionId;
       if (sessionId) {
         router.push(`/practice/session/${sessionId}`);
       }
     } catch (error) {
       console.error('Failed to start session:', error);
+      toast.error('Failed to start practice session. Please try again.');
     } finally {
       setStarting(false);
     }
@@ -79,13 +81,16 @@ export default function PracticePage() {
   const startMockExam = async () => {
     setStarting(true);
     try {
-      const response = await practiceApi.startMockExam();
-      const sessionId = (response as any).data?.sessionId;
+      const response = await apiRequest<{ sessionId: string }>('/practice/mock-exams', {
+        method: 'POST',
+      });
+      const sessionId = response.data?.sessionId;
       if (sessionId) {
-        router.push(`/practice/session/${sessionId}?mock=true`);
+        router.push(`/practice/mock/session/${sessionId}`);
       }
     } catch (error) {
       console.error('Failed to start mock exam:', error);
+      toast.error('Failed to start mock exam. Please try again.');
     } finally {
       setStarting(false);
     }
@@ -98,11 +103,7 @@ export default function PracticePage() {
   };
 
   if (authLoading || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-[var(--foreground-muted)]">Loading...</div>
-      </div>
-    );
+    return <FullPageSkeleton />;
   }
 
   const canTakeMockExam = user?.tier === 'high-end' || user?.tier === 'corporate';
@@ -146,8 +147,10 @@ export default function PracticePage() {
               <h2 className="font-semibold mb-4">Configure Practice Session</h2>
 
               {/* Domain Selection */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">Select Domains (optional)</label>
+              <fieldset className="mb-6">
+                <legend className="block text-sm font-medium mb-2">
+                  Select Domains (optional)
+                </legend>
                 <div className="flex flex-wrap gap-2">
                   {domains.map(domain => (
                     <button
@@ -166,11 +169,11 @@ export default function PracticePage() {
                 <p className="text-xs text-[var(--foreground-muted)] mt-2">
                   Leave empty to include all domains
                 </p>
-              </div>
+              </fieldset>
 
               {/* Question Count */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">Number of Questions</label>
+              <fieldset className="mb-6">
+                <legend className="block text-sm font-medium mb-2">Number of Questions</legend>
                 <div className="flex gap-2">
                   {[10, 20, 30, 50].map(count => (
                     <button
@@ -186,7 +189,7 @@ export default function PracticePage() {
                     </button>
                   ))}
                 </div>
-              </div>
+              </fieldset>
 
               <button onClick={startSession} disabled={starting} className="btn btn-primary w-full">
                 {starting ? 'Starting...' : 'Start Practice Session'}
@@ -258,7 +261,7 @@ export default function PracticePage() {
             <div className="card">
               <h2 className="font-semibold mb-2">Flagged Questions</h2>
               <p className="text-sm text-[var(--foreground-muted)]">
-                Review questions you've flagged for later.
+                Review questions you have flagged for later.
               </p>
               <Link href="/practice/flagged" className="btn btn-secondary w-full mt-4">
                 View Flagged

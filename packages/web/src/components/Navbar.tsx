@@ -1,12 +1,32 @@
+'use client';
+
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchDialog from './SearchDialog';
+import { setStoredTheme } from '@/components/ThemeProvider';
+import { useTranslation } from 'react-i18next';
+import { setLocale, SUPPORTED_LOCALES, type SupportedLocale } from '@/i18n/i18n';
 
 export function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
+  const { t, i18n } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    setDarkMode(document.documentElement.classList.contains('dark'));
+  }, []);
+
+  const toggleDarkMode = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    setStoredTheme(next ? 'dark' : 'light');
+  };
+
+  const currentLocale = (i18n.language?.split('-')[0] || 'en') as SupportedLocale;
+  const nextLocale = currentLocale === 'es' ? 'en' : 'es';
 
   return (
     <>
@@ -17,7 +37,9 @@ export function Navbar() {
             <div className="flex items-center">
               <Link href="/" className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">PM</span>
+                  <span className="text-white font-bold text-sm" aria-hidden="true">
+                    PM
+                  </span>
                 </div>
                 <span className="font-semibold text-lg hidden sm:block">PMP Study Pro</span>
               </Link>
@@ -30,31 +52,31 @@ export function Navbar() {
                   href="/dashboard"
                   className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
                 >
-                  Dashboard
+                  {t('Dashboard')}
                 </Link>
                 <Link
                   href="/study"
                   className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
                 >
-                  Study
+                  {t('Study')}
                 </Link>
                 <Link
                   href="/flashcards"
                   className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
                 >
-                  Flashcards
+                  {t('Flashcards')}
                 </Link>
                 <Link
                   href="/practice"
                   className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
                 >
-                  Practice
+                  {t('Practice')}
                 </Link>
                 <Link
                   href="/formulas"
                   className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
                 >
-                  Formulas
+                  {t('Formulas')}
                 </Link>
               </div>
             )}
@@ -66,7 +88,7 @@ export function Navbar() {
                   type="button"
                   onClick={() => setSearchOpen(true)}
                   className="p-2 text-gray-400 hover:text-white transition-colors"
-                  aria-label="Search"
+                  aria-label={t('Search')}
                 >
                   <svg
                     className="h-5 w-5"
@@ -83,6 +105,50 @@ export function Navbar() {
                 </button>
               )}
 
+              {SUPPORTED_LOCALES.length > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => setLocale(nextLocale)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors text-xs font-semibold"
+                  aria-label="Change language"
+                  title={nextLocale.toUpperCase()}
+                >
+                  {currentLocale.toUpperCase()}
+                </button>
+              ) : null}
+
+              <button
+                type="button"
+                onClick={toggleDarkMode}
+                className="p-2 text-gray-400 hover:text-white transition-colors"
+                aria-label={darkMode ? t('Switch to light mode') : t('Switch to dark mode')}
+              >
+                {darkMode ? (
+                  <svg
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M10 15a5 5 0 100-10 5 5 0 000 10z" />
+                    <path
+                      fillRule="evenodd"
+                      d="M10 1a.75.75 0 01.75.75v1a.75.75 0 01-1.5 0v-1A.75.75 0 0110 1zm0 15.25a.75.75 0 01.75.75v1a.75.75 0 01-1.5 0v-1a.75.75 0 01.75-.75zM3.11 3.11a.75.75 0 011.06 0l.71.71a.75.75 0 11-1.06 1.06l-.71-.71a.75.75 0 010-1.06zm12.01 12.01a.75.75 0 011.06 0l.71.71a.75.75 0 11-1.06 1.06l-.71-.71a.75.75 0 010-1.06zM1 10a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1A.75.75 0 011 10zm15.25 0a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1a.75.75 0 01-.75-.75zM3.11 16.89a.75.75 0 010-1.06l.71-.71a.75.75 0 011.06 1.06l-.71.71a.75.75 0 01-1.06 0zm12.01-12.01a.75.75 0 010-1.06l.71-.71a.75.75 0 111.06 1.06l-.71.71a.75.75 0 01-1.06 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                  </svg>
+                )}
+              </button>
+
               {isAuthenticated ? (
                 <div className="flex items-center gap-3">
                   <div className="hidden sm:block text-sm">
@@ -92,16 +158,16 @@ export function Navbar() {
                     </p>
                   </div>
                   <button onClick={logout} className="btn btn-secondary text-sm">
-                    Logout
+                    {t('Logout')}
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Link href="/login" className="btn btn-secondary text-sm">
-                    Login
+                  <Link href="/auth/login" className="btn btn-secondary text-sm">
+                    {t('Login')}
                   </Link>
-                  <Link href="/register" className="btn btn-primary text-sm">
-                    Get Started
+                  <Link href="/auth/register" className="btn btn-primary text-sm">
+                    {t('Get Started')}
                   </Link>
                 </div>
               )}
@@ -109,8 +175,12 @@ export function Navbar() {
               {/* Mobile menu button */}
               {isAuthenticated && (
                 <button
+                  type="button"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className="md:hidden p-2 text-[var(--foreground-muted)]"
+                  aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                  aria-expanded={mobileMenuOpen}
+                  aria-controls="mobile-navigation"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {mobileMenuOpen ? (
@@ -136,28 +206,32 @@ export function Navbar() {
 
           {/* Mobile Navigation */}
           {isAuthenticated && mobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-[var(--border)]">
+            <div
+              id="mobile-navigation"
+              className="md:hidden py-4 border-t border-[var(--border)]"
+              aria-label="Mobile navigation"
+            >
               <div className="flex flex-col gap-2">
                 <Link
                   href="/dashboard"
                   className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg"
                 >
-                  Dashboard
+                  {t('Dashboard')}
                 </Link>
                 <Link href="/study" className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg">
-                  Study
+                  {t('Study')}
                 </Link>
                 <Link
                   href="/flashcards"
                   className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg"
                 >
-                  Flashcards
+                  {t('Flashcards')}
                 </Link>
                 <Link href="/practice" className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg">
-                  Practice
+                  {t('Practice')}
                 </Link>
                 <Link href="/formulas" className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg">
-                  Formulas
+                  {t('Formulas')}
                 </Link>
               </div>
             </div>

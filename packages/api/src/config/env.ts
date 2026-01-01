@@ -4,7 +4,18 @@ const envSchema = z.object({
   // Server
   PORT: z.string().default('3001').transform(Number),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  CORS_ORIGIN: z.string().default('http://localhost:3000'),
+  CORS_ORIGIN: z
+    .string()
+    .default('http://localhost:3000')
+    .transform(val =>
+      val
+        .split(',')
+        .map(origin => origin.trim())
+        .filter(Boolean)
+    )
+    .refine(origins => origins.length > 0 && !origins.includes('*'), {
+      message: 'CORS_ORIGIN must be a comma-separated list of specific origins (no wildcard)',
+    }),
 
   // Database
   DATABASE_URL: z.string(),

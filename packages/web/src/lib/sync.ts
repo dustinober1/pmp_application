@@ -13,6 +13,11 @@ export interface SyncAction {
 
 const STORAGE_KEY = 'pmp_offline_sync_queue';
 
+function emit(event: string, detail?: unknown) {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(event, { detail }));
+}
+
 class SyncService {
   private queue: SyncAction[] = [];
   private isSyncing = false;
@@ -62,35 +67,28 @@ class SyncService {
     if (this.isSyncing || this.queue.length === 0 || !navigator.onLine) return;
 
     this.isSyncing = true;
-    const failedActions: SyncAction[] = [];
+    let failureCount = 0;
 
-    // Process copy of queue
-    const actionsToSync = [...this.queue];
-    // Clear queue strictly speaking could be dangerous if new items added during sync,
-    // but JS is single threaded. Better to remove one by one or batch.
-    // For simplicity, we'll iterate and filter out successful ones.
+    try {
+      for (let index = 0; index < this.queue.length; ) {
+        const action = this.queue[index];
+        if (!action) break;
 
-    console.log(`[Sync] Processing ${actionsToSync.length} actions...`);
-
-    for (const action of actionsToSync) {
-      try {
-        await this.processAction(action);
-      } catch (error) {
-        console.error(`[Sync] Failed to process action ${action.id}`, error);
-        failedActions.push(action);
+        try {
+          await this.processAction(action);
+          this.queue.splice(index, 1);
+          this.saveQueue();
+        } catch {
+          failureCount += 1;
+          index += 1;
+        }
       }
+    } finally {
+      this.isSyncing = false;
+      this.saveQueue();
     }
 
-    // Keep failed actions in queue
-    this.queue = failedActions;
-    this.saveQueue();
-    this.isSyncing = false;
-
-    if (failedActions.length === 0) {
-      console.log('[Sync] Synchronization complete.');
-    } else {
-      console.warn(`[Sync] Completed with ${failedActions.length} failures.`);
-    }
+    if (failureCount > 0) emit('pmp-sync-failed', { count: failureCount });
   }
 
   private async processAction(action: SyncAction) {
@@ -112,7 +110,7 @@ class SyncService {
         // Checking flashcard.routes.ts... it is POST /:id/review
         await apiRequest(`/flashcards/${action.payload.flashcardId}/review`, {
           method: 'POST',
-          body: JSON.stringify({ quality: action.payload.quality }),
+          body: { quality: action.payload.quality },
         });
         break;
 

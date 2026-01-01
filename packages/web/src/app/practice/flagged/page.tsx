@@ -3,14 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
-import { practiceApi } from '@/lib/api';
-import { PracticeQuestion } from '@pmp/shared';
+import { apiRequest } from '@/lib/api';
+import type { PracticeQuestion } from '@pmp/shared';
+import { useToast } from '@/components/ToastProvider';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 export default function FlaggedQuestionsPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
 
   const [questions, setQuestions] = useState<PracticeQuestion[]>([]);
   const [loading, setLoading] = useState(true);
@@ -18,27 +21,18 @@ export default function FlaggedQuestionsPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [authLoading, isAuthenticated, router]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
+    if (canAccess) {
       loadFlaggedQuestions();
     }
-  }, [isAuthenticated]);
+  }, [canAccess]);
 
   const loadFlaggedQuestions = async () => {
     try {
-      const response = await practiceApi.getFlagged();
-      if (response.data) {
-        // Assert response data shape from backend
-        const data = response.data as unknown as { questions: PracticeQuestion[] };
-        setQuestions(data.questions);
-      }
+      const response = await apiRequest<{ questions: PracticeQuestion[] }>('/practice/flagged');
+      setQuestions(response.data?.questions ?? []);
     } catch (error) {
       console.error('Failed to load flagged questions', error);
+      toast.error('Failed to load flagged questions. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -48,13 +42,14 @@ export default function FlaggedQuestionsPage() {
     e.stopPropagation();
     setActionLoading(questionId);
     try {
-      await practiceApi.unflagQuestion(questionId);
+      await apiRequest(`/practice/questions/${questionId}/flag`, { method: 'DELETE' });
       setQuestions(prev => prev.filter(q => q.id !== questionId));
       if (expandedId === questionId) {
         setExpandedId(null);
       }
     } catch (error) {
       console.error('Failed to unflag question', error);
+      toast.error('Failed to unflag question. Please try again.');
     } finally {
       setActionLoading(null);
     }
@@ -64,26 +59,26 @@ export default function FlaggedQuestionsPage() {
     if (questions.length === 0) return;
 
     try {
-      const response = await practiceApi.startSession({
-        questionCount: Math.min(questions.length, 50),
-        prioritizeFlagged: true,
+      const response = await apiRequest<{ sessionId: string }>('/practice/sessions', {
+        method: 'POST',
+        body: {
+          questionCount: Math.min(questions.length, 50),
+          prioritizeFlagged: true,
+        },
       });
 
-      const sessionId = (response.data as { sessionId: string }).sessionId;
+      const sessionId = response.data?.sessionId;
       if (sessionId) {
         router.push(`/practice/session/${sessionId}`);
       }
     } catch (error) {
       console.error('Failed to start session', error);
+      toast.error('Failed to start practice session. Please try again.');
     }
   };
 
   if (authLoading || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-[var(--foreground-muted)]">Loading...</div>
-      </div>
-    );
+    return <FullPageSkeleton />;
   }
 
   return (
@@ -101,7 +96,7 @@ export default function FlaggedQuestionsPage() {
             </Link>
             <h1 className="text-2xl font-bold">Flagged Questions</h1>
             <p className="text-[var(--foreground-muted)]">
-              Review questions you've flagged for later.
+              Review questions you’ve flagged for later.
             </p>
           </div>
 
@@ -115,7 +110,7 @@ export default function FlaggedQuestionsPage() {
         {questions.length === 0 ? (
           <div className="card text-center py-12">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-              🚩
+              <span aria-hidden="true">🚩</span>
             </div>
             <h3 className="text-lg font-semibold mb-2">No Flagged Questions</h3>
             <p className="text-[var(--foreground-muted)] mb-6">
@@ -132,7 +127,16 @@ export default function FlaggedQuestionsPage() {
               <div
                 key={question.id}
                 className={`card transition-all cursor-pointer border hover:border-[var(--primary)] ${expandedId === question.id ? 'ring-2 ring-[var(--primary)]' : ''}`}
-                onClick={() => setExpandedId(expandedId === question.id ? null : question.id)}
+                onClick={() => setExpandedId(prev => (prev === question.id ? null : question.id))}
+                role="button"
+                tabIndex={0}
+                aria-expanded={expandedId === question.id}
+                onKeyDown={event => {
+                  if (event.currentTarget !== event.target) return;
+                  if (event.key !== 'Enter' && event.key !== ' ') return;
+                  event.preventDefault();
+                  setExpandedId(prev => (prev === question.id ? null : question.id));
+                }}
               >
                 <div className="flex justify-between items-start gap-4">
                   <div className="flex-1">
@@ -140,10 +144,10 @@ export default function FlaggedQuestionsPage() {
                       <span
                         className={`text-xs px-2 py-0.5 rounded uppercase font-bold ${
                           question.difficulty === 'hard'
-                            ? 'bg-red-100 text-red-700'
+                            ? 'bg-red-100 text-red-900'
                             : question.difficulty === 'medium'
-                              ? 'bg-yellow-100 text-yellow-700'
-                              : 'bg-green-100 text-green-700'
+                              ? 'bg-yellow-100 text-yellow-900'
+                              : 'bg-green-100 text-green-900'
                         }`}
                       >
                         {question.difficulty}
@@ -162,7 +166,9 @@ export default function FlaggedQuestionsPage() {
                     title="Remove flag"
                   >
                     {actionLoading === question.id ? (
-                      <span className="animate-spin inline-block">⌛</span>
+                      <span className="animate-spin inline-block" aria-hidden="true">
+                        ⌛
+                      </span>
                     ) : (
                       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                         <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z" />

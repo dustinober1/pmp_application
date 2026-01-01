@@ -18,10 +18,10 @@ export default function HomePage() {
               help you succeed on your first attempt.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/register" className="btn btn-primary text-lg px-8 py-3">
+              <Link href="/auth/register" className="btn btn-primary text-lg px-8 py-3">
                 Start Free Trial
               </Link>
-              <Link href="/login" className="btn btn-outline text-lg px-8 py-3">
+              <Link href="/auth/login" className="btn btn-outline text-lg px-8 py-3">
                 Sign In
               </Link>
             </div>
@@ -101,7 +101,7 @@ export default function HomePage() {
                   ))}
                 </ul>
                 <Link
-                  href="/register"
+                  href="/auth/register"
                   className={`btn w-full mt-6 ${tier.popular ? 'btn-primary' : 'btn-secondary'}`}
                 >
                   Get Started
@@ -119,7 +119,7 @@ export default function HomePage() {
           <p className="text-[var(--foreground-muted)] mb-8">
             Join thousands of successful PMP-certified professionals who studied with us.
           </p>
-          <Link href="/register" className="btn btn-primary text-lg px-8 py-3">
+          <Link href="/auth/register" className="btn btn-primary text-lg px-8 py-3">
             Start Your Free Trial Today
           </Link>
         </div>

@@ -1,17 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  tier: string;
-}
+import type { ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { UserProfile } from '@pmp/shared';
+import { apiRequest } from '@/lib/api';
 
 interface AuthState {
-  user: User | null;
-  token: string | null;
+  user: UserProfile | null;
   isLoading: boolean;
   isAuthenticated: boolean;
 }
@@ -19,160 +14,98 @@ interface AuthState {
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
     user: null,
-    token: null,
     isLoading: true,
     isAuthenticated: false,
   });
 
   useEffect(() => {
-    // Check for stored token on mount
-    const storedToken = localStorage.getItem('accessToken');
-    if (storedToken) {
-      fetchUser(storedToken);
-    } else {
-      setState(prev => ({ ...prev, isLoading: false }));
-    }
+    void hydrate();
   }, []);
 
-  const fetchUser = async (token: string) => {
+  const hydrate = async () => {
     try {
-      const response = await fetch(`${API_URL}/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await apiRequest<{ user: UserProfile }>('/auth/me');
+      const user = response.data?.user || null;
 
-      if (response.ok) {
-        const data = await response.json();
-        setState({
-          user: data.data.user,
-          token,
-          isLoading: false,
-          isAuthenticated: true,
-        });
-      } else {
-        // Token invalid, try refresh
-        await refreshToken();
-      }
+      setState({
+        user,
+        isLoading: false,
+        isAuthenticated: !!user,
+      });
     } catch (error) {
-      console.error('Failed to fetch user:', error);
-      logout();
+      setState({
+        user: null,
+        isLoading: false,
+        isAuthenticated: false,
+      });
     }
   };
 
   const login = async (email: string, password: string) => {
-    const response = await fetch(`${API_URL}/auth/login`, {
+    const response = await apiRequest<{ user: UserProfile }>('/auth/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
+      body: { email, password },
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error?.message || 'Login failed');
-    }
-
-    const { accessToken, refreshToken: refresh, user } = data.data;
-
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refresh);
-
+    const user = response.data?.user || null;
     setState({
       user,
-      token: accessToken,
       isLoading: false,
-      isAuthenticated: true,
+      isAuthenticated: !!user,
     });
   };
 
   const register = async (email: string, password: string, name: string) => {
-    const response = await fetch(`${API_URL}/auth/register`, {
+    const response = await apiRequest<{ user: UserProfile }>('/auth/register', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password, name }),
+      body: { email, password, name },
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error?.message || 'Registration failed');
-    }
-
-    const { accessToken, refreshToken: refresh, user } = data.data;
-
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refresh);
-
+    const user = response.data?.user || null;
     setState({
       user,
-      token: accessToken,
       isLoading: false,
-      isAuthenticated: true,
+      isAuthenticated: !!user,
     });
   };
 
-  const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    setState({
-      user: null,
-      token: null,
-      isLoading: false,
-      isAuthenticated: false,
-    });
+  const logout = async () => {
+    try {
+      await apiRequest('/auth/logout', { method: 'POST' });
+    } finally {
+      setState({
+        user: null,
+        isLoading: false,
+        isAuthenticated: false,
+      });
+    }
   };
 
   const refreshToken = async () => {
-    const storedRefresh = localStorage.getItem('refreshToken');
-    if (!storedRefresh) {
-      logout();
-      return;
-    }
-
     try {
-      const response = await fetch(`${API_URL}/auth/refresh`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refreshToken: storedRefresh }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const { accessToken, refreshToken: newRefresh } = data.data;
-
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', newRefresh);
-
-        await fetchUser(accessToken);
-      } else {
-        logout();
-      }
-    } catch (error) {
-      console.error('Token refresh failed:', error);
-      logout();
+      await apiRequest('/auth/refresh', { method: 'POST' });
+      await hydrate();
+    } catch {
+      await logout();
     }
   };
 
+  const refreshUser = async () => {
+    await hydrate();
+  };
+
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout, refreshToken }}>
+    <AuthContext.Provider value={{ ...state, login, register, logout, refreshToken, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

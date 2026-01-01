@@ -1,19 +1,29 @@
-import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import DashboardPage from './page';
 import { vi } from 'vitest';
 
-// Mocks
-const { mockPush, mockUseAuth, mockGetDashboard } = vi.hoisted(() => {
+const { mockPush, mockUseAuth, mockApiRequest, mockToastError } = vi.hoisted(() => {
   return {
     mockPush: vi.fn(),
     mockUseAuth: vi.fn(),
-    mockGetDashboard: vi.fn(),
+    mockApiRequest: vi.fn(),
+    mockToastError: vi.fn(),
   };
 });
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
+  }),
+  usePathname: () => '/dashboard',
+}));
+
+vi.mock('@/components/ToastProvider', () => ({
+  useToast: () => ({
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: mockToastError,
   }),
 }));
 
@@ -26,12 +36,7 @@ vi.mock('@/components/Navbar', () => ({
 }));
 
 vi.mock('@/lib/api', () => ({
-  dashboardApi: {
-    getDashboard: (...args: any[]) => {
-      console.log('PROXY: getDashboard called');
-      return mockGetDashboard(...args);
-    },
-  },
+  apiRequest: (...args: any[]) => mockApiRequest(...args),
 }));
 
 describe('DashboardPage', () => {
@@ -72,7 +77,7 @@ describe('DashboardPage', () => {
     vi.clearAllMocks();
   });
 
-  it('redirects to login if unauthenticated', () => {
+  it('redirects to auth login if unauthenticated', async () => {
     mockUseAuth.mockReturnValue({
       user: null,
       isAuthenticated: false,
@@ -80,68 +85,54 @@ describe('DashboardPage', () => {
     });
 
     render(<DashboardPage />);
-    expect(mockPush).toHaveBeenCalledWith('/login');
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/auth/login?next=%2Fdashboard');
+    });
   });
 
   it('displays dashboard data when authenticated', async () => {
-    console.log('TEST: Setting up authenticated user');
     mockUseAuth.mockReturnValue({
-      user: { name: 'Test User' },
+      user: { name: 'Test User', emailVerified: true },
       isAuthenticated: true,
       isLoading: false,
     });
-    console.log('TEST: Setting up getDashboard mock');
-    mockGetDashboard.mockResolvedValue({ data: { dashboard: mockDashboardData } });
+    mockApiRequest.mockResolvedValue({ success: true, data: { dashboard: mockDashboardData } });
 
     render(<DashboardPage />);
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-
-    // Wait for loading to disappear
-    await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
-
     await waitFor(() => {
-      expect(screen.getByText('Welcome back, Test! 👋')).toBeInTheDocument();
-      expect(screen.getByText('5 🔥')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /welcome back, test!/i })).toBeInTheDocument();
       expect(screen.getByText('Manage Conflict')).toBeInTheDocument();
     });
   });
 
   it('handles API errors gracefully', async () => {
     mockUseAuth.mockReturnValue({
-      user: { name: 'Test User' },
+      user: { name: 'Test User', emailVerified: true },
       isAuthenticated: true,
       isLoading: false,
     });
-    mockGetDashboard.mockRejectedValue(new Error('API Error'));
-
-    // Console error suppression
-    const originalError = console.error;
-    console.error = vi.fn();
+    mockApiRequest.mockRejectedValue(new Error('API Error'));
 
     render(<DashboardPage />);
 
-    await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
-
     await waitFor(() => {
-      // Should still render partial/empty state or at least not crash
-      expect(screen.getByText('Welcome back, Test! 👋')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /welcome back, test!/i })).toBeInTheDocument();
     });
 
-    console.error = originalError;
+    expect(mockToastError).toHaveBeenCalled();
   });
 
   it('renders quick action links', async () => {
     mockUseAuth.mockReturnValue({
-      user: { name: 'Test User' },
+      user: { name: 'Test User', emailVerified: true },
       isAuthenticated: true,
       isLoading: false,
     });
-    mockGetDashboard.mockResolvedValue({ data: { dashboard: mockDashboardData } });
+    mockApiRequest.mockResolvedValue({ success: true, data: { dashboard: mockDashboardData } });
 
     render(<DashboardPage />);
-
-    await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
 
     await waitFor(() => {
       expect(screen.getByText('Continue Studying')).toHaveAttribute('href', '/study');

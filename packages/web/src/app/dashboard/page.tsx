@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
-import { dashboardApi } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
+import { useToast } from '@/components/ToastProvider';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 interface DashboardData {
   streak: { currentStreak: number; longestStreak: number; lastStudyDate: string | null };
@@ -40,40 +41,31 @@ interface DashboardData {
 }
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [authLoading, isAuthenticated, router]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
+    if (canAccess) {
       fetchDashboard();
     }
-  }, [isAuthenticated]);
+  }, [canAccess]);
 
   const fetchDashboard = async () => {
     try {
-      const response = await dashboardApi.getDashboard();
-      setData((response as any).data?.dashboard);
+      const response = await apiRequest<{ dashboard: DashboardData }>('/dashboard');
+      setData(response.data?.dashboard ?? null);
     } catch (error) {
       console.error('Failed to fetch dashboard:', error);
+      toast.error('Failed to load dashboard. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   if (authLoading || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-[var(--foreground-muted)]">Loading...</div>
-      </div>
-    );
+    return <FullPageSkeleton />;
   }
 
   return (
@@ -83,15 +75,19 @@ export default function DashboardPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold">Welcome back, {user?.name?.split(' ')[0]}! 👋</h1>
-          <p className="text-[var(--foreground-muted)]">Here's your study progress at a glance.</p>
+          <h1 className="text-2xl font-bold">
+            Welcome back, {user?.name?.split(' ')[0]}! <span aria-hidden="true">👋</span>
+          </h1>
+          <p className="text-[var(--foreground-muted)]">Here’s your study progress at a glance.</p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div className="card">
             <p className="text-sm text-[var(--foreground-muted)]">Current Streak</p>
-            <p className="text-3xl font-bold mt-1">{data?.streak?.currentStreak || 0} 🔥</p>
+            <p className="text-3xl font-bold mt-1">
+              {data?.streak?.currentStreak || 0} <span aria-hidden="true">🔥</span>
+            </p>
             <p className="text-xs text-[var(--foreground-muted)] mt-1">
               Best: {data?.streak?.longestStreak || 0} days
             </p>

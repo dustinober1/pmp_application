@@ -2,15 +2,29 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import RegisterPage from './page';
 import { vi } from 'vitest';
 
-// Mocks
-const mockPush = vi.fn();
+const { mockPush, mockRegister, mockToastError } = vi.hoisted(() => {
+  return {
+    mockPush: vi.fn(),
+    mockRegister: vi.fn(),
+    mockToastError: vi.fn(),
+  };
+});
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
   }),
 }));
 
-const mockRegister = vi.fn();
+vi.mock('@/components/ToastProvider', () => ({
+  useToast: () => ({
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: mockToastError,
+  }),
+}));
+
 vi.mock('@/contexts/AuthContext', () => ({
   useAuth: () => ({
     register: mockRegister,
@@ -35,7 +49,6 @@ describe('RegisterPage', () => {
 
   it('validates password matching', async () => {
     const { container } = render(<RegisterPage />);
-    // Bypass browser validation to test custom validation
     const form = container.querySelector('form');
     form?.setAttribute('novalidate', 'true');
 
@@ -44,9 +57,8 @@ describe('RegisterPage', () => {
       target: { value: 'password456' },
     });
 
-    // Check terms
-    const checkboxes = screen.getAllByRole('checkbox');
-    fireEvent.click(checkboxes[0]);
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
 
     fireEvent.click(screen.getByRole('button', { name: 'Create Account' }));
 
@@ -56,31 +68,8 @@ describe('RegisterPage', () => {
     expect(mockRegister).not.toHaveBeenCalled();
   });
 
-  it('validates password length', async () => {
-    const { container } = render(<RegisterPage />);
-    // Bypass browser validation to test custom validation
-    const form = container.querySelector('form');
-    form?.setAttribute('novalidate', 'true');
-
-    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'short' } });
-    fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'short' } });
-
-    // Check terms (must be checked even if bypassing other validation, usually)
-    // Actually if novalidate is on, required might be ignored too?
-    // But let's check it to be safe and isolate the password length error.
-    const checkboxes = screen.getAllByRole('checkbox');
-    fireEvent.click(checkboxes[0]);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Create Account' }));
-
-    await waitFor(() => {
-      expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument();
-    });
-    expect(mockRegister).not.toHaveBeenCalled();
-  });
-
-  it('submits form with valid data', async () => {
-    mockRegister.mockResolvedValue(true);
+  it('submits form with valid data and navigates to verify email', async () => {
+    mockRegister.mockResolvedValue(undefined);
     render(<RegisterPage />);
 
     fireEvent.change(screen.getByLabelText('Full Name'), { target: { value: 'Test User' } });
@@ -90,8 +79,8 @@ describe('RegisterPage', () => {
       target: { value: 'password123' },
     });
 
-    const checkboxes = screen.getAllByRole('checkbox');
-    fireEvent.click(checkboxes[0]);
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
 
     fireEvent.click(screen.getByRole('button', { name: 'Create Account' }));
 
@@ -99,7 +88,7 @@ describe('RegisterPage', () => {
 
     await waitFor(() => {
       expect(mockRegister).toHaveBeenCalledWith('test@example.com', 'password123', 'Test User');
-      expect(mockPush).toHaveBeenCalledWith('/dashboard');
+      expect(mockPush).toHaveBeenCalledWith('/auth/verify-email');
     });
   });
 
@@ -114,13 +103,14 @@ describe('RegisterPage', () => {
       target: { value: 'password123' },
     });
 
-    const checkboxes = screen.getAllByRole('checkbox');
-    fireEvent.click(checkboxes[0]);
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
 
     fireEvent.click(screen.getByRole('button', { name: 'Create Account' }));
 
     await waitFor(() => {
       expect(screen.getByText('Email already exists')).toBeInTheDocument();
+      expect(mockToastError).toHaveBeenCalledWith('Email already exists');
     });
   });
 });

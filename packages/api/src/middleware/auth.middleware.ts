@@ -1,9 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { JwtPayload, AUTH_ERRORS } from '@pmp/shared';
+import type { JwtPayload } from '@pmp/shared';
+import { AUTH_ERRORS } from '@pmp/shared';
 import { env } from '../config/env';
 import { AppError } from './error.middleware';
 import prisma from '../config/database';
+import { ACCESS_TOKEN_COOKIE } from '../utils/authCookies';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -21,12 +23,19 @@ export async function authMiddleware(
 ): Promise<void> {
   try {
     const authHeader = req.headers.authorization;
+    const bearerToken =
+      typeof authHeader === 'string' && authHeader.startsWith('Bearer ')
+        ? authHeader.substring(7)
+        : null;
+    const cookieToken = (req as Request & { cookies?: Record<string, string> }).cookies?.[
+      ACCESS_TOKEN_COOKIE
+    ];
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const token = bearerToken || cookieToken;
+
+    if (!token) {
       throw AppError.unauthorized(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
     }
-
-    const token = authHeader.substring(7);
 
     try {
       const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
@@ -34,7 +43,7 @@ export async function authMiddleware(
       // Verify user still exists
       const user = await prisma.user.findUnique({
         where: { id: decoded.userId },
-        select: { id: true, email: true, lockedUntil: true },
+        select: { id: true, email: true, lockedUntil: true, emailVerified: true },
       });
 
       if (!user) {
@@ -48,6 +57,11 @@ export async function authMiddleware(
           AUTH_ERRORS.AUTH_004.code,
           `Account is locked until ${user.lockedUntil.toISOString()}`
         );
+      }
+
+      // Enforce email verification for non-auth routes
+      if (!user.emailVerified && !req.baseUrl.startsWith('/api/auth')) {
+        throw AppError.forbidden(AUTH_ERRORS.AUTH_006.message, AUTH_ERRORS.AUTH_006.code);
       }
 
       req.user = decoded;
@@ -70,12 +84,20 @@ export async function authMiddleware(
 export function optionalAuthMiddleware(req: Request, _res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  const bearerToken =
+    typeof authHeader === 'string' && authHeader.startsWith('Bearer ')
+      ? authHeader.substring(7)
+      : null;
+  const cookieToken = (req as Request & { cookies?: Record<string, string> }).cookies?.[
+    ACCESS_TOKEN_COOKIE
+  ];
+
+  const token = bearerToken || cookieToken;
+
+  if (!token) {
     next();
     return;
   }
-
-  const token = authHeader.substring(7);
 
   try {
     const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;

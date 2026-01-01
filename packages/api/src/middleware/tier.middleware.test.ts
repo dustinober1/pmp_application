@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { SUBSCRIPTION_ERRORS } from '@pmp/shared';
 import { requireTier, requireFeature } from './tier.middleware';
 // import { AppError } from './error.middleware';

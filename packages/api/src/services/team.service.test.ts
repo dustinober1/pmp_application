@@ -4,7 +4,7 @@
  */
 
 import { TeamService } from './team.service';
-import { TeamRole } from '@pmp/shared';
+import type { TeamRole } from '@pmp/shared';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 

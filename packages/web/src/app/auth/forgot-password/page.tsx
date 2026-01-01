@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { apiRequest } from '../../../lib/api';
-import { PasswordResetRequest } from '@pmp/shared';
+import type { PasswordResetRequest } from '@pmp/shared';
+import { useToast } from '@/components/ToastProvider';
 
 export default function ForgotPasswordPage() {
+  const toast = useToast();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -23,12 +25,12 @@ export default function ForgotPasswordPage() {
         body: { email } as PasswordResetRequest,
       });
       setStatus('success');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Password reset request failed', error);
+      const message = 'Failed to send password reset email. Please try again later.';
       setStatus('error');
-      setErrorMessage(
-        error.message || 'Failed to send password reset email. Please try again later.'
-      );
+      setErrorMessage(message);
+      toast.error(message);
     }
   };
 
@@ -36,7 +38,9 @@ export default function ForgotPasswordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4 py-12 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-gray-700 text-center">
-          <div className="text-5xl mb-4">📧</div>
+          <div className="text-5xl mb-4" aria-hidden="true">
+            📧
+          </div>
           <h2 className="text-3xl font-extrabold text-white">Check your email</h2>
           <p className="mt-2 text-sm text-gray-400">
             We have sent a password reset link to{' '}
@@ -45,7 +49,7 @@ export default function ForgotPasswordPage() {
           </p>
           <div className="mt-6">
             <Link
-              href="/login"
+              href="/auth/login"
               className="font-medium text-primary-400 hover:text-primary-300 transition"
             >
               Return to Login
@@ -64,7 +68,7 @@ export default function ForgotPasswordPage() {
             Reset your password
           </h2>
           <p className="mt-2 text-center text-sm text-gray-400">
-            Enter your email address and we'll send you a link to reset your password.
+            Enter your email address and we’ll send you a link to reset your password.
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -142,7 +146,7 @@ export default function ForgotPasswordPage() {
 
           <div className="text-center">
             <Link
-              href="/login"
+              href="/auth/login"
               className="font-medium text-primary-400 hover:text-primary-300 transition text-sm"
             >
               &larr; Back to Login

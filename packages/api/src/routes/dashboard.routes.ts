@@ -1,4 +1,5 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 import { dashboardService } from '../services/dashboard.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { requireTier } from '../middleware/tier.middleware';

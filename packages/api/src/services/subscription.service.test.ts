@@ -7,7 +7,8 @@ import { SubscriptionService } from './subscription.service';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 import * as fc from 'fast-check';
-import { TierName, DEFAULT_TIER_FEATURES, SUBSCRIPTION_ERRORS } from '@pmp/shared';
+import type { TierName } from '@pmp/shared';
+import { DEFAULT_TIER_FEATURES, SUBSCRIPTION_ERRORS } from '@pmp/shared';
 
 // Mock Prisma Client
 jest.mock('../config/database', () => ({
@@ -32,16 +33,6 @@ jest.mock('../config/database', () => ({
     },
   },
 }));
-
-// Mock console.log to avoid cluttering test output
-const originalConsoleLog = console.log;
-beforeAll(() => {
-  console.log = jest.fn();
-});
-
-afterAll(() => {
-  console.log = originalConsoleLog;
-});
 
 describe('SubscriptionService', () => {
   let subscriptionService: SubscriptionService;
@@ -623,9 +614,6 @@ describe('SubscriptionService', () => {
       expect(prisma.team.findFirst).toHaveBeenCalledWith({
         where: { adminId: userId },
       });
-      expect(console.log).toHaveBeenCalledWith(
-        expect.stringContaining(`User ${userId} downgraded`)
-      );
     });
 
     it('should do nothing when free tier not found', async () => {
@@ -644,7 +632,6 @@ describe('SubscriptionService', () => {
       await subscriptionService.expireSubscription(userId);
 
       expect(prisma.team.findFirst).toHaveBeenCalled();
-      expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('downgraded'));
     });
   });
 

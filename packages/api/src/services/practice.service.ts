@@ -1,15 +1,16 @@
-import {
+import type {
   PracticeQuestion,
   PracticeSessionResult,
   AnswerResult,
   DomainScore,
   PracticeOptions,
   Difficulty,
-  PMP_EXAM,
   QuestionOption,
 } from '@pmp/shared';
+import { PMP_EXAM } from '@pmp/shared';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
+import { SESSION_ERRORS } from '@pmp/shared';
 
 export class PracticeService {
   /**
@@ -97,6 +98,9 @@ export class PracticeService {
     sessionId: string;
     questions: PracticeQuestion[];
     progress: { total: number; answered: number };
+    timeRemainingMs?: number;
+    timeLimitMs?: number;
+    startedAt?: Date;
   } | null> {
     const session = await prisma.practiceSession.findUnique({
       where: { id: sessionId },
@@ -115,6 +119,13 @@ export class PracticeService {
     if (!session || session.userId !== userId) return null;
 
     const answeredCount = session.questions.filter(q => q.selectedOptionId).length;
+
+    const timeLimitMs = session.isMockExam ? session.timeLimit || undefined : undefined;
+    const startedAt = session.isMockExam ? session.startedAt : undefined;
+    const timeRemainingMs =
+      session.isMockExam && session.timeLimit
+        ? Math.max(0, session.timeLimit - (Date.now() - session.startedAt.getTime()))
+        : undefined;
 
     const mappedQuestions: PracticeQuestion[] = session.questions.map(sq => {
       const q = sq.question;
@@ -153,6 +164,9 @@ export class PracticeService {
         total: session.totalQuestions,
         answered: answeredCount,
       },
+      timeRemainingMs,
+      timeLimitMs,
+      startedAt,
     };
   }
 
@@ -166,6 +180,44 @@ export class PracticeService {
     selectedOptionId: string,
     timeSpentMs: number
   ): Promise<AnswerResult> {
+    const session = await prisma.practiceSession.findUnique({
+      where: { id: sessionId },
+      include: {
+        questions: { select: { questionId: true, selectedOptionId: true } },
+      },
+    });
+
+    if (!session || session.userId !== userId) {
+      throw AppError.notFound(SESSION_ERRORS.SESSION_001.message, SESSION_ERRORS.SESSION_001.code);
+    }
+
+    if (session.completedAt) {
+      throw AppError.badRequest(
+        SESSION_ERRORS.SESSION_002.message,
+        SESSION_ERRORS.SESSION_002.code
+      );
+    }
+
+    const isInSession = session.questions.some(q => q.questionId === questionId);
+    if (!isInSession) {
+      throw AppError.badRequest(
+        SESSION_ERRORS.SESSION_003.message,
+        SESSION_ERRORS.SESSION_003.code
+      );
+    }
+
+    if (
+      session.isMockExam &&
+      session.timeLimit &&
+      Date.now() - session.startedAt.getTime() > session.timeLimit
+    ) {
+      throw AppError.forbidden(
+        SESSION_ERRORS.SESSION_004.message,
+        SESSION_ERRORS.SESSION_004.code,
+        'Mock exam time limit exceeded'
+      );
+    }
+
     // Get the question with correct answer
     const question = await prisma.practiceQuestion.findUnique({
       where: { id: questionId },
@@ -302,7 +354,7 @@ export class PracticeService {
    */
   async startMockExam(
     userId: string
-  ): Promise<{ sessionId: string; questions: PracticeQuestion[] }> {
+  ): Promise<{ sessionId: string; questions: PracticeQuestion[]; startedAt: Date }> {
     // Get questions proportional to domain weights
     const domains = await prisma.domain.findMany();
     // Collect all question IDs first to create session properly
@@ -327,10 +379,13 @@ export class PracticeService {
     const shuffledQuestions = this.shuffleArray(allQuestionData);
     const finalQuestions = shuffledQuestions.slice(0, PMP_EXAM.TOTAL_QUESTIONS);
 
+    const startedAt = new Date();
+
     // Create mock exam session with linked questions
     const session = await prisma.practiceSession.create({
       data: {
         userId,
+        startedAt,
         isMockExam: true,
         totalQuestions: finalQuestions.length,
         timeLimit: PMP_EXAM.TIME_LIMIT_MINUTES * 60 * 1000,
@@ -344,6 +399,7 @@ export class PracticeService {
 
     return {
       sessionId: session.id,
+      startedAt,
       questions: finalQuestions.map(entry => {
         const q = entry.data;
         return {

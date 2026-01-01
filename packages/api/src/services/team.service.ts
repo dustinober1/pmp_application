@@ -1,4 +1,4 @@
-import { TeamRole, TeamAlertType, CreateTeamInput } from '@pmp/shared';
+import type { TeamRole, TeamAlertType, CreateTeamInput } from '@pmp/shared';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 import crypto from 'crypto';

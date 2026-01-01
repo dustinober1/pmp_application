@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { DEFAULT_TIER_FEATURES, TierName } from '@pmp/shared';
+import type { TierName } from '@pmp/shared';
+import { DEFAULT_TIER_FEATURES } from '@pmp/shared';
 
 const prisma = new PrismaClient();
 

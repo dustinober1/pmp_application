@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { TierName, TIER_HIERARCHY, TierFeatures, SUBSCRIPTION_ERRORS } from '@pmp/shared';
+import type { Request, Response, NextFunction } from 'express';
+import type { TierName, TierFeatures } from '@pmp/shared';
+import { TIER_HIERARCHY, SUBSCRIPTION_ERRORS } from '@pmp/shared';
 import prisma from '../config/database';
 import { AppError } from './error.middleware';
 

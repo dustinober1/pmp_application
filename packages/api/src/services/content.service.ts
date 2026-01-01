@@ -1,4 +1,4 @@
-import {
+import type {
   Domain,
   Task,
   StudyGuide,

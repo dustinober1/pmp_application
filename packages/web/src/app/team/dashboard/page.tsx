@@ -2,11 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiRequest } from '../../../lib/api';
-import { TeamDashboard, Team } from '@pmp/shared';
+import { apiRequest } from '@/lib/api';
+import type { TeamDashboard, Team } from '@pmp/shared';
+import { useToast } from '@/components/ToastProvider';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 export default function TeamDashboardPage() {
   const router = useRouter();
+  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [loading, setLoading] = useState(true);
   const [team, setTeam] = useState<Team | null>(null);
   const [dashboard, setDashboard] = useState<TeamDashboard | null>(null);
@@ -18,8 +23,10 @@ export default function TeamDashboardPage() {
   } | null>(null);
 
   useEffect(() => {
-    fetchTeamData();
-  }, []);
+    if (canAccess) {
+      void fetchTeamData();
+    }
+  }, [canAccess]);
 
   const fetchTeamData = async () => {
     try {
@@ -53,10 +60,15 @@ export default function TeamDashboardPage() {
       }
     } catch (error) {
       console.error('Failed to load team data', error);
+      toast.error('Failed to load team dashboard. Please try again.');
     } finally {
       setLoading(false);
     }
   };
+
+  if (authLoading || loading) {
+    return <FullPageSkeleton />;
+  }
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,6 +95,11 @@ export default function TeamDashboardPage() {
   };
 
   const handleRemoveMember = async (memberId: string, memberName: string) => {
+    const isAdmin = !!(user && team && team.adminId === user.id);
+    if (!isAdmin) {
+      toast.error('Only team admins can remove members.');
+      return;
+    }
     if (!team || !confirm(`Are you sure you want to remove ${memberName} from the team?`)) return;
 
     try {
@@ -94,7 +111,7 @@ export default function TeamDashboardPage() {
       fetchTeamData();
     } catch (error) {
       console.error('Failed to remove member', error);
-      alert('Failed to remove member');
+      toast.error('Failed to remove member. Please try again.');
     }
   };
 
@@ -126,7 +143,7 @@ export default function TeamDashboardPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-12 text-center text-white">
         <h2 className="text-2xl font-bold mb-4">No Team Found</h2>
-        <p className="text-gray-400 mb-8">You don't seem to have a corporate team set up yet.</p>
+        <p className="text-gray-400 mb-8">You do not seem to have a corporate team set up yet.</p>
         <button
           onClick={() => router.push('/dashboard')}
           className="px-6 py-2 bg-gray-800 rounded hover:bg-gray-700 transition"
@@ -173,7 +190,10 @@ export default function TeamDashboardPage() {
           {dashboard.alerts.length > 0 && (
             <div className="bg-gray-800/50 border border-yellow-900/50 rounded-xl p-6">
               <h3 className="text-lg font-bold text-white mb-4 flex items-center">
-                <span className="text-yellow-500 mr-2">⚠️</span> Needs Attention
+                <span className="text-yellow-500 mr-2" aria-hidden="true">
+                  ⚠️
+                </span>{' '}
+                Needs Attention
               </h3>
               <div className="space-y-3">
                 {dashboard.alerts.map(alert => (
@@ -246,12 +266,16 @@ export default function TeamDashboardPage() {
                           : 'Never'}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <button
-                          onClick={() => handleRemoveMember(member.userId, member.userName)}
-                          className="text-red-400 hover:text-red-300 text-sm font-medium transition"
-                        >
-                          Remove
-                        </button>
+                        {user && team?.adminId === user.id && member.userId !== user.id ? (
+                          <button
+                            onClick={() => handleRemoveMember(member.userId, member.userName)}
+                            className="text-red-400 hover:text-red-300 text-sm font-medium transition"
+                          >
+                            Remove
+                          </button>
+                        ) : (
+                          <span className="text-gray-600 text-sm">—</span>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -275,8 +299,11 @@ export default function TeamDashboardPage() {
             <h3 className="text-lg font-bold text-white mb-4">Invite Member</h3>
             <form onSubmit={handleInvite} className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Email Address</label>
+                <label htmlFor="invite-email" className="block text-sm text-gray-400 mb-1">
+                  Email Address
+                </label>
                 <input
+                  id="invite-email"
                   type="email"
                   required
                   value={inviteEmail}

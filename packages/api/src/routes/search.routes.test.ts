@@ -6,7 +6,8 @@ jest.mock('../services/content.service');
 jest.mock('../middleware/auth.middleware');
 
 import request from 'supertest';
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 import searchRoutes from './search.routes';
 import { contentService } from '../services/content.service';
 import { optionalAuthMiddleware } from '../middleware/auth.middleware';

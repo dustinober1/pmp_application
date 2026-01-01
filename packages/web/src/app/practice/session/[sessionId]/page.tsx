@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useAuth } from '../../../../contexts/AuthContext';
-import { apiRequest } from '../../../../lib/api';
-import { PracticeQuestion } from '@pmp/shared';
+import { apiRequest } from '@/lib/api';
+import type { PracticeQuestion } from '@pmp/shared';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { useToast } from '@/components/ToastProvider';
 
 interface SessionProgress {
   total: number;
@@ -18,9 +20,10 @@ interface SessionData {
 }
 
 export default function PracticeSessionPage() {
-  const { sessionId } = useParams();
+  const { sessionId } = useParams<{ sessionId: string }>();
   const router = useRouter();
-  const { user } = useAuth();
+  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<SessionData | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -58,15 +61,16 @@ export default function PracticeSessionPage() {
         }
       } catch (error) {
         console.error('Failed to fetch session', error);
+        toast.error('Failed to load practice session. Please try again.');
       } finally {
         setLoading(false);
       }
     }
 
-    if (user) {
-      fetchSession();
+    if (canAccess) {
+      void fetchSession();
     }
-  }, [sessionId, user]);
+  }, [canAccess, sessionId, toast]);
 
   // Reset state when question changes
   useEffect(() => {
@@ -145,12 +149,8 @@ export default function PracticeSessionPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </div>
-    );
+  if (authLoading || loading) {
+    return <FullPageSkeleton />;
   }
 
   if (!session) {
@@ -171,11 +171,13 @@ export default function PracticeSessionPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-xl">
-          <div className="text-6xl mb-4">🏆</div>
+          <div className="text-6xl mb-4" aria-hidden="true">
+            🏆
+          </div>
           <h1 className="text-3xl font-bold text-white mb-4">Practice Complete!</h1>
           <p className="text-gray-400 mb-8">
-            You've completed {session.questions.length} questions. Check the dashboard for detailed
-            analytics.
+            You have completed {session.questions.length} questions. Check the dashboard for
+            detailed analytics.
           </p>
           <div className="flex justify-center space-x-4">
             <button

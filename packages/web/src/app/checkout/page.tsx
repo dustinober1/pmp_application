@@ -42,7 +42,7 @@ function CheckoutForm() {
       router.push('/dashboard?payment=success');
     } catch (err: any) {
       console.error('Checkout failed', err);
-      setError(err.message || 'Payment initialization failed. Please try again.');
+      setError('Payment initialization failed. Please try again.');
     } finally {
       setLoading(false);
     }

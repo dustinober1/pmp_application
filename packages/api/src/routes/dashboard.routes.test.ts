@@ -11,7 +11,8 @@ jest.mock('../middleware/tier.middleware', () => ({
 }));
 
 import request from 'supertest';
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 import dashboardRoutes from './dashboard.routes';
 import { dashboardService } from '../services/dashboard.service';
 import { authMiddleware } from '../middleware/auth.middleware';

@@ -1,41 +1,38 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/components/ToastProvider';
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const router = useRouter();
-  const { register, isLoading } = useAuth();
-  const [name, setName] = useState('');
+  const searchParams = useSearchParams();
+  const { login, isLoading } = useAuth();
+  const toast = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters');
-      return;
-    }
-
     setSubmitting(true);
 
     try {
-      await register(email, password, name);
-      router.push('/dashboard');
+      await login(email, password);
+      const requestedNext = searchParams.get('next');
+      const next =
+        requestedNext && requestedNext.startsWith('/') && !requestedNext.startsWith('//')
+          ? requestedNext
+          : '/dashboard';
+      router.push(next);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
+      const message = err instanceof Error ? err.message : 'Login failed';
+      setError(message);
+      toast.error(message);
     } finally {
       setSubmitting(false);
     }
@@ -49,12 +46,14 @@ export default function RegisterPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold">PM</span>
+              <span className="text-white font-bold" aria-hidden="true">
+                PM
+              </span>
             </div>
           </Link>
-          <h1 className="text-2xl font-bold">Create Your Account</h1>
+          <h1 className="text-2xl font-bold">Welcome Back</h1>
           <p className="text-[var(--foreground-muted)] mt-2">
-            Start your PMP certification journey today
+            Sign in to continue your PMP journey
           </p>
         </div>
 
@@ -64,21 +63,6 @@ export default function RegisterPage() {
               {error}
             </div>
           )}
-
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-1">
-              Full Name
-            </label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="input"
-              placeholder="John Doe"
-              required
-            />
-          </div>
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-1">
@@ -107,38 +91,17 @@ export default function RegisterPage() {
               className="input"
               placeholder="••••••••"
               required
-              minLength={8}
             />
-            <p className="text-xs text-[var(--foreground-muted)] mt-1">Minimum 8 characters</p>
           </div>
 
-          <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
-              Confirm Password
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="rounded border-[var(--border)]" />
+              <span>Remember me</span>
             </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              className="input"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-
-          <div className="flex items-start gap-2 text-sm">
-            <input type="checkbox" className="rounded border-[var(--border)] mt-1" required />
-            <span className="text-[var(--foreground-muted)]">
-              I agree to the{' '}
-              <Link href="/terms" className="text-[var(--primary)] hover:underline">
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link href="/privacy" className="text-[var(--primary)] hover:underline">
-                Privacy Policy
-              </Link>
-            </span>
+            <Link href="/auth/forgot-password" className="text-[var(--primary)] hover:underline">
+              Forgot password?
+            </Link>
           </div>
 
           <button
@@ -146,14 +109,14 @@ export default function RegisterPage() {
             disabled={submitting || isLoading}
             className="btn btn-primary w-full"
           >
-            {submitting ? 'Creating account...' : 'Create Account'}
+            {submitting ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
         <p className="text-center text-sm text-[var(--foreground-muted)] mt-6">
-          Already have an account?{' '}
-          <Link href="/login" className="text-[var(--primary)] font-medium hover:underline">
-            Sign in
+          Don’t have an account?{' '}
+          <Link href="/auth/register" className="text-[var(--primary)] font-medium hover:underline">
+            Sign up for free
           </Link>
         </p>
       </div>

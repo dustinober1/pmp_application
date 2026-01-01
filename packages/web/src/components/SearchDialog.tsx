@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { apiRequest } from '../lib/api';
 import type { SearchResult } from '@pmp/shared';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { useToast } from '@/components/ToastProvider';
 
 interface SearchDialogProps {
   open: boolean;
@@ -12,20 +14,16 @@ interface SearchDialogProps {
 }
 
 export default function SearchDialog({ open, setOpen }: SearchDialogProps) {
-  const router = useRouter();
+  const pathname = usePathname();
+  const toast = useToast();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const lastPathRef = useRef(pathname);
 
-  // Focus input when opened
-  useEffect(() => {
-    if (open) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 100);
-    }
-  }, [open]);
+  useFocusTrap(open, dialogRef, inputRef);
 
   // Debounced search
   useEffect(() => {
@@ -41,16 +39,17 @@ export default function SearchDialog({ open, setOpen }: SearchDialogProps) {
           }
         } catch (error) {
           console.error('Search failed', error);
+          toast.error('Search failed. Please try again.');
         } finally {
           setLoading(false);
         }
       } else {
         setResults([]);
       }
-    }, 300);
+    }, 500);
 
     return () => clearTimeout(timer);
-  }, [query]);
+  }, [query, toast]);
 
   // Global keyboard shortcut
   useEffect(() => {
@@ -68,24 +67,31 @@ export default function SearchDialog({ open, setOpen }: SearchDialogProps) {
     return () => window.removeEventListener('keydown', onKeydown);
   }, [open, setOpen]);
 
-  // Reset on navigation
+  // Close on navigation
   useEffect(() => {
+    if (lastPathRef.current === pathname) return;
+    lastPathRef.current = pathname;
     setOpen(false);
     setQuery('');
-  }, [router, setOpen]);
+  }, [pathname, setOpen]);
 
   if (!open) return null;
 
   return (
-    <div className="relative z-[100]" role="dialog" aria-modal="true">
+    <div className="relative z-[100]" role="dialog" aria-modal="true" aria-label="Search">
       {/* Backdrop */}
-      <div
+      <button
+        type="button"
         className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity"
         onClick={() => setOpen(false)}
-      ></div>
+        aria-label="Close search"
+      ></button>
 
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto p-4 sm:p-6 md:p-20">
-        <div className="mx-auto max-w-2xl transform divide-y divide-gray-800 rounded-xl bg-gray-900 border border-gray-700 shadow-2xl transition-all">
+        <div
+          ref={dialogRef}
+          className="mx-auto max-w-2xl transform divide-y divide-gray-800 rounded-xl bg-gray-900 border border-gray-700 shadow-2xl transition-all"
+        >
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
               <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -103,6 +109,7 @@ export default function SearchDialog({ open, setOpen }: SearchDialogProps) {
               placeholder="Search study guides, flashcards, questions..."
               value={query}
               onChange={e => setQuery(e.target.value)}
+              aria-label="Search"
             />
           </div>
 
@@ -120,7 +127,9 @@ function verifyResults(results: SearchResult[], loading: boolean, query: string)
 
   if (results.length === 0 && query.trim().length >= 2) {
     return (
-      <div className="p-4 text-center text-sm text-gray-400">No results found for "{query}"</div>
+      <div className="p-4 text-center text-sm text-gray-400">
+        {`No results found for "${query}"`}
+      </div>
     );
   }
 
@@ -133,7 +142,9 @@ function verifyResults(results: SearchResult[], loading: boolean, query: string)
               href={getResultLink(result)}
               className="group flex select-none items-center px-4 py-2 hover:bg-gray-800 hover:text-white"
             >
-              <span className="flex-none text-xl mr-3">{getResultIcon(result.type)}</span>
+              <span className="flex-none text-xl mr-3" aria-hidden="true">
+                {getResultIcon(result.type)}
+              </span>
               <div className="flex-auto truncate">
                 <p className="truncate font-medium">{result.title}</p>
                 <p className="truncate text-xs text-gray-500">{result.excerpt}</p>

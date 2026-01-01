@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
-import { contentApi } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
+import { useToast } from '@/components/ToastProvider';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 interface Domain {
   id: string;
@@ -24,41 +25,36 @@ interface Task {
 }
 
 export default function StudyPage() {
-  const router = useRouter();
-  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [domains, setDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [authLoading, isAuthenticated, router]);
+  const toggleSelectedDomain = useCallback((domainId: string) => {
+    setSelectedDomain(prev => (prev === domainId ? null : domainId));
+  }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (canAccess) {
       fetchDomains();
     }
-  }, [isAuthenticated]);
+  }, [canAccess]);
 
   const fetchDomains = async () => {
     try {
-      const response = await contentApi.getDomains();
-      setDomains((response as any).data?.domains || []);
+      const response = await apiRequest<{ domains: Domain[] }>('/domains');
+      setDomains(response.data?.domains ?? []);
     } catch (error) {
       console.error('Failed to fetch domains:', error);
+      toast.error('Failed to load study content. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   if (authLoading || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-[var(--foreground-muted)]">Loading...</div>
-      </div>
-    );
+    return <FullPageSkeleton />;
   }
 
   const domainColors: Record<string, string> = {
@@ -82,10 +78,12 @@ export default function StudyPage() {
         {/* Domain Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {domains.map(domain => (
-            <div
+            <button
               key={domain.id}
-              className={`card cursor-pointer transition-all hover:scale-[1.02] ${selectedDomain === domain.id ? 'ring-2 ring-[var(--primary)]' : ''}`}
-              onClick={() => setSelectedDomain(selectedDomain === domain.id ? null : domain.id)}
+              type="button"
+              className={`card w-full text-left transition-all hover:scale-[1.02] ${selectedDomain === domain.id ? 'ring-2 ring-[var(--primary)]' : ''}`}
+              onClick={() => toggleSelectedDomain(domain.id)}
+              aria-pressed={selectedDomain === domain.id}
             >
               <div
                 className={`w-12 h-12 rounded-lg bg-gradient-to-br ${domainColors[domain.code] || 'from-gray-500 to-gray-600'} flex items-center justify-center mb-4`}
@@ -104,7 +102,7 @@ export default function StudyPage() {
                   {selectedDomain === domain.id ? 'View Tasks ↓' : 'Expand →'}
                 </span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 

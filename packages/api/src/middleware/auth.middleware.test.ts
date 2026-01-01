@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { JwtPayload, AUTH_ERRORS } from '@pmp/shared';
+import type { JwtPayload } from '@pmp/shared';
+import { AUTH_ERRORS } from '@pmp/shared';
 import { authMiddleware, optionalAuthMiddleware } from './auth.middleware';
 import { AppError } from './error.middleware';
 import prisma from '../config/database';

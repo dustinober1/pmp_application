@@ -12,13 +12,14 @@ jest.mock('../middleware/tier.middleware', () => ({
 }));
 
 import request from 'supertest';
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 import flashcardRoutes from './flashcard.routes';
 import { flashcardService } from '../services/flashcard.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { requireFeature } from '../middleware/tier.middleware';
 import { errorHandler } from '../middleware/error.middleware';
-import { FlashcardRating } from '@pmp/shared';
+import type { FlashcardRating } from '@pmp/shared';
 import * as fc from 'fast-check';
 
 // Setup Express app for testing

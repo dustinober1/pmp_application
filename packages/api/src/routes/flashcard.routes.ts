@@ -1,10 +1,11 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 import { flashcardService } from '../services/flashcard.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { requireFeature } from '../middleware/tier.middleware';
 import { validateBody, validateParams, validateQuery } from '../middleware/validation.middleware';
 import { z } from 'zod';
-import { FlashcardRating } from '@pmp/shared';
+import type { FlashcardRating } from '@pmp/shared';
 
 const router = Router();
 

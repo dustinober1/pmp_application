@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useAuth } from '../../../../contexts/AuthContext';
-import { apiRequest } from '../../../../lib/api';
-import { Flashcard, FlashcardRating } from '@pmp/shared';
+import { apiRequest } from '@/lib/api';
+import type { Flashcard, FlashcardRating } from '@pmp/shared';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { useToast } from '@/components/ToastProvider';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 interface SessionData {
   sessionId: string;
@@ -16,15 +18,17 @@ interface SessionData {
 }
 
 export default function FlashcardSessionPage() {
-  const { sessionId } = useParams();
+  const { sessionId } = useParams<{ sessionId: string }>();
   const router = useRouter();
-  const { user } = useAuth();
+  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<SessionData | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
+  const [ratingSubmitting, setRatingSubmitting] = useState(false);
 
   useEffect(() => {
     async function fetchSession() {
@@ -34,11 +38,6 @@ export default function FlashcardSessionPage() {
         const response = await apiRequest<SessionData>(`/flashcards/sessions/${sessionId}`);
         if (response.data) {
           setSession(response.data);
-
-          // Resume from first unanswered card if possible, or 0
-          // Since API doesn't filter answered yet in my quick implementation,
-          // we start at 0 or saved progress index if passed.
-          // For now, start at 0.
           setCurrentIndex(response.data.progress.answered);
           if (
             response.data.progress.answered >= response.data.progress.total &&
@@ -49,70 +48,99 @@ export default function FlashcardSessionPage() {
         }
       } catch (error) {
         console.error('Failed to fetch session', error);
+        toast.error('Failed to load session. Please try again.');
       } finally {
         setLoading(false);
       }
     }
 
-    if (user) {
-      fetchSession();
+    if (canAccess) {
+      void fetchSession();
     }
-  }, [sessionId, user]);
+  }, [canAccess, sessionId, toast]);
 
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
-  };
+  const handleFlip = useCallback(() => {
+    if (ratingSubmitting) return;
+    setIsFlipped(prev => !prev);
+  }, [ratingSubmitting]);
 
-  const handleRate = async (rating: FlashcardRating) => {
-    if (!session || !sessionId) return;
-
-    const currentCard = session.cards[currentIndex];
-    if (!currentCard) return;
-
-    const timeSpentMs = Date.now() - startTime;
-
-    try {
-      await apiRequest(`/flashcards/sessions/${sessionId}/responses/${currentCard.id}`, {
-        method: 'POST',
-        body: {
-          rating,
-          timeSpentMs,
-        },
-      });
-
-      // Move to next card
-      if (currentIndex < session.cards.length - 1) {
-        setIsFlipped(false);
-        setCurrentIndex(prev => prev + 1);
-        setStartTime(Date.now());
-      } else {
-        // Session complete
-        await completeSession();
-      }
-    } catch (error) {
-      console.error('Failed to record response', error);
-    }
-  };
-
-  const completeSession = async () => {
+  const completeSession = useCallback(async () => {
     try {
       await apiRequest(`/flashcards/sessions/${sessionId}/complete`, { method: 'POST' });
       setSessionComplete(true);
     } catch (error) {
       console.error('Failed to complete session', error);
+      toast.error('Failed to complete session. Please try again.');
     }
-  };
+  }, [sessionId, toast]);
 
-  if (loading) {
-    return (
-      <div
-        className="flex justify-center items-center min-h-[60vh]"
-        role="status"
-        aria-label="Loading session"
-      >
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </div>
-    );
+  const handleRate = useCallback(
+    async (rating: FlashcardRating) => {
+      if (ratingSubmitting) return;
+      if (!session || !sessionId) return;
+
+      const currentCard = session.cards[currentIndex];
+      if (!currentCard) return;
+
+      const timeSpentMs = Date.now() - startTime;
+
+      try {
+        setRatingSubmitting(true);
+        await apiRequest(`/flashcards/sessions/${sessionId}/responses/${currentCard.id}`, {
+          method: 'POST',
+          body: {
+            rating,
+            timeSpentMs,
+          },
+        });
+
+        // Move to next card
+        if (currentIndex < session.cards.length - 1) {
+          setIsFlipped(false);
+          setCurrentIndex(prev => prev + 1);
+          setStartTime(Date.now());
+        } else {
+          // Session complete
+          await completeSession();
+        }
+      } catch (error) {
+        console.error('Failed to record response', error);
+        toast.error('Failed to record response. Please try again.');
+      } finally {
+        setRatingSubmitting(false);
+      }
+    },
+    [completeSession, currentIndex, ratingSubmitting, session, sessionId, startTime, toast]
+  );
+
+  // Keyboard shortcuts (1/2/3 to rate, Space/Enter to flip)
+  useEffect(() => {
+    if (loading || sessionComplete) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        router.push('/flashcards');
+        return;
+      }
+
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        handleFlip();
+        return;
+      }
+
+      if (!isFlipped) return;
+      if (e.key === '1') void handleRate('dont_know');
+      if (e.key === '2') void handleRate('learning');
+      if (e.key === '3') void handleRate('know_it');
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [handleFlip, handleRate, isFlipped, loading, router, sessionComplete]);
+
+  if (authLoading || loading) {
+    return <FullPageSkeleton />;
   }
 
   if (!session) {
@@ -133,10 +161,12 @@ export default function FlashcardSessionPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-xl">
-          <div className="text-6xl mb-4">🎉</div>
+          <div className="text-6xl mb-4" aria-hidden="true">
+            🎉
+          </div>
           <h1 className="text-3xl font-bold text-white mb-4">Session Complete!</h1>
           <p className="text-gray-400 mb-8">
-            Great job! You've reviewed {session.cards.length} cards.
+            Great job! You’ve reviewed {session.cards.length} cards.
           </p>
           <div className="flex justify-center space-x-4">
             <button
@@ -162,7 +192,7 @@ export default function FlashcardSessionPage() {
     session.cards.length > 0 ? Math.round((currentIndex / session.cards.length) * 100) : 0;
 
   if (!currentCard) {
-    return <div>Loading card...</div>;
+    return <FullPageSkeleton />;
   }
 
   return (
@@ -194,9 +224,11 @@ export default function FlashcardSessionPage() {
 
       {/* Card Area */}
       <div className="flex-1 flex flex-col items-center justify-center mb-8">
-        <div
+        <button
+          type="button"
           className="w-full max-w-2xl aspect-[3/2] perspective-1000 cursor-pointer group"
           onClick={handleFlip}
+          aria-label="Flip card"
         >
           <div
             className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}
@@ -216,7 +248,7 @@ export default function FlashcardSessionPage() {
               </p>
             </div>
           </div>
-        </div>
+        </button>
       </div>
 
       {/* Controls */}
@@ -225,24 +257,27 @@ export default function FlashcardSessionPage() {
           <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto w-full">
             <button
               onClick={() => handleRate('dont_know')}
+              disabled={ratingSubmitting}
               className="py-4 bg-red-900/30 border border-red-800 text-red-200 rounded-xl hover:bg-red-900/50 transition"
             >
               <div className="font-bold mb-1">Again</div>
-              <div className="text-xs opacity-70">&lt; 1 min</div>
+              <div className="text-xs opacity-70">&lt; 1 min • 1</div>
             </button>
             <button
               onClick={() => handleRate('learning')}
+              disabled={ratingSubmitting}
               className="py-4 bg-yellow-900/30 border border-yellow-800 text-yellow-200 rounded-xl hover:bg-yellow-900/50 transition"
             >
               <div className="font-bold mb-1">Hard</div>
-              <div className="text-xs opacity-70">2 days</div>
+              <div className="text-xs opacity-70">2 days • 2</div>
             </button>
             <button
               onClick={() => handleRate('know_it')}
+              disabled={ratingSubmitting}
               className="py-4 bg-green-900/30 border border-green-800 text-green-200 rounded-xl hover:bg-green-900/50 transition"
             >
               <div className="font-bold mb-1">Easy</div>
-              <div className="text-xs opacity-70">4 days</div>
+              <div className="text-xs opacity-70">4 days • 3</div>
             </button>
           </div>
         ) : (

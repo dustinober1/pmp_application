@@ -1,11 +1,11 @@
-import {
+import type {
   Flashcard,
   SessionStats,
   FlashcardRating,
   FlashcardSessionOptions,
   CreateFlashcardInput,
-  SM2_DEFAULTS,
 } from '@pmp/shared';
+import { SM2_DEFAULTS } from '@pmp/shared';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 

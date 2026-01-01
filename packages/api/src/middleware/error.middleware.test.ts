@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { AppError, errorHandler, notFoundHandler } from './error.middleware';
 import { GENERIC_ERRORS } from '@pmp/shared';
 

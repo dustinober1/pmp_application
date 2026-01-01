@@ -8,10 +8,13 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
 
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 import { requestIdMiddleware } from './middleware/requestId.middleware';
 import { env } from './config/env';
+import { csrfMiddleware } from './middleware/csrf.middleware';
+import { logger } from './utils/logger';
 
 // Import routes
 import healthRouter from './routes/health.routes';
@@ -28,10 +31,21 @@ import searchRouter from './routes/search.routes';
 const app = express();
 
 // Security middleware
-app.use(helmet());
+app.use(
+  helmet({
+    // API does not serve HTML; CSP is handled by the frontend.
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: 'same-site' },
+  })
+);
 app.use(
   cors({
-    origin: env.CORS_ORIGIN,
+    origin: (origin, callback) => {
+      // Allow non-browser clients with no Origin header (e.g., curl, server-to-server)
+      if (!origin) return callback(null, true);
+      if (env.CORS_ORIGIN.includes(origin)) return callback(null, true);
+      return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   })
 );
@@ -54,6 +68,8 @@ app.use('/api', limiter);
 // Request parsing
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use('/api', csrfMiddleware);
 
 // Request ID and logging
 app.use(requestIdMiddleware);
@@ -61,8 +77,7 @@ app.use(
   morgan(':method :url :status :response-time ms - :req[x-request-id]', {
     stream: {
       write: (message: string) => {
-        // eslint-disable-next-line no-console
-        console.log(message.trim());
+        logger.info(message.trim());
       },
     },
   })
@@ -88,10 +103,8 @@ app.use(errorHandler);
 const PORT = env.PORT;
 
 app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`🚀 PMP Study API running on port ${PORT}`);
-  // eslint-disable-next-line no-console
-  console.log(`📚 Environment: ${env.NODE_ENV}`);
+  logger.info(`PMP Study API running on port ${PORT}`);
+  logger.info(`Environment: ${env.NODE_ENV}`);
 });
 
 export default app;

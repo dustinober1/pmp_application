@@ -2,20 +2,31 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import CreateFlashcardPage from './page';
 import { vi } from 'vitest';
 
-// Mocks
-const { mockPush, mockUseAuth, mockGetDomains, mockGetTasks, mockCreateCustom } = vi.hoisted(() => {
-  return {
-    mockPush: vi.fn(),
-    mockUseAuth: vi.fn(),
-    mockGetDomains: vi.fn(),
-    mockGetTasks: vi.fn(),
-    mockCreateCustom: vi.fn(),
-  };
-});
+const { mockPush, mockUseAuth, mockApiRequest, mockCreateCustom, mockToastError } = vi.hoisted(
+  () => {
+    return {
+      mockPush: vi.fn(),
+      mockUseAuth: vi.fn(),
+      mockApiRequest: vi.fn(),
+      mockCreateCustom: vi.fn(),
+      mockToastError: vi.fn(),
+    };
+  }
+);
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
+  }),
+  usePathname: () => '/flashcards/create',
+}));
+
+vi.mock('@/components/ToastProvider', () => ({
+  useToast: () => ({
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: mockToastError,
   }),
 }));
 
@@ -28,10 +39,7 @@ vi.mock('@/components/Navbar', () => ({
 }));
 
 vi.mock('@/lib/api', () => ({
-  contentApi: {
-    getDomains: mockGetDomains,
-    getTasks: mockGetTasks,
-  },
+  apiRequest: (...args: any[]) => mockApiRequest(...args),
   flashcardApi: {
     createCustom: mockCreateCustom,
   },
@@ -48,7 +56,7 @@ describe('CreateFlashcardPage', () => {
     vi.clearAllMocks();
   });
 
-  it('redirects to login if unauthenticated', () => {
+  it('redirects to auth login if unauthenticated', async () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: false,
       isLoading: false,
@@ -56,16 +64,19 @@ describe('CreateFlashcardPage', () => {
     });
 
     render(<CreateFlashcardPage />);
-    expect(mockPush).toHaveBeenCalledWith('/login');
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/auth/login?next=%2Fflashcards%2Fcreate');
+    });
   });
 
   it('shows upgrade message for basic tier users', async () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { tier: 'free' },
+      user: { tier: 'free', emailVerified: true },
     });
-    mockGetDomains.mockResolvedValue({ data: mockDomains });
+    mockApiRequest.mockResolvedValue({ success: true, data: { domains: mockDomains } });
 
     render(<CreateFlashcardPage />);
 
@@ -81,10 +92,17 @@ describe('CreateFlashcardPage', () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { tier: 'high-end' },
+      user: { tier: 'high-end', emailVerified: true },
     });
-    mockGetDomains.mockResolvedValue({ data: mockDomains });
-    mockGetTasks.mockResolvedValue({ data: mockTasks });
+    mockApiRequest.mockImplementation((endpoint: string) => {
+      if (endpoint === '/domains') {
+        return Promise.resolve({ success: true, data: { domains: mockDomains } });
+      }
+      if (endpoint === '/domains/d1/tasks') {
+        return Promise.resolve({ success: true, data: { tasks: mockTasks } });
+      }
+      return Promise.reject(new Error(`Unexpected endpoint: ${endpoint}`));
+    });
     mockCreateCustom.mockResolvedValue({ data: {} });
 
     render(<CreateFlashcardPage />);
@@ -101,7 +119,7 @@ describe('CreateFlashcardPage', () => {
 
     // Wait for tasks to load and select task
     await waitFor(() => {
-      expect(mockGetTasks).toHaveBeenCalledWith('d1');
+      expect(mockApiRequest).toHaveBeenCalledWith('/domains/d1/tasks');
     });
     await waitFor(() => {
       expect(screen.getByText(/1.1 manage conflict/i)).toBeInTheDocument();
@@ -130,9 +148,9 @@ describe('CreateFlashcardPage', () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { tier: 'high-end' },
+      user: { tier: 'high-end', emailVerified: true },
     });
-    mockGetDomains.mockResolvedValue({ data: mockDomains });
+    mockApiRequest.mockResolvedValue({ success: true, data: { domains: mockDomains } });
 
     render(<CreateFlashcardPage />);
     await waitFor(() => expect(screen.getByText('People')).toBeInTheDocument());

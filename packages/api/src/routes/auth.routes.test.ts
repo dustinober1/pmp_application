@@ -3,6 +3,7 @@
  * Targeting 100% code coverage
  *
  * Tests all routes:
+ * - GET /csrf
  * - POST /register
  * - POST /login
  * - POST /refresh
@@ -10,10 +11,12 @@
  * - POST /forgot-password
  * - POST /reset-password
  * - POST /verify-email
+ * - POST /resend-verification
  * - GET /me
  */
 
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 import request from 'supertest';
 import authRoutes from './auth.routes';
 import { authService } from '../services/auth.service';
@@ -38,6 +41,7 @@ jest.mock('../config/database', () => ({
 // Mock environment
 jest.mock('../config/env', () => ({
   env: {
+    NODE_ENV: 'test',
     JWT_SECRET: 'test-secret-key-minimum-32-characters-long',
     JWT_REFRESH_SECRET: 'test-refresh-secret-key-minimum-32-characters-long',
   },
@@ -68,6 +72,26 @@ describe('Auth Routes Integration Tests', () => {
     jest.clearAllMocks();
   });
 
+  describe('GET /api/auth/csrf', () => {
+    it('should issue a CSRF token and set cookie', async () => {
+      const response = await request(app).get('/api/auth/csrf');
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(typeof response.body.data.csrfToken).toBe('string');
+      expect(response.body.data.csrfToken.length).toBeGreaterThan(0);
+
+      expect(response.headers['set-cookie']).toEqual(
+        expect.arrayContaining([expect.stringContaining('pmp_csrf_token=')])
+      );
+
+      const csrfCookie = (response.headers['set-cookie'] as string[]).find(cookie =>
+        cookie.startsWith('pmp_csrf_token=')
+      );
+      expect(csrfCookie).toContain(`pmp_csrf_token=${response.body.data.csrfToken}`);
+    });
+  });
+
   describe('POST /api/auth/register', () => {
     const validRegisterData = {
       email: 'newuser@example.com',
@@ -86,6 +110,7 @@ describe('Auth Routes Integration Tests', () => {
         tokens: {
           accessToken: 'access-token',
           refreshToken: 'refresh-token',
+          expiresIn: 900,
         },
       };
 
@@ -94,9 +119,16 @@ describe('Auth Routes Integration Tests', () => {
       const response = await request(app).post('/api/auth/register').send(validRegisterData);
 
       expect(response.status).toBe(201);
+      expect(response.headers['set-cookie']).toEqual(
+        expect.arrayContaining([
+          expect.stringContaining('pmp_access_token=access-token'),
+          expect.stringContaining('pmp_refresh_token=refresh-token'),
+          expect.stringContaining('pmp_csrf_token='),
+        ])
+      );
       expect(response.body).toEqual({
         success: true,
-        data: mockResult,
+        data: { user: mockResult.user, expiresIn: mockResult.tokens.expiresIn },
         message: 'Registration successful. Please verify your email.',
       });
       expect(authService.register).toHaveBeenCalledWith(validRegisterData);
@@ -224,6 +256,7 @@ describe('Auth Routes Integration Tests', () => {
         tokens: {
           accessToken: 'access-token',
           refreshToken: 'refresh-token',
+          expiresIn: 900,
         },
       };
 
@@ -232,9 +265,16 @@ describe('Auth Routes Integration Tests', () => {
       const response = await request(app).post('/api/auth/login').send(validLoginData);
 
       expect(response.status).toBe(200);
+      expect(response.headers['set-cookie']).toEqual(
+        expect.arrayContaining([
+          expect.stringContaining('pmp_access_token=access-token'),
+          expect.stringContaining('pmp_refresh_token=refresh-token'),
+          expect.stringContaining('pmp_csrf_token='),
+        ])
+      );
       expect(response.body).toEqual({
         success: true,
-        data: mockResult,
+        data: { user: mockResult.user, expiresIn: mockResult.tokens.expiresIn },
       });
       expect(authService.login).toHaveBeenCalledWith(validLoginData);
     });
@@ -295,6 +335,7 @@ describe('Auth Routes Integration Tests', () => {
       const mockTokens = {
         accessToken: 'new-access-token',
         refreshToken: 'new-refresh-token',
+        expiresIn: 900,
       };
 
       (authService.refreshToken as jest.Mock).mockResolvedValue(mockTokens);
@@ -304,18 +345,25 @@ describe('Auth Routes Integration Tests', () => {
         .send({ refreshToken: 'valid-refresh-token' });
 
       expect(response.status).toBe(200);
+      expect(response.headers['set-cookie']).toEqual(
+        expect.arrayContaining([
+          expect.stringContaining('pmp_access_token=new-access-token'),
+          expect.stringContaining('pmp_refresh_token=new-refresh-token'),
+          expect.stringContaining('pmp_csrf_token='),
+        ])
+      );
       expect(response.body).toEqual({
         success: true,
-        data: { tokens: mockTokens },
+        data: { expiresIn: mockTokens.expiresIn },
       });
       expect(authService.refreshToken).toHaveBeenCalledWith('valid-refresh-token');
     });
 
-    it('should return 400 for missing refresh token', async () => {
+    it('should return 401 for missing refresh token', async () => {
       const response = await request(app).post('/api/auth/refresh').send({});
 
-      expect(response.status).toBe(400);
-      expect(response.body.error.code).toBe('VALIDATION_ERROR');
+      expect(response.status).toBe(401);
+      expect(response.body.error.code).toBe(AUTH_ERRORS.AUTH_005.code);
       expect(authService.refreshToken).not.toHaveBeenCalled();
     });
 
@@ -713,6 +761,62 @@ describe('Auth Routes Integration Tests', () => {
     });
   });
 
+  describe('POST /api/auth/resend-verification', () => {
+    it('should resend verification token for current user (non-production)', async () => {
+      const userId = 'user-1';
+      const token = jwt.sign({ userId, email: 'user@example.com' }, env.JWT_SECRET);
+
+      (prisma.user.findUnique as jest.Mock).mockResolvedValue({
+        id: userId,
+        email: 'user@example.com',
+        lockedUntil: null,
+      });
+
+      (authService.resendVerification as jest.Mock).mockResolvedValue('new-verification-token');
+
+      const response = await request(app)
+        .post('/api/auth/resend-verification')
+        .set('Authorization', `Bearer ${token}`)
+        .send({});
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.token).toBe('new-verification-token');
+      expect(authService.resendVerification).toHaveBeenCalledWith(userId);
+    });
+
+    it('should return success when email is already verified', async () => {
+      const userId = 'user-1';
+      const token = jwt.sign({ userId, email: 'user@example.com' }, env.JWT_SECRET);
+
+      (prisma.user.findUnique as jest.Mock).mockResolvedValue({
+        id: userId,
+        email: 'user@example.com',
+        lockedUntil: null,
+      });
+
+      (authService.resendVerification as jest.Mock).mockResolvedValue(null);
+
+      const response = await request(app)
+        .post('/api/auth/resend-verification')
+        .set('Authorization', `Bearer ${token}`)
+        .send({});
+
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toEqual({});
+      expect(response.body.message).toBe('Email is already verified.');
+      expect(authService.resendVerification).toHaveBeenCalledWith(userId);
+    });
+
+    it('should return 401 for missing authorization header', async () => {
+      const response = await request(app).post('/api/auth/resend-verification').send({});
+
+      expect(response.status).toBe(401);
+      expect(response.body.error.code).toBe(AUTH_ERRORS.AUTH_005.code);
+    });
+  });
+
   describe('GET /api/auth/me', () => {
     it('should return current user profile successfully', async () => {
       const userId = 'user-1';
@@ -885,7 +989,7 @@ describe('Auth Routes Integration Tests', () => {
     it('should handle extra fields in request body', async () => {
       const mockResult = {
         user: { id: 'user-1', email: 'test@example.com', name: 'Test' },
-        tokens: { accessToken: 'token', refreshToken: 'refresh' },
+        tokens: { accessToken: 'token', refreshToken: 'refresh', expiresIn: 900 },
       };
 
       (authService.register as jest.Mock).mockResolvedValue(mockResult);

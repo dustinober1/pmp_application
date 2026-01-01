@@ -6,7 +6,8 @@
 import { FormulaService } from './formula.service';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
-import { FormulaCategory, EVM_VARIABLES } from '@pmp/shared';
+import type { FormulaCategory } from '@pmp/shared';
+import { EVM_VARIABLES } from '@pmp/shared';
 import * as fc from 'fast-check';
 
 // Mock dependencies

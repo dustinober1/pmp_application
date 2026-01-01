@@ -2,19 +2,28 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import FlaggedQuestionsPage from './page';
 import { vi } from 'vitest';
 
-// Mocks
-const { mockPush, mockUseAuth, mockGetFlagged, mockUnflagQuestion } = vi.hoisted(() => {
+const { mockPush, mockUseAuth, mockApiRequest, mockToastError } = vi.hoisted(() => {
   return {
     mockPush: vi.fn(),
     mockUseAuth: vi.fn(),
-    mockGetFlagged: vi.fn(),
-    mockUnflagQuestion: vi.fn(),
+    mockApiRequest: vi.fn(),
+    mockToastError: vi.fn(),
   };
 });
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
+  }),
+  usePathname: () => '/practice/flagged',
+}));
+
+vi.mock('@/components/ToastProvider', () => ({
+  useToast: () => ({
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: mockToastError,
   }),
 }));
 
@@ -27,11 +36,7 @@ vi.mock('@/components/Navbar', () => ({
 }));
 
 vi.mock('@/lib/api', () => ({
-  practiceApi: {
-    getFlagged: mockGetFlagged,
-    unflagQuestion: mockUnflagQuestion,
-    startSession: vi.fn(),
-  },
+  apiRequest: (...args: any[]) => mockApiRequest(...args),
 }));
 
 describe('FlaggedQuestionsPage', () => {
@@ -53,7 +58,7 @@ describe('FlaggedQuestionsPage', () => {
     vi.clearAllMocks();
   });
 
-  it('redirects to login if unauthenticated', () => {
+  it('redirects to auth login if unauthenticated', async () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: false,
       isLoading: false,
@@ -61,16 +66,19 @@ describe('FlaggedQuestionsPage', () => {
     });
 
     render(<FlaggedQuestionsPage />);
-    expect(mockPush).toHaveBeenCalledWith('/login');
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/auth/login?next=%2Fpractice%2Fflagged');
+    });
   });
 
   it('displays empty state when no questions flagged', async () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { id: 'u1' },
+      user: { id: 'u1', emailVerified: true },
     });
-    mockGetFlagged.mockResolvedValue({ data: { questions: [] } });
+    mockApiRequest.mockResolvedValue({ success: true, data: { questions: [] } });
 
     render(<FlaggedQuestionsPage />);
 
@@ -84,9 +92,9 @@ describe('FlaggedQuestionsPage', () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { id: 'u1' },
+      user: { id: 'u1', emailVerified: true },
     });
-    mockGetFlagged.mockResolvedValue({ data: { questions: mockQuestions } });
+    mockApiRequest.mockResolvedValue({ success: true, data: { questions: mockQuestions } });
 
     render(<FlaggedQuestionsPage />);
 
@@ -100,10 +108,17 @@ describe('FlaggedQuestionsPage', () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { id: 'u1' },
+      user: { id: 'u1', emailVerified: true },
     });
-    mockGetFlagged.mockResolvedValue({ data: { questions: mockQuestions } });
-    mockUnflagQuestion.mockResolvedValue({ data: {} });
+    mockApiRequest.mockImplementation((endpoint: string, options?: any) => {
+      if (endpoint === '/practice/flagged') {
+        return Promise.resolve({ success: true, data: { questions: mockQuestions } });
+      }
+      if (endpoint === '/practice/questions/q1/flag' && options?.method === 'DELETE') {
+        return Promise.resolve({ success: true, data: {} });
+      }
+      return Promise.reject(new Error(`Unexpected request: ${endpoint}`));
+    });
 
     render(<FlaggedQuestionsPage />);
 
@@ -113,8 +128,6 @@ describe('FlaggedQuestionsPage', () => {
 
     const unflagButton = screen.getByTitle('Remove flag');
     fireEvent.click(unflagButton);
-
-    expect(mockUnflagQuestion).toHaveBeenCalledWith('q1');
 
     await waitFor(() => {
       expect(screen.queryByText('Question 1')).not.toBeInTheDocument();

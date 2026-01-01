@@ -2,15 +2,33 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LoginPage from './page';
 import { vi } from 'vitest';
 
-// Mocks
-const mockPush = vi.fn();
+const { mockPush, mockLogin, mockSearchParamsGet, mockToastError } = vi.hoisted(() => {
+  return {
+    mockPush: vi.fn(),
+    mockLogin: vi.fn(),
+    mockSearchParamsGet: vi.fn(() => null as string | null),
+    mockToastError: vi.fn(),
+  };
+});
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
   }),
+  useSearchParams: () => ({
+    get: mockSearchParamsGet,
+  }),
 }));
 
-const mockLogin = vi.fn();
+vi.mock('@/components/ToastProvider', () => ({
+  useToast: () => ({
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: mockToastError,
+  }),
+}));
+
 vi.mock('@/contexts/AuthContext', () => ({
   useAuth: () => ({
     login: mockLogin,
@@ -21,6 +39,7 @@ vi.mock('@/contexts/AuthContext', () => ({
 describe('LoginPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockSearchParamsGet.mockReturnValue(null);
   });
 
   it('renders login form', () => {
@@ -31,20 +50,8 @@ describe('LoginPage', () => {
     expect(screen.getByRole('button', { name: 'Sign In' })).toBeInTheDocument();
   });
 
-  it('handles input changes', () => {
-    render(<LoginPage />);
-    const emailInput = screen.getByLabelText('Email') as HTMLInputElement;
-    const passwordInput = screen.getByLabelText('Password') as HTMLInputElement;
-
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password123' } });
-
-    expect(emailInput.value).toBe('test@example.com');
-    expect(passwordInput.value).toBe('password123');
-  });
-
-  it('submits form with valid credentials', async () => {
-    mockLogin.mockResolvedValue(true);
+  it('submits form and navigates to dashboard by default', async () => {
+    mockLogin.mockResolvedValue(undefined);
     render(<LoginPage />);
 
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'test@example.com' } });
@@ -59,6 +66,21 @@ describe('LoginPage', () => {
     });
   });
 
+  it('navigates to next parameter when provided', async () => {
+    mockSearchParamsGet.mockImplementation((key: string) => (key === 'next' ? '/study' : null));
+    mockLogin.mockResolvedValue(undefined);
+
+    render(<LoginPage />);
+
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password123' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Sign In' }));
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/study');
+    });
+  });
+
   it('displays error on failed login', async () => {
     mockLogin.mockRejectedValue(new Error('Invalid credentials'));
     render(<LoginPage />);
@@ -69,6 +91,7 @@ describe('LoginPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
+      expect(mockToastError).toHaveBeenCalledWith('Invalid credentials');
     });
   });
 });

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { adminMiddleware, optionalAdminMiddleware } from './admin.middleware';
 
 // Mock dependencies
@@ -225,8 +225,8 @@ describe('adminMiddleware', () => {
       jest.resetModules();
     });
 
-    it('should deny access if ADMIN_EMAILS is undefined', () => {
-      const { adminMiddleware: middleware } = require('./admin.middleware');
+    it('should deny access if ADMIN_EMAILS is undefined', async () => {
+      const { adminMiddleware: middleware } = await import('./admin.middleware');
 
       mockRequest.user = {
         userId: 'admin-123',
@@ -364,8 +364,8 @@ describe('optionalAdminMiddleware', () => {
       jest.resetModules();
     });
 
-    it('should set isAdmin to false if ADMIN_EMAILS is empty', () => {
-      const { optionalAdminMiddleware: middleware } = require('./admin.middleware');
+    it('should set isAdmin to false if ADMIN_EMAILS is empty', async () => {
+      const { optionalAdminMiddleware: middleware } = await import('./admin.middleware');
 
       mockRequest.user = {
         userId: 'admin-123',

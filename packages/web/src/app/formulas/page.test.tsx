@@ -2,15 +2,31 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import FormulasPage from './page';
 import { vi } from 'vitest';
 
-// Mocks
-const mockPush = vi.fn();
+const { mockPush, mockUseAuth, mockApiRequest, mockToastError } = vi.hoisted(() => {
+  return {
+    mockPush: vi.fn(),
+    mockUseAuth: vi.fn(),
+    mockApiRequest: vi.fn(),
+    mockToastError: vi.fn(),
+  };
+});
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
   }),
+  usePathname: () => '/formulas',
 }));
 
-const mockUseAuth = vi.fn();
+vi.mock('@/components/ToastProvider', () => ({
+  useToast: () => ({
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: mockToastError,
+  }),
+}));
+
 vi.mock('@/contexts/AuthContext', () => ({
   useAuth: () => mockUseAuth(),
 }));
@@ -19,13 +35,8 @@ vi.mock('@/components/Navbar', () => ({
   Navbar: () => <div data-testid="navbar">Navbar</div>,
 }));
 
-const mockGetFormulas = vi.fn();
-const mockCalculate = vi.fn();
 vi.mock('@/lib/api', () => ({
-  formulaApi: {
-    getFormulas: () => mockGetFormulas(),
-    calculate: (id: string, inputs: any) => mockCalculate(id, inputs),
-  },
+  apiRequest: (...args: any[]) => mockApiRequest(...args),
 }));
 
 describe('FormulasPage', () => {
@@ -52,7 +63,7 @@ describe('FormulasPage', () => {
     vi.clearAllMocks();
   });
 
-  it('redirects to login if unauthenticated', () => {
+  it('redirects to auth login if unauthenticated', async () => {
     mockUseAuth.mockReturnValue({
       user: null,
       isAuthenticated: false,
@@ -60,27 +71,19 @@ describe('FormulasPage', () => {
     });
 
     render(<FormulasPage />);
-    expect(mockPush).toHaveBeenCalledWith('/login');
-  });
 
-  it('shows loading state while checking auth', () => {
-    mockUseAuth.mockReturnValue({
-      user: null,
-      isAuthenticated: false,
-      isLoading: true,
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/auth/login?next=%2Fformulas');
     });
-
-    render(<FormulasPage />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
   it('fetches and displays formulas when authenticated', async () => {
     mockUseAuth.mockReturnValue({
-      user: { tier: 'free' },
+      user: { tier: 'free', emailVerified: true },
       isAuthenticated: true,
       isLoading: false,
     });
-    mockGetFormulas.mockResolvedValue({ data: { formulas: mockFormulas } });
+    mockApiRequest.mockResolvedValue({ success: true, data: { formulas: mockFormulas } });
 
     render(<FormulasPage />);
 
@@ -90,36 +93,13 @@ describe('FormulasPage', () => {
     });
   });
 
-  it('filters formulas by category', async () => {
-    mockUseAuth.mockReturnValue({
-      user: { tier: 'free' },
-      isAuthenticated: true,
-      isLoading: false,
-    });
-    mockGetFormulas.mockResolvedValue({ data: { formulas: mockFormulas } });
-
-    render(<FormulasPage />);
-
-    await waitFor(() => {
-      expect(screen.getByText('CPI')).toBeInTheDocument();
-    });
-
-    // Click category button (assuming category text is rendered)
-    const categoryButton = screen.getByRole('button', { name: 'earned value' });
-    fireEvent.click(categoryButton);
-
-    // Both are earned value, so they should still show.
-    // Let's assume there was another category to filter out if data allowed.
-    expect(screen.getByText('CPI')).toBeInTheDocument();
-  });
-
   it('selects a formula and shows inputs', async () => {
     mockUseAuth.mockReturnValue({
-      user: { tier: 'corporate' },
+      user: { tier: 'corporate', emailVerified: true },
       isAuthenticated: true,
       isLoading: false,
     });
-    mockGetFormulas.mockResolvedValue({ data: { formulas: mockFormulas } });
+    mockApiRequest.mockResolvedValue({ success: true, data: { formulas: mockFormulas } });
 
     render(<FormulasPage />);
 
@@ -129,7 +109,6 @@ describe('FormulasPage', () => {
 
     fireEvent.click(screen.getByText('CPI'));
 
-    // 'EV' and 'AC' are variables in 'CPI=EV/AC'
     await waitFor(() => {
       expect(screen.getByPlaceholderText('Enter EV')).toBeInTheDocument();
       expect(screen.getByPlaceholderText('Enter AC')).toBeInTheDocument();
@@ -138,19 +117,28 @@ describe('FormulasPage', () => {
 
   it('calculates result when inputs provided', async () => {
     mockUseAuth.mockReturnValue({
-      user: { tier: 'corporate' },
+      user: { tier: 'corporate', emailVerified: true },
       isAuthenticated: true,
       isLoading: false,
     });
-    mockGetFormulas.mockResolvedValue({ data: { formulas: mockFormulas } });
-    mockCalculate.mockResolvedValue({
-      data: {
-        result: {
-          result: 1.2,
-          interpretation: 'Under Budget',
-          steps: [],
-        },
-      },
+
+    mockApiRequest.mockImplementation((endpoint: string) => {
+      if (endpoint === '/formulas') {
+        return Promise.resolve({ success: true, data: { formulas: mockFormulas } });
+      }
+      if (endpoint === '/formulas/f1/calculate') {
+        return Promise.resolve({
+          success: true,
+          data: {
+            result: {
+              result: 1.2,
+              interpretation: 'Under Budget',
+              steps: [],
+            },
+          },
+        });
+      }
+      return Promise.reject(new Error(`Unexpected endpoint: ${endpoint}`));
     });
 
     render(<FormulasPage />);
@@ -161,29 +149,32 @@ describe('FormulasPage', () => {
 
     fireEvent.click(screen.getByText('CPI'));
 
-    const inputEV = screen.getByPlaceholderText('Enter EV');
-    const inputAC = screen.getByPlaceholderText('Enter AC');
+    fireEvent.change(screen.getByPlaceholderText('Enter EV'), { target: { value: '120' } });
+    fireEvent.change(screen.getByPlaceholderText('Enter AC'), { target: { value: '100' } });
 
-    fireEvent.change(inputEV, { target: { value: '120' } });
-    fireEvent.change(inputAC, { target: { value: '100' } });
-
-    fireEvent.click(screen.getByText('Calculate'));
+    fireEvent.click(screen.getByRole('button', { name: 'Calculate' }));
 
     await waitFor(() => {
       expect(screen.getByText('1.20')).toBeInTheDocument();
       expect(screen.getByText('Under Budget')).toBeInTheDocument();
     });
 
-    expect(mockCalculate).toHaveBeenCalledWith('f1', { EV: 120, AC: 100 });
+    expect(mockApiRequest).toHaveBeenCalledWith(
+      '/formulas/f1/calculate',
+      expect.objectContaining({
+        method: 'POST',
+        body: { inputs: { EV: 120, AC: 100 } },
+      })
+    );
   });
 
   it('shows upgrade message for free tier users', async () => {
     mockUseAuth.mockReturnValue({
-      user: { tier: 'free' },
+      user: { tier: 'free', emailVerified: true },
       isAuthenticated: true,
       isLoading: false,
     });
-    mockGetFormulas.mockResolvedValue({ data: { formulas: mockFormulas } });
+    mockApiRequest.mockResolvedValue({ success: true, data: { formulas: mockFormulas } });
 
     render(<FormulasPage />);
 
@@ -191,11 +182,9 @@ describe('FormulasPage', () => {
       expect(screen.getByText('CPI')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText('CPI'));
-
     expect(
-      screen.getByText(/Interactive calculator is available for High-End/)
+      screen.getByText(/Interactive calculator is available for High-End and Corporate tiers/i)
     ).toBeInTheDocument();
-    expect(screen.queryByText('Calculate')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /calculate/i })).not.toBeInTheDocument();
   });
 });

@@ -1,9 +1,11 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 import { practiceService } from '../services/practice.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { requireFeature } from '../middleware/tier.middleware';
 import { validateBody, validateParams } from '../middleware/validation.middleware';
 import { z } from 'zod';
+import { PMP_EXAM } from '@pmp/shared';
 
 const router = Router();
 
@@ -160,7 +162,8 @@ router.post(
           sessionId: result.sessionId,
           questions: result.questions,
           questionCount: result.questions.length,
-          timeLimit: 230 * 60 * 1000, // 230 minutes in ms
+          startedAt: result.startedAt,
+          timeLimitMs: PMP_EXAM.TIME_LIMIT_MINUTES * 60 * 1000,
         },
       });
     } catch (error) {

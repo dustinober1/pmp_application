@@ -2,6 +2,8 @@
  * Authentication related types
  */
 
+import type { TierName } from './subscription';
+
 export interface User {
   id: string;
   email: string;
@@ -11,6 +13,10 @@ export interface User {
   lockedUntil: Date | null;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface UserProfile extends User {
+  tier: TierName;
 }
 
 export interface RegisterInput {
@@ -25,7 +31,7 @@ export interface LoginInput {
 }
 
 export interface AuthResult {
-  user: User;
+  user: UserProfile;
   tokens: TokenPair;
 }
 

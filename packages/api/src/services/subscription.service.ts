@@ -1,12 +1,8 @@
-import {
-  SubscriptionTier,
-  UserSubscription,
-  TierFeatures,
-  TierName,
-  SUBSCRIPTION_ERRORS,
-} from '@pmp/shared';
+import type { SubscriptionTier, UserSubscription, TierFeatures, TierName } from '@pmp/shared';
+import { SUBSCRIPTION_ERRORS } from '@pmp/shared';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
+import { logger } from '../utils/logger';
 
 export class SubscriptionService {
   /**
@@ -243,7 +239,7 @@ export class SubscriptionService {
     if (team) {
       // In a real app we might disable the team or downgrade its limits
       // For now, we'll log it (placeholder)
-      console.log(`User ${userId} downgraded. Team ${team.id} might need attention.`);
+      logger.warn(`User ${userId} downgraded. Team ${team.id} might need attention.`);
     }
   }
 

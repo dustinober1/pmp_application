@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { ErrorResponseBody, GENERIC_ERRORS } from '@pmp/shared';
+import type { Request, Response, NextFunction } from 'express';
+import type { ErrorResponseBody } from '@pmp/shared';
+import { GENERIC_ERRORS } from '@pmp/shared';
 
 export class AppError extends Error {
   public readonly code: string;

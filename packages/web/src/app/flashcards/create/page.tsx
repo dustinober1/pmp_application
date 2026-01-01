@@ -3,14 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
-import { contentApi, flashcardApi } from '@/lib/api';
-import { Domain, Task } from '@pmp/shared';
+import { apiRequest, flashcardApi } from '@/lib/api';
+import type { Domain, Task } from '@pmp/shared';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { useToast } from '@/components/ToastProvider';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 
 export default function CreateFlashcardPage() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const toast = useToast();
 
   const [domains, setDomains] = useState<Domain[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -24,57 +27,46 @@ export default function CreateFlashcardPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  // Protect route
-  useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [authLoading, isAuthenticated, router]);
-
   // Load domains
   useEffect(() => {
-    async function loadDomains() {
+    async function fetchDomains() {
       try {
-        const response = await contentApi.getDomains();
-        if (response.data) {
-          setDomains(response.data as unknown as Domain[]);
-        }
+        const response = await apiRequest<{ domains: Domain[] }>('/domains');
+        setDomains(response.data?.domains ?? []);
       } catch (err) {
         console.error('Failed to load domains', err);
         setError('Failed to load content domains. Please refresh.');
+        toast.error('Failed to load content. Please try again.');
       } finally {
         setIsLoading(false);
       }
     }
 
-    if (isAuthenticated) {
-      loadDomains();
+    if (canAccess) {
+      void fetchDomains();
     }
-  }, [isAuthenticated]);
+  }, [canAccess, toast]);
 
   // Load tasks when domain changes
   useEffect(() => {
-    async function loadTasks() {
+    async function fetchTasks() {
       if (!selectedDomainId) {
         setTasks([]);
         return;
       }
 
       try {
-        const response = await contentApi.getTasks(selectedDomainId);
-        if (response.data) {
-          setTasks(response.data as unknown as Task[]);
-          // Reset task selection if the new list doesn't contain the old one
-          // Or just always reset for simplicity
-          setSelectedTaskId('');
-        }
+        const response = await apiRequest<{ tasks: Task[] }>(`/domains/${selectedDomainId}/tasks`);
+        setTasks(response.data?.tasks ?? []);
+        setSelectedTaskId('');
       } catch (err) {
         console.error('Failed to load tasks', err);
+        toast.error('Failed to load tasks. Please try again.');
       }
     }
 
-    loadTasks();
-  }, [selectedDomainId]);
+    void fetchTasks();
+  }, [selectedDomainId, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,11 +97,7 @@ export default function CreateFlashcardPage() {
   };
 
   if (authLoading || isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-[var(--foreground-muted)]">Loading...</div>
-      </div>
-    );
+    return <FullPageSkeleton />;
   }
 
   // Tier check (optional UI enforcement)

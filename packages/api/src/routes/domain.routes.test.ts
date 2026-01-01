@@ -4,12 +4,13 @@
  */
 
 import request from 'supertest';
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 import domainRouter from './domain.routes';
 import { contentService } from '../services/content.service';
 import { authMiddleware, optionalAuthMiddleware } from '../middleware/auth.middleware';
 import { errorHandler } from '../middleware/error.middleware';
-import { Domain, Task, StudyGuide } from '@pmp/shared';
+import type { Domain, Task, StudyGuide } from '@pmp/shared';
 
 // Mock the content service
 jest.mock('../services/content.service', () => ({

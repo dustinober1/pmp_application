@@ -1,4 +1,6 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 import { authService } from '../services/auth.service';
 import { validateBody } from '../middleware/validation.middleware';
 import { authMiddleware } from '../middleware/auth.middleware';
@@ -10,8 +12,42 @@ import {
   resetPasswordSchema,
   verifyEmailSchema,
 } from '../validators/auth.validator';
+import {
+  clearAuthCookies,
+  generateCsrfToken,
+  REFRESH_TOKEN_COOKIE,
+  setAuthCookies,
+  setCsrfCookie,
+} from '../utils/authCookies';
+import { AppError } from '../middleware/error.middleware';
+import { AUTH_ERRORS } from '@pmp/shared';
+import { env } from '../config/env';
 
 const router = Router();
+
+const authRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  skip: () => env.NODE_ENV === 'test',
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: {
+      code: 'RATE_LIMITED',
+      message: 'Too many authentication attempts, please try again later',
+    },
+  },
+});
+
+/**
+ * GET /api/auth/csrf
+ * Issue/refresh CSRF token cookie (double-submit pattern)
+ */
+router.get('/csrf', (_req: Request, res: Response) => {
+  const csrfToken = generateCsrfToken();
+  setCsrfCookie(res, csrfToken);
+  res.json({ success: true, data: { csrfToken } });
+});
 
 /**
  * POST /api/auth/register
@@ -19,13 +55,17 @@ const router = Router();
  */
 router.post(
   '/register',
+  authRateLimiter,
   validateBody(registerSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await authService.register(req.body);
+      const csrfToken = generateCsrfToken();
+      setAuthCookies(res, result.tokens);
+      setCsrfCookie(res, csrfToken);
       res.status(201).json({
         success: true,
-        data: result,
+        data: { user: result.user, expiresIn: result.tokens.expiresIn },
         message: 'Registration successful. Please verify your email.',
       });
     } catch (error) {
@@ -40,13 +80,17 @@ router.post(
  */
 router.post(
   '/login',
+  authRateLimiter,
   validateBody(loginSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await authService.login(req.body);
+      const csrfToken = generateCsrfToken();
+      setAuthCookies(res, result.tokens);
+      setCsrfCookie(res, csrfToken);
       res.json({
         success: true,
-        data: result,
+        data: { user: result.user, expiresIn: result.tokens.expiresIn },
       });
     } catch (error) {
       next(error);
@@ -60,13 +104,26 @@ router.post(
  */
 router.post(
   '/refresh',
+  authRateLimiter,
   validateBody(refreshTokenSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const tokens = await authService.refreshToken(req.body.refreshToken);
+      const cookieRefreshToken = (req as Request & { cookies?: Record<string, string> }).cookies?.[
+        REFRESH_TOKEN_COOKIE
+      ];
+      const refreshToken = cookieRefreshToken || req.body.refreshToken;
+
+      if (!refreshToken) {
+        throw AppError.unauthorized(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
+      }
+
+      const tokens = await authService.refreshToken(refreshToken);
+      const csrfToken = generateCsrfToken();
+      setAuthCookies(res, tokens);
+      setCsrfCookie(res, csrfToken);
       res.json({
         success: true,
-        data: { tokens },
+        data: { expiresIn: tokens.expiresIn },
       });
     } catch (error) {
       next(error);
@@ -80,8 +137,12 @@ router.post(
  */
 router.post('/logout', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const refreshToken = req.body.refreshToken;
+    const cookieRefreshToken = (req as Request & { cookies?: Record<string, string> }).cookies?.[
+      REFRESH_TOKEN_COOKIE
+    ];
+    const refreshToken = cookieRefreshToken || req.body.refreshToken;
     await authService.logout(req.user!.userId, refreshToken);
+    clearAuthCookies(res);
     res.json({
       success: true,
       message: 'Logged out successfully',
@@ -97,6 +158,7 @@ router.post('/logout', authMiddleware, async (req: Request, res: Response, next:
  */
 router.post(
   '/forgot-password',
+  authRateLimiter,
   validateBody(forgotPasswordSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -117,6 +179,7 @@ router.post(
  */
 router.post(
   '/reset-password',
+  authRateLimiter,
   validateBody(resetPasswordSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -144,6 +207,31 @@ router.post(
       res.json({
         success: true,
         message: 'Email verified successfully.',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/**
+ * POST /api/auth/resend-verification
+ * Rotate email verification token for the current user
+ */
+router.post(
+  '/resend-verification',
+  authRateLimiter,
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const token = await authService.resendVerification(req.user!.userId);
+
+      res.json({
+        success: true,
+        data: env.NODE_ENV !== 'production' && token ? { token } : {},
+        message: token
+          ? 'Verification email sent. Please check your inbox.'
+          : 'Email is already verified.',
       });
     } catch (error) {
       next(error);
