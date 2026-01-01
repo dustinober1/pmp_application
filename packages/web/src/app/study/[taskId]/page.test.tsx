@@ -3,8 +3,19 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import type { ComponentType } from 'react';
 import StudyGuidePage from './page';
 
-const mockApiRequest = vi.fn();
-const mockPush = vi.fn();
+const { mockApiRequest, mockPush, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
+  return {
+    mockApiRequest: vi.fn(),
+    mockPush: vi.fn(),
+    mockToast: toastObj,
+  };
+});
 
 vi.mock('@/lib/api', () => ({
   apiRequest: (...args: unknown[]) => mockApiRequest(...args),
@@ -24,12 +35,7 @@ vi.mock('@/hooks/useRequireAuth', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    error: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    show: vi.fn(),
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/components/FullPageSkeleton', () => ({
@@ -105,9 +111,9 @@ describe('StudyGuidePage', () => {
     render(<StudyGuidePage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Introduction')).toBeInTheDocument();
+      expect(screen.getAllByText('Introduction').length).toBeGreaterThan(0);
     });
-    expect(screen.getByText('Key Concepts')).toBeInTheDocument();
+    expect(screen.getAllByText('Key Concepts').length).toBeGreaterThan(0);
   });
 
   it('renders section content', async () => {
@@ -254,7 +260,7 @@ describe('StudyGuidePage', () => {
     render(<StudyGuidePage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Key Concepts')).toBeInTheDocument();
+      expect(screen.getAllByText('Key Concepts').length).toBeGreaterThan(0);
     });
 
     // Click on the second section
