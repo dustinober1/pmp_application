@@ -25,6 +25,7 @@
     "db:migrate": "npm run db:migrate -w @pmp/api",
     "db:push": "npm run db:push -w @pmp/api",
     "db:seed": "npm run db:seed -w @pmp/api",
+    "db:seed:ebook": "npm run db:seed:ebook -w @pmp/api",
     "clean": "rm -rf node_modules packages/*/node_modules packages/*/dist",
     "prepare": "husky"
   },

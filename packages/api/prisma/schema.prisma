@@ -26,6 +26,7 @@ model User {
 
   // Relations
   subscription     UserSubscription?
+  ebookProgress    UserEbookProgress?
   studyProgress    StudyProgress[]
   flashcardReviews FlashcardReview[]
   questionAttempts QuestionAttempt[]
@@ -473,4 +474,65 @@ model TeamAlert {
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
   @@map("team_alerts")
+}
+
+// ==================== EBOOK ====================
+
+model EbookChapter {
+  id          String          @id @default(uuid())
+  slug        String          @unique // e.g., "01-introduction"
+  title       String          // e.g., "Chapter 1: Fundamentals & Exam Overview"
+  description String?         @db.Text
+  orderIndex  Int             // 1-11 for chapters, 12 for appendices
+  isPremium   Boolean         @default(false) // true for premium chapters
+  minTier     String          @default("free") // free, mid-level, high-end, corporate
+
+  sections    EbookSection[]
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([orderIndex])
+  @@index([isPremium])
+  @@map("ebook_chapters")
+}
+
+model EbookSection {
+  id          String          @id @default(uuid())
+  chapterId   String
+  chapter     EbookChapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  slug        String          // e.g., "understanding-exam"
+  title       String          // e.g., "1.1 Understanding the New PMP Exam"
+  content     String          @db.Text // Markdown content
+  orderIndex  Int             // Order within chapter
+
+  // Navigation
+  prevSection String?         // Previous section slug
+  nextSection String?         // Next section slug
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@unique([chapterId, slug])
+  @@index([chapterId, orderIndex])
+  @@map("ebook_sections")
+}
+
+model UserEbookProgress {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  lastChapterId     String?
+  lastSectionId     String?
+
+  // Array of completed section IDs for tracking progress
+  completedSections String[] @default([])
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([userId])
+  @@map("user_ebook_progress")
 }
