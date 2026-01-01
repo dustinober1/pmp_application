@@ -1,12 +1,18 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import RegisterPage from './page';
-import { vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-const { mockPush, mockRegister, mockToastError } = vi.hoisted(() => {
+const { mockPush, mockRegister, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
   return {
     mockPush: vi.fn(),
     mockRegister: vi.fn(),
-    mockToastError: vi.fn(),
+    mockToast: toastObj,
   };
 });
 
@@ -17,12 +23,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    error: mockToastError,
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/contexts/AuthContext', () => ({
@@ -110,7 +111,7 @@ describe('RegisterPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Email already exists')).toBeInTheDocument();
-      expect(mockToastError).toHaveBeenCalledWith('Email already exists');
+      expect(mockToast.error).toHaveBeenCalledWith('Email already exists');
     });
   });
 });

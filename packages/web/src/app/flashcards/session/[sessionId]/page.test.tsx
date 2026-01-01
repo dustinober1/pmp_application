@@ -2,6 +2,18 @@ import { render, screen } from '@testing-library/react';
 import FlashcardSessionPage from './page';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
+const { mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
+  return {
+    mockToast: toastObj,
+  };
+});
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
@@ -12,12 +24,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    error: vi.fn(),
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/hooks/useRequireAuth', () => ({

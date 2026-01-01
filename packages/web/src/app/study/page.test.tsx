@@ -2,7 +2,18 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import StudyPage from './page';
 
-const mockApiRequest = vi.fn();
+const { mockApiRequest, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
+  return {
+    mockApiRequest: vi.fn(),
+    mockToast: toastObj,
+  };
+});
 
 vi.mock('@/lib/api', () => ({
   apiRequest: (...args: unknown[]) => mockApiRequest(...args),
@@ -16,12 +27,7 @@ vi.mock('@/hooks/useRequireAuth', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    error: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    show: vi.fn(),
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/components/Navbar', () => ({

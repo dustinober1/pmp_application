@@ -1,13 +1,19 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LoginPage from './page';
-import { vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-const { mockPush, mockLogin, mockSearchParamsGet, mockToastError } = vi.hoisted(() => {
+const { mockPush, mockLogin, mockSearchParamsGet, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
   return {
     mockPush: vi.fn(),
     mockLogin: vi.fn(),
     mockSearchParamsGet: vi.fn(() => null as string | null),
-    mockToastError: vi.fn(),
+    mockToast: toastObj,
   };
 });
 
@@ -21,12 +27,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    error: mockToastError,
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/contexts/AuthContext', () => ({
@@ -91,7 +92,7 @@ describe('LoginPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
-      expect(mockToastError).toHaveBeenCalledWith('Invalid credentials');
+      expect(mockToast.error).toHaveBeenCalledWith('Invalid credentials');
     });
   });
 });

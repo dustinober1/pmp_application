@@ -1,26 +1,24 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import VerifyEmailPage from './page';
-import { vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-const {
-  mockApiRequest,
-  mockSearchParamsGet,
-  mockToastError,
-  mockToastSuccess,
-  mockUser,
-  mockLogout,
-  mockRefreshUser,
-} = vi.hoisted(() => {
-  return {
-    mockApiRequest: vi.fn(),
-    mockSearchParamsGet: vi.fn(() => null as string | null),
-    mockToastError: vi.fn(),
-    mockToastSuccess: vi.fn(),
-    mockUser: { current: null as { id: string; email: string } | null },
-    mockLogout: vi.fn(),
-    mockRefreshUser: vi.fn(),
-  };
-});
+const { mockApiRequest, mockSearchParamsGet, mockToast, mockUser, mockLogout, mockRefreshUser } =
+  vi.hoisted(() => {
+    const toastObj = {
+      show: vi.fn(),
+      success: vi.fn(),
+      info: vi.fn(),
+      error: vi.fn(),
+    };
+    return {
+      mockApiRequest: vi.fn(),
+      mockSearchParamsGet: vi.fn(() => null as string | null),
+      mockToast: toastObj,
+      mockUser: { current: null as { id: string; email: string } | null },
+      mockLogout: vi.fn(),
+      mockRefreshUser: vi.fn(),
+    };
+  });
 
 vi.mock('next/navigation', () => ({
   useSearchParams: () => ({
@@ -33,12 +31,7 @@ vi.mock('@/lib/api', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: mockToastSuccess,
-    info: vi.fn(),
-    error: mockToastError,
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/contexts/AuthContext', () => ({
@@ -92,7 +85,9 @@ describe('VerifyEmailPage', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Resend Verification Email' }));
 
       await waitFor(() => {
-        expect(mockToastError).toHaveBeenCalledWith('Please sign in to resend verification email.');
+        expect(mockToast.error).toHaveBeenCalledWith(
+          'Please sign in to resend verification email.'
+        );
       });
     });
 
@@ -109,7 +104,7 @@ describe('VerifyEmailPage', () => {
         expect(mockApiRequest).toHaveBeenCalledWith('/auth/resend-verification', {
           method: 'POST',
         });
-        expect(mockToastSuccess).toHaveBeenCalledWith(
+        expect(mockToast.success).toHaveBeenCalledWith(
           'Verification email sent. Please check your inbox.'
         );
       });
@@ -123,7 +118,7 @@ describe('VerifyEmailPage', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Resend Verification Email' }));
 
       await waitFor(() => {
-        expect(mockToastError).toHaveBeenCalledWith('Rate limited');
+        expect(mockToast.error).toHaveBeenCalledWith('Rate limited');
       });
     });
   });

@@ -1,18 +1,22 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import CreateFlashcardPage from './page';
-import { vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-const { mockPush, mockUseAuth, mockApiRequest, mockCreateCustom, mockToastError } = vi.hoisted(
-  () => {
-    return {
-      mockPush: vi.fn(),
-      mockUseAuth: vi.fn(),
-      mockApiRequest: vi.fn(),
-      mockCreateCustom: vi.fn(),
-      mockToastError: vi.fn(),
-    };
-  }
-);
+const { mockPush, mockUseAuth, mockApiRequest, mockCreateCustom, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
+  return {
+    mockPush: vi.fn(),
+    mockUseAuth: vi.fn(),
+    mockApiRequest: vi.fn(),
+    mockCreateCustom: vi.fn(),
+    mockToast: toastObj,
+  };
+});
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -22,12 +26,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    error: mockToastError,
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/contexts/AuthContext', () => ({

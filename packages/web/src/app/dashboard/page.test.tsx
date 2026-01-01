@@ -1,13 +1,19 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import DashboardPage from './page';
-import { vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-const { mockPush, mockUseAuth, mockApiRequest, mockToastError } = vi.hoisted(() => {
+const { mockPush, mockUseAuth, mockApiRequest, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
   return {
     mockPush: vi.fn(),
     mockUseAuth: vi.fn(),
     mockApiRequest: vi.fn(),
-    mockToastError: vi.fn(),
+    mockToast: toastObj,
   };
 });
 
@@ -19,12 +25,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    error: mockToastError,
-  }),
+  useToast: () => mockToast,
 }));
 
 vi.mock('@/contexts/AuthContext', () => ({
@@ -121,7 +122,7 @@ describe('DashboardPage', () => {
       expect(screen.getByRole('heading', { name: /welcome back, test!/i })).toBeInTheDocument();
     });
 
-    expect(mockToastError).toHaveBeenCalled();
+    expect(mockToast.error).toHaveBeenCalled();
   });
 
   it('renders quick action links', async () => {

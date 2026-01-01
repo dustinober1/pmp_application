@@ -2,7 +2,18 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import SearchDialog from './SearchDialog';
 
-const mockApiRequest = vi.fn();
+const { mockApiRequest, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
+  return {
+    mockApiRequest: vi.fn(),
+    mockToast: toastObj,
+  };
+});
 
 vi.mock('@/lib/api', () => ({
   apiRequest: (...args: unknown[]) => mockApiRequest(...args),
@@ -13,12 +24,7 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    error: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    show: vi.fn(),
-  }),
+  useToast: () => mockToast,
 }));
 
 describe('SearchDialog', () => {

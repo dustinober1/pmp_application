@@ -1,11 +1,17 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ForgotPasswordPage from './page';
-import { vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-const { mockApiRequest, mockToastError } = vi.hoisted(() => {
+const { mockApiRequest, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
   return {
     mockApiRequest: vi.fn(),
-    mockToastError: vi.fn(),
+    mockToast: toastObj,
   };
 });
 
@@ -14,12 +20,7 @@ vi.mock('@/lib/api', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    error: mockToastError,
-  }),
+  useToast: () => mockToast,
 }));
 
 describe('ForgotPasswordPage', () => {
@@ -84,7 +85,7 @@ describe('ForgotPasswordPage', () => {
       expect(
         screen.getByText('Failed to send password reset email. Please try again later.')
       ).toBeInTheDocument();
-      expect(mockToastError).toHaveBeenCalledWith(
+      expect(mockToast.error).toHaveBeenCalledWith(
         'Failed to send password reset email. Please try again later.'
       );
     });

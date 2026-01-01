@@ -2,12 +2,18 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ResetPasswordPage from './page';
 import { vi, beforeEach, afterEach, describe, it, expect } from 'vitest';
 
-const { mockPush, mockApiRequest, mockSearchParamsGet, mockToastError } = vi.hoisted(() => {
+const { mockPush, mockApiRequest, mockSearchParamsGet, mockToast } = vi.hoisted(() => {
+  const toastObj = {
+    show: vi.fn(),
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  };
   return {
     mockPush: vi.fn(),
     mockApiRequest: vi.fn(),
     mockSearchParamsGet: vi.fn(() => null as string | null),
-    mockToastError: vi.fn(),
+    mockToast: toastObj,
   };
 });
 
@@ -25,12 +31,7 @@ vi.mock('@/lib/api', () => ({
 }));
 
 vi.mock('@/components/ToastProvider', () => ({
-  useToast: () => ({
-    show: vi.fn(),
-    success: vi.fn(),
-    info: vi.fn(),
-    error: mockToastError,
-  }),
+  useToast: () => mockToast,
 }));
 
 describe('ResetPasswordPage', () => {
@@ -75,7 +76,7 @@ describe('ResetPasswordPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Password must be at least 8 characters long.')).toBeInTheDocument();
-      expect(mockToastError).toHaveBeenCalledWith('Password must be at least 8 characters long.');
+      expect(mockToast.error).toHaveBeenCalledWith('Password must be at least 8 characters long.');
     });
     expect(mockApiRequest).not.toHaveBeenCalled();
   });
@@ -94,7 +95,7 @@ describe('ResetPasswordPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Passwords do not match.')).toBeInTheDocument();
-      expect(mockToastError).toHaveBeenCalledWith('Passwords do not match.');
+      expect(mockToast.error).toHaveBeenCalledWith('Passwords do not match.');
     });
     expect(mockApiRequest).not.toHaveBeenCalled();
   });
@@ -192,7 +193,7 @@ describe('ResetPasswordPage', () => {
       expect(
         screen.getByText('Failed to reset password. The link may have expired.')
       ).toBeInTheDocument();
-      expect(mockToastError).toHaveBeenCalledWith(
+      expect(mockToast.error).toHaveBeenCalledWith(
         'Failed to reset password. The link may have expired.'
       );
     });
