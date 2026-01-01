@@ -1,14 +1,14 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act, cleanup } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import * as apiModule from '@/lib/api';
 import MockExamSessionPage from './page';
 
 const mockPush = vi.fn();
 const mockApiRequest = vi.fn();
 
-// Spy on apiRequest - the spy automatically uses mockApiRequest as implementation
-vi.spyOn(apiModule, 'apiRequest').mockImplementation(mockApiRequest);
+vi.mock('@/lib/api', () => ({
+  apiRequest: (...args: unknown[]) => mockApiRequest(...args),
+}));
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
@@ -71,7 +71,6 @@ describe('MockExamSessionPage', () => {
   };
 
   beforeEach(() => {
-    // Clear mock calls but keep implementations
     vi.clearAllMocks();
     mockApiRequest.mockImplementation((url: string) => {
       if (url.includes('/practice/sessions/mock-session-123') && !url.includes('/answers')) {
@@ -99,44 +98,49 @@ describe('MockExamSessionPage', () => {
   it('renders question text after loading', async () => {
     render(<MockExamSessionPage />);
 
-    // Use findBy* which automatically waits
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
   });
 
   it('renders question options', async () => {
     render(<MockExamSessionPage />);
 
-    // Use findBy* for all elements - each waits independently
-    expect(
-      await screen.findByText('The longest path through a project network')
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByText('The shortest path through a project network')
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('The longest path through a project network')).toBeInTheDocument();
+    });
+    expect(screen.getByText('The shortest path through a project network')).toBeInTheDocument();
   });
 
   it('displays question count in header', async () => {
     render(<MockExamSessionPage />);
 
-    // Use findBy* for all elements
-    expect(await screen.findByText(/Question 1/)).toBeInTheDocument();
-    expect(await screen.findByText(/\/ 2/)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Question 1/)).toBeInTheDocument();
+    });
+    expect(screen.getByText(/\/ 2/)).toBeInTheDocument();
   });
 
   it('displays timer', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('02:30')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('02:30')).toBeInTheDocument();
+    });
   });
 
   it('timer counts down', async () => {
     render(<MockExamSessionPage />);
 
     // Wait for initial timer display
-    expect(await screen.findByText('02:30')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('02:30')).toBeInTheDocument();
+    });
 
     // Wait for real time to pass (1+ seconds)
-    await new Promise(resolve => setTimeout(resolve, 1100));
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 1100));
+    });
 
     // Verify timer has decreased
     await waitFor(
@@ -150,7 +154,11 @@ describe('MockExamSessionPage', () => {
   it('selecting an option changes its styling', async () => {
     render(<MockExamSessionPage />);
 
-    const option = await screen.findByText('The longest path through a project network');
+    await waitFor(() => {
+      expect(screen.getByText('The longest path through a project network')).toBeInTheDocument();
+    });
+
+    const option = screen.getByText('The longest path through a project network');
     fireEvent.click(option);
 
     expect(option.closest('button')?.className).toContain('border-primary-500');
@@ -159,7 +167,9 @@ describe('MockExamSessionPage', () => {
   it('next question button advances to next question', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
 
     // Select an answer
     fireEvent.click(screen.getByText('The longest path through a project network'));
@@ -167,29 +177,39 @@ describe('MockExamSessionPage', () => {
     // Click next
     fireEvent.click(screen.getByText('Next Question'));
 
-    expect(await screen.findByText('What is EVM?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is EVM?')).toBeInTheDocument();
+    });
   });
 
   it('previous button goes back to previous question', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
 
     // Navigate to question 2
     fireEvent.click(screen.getByText('Next Question'));
 
-    expect(await screen.findByText('What is EVM?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is EVM?')).toBeInTheDocument();
+    });
 
     // Go back to question 1
     fireEvent.click(screen.getByText('← Previous'));
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
   });
 
   it('previous button is disabled on first question', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
 
     const prevButton = screen.getByText('← Previous');
     expect(prevButton).toBeDisabled();
@@ -198,71 +218,99 @@ describe('MockExamSessionPage', () => {
   it('review all button shows review screen', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('Review All')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Review All')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('Review All'));
 
-    expect(await screen.findByText('Review Your Answers')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Review Your Answers')).toBeInTheDocument();
+    });
   });
 
   it('review screen shows question numbers', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('Review All')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Review All')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('Review All'));
 
-    expect(await screen.findByText('1')).toBeInTheDocument();
-    expect(await screen.findByText('2')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('1')).toBeInTheDocument();
+      expect(screen.getByText('2')).toBeInTheDocument();
+    });
   });
 
   it('clicking question in review jumps to that question', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('Review All')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Review All')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('Review All'));
 
-    expect(await screen.findByText('Review Your Answers')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Review Your Answers')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('2'));
 
-    expect(await screen.findByText('What is EVM?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is EVM?')).toBeInTheDocument();
+    });
   });
 
   it('return to exam button closes review screen', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('Review All')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Review All')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('Review All'));
 
-    expect(await screen.findByText('Return to Exam')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Return to Exam')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('Return to Exam'));
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
   });
 
   it('submit exam button exists in review screen', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('Review All')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Review All')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('Review All'));
 
-    expect(await screen.findByText('Submit Exam')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Submit Exam')).toBeInTheDocument();
+    });
   });
 
   it('shows review exam on last question', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
 
     // Navigate to last question
     fireEvent.click(screen.getByText('Next Question'));
 
-    expect(await screen.findByText('Review Exam')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Review Exam')).toBeInTheDocument();
+    });
   });
 
   it('shows session not found when session does not exist', async () => {
@@ -272,7 +320,9 @@ describe('MockExamSessionPage', () => {
 
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('Session not found.')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Session not found.')).toBeInTheDocument();
+    });
   });
 
   it('back link works on session not found', async () => {
@@ -282,7 +332,9 @@ describe('MockExamSessionPage', () => {
 
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('Back')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Back')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('Back'));
     expect(mockPush).toHaveBeenCalledWith('/practice');
@@ -291,13 +343,17 @@ describe('MockExamSessionPage', () => {
   it('flag for review button is present', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('Flag for Review')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Flag for Review')).toBeInTheDocument();
+    });
   });
 
   it('side navigation shows question numbers', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
 
     // Side nav buttons with numbers
     const buttons = screen.getAllByRole('button');
@@ -323,7 +379,9 @@ describe('MockExamSessionPage', () => {
 
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
 
     // The first question button in side nav should have answered styling
     const buttons = screen.getAllByRole('button');
@@ -349,7 +407,9 @@ describe('MockExamSessionPage', () => {
 
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
 
     // Progress should be 50% (1 of 2 answered)
     const progressBar = document.querySelector('.bg-primary-600[style*="width"]');
@@ -360,7 +420,9 @@ describe('MockExamSessionPage', () => {
   it('clicking side nav question number changes current question', async () => {
     render(<MockExamSessionPage />);
 
-    expect(await screen.findByText('What is the critical path?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is the critical path?')).toBeInTheDocument();
+    });
 
     // Find the side nav button for question 2
     const buttons = screen.getAllByRole('button');
@@ -372,15 +434,17 @@ describe('MockExamSessionPage', () => {
       fireEvent.click(question2Button);
     }
 
-    expect(await screen.findByText('What is EVM?')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('What is EVM?')).toBeInTheDocument();
+    });
   });
 
   it('selecting option syncs with backend', async () => {
     render(<MockExamSessionPage />);
 
-    expect(
-      await screen.findByText('The longest path through a project network')
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('The longest path through a project network')).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText('The longest path through a project network'));
 
@@ -413,6 +477,8 @@ describe('MockExamSessionPage', () => {
     render(<MockExamSessionPage />);
 
     // Should use fallback of 75 seconds per question * 2 questions = 150 seconds = 2:30
-    expect(await screen.findByText('02:30')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('02:30')).toBeInTheDocument();
+    });
   });
 });
