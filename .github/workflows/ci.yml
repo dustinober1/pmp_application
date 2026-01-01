@@ -30,3 +30,13 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+        working-directory: packages/web
+
+      - name: Run E2E Tests
+        run: npx playwright test
+        working-directory: packages/web
+        env:
+          CI: true
+
