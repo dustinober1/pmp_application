@@ -1,0 +1,18 @@
+# Development Dockerfile for API
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies needed for some npm packages
+RUN apk add --no-cache libc6-compat python3 make g++
+
+# Install global dependencies
+RUN npm install -g npm@latest
+
+# The rest of the setup (npm install, prisma generate, etc.) 
+# will be handled by the docker-compose command or post-create scripts
+# to allow for better volume mounting and caching.
+
+EXPOSE 3001
+
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,8 @@
+services:
+  api:
+    # Keep the container running even if the main process exits
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    # Overwrite the command from the base docker-compose to keep it alive for development
+    # VS Code will connect to this container and you can run 'npm run dev' manually in the integrated terminal
+    # OR we can keep the original command if we want it to start automatically.
+    # For now, let's keep it alive so VS Code doesn't disconnect if the app crashes.

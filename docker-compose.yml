@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      test: [ 'CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}' ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,7 +29,7 @@ services:
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
+      test: [ 'CMD', 'redis-cli', 'ping' ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -40,13 +40,17 @@ services:
           memory: 256M
 
   api:
-    image: node:20
+    build:
+      context: .
+      dockerfile: packages/api/Dockerfile.dev
     container_name: pmp_api
     working_dir: /app
     volumes:
       - ./:/app
       - /app/node_modules
       - /app/packages/api/node_modules
+      - /app/packages/web/node_modules
+      - /app/packages/shared/node_modules
     environment:
       NODE_ENV: development
       PORT: 3001
@@ -59,7 +63,7 @@ services:
       LOG_LEVEL: info
       REDIS_URL: redis://redis:6379
       PAYPAL_MODE: sandbox
-    command: sh -c "cd /app/packages/api && npm install --ignore-scripts && npm rebuild && npx prisma generate && npx prisma migrate deploy && npm run db:seed && npm run dev"
+    command: sh -c "npm install --ignore-scripts && npx prisma generate && npx prisma migrate deploy && npm run db:seed && npm run dev -w @pmp/api"
     ports:
       - '3001:3001'
     depends_on:
@@ -68,13 +72,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test:
-        [
-          'CMD',
-          'node',
-          '-e',
-          "fetch('http://localhost:3001/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
-        ]
+      test: [ 'CMD', 'node', '-e', "fetch('http://localhost:3001/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -85,18 +83,22 @@ services:
           memory: 1024M
 
   web:
-    image: node:20
+    build:
+      context: .
+      dockerfile: packages/web/Dockerfile.dev
     container_name: pmp_web
     working_dir: /app
     volumes:
       - ./:/app
       - /app/node_modules
+      - /app/packages/api/node_modules
       - /app/packages/web/node_modules
+      - /app/packages/shared/node_modules
     environment:
       NODE_ENV: development
       PORT: 3000
       NEXT_PUBLIC_API_URL: http://localhost:3001/api
-    command: sh -c "cd /app/packages/web && npm install --ignore-scripts && npm run dev"
+    command: sh -c "npm install --ignore-scripts && npm run dev -w @pmp/web"
     ports:
       - '3000:3000'
     depends_on:
@@ -105,13 +107,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
-      test:
-        [
-          'CMD',
-          'node',
-          '-e',
-          "fetch('http://localhost:3000').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
-        ]
+      test: [ 'CMD', 'node', '-e', "fetch('http://localhost:3000').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" ]
       interval: 10s
       timeout: 5s
       retries: 10
