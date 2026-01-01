@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -84,8 +85,10 @@ export default function HomePage() {
                 {tier.popular && <span className="badge badge-primary mb-4">Most Popular</span>}
                 <h3 className="text-xl font-bold text-md-on-surface">{tier.name}</h3>
                 <p className="text-3xl font-bold mt-4 text-md-on-surface">
-                  ${tier.price}
-                  <span className="text-sm font-normal text-md-on-surface-variant">/mo</span>
+                  {tier.price === 0 ? 'Free' : `$${tier.price}`}
+                  {tier.price !== 0 && (
+                    <span className="text-sm font-normal text-md-on-surface-variant">/mo</span>
+                  )}
                 </p>
                 <ul className="mt-6 space-y-3">
                   {tier.features.map((feature, i) => (
@@ -149,7 +152,7 @@ export default function HomePage() {
               <span className="font-semibold text-md-on-surface">PMP Study Pro</span>
             </div>
             <p className="text-md-on-surface-variant text-sm">
-              © 2024 PMP Study Pro. All rights reserved.
+              © 2026 PMP Study Pro. All rights reserved.
             </p>
           </div>
         </div>
@@ -254,35 +257,48 @@ const stats = [
 
 const pricing = [
   {
-    name: 'Free',
+    name: 'Free Starter',
     price: 0,
     features: [
-      'Basic study guides',
-      '100 practice questions',
-      '50 flashcards',
+      '500+ flashcards',
+      '1 full-length practice exam',
+      'Basic feedback',
       'Progress tracking',
     ],
   },
   {
     name: 'Mid-Level',
-    price: 19,
-    features: ['All Free features', '500+ questions', 'Exam readiness score', 'Weak area analysis'],
+    price: '9.99',
+    features: [
+      'All Free features',
+      '1,000+ flashcards',
+      '3 full-length practice exams',
+      'More detailed feedback',
+      'Formula calculator',
+      'Advanced analytics',
+    ],
   },
   {
     name: 'High-End',
-    price: 39,
+    price: '14.99',
     popular: true,
     features: [
       'All Mid-Level features',
-      '1,800+ questions',
-      'Mock exams',
-      'Formula calculator',
-      'AI recommendations',
+      '2,000+ flashcards',
+      '6 full-length practice exams',
+      'Detailed feedback per question',
+      'Personalized study plan',
     ],
   },
   {
     name: 'Corporate',
-    price: 79,
-    features: ['All High-End features', 'Team management', 'Progress reports', 'Dedicated support'],
+    price: '19.99',
+    features: [
+      'All High-End features',
+      'Unlimited flashcards',
+      'Team management',
+      'Company-wide analytics',
+      'Dedicated support',
+    ],
   },
 ];

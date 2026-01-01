@@ -1,6 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { render, screen, cleanup } from '@testing-library/react';
 import HomePage from './page';
-import { vi, describe, it, expect } from 'vitest';
+import { vi, describe, it, expect, afterEach } from 'vitest';
+
+afterEach(() => {
+  cleanup();
+});
 
 vi.mock('next/link', () => ({
   default: ({
@@ -86,7 +91,7 @@ describe('HomePage', () => {
       screen.getByRole('heading', { name: /simple, transparent pricing/i })
     ).toBeInTheDocument();
 
-    expect(screen.getByText('Free')).toBeInTheDocument();
+    expect(screen.getByText('Free Starter')).toBeInTheDocument();
     expect(screen.getByText('Mid-Level')).toBeInTheDocument();
     expect(screen.getByText('High-End')).toBeInTheDocument();
     expect(screen.getByText('Corporate')).toBeInTheDocument();
@@ -95,10 +100,10 @@ describe('HomePage', () => {
   it('renders pricing with correct prices', () => {
     render(<HomePage />);
 
-    expect(screen.getByText('$0')).toBeInTheDocument();
-    expect(screen.getByText('$19')).toBeInTheDocument();
-    expect(screen.getByText('$39')).toBeInTheDocument();
-    expect(screen.getByText('$79')).toBeInTheDocument();
+    expect(screen.getByText('Free')).toBeInTheDocument();
+    expect(screen.getByText('$9.99')).toBeInTheDocument();
+    expect(screen.getByText('$14.99')).toBeInTheDocument();
+    expect(screen.getByText('$19.99')).toBeInTheDocument();
   });
 
   it('shows most popular badge on High-End tier', () => {
@@ -110,12 +115,13 @@ describe('HomePage', () => {
   it('renders pricing tier features', () => {
     render(<HomePage />);
 
-    expect(screen.getByText('Basic study guides')).toBeInTheDocument();
-    expect(screen.getByText('100 practice questions')).toBeInTheDocument();
+    expect(screen.getByText('500+ flashcards')).toBeInTheDocument();
+    expect(screen.getByText('1 full-length practice exam')).toBeInTheDocument();
     expect(screen.getByText('All Free features')).toBeInTheDocument();
-    expect(screen.getByText('Exam readiness score')).toBeInTheDocument();
-    expect(screen.getByText('Mock exams')).toBeInTheDocument();
-    expect(screen.getByText('AI recommendations')).toBeInTheDocument();
+    expect(screen.getByText('1,000+ flashcards')).toBeInTheDocument();
+    expect(screen.getByText('3 full-length practice exams')).toBeInTheDocument();
+    expect(screen.getByText('2,000+ flashcards')).toBeInTheDocument();
+    expect(screen.getByText('6 full-length practice exams')).toBeInTheDocument();
     expect(screen.getByText('Team management')).toBeInTheDocument();
     expect(screen.getByText('Dedicated support')).toBeInTheDocument();
   });
@@ -146,7 +152,7 @@ describe('HomePage', () => {
 
     expect(screen.getByText('PM')).toBeInTheDocument();
     expect(screen.getByText('PMP Study Pro')).toBeInTheDocument();
-    expect(screen.getByText(/© 2024 pmp study pro/i)).toBeInTheDocument();
+    expect(screen.getByText(/© 2026 pmp study pro/i)).toBeInTheDocument();
   });
 
   it('renders page with correct structure', () => {

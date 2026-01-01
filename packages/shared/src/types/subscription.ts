@@ -66,10 +66,10 @@ export const TIER_HIERARCHY: Record<TierName, number> = {
 export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
   free: {
     studyGuidesAccess: 'limited',
-    flashcardsLimit: 50,
+    flashcardsLimit: 500,
     practiceQuestionsPerDomain: 25,
     customFlashcards: false,
-    mockExams: false,
+    mockExams: true,
     formulaCalculator: false,
     advancedAnalytics: false,
     personalizedStudyPlan: false,
@@ -78,11 +78,11 @@ export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
   },
   'mid-level': {
     studyGuidesAccess: 'full',
-    flashcardsLimit: 'unlimited',
+    flashcardsLimit: 1000,
     practiceQuestionsPerDomain: 100,
     customFlashcards: false,
-    mockExams: false,
-    formulaCalculator: false,
+    mockExams: true,
+    formulaCalculator: true,
     advancedAnalytics: true,
     personalizedStudyPlan: false,
     teamManagement: false,
@@ -90,7 +90,7 @@ export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
   },
   'high-end': {
     studyGuidesAccess: 'full',
-    flashcardsLimit: 'unlimited',
+    flashcardsLimit: 2000,
     practiceQuestionsPerDomain: 200,
     customFlashcards: true,
     mockExams: true,

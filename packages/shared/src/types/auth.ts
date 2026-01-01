@@ -11,13 +11,12 @@ export interface User {
   emailVerified: boolean;
   failedLoginAttempts: number;
   lockedUntil: Date | null;
+  tier: TierName;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface UserProfile extends User {
-  tier: TierName;
-}
+export interface UserProfile extends User {}
 
 export interface RegisterInput {
   email: string;

@@ -11,6 +11,9 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:3005',
     trace: 'on-first-retry',
+    extraHTTPHeaders: {
+      'x-e2e-test': 'true',
+    },
   },
   projects: [
     {
@@ -29,7 +32,10 @@ export default defineConfig({
   webServer: {
     command: 'PORT=3005 npm run dev',
     url: 'http://localhost:3005',
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
+    env: {
+      E2E_TEST: 'true',
+    },
   },
 });

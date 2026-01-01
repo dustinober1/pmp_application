@@ -85,9 +85,9 @@ describe('Auth Routes Integration Tests', () => {
         expect.arrayContaining([expect.stringContaining('pmp_csrf_token=')])
       );
 
-      const csrfCookie = (response.headers['set-cookie'] as string[]).find(cookie =>
-        cookie.startsWith('pmp_csrf_token=')
-      );
+      const setCookies = response.headers['set-cookie'];
+      const cookies = Array.isArray(setCookies) ? setCookies : [setCookies].filter(Boolean);
+      const csrfCookie = cookies.find(cookie => cookie?.startsWith('pmp_csrf_token='));
       expect(csrfCookie).toContain(`pmp_csrf_token=${response.body.data.csrfToken}`);
     });
   });

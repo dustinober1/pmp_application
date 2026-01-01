@@ -40,15 +40,17 @@ services:
           memory: 256M
 
   api:
-    image: node:20-alpine
+    image: node:20
     container_name: pmp_api
     working_dir: /app
     volumes:
       - ./:/app
+      - /app/node_modules
+      - /app/packages/api/node_modules
     environment:
       NODE_ENV: development
       PORT: 3001
-      CORS_ORIGIN: ${WEB_ORIGIN}
+      CORS_ORIGIN: http://localhost:3000,http://web:3000
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
       JWT_SECRET: ${JWT_SECRET}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
@@ -56,9 +58,10 @@ services:
       JWT_REFRESH_EXPIRES_IN: 7d
       LOG_LEVEL: info
       REDIS_URL: redis://redis:6379
-    command: sh -c "npm install && npm run dev:api"
+      PAYPAL_MODE: sandbox
+    command: sh -c "cd /app/packages/api && npm install --ignore-scripts && npm rebuild && npx prisma generate && npx prisma migrate deploy && npm run db:seed && npm run dev"
     ports:
-      - '127.0.0.1:3001:3001'
+      - '3001:3001'
     depends_on:
       postgres:
         condition: service_healthy
@@ -71,6 +74,43 @@ services:
           'node',
           '-e',
           "fetch('http://localhost:3001/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 1024M
+
+  web:
+    image: node:20
+    container_name: pmp_web
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/packages/web/node_modules
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api
+    command: sh -c "cd /app/packages/web && npm install --ignore-scripts && npm run dev"
+    ports:
+      - '3000:3000'
+    depends_on:
+      api:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://localhost:3000').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
         ]
       interval: 10s
       timeout: 5s

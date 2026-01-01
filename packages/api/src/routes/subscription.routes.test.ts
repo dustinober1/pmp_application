@@ -917,7 +917,7 @@ describe('Subscription Routes Integration Tests', () => {
         .get('/api/subscriptions/features')
         .set('Authorization', 'Bearer test-token')
         .expect(200);
-      expect(featuresResponse.body.data.features.flashcardsLimit).toBe(50);
+      expect(featuresResponse.body.data.features.flashcardsLimit).toBe(500);
 
       // Step 5: Cancel subscription
       (subscriptionService.cancelSubscription as jest.Mock).mockResolvedValue(undefined);

@@ -9,38 +9,74 @@ export default function PricingPage() {
   const { user } = useAuth();
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
 
-  // Pricing configuration
+  // Pricing configuration with new pricing tiers
   const tiers = [
     {
       id: 'free',
       name: 'Free Starter',
       price: 0,
-      description: 'Perfect for exploring the platform and starting your PMP journey.',
+      priceDisplay: 'Free',
+      description: 'Perfect for starting your PMP journey.',
       features: DEFAULT_TIER_FEATURES['free'],
       buttonText: user ? 'Current Plan' : 'Get Started',
       buttonHref: user ? '/dashboard' : '/auth/register',
       highlight: false,
+      // Custom feature descriptions for display
+      featureDisplay: {
+        flashcards: '500+ Flashcards',
+        practiceExams: '1 Full-length Practice Exam',
+        feedback: 'Basic Feedback',
+      },
     },
     {
-      id: 'high-end', // Mapping "Pro" to "high-end" for simplicity in UI, bypassing mid-level for now as per common SaaS patterns
-      name: 'PMP Pro',
-      price: billingPeriod === 'monthly' ? 29 : 290,
-      description: 'Everything you need to pass the exam with confidence.',
+      id: 'mid-level',
+      name: 'Mid-Level',
+      price: billingPeriod === 'monthly' ? 9.99 : 99.9,
+      annualPrice: 99.9,
+      description: 'Great for dedicated PMP candidates.',
+      features: DEFAULT_TIER_FEATURES['mid-level'],
+      buttonText: user?.tier === 'mid-level' ? 'Current Plan' : 'Upgrade to Mid-Level',
+      buttonHref: '/checkout?tier=mid-level',
+      highlight: false,
+      featureDisplay: {
+        flashcards: '1000+ Flashcards',
+        practiceExams: '3 Full-length Practice Exams',
+        feedback: 'More Detailed Feedback',
+      },
+    },
+    {
+      id: 'high-end',
+      name: 'High-End',
+      price: billingPeriod === 'monthly' ? 14.99 : 149.9,
+      annualPrice: 149.9,
+      description: 'Comprehensive preparation for exam success.',
       features: DEFAULT_TIER_FEATURES['high-end'],
-      buttonText: user?.tier === 'high-end' ? 'Current Plan' : 'Upgrade to Pro',
+      buttonText: user?.tier === 'high-end' ? 'Current Plan' : 'Upgrade to High-End',
       buttonHref: '/checkout?tier=high-end',
       highlight: true,
       popular: true,
+      featureDisplay: {
+        flashcards: '2000+ Flashcards',
+        practiceExams: '6 Full-length Practice Exams',
+        feedback: 'Detailed Feedback per Question',
+      },
     },
     {
       id: 'corporate',
       name: 'Corporate Team',
-      price: billingPeriod === 'monthly' ? 99 : 990,
-      description: 'Manage a team of PMP candidates with advanced reporting.',
+      price: billingPeriod === 'monthly' ? 19.99 : 199.9,
+      annualPrice: 199.9,
+      perSeat: true,
+      description: 'Manage your entire team with advanced analytics.',
       features: DEFAULT_TIER_FEATURES['corporate'],
       buttonText: user?.tier === 'corporate' ? 'Current Plan' : 'Start Team Plan',
       buttonHref: '/checkout?tier=corporate',
       highlight: false,
+      featureDisplay: {
+        flashcards: 'Unlimited Flashcards',
+        practiceExams: '6 Full-length Practice Exams',
+        feedback: 'Detailed Feedback + Company-wide Analytics',
+      },
     },
   ];
 
@@ -58,7 +94,7 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* Billing Toggle (Visual only for now if pricing is fixed, but essential for SaaS) */}
+        {/* Billing Toggle */}
         <div className="mt-16 flex justify-center">
           <div className="relative flex bg-gray-800 rounded-full p-1 border border-gray-700">
             <button
@@ -79,12 +115,12 @@ export default function PricingPage() {
                   : 'text-gray-400 hover:text-white'
               } rounded-full px-6 py-2 text-sm font-medium transition-all duration-200`}
             >
-              Annual <span className="text-xs ml-1 opacity-75">(Save 20%)</span>
+              Annual <span className="text-xs ml-1 opacity-75">(Save ~17%)</span>
             </button>
           </div>
         </div>
 
-        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-3">
+        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
           {tiers.map(tier => (
             <div
               key={tier.id}
@@ -107,10 +143,21 @@ export default function PricingPage() {
               </div>
               <p className="mt-4 text-sm leading-6 text-gray-300">{tier.description}</p>
               <p className="mt-6 flex items-baseline gap-x-1">
-                <span className="text-4xl font-bold tracking-tight text-white">${tier.price}</span>
-                <span className="text-sm font-semibold leading-6 text-gray-300">
-                  /{billingPeriod === 'monthly' ? 'mo' : 'yr'}
-                </span>
+                {tier.priceDisplay ? (
+                  <span className="text-4xl font-bold tracking-tight text-white">
+                    {tier.priceDisplay}
+                  </span>
+                ) : (
+                  <>
+                    <span className="text-4xl font-bold tracking-tight text-white">
+                      ${tier.price.toFixed(2)}
+                    </span>
+                    <span className="text-sm font-semibold leading-6 text-gray-300">
+                      /{billingPeriod === 'monthly' ? 'mo' : 'yr'}
+                    </span>
+                    {tier.perSeat && <span className="text-xs text-gray-400 ml-1">per seat</span>}
+                  </>
+                )}
               </p>
               <Link
                 href={tier.buttonHref}
@@ -124,38 +171,16 @@ export default function PricingPage() {
               </Link>
               <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
                 <li className="flex gap-x-3">
-                  <span className="text-primary-400">✓</span>
-                  {tier.features.studyGuidesAccess === 'full'
-                    ? 'Full Study Guides'
-                    : 'Limited Study Guides'}
+                  <span className="text-primary-400 font-semibold">✓</span>
+                  <span className="font-medium">{tier.featureDisplay.flashcards}</span>
                 </li>
                 <li className="flex gap-x-3">
-                  <span className="text-primary-400">✓</span>
-                  {tier.features.flashcardsLimit === 'unlimited'
-                    ? 'Unlimited Flashcards'
-                    : `${tier.features.flashcardsLimit} Flashcards`}
+                  <span className="text-primary-400 font-semibold">✓</span>
+                  <span className="font-medium">{tier.featureDisplay.practiceExams}</span>
                 </li>
                 <li className="flex gap-x-3">
-                  <span className="text-primary-400">✓</span>
-                  {tier.features.practiceQuestionsPerDomain} Questions / Domain
-                </li>
-                <li className="flex gap-x-3">
-                  <span className={tier.features.mockExams ? 'text-primary-400' : 'text-gray-600'}>
-                    {tier.features.mockExams ? '✓' : '✕'}
-                  </span>
-                  <span className={tier.features.mockExams ? '' : 'text-gray-500'}>Mock Exams</span>
-                </li>
-                <li className="flex gap-x-3">
-                  <span
-                    className={
-                      tier.features.advancedAnalytics ? 'text-primary-400' : 'text-gray-600'
-                    }
-                  >
-                    {tier.features.advancedAnalytics ? '✓' : '✕'}
-                  </span>
-                  <span className={tier.features.advancedAnalytics ? '' : 'text-gray-500'}>
-                    Advanced Analytics
-                  </span>
+                  <span className="text-primary-400 font-semibold">✓</span>
+                  <span className="font-medium">{tier.featureDisplay.feedback}</span>
                 </li>
                 <li className="flex gap-x-3">
                   <span
@@ -167,9 +192,26 @@ export default function PricingPage() {
                     Team Management
                   </span>
                 </li>
+                <li className="flex gap-x-3">
+                  <span
+                    className={
+                      tier.features.personalizedStudyPlan ? 'text-primary-400' : 'text-gray-600'
+                    }
+                  >
+                    {tier.features.personalizedStudyPlan ? '✓' : '✕'}
+                  </span>
+                  <span className={tier.features.personalizedStudyPlan ? '' : 'text-gray-500'}>
+                    Personalized Study Plan
+                  </span>
+                </li>
               </ul>
             </div>
           ))}
+        </div>
+
+        {/* Footer with copyright */}
+        <div className="mt-20 text-center text-sm text-gray-500">
+          <p>© 2026 PMP Study Pro. All rights reserved.</p>
         </div>
       </div>
     </div>

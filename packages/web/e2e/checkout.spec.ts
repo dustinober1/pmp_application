@@ -9,12 +9,13 @@ test.describe('Checkout Flow', () => {
       await expect(page.locator('h2')).toContainText('Pricing');
       await expect(page.locator('p').first()).toContainText('Invest in your PMP success');
 
-      // Verify all three pricing tiers are displayed
+      // Verify all four pricing tiers are displayed
       await expect(page.locator('text=Free Starter')).toBeVisible();
-      await expect(page.locator('text=PMP Pro')).toBeVisible();
+      await expect(page.locator('text=Mid-Level')).toBeVisible();
+      await expect(page.locator('text=High-End')).toBeVisible();
       await expect(page.locator('text=Corporate Team')).toBeVisible();
 
-      // Verify "Most Popular" badge on Pro tier
+      // Verify "Most Popular" badge on High-End tier
       await expect(page.locator('text=Most Popular')).toBeVisible();
     });
 
@@ -22,9 +23,10 @@ test.describe('Checkout Flow', () => {
       await page.goto('/pricing');
 
       // Default is monthly billing
-      await expect(page.locator('text=$0')).toBeVisible(); // Free tier
-      await expect(page.locator('text=$29')).toBeVisible(); // Pro tier
-      await expect(page.locator('text=$99')).toBeVisible(); // Corporate tier
+      await expect(page.locator('text=Free')).toBeVisible(); // Free tier
+      await expect(page.locator('text=$9.99')).toBeVisible(); // Mid-Level tier
+      await expect(page.locator('text=$14.99')).toBeVisible(); // High-End tier
+      await expect(page.locator('text=$19.99')).toBeVisible(); // Corporate tier
     });
 
     test('should toggle to annual billing and update prices', async ({ page }) => {
@@ -34,22 +36,23 @@ test.describe('Checkout Flow', () => {
       await page.click('button:has-text("Annual")');
 
       // Verify annual prices
-      await expect(page.locator('text=$0')).toBeVisible(); // Free tier stays $0
-      await expect(page.locator('text=$290')).toBeVisible(); // Pro tier annual
-      await expect(page.locator('text=$990')).toBeVisible(); // Corporate tier annual
+      await expect(page.locator('text=Free')).toBeVisible(); // Free tier
+      await expect(page.locator('text=$99.90')).toBeVisible(); // Mid-Level tier annual
+      await expect(page.locator('text=$149.90')).toBeVisible(); // High-End tier annual
+      await expect(page.locator('text=$199.90')).toBeVisible(); // Corporate tier annual
     });
 
     test('should switch between monthly and annual billing', async ({ page }) => {
       await page.goto('/pricing');
 
       // Check prices are monthly
-      await expect(page.locator('text=/mo')).toHaveCount(3); // 3 tiers with /mo
+      await expect(page.locator('text=/mo')).toHaveCount(3); // 3 paid tiers with /mo
 
       // Click annual
       await page.click('button:has-text("Annual")');
 
       // Verify annual prices displayed
-      await expect(page.locator('text=/yr')).toHaveCount(3); // 3 tiers with /yr
+      await expect(page.locator('text=/yr')).toHaveCount(3); // 3 paid tiers with /yr
 
       // Click back to monthly
       await page.click('button:has-text("Monthly")');

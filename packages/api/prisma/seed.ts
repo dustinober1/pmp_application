@@ -4,6 +4,7 @@ import type { TierName } from '@pmp/shared';
 import { DEFAULT_TIER_FEATURES } from '@pmp/shared';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -124,7 +125,20 @@ async function main() {
 
   // Seed subscription tiers
   console.log('  📦 Creating subscription tiers...');
-  for (const tier of subscriptionTiers) {
+  const freeTier = await prisma.subscriptionTier.upsert({
+    where: { name: 'free' },
+    update: {},
+    create: {
+      name: 'free',
+      displayName: 'Free',
+      price: 0,
+      billingPeriod: 'monthly',
+      features: JSON.parse(JSON.stringify(DEFAULT_TIER_FEATURES.free)),
+    },
+  });
+  console.log(`    ✅ Free tier`);
+
+  for (const tier of subscriptionTiers.filter(t => t.name !== 'free')) {
     await prisma.subscriptionTier.upsert({
       where: { name: tier.name },
       update: {
@@ -142,6 +156,41 @@ async function main() {
       },
     });
     console.log(`    ✅ ${tier.displayName} tier`);
+  }
+
+  // Seed test user
+  console.log('  👤 Creating test user...');
+  const hashedPassword = await bcrypt.hash('Password123', 10);
+  const testUser = await prisma.user.upsert({
+    where: { email: 'test@example.com' },
+    update: {},
+    create: {
+      email: 'test@example.com',
+      name: 'Test User',
+      passwordHash: hashedPassword,
+      emailVerified: true,
+      failedLoginAttempts: 0,
+      lockedUntil: null,
+    },
+  });
+  console.log(`    ✅ Test user created (test@example.com / Password123)`);
+
+  // Create free tier subscription for test user
+  const existingSubscription = await prisma.userSubscription.findFirst({
+    where: { userId: testUser.id },
+  });
+
+  if (!existingSubscription) {
+    await prisma.userSubscription.create({
+      data: {
+        userId: testUser.id,
+        tierId: freeTier.id,
+        status: 'active',
+        startDate: new Date(),
+        endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year from now
+      },
+    });
+    console.log(`    ✅ Free subscription created for test user`);
   }
 
   // Seed domains

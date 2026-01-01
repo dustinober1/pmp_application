@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import PricingPage from './page';
@@ -12,27 +13,51 @@ vi.mock('@pmp/shared', () => ({
   DEFAULT_TIER_FEATURES: {
     free: {
       studyGuidesAccess: 'limited',
-      flashcardsLimit: 50,
-      practiceQuestionsPerDomain: 10,
-      mockExams: false,
+      flashcardsLimit: 500,
+      practiceQuestionsPerDomain: 25,
+      customFlashcards: false,
+      mockExams: true,
+      formulaCalculator: false,
       advancedAnalytics: false,
+      personalizedStudyPlan: false,
       teamManagement: false,
+      dedicatedSupport: false,
+    },
+    'mid-level': {
+      studyGuidesAccess: 'full',
+      flashcardsLimit: 1000,
+      practiceQuestionsPerDomain: 100,
+      customFlashcards: false,
+      mockExams: true,
+      formulaCalculator: true,
+      advancedAnalytics: true,
+      personalizedStudyPlan: false,
+      teamManagement: false,
+      dedicatedSupport: false,
     },
     'high-end': {
       studyGuidesAccess: 'full',
-      flashcardsLimit: 'unlimited',
-      practiceQuestionsPerDomain: 50,
+      flashcardsLimit: 2000,
+      practiceQuestionsPerDomain: 200,
+      customFlashcards: true,
       mockExams: true,
+      formulaCalculator: true,
       advancedAnalytics: true,
+      personalizedStudyPlan: true,
       teamManagement: false,
+      dedicatedSupport: false,
     },
     corporate: {
       studyGuidesAccess: 'full',
       flashcardsLimit: 'unlimited',
-      practiceQuestionsPerDomain: 100,
+      practiceQuestionsPerDomain: 200,
+      customFlashcards: true,
       mockExams: true,
+      formulaCalculator: true,
       advancedAnalytics: true,
+      personalizedStudyPlan: true,
       teamManagement: true,
+      dedicatedSupport: true,
     },
   },
 }));
@@ -49,20 +74,22 @@ describe('PricingPage', () => {
     expect(screen.getByText('Invest in your PMP success')).toBeInTheDocument();
   });
 
-  it('renders all three pricing tiers', () => {
+  it('renders all four pricing tiers', () => {
     render(<PricingPage />);
 
     expect(screen.getByText('Free Starter')).toBeInTheDocument();
-    expect(screen.getByText('PMP Pro')).toBeInTheDocument();
+    expect(screen.getByText('Mid-Level')).toBeInTheDocument();
+    expect(screen.getByText('High-End')).toBeInTheDocument();
     expect(screen.getByText('Corporate Team')).toBeInTheDocument();
   });
 
   it('displays monthly prices by default', () => {
     render(<PricingPage />);
 
-    expect(screen.getByText('$0')).toBeInTheDocument();
-    expect(screen.getByText('$29')).toBeInTheDocument();
-    expect(screen.getByText('$99')).toBeInTheDocument();
+    expect(screen.getByText('Free')).toBeInTheDocument();
+    expect(screen.getByText('$9.99')).toBeInTheDocument();
+    expect(screen.getByText('$14.99')).toBeInTheDocument();
+    expect(screen.getByText('$19.99')).toBeInTheDocument();
   });
 
   it('switches to annual pricing when clicked', () => {
@@ -70,9 +97,10 @@ describe('PricingPage', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /annual/i }));
 
-    expect(screen.getByText('$0')).toBeInTheDocument();
-    expect(screen.getByText('$290')).toBeInTheDocument();
-    expect(screen.getByText('$990')).toBeInTheDocument();
+    expect(screen.getByText('Free')).toBeInTheDocument();
+    expect(screen.getByText('$99.90')).toBeInTheDocument();
+    expect(screen.getByText('$149.90')).toBeInTheDocument();
+    expect(screen.getByText('$199.90')).toBeInTheDocument();
   });
 
   it('shows Monthly as selected by default', () => {
@@ -85,9 +113,10 @@ describe('PricingPage', () => {
   it('renders tier descriptions', () => {
     render(<PricingPage />);
 
-    expect(screen.getByText(/perfect for exploring the platform/i)).toBeInTheDocument();
-    expect(screen.getByText(/everything you need to pass the exam/i)).toBeInTheDocument();
-    expect(screen.getByText(/manage a team of pmp candidates/i)).toBeInTheDocument();
+    expect(screen.getByText(/perfect for starting your PMP journey/i)).toBeInTheDocument();
+    expect(screen.getByText(/great for dedicated PMP candidates/i)).toBeInTheDocument();
+    expect(screen.getByText(/comprehensive preparation for exam success/i)).toBeInTheDocument();
+    expect(screen.getByText(/manage your entire team/i)).toBeInTheDocument();
   });
 
   it('shows Most Popular badge on Pro tier', () => {
@@ -103,11 +132,18 @@ describe('PricingPage', () => {
     expect(freeButton).toHaveAttribute('href', '/auth/register');
   });
 
-  it('renders Upgrade button for Pro tier', () => {
+  it('renders Upgrade button for Mid-Level tier', () => {
     render(<PricingPage />);
 
-    const proButton = screen.getByRole('link', { name: 'Upgrade to Pro' });
-    expect(proButton).toHaveAttribute('href', '/checkout?tier=high-end');
+    const midLevelButton = screen.getByRole('link', { name: 'Upgrade to Mid-Level' });
+    expect(midLevelButton).toHaveAttribute('href', '/checkout?tier=mid-level');
+  });
+
+  it('renders Upgrade button for High-End tier', () => {
+    render(<PricingPage />);
+
+    const highEndButton = screen.getByRole('link', { name: 'Upgrade to High-End' });
+    expect(highEndButton).toHaveAttribute('href', '/checkout?tier=high-end');
   });
 
   it('renders Start Team Plan button for Corporate tier', () => {
