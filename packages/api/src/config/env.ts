@@ -34,6 +34,9 @@ const envSchema = z.object({
   // Redis (optional)
   REDIS_URL: z.string().optional(),
 
+  // PayPal Webhook
+  PAYPAL_WEBHOOK_ID: z.string().optional(),
+
   // Email
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z

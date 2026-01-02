@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { Router } from 'express';
 import { subscriptionService } from '../services/subscription.service';
+import { paypalService } from '../services/paypal.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { validateBody } from '../middleware/validation.middleware';
 import { z } from 'zod';
@@ -14,6 +15,7 @@ const createSubscriptionSchema = z.object({
 
 const activateSubscriptionSchema = z.object({
   paypalOrderId: z.string().min(1, 'PayPal order ID is required'),
+  tierId: z.string().uuid('Tier ID is required'),
 });
 
 /**
@@ -67,7 +69,7 @@ router.get('/features', authMiddleware, async (req: Request, res: Response, next
 /**
  * POST /api/subscriptions/create
  * Create a subscription (for free tier or to initiate upgrade)
- * For paid tiers, this would normally return a PayPal order to approve
+ * For paid tiers, creates a PayPal order and returns the approval URL
  */
 router.post(
   '/create',
@@ -99,13 +101,20 @@ router.post(
         return;
       }
 
-      // For paid tiers, return a mock PayPal order (actual PayPal integration would go here)
+      // For paid tiers, create a real PayPal order
+      const { orderId, approvalUrl } = await paypalService.createOrder(
+        tier.id,
+        tier.name,
+        tier.price,
+        tier.billingPeriod
+      );
+
       res.json({
         success: true,
         data: {
           paypalOrder: {
-            orderId: `MOCK-ORDER-${Date.now()}`,
-            approvalUrl: `https://www.sandbox.paypal.com/checkoutnow?token=MOCK-ORDER-${Date.now()}`,
+            orderId,
+            approvalUrl,
             status: 'CREATED',
             tier: tier,
           },
@@ -121,6 +130,7 @@ router.post(
 /**
  * POST /api/subscriptions/activate
  * Activate subscription after PayPal payment confirmation
+ * Captures the PayPal order and activates the subscription
  */
 router.post(
   '/activate',
@@ -128,26 +138,34 @@ router.post(
   validateBody(activateSubscriptionSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // In a real implementation, we would verify the PayPal order here
-      // For now, we'll just activate the subscription
+      const { paypalOrderId, tierId } = req.body;
 
-      // Get the pending tier from the PayPal order (mock)
-      // In reality, we'd store this when creating the order
-      const tiers = await subscriptionService.getTiers();
-      const midLevelTier = tiers.find(t => t.name === 'mid-level');
+      // Capture the PayPal order to verify and complete payment
+      const captureResult = await paypalService.captureOrder(paypalOrderId);
 
-      if (!midLevelTier) {
-        res.status(500).json({
+      if (captureResult.status !== 'COMPLETED') {
+        res.status(400).json({
           success: false,
-          error: { code: 'INTERNAL_ERROR', message: 'Tier configuration error' },
+          error: { code: 'PAYMENT_FAILED', message: 'Payment was not completed' },
         });
         return;
       }
 
+      // Verify the tier exists
+      const tier = await subscriptionService.getTierById(tierId);
+      if (!tier) {
+        res.status(400).json({
+          success: false,
+          error: { code: 'SUB_002', message: 'Invalid tier ID' },
+        });
+        return;
+      }
+
+      // Create/update the subscription
       const subscription = await subscriptionService.createSubscription(
         req.user!.userId,
-        midLevelTier.id,
-        req.body.paypalOrderId
+        tierId,
+        paypalOrderId
       );
 
       res.json({
@@ -160,6 +178,7 @@ router.post(
     }
   }
 );
+
 
 /**
  * POST /api/subscriptions/cancel

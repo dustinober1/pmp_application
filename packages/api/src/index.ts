@@ -125,6 +125,11 @@ app.use('/api/teams', teamRouter);
 app.use('/api/search', searchRouter);
 app.use('/api/ebook', ebookRouter);
 
+// Webhook Routes (separate from /api prefix for external services)
+import paypalWebhookRouter from './routes/paypal.webhook.routes';
+app.use('/webhooks/paypal', paypalWebhookRouter);
+
+
 // Error handling
 app.use(notFoundHandler);
 app.use(errorHandler);
