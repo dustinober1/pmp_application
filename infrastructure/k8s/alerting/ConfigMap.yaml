@@ -1,0 +1,139 @@
+# ConfigMap for AlertManager and Prometheus Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  alertmanager.yml: |
+    global:
+      smtp_smarthost: 'smtp.gmail.com:587'
+      smtp_from: 'alerts@pmpstudy.com'
+      slack_api_url: '$(SLACK_WEBHOOK_URL)'
+
+    templates:
+      - '/etc/alertmanager/templates/*.tmpl'
+
+    route:
+      receiver: 'default-null'
+      group_by: ['alertname', 'cluster', 'service']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+
+      routes:
+        - match:
+            severity: 'critical'
+          receiver: 'pagerduty-critical'
+          group_wait: 10s
+          repeat_interval: 15m
+
+        - match:
+            severity: 'high'
+          receiver: 'pagerduty-high'
+          group_wait: 2m
+          repeat_interval: 30m
+
+        - match:
+            severity: 'warning'
+          receiver: 'slack-alerts'
+          group_wait: 5m
+          repeat_interval: 2h
+
+    receivers:
+      - name: 'default-null'
+
+      - name: 'pagerduty-critical'
+        pagerduty_configs:
+          - service_key: '$(PAGERDUTY_SERVICE_KEY_CRITICAL)'
+            description: '{{ .GroupLabels.alertname }}'
+
+      - name: 'pagerduty-high'
+        pagerduty_configs:
+          - service_key: '$(PAGERDUTY_SERVICE_KEY_HIGH)'
+            description: '{{ .GroupLabels.alertname }}'
+
+      - name: 'slack-alerts'
+        slack_configs:
+          - channel: '#ops-alerts'
+            title: '{{ .GroupLabels.alertname }}'
+            text: '{{ range .Alerts }}*Summary:* {{ .Annotations.summary }}\n*Description:* {{ .Annotations.description }}{{ end }}'
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-alerts
+  namespace: monitoring
+data:
+  alerts.yml: |
+    groups:
+      - name: critical_alerts
+        interval: 30s
+        rules:
+          - alert: ServiceDown
+            expr: |
+              sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+              /
+              sum(rate(http_requests_total[5m])) by (service)
+              > 0.05
+            for: 5m
+            labels:
+              severity: critical
+            annotations:
+              summary: 'Service {{ $labels.service }} is down'
+              runbook_url: 'https://runbooks.pmpstudy.com/service-down'
+
+      - name: high_priority_alerts
+        interval: 1m
+        rules:
+          - alert: HighErrorRate
+            expr: |
+              sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+              /
+              sum(rate(http_requests_total[5m])) by (service)
+              > 0.01
+            for: 10m
+            labels:
+              severity: high
+            annotations:
+              summary: 'High error rate in {{ $labels.service }}'
+              runbook_url: 'https://runbooks.pmpstudy.com/high-error-rate'
+
+      - name: warning_alerts
+        interval: 2m
+        rules:
+          - alert: ElevatedErrorRate
+            expr: |
+              sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+              /
+              sum(rate(http_requests_total[5m])) by (service)
+              > 0.005
+            for: 15m
+            labels:
+              severity: warning
+            annotations:
+              summary: 'Elevated error rate in {{ $labels.service }}'
+              runbook_url: 'https://runbooks.pmpstudy.com/elevated-error-rate'
+
+---
+# AlertManager notification templates
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-templates
+  namespace: monitoring
+data:
+  notification.tmpl: |
+    {{ define "slack.default.title" }}
+    [{{ .Status | toUpper }}] {{ .GroupLabels.alertname }}
+    {{ end }}
+
+    {{ define "slack.default.text" }}
+    {{ range .Alerts }}
+    *Alert:* {{ .Labels.alertname }}
+    *Severity:* {{ .Labels.severity }}
+    *Summary:* {{ .Annotations.summary }}
+    *Runbook:* {{ .Annotations.runbook_url }}
+    {{ end }}
+    {{ end }}

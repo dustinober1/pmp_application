@@ -1,0 +1,55 @@
+{{ define "slack.default.title" }}
+[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.alertname }}
+{{ end }}
+
+{{ define "slack.default.text" }}
+{{ range .Alerts }}
+*Alert:* {{ .Labels.alertname }}
+*Severity:* {{ .Labels.severity }}
+*Summary:* {{ .Annotations.summary }}
+*Description:* {{ .Annotations.description }}
+*Service:* {{ .Labels.service }}
+*Instance:* {{ .Labels.instance }}
+*Runbook:* {{ .Annotations.runbook_url }}
+{{ end }}
+{{ end }}
+
+{{ define "pagerduty.default.instances" }}
+{{ range .Alerts }}
+  - Instance: {{ .Labels.instance }}
+    Summary: {{ .Annotations.summary }}
+    Severity: {{ .Labels.severity }}
+{{ end }}
+{{ end }}
+
+{{ define "email.default.html" }}
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .alert { margin: 10px 0; padding: 10px; border-left: 4px solid #ccc; }
+    .critical { border-left-color: #ff0000; background-color: #ffeeee; }
+    .high { border-left-color: #ff9900; background-color: #fff4e5; }
+    .warning { border-left-color: #ffcc00; background-color: #fffbe6; }
+    .summary { font-weight: bold; }
+    .description { margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Alert Summary - {{ .GroupLabels.cluster }}</h2>
+  <p>Status: {{ .Status | toUpper }}</p>
+  <p>Time: {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}</p>
+
+  {{ range .Alerts }}
+  <div class="alert {{ .Labels.severity }}">
+    <div class="summary">{{ .Annotations.summary }}</div>
+    <div class="description">{{ .Annotations.description }}</div>
+    <div><strong>Severity:</strong> {{ .Labels.severity }}</div>
+    <div><strong>Service:</strong> {{ .Labels.service }}</div>
+    <div><strong>Runbook:</strong> <a href="{{ .Annotations.runbook_url }}">View</a></div>
+  </div>
+  {{ end }}
+</body>
+</html>
+{{ end }}

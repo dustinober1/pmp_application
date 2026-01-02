@@ -44,7 +44,12 @@ const envSchema = z.object({
   FROM_EMAIL: z.string().default('noreply@pmp-study.com'),
 
   // Logging
-  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error', 'http']).default('info'),
+
+  // AWS (for CloudWatch)
+  AWS_REGION: z.string().optional(),
+  AWS_ACCESS_KEY_ID: z.string().optional(),
+  AWS_SECRET_ACCESS_KEY: z.string().optional(),
 
   // Admin
   ADMIN_EMAILS: z.string().optional(),

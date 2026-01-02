@@ -1,0 +1,126 @@
+# OpenTelemetry Collector Configuration
+# Receives traces from API and Web, exports to Jaeger and AWS X-Ray
+
+receivers:
+  # OTLP gRPC receiver (for API)
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+  # OTLP HTTP receiver (for Web)
+  otlp/https:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - http://localhost:3000
+            - http://localhost:3001
+          allowed_headers:
+            - Content-Type
+            - X-API-Key
+            - traceparent
+            - tracestate
+
+processors:
+  # Batch traces before exporting
+  batch:
+    timeout: 5s
+    send_batch_size: 10000
+    send_batch_max_size: 11000
+
+  # Add attributes to all spans
+  attributes/app:
+    actions:
+      - key: environment
+        value: development
+        action: upsert
+      - key: application
+        value: pmp-study
+        action: upsert
+
+  # Memory limiter to prevent OOM
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+    spike_limit_mib: 128
+
+  # Sampling strategy
+  tail_sampling:
+    decision_wait: 10s
+    num_traces: 100
+    expected_new_traces_per_sec: 10
+    policies:
+      [
+        {
+          name: error-policy,
+          type: status_code,
+          status_code: { status_codes: [ERROR] }
+        },
+        {
+          name: critical-path-policy,
+          type: string_attribute,
+          string_attribute: {
+            key: http.route,
+            values: [ /api/stripe, /api/subscriptions, /api/auth ]
+          }
+        },
+        {
+          name: probability-policy,
+          type: probabilistic,
+          probabilistic: { sampling_percentage: 30 }
+        }
+      ]
+
+exporters:
+  # Export to Jaeger (local development)
+  jaeger:
+    endpoint: jaeger:14250
+    tls:
+      insecure: true
+
+  # Export to AWS X-Ray (production)
+  # Uncomment and configure for production use
+  # awsxray:
+  #   region: us-east-1
+  #   # Assume role permission needed
+
+  # Export metrics to Prometheus
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: pmp_app
+    const_labels:
+      environment: development
+
+  # Logging exporter (debug)
+  logging:
+    loglevel: debug
+
+extensions:
+  # Health check extension
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+  # Pprof extension for profiling
+  pprof:
+    endpoint: 0.0.0.0:1777
+
+service:
+  extensions: [health_check, pprof]
+  pipelines:
+    traces:
+      receivers: [otlp, otlp/https]
+      processors: [memory_limiter, batch, attributes/app, tail_sampling]
+      exporters: [jaeger, logging]
+
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus]
+
+  telemetry:
+    logs:
+      level: debug
+    metrics:
+      address: 0.0.0.0:8888

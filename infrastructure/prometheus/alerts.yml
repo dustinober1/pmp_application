@@ -1,0 +1,379 @@
+# Prometheus Alert Rules for PMP Study Application
+# Organized by severity: P1 (critical), P2 (high), P3 (warning)
+
+groups:
+  # ========================================
+  # P1 CRITICAL ALERTS - Immediate Page
+  # ========================================
+  - name: critical_alerts
+    interval: 30s
+    rules:
+      # Service Down - Error rate > 5%
+      - alert: ServiceDown
+        expr: |
+          sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+          /
+          sum(rate(http_requests_total[5m])) by (service)
+          > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          priority: P1
+          team: platform
+        annotations:
+          summary: 'Service {{ $labels.service }} is down'
+          description: '{{ $labels.service }} has error rate of {{ $value | humanizePercentage }} for 5 minutes'
+          runbook_url: 'https://runbooks.pmpstudy.com/service-down'
+          dashboard: 'https://grafana.pmpstudy.com/d/service-overview'
+
+      # Database Connection Failures
+      - alert: DatabaseConnectionFailure
+        expr: pg_stat_database_deadlocks > 10 or pg_stat_database_conflicts > 50
+        for: 2m
+        labels:
+          severity: critical
+          priority: P1
+          service: database
+          team: backend
+        annotations:
+          summary: 'Database connection failures detected'
+          description: '{{ $labels.datname }} has {{ $value }} deadlocks/conflicts'
+          runbook_url: 'https://runbooks.pmpstudy.com/database-connection-failure'
+          dashboard: 'https://grafana.pmpstudy.com/d/database-metrics'
+
+      # Database Completely Down
+      - alert: DatabaseDown
+        expr: up{job="postgres"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          priority: P1
+          service: database
+          team: backend
+        annotations:
+          summary: 'PostgreSQL database is down'
+          description: 'Database {{ $labels.instance }} has been down for 1 minute'
+          runbook_url: 'https://runbooks.pmpstudy.com/database-down'
+          dashboard: 'https://grafana.pmpstudy.com/d/database-metrics'
+
+      # Payment Processing Failures
+      - alert: PaymentProcessingFailure
+        expr: |
+          sum(rate(stripe_payment_errors_total[5m])) > 5
+          or
+          sum(rate(payment_processing_errors_total[5m])) > 5
+        for: 3m
+        labels:
+          severity: critical
+          priority: P1
+          service: payments
+          team: payments
+        annotations:
+          summary: 'Payment processing failures detected'
+          description: '{{ $value }} payment errors per second over last 5 minutes'
+          runbook_url: 'https://runbooks.pmpstudy.com/payment-failures'
+          dashboard: 'https://grafana.pmpstudy.com/d/payment-metrics'
+
+      # Authentication Service Down
+      - alert: AuthServiceDown
+        expr: up{job="auth-service"} == 0 or sum(rate(auth_requests_total{status="500"}[2m])) > 10
+        for: 2m
+        labels:
+          severity: critical
+          priority: P1
+          service: authentication
+          team: backend
+        annotations:
+          summary: 'Authentication service is down'
+          description: 'Auth service has 500 errors or is completely down'
+          runbook_url: 'https://runbooks.pmpstudy.com/auth-service-down'
+          dashboard: 'https://grafana.pmpstudy.com/d/auth-metrics'
+
+      # Security Events Detected
+      - alert: SecurityEvent
+        expr: |
+          rate(security_intrusion_detection_total[1m]) > 0
+          or
+          rate(security_brute_force_attempts_total[1m]) > 10
+          or
+          rate(security_sql_injection_attempts_total[1m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+          priority: P1
+          service: security
+          team: security
+        annotations:
+          summary: 'Critical security event detected'
+          description: 'Security anomaly detected: {{ $labels.event_type }}'
+          runbook_url: 'https://runbooks.pmpstudy.com/security-events'
+          dashboard: 'https://grafana.pmpstudy.com/d/security-metrics'
+
+      # All Pods Down
+      - alert: AllPodsDown
+        expr: |
+          count(kube_pod_status_phase{namespace="production", phase="Running"})
+          /
+          count(kube_pod_status_phase{namespace="production"})
+          < 0.1
+        for: 2m
+        labels:
+          severity: critical
+          priority: P1
+          service: kubernetes
+          team: platform
+        annotations:
+          summary: 'Less than 10% of pods are running in production'
+          description: 'Only {{ $value | humanizePercentage }} of pods are Running'
+          runbook_url: 'https://runbooks.pmpstudy.com/pods-down'
+          dashboard: 'https://grafana.pmpstudy.com/d/kubernetes-metrics'
+
+  # ========================================
+  # P2 HIGH PRIORITY - Page within 15 min
+  # ========================================
+  - name: high_priority_alerts
+    interval: 1m
+    rules:
+      # High Error Rate - > 1% for 10 minutes
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+          /
+          sum(rate(http_requests_total[5m])) by (service)
+          > 0.01
+        for: 10m
+        labels:
+          severity: high
+          priority: P2
+          team: backend
+        annotations:
+          summary: 'High error rate in {{ $labels.service }}'
+          description: 'Error rate is {{ $value | humanizePercentage }} for 10 minutes'
+          runbook_url: 'https://runbooks.pmpstudy.com/high-error-rate'
+          dashboard: 'https://grafana.pmpstudy.com/d/service-overview'
+
+      # High Latency - p95 > 500ms
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service)
+          ) > 0.5
+        for: 10m
+        labels:
+          severity: high
+          priority: P2
+          team: backend
+        annotations:
+          summary: 'High latency detected in {{ $labels.service }}'
+          description: 'p95 latency is {{ $value }}s for 10 minutes'
+          runbook_url: 'https://runbooks.pmpstudy.com/high-latency'
+          dashboard: 'https://grafana.pmpstudy.com/d/latency-metrics'
+
+      # Low Disk Space - < 20% free
+      - alert: LowDiskSpace
+        expr: |
+          (node_filesystem_avail_bytes{mountpoint="/"}
+          /
+          node_filesystem_size_bytes{mountpoint="/"})
+          < 0.20
+        for: 5m
+        labels:
+          severity: high
+          priority: P2
+          service: infrastructure
+          team: platform
+        annotations:
+          summary: 'Low disk space on {{ $labels.instance }}'
+          description: 'Only {{ $value | humanizePercentage }} disk space remaining'
+          runbook_url: 'https://runbooks.pmpstudy.com/low-disk-space'
+          dashboard: 'https://grafana.pmpstudy.com/d/infrastructure-metrics'
+
+      # High Memory Usage - > 90%
+      - alert: HighMemoryUsage
+        expr: |
+          (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) < 0.10
+        for: 5m
+        labels:
+          severity: high
+          priority: P2
+          service: infrastructure
+          team: platform
+        annotations:
+          summary: 'High memory usage on {{ $labels.instance }}'
+          description: 'Only {{ $value | humanizePercentage }} memory available'
+          runbook_url: 'https://runbooks.pmpstudy.com/high-memory-usage'
+          dashboard: 'https://grafana.pmpstudy.com/d/infrastructure-metrics'
+
+      # API Rate Limit Breaches
+      - alert: APIRateLimitExceeded
+        expr: |
+          sum(rate(api_requests_total[5m])) by (client_id)
+          > 1000
+        for: 5m
+        labels:
+          severity: high
+          priority: P2
+          service: api-gateway
+          team: backend
+        annotations:
+          summary: 'API rate limit exceeded by {{ $labels.client_id }}'
+          description: 'Client making {{ $value }} requests/second'
+          runbook_url: 'https://runbooks.pmpstudy.com/api-rate-limit'
+          dashboard: 'https://grafana.pmpstudy.com/d/api-metrics'
+
+      # Database Slow Queries
+      - alert: DatabaseSlowQueries
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(pg_stat_statement_duration_seconds_bucket[5m])) by (le, datname)
+          ) > 2.0
+        for: 10m
+        labels:
+          severity: high
+          priority: P2
+          service: database
+          team: backend
+        annotations:
+          summary: 'Database slow queries in {{ $labels.datname }}'
+          description: 'p95 query duration is {{ $value }}s'
+          runbook_url: 'https://runbooks.pmpstudy.com/slow-queries'
+          dashboard: 'https://grafana.pmpstudy.com/d/database-metrics'
+
+      # Redis Connection Issues
+      - alert: RedisConnectionFailure
+        expr: up{job="redis"} == 0 or redis_connected_clients == 0
+        for: 3m
+        labels:
+          severity: high
+          priority: P2
+          service: cache
+          team: backend
+        annotations:
+          summary: 'Redis connection failures'
+          description: 'Redis is down or rejecting connections'
+          runbook_url: 'https://runbooks.pmpstudy.com/redis-failure'
+          dashboard: 'https://grafana.pmpstudy.com/d/cache-metrics'
+
+  # ========================================
+  # P3 LOW PRIORITY - Respond within 1 hour
+  # ========================================
+  - name: warning_alerts
+    interval: 2m
+    rules:
+      # Elevated Error Rate - > 0.5% for 15 minutes
+      - alert: ElevatedErrorRate
+        expr: |
+          sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+          /
+          sum(rate(http_requests_total[5m])) by (service)
+          > 0.005
+        for: 15m
+        labels:
+          severity: warning
+          priority: P3
+          team: backend
+        annotations:
+          summary: 'Elevated error rate in {{ $labels.service }}'
+          description: 'Error rate is {{ $value | humanizePercentage }} for 15 minutes'
+          runbook_url: 'https://runbooks.pmpstudy.com/elevated-error-rate'
+          dashboard: 'https://grafana.pmpstudy.com/d/service-overview'
+
+      # Gradual Performance Degradation
+      - alert: PerformanceDegradation
+        expr: |
+          avg_over_time(histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service)
+          )[1h:]) > 1.5 * avg_over_time(histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service)
+          )[24h:])
+        for: 30m
+        labels:
+          severity: warning
+          priority: P3
+          team: backend
+        annotations:
+          summary: 'Performance degradation in {{ $labels.service }}'
+          description: 'Latency is 50% higher than 24h average'
+          runbook_url: 'https://runbooks.pmpstudy.com/performance-degradation'
+          dashboard: 'https://grafana.pmpstudy.com/d/latency-metrics'
+
+      # Backup Job Failures
+      - alert: BackupJobFailure
+        expr: |
+          time() - max(backups_last_success_timestamp_seconds) > 86400
+        for: 0m
+        labels:
+          severity: warning
+          priority: P3
+          service: backup
+          team: platform
+        annotations:
+          summary: 'Backup job has not succeeded in 24 hours'
+          description: 'Last successful backup was more than 1 day ago'
+          runbook_url: 'https://runbooks.pmpstudy.com/backup-failure'
+          dashboard: 'https://grafana.pmpstudy.com/d/backup-metrics'
+
+      # SSL Certificate Expiring Soon
+      - alert: SSLCertificateExpiring
+        expr: |
+          (ssl_cert_not_after - time()) / 86400 < 30
+        for: 0m
+        labels:
+          severity: warning
+          priority: P3
+          service: infrastructure
+          team: platform
+        annotations:
+          summary: 'SSL certificate expiring soon'
+          description: 'Certificate for {{ $labels.instance }} expires in {{ $value }} days'
+          runbook_url: 'https://runbooks.pmpstudy.com/ssl-certificate'
+          dashboard: 'https://grafana.pmpstudy.com/d/infrastructure-metrics'
+
+      # Container Restarts
+      - alert: HighContainerRestartCount
+        expr: |
+          increase(kube_pod_container_status_restarts_total[1h]) > 5
+        for: 10m
+        labels:
+          severity: warning
+          priority: P3
+          service: kubernetes
+          team: platform
+        annotations:
+          summary: 'High container restart count'
+          description: 'Container {{ $labels.container }} has restarted {{ $value }} times in 1h'
+          runbook_url: 'https://runbooks.pmpstudy.com/container-restarts'
+          dashboard: 'https://grafana.pmpstudy.com/d/kubernetes-metrics'
+
+      # Disk Usage Growing Fast
+      - alert: DiskSpaceGrowingFast
+        expr: |
+          predict_linear(node_filesystem_avail_bytes[1h], 86400) < 0
+        for: 10m
+        labels:
+          severity: warning
+          priority: P3
+          service: infrastructure
+          team: platform
+        annotations:
+          summary: 'Disk space will run out in 24 hours'
+          description: '{{ $labels.instance }} will run out of disk space in < 24h at current rate'
+          runbook_url: 'https://runbooks.pmpstudy.com/disk-space-prediction'
+          dashboard: 'https://grafana.pmpstudy.com/d/infrastructure-metrics'
+
+      # Pending Pods
+      - alert: PodsPending
+        expr: |
+          sum(kube_pod_status_phase{namespace="production", phase="Pending"})
+          > 0
+        for: 20m
+        labels:
+          severity: warning
+          priority: P3
+          service: kubernetes
+          team: platform
+        annotations:
+          summary: 'Pods stuck in Pending state'
+          description: '{{ $value }} pods have been Pending for 20 minutes'
+          runbook_url: 'https://runbooks.pmpstudy.com/pods-pending'
+          dashboard: 'https://grafana.pmpstudy.com/d/kubernetes-metrics'

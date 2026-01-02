@@ -1,0 +1,206 @@
+# AlertManager Configuration for PMP Study Application
+# Routes alerts to PagerDuty (P1/P2) and Slack (all)
+
+global:
+  # Global SMTP configuration (for email digests)
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'alerts@pmpstudy.com'
+  smtp_auth_username: 'alerts@pmpstudy.com'
+  smtp_auth_password: '${SMTP_PASSWORD}'
+  smtp_require_tls: true
+
+  # Slack API URL
+  slack_api_url: '${SLACK_WEBHOOK_URL}'
+
+  # PagerDuty service key
+  pagerduty_url: 'https://events.pagerduty.com/v2/enqueue'
+
+# Resolve alerts after 5 minutes if not updated
+resolve_timeout: 5m
+
+# Template files for custom notifications
+templates:
+  - '/etc/alertmanager/templates/*.tmpl'
+
+# Routing tree for alert distribution
+route:
+  # Default receiver for all alerts
+  receiver: 'default-null'
+
+  # Group alerts by these labels
+  group_by: ['alertname', 'cluster', 'service']
+
+  # Wait time before sending first notification
+  group_wait: 30s
+
+  # Wait time before sending notification about new alerts
+  group_interval: 5m
+
+  # Wait time before re-sending notification
+  repeat_interval: 4h
+
+  # Child routes with specific routing rules
+  routes:
+    # P1 Critical Alerts - Immediate page
+    - match:
+        severity: 'critical'
+      receiver: 'pagerduty-critical'
+      group_wait: 10s
+      repeat_interval: 15m
+      continue: true
+
+    # P2 High Priority Alerts - Page within 15 minutes
+    - match:
+        severity: 'high'
+      receiver: 'pagerduty-high'
+      group_wait: 2m
+      repeat_interval: 30m
+      continue: true
+
+    # P3 Medium Priority - Slack notification
+    - match:
+        severity: 'warning'
+      receiver: 'slack-alerts'
+      group_wait: 5m
+      repeat_interval: 2h
+
+    # Database alerts - Special handling
+    - match:
+        service: 'database'
+      receiver: 'pagerduty-critical'
+      group_by: ['alertname', 'database']
+      continue: true
+
+    # Payment processing alerts - Critical
+    - match:
+        service: 'payments'
+      receiver: 'pagerduty-critical'
+      group_wait: 10s
+      repeat_interval: 10m
+      continue: true
+
+    # Security events - Immediate page
+    - match:
+        alertname: 'SecurityEvent'
+      receiver: 'pagerduty-critical'
+      group_wait: 0s
+      repeat_interval: 5m
+
+    # API rate limiting - Slack only
+    - match:
+        alertname: 'APIRateLimitExceeded'
+      receiver: 'slack-alerts'
+      group_wait: 10m
+      repeat_interval: 1h
+
+# Inhibition rules to suppress redundant alerts
+inhibit_rules:
+  # Inhibit warning if critical is firing for same alert
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'instance']
+
+  # Inhibit database connection alerts if database is down
+  - source_match:
+      alertname: 'DatabaseDown'
+    target_match_re:
+      alertname: '.*DatabaseConnection.*'
+    equal: ['cluster']
+
+  # Inhibit all service alerts if node is down
+  - source_match:
+      alertname: 'NodeDown'
+    target_match:
+      severity: 'warning'
+    equal: ['instance']
+
+# Receivers define where notifications are sent
+receivers:
+  # Default receiver (black hole - alerts must match routes)
+  - name: 'default-null'
+
+  # PagerDuty Critical - P1 alerts
+  - name: 'pagerduty-critical'
+    pagerduty_configs:
+      - service_key: '${PAGERDUTY_SERVICE_KEY_CRITICAL}'
+        description: '{{ .GroupLabels.alertname }} - {{ .GroupLabels.cluster }}'
+        severity: 'critical'
+        class: 'infrastructure'
+        component: '{{ .GroupLabels.service }}'
+        group: '{{ .GroupLabels.alertname }}'
+        detail:
+          firing: '{{ template "pagerduty.default.instances" .Alerts.Firing }}'
+          resolved: '{{ template "pagerduty.default.instances" .Alerts.Resolved }}'
+          num_firing: '{{ .Alerts.Firing | len }}'
+          num_resolved: '{{ .Alerts.Resolved | len }}'
+
+  # PagerDuty High - P2 alerts
+  - name: 'pagerduty-high'
+    pagerduty_configs:
+      - service_key: '${PAGERDUTY_SERVICE_KEY_HIGH}'
+        description: '{{ .GroupLabels.alertname }} - {{ .GroupLabels.cluster }}'
+        severity: 'error'
+        class: 'infrastructure'
+        component: '{{ .GroupLabels.service }}'
+
+  # Slack alerts - All severities
+  - name: 'slack-alerts'
+    slack_configs:
+      - channel: '#ops-alerts'
+        title: '{{ .GroupLabels.alertname }}'
+        title_link: 'https://grafana.pmpstudy.com/d/overview'
+        text: >-
+          {{ range .Alerts }}
+          *Summary:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Severity:* {{ .Labels.severity }}
+          *Service:* {{ .Labels.service }}
+          *Instance:* {{ .Labels.instance }}
+          *Runbook:* {{ .Annotations.runbook_url }}
+          {{ end }}
+        color: '{{ if eq .Labels.severity "critical" }}danger{{ else if eq .Labels.severity "high" }}warning{{ else }}good{{ end }}'
+        footer: 'PMP Study Application Monitoring'
+        actions:
+          - type: 'button'
+            text: 'View in Grafana'
+            url: '{{ .ExternalURL }}'
+          - type: 'button'
+            text: 'Runbook'
+            url: '{{ .Annotations.runbook_url }}'
+          - type: 'button'
+            text: 'Acknowledge'
+            url: 'https://alertmanager.pmpstudy.com/#/silences/new?filter=%7B'
+
+  # Email weekly digest
+  - name: 'email-digest'
+    email_configs:
+      - to: 'ops-team@pmpstudy.com'
+        headers:
+          Subject: '[Weekly Alert Digest] PMP Study Application'
+        html: '{{ template "email.default.html" . }}'
+
+# Time intervals for routing (holidays, on-call hours)
+time_intervals:
+  - name: 'business-hours'
+    time_intervals:
+      - times:
+          - start_time: '09:00'
+            end_time: '17:00'
+        weekdays: ['monday:friday']
+
+  - name: 'off-hours'
+    time_intervals:
+      - times:
+          - start_time: '17:00'
+            end_time: '09:00'
+        weekdays: ['monday:friday']
+      - weekdays: ['saturday', 'sunday']
+
+  - name: 'holidays-2025'
+    time_intervals:
+      - start_time: '2025-01-01T00:00:00Z'
+        end_time: '2025-01-01T23:59:59Z'
+      - start_time: '2025-12-25T00:00:00Z'
+        end_time: '2025-12-25T23:59:59Z'

@@ -1,0 +1,133 @@
+name: Security - Container Scanning
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - '**/Dockerfile'
+      - 'docker-compose.yml'
+      - '.dockerignore'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - '**/Dockerfile'
+      - 'docker-compose.yml'
+      - '.dockerignore'
+  schedule:
+    # Run daily at 4 AM UTC
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  packages: write
+
+jobs:
+  trivy-scan-api:
+    name: Trivy API Container Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build API Docker image
+        run: |
+          docker build -t pmp-api:latest -f packages/api/Dockerfile .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'pmp-api:latest'
+          format: 'sarif'
+          output: 'trivy-api-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-api-results.sarif'
+          category: 'trivy-api'
+
+      - name: Upload Trivy report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-api-report
+          path: trivy-api-results.sarif
+          retention-days: 30
+
+  trivy-scan-web:
+    name: Trivy Web Container Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Web Docker image
+        run: |
+          docker build -t pmp-web:latest -f packages/web/Dockerfile .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'pmp-web:latest'
+          format: 'sarif'
+          output: 'trivy-web-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-web-results.sarif'
+          category: 'trivy-web'
+
+      - name: Upload Trivy report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-web-report
+          path: trivy-web-results.sarif
+          retention-days: 30
+
+  dockerfile-lint:
+    name: Dockerfile Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: packages/api/Dockerfile
+          format: sonarqube
+          output: hadolint-results.json
+
+      - name: Upload Hadolint report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hadolint-report
+          path: hadolint-results.json
+          retention-days: 30
+
+  container-summary:
+    name: Container Security Summary
+    runs-on: ubuntu-latest
+    needs: [trivy-scan-api, trivy-scan-web, dockerfile-lint]
+    if: always()
+    steps:
+      - name: Generate container summary
+        run: |
+          echo "# 🐳 Container Security Summary" > $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ API Container Scan: Completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Web Container Scan: Completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Dockerfile Lint: Completed" >> $GITHUB_STEP_SUMMARY

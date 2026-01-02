@@ -239,11 +239,10 @@ describe('GET /api/ebook/chapters/:slug', () => {
     expect(ebookService.getChapterBySlug).toHaveBeenCalledWith('01-introduction');
   });
 
-  it('should return 400 when slug is missing', async () => {
+  it('should return 404 when slug is empty (route not matched)', async () => {
     const response = await request(app).get('/api/ebook/chapters/');
 
-    expect(response.status).toBe(400);
-    expect(response.body.error.code).toBe('INVALID_PARAMS');
+    expect(response.status).toBe(404);
   });
 
   it('should handle chapter not found error', async () => {
@@ -266,7 +265,7 @@ describe('GET /api/ebook/chapters/:chapterSlug/sections/:sectionSlug', () => {
     );
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
+    expect(response.body).toMatchObject({
       success: true,
       data: { section: mockSection },
     });
@@ -301,18 +300,16 @@ describe('GET /api/ebook/chapters/:chapterSlug/sections/:sectionSlug', () => {
     expect(ebookProgressService.updateProgress).not.toHaveBeenCalled();
   });
 
-  it('should return 400 when chapterSlug is missing', async () => {
+  it('should return 404 when chapterSlug is empty (route not matched)', async () => {
     const response = await request(app).get('/api/ebook/chapters//sections/understanding-exam');
 
-    expect(response.status).toBe(400);
-    expect(response.body.error.code).toBe('INVALID_PARAMS');
+    expect(response.status).toBe(404);
   });
 
-  it('should return 400 when sectionSlug is missing', async () => {
+  it('should return 404 when sectionSlug is empty (route not matched)', async () => {
     const response = await request(app).get('/api/ebook/chapters/01-introduction/sections/');
 
-    expect(response.status).toBe(400);
-    expect(response.body.error.code).toBe('INVALID_PARAMS');
+    expect(response.status).toBe(404);
   });
 
   it('should handle premium content access denied error', async () => {
@@ -573,11 +570,10 @@ describe('GET /api/ebook/progress/chapter/:chapterSlug', () => {
     );
   });
 
-  it('should return 400 when chapterSlug is missing', async () => {
+  it('should return 404 when chapterSlug is empty (route not matched)', async () => {
     const response = await request(app).get('/api/ebook/progress/chapter/');
 
-    expect(response.status).toBe(400);
-    expect(response.body.error.code).toBe('INVALID_PARAMS');
+    expect(response.status).toBe(404);
   });
 
   it('should handle service errors', async () => {

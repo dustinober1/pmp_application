@@ -25,17 +25,22 @@ model User {
   updatedAt           DateTime  @updatedAt
 
   // Relations
-  subscription     UserSubscription?
-  ebookProgress    UserEbookProgress?
-  studyProgress    StudyProgress[]
-  flashcardReviews FlashcardReview[]
-  questionAttempts QuestionAttempt[]
-  studyActivities  StudyActivity[]
-  customFlashcards Flashcard[]
-  refreshTokens    RefreshToken[]
-  passwordResets   PasswordReset[]
-  teamMemberships  TeamMember[]
-  ownedTeams       Team[]            @relation("TeamAdmin")
+  subscription       UserSubscription?
+  ebookProgress      UserEbookProgress?
+  studyProgress      StudyProgress[]
+  flashcardReviews   FlashcardReview[]
+  questionAttempts   QuestionAttempt[]
+  studyActivities    StudyActivity[]
+  customFlashcards   Flashcard[]
+  refreshTokens      RefreshToken[]
+  passwordResets     PasswordReset[]
+  teamMemberships    TeamMember[]
+  ownedTeams         Team[]              @relation("TeamAdmin")
+
+  // Privacy & Compliance
+  privacyConsent          PrivacyConsent?
+  dataExportRequests      DataExportRequest[]
+  accountDeletionRequests AccountDeletionRequest[]
 
   @@map("users")
 }
@@ -539,4 +544,113 @@ model UserEbookProgress {
 
   @@unique([userId])
   @@map("user_ebook_progress")
+}
+
+// ==================== PRIVACY & COMPLIANCE (GDPR/CCPA) ====================
+
+model PrivacyConsent {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Consent tracking
+  cookieConsent      Boolean  @default(false)
+  privacyPolicyAccepted Boolean @default(false)
+  termsAccepted      Boolean  @default(false)
+
+  // Consent metadata
+  consentVersion     String   @default("1.0")
+  consentIpAddress   String?
+  consentUserAgent   String?  @db.Text
+  consentedAt        DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // Withdrawal tracking
+  withdrawnAt        DateTime?
+  withdrawnReason    String?
+
+  @@map("privacy_consent")
+}
+
+model DataExportRequest {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status      String   @default("pending") // 'pending', 'processing', 'completed', 'failed'
+  requestId   String   @unique
+
+  // Export metadata
+  requestedAt DateTime @default(now())
+  completedAt DateTime?
+  expiresAt   DateTime @default(dbgenerated."now() + interval '7 days'")
+  downloadUrl String?
+  fileSize    Int?     // in bytes
+
+  // Processing details
+  errorMessage String?  @db.Text
+  processedBy  String?  // admin user ID if manually processed
+
+  @@index([userId, status])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("data_export_requests")
+}
+
+model AccountDeletionRequest {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status      String   @default("pending") // 'pending', 'processing', 'completed', 'cancelled'
+
+  // Deletion timeline
+  requestedAt     DateTime @default(now())
+  gracePeriodEnds DateTime @default(dbgenerated."now() + interval '30 days'")
+  completedAt     DateTime?
+  cancelledAt     DateTime?
+
+  // Deletion details
+  deletionReason  String?
+  ipAddress       String?
+  userAgent       String?  @db.Text
+
+  // Processing details
+  softDeletedAt   DateTime?
+  hardDeleteScheduledFor DateTime?
+  processedBy     String?  // admin user ID
+
+  @@index([userId, status])
+  @@index([status])
+  @@index([gracePeriodEnds])
+  @@map("account_deletion_requests")
+}
+
+model PrivacyAuditLog {
+  id          String   @id @default(uuid())
+
+  // Action details
+  actionType  String   // 'data_export', 'account_deletion', 'consent_given', 'consent_withdrawn', 'data_accessed'
+  entityType  String   // 'user', 'consent', 'export_request', 'deletion_request'
+  entityId    String
+
+  // User context
+  userId      String?
+  performedBy String?  // user ID or 'system'
+
+  // Request metadata
+  ipAddress   String?
+  userAgent   String?  @db.Text
+  requestId   String?  // correlation ID
+
+  // Action details
+  details     Json?    // additional context
+  status      String   @default("success") // 'success', 'failed', 'cancelled'
+
+  createdAt   DateTime @default(now())
+
+  @@index([userId, actionType])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("privacy_audit_logs")
 }

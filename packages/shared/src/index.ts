@@ -22,6 +22,9 @@ export * from './types/analytics.js';
 // Team Management Types
 export * from './types/team.js';
 
+// Privacy & Compliance Types (GDPR/CCPA)
+export * from './types/privacy.js';
+
 // Error Types
 export * from './types/error.js';
 
