@@ -27,7 +27,7 @@ const router = Router();
 
 const authRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 20,
+  max: env.NODE_ENV === 'production' ? 20 : 100, // Higher limit in development
   skip: () => env.NODE_ENV === 'test',
   standardHeaders: true,
   legacyHeaders: false,

@@ -61,20 +61,24 @@ app.use(
   })
 );
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    error: {
-      code: 'RATE_LIMITED',
-      message: 'Too many requests, please try again later',
-    },
-  },
-});
-app.use('/api', limiter);
+// Rate limiting - disabled in development for hot reload
+if (env.NODE_ENV === 'production') {
+  app.use(
+    '/api',
+    rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // Limit each IP to 100 requests per windowMs
+      standardHeaders: true,
+      legacyHeaders: false,
+      message: {
+        error: {
+          code: 'RATE_LIMITED',
+          message: 'Too many requests, please try again later',
+        },
+      },
+    })
+  );
+}
 
 // Webhook Routes (Must be before JSON parser for raw body)
 app.use('/webhooks/stripe', express.raw({ type: 'application/json' }), stripeWebhookRouter);
