@@ -332,3 +332,21 @@ npx claude-flow sparc tdd "<feature>"       # Run TDD workflow
 ```
 
 Standard development follows the route-service pattern described above.
+
+## Recent Lessons (Study Page Fixes)
+
+Issues encountered and fixes applied to `packages/web/src/app/study/page.tsx`:
+
+1. **TypeError: Cannot read properties of undefined (reading 'length')** at line 142
+   - Cause: `selectedDomainData.tasks` accessed before verifying it exists
+   - Fix: `selectedDomainData.tasks?.length ?? 0` and `(selectedDomainData.tasks || []).map()`
+
+2. **"Something went wrong" error when expanding enablers**
+   - Cause: Using `Set` for React state (`new Set([0])`) caused serialization/render issues
+   - Fix: Use array `number[]` instead: `useState<number[]>([])`
+   - Further simplification: Removed toggle entirely, showing all enablers expanded by default
+
+3. **Null safety for optional data**
+   - Always add defensive checks for nested properties: `enablers?.length > 0 ? (...) : fallback`
+
+If similar issues occur: check for undefined nested properties and avoid Set in React state.
