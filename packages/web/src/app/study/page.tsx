@@ -19,6 +19,19 @@ export default function StudyPage() {
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('tasks');
+  const [openEnablers, setOpenEnablers] = useState<Set<number>>(new Set([0])); // First enabler open by default
+
+  const toggleEnabler = useCallback((idx: number) => {
+    setOpenEnablers(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(idx)) {
+        newSet.delete(idx);
+      } else {
+        newSet.add(idx);
+      }
+      return newSet;
+    });
+  }, []);
 
   const toggleSelectedDomain = useCallback((domainId: string) => {
     setSelectedDomain(prev => {
@@ -207,6 +220,7 @@ export default function StudyPage() {
                             e.stopPropagation();
                             setSelectedTask(task);
                             setViewMode('enablers');
+                            setOpenEnablers(new Set([0])); // Reset enabler accordion
                           }}
                         >
                           View Enablers
@@ -262,14 +276,7 @@ export default function StudyPage() {
                     <button
                       type="button"
                       className="w-full px-4 py-3 bg-[var(--secondary)] flex items-center justify-between"
-                      onClick={() => {
-                        const content = document.getElementById(
-                          `enabler-content-${idx}`
-                        ) as HTMLDetailsElement;
-                        if (content) {
-                          content.open = !content.open;
-                        }
-                      }}
+                      onClick={() => toggleEnabler(idx)}
                     >
                       <div className="flex items-center gap-3">
                         <div
@@ -287,7 +294,9 @@ export default function StudyPage() {
                         </span>
                       </div>
                       <svg
-                        className="w-5 h-5 text-[var(--foreground-muted)]"
+                        className={`w-5 h-5 text-[var(--foreground-muted)] transition-transform ${
+                          openEnablers.has(idx) ? 'rotate-180' : ''
+                        }`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -300,28 +309,26 @@ export default function StudyPage() {
                         />
                       </svg>
                     </button>
-                    <details
-                      id={`enabler-content-${idx}`}
-                      className="px-4 py-3 bg-[var(--background)]"
-                      open
-                    >
-                      <ul className="space-y-2">
-                        {enabler.items.map((item, itemIdx) => (
-                          <li key={itemIdx} className="flex items-start gap-3 text-sm">
-                            <span
-                              className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                                enabler.category === 'Key Knowledge and Skills'
-                                  ? 'bg-blue-500'
-                                  : enabler.category === 'Tools and Methods'
-                                    ? 'bg-emerald-500'
-                                    : 'bg-amber-500'
-                              }`}
-                            />
-                            <span className="flex-1">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
+                    {openEnablers.has(idx) && (
+                      <div className="px-4 py-3 bg-[var(--background)]">
+                        <ul className="space-y-2">
+                          {enabler.items.map((item, itemIdx) => (
+                            <li key={itemIdx} className="flex items-start gap-3 text-sm">
+                              <span
+                                className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                                  enabler.category === 'Key Knowledge and Skills'
+                                    ? 'bg-blue-500'
+                                    : enabler.category === 'Tools and Methods'
+                                      ? 'bg-emerald-500'
+                                      : 'bg-amber-500'
+                                }`}
+                              />
+                              <span className="flex-1">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
