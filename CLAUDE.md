@@ -38,6 +38,10 @@ npm run test             # Run all tests across workspaces
 npm run test:api         # Run API tests (Jest + fast-check for property-based)
 npm run test:web         # Run Web unit tests (Vitest)
 npm run test:coverage    # Run API tests with coverage report
+npm run test:e2e         # Run E2E tests (Playwright)
+npm run test:e2e:headed  # Run E2E tests in headed mode
+npm run test:e2e:debug   # Debug E2E tests
+npm run test:e2e:ui      # Run E2E tests with UI
 
 # Single test file (API):
 cd packages/api && npm test -- auth.service.test
@@ -69,25 +73,25 @@ npm run format:check     # Check formatting without modifying
 ### Docker
 
 ```bash
-docker-compose up -d     # Start PostgreSQL + Redis in background
-docker-compose down      # Stop containers
+docker-compose up -d             # Start all containers
+docker-compose down              # Stop all containers
+docker-compose build --no-cache  # Force rebuild without cache
+docker-compose build web && docker-compose up -d  # Rebuild just web container
 ```
 
 ## Architecture Overview
 
 ### Backend Architecture (packages/api/)
 
-**Route-Service-Repository Pattern:**
+**Route-Service Pattern:**
 
 ```
 routes/          - Express route definitions, validation (Zod), middleware
-  ├── *.routes.ts
+  └── *.routes.ts
 services/        - Business logic, orchestration, transaction handling
-  ├── *.service.ts
-repositories/    - Database queries via Prisma (not abstracted)
-  └── (inline in services)
+  └── *.service.ts
 middleware/      - Express middleware (auth, errors, CSRF, logging)
-utils/           - Utilities (logger, metrics, email, SMS)
+utils/           - Utilities (logger, metrics, email)
 config/          - Configuration (env, OpenTelemetry, Swagger)
 prisma/          - Database schema, migrations, seeds
 ```
@@ -96,18 +100,18 @@ prisma/          - Database schema, migrations, seeds
 
 - **Service layer handles all business logic** - routes are thin (validation → service → response)
 - **Prisma used directly in services** - no repository abstraction layer
-- **Transactions via Prisma`$transaction`** - for multi-table operations
+- **Transactions via Prisma `$transaction`** - for multi-table operations
 - **Zod schemas for validation** - defined in routes, used before service calls
 - **Express-async-errors** - async route handlers automatically catch errors
 - **OpenTelemetry instrumentation** - distributed tracing + metrics (OTLP exporter)
-- **Winston structured logging** - JSON logs with CloudWatch transport
+- **Winston structured logging** - JSON logs
 
 **Authentication & Authorization:**
 
 - JWT in httpOnly cookies + refresh tokens in database
 - `requireAuth` middleware - validates JWT, attaches `req.user`
-- `requireFeature` middleware - tier-based access control (free, mid-level, high-end, corporate)
-- Subscription checks in service layer - `requireFeature('customFlashcards')`
+- `requireFeature` middleware - tier-based access control
+- Subscription checks in service layer
 
 **Stripe Integration:**
 
@@ -124,16 +128,14 @@ src/app/
   ├── auth/              # Authentication pages (login, register, password reset)
   ├── dashboard/         # User dashboard with progress analytics
   ├── study/             # Study guides by PMI domain
-  │   └── [taskId]/      # Individual study task pages
   ├── flashcards/        # Spaced repetition flashcard system
-  │   ├── session/[sessionId]/  # Active study session
+  │   ├── session/[sessionId]/  # Active study session with swipe gestures
   │   └── create/        # Custom flashcard creation
   ├── practice/          # Practice questions with mock exams
   │   ├── session/[sessionId]/  # Question session
   │   └── mock/session/[sessionId]/  # 180-question mock exam
   ├── formulas/          # EVM calculator with step-by-step solutions
   ├── pricing/           # Subscription tier comparison
-  ├── checkout/          # Stripe checkout redirect
   └── page.tsx           # Public landing page
 
 src/components/
@@ -141,14 +143,12 @@ src/components/
   ├── SearchDialog.tsx   # Global search (Cmd+K)
   ├── ToastProvider.tsx  # Toast notifications
   ├── ThemeProvider.tsx  # Dark/light theme management
-  └── I18nProvider.tsx   # English/Spanish i18n (i18next)
+  ├── I18nProvider.tsx   # English/Spanish i18n (i18next)
+  ├── Footer.tsx         # Footer with Product, Company, Legal sections
+  └── SanitizedMarkdown.tsx  # XSS-safe markdown rendering
 
 src/contexts/
   └── AuthContext.tsx    # Authentication state, login/logout
-
-src/hooks/
-  ├── useRequireAuth.ts  # Protected route hook
-  └── useFocusTrap.ts    # Accessibility focus management
 
 src/lib/
   ├── api.ts             # API client with error handling, toast notifications
@@ -158,12 +158,10 @@ src/lib/
 **Key Frontend Patterns:**
 
 - **App Router** - file-based routing, server components by default
-- **Client-side API calls** - `apiRequest()` wrapper around fetch, handles auth cookies automatically
-- **Material You Design** - MD3 color tokens (`--md-primary`, `--md-surface`, etc.) via Tailwind
+- **Client-side API calls** - `apiRequest()` wrapper around fetch
+- **Material You Design** - MD3 color tokens (`--md-primary`, `--md-surface`) via Tailwind
 - **Protected routes** - `useRequireAuth()` hook redirects to login if unauthenticated
-- **Progressive Web App** - service worker, offline support via next-pwa
-- **Vitest for unit tests** - Testing Library components
-- **Playwright for E2E** - cross-browser testing (Chromium, Firefox, WebKit)
+- **React hooks** - Use `useCallback` for event handlers to prevent re-renders
 
 ### Shared Package (packages/shared/)
 
@@ -171,7 +169,6 @@ src/lib/
 
 - Shared TypeScript interfaces (User, Domain, Task, Flashcard, etc.)
 - Common validation schemas (Zod)
-- Shared enums (Tier, SubscriptionStatus, etc.)
 - Build step required: `npm run build:shared` generates dist/
 
 ## Database Schema
@@ -184,9 +181,7 @@ src/lib/
 - **Task** - individual tasks within domains
 - **StudyProgress** - user progress tracking per task
 - **Flashcard / FlashcardReview** - spaced repetition (SM-2 algorithm)
-- **PracticeQuestion / QuestionAttempt** - practice sessions with answer tracking
-- **SubscriptionTier** - tier definitions with feature limits (JSON)
-- **Team / TeamMember** - corporate team management
+- **PracticeQuestion / QuestionAttempt** - practice sessions
 
 **Subscription Tiers:**
 
@@ -199,7 +194,7 @@ src/lib/
 
 ### Adding a New Feature Endpoint
 
-1. **Define Zod schema in route** (validation):
+1. **Define Zod schema in route** (`routes/*.routes.ts`):
 
 ```typescript
 const createFlashcardSchema = z.object({
@@ -208,11 +203,7 @@ const createFlashcardSchema = z.object({
   front: z.string().min(1).max(1000),
   back: z.string().min(1).max(2000),
 });
-```
 
-2. **Create route handler** (`routes/*.routes.ts`):
-
-```typescript
 router.post('/', requireAuth, requireFeature('customFlashcards'), async (req, res, next) => {
   const data = createFlashcardSchema.parse(req.body);
   const result = await FlashcardService.createCustomFlashcard(req.user!.id, data);
@@ -220,47 +211,42 @@ router.post('/', requireAuth, requireFeature('customFlashcards'), async (req, re
 });
 ```
 
-3. **Implement business logic** (`services/*.service.ts`):
+2. **Implement business logic** (`services/*.service.ts`):
 
 ```typescript
+import { prisma } from '@/lib/prisma';
+import { AppError } from '@/utils/AppError';
+
 async function createCustomFlashcard(userId: string, data: CreateFlashcardDTO) {
   // Validate tier
-  const subscription = await requireFeature(userId, 'customFlashcards');
+  const subscription = await prisma.userSubscription.findUnique({
+    where: { userId },
+    include: { tier: true },
+  });
 
-  // Use transaction for multi-table operations
-  return await prisma.$transaction(async (tx) => {
-    const flashcard = await tx.flashcard.create({ ... });
-    return flashcard;
+  if (!subscription?.tier.features.customFlashcards) {
+    throw AppError.forbidden('This feature requires a higher subscription tier');
+  }
+
+  return await prisma.$transaction(async tx => {
+    return tx.flashcard.create({ data: { ...data, userId } });
   });
 }
 ```
 
-4. **Frontend API call** (`src/lib/api.ts` pattern):
+### Tier-Based Access Control
+
+**Backend:**
 
 ```typescript
-const response = await apiRequest<{ flashcard: Flashcard }>('/flashcards', {
-  method: 'POST',
-  body: { domainId, taskId, front, back },
+import { requireFeature } from '@/middleware/requireFeature';
+
+router.post('/', requireAuth, requireFeature('customFlashcards'), async (req, res, next) => {
+  // ...
 });
 ```
 
-### Tier-Based Access Control
-
-**Backend (`middleware/requireFeature`):**
-
-```typescript
-export const requireFeature = (feature: TierFeature) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    const subscription = await getUserSubscription(req.user!.id);
-    if (!subscription.features[feature]) {
-      throw AppError.forbidden('This feature requires a higher subscription tier');
-    }
-    next();
-  };
-};
-```
-
-**Frontend (`src/contexts/AuthContext.tsx`):**
+**Frontend:**
 
 ```typescript
 const canAccessFeature = user?.tier === 'high-end' || user?.tier === 'corporate';
@@ -272,39 +258,25 @@ const canAccessFeature = user?.tier === 'high-end' || user?.tier === 'corporate'
 )}
 ```
 
-### Property-Based Testing (fast-check)
+### React State Best Practices
 
-Used for critical business logic (e.g., SM-2 algorithm, EVM calculations):
-
-```typescript
-test('SM-2 algorithm properties', () => {
-  fc.assert(
-    fc.property(fc.integer(), fc.integer(), fc.integer(), (easeFactor, interval, repetitions) => {
-      const result = calculateNextReview(easeFactor, interval, repetitions);
-      return result.nextInterval >= 0 && result.easeFactor >= 1.3;
-    })
-  );
-});
-```
-
-## Common Patterns
+- **Use arrays instead of Set for React state** - Sets don't serialize well and can cause render issues
+- **Use `useCallback` for event handlers** - Prevents unnecessary re-renders in child components
+- **Add null safety with optional chaining** - `selectedDomainData.tasks?.length ?? 0`
+- **Use empty array fallback for maps** - `(selectedDomainData.tasks || []).map()`
 
 ### Error Handling
 
-**Backend:**
+**Backend (utils/AppError.ts):**
 
 ```typescript
-// Custom AppError class (utils/AppError.ts)
 throw AppError.badRequest('Invalid input');
 throw AppError.unauthorized('Invalid credentials');
-throw AppError.forbidden('Feature not available on your tier');
+throw AppError.forbidden('Feature not available');
 throw AppError.notFound('Resource not found');
-
-// Error middleware catches all, returns standardized JSON
-{
-  error: { code: 'VALIDATION_ERROR', message: '...', details: [...] }
-}
 ```
+
+Error middleware returns: `{ error: { code: 'VALIDATION_ERROR', message: '...', details: [...] } }`
 
 **Frontend:**
 
@@ -312,24 +284,29 @@ throw AppError.notFound('Resource not found');
 // apiRequest automatically shows toasts for errors
 try {
   const response = await apiRequest('/endpoint', { method: 'POST', body: {...} });
-  // Success - toast shown automatically if enabled
 } catch (error) {
-  // Error toast shown automatically via ToastProvider
+  // Error toast shown automatically
 }
 ```
 
-### Transaction Pattern
+### Property-Based Testing (fast-check)
+
+Used for critical business logic (SM-2 algorithm, EVM calculations):
 
 ```typescript
-// Always use $transaction for multi-table writes
-return await prisma.$transaction(async (tx) => {
-  const user = await tx.user.findUnique({ where: { id: userId } });
-  const subscription = await tx.subscription.create({ ... });
-  return { user, subscription };
+import * as fc from 'fast-check';
+
+test('SM-2 algorithm properties', () => {
+  fc.assert(
+    fc.property(fc.integer(), fc.integer(), fc.integer(), (ease, interval, reps) => {
+      const result = calculateNextReview(ease, interval, reps);
+      return result.nextInterval >= 0 && result.easeFactor >= 1.3;
+    })
+  );
 });
 ```
 
-### Environment Variables
+## Environment Variables
 
 **API requires (`packages/api/.env`):**
 
@@ -338,50 +315,20 @@ return await prisma.$transaction(async (tx) => {
 - `STRIPE_SECRET_KEY` - Stripe API secret
 - `STRIPE_WEBHOOK_SECRET` - Stripe webhook signing secret
 - `CORS_ORIGIN` - Comma-separated list of allowed origins
-- `REDIS_URL` - Redis connection (optional, for caching)
 
 ## Testing Strategy
 
-**Unit Tests (API):** Jest + fast-check for property-based testing
-
-- Services tested in isolation with mocked Prisma client
-- Route tests use supertest for integration testing
-- Property-based tests for algorithms (SM-2, EVM calculations)
-
-**Unit Tests (Web):** Vitest + Testing Library
-
-- Component tests with React Testing Library
-- Mock API responses via vi.mock('@/lib/api')
-- No shallow rendering - full DOM queries
-
-**E2E Tests:** Playwright
-
-- Critical user flows (registration → dashboard → study → practice)
-- Visual regression tests for UI consistency
-- Cross-browser testing (Chromium, Firefox, WebKit)
-
-## Known Issues & TODO
-
-See `/docs/FRONTEND_FIX_REPORT.md` for comprehensive testing results and 43 detailed task cards for frontend improvements.
-
-**Critical Issues:**
-
-- Landing page missing Navbar component
-- Feature cards not clickable
-- Mock exam timer continues in review mode
-- Flag button missing in practice sessions
-- Some null safety bugs in dashboard
-
-**Payment Integration:**
-
-- Migrated from PayPal to Stripe (checkout and webhooks working)
-- Old PayPal code still exists in comments but Stripe is active
+- **API Unit Tests:** Jest + fast-check, mocked Prisma, supertest for routes
+- **Web Unit Tests:** Vitest + React Testing Library, mock API responses
+- **E2E Tests:** Playwright for critical user flows
 
 ## SPARC Workflow (Optional)
 
-The repo includes SPARC methodology tooling via `npx claude-flow`. This is **optional** - standard development follows the route-service-repo pattern described above.
+The repo includes SPARC methodology tooling via `npx claude-flow`:
 
-**If using SPARC:**
+```bash
+npx claude-flow sparc run <mode> "<task>"   # Execute specific SPARC mode
+npx claude-flow sparc tdd "<feature>"       # Run TDD workflow
+```
 
-- `npx claude-flow sparc run <mode> "<task>"` - Execute specific SPARC mode
-- `npx claude-flow sparc tdd "<feature>"` - Run TDD workflow
+Standard development follows the route-service pattern described above.
