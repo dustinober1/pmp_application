@@ -192,10 +192,12 @@ export default function StudyPage() {
                           {task.description}
                         </p>
                         <div className="flex items-center gap-4 text-xs text-[var(--foreground-muted)]">
-                          <span>{task.enablers.length} Enabler Categories</span>
+                          <span>{task.enablers?.length || 0} Enabler Categories</span>
                           <span>•</span>
                           <span>
-                            {task.enablers.reduce((sum, e) => sum + e.items.length, 0)} Total Items
+                            {task.enablers?.reduce((sum, e) => sum + (e.items?.length || 0), 0) ||
+                              0}{' '}
+                            Total Items
                           </span>
                         </div>
                       </div>
