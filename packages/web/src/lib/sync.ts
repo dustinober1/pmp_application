@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- SyncAction payloads vary by action type */
 'use client';
 
 import { apiRequest } from './api';

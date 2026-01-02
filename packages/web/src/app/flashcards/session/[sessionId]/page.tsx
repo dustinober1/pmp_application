@@ -7,6 +7,8 @@ import type { Flashcard, FlashcardRating } from '@pmp/shared';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { useToast } from '@/components/ToastProvider';
 import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+// LOW-001: Add swipe gestures using react-swipeable
+import { useSwipeable } from 'react-swipeable';
 
 interface SessionData {
   sessionId: string;
@@ -139,6 +141,33 @@ export default function FlashcardSessionPage() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [handleFlip, handleRate, isFlipped, loading, router, sessionComplete]);
 
+  // LOW-001: Swipe gestures for flashcard interaction
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (isFlipped) {
+        void handleRate('dont_know'); // Swipe left when flipped = Again
+      }
+    },
+    onSwipedRight: () => {
+      if (isFlipped) {
+        void handleRate('know_it'); // Swipe right when flipped = Easy
+      }
+    },
+    onSwipedUp: () => {
+      if (!isFlipped) {
+        handleFlip(); // Swipe up to flip
+      }
+    },
+    onSwipedDown: () => {
+      if (!isFlipped) {
+        handleFlip(); // Swipe down to flip
+      }
+    },
+    trackMouse: true,
+    trackTouch: true,
+    preventScrollOnSwipe: false, // Allow page scroll
+  });
+
   if (authLoading || loading) {
     return <FullPageSkeleton />;
   }
@@ -183,8 +212,10 @@ export default function FlashcardSessionPage() {
   }
 
   const currentCard = session.cards[currentIndex];
+  // FIXED: Calculate progress based on current card position (1-indexed), not completed count
+  // When viewing card at index N, we're on card N+1, so progress should be (N+1)/total
   const progress =
-    session.cards.length > 0 ? Math.round((currentIndex / session.cards.length) * 100) : 0;
+    session.cards.length > 0 ? Math.round(((currentIndex + 1) / session.cards.length) * 100) : 0;
 
   if (!currentCard) {
     return <FullPageSkeleton />;
@@ -224,39 +255,44 @@ export default function FlashcardSessionPage() {
 
         {/* Card Area */}
         <div className="flex-1 flex flex-col items-center justify-center mb-8">
-          <button
-            type="button"
-            className="w-full max-w-2xl aspect-[3/2] perspective-1000 cursor-pointer group focus:outline-none"
-            onClick={handleFlip}
-            aria-label="Flip card"
-          >
-            <div
-              className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}
+          <div {...swipeHandlers} className="w-full max-w-2xl">
+            <button
+              type="button"
+              className="w-full aspect-[3/2] perspective-1000 cursor-pointer group focus:outline-none"
+              onClick={handleFlip}
+              aria-label="Flip card"
             >
-              {/* Front */}
-              <div className="absolute w-full h-full backface-hidden bg-md-surface-container border border-md-outline/10 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-lg group-hover:shadow-xl group-hover:scale-[1.01] transition-all duration-300">
-                <span className="text-md-primary text-sm font-bold uppercase tracking-wider mb-6 bg-md-primary/10 px-3 py-1 rounded-full">
-                  Question
-                </span>
-                <h2 className="text-2xl md:text-4xl font-medium text-md-on-surface leading-tight">
-                  {currentCard.front}
-                </h2>
-                <div className="absolute bottom-6 text-md-on-surface-variant/50 text-sm font-medium">
-                  Click or Space to flip
+              <div
+                className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}
+              >
+                {/* Front */}
+                <div className="absolute w-full h-full backface-hidden bg-md-surface-container border border-md-outline/10 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-lg group-hover:shadow-xl group-hover:scale-[1.01] transition-all duration-300">
+                  <span className="text-md-primary text-sm font-bold uppercase tracking-wider mb-6 bg-md-primary/10 px-3 py-1 rounded-full">
+                    Question
+                  </span>
+                  <h2 className="text-2xl md:text-4xl font-medium text-md-on-surface leading-tight">
+                    {currentCard.front}
+                  </h2>
+                  <div className="absolute bottom-6 text-md-on-surface-variant/50 text-sm font-medium">
+                    Click or Space to flip • Swipe up/down to flip
+                  </div>
+                </div>
+
+                {/* Back */}
+                <div className="absolute w-full h-full backface-hidden bg-md-surface-container-high border-2 border-md-primary rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-xl rotate-y-180">
+                  <span className="text-md-tertiary text-sm font-bold uppercase tracking-wider mb-6 bg-md-tertiary/10 px-3 py-1 rounded-full">
+                    Answer
+                  </span>
+                  <p className="text-xl md:text-2xl text-md-on-surface leading-relaxed font-medium">
+                    {currentCard.back}
+                  </p>
+                  <div className="absolute bottom-6 text-md-on-surface-variant/50 text-sm font-medium">
+                    Swipe left for Again • Swipe right for Easy
+                  </div>
                 </div>
               </div>
-
-              {/* Back */}
-              <div className="absolute w-full h-full backface-hidden bg-md-surface-container-high border-2 border-md-primary rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-xl rotate-y-180">
-                <span className="text-md-tertiary text-sm font-bold uppercase tracking-wider mb-6 bg-md-tertiary/10 px-3 py-1 rounded-full">
-                  Answer
-                </span>
-                <p className="text-xl md:text-2xl text-md-on-surface leading-relaxed font-medium">
-                  {currentCard.back}
-                </p>
-              </div>
-            </div>
-          </button>
+            </button>
+          </div>
         </div>
 
         {/* Controls */}

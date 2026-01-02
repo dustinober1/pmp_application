@@ -3,14 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { apiRequest } from '@/lib/api';
-import dynamic from 'next/dynamic';
-import rehypeSanitize from 'rehype-sanitize';
 import type { Task, StudyGuide } from '@pmp/shared';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 import { useToast } from '@/components/ToastProvider';
-
-const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
+import { SanitizedMarkdown } from '@/components/SanitizedMarkdown';
 
 export default function StudyGuidePage() {
   const { taskId } = useParams();
@@ -188,9 +185,7 @@ export default function StudyGuidePage() {
                       <h2 className="text-xl font-semibold text-white">{section.title}</h2>
                     </div>
                     <div className="px-6 py-6 prose prose-invert max-w-none prose-p:text-gray-300 prose-headings:text-white prose-strong:text-white prose-a:text-primary-400 prose-code:text-primary-300">
-                      <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
-                        {section.content}
-                      </ReactMarkdown>
+                      <SanitizedMarkdown content={section.content} />
                     </div>
                   </div>
                 </section>

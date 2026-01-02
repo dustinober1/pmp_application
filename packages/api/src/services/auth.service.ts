@@ -84,6 +84,7 @@ export class AuthService {
    */
   async login(credentials: LoginInput): Promise<AuthResult> {
     const email = credentials.email.toLowerCase();
+    const rememberMe = credentials.rememberMe ?? false;
 
     const user = await prisma.user.findUnique({
       where: { email },
@@ -146,9 +147,9 @@ export class AuthService {
     //   throw AppError.forbidden(AUTH_ERRORS.AUTH_006.message, AUTH_ERRORS.AUTH_006.code);
     // }
 
-    // Generate tokens
+    // Generate tokens with rememberMe flag for longer session
     const tierName = (user.subscription?.tier?.name as TierName) || 'free';
-    const tokens = await this.generateTokens(user.id, user.email, tierName);
+    const tokens = await this.generateTokens(user.id, user.email, tierName, rememberMe);
 
     return {
       user: { ...this.sanitizeUser(user), tier: tierName },
@@ -328,13 +329,26 @@ export class AuthService {
   /**
    * Generate access and refresh tokens
    */
-  private async generateTokens(userId: string, email: string, tierId: string): Promise<TokenPair> {
+  private async generateTokens(
+    userId: string,
+    email: string,
+    tierId: string,
+    rememberMe: boolean = false
+  ): Promise<TokenPair> {
+    // When rememberMe is true, use longer expiration times
+    // Access token: 15 minutes normal, 1 hour when remembered
+    // Refresh token: 7 days normal, 30 days when remembered
+    const accessExpiresIn = rememberMe ? '1h' : env.JWT_EXPIRES_IN;
+    const refreshExpiresIn = rememberMe ? '30d' : env.JWT_REFRESH_EXPIRES_IN;
+    const refreshMaxAgeMs = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000;
+    const accessTokenExpiresInSeconds = rememberMe ? 60 * 60 : 15 * 60; // 1 hour or 15 minutes
+
     const accessToken = jwt.sign({ userId, email, tierId }, env.JWT_SECRET, {
-      expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+      expiresIn: accessExpiresIn as jwt.SignOptions['expiresIn'],
     });
 
     const refreshToken = jwt.sign({ userId, type: 'refresh' }, env.JWT_REFRESH_SECRET, {
-      expiresIn: env.JWT_REFRESH_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+      expiresIn: refreshExpiresIn as jwt.SignOptions['expiresIn'],
     });
 
     // Store refresh token
@@ -342,14 +356,14 @@ export class AuthService {
       data: {
         token: refreshToken,
         userId,
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+        expiresAt: new Date(Date.now() + refreshMaxAgeMs),
       },
     });
 
     return {
       accessToken,
       refreshToken,
-      expiresIn: 15 * 60, // 15 minutes in seconds
+      expiresIn: accessTokenExpiresInSeconds,
     };
   }
 

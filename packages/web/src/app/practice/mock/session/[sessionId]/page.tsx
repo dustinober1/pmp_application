@@ -103,8 +103,9 @@ export default function MockExamSessionPage() {
   }, [canAccess, fetchSession]);
 
   // Timer Tick
+  // CRITICAL-004: Pause timer when in review mode (showReview is true)
   useEffect(() => {
-    if (loading || examComplete || !session) return;
+    if (loading || examComplete || !session || showReview) return;
 
     timerRef.current = setInterval(() => {
       setTimeLeft(prev => {
@@ -120,7 +121,7 @@ export default function MockExamSessionPage() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [loading, examComplete, session, finishExam]);
+  }, [loading, examComplete, session, showReview, finishExam]);
 
   // Sync current selection when index changes
   useEffect(() => {

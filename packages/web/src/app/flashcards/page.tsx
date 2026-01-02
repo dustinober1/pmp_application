@@ -21,18 +21,13 @@ export default function FlashcardsPage() {
   const { canAccess, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [stats, setStats] = useState<FlashcardStats | null>(null);
-  const [dueCards, setDueCards] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState<'review' | 'all' | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
-      const [statsRes, dueRes] = await Promise.all([
-        apiRequest<{ stats: FlashcardStats }>('/flashcards/stats'),
-        apiRequest<{ flashcards: unknown[] }>('/flashcards/review?limit=10'),
-      ]);
+      const statsRes = await apiRequest<{ stats: FlashcardStats }>('/flashcards/stats');
       setStats(statsRes.data?.stats ?? null);
-      setDueCards(dueRes.data?.flashcards?.length ?? 0);
     } catch (error) {
       console.error('Failed to fetch flashcard data:', error);
       toast.error('Failed to load flashcards. Please try again.');
@@ -72,6 +67,9 @@ export default function FlashcardsPage() {
     return <FullPageSkeleton />;
   }
 
+  // CRITICAL-007: Use dueForReview from stats instead of capped array length
+  const dueCardsCount = stats?.dueForReview || 0;
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Organic Blur Shapes */}
@@ -99,7 +97,7 @@ export default function FlashcardsPage() {
             <p className="text-sm font-medium text-md-on-surface-variant">Learning</p>
           </div>
           <div className="card text-center hover:scale-105 transition-transform duration-300">
-            <p className="text-4xl font-bold text-md-error mb-2">{dueCards}</p>
+            <p className="text-4xl font-bold text-md-error mb-2">{dueCardsCount}</p>
             <p className="text-sm font-medium text-md-on-surface-variant">Due Today</p>
           </div>
           <div className="card text-center hover:scale-105 transition-transform duration-300">
@@ -124,13 +122,13 @@ export default function FlashcardsPage() {
             </div>
             <h2 className="text-xl font-bold mb-3 text-md-on-surface">Review Due Cards</h2>
             <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
-              {dueCards > 0
-                ? `You have ${dueCards} cards due for review. Keep your streak going!`
+              {dueCardsCount > 0
+                ? `You have ${dueCardsCount} cards due for review. Keep your streak going!`
                 : 'No cards due right now. Great job staying on top of your reviews!'}
             </p>
             <button
               onClick={() => startSession('review')}
-              disabled={dueCards === 0 || starting !== null}
+              disabled={dueCardsCount === 0 || starting !== null}
               className="btn btn-primary w-full"
             >
               {starting === 'review' ? 'Starting...' : 'Start Review'}

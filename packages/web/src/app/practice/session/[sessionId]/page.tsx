@@ -36,6 +36,10 @@ export default function PracticeSessionPage() {
   } | null>(null);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
+
+  // CRITICAL-006: State for flagged questions
+  const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(new Set());
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -81,6 +85,44 @@ export default function PracticeSessionPage() {
       scrollRef.current.scrollTop = 0;
     }
   }, [currentIndex]);
+
+  // CRITICAL-006: Load existing flagged questions on mount
+  useEffect(() => {
+    if (!sessionId) return;
+
+    apiRequest<{ flagged: string[] }>(`/practice/sessions/${sessionId}/flagged`)
+      .then(res => setFlaggedQuestions(new Set(res.data.flagged)))
+      .catch(() => {
+        // Silently fail if endpoint doesn't exist yet
+        setFlaggedQuestions(new Set());
+      });
+  }, [sessionId]);
+
+  // CRITICAL-006: Toggle flag on a question
+  const toggleFlag = async (questionId: string) => {
+    const isFlagged = flaggedQuestions.has(questionId);
+
+    try {
+      await apiRequest(`/practice/sessions/${sessionId}/questions/${questionId}/flag`, {
+        method: isFlagged ? 'DELETE' : 'POST',
+      });
+
+      setFlaggedQuestions(prev => {
+        const next = new Set(prev);
+        if (isFlagged) {
+          next.delete(questionId);
+        } else {
+          next.add(questionId);
+        }
+        return next;
+      });
+
+      toast.success(isFlagged ? 'Question unflagged' : 'Question flagged');
+    } catch (error) {
+      console.error('Failed to flag question:', error);
+      toast.error('Failed to flag question');
+    }
+  };
 
   const handleSubmitAnswer = async () => {
     if (!session || !sessionId || !selectedOptionId) return;
@@ -136,6 +178,13 @@ export default function PracticeSessionPage() {
       setCurrentIndex(prev => prev + 1);
     } else {
       await finishSession();
+    }
+  };
+
+  // HIGH-005: Add Previous button functionality
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
     }
   };
 
@@ -232,6 +281,26 @@ export default function PracticeSessionPage() {
               {currentQuestion.difficulty}
             </span>
           )}
+          {/* CRITICAL-006: Flag button */}
+          <button
+            onClick={() => toggleFlag(currentQuestion.id)}
+            className={`
+              flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-sm
+              ${
+                flaggedQuestions.has(currentQuestion.id)
+                  ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/50'
+                  : 'bg-gray-700/50 text-gray-400 border border-gray-600/50 hover:bg-gray-700/50'
+              }
+            `}
+            aria-label={
+              flaggedQuestions.has(currentQuestion.id) ? 'Unflag question' : 'Flag question'
+            }
+          >
+            <span className="text-base">
+              {flaggedQuestions.has(currentQuestion.id) ? '★' : '☆'}
+            </span>
+            <span>{flaggedQuestions.has(currentQuestion.id) ? 'Flagged' : 'Flag'}</span>
+          </button>
         </div>
         <div className="flex-1 max-w-md mx-auto w-full">
           <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
@@ -332,12 +401,12 @@ export default function PracticeSessionPage() {
       </div>
 
       {/* Footer Actions */}
-      <div className="pt-4 border-t border-gray-800 flex justify-end">
+      <div className="pt-4 border-t border-gray-800 flex justify-between">
         {!feedback ? (
           <button
             onClick={handleSubmitAnswer}
             disabled={!selectedOptionId || isSubmitting}
-            className={`px-8 py-3 rounded-lg font-medium transition-all transform active:scale-95 ${
+            className={`px-8 py-3 rounded-lg font-medium transition-all transform active:scale-95 ml-auto ${
               !selectedOptionId || isSubmitting
                 ? 'bg-gray-800 text-gray-500 cursor-not-allowed hidden' // Hide if not actionable
                 : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-primary-900/20'
@@ -346,13 +415,28 @@ export default function PracticeSessionPage() {
             {isSubmitting ? 'Submitting...' : 'Submit Answer'}
           </button>
         ) : (
-          <button
-            onClick={handleNext}
-            className="px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-900/20 flex items-center"
-          >
-            {currentIndex === session.questions.length - 1 ? 'Finish Session' : 'Next Question'}
-            <span className="ml-2">&rarr;</span>
-          </button>
+          <>
+            {/* HIGH-005: Previous button */}
+            <button
+              onClick={handlePrevious}
+              disabled={currentIndex === 0}
+              className={`px-6 py-3 rounded-lg font-medium transition-all flex items-center ${
+                currentIndex === 0
+                  ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              <span className="mr-2">&larr;</span>
+              Previous
+            </button>
+            <button
+              onClick={handleNext}
+              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-900/20 flex items-center"
+            >
+              {currentIndex === session.questions.length - 1 ? 'Finish Session' : 'Next Question'}
+              <span className="ml-2">&rarr;</span>
+            </button>
+          </>
         )}
       </div>
     </div>

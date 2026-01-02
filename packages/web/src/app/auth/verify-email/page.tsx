@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Error handling uses unknown types caught as any */
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';

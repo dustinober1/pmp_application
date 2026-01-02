@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Test files use any for mocking */
 import { render, screen, waitFor } from '@testing-library/react';
 import DashboardPage from './page';
 import { vi, describe, it, expect, beforeEach } from 'vitest';

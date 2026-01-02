@@ -1,4 +1,5 @@
-import { test as base, request } from '@playwright/test';
+/* eslint-disable react-hooks/rules-of-hooks -- Playwright fixtures use 'use' callback, not React hooks */
+import { test as base } from '@playwright/test';
 
 /**
  * Database fixture for test data management
@@ -16,7 +17,7 @@ type DatabaseFixtures = {
 };
 
 export const test = base.extend<DatabaseFixtures>({
-  seedDatabase: async ([{ request }], use) => {
+  seedDatabase: async ({ request }, use) => {
     const seedFn = async () => {
       // Call API endpoint to seed database
       await request.post(`${process.env.API_URL || 'http://localhost:3001'}/test/seed`, {
@@ -29,7 +30,7 @@ export const test = base.extend<DatabaseFixtures>({
     await use(seedFn);
   },
 
-  cleanupDatabase: async ([{ request }], use) => {
+  cleanupDatabase: async ({ request }, use) => {
     const cleanupFn = async () => {
       await request.post(`${process.env.API_URL || 'http://localhost:3001'}/test/cleanup`, {
         headers: {
@@ -41,7 +42,7 @@ export const test = base.extend<DatabaseFixtures>({
     await use(cleanupFn);
   },
 
-  resetDatabase: async ([{ request, seedDatabase, cleanupDatabase }], use) => {
+  resetDatabase: async ({ seedDatabase, cleanupDatabase }, use) => {
     const resetFn = async () => {
       await cleanupDatabase();
       await seedDatabase();

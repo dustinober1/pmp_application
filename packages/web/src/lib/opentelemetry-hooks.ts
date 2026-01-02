@@ -4,6 +4,9 @@
  * Custom hooks for tracing in React components
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any -- Tracing payloads vary */
+/* eslint-disable react-hooks/exhaustive-deps -- Dynamic dependencies for tracing */
+
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
@@ -17,7 +20,6 @@ import {
   recordError,
   trackPageNavigation,
   trackUserInteraction,
-  type Span,
 } from './opentelemetry';
 
 /**
@@ -59,7 +61,7 @@ export function useAsyncTracer<T>(
 ) {
   return useCallback(
     () =>
-      withSpan(`async.operation:${operation}`, async (span) => {
+      withSpan(`async.operation:${operation}`, async span => {
         span.setAttributes({
           'operation.name': operation,
         });
@@ -101,12 +103,8 @@ export function useInteractionTracker() {
  */
 export function useApiTracer() {
   const traceApiCall = useCallback(
-    async <T>(
-      url: string,
-      method: string,
-      apiCall: () => Promise<T>
-    ): Promise<T> => {
-      return withSpan(`api.call:${method}:${url}`, async (span) => {
+    async <T>(url: string, method: string, apiCall: () => Promise<T>): Promise<T> => {
+      return withSpan(`api.call:${method}:${url}`, async span => {
         try {
           span.setAttributes({
             'http.method': method,
@@ -181,19 +179,19 @@ export function useTracingContext() {
     setFeatureContext(feature);
   }, []);
 
-  const addCustomEvent = useCallback((
-    name: string,
-    attributes?: Record<string, string | number | boolean | undefined>
-  ) => {
-    addEvent(name, attributes);
-  }, []);
+  const addCustomEvent = useCallback(
+    (name: string, attributes?: Record<string, string | number | boolean | undefined>) => {
+      addEvent(name, attributes);
+    },
+    []
+  );
 
-  const logError = useCallback((
-    error: Error,
-    attributes?: Record<string, string | number | boolean | undefined>
-  ) => {
-    recordError(error, attributes);
-  }, []);
+  const logError = useCallback(
+    (error: Error, attributes?: Record<string, string | number | boolean | undefined>) => {
+      recordError(error, attributes);
+    },
+    []
+  );
 
   return {
     setUser,

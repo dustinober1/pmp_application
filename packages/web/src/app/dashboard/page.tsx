@@ -7,6 +7,18 @@ import { apiRequest } from '@/lib/api';
 import { useToast } from '@/components/ToastProvider';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { formatDate } from '@/lib/dateUtils';
+import { truncateAtWordBoundary } from '@/lib/stringUtils';
+
+/**
+ * CRITICAL-003: Safe helper to extract first name from user name
+ * Handles null, undefined, empty strings, and single-word names
+ */
+const getFirstName = (name: string | null | undefined): string => {
+  if (!name || name.trim() === '') return 'there';
+  const parts = name.trim().split(' ');
+  return parts[0] || 'there';
+};
 
 interface DashboardData {
   streak: { currentStreak: number; longestStreak: number; lastStudyDate: string | null };
@@ -76,9 +88,11 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold">
-            Welcome back, {user?.name?.split(' ')[0]}! <span aria-hidden="true">👋</span>
+            Welcome back, {getFirstName(user?.name)}! <span aria-hidden="true">👋</span>
           </h1>
-          <p className="text-[var(--foreground-muted)]">Here’s your study progress at a glance.</p>
+          <p className="text-[var(--foreground-muted)]">
+            Here&apos;s your study progress at a glance.
+          </p>
         </div>
 
         {/* Stats Grid */}
@@ -155,7 +169,10 @@ export default function DashboardPage() {
                       className="flex items-center justify-between p-3 bg-[var(--secondary)] rounded-lg"
                     >
                       <div>
-                        <p className="font-medium text-sm">{area.taskName}</p>
+                        {/* MEDIUM-001: Smart text truncation for task names */}
+                        <p className="font-medium text-sm" title={area.taskName}>
+                          {truncateAtWordBoundary(area.taskName, 50)}
+                        </p>
                         <p className="text-xs text-[var(--foreground-muted)]">{area.domainName}</p>
                       </div>
                       <div className="text-right">
@@ -245,9 +262,12 @@ export default function DashboardPage() {
                   <div key={activity.id} className="flex items-start gap-3 text-sm">
                     <div className="w-2 h-2 rounded-full bg-[var(--primary)] mt-2"></div>
                     <div>
-                      <p>{activity.description}</p>
+                      {/* MEDIUM-001: Smart text truncation for activity descriptions */}
+                      <p title={activity.description}>
+                        {truncateAtWordBoundary(activity.description, 80)}
+                      </p>
                       <p className="text-xs text-[var(--foreground-muted)]">
-                        {new Date(activity.timestamp).toLocaleDateString()}
+                        {formatDate(activity.timestamp)}
                       </p>
                     </div>
                   </div>

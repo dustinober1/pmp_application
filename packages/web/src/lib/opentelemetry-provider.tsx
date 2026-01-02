@@ -5,6 +5,8 @@
  * Place in _app.tsx or layout.tsx
  */
 
+/* eslint-disable @typescript-eslint/no-var-requires -- Dynamic requires for event handlers */
+
 'use client';
 
 import { useEffect } from 'react';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Test files use any for mocking */
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import CreateFlashcardPage from './page';
 import { vi, describe, it, expect, beforeEach } from 'vitest';

@@ -4,43 +4,26 @@
  * Initializes distributed tracing for the Next.js frontend
  */
 
-import {
-  trace,
-  context,
-  Span,
-  SpanStatusCode,
-} from '@opentelemetry/api';
-import {
-  WebTracerProvider,
-  BatchSpanProcessor,
-} from '@opentelemetry/sdk-trace-web';
-import {
-  Resource,
-} from '@opentelemetry/resources';
-import {
-  SemanticResourceAttributes,
-} from '@opentelemetry/semantic-conventions';
-import {
-  OTLPTraceExporter,
-} from '@opentelemetry/exporter-trace-otlp-http';
-import {
-  FetchInstrumentation,
-} from '@opentelemetry/instrumentation-fetch';
-import {
-  XMLHttpRequestInstrumentation,
-} from '@opentelemetry/instrumentation-xml-http-request';
-import {
-  UserInteractionInstrumentation,
-} from '@opentelemetry/instrumentation-user-interaction';
-import {
-  registerInstrumentations,
-} from '@opentelemetry/instrumentation';
+/* eslint-disable no-console -- OpenTelemetry console output is expected */
+import { trace, context, SpanStatusCode } from '@opentelemetry/api';
+import type { Span } from '@opentelemetry/api';
+import { WebTracerProvider, BatchSpanProcessor } from '@opentelemetry/sdk-trace-web';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
+import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
+import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
 
 // Configuration
 const SERVICE_NAME = process.env.NEXT_PUBLIC_OTEL_SERVICE_NAME || 'pmp-web';
 const SERVICE_VERSION = process.env.NEXT_PUBLIC_OTEL_SERVICE_VERSION || '1.0.0';
-const OTEL_EXPORTER_OTLP_ENDPOINT = process.env.NEXT_PUBLIC_OTEL_EXPORTER_OTLP_ENDPOINT ||
-  (typeof window !== 'undefined' ? `${window.location.origin}/otlp` : 'http://localhost:4318/v1/traces');
+const OTEL_EXPORTER_OTLP_ENDPOINT =
+  process.env.NEXT_PUBLIC_OTEL_EXPORTER_OTLP_ENDPOINT ||
+  (typeof window !== 'undefined'
+    ? `${window.location.origin}/otlp`
+    : 'http://localhost:4318/v1/traces');
 
 // Initialize tracing
 export function initializeTracing() {
@@ -98,11 +81,13 @@ export function initializeTracing() {
       }),
 
       // User interaction instrumentation (optional - can be disabled for performance)
-      ...(isDevelopment ? [
-        new UserInteractionInstrumentation({
-          eventNames: ['click', 'submit', 'change'],
-        }),
-      ] : []),
+      ...(isDevelopment
+        ? [
+            new UserInteractionInstrumentation({
+              eventNames: ['click', 'submit', 'change'],
+            }),
+          ]
+        : []),
     ],
   });
 
@@ -128,13 +113,10 @@ export function createSpan(name: string): Span {
 /**
  * Run an operation within a span
  */
-export async function withSpan<T>(
-  name: string,
-  fn: (span: Span) => Promise<T> | T
-): Promise<T> {
+export async function withSpan<T>(name: string, fn: (span: Span) => Promise<T> | T): Promise<T> {
   const tracer = trace.getTracer(SERVICE_NAME);
 
-  return tracer.startActiveSpan(name, async (span) => {
+  return tracer.startActiveSpan(name, async span => {
     try {
       const result = await fn(span);
       span.setStatus({ code: SpanStatusCode.OK });
@@ -159,11 +141,7 @@ export async function withSpan<T>(
 /**
  * Add user context to current span
  */
-export function setUserContext(user: {
-  id: string;
-  email?: string;
-  tier?: string;
-}) {
+export function setUserContext(user: { id: string; email?: string; tier?: string }) {
   const span = trace.getSpan(context.active());
   if (span) {
     span.setAttributes({
@@ -177,11 +155,7 @@ export function setUserContext(user: {
 /**
  * Add page context to current span
  */
-export function setPageContext(page: {
-  path: string;
-  title?: string;
-  referrer?: string;
-}) {
+export function setPageContext(page: { path: string; title?: string; referrer?: string }) {
   const span = trace.getSpan(context.active());
   if (span) {
     span.setAttributes({
@@ -216,7 +190,10 @@ export function getCurrentSpan(): Span | undefined {
 /**
  * Add event to current span
  */
-export function addEvent(name: string, attributes?: Record<string, string | number | boolean | undefined>) {
+export function addEvent(
+  name: string,
+  attributes?: Record<string, string | number | boolean | undefined>
+) {
   const span = getCurrentSpan();
   if (span) {
     span.addEvent(name, attributes);
@@ -226,7 +203,10 @@ export function addEvent(name: string, attributes?: Record<string, string | numb
 /**
  * Record error in current span
  */
-export function recordError(error: Error, attributes?: Record<string, string | number | boolean | undefined>) {
+export function recordError(
+  error: Error,
+  attributes?: Record<string, string | number | boolean | undefined>
+) {
   const span = getCurrentSpan();
   if (span) {
     span.recordException(error);
@@ -245,7 +225,7 @@ export function recordError(error: Error, attributes?: Record<string, string | n
  * Track page navigation
  */
 export function trackPageNavigation(path: string, title?: string) {
-  withSpan(`page.navigation:${path}`, (span) => {
+  withSpan(`page.navigation:${path}`, span => {
     setPageContext({
       path,
       title,
@@ -262,7 +242,7 @@ export function trackPageNavigation(path: string, title?: string) {
  * Track API call
  */
 export function trackApiCall(url: string, method: string) {
-  return withSpan(`http.request:${method}:${url}`, (span) => {
+  return withSpan(`http.request:${method}:${url}`, span => {
     span.setAttributes({
       'http.method': method,
       'http.url': url,
@@ -274,13 +254,9 @@ export function trackApiCall(url: string, method: string) {
 /**
  * Track user interaction
  */
-export function trackUserInteraction(
-  elementType: string,
-  action: string,
-  elementId?: string
-) {
+export function trackUserInteraction(elementType: string, action: string, elementId?: string) {
   if (process.env.NODE_ENV === 'development') {
-    withSpan(`user.interaction:${action}`, (span) => {
+    withSpan(`user.interaction:${action}`, span => {
       span.setAttributes({
         'ui.element_type': elementType,
         'ui.action': action,

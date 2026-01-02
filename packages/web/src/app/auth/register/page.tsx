@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/ToastProvider';
+import { validateEmail } from '@/lib/validation';
+import { PasswordStrength } from '@/components/PasswordStrength';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -16,10 +18,25 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  // HIGH-002: Email validation state
+  const [emailError, setEmailError] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  // MEDIUM-003: Password strength visibility state
+  const [showPassword, setShowPassword] = useState(false);
+  // HIGH-003: Terms checkbox state management
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [termsError, setTermsError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setTermsError('');
+
+    // HIGH-002: Validate email on submit
+    if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -28,6 +45,12 @@ export default function RegisterPage() {
 
     if (password.length < 8) {
       setError('Password must be at least 8 characters');
+      return;
+    }
+
+    // HIGH-003: Validate terms acceptance
+    if (!termsAccepted) {
+      setTermsError('You must accept the Terms of Service and Privacy Policy to continue');
       return;
     }
 
@@ -42,6 +65,23 @@ export default function RegisterPage() {
       toast.error(message);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  // HIGH-002: Email validation handler
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    if (emailTouched && value && !validateEmail(value)) {
+      setEmailError('Please enter a valid email address');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handleEmailBlur = () => {
+    setEmailTouched(true);
+    if (email && !validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
     }
   };
 
@@ -102,11 +142,19 @@ export default function RegisterPage() {
               id="email"
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="input"
+              onChange={e => handleEmailChange(e.target.value)}
+              onBlur={handleEmailBlur}
+              className={`input ${emailError ? 'border-md-error focus:border-md-error focus:ring-md-error' : ''}`}
               placeholder="you@example.com"
               required
+              aria-invalid={emailError ? 'true' : 'false'}
+              aria-describedby={emailError ? 'email-error' : undefined}
             />
+            {emailError && (
+              <p id="email-error" className="mt-1 text-sm text-md-error" role="alert">
+                {emailError}
+              </p>
+            )}
           </div>
 
           <div>
@@ -116,16 +164,28 @@ export default function RegisterPage() {
             >
               Password
             </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="input"
-              placeholder="••••••••"
-              required
-              minLength={8}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="input pr-10"
+                placeholder="••••••••"
+                required
+                minLength={8}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-md-on-surface-variant hover:text-md-on-surface"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? '👁️' : '👁️‍🗨️'}
+              </button>
+            </div>
+            {/* MEDIUM-003: Password strength indicator */}
+            <PasswordStrength password={password} />
             <p className="text-xs text-md-on-surface-variant mt-1">Minimum 8 characters</p>
           </div>
 
@@ -149,21 +209,41 @@ export default function RegisterPage() {
 
           <div className="flex items-start gap-2 text-sm text-md-on-surface-variant">
             <input
+              id="terms-checkbox"
               type="checkbox"
-              className="rounded border-md-outline mt-1 text-md-primary focus:ring-md-primary"
-              required
+              checked={termsAccepted}
+              onChange={e => {
+                setTermsAccepted(e.target.checked);
+                if (e.target.checked) {
+                  setTermsError('');
+                }
+              }}
+              className={`rounded mt-1 text-md-primary focus:ring-md-primary cursor-pointer ${
+                termsError
+                  ? 'border-md-error focus:border-md-error focus:ring-md-error'
+                  : 'border-md-outline'
+              }`}
+              aria-invalid={termsError ? 'true' : 'false'}
+              aria-describedby={termsError ? 'terms-error' : undefined}
             />
-            <span>
-              I agree to the{' '}
-              <Link href="/terms" className="text-md-primary hover:underline">
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link href="/privacy" className="text-md-primary hover:underline">
-                Privacy Policy
-              </Link>
-            </span>
+            <label htmlFor="terms-checkbox" className="cursor-pointer flex-1">
+              <span>
+                I agree to the{' '}
+                <Link href="/terms" className="text-md-primary hover:underline">
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link href="/privacy" className="text-md-primary hover:underline">
+                  Privacy Policy
+                </Link>
+              </span>
+            </label>
           </div>
+          {termsError && (
+            <p id="terms-error" className="text-sm text-md-error mt-1" role="alert">
+              {termsError}
+            </p>
+          )}
 
           <button
             type="submit"

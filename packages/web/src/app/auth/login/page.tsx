@@ -1,10 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/components/ToastProvider';
+import { validateEmail } from '@/lib/validation';
+
+const REMEMBER_ME_EMAIL_KEY = 'pmp_remember_email';
+const REMEMBER_ME_FLAG_KEY = 'pmp_remember_flag';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,14 +19,59 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  // HIGH-002: Add email validation state
+  const [emailError, setEmailError] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  // Load remembered email on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const rememberedEmail = localStorage.getItem(REMEMBER_ME_EMAIL_KEY);
+        const rememberFlag = localStorage.getItem(REMEMBER_ME_FLAG_KEY);
+
+        if (rememberedEmail && rememberFlag === 'true') {
+          setEmail(rememberedEmail);
+          setRememberMe(true);
+        }
+      } catch (err) {
+        // Silently fail if localStorage is not accessible
+        // console.debug('Failed to access localStorage:', err);
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // HIGH-002: Validate email on submit
+    if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
-      await login(email, password);
+      await login(email, password, rememberMe);
+
+      // Save or clear remembered email based on checkbox
+      if (typeof window !== 'undefined') {
+        try {
+          if (rememberMe) {
+            localStorage.setItem(REMEMBER_ME_EMAIL_KEY, email);
+            localStorage.setItem(REMEMBER_ME_FLAG_KEY, 'true');
+          } else {
+            localStorage.removeItem(REMEMBER_ME_EMAIL_KEY);
+            localStorage.removeItem(REMEMBER_ME_FLAG_KEY);
+          }
+        } catch (err) {
+          // console.debug('Failed to update localStorage:', err);
+        }
+      }
+
       const requestedNext = searchParams.get('next');
       const next =
         requestedNext && requestedNext.startsWith('/') && !requestedNext.startsWith('//')
@@ -35,6 +84,23 @@ export default function LoginPage() {
       toast.error(message);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  // HIGH-002: Email validation handler
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    if (emailTouched && value && !validateEmail(value)) {
+      setEmailError('Please enter a valid email address');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handleEmailBlur = () => {
+    setEmailTouched(true);
+    if (email && !validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
     }
   };
 
@@ -75,11 +141,19 @@ export default function LoginPage() {
               id="email"
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="input"
+              onChange={e => handleEmailChange(e.target.value)}
+              onBlur={handleEmailBlur}
+              className={`input ${emailError ? 'border-md-error focus:border-md-error focus:ring-md-error' : ''}`}
               placeholder="you@example.com"
               required
+              aria-invalid={emailError ? 'true' : 'false'}
+              aria-describedby={emailError ? 'email-error' : undefined}
             />
+            {emailError && (
+              <p id="email-error" className="mt-1 text-sm text-md-error" role="alert">
+                {emailError}
+              </p>
+            )}
           </div>
 
           <div>
@@ -101,10 +175,12 @@ export default function LoginPage() {
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 text-md-on-surface-variant">
+            <label className="flex items-center gap-2 text-md-on-surface-variant cursor-pointer">
               <input
                 type="checkbox"
-                className="rounded border-md-outline text-md-primary focus:ring-md-primary"
+                checked={rememberMe}
+                onChange={e => setRememberMe(e.target.checked)}
+                className="rounded border-md-outline text-md-primary focus:ring-md-primary w-4 h-4"
               />
               <span>Remember me</span>
             </label>

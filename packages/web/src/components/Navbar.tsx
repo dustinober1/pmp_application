@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import SearchDialog from './SearchDialog';
@@ -11,9 +12,17 @@ import { setLocale, SUPPORTED_LOCALES, type SupportedLocale } from '@/i18n/i18n'
 export function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   const { t, i18n } = useTranslation();
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+
+  // HIGH-006: Helper function to check if a path is active
+  const isActive = (path: string): boolean => {
+    if (path === '/') return pathname === '/';
+    // For nested routes, check if pathname starts with the path
+    return pathname === path || pathname?.startsWith(`${path}/`);
+  };
 
   useEffect(() => {
     setDarkMode(document.documentElement.classList.contains('dark'));
@@ -50,31 +59,51 @@ export function Navbar() {
               <div className="hidden md:flex items-center gap-6">
                 <Link
                   href="/dashboard"
-                  className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
+                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                    isActive('/dashboard')
+                      ? 'text-[var(--primary)] after:opacity-100'
+                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                  }`}
                 >
                   {t('Dashboard')}
                 </Link>
                 <Link
                   href="/study"
-                  className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
+                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                    isActive('/study')
+                      ? 'text-[var(--primary)] after:opacity-100'
+                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                  }`}
                 >
                   {t('Study')}
                 </Link>
                 <Link
                   href="/flashcards"
-                  className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
+                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                    isActive('/flashcards')
+                      ? 'text-[var(--primary)] after:opacity-100'
+                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                  }`}
                 >
                   {t('Flashcards')}
                 </Link>
                 <Link
                   href="/practice"
-                  className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
+                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                    isActive('/practice')
+                      ? 'text-[var(--primary)] after:opacity-100'
+                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                  }`}
                 >
                   {t('Practice')}
                 </Link>
                 <Link
                   href="/formulas"
-                  className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition"
+                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                    isActive('/formulas')
+                      ? 'text-[var(--primary)] after:opacity-100'
+                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                  }`}
                 >
                   {t('Formulas')}
                 </Link>
@@ -214,23 +243,52 @@ export function Navbar() {
               <div className="flex flex-col gap-2">
                 <Link
                   href="/dashboard"
-                  className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg"
+                  className={`px-4 py-2 rounded-lg transition ${
+                    isActive('/dashboard')
+                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
+                      : 'hover:bg-[var(--secondary)]'
+                  }`}
                 >
                   {t('Dashboard')}
                 </Link>
-                <Link href="/study" className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg">
+                <Link
+                  href="/study"
+                  className={`px-4 py-2 rounded-lg transition ${
+                    isActive('/study')
+                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
+                      : 'hover:bg-[var(--secondary)]'
+                  }`}
+                >
                   {t('Study')}
                 </Link>
                 <Link
                   href="/flashcards"
-                  className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg"
+                  className={`px-4 py-2 rounded-lg transition ${
+                    isActive('/flashcards')
+                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
+                      : 'hover:bg-[var(--secondary)]'
+                  }`}
                 >
                   {t('Flashcards')}
                 </Link>
-                <Link href="/practice" className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg">
+                <Link
+                  href="/practice"
+                  className={`px-4 py-2 rounded-lg transition ${
+                    isActive('/practice')
+                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
+                      : 'hover:bg-[var(--secondary)]'
+                  }`}
+                >
                   {t('Practice')}
                 </Link>
-                <Link href="/formulas" className="px-4 py-2 hover:bg-[var(--secondary)] rounded-lg">
+                <Link
+                  href="/formulas"
+                  className={`px-4 py-2 rounded-lg transition ${
+                    isActive('/formulas')
+                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
+                      : 'hover:bg-[var(--secondary)]'
+                  }`}
+                >
                   {t('Formulas')}
                 </Link>
               </div>

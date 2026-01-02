@@ -1,5 +1,7 @@
-import { test as base, Page } from '@playwright/test';
-import { TestUser, testUsers } from './test-users.fixture';
+/* eslint-disable react-hooks/rules-of-hooks -- Playwright fixtures use 'use' callback, not React hooks */
+import type { Page } from '@playwright/test';
+import { test as base } from '@playwright/test';
+import { testUsers } from './test-users.fixture';
 import { AuthPage } from '../pages/auth.page';
 import { APIHelper } from '../utils/api-helper';
 
