@@ -22,6 +22,8 @@
     "docs:export": "npm run export:openapi && npm run generate:postman"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudwatch": "^3.958.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.958.0",
     "@opentelemetry/api": "1.9.0",
     "@opentelemetry/auto-instrumentations-node": "0.50.0",
     "@opentelemetry/exporter-metrics-otlp-proto": "0.54.0",
@@ -71,6 +73,7 @@
     "@types/node": "^20.10.0",
     "@types/stripe": "^8.0.417",
     "@types/supertest": "^2.0.16",
+    "@types/swagger-ui-express": "^4.1.8",
     "@types/uuid": "^9.0.7",
     "@types/yamljs": "^0.2.34",
     "fast-check": "^3.14.0",
