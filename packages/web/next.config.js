@@ -22,12 +22,24 @@ const scriptSrc = [
   ...(isDev ? ["'unsafe-eval'"] : []),
   "'unsafe-inline'",
   ...(plausibleOrigin ? [plausibleOrigin] : []),
+  'https://www.paypal.com',
+  'https://www.sandbox.paypal.com',
 ].join(' ');
 
 const connectSrc = [
   "connect-src 'self'",
   apiOrigin,
   ...(plausibleOrigin ? [plausibleOrigin] : []),
+  'https://www.paypal.com',
+  'https://www.sandbox.paypal.com',
+  'https://api-m.paypal.com',
+  'https://api-m.sandbox.paypal.com',
+].join(' ');
+
+const frameSrc = [
+  "frame-src 'self'",
+  'https://www.paypal.com',
+  'https://www.sandbox.paypal.com',
 ].join(' ');
 
 const ContentSecurityPolicy = [
@@ -35,11 +47,12 @@ const ContentSecurityPolicy = [
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'none'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://www.paypal.com https://www.sandbox.paypal.com",
   "font-src 'self' data: fonts.gstatic.com",
   scriptSrc,
   "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
   connectSrc,
+  frameSrc,
 ].join('; ');
 
 const nextConfig = {

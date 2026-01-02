@@ -206,6 +206,34 @@ export default function DashboardPage() {
                   </svg>
                   Practice Questions
                 </Link>
+
+                <button
+                  onClick={async () => {
+                    try {
+                      const response = await apiRequest<{ url: string }>(
+                        '/subscriptions/stripe/portal',
+                        { method: 'POST' }
+                      );
+                      if (response.data?.url) {
+                        window.location.href = response.data.url;
+                      }
+                    } catch (err) {
+                      console.error('Failed to open billing portal:', err);
+                      toast.error('Could not open billing portal. Please try again.');
+                    }
+                  }}
+                  className="btn btn-secondary w-full justify-start gap-2 text-md-on-surface-variant hover:text-md-primary"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                    />
+                  </svg>
+                  Manage Subscription
+                </button>
               </div>
             </div>
 

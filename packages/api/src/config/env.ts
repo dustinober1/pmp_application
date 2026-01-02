@@ -26,16 +26,12 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(32),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
 
-  // PayPal
-  PAYPAL_CLIENT_ID: z.string().optional(),
-  PAYPAL_CLIENT_SECRET: z.string().optional(),
-  PAYPAL_MODE: z.enum(['sandbox', 'live']).default('sandbox'),
-
   // Redis (optional)
   REDIS_URL: z.string().optional(),
 
-  // PayPal Webhook
-  PAYPAL_WEBHOOK_ID: z.string().optional(),
+  // Stripe
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
 
   // Email
   SMTP_HOST: z.string().optional(),

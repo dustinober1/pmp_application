@@ -94,11 +94,7 @@ export class SubscriptionService {
   /**
    * Create or update user subscription (for PayPal integration)
    */
-  async createSubscription(
-    userId: string,
-    tierId: string,
-    paypalOrderId?: string
-  ): Promise<UserSubscription> {
+  async createSubscription(userId: string, tierId: string): Promise<UserSubscription> {
     // Validate tier exists
     const tier = await prisma.subscriptionTier.findUnique({
       where: { id: tierId },
@@ -135,20 +131,20 @@ export class SubscriptionService {
       include: { tier: true },
     });
 
-    // Record transaction
-    if (paypalOrderId) {
-      await prisma.paymentTransaction.create({
-        data: {
-          userId,
-          paypalOrderId,
-          amount: tier.price,
-          currency: 'USD',
-          status: 'completed',
-          tierId,
-          billingPeriod: tier.billingPeriod,
-        },
-      });
-    }
+    // Record transaction - handled by stripe webhook now
+    // if (paypalOrderId) {
+    //   await prisma.paymentTransaction.create({
+    //     data: {
+    //       userId,
+    //       paypalOrderId,
+    //       amount: tier.price,
+    //       currency: 'USD',
+    //       status: 'completed',
+    //       tierId,
+    //       billingPeriod: tier.billingPeriod,
+    //     },
+    //   });
+    // }
 
     return {
       id: subscription.id,
@@ -180,6 +176,14 @@ export class SubscriptionService {
     if (!subscription) {
       throw AppError.notFound('Subscription not found');
     }
+
+    // Handle Stripe cancellation
+    if (subscription.stripeSubscriptionId) {
+      const { stripeService } = await import('./stripe.service');
+      await stripeService.cancelSubscription(userId);
+    }
+
+    // Handle PayPal cancellation (removed)
 
     await prisma.userSubscription.update({
       where: { userId },

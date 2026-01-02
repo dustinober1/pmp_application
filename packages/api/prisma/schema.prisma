@@ -90,6 +90,8 @@ model UserSubscription {
   startDate            DateTime @default(now())
   endDate              DateTime
   paypalSubscriptionId String?
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
@@ -101,18 +103,20 @@ model UserSubscription {
 }
 
 model PaymentTransaction {
-  id              String   @id @default(uuid())
-  userId          String
-  paypalOrderId   String   @unique
-  paypalPayerId   String?
-  amount          Float
-  currency        String   @default("USD")
-  status          String   // 'pending', 'completed', 'failed', 'refunded'
-  tierId          String
-  billingPeriod   String
-  metadata        Json?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                    String   @id @default(uuid())
+  userId                String
+  paypalOrderId         String?  @unique
+  paypalPayerId         String?
+  stripeSessionId       String?  @unique
+  stripePaymentIntentId String?  @unique
+  amount                Float
+  currency              String   @default("USD")
+  status                String   // 'pending', 'completed', 'failed', 'refunded'
+  tierId                String
+  billingPeriod         String
+  metadata              Json?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 
   @@map("payment_transactions")
 }

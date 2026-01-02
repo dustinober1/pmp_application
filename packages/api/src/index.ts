@@ -7,7 +7,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import rateLimit from 'express-rate-limit';
+import { rateLimit } from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
@@ -29,7 +29,7 @@ import dashboardRouter from './routes/dashboard.routes';
 import teamRouter from './routes/team.routes';
 import searchRouter from './routes/search.routes';
 import ebookRouter from './routes/ebook.routes';
-
+import stripeWebhookRouter from './routes/stripe.webhook.routes';
 const app = express();
 
 // Security middleware
@@ -66,6 +66,10 @@ const limiter = rateLimit({
   },
 });
 app.use('/api', limiter);
+
+// Webhook Routes (Must be before JSON parser for raw body)
+app.use('/webhooks/stripe', express.raw({ type: 'application/json' }), stripeWebhookRouter);
+// app.use('/webhooks/paypal', paypalWebhookRouter);
 
 // Request parsing
 app.use(express.json({ limit: '10mb' }));
@@ -124,11 +128,6 @@ app.use('/api/dashboard', dashboardRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/search', searchRouter);
 app.use('/api/ebook', ebookRouter);
-
-// Webhook Routes (separate from /api prefix for external services)
-import paypalWebhookRouter from './routes/paypal.webhook.routes';
-app.use('/webhooks/paypal', paypalWebhookRouter);
-
 
 // Error handling
 app.use(notFoundHandler);

@@ -3,8 +3,8 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies needed for some npm packages
-RUN apk add --no-cache libc6-compat python3 make g++
+# Install dependencies needed for some npm packages and Prisma
+RUN apk add --no-cache libc6-compat python3 make g++ openssl openssl-dev
 
 # Install global dependencies
 RUN npm install -g npm@latest

@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
 import { Router } from 'express';
 import { subscriptionService } from '../services/subscription.service';
-import { paypalService } from '../services/paypal.service';
+// import { paypalService } from '../services/paypal.service';
+import { stripeService } from '../services/stripe.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { validateBody } from '../middleware/validation.middleware';
 import { z } from 'zod';
@@ -13,10 +14,10 @@ const createSubscriptionSchema = z.object({
   tierId: z.string().uuid('Invalid tier ID'),
 });
 
-const activateSubscriptionSchema = z.object({
-  paypalOrderId: z.string().min(1, 'PayPal order ID is required'),
-  tierId: z.string().uuid('Tier ID is required'),
-});
+// const activateSubscriptionSchema = z.object({
+//   paypalOrderId: z.string().min(1, 'PayPal order ID is required'),
+//   tierId: z.string().uuid('Tier ID is required'),
+// });
 
 /**
  * GET /api/subscriptions/tiers
@@ -69,7 +70,7 @@ router.get('/features', authMiddleware, async (req: Request, res: Response, next
 /**
  * POST /api/subscriptions/create
  * Create a subscription (for free tier or to initiate upgrade)
- * For paid tiers, creates a PayPal order and returns the approval URL
+ * For paid tiers, we now use the Stripe checkout flow (/stripe/checkout)
  */
 router.post(
   '/create',
@@ -101,8 +102,47 @@ router.post(
         return;
       }
 
-      // For paid tiers, create a real PayPal order
-      const { orderId, approvalUrl } = await paypalService.createOrder(
+      // Paid tiers must use Stripe Checkout
+      res.status(400).json({
+        success: false,
+        message: 'Please use /stripe/checkout for paid subscriptions',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/**
+ * POST /api/subscriptions/stripe/checkout
+ * Create a Stripe Checkout session
+ */
+router.post(
+  '/stripe/checkout',
+  authMiddleware,
+  validateBody(createSubscriptionSchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const tier = await subscriptionService.getTierById(req.body.tierId);
+
+      if (!tier) {
+        res.status(400).json({
+          success: false,
+          error: { code: 'SUB_002', message: 'Invalid tier ID' },
+        });
+        return;
+      }
+
+      if (tier.price === 0) {
+        res.status(400).json({
+          success: false,
+          message: 'Free tier does not require checkout',
+        });
+        return;
+      }
+
+      const { sessionId, url } = await stripeService.createCheckoutSession(
+        req.user!.userId,
         tier.id,
         tier.name,
         tier.price,
@@ -112,14 +152,9 @@ router.post(
       res.json({
         success: true,
         data: {
-          paypalOrder: {
-            orderId,
-            approvalUrl,
-            status: 'CREATED',
-            tier: tier,
-          },
+          sessionId,
+          checkoutUrl: url,
         },
-        message: 'Please complete payment with PayPal',
       });
     } catch (error) {
       next(error);
@@ -127,58 +162,13 @@ router.post(
   }
 );
 
-/**
- * POST /api/subscriptions/activate
- * Activate subscription after PayPal payment confirmation
- * Captures the PayPal order and activates the subscription
- */
-router.post(
-  '/activate',
-  authMiddleware,
-  validateBody(activateSubscriptionSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { paypalOrderId, tierId } = req.body;
-
-      // Capture the PayPal order to verify and complete payment
-      const captureResult = await paypalService.captureOrder(paypalOrderId);
-
-      if (captureResult.status !== 'COMPLETED') {
-        res.status(400).json({
-          success: false,
-          error: { code: 'PAYMENT_FAILED', message: 'Payment was not completed' },
-        });
-        return;
-      }
-
-      // Verify the tier exists
-      const tier = await subscriptionService.getTierById(tierId);
-      if (!tier) {
-        res.status(400).json({
-          success: false,
-          error: { code: 'SUB_002', message: 'Invalid tier ID' },
-        });
-        return;
-      }
-
-      // Create/update the subscription
-      const subscription = await subscriptionService.createSubscription(
-        req.user!.userId,
-        tierId,
-        paypalOrderId
-      );
-
-      res.json({
-        success: true,
-        data: { subscription },
-        message: 'Subscription activated successfully',
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
+// Route removed as we no longer use PayPal order activation
+// router.post(
+//   '/activate',
+//   authMiddleware,
+//   validateBody(activateSubscriptionSchema),
+//   async (req: Request, res: Response, next: NextFunction) => { ... }
+// );
 
 /**
  * POST /api/subscriptions/cancel
@@ -212,5 +202,25 @@ router.post('/check-expiry', async (_req: Request, res: Response, next: NextFunc
     next(error);
   }
 });
+
+/**
+ * POST /api/subscriptions/stripe/portal
+ * Create a Stripe Customer Portal session
+ */
+router.post(
+  '/stripe/portal',
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { url } = await stripeService.createBillingPortalSession(req.user!.userId);
+      res.json({
+        success: true,
+        data: { url },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export default router;
