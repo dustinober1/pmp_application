@@ -139,7 +139,7 @@ export default function StudyPage() {
                   {selectedDomainData.weightPercentage}% of Exam
                 </span>
                 <span className="text-sm text-[var(--foreground-muted)]">
-                  {selectedDomainData.tasks.length} Tasks
+                  {selectedDomainData.tasks?.length ?? 0} Tasks
                 </span>
               </div>
             </div>
@@ -183,7 +183,7 @@ export default function StudyPage() {
             {/* Tab Content */}
             {viewMode === 'tasks' && (
               <div className="space-y-3" role="tabpanel">
-                {selectedDomainData.tasks.map(task => (
+                {(selectedDomainData.tasks || []).map(task => (
                   <button
                     type="button"
                     key={task.id}
