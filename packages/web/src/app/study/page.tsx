@@ -19,17 +19,16 @@ export default function StudyPage() {
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('tasks');
-  const [openEnablers, setOpenEnablers] = useState<Set<number>>(new Set([0])); // First enabler open by default
+  const [openEnablers, setOpenEnablers] = useState<number[]>([]); // No enablers open by default
+
+  const isEnablerOpen = useCallback((idx: number) => openEnablers.includes(idx), [openEnablers]);
 
   const toggleEnabler = useCallback((idx: number) => {
     setOpenEnablers(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(idx)) {
-        newSet.delete(idx);
-      } else {
-        newSet.add(idx);
+      if (prev.includes(idx)) {
+        return prev.filter(i => i !== idx);
       }
-      return newSet;
+      return [...prev, idx];
     });
   }, []);
 
@@ -220,7 +219,6 @@ export default function StudyPage() {
                             e.stopPropagation();
                             setSelectedTask(task);
                             setViewMode('enablers');
-                            setOpenEnablers(new Set([0])); // Reset enabler accordion
                           }}
                         >
                           View Enablers
@@ -268,69 +266,77 @@ export default function StudyPage() {
                 </div>
 
                 {/* Enablers by Category */}
-                {selectedTask.enablers.map((enabler, idx) => (
-                  <div
-                    key={idx}
-                    className="border border-[var(--border)] rounded-lg overflow-hidden"
-                  >
-                    <button
-                      type="button"
-                      className="w-full px-4 py-3 bg-[var(--secondary)] flex items-center justify-between"
-                      onClick={() => toggleEnabler(idx)}
+                {selectedTask.enablers?.length > 0 ? (
+                  selectedTask.enablers.map((enabler, idx) => (
+                    <div
+                      key={idx}
+                      className="border border-[var(--border)] rounded-lg overflow-hidden"
                     >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-3 h-3 rounded-full ${
-                            enabler.category === 'Key Knowledge and Skills'
-                              ? 'bg-blue-500'
-                              : enabler.category === 'Tools and Methods'
-                                ? 'bg-emerald-500'
-                                : 'bg-amber-500'
-                          }`}
-                        />
-                        <h4 className="font-semibold text-left">{enabler.category}</h4>
-                        <span className="badge badge-secondary text-xs">
-                          {enabler.items.length} items
-                        </span>
-                      </div>
-                      <svg
-                        className={`w-5 h-5 text-[var(--foreground-muted)] transition-transform ${
-                          openEnablers.has(idx) ? 'rotate-180' : ''
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                      <button
+                        type="button"
+                        className="w-full px-4 py-3 bg-[var(--secondary)] flex items-center justify-between"
+                        onClick={() => toggleEnabler(idx)}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                    {openEnablers.has(idx) && (
-                      <div className="px-4 py-3 bg-[var(--background)]">
-                        <ul className="space-y-2">
-                          {enabler.items.map((item, itemIdx) => (
-                            <li key={itemIdx} className="flex items-start gap-3 text-sm">
-                              <span
-                                className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                                  enabler.category === 'Key Knowledge and Skills'
-                                    ? 'bg-blue-500'
-                                    : enabler.category === 'Tools and Methods'
-                                      ? 'bg-emerald-500'
-                                      : 'bg-amber-500'
-                                }`}
-                              />
-                              <span className="flex-1">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-3 h-3 rounded-full ${
+                              enabler.category === 'Key Knowledge and Skills'
+                                ? 'bg-blue-500'
+                                : enabler.category === 'Tools and Methods'
+                                  ? 'bg-emerald-500'
+                                  : 'bg-amber-500'
+                            }`}
+                          />
+                          <h4 className="font-semibold text-left">{enabler.category}</h4>
+                          <span className="badge badge-secondary text-xs">
+                            {enabler.items.length} items
+                          </span>
+                        </div>
+                        <svg
+                          className={`w-5 h-5 text-[var(--foreground-muted)] transition-transform ${
+                            isEnablerOpen(idx) ? 'rotate-180' : ''
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+                      {isEnablerOpen(idx) && (
+                        <div className="px-4 py-3 bg-[var(--background)]">
+                          <ul className="space-y-2">
+                            {enabler.items.map((item, itemIdx) => (
+                              <li key={itemIdx} className="flex items-start gap-3 text-sm">
+                                <span
+                                  className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                                    enabler.category === 'Key Knowledge and Skills'
+                                      ? 'bg-blue-500'
+                                      : enabler.category === 'Tools and Methods'
+                                        ? 'bg-emerald-500'
+                                        : 'bg-amber-500'
+                                  }`}
+                                />
+                                <span className="flex-1">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-[var(--foreground-muted)]">
+                      No enablers available for this task.
+                    </p>
                   </div>
-                ))}
+                )}
               </div>
             )}
 
