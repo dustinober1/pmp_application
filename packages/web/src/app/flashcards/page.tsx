@@ -124,11 +124,11 @@ export default function FlashcardsPage() {
             <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               {dueCardsCount > 0
                 ? `You have ${dueCardsCount} cards due for review. Keep your streak going!`
-                : 'No cards due right now. Great job staying on top of your reviews!'}
+                : 'No cards due right now. Start a session to review any available cards!'}
             </p>
             <button
               onClick={() => startSession('review')}
-              disabled={dueCardsCount === 0 || starting !== null}
+              disabled={starting !== null}
               className="btn btn-primary w-full"
             >
               {starting === 'review' ? 'Starting...' : 'Start Review'}
