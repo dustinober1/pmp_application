@@ -1,16 +1,16 @@
-import React from 'react';
-import Link from 'next/link';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import React from "react";
+import Link from "next/link";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 // Feature route mapping for clickable cards
 const featureRoutes: Record<string, string> = {
-  'Comprehensive Study Guides': '/study',
-  'Adaptive Flashcards': '/flashcards',
-  'Practice Questions': '/practice',
-  'Formula Calculator': '/formulas',
-  'Analytics Dashboard': '/dashboard',
-  'Full Mock Exams': '/practice/mock',
+  "Comprehensive Study Guides": "/study",
+  "Adaptive Flashcards": "/flashcards",
+  "Practice Questions": "/practice",
+  "Formula Calculator": "/formulas",
+  "Analytics Dashboard": "/dashboard",
+  "Full Mock Exams": "/practice/mock",
 };
 
 export default function HomePage() {
@@ -33,14 +33,20 @@ export default function HomePage() {
               with Confidence
             </h1>
             <p className="text-xl text-md-on-surface-variant max-w-2xl mx-auto mb-8">
-              Comprehensive study materials, practice questions, and AI-powered insights designed to
-              help you succeed on your first attempt.
+              Comprehensive study materials, practice questions, and AI-powered
+              insights designed to help you succeed on your first attempt.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/auth/register" className="btn btn-primary text-lg px-8 py-3">
+              <Link
+                href="/auth/register"
+                className="btn btn-primary text-lg px-8 py-3"
+              >
                 Start Free Trial
               </Link>
-              <Link href="/auth/login" className="btn btn-outline text-lg px-8 py-3">
+              <Link
+                href="/auth/login"
+                className="btn btn-outline text-lg px-8 py-3"
+              >
                 Sign In
               </Link>
             </div>
@@ -67,7 +73,9 @@ export default function HomePage() {
                     <h3 className="text-lg font-semibold mb-2 text-md-on-surface">
                       {feature.title}
                     </h3>
-                    <p className="text-md-on-surface-variant">{feature.description}</p>
+                    <p className="text-md-on-surface-variant">
+                      {feature.description}
+                    </p>
                   </div>
                 </Link>
               ) : (
@@ -75,8 +83,12 @@ export default function HomePage() {
                   <div className="w-12 h-12 rounded-xl bg-md-primary-container text-md-on-primary-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     {feature.icon}
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 text-md-on-surface">{feature.title}</h3>
-                  <p className="text-md-on-surface-variant">{feature.description}</p>
+                  <h3 className="text-lg font-semibold mb-2 text-md-on-surface">
+                    {feature.title}
+                  </h3>
+                  <p className="text-md-on-surface-variant">
+                    {feature.description}
+                  </p>
                 </div>
               );
             })}
@@ -105,21 +117,26 @@ export default function HomePage() {
             Simple, Transparent Pricing
           </h2>
           <p className="text-md-on-surface-variant text-center mb-12 max-w-2xl mx-auto">
-            Choose the plan that fits your study needs. Upgrade or downgrade anytime.
+            Choose the plan that fits your study needs. Upgrade or downgrade
+            anytime.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {pricing.map((tier, index) => (
               <div
                 key={index}
-                className={`card relative ${tier.popular ? 'ring-2 ring-md-primary md:-translate-y-4 shadow-lg' : ''}`}
+                className={`card relative ${tier.popular ? "ring-2 ring-md-primary md:-translate-y-4 shadow-lg" : ""}`}
               >
-                {tier.popular && <span className="badge badge-primary mb-4">Most Popular</span>}
-                <h3 className="text-xl font-bold text-md-on-surface">{tier.name}</h3>
+                {tier.popular && (
+                  <span className="badge badge-primary mb-4">Most Popular</span>
+                )}
+                <h3 className="text-xl font-bold text-md-on-surface">
+                  {tier.name}
+                </h3>
                 <p className="text-3xl font-bold mt-4 text-md-on-surface">
-                  {tier.price === 0 ? 'Free' : `$${tier.price}`}
+                  {tier.price === 0 ? "Free" : `$${tier.price}`}
                   {tier.price !== 0 && (
                     <span className="text-sm font-normal text-md-on-surface-variant">
-                      /mo{tier.perSeat && ' per seat'}
+                      /mo{tier.perSeat && " per seat"}
                     </span>
                   )}
                 </p>
@@ -148,7 +165,7 @@ export default function HomePage() {
                 </ul>
                 <Link
                   href="/auth/register"
-                  className={`btn w-full mt-6 ${tier.popular ? 'btn-primary' : 'btn-secondary'}`}
+                  className={`btn w-full mt-6 ${tier.popular ? "btn-primary" : "btn-secondary"}`}
                 >
                   Get Started
                 </Link>
@@ -166,9 +183,13 @@ export default function HomePage() {
             Ready to Ace Your PMP Exam?
           </h2>
           <p className="text-md-on-surface-variant mb-8">
-            Join thousands of successful PMP-certified professionals who studied with us.
+            Join thousands of successful PMP-certified professionals who studied
+            with us.
           </p>
-          <Link href="/auth/register" className="btn btn-primary text-lg px-8 py-3">
+          <Link
+            href="/auth/register"
+            className="btn btn-primary text-lg px-8 py-3"
+          >
             Start Your Free Trial Today
           </Link>
         </div>
@@ -183,7 +204,12 @@ export default function HomePage() {
 const features = [
   {
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -192,12 +218,18 @@ const features = [
         />
       </svg>
     ),
-    title: 'Comprehensive Study Guides',
-    description: 'In-depth coverage of all PMP domains aligned with the 2026 ECO.',
+    title: "Comprehensive Study Guides",
+    description:
+      "In-depth coverage of all PMP domains aligned with the 2026 ECO.",
   },
   {
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -206,12 +238,18 @@ const features = [
         />
       </svg>
     ),
-    title: '1,800+ Practice Questions',
-    description: 'Realistic exam questions with detailed explanations and rationales.',
+    title: "1,800+ Practice Questions",
+    description:
+      "Realistic exam questions with detailed explanations and rationales.",
   },
   {
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -220,12 +258,18 @@ const features = [
         />
       </svg>
     ),
-    title: 'Spaced Repetition Flashcards',
-    description: 'Optimize your memory with our SM-2 algorithm-powered flashcards.',
+    title: "Spaced Repetition Flashcards",
+    description:
+      "Optimize your memory with our SM-2 algorithm-powered flashcards.",
   },
   {
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -234,12 +278,18 @@ const features = [
         />
       </svg>
     ),
-    title: 'Formula Calculator',
-    description: 'Interactive EVM and PERT calculators with step-by-step solutions.',
+    title: "Formula Calculator",
+    description:
+      "Interactive EVM and PERT calculators with step-by-step solutions.",
   },
   {
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -248,12 +298,17 @@ const features = [
         />
       </svg>
     ),
-    title: 'Analytics Dashboard',
-    description: 'Track your progress and identify areas needing improvement.',
+    title: "Analytics Dashboard",
+    description: "Track your progress and identify areas needing improvement.",
   },
   {
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -262,52 +317,53 @@ const features = [
         />
       </svg>
     ),
-    title: 'Full Mock Exams',
-    description: 'Simulate the real exam experience with timed 180-question tests.',
+    title: "Full Mock Exams",
+    description:
+      "Simulate the real exam experience with timed 180-question tests.",
   },
 ];
 
 const stats = [
-  { value: '95%', label: 'Pass Rate' },
-  { value: '1,800+', label: 'Practice Questions' },
-  { value: '500+', label: 'Flashcards' },
-  { value: '50K+', label: 'Students' },
+  { value: "Adaptive", label: "Learning Algorithm" },
+  { value: "1,200+", label: "Practice Questions" },
+  { value: "1,800+", label: "Flashcards" },
+  { value: "SM-2", label: "Spaced Repetition" },
 ];
 
 const pricing = [
   {
-    name: 'Free Starter',
+    name: "Free Starter",
     price: 0,
     features: [
-      '500+ flashcards',
-      '1 full-length practice exam',
-      'Basic feedback',
-      'Progress tracking',
+      "500+ flashcards",
+      "1 full-length practice exam",
+      "Basic feedback",
+      "Progress tracking",
     ],
   },
   {
-    name: 'Pro',
+    name: "Pro",
     price: 9.99,
     popular: true,
     features: [
-      'All Free features',
-      '2,000+ flashcards',
-      '6 full-length practice exams',
-      'Detailed feedback per question',
-      'Formula calculator',
-      'Personalized study plan',
+      "All Free features",
+      "2,000+ flashcards",
+      "6 full-length practice exams",
+      "Detailed feedback per question",
+      "Formula calculator",
+      "Personalized study plan",
     ],
   },
   {
-    name: 'Corporate Team',
+    name: "Corporate Team",
     price: 14.99,
     perSeat: true,
     features: [
-      'All Pro features',
-      'Unlimited flashcards',
-      'Team management',
-      'Company-wide analytics',
-      'Dedicated support',
+      "All Pro features",
+      "Unlimited flashcards",
+      "Team management",
+      "Company-wide analytics",
+      "Dedicated support",
     ],
   },
 ];

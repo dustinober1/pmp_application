@@ -1,203 +1,322 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useAuth } from '../../contexts/AuthContext';
-import { DEFAULT_TIER_FEATURES } from '@pmp/shared';
+import { useState } from "react";
+import Link from "next/link";
+import { useAuth } from "../../contexts/AuthContext";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 export default function PricingPage() {
   const { user } = useAuth();
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">(
+    "monthly",
+  );
 
-  // Pricing configuration with new pricing tiers
   const tiers = [
     {
-      id: 'free',
-      name: 'Free Starter',
+      id: "free",
+      name: "Free Starter",
       price: 0,
-      priceDisplay: 'Free',
-      description: 'Perfect for starting your PMP journey.',
-      features: DEFAULT_TIER_FEATURES['free'],
-      buttonText: user?.tier === 'free' ? 'Current Plan' : 'Get Started',
-      buttonHref: user ? '/dashboard' : '/auth/register',
+      description:
+        "Perfect for exploring our platform and starting your PMP journey.",
+      features: [
+        "500+ Flashcards",
+        "1 Full-length Practice Exam",
+        "Basic Progress Tracking",
+        "Study Guide Access",
+        "SM-2 Spaced Repetition",
+      ],
+      buttonText: user?.tier === "free" ? "Current Plan" : "Get Started Free",
+      buttonHref: user ? "/dashboard" : "/auth/register",
       highlight: false,
-      // Custom feature descriptions for display
-      featureDisplay: {
-        flashcards: '500+ Flashcards',
-        practiceExams: '1 Full-length Practice Exam',
-        feedback: 'Basic Feedback',
-      },
     },
     {
-      id: 'pro',
-      name: 'Pro',
-      price: billingPeriod === 'monthly' ? 9.99 : 99.9,
-      annualPrice: 99.9,
-      description: 'Comprehensive preparation for exam success.',
-      features: DEFAULT_TIER_FEATURES['pro'],
-      buttonText: user?.tier === 'pro' ? 'Current Plan' : 'Upgrade to Pro',
-      buttonHref: '/checkout?tier=pro',
+      id: "pro",
+      name: "Pro",
+      monthlyPrice: 9.99,
+      annualPrice: 99.99,
+      description:
+        "Everything you need to pass the PMP exam on your first try.",
+      features: [
+        "All Free Features",
+        "1,800+ Flashcards",
+        "Unlimited Practice Exams",
+        "Detailed Answer Explanations",
+        "Formula Calculator with Steps",
+        "Personalized Study Plan",
+        "Custom Flashcard Creation",
+        "Priority Support",
+      ],
+      buttonText:
+        user?.tier === "pro" ? "Current Plan" : "Start 7-Day Free Trial",
+      buttonHref: "/checkout?tier=pro",
       highlight: true,
       popular: true,
-      featureDisplay: {
-        flashcards: '2000+ Flashcards',
-        practiceExams: '6 Full-length Practice Exams',
-        feedback: 'Detailed Feedback per Question',
-      },
+      trial: true,
     },
     {
-      id: 'corporate',
-      name: 'Corporate Team',
-      price: billingPeriod === 'monthly' ? 14.99 : 149.9,
-      annualPrice: 149.9,
+      id: "corporate",
+      name: "Corporate Team",
+      monthlyPrice: 14.99,
+      annualPrice: 149.99,
       perSeat: true,
-      description: 'Manage your entire team with advanced analytics.',
-      features: DEFAULT_TIER_FEATURES['corporate'],
-      buttonText: user?.tier === 'corporate' ? 'Current Plan' : 'Start Team Plan',
-      buttonHref: '/checkout?tier=corporate',
+      description:
+        "Empower your entire team with advanced analytics and management.",
+      features: [
+        "All Pro Features",
+        "Team Management Dashboard",
+        "Company-wide Analytics",
+        "Bulk User Management",
+        "Progress Reports & Exports",
+        "Dedicated Account Manager",
+        "Custom Onboarding",
+        "SSO Integration (coming soon)",
+      ],
+      buttonText:
+        user?.tier === "corporate" ? "Current Plan" : "Start Team Trial",
+      buttonHref: "/checkout?tier=corporate",
       highlight: false,
-      featureDisplay: {
-        flashcards: 'Unlimited Flashcards',
-        practiceExams: '6 Full-length Practice Exams',
-        feedback: 'Detailed Feedback + Company-wide Analytics',
-      },
+      trial: true,
     },
   ];
 
-  return (
-    <div className="bg-gray-900 min-h-screen py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-base font-semibold leading-7 text-primary-400">Pricing</h2>
-          <p className="mt-2 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Invest in your PMP success
-          </p>
-          <p className="mt-6 text-lg leading-8 text-gray-400">
-            Choose the plan that fits your study needs. All plans include access to our core
-            learning engine.
-          </p>
-        </div>
+  const faqs = [
+    {
+      question: "What happens after the 7-day free trial?",
+      answer:
+        "You'll be automatically charged at the end of your trial unless you cancel. You can cancel anytime from your account settings with no questions asked.",
+    },
+    {
+      question: "Can I switch plans later?",
+      answer:
+        "Absolutely! You can upgrade or downgrade your plan at any time. If you upgrade, you'll get immediate access to new features. If you downgrade, the change takes effect at your next billing cycle.",
+    },
+    {
+      question: "Is there a money-back guarantee?",
+      answer:
+        "Yes! We offer a 30-day money-back guarantee. If you're not satisfied with your purchase, contact us within 30 days for a full refund.",
+    },
+    {
+      question: "How does the Corporate plan work?",
+      answer:
+        "The Corporate plan is priced per seat. You can add or remove team members at any time. Each member gets full Pro access plus team collaboration features.",
+    },
+  ];
 
-        {/* Billing Toggle */}
-        <div className="mt-16 flex justify-center">
-          <div className="relative flex bg-gray-800 rounded-full p-1 border border-gray-700">
-            <button
-              onClick={() => setBillingPeriod('monthly')}
-              className={`${
-                billingPeriod === 'monthly'
-                  ? 'bg-primary-600 text-white'
-                  : 'text-gray-400 hover:text-white'
-              } rounded-full px-6 py-2 text-sm font-medium transition-all duration-200`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setBillingPeriod('annual')}
-              className={`${
-                billingPeriod === 'annual'
-                  ? 'bg-primary-600 text-white'
-                  : 'text-gray-400 hover:text-white'
-              } rounded-full px-6 py-2 text-sm font-medium transition-all duration-200`}
-            >
-              Annual <span className="text-xs ml-1 opacity-75">(Save ~17%)</span>
-            </button>
+  const getPrice = (tier: (typeof tiers)[0]) => {
+    if (tier.price === 0) return "Free";
+    const price =
+      billingPeriod === "monthly" ? tier.monthlyPrice : tier.annualPrice;
+    return `$${price?.toFixed(2)}`;
+  };
+
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-20 sm:py-28">
+        {/* Organic Blur Shapes */}
+        <div className="blur-shape bg-md-primary w-96 h-96 top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="blur-shape bg-md-tertiary w-96 h-96 bottom-0 right-0 translate-x-1/2 translate-y-1/2"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center animate-slideUp">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-md-on-background">
+              Simple, <span className="text-gradient">Transparent</span> Pricing
+            </h1>
+            <p className="text-xl text-md-on-surface-variant max-w-2xl mx-auto mb-8">
+              Start your 7-day free trial today. No credit card required to get
+              started.
+            </p>
+
+            {/* Billing Toggle */}
+            <div className="flex justify-center mb-12">
+              <div className="relative flex bg-md-surface-container rounded-full p-1 border border-md-outline-variant">
+                <button
+                  onClick={() => setBillingPeriod("monthly")}
+                  className={`${
+                    billingPeriod === "monthly"
+                      ? "bg-md-primary text-md-on-primary"
+                      : "text-md-on-surface-variant hover:text-md-on-surface"
+                  } rounded-full px-6 py-2 text-sm font-medium transition-all duration-200`}
+                >
+                  Monthly
+                </button>
+                <button
+                  onClick={() => setBillingPeriod("annual")}
+                  className={`${
+                    billingPeriod === "annual"
+                      ? "bg-md-primary text-md-on-primary"
+                      : "text-md-on-surface-variant hover:text-md-on-surface"
+                  } rounded-full px-6 py-2 text-sm font-medium transition-all duration-200`}
+                >
+                  Annual{" "}
+                  <span className="text-xs ml-1 px-2 py-0.5 bg-md-tertiary-container text-md-on-tertiary-container rounded-full">
+                    Save 17%
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-3">
-          {tiers.map(tier => (
-            <div
-              key={tier.id}
-              className={`rounded-3xl p-8 ring-1 ring-white/10 ${
-                tier.highlight
-                  ? 'bg-white/5 ring-primary-500 scale-105 shadow-xl relative'
-                  : 'bg-gray-800/20'
-              } xl:p-10 transition-transform hover:-translate-y-1`}
-            >
-              {tier.popular && (
-                <div className="absolute top-0 right-0 -mt-2 -mr-2 px-3 py-1 bg-primary-500 text-white text-xs font-bold rounded-full uppercase tracking-wider shadow-lg">
-                  Most Popular
-                </div>
-              )}
-
-              <div className="flex items-center justify-between gap-x-4">
-                <h3 id={tier.id} className="text-lg font-semibold leading-8 text-white">
-                  {tier.name}
-                </h3>
-              </div>
-              <p className="mt-4 text-sm leading-6 text-gray-300">{tier.description}</p>
-              <p className="mt-6 flex items-baseline gap-x-1">
-                {tier.priceDisplay ? (
-                  <span className="text-4xl font-bold tracking-tight text-white">
-                    {tier.priceDisplay}
-                  </span>
-                ) : (
-                  <>
-                    <span className="text-4xl font-bold tracking-tight text-white">
-                      ${tier.price.toFixed(2)}
-                    </span>
-                    <span className="text-sm font-semibold leading-6 text-gray-300">
-                      /{billingPeriod === 'monthly' ? 'mo' : 'yr'}
-                    </span>
-                    {tier.perSeat && <span className="text-xs text-gray-400 ml-1">per seat</span>}
-                  </>
-                )}
-              </p>
-              <Link
-                href={tier.buttonHref}
-                className={`mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+      {/* Pricing Cards */}
+      <section className="pb-20 -mt-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {tiers.map((tier) => (
+              <div
+                key={tier.id}
+                className={`card relative transition-all duration-300 hover:-translate-y-2 ${
                   tier.highlight
-                    ? 'bg-primary-600 text-white shadow-sm hover:bg-primary-500 focus-visible:outline-primary-500'
-                    : 'bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white'
+                    ? "ring-2 ring-md-primary md:-translate-y-4 shadow-xl bg-md-primary-container/10"
+                    : ""
                 }`}
               >
-                {tier.buttonText}
-              </Link>
-              <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
-                <li className="flex gap-x-3">
-                  <span className="text-primary-400 font-semibold">✓</span>
-                  <span className="font-medium">{tier.featureDisplay.flashcards}</span>
-                </li>
-                <li className="flex gap-x-3">
-                  <span className="text-primary-400 font-semibold">✓</span>
-                  <span className="font-medium">{tier.featureDisplay.practiceExams}</span>
-                </li>
-                <li className="flex gap-x-3">
-                  <span className="text-primary-400 font-semibold">✓</span>
-                  <span className="font-medium">{tier.featureDisplay.feedback}</span>
-                </li>
-                <li className="flex gap-x-3">
-                  <span
-                    className={tier.features.teamManagement ? 'text-primary-400' : 'text-gray-600'}
-                  >
-                    {tier.features.teamManagement ? '✓' : '✕'}
+                {tier.popular && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 badge badge-primary px-4">
+                    Most Popular
                   </span>
-                  <span className={tier.features.teamManagement ? '' : 'text-gray-500'}>
-                    Team Management
-                  </span>
-                </li>
-                <li className="flex gap-x-3">
-                  <span
-                    className={
-                      tier.features.personalizedStudyPlan ? 'text-primary-400' : 'text-gray-600'
-                    }
-                  >
-                    {tier.features.personalizedStudyPlan ? '✓' : '✕'}
-                  </span>
-                  <span className={tier.features.personalizedStudyPlan ? '' : 'text-gray-500'}>
-                    Personalized Study Plan
-                  </span>
-                </li>
-              </ul>
-            </div>
-          ))}
-        </div>
+                )}
 
-        {/* Footer with copyright */}
-        <div className="mt-20 text-center text-sm text-gray-500">
-          <p>© 2026 PMP Study Pro. All rights reserved.</p>
+                {tier.trial && tier.id !== "free" && (
+                  <span className="absolute -top-3 right-4 bg-md-tertiary text-md-on-tertiary text-xs font-bold px-3 py-1 rounded-full">
+                    7-Day Free Trial
+                  </span>
+                )}
+
+                <h3 className="text-xl font-bold text-md-on-surface mt-2">
+                  {tier.name}
+                </h3>
+                <p className="text-sm text-md-on-surface-variant mt-2">
+                  {tier.description}
+                </p>
+
+                <div className="mt-6 mb-6">
+                  <span className="text-4xl font-bold text-md-on-surface">
+                    {getPrice(tier)}
+                  </span>
+                  {tier.price !== 0 && (
+                    <span className="text-md-on-surface-variant ml-1">
+                      /{billingPeriod === "monthly" ? "mo" : "yr"}
+                      {tier.perSeat && " per seat"}
+                    </span>
+                  )}
+                </div>
+
+                <Link
+                  href={tier.buttonHref}
+                  className={`btn w-full mb-6 ${tier.highlight ? "btn-primary" : "btn-secondary"}`}
+                >
+                  {tier.buttonText}
+                </Link>
+
+                <ul className="space-y-3">
+                  {tier.features.map((feature, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start gap-3 text-sm text-md-on-surface-variant"
+                    >
+                      <svg
+                        className="w-5 h-5 text-md-primary flex-shrink-0 mt-0.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Trust Badges */}
+      <section className="py-16 bg-md-surface-container-low">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            <div>
+              <p className="text-4xl font-bold text-gradient">30-Day</p>
+              <p className="text-md-on-surface-variant mt-2">
+                Money-Back Guarantee
+              </p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold text-gradient">100%</p>
+              <p className="text-md-on-surface-variant mt-2">
+                ECO 2026 Aligned
+              </p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold text-gradient">24/7</p>
+              <p className="text-md-on-surface-variant mt-2">Access Anywhere</p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold text-gradient">Cancel</p>
+              <p className="text-md-on-surface-variant mt-2">
+                Anytime, No Hassle
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-12 text-md-on-surface">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-6">
+            {faqs.map((faq, index) => (
+              <div key={index} className="card">
+                <h3 className="text-lg font-semibold text-md-on-surface mb-2">
+                  {faq.question}
+                </h3>
+                <p className="text-md-on-surface-variant">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 relative overflow-hidden bg-md-surface-container-low">
+        <div className="blur-shape bg-md-secondary w-full h-full opacity-10"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-3xl font-bold mb-4 text-md-on-surface">
+            Ready to Start Your PMP Journey?
+          </h2>
+          <p className="text-md-on-surface-variant mb-8 max-w-xl mx-auto">
+            Join thousands of project managers who have passed their PMP exam.
+            Start your 7-day free trial today.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              href="/auth/register"
+              className="btn btn-primary text-lg px-8 py-3"
+            >
+              Start Your Free Trial
+            </Link>
+            <Link href="/study" className="btn btn-outline text-lg px-8 py-3">
+              Explore Study Materials
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }
