@@ -13,12 +13,14 @@ This guide sets up PMP Study Pro for local development without any Docker contai
 ### Install PostgreSQL
 
 **macOS (Homebrew):**
+
 ```bash
 brew install postgresql@15
 brew services start postgresql@15
 ```
 
 **Ubuntu/Debian:**
+
 ```bash
 sudo apt-get install postgresql postgresql-contrib
 sudo systemctl start postgresql
@@ -57,17 +59,11 @@ LOG_LEVEL=debug
 
 # Frontend
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
-NEXT_PUBLIC_PAYPAL_CLIENT_ID=your_sandbox_client_id
 PORT=3000
 
 # Stripe (Sandbox)
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_test_...
-
-# PayPal (Sandbox)
-PAYPAL_CLIENT_ID=your_sandbox_client_id
-PAYPAL_CLIENT_SECRET=your_sandbox_secret
-PAYPAL_MODE=sandbox
 
 # CORS
 CORS_ORIGIN=http://localhost:3000,http://localhost:3001
@@ -103,6 +99,7 @@ npm run dev:web
 ```
 
 Access the app at:
+
 - Frontend: http://localhost:3000
 - API: http://localhost:3001
 - API Docs: http://localhost:3001/api-docs
@@ -139,10 +136,12 @@ npm run dev
 ```
 
 **Pros:**
+
 - Matches production database
 - No local database setup
 
 **Cons:**
+
 - Slower (network latency)
 - Requires internet connection
 - Not ideal for rapid iteration
@@ -303,7 +302,7 @@ Changes should reflect instantly without full restart.
 
 ## Next Steps
 
-1. Complete `.env` setup with your Stripe/PayPal keys
+1. Complete `.env` setup with your Stripe keys
 2. Run `npm install` to install all dependencies
 3. Set up database with migration + seed scripts
 4. Start development with `npm run dev`

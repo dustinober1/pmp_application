@@ -18,7 +18,7 @@ A comprehensive study platform for the 2026 PMP (Project Management Professional
 - **Database**: PostgreSQL + Prisma ORM
 - **Cache**: Redis
 - **Testing**: Jest + fast-check (property-based testing)
-- **Payments**: PayPal
+- **Payments**: Stripe
 
 ## Project Structure
 

@@ -1,8 +1,13 @@
-import type { SubscriptionTier, UserSubscription, TierFeatures, TierName } from '@pmp/shared';
-import { SUBSCRIPTION_ERRORS } from '@pmp/shared';
-import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
-import { logger } from '../utils/logger';
+import type {
+  SubscriptionTier,
+  UserSubscription,
+  TierFeatures,
+  TierName,
+} from "@pmp/shared";
+import { SUBSCRIPTION_ERRORS } from "@pmp/shared";
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
+import { logger } from "../utils/logger";
 
 export class SubscriptionService {
   /**
@@ -11,14 +16,14 @@ export class SubscriptionService {
   async getTiers(): Promise<SubscriptionTier[]> {
     const tiers = await prisma.subscriptionTier.findMany({
       where: { isActive: true },
-      orderBy: { price: 'asc' },
+      orderBy: { price: "asc" },
     });
 
-    return tiers.map(tier => ({
+    return tiers.map((tier) => ({
       id: tier.id,
       name: tier.name as TierName,
       price: tier.price,
-      billingPeriod: tier.billingPeriod as 'monthly' | 'annual',
+      billingPeriod: tier.billingPeriod as "monthly" | "annual",
       features: tier.features as unknown as TierFeatures,
     }));
   }
@@ -37,7 +42,7 @@ export class SubscriptionService {
       id: tier.id,
       name: tier.name as TierName,
       price: tier.price,
-      billingPeriod: tier.billingPeriod as 'monthly' | 'annual',
+      billingPeriod: tier.billingPeriod as "monthly" | "annual",
       features: tier.features as unknown as TierFeatures,
     };
   }
@@ -56,7 +61,7 @@ export class SubscriptionService {
       id: tier.id,
       name: tier.name as TierName,
       price: tier.price,
-      billingPeriod: tier.billingPeriod as 'monthly' | 'annual',
+      billingPeriod: tier.billingPeriod as "monthly" | "annual",
       features: tier.features as unknown as TierFeatures,
     };
   }
@@ -80,21 +85,29 @@ export class SubscriptionService {
         id: subscription.tier.id,
         name: subscription.tier.name as TierName,
         price: subscription.tier.price,
-        billingPeriod: subscription.tier.billingPeriod as 'monthly' | 'annual',
+        billingPeriod: subscription.tier.billingPeriod as "monthly" | "annual",
         features: subscription.tier.features as unknown as TierFeatures,
       },
-      status: subscription.status as 'active' | 'cancelled' | 'expired' | 'grace_period',
+      status: subscription.status as
+        | "active"
+        | "cancelled"
+        | "expired"
+        | "grace_period",
       startDate: subscription.startDate,
       endDate: subscription.endDate,
-      paypalSubscriptionId: subscription.paypalSubscriptionId || undefined,
+      stripeSubscriptionId: subscription.stripeSubscriptionId || undefined,
+      stripeCustomerId: subscription.stripeCustomerId || undefined,
       createdAt: subscription.createdAt,
     };
   }
 
   /**
-   * Create or update user subscription (for PayPal integration)
+   * Create or update user subscription (for Stripe integration)
    */
-  async createSubscription(userId: string, tierId: string): Promise<UserSubscription> {
+  async createSubscription(
+    userId: string,
+    tierId: string,
+  ): Promise<UserSubscription> {
     // Validate tier exists
     const tier = await prisma.subscriptionTier.findUnique({
       where: { id: tierId },
@@ -103,48 +116,33 @@ export class SubscriptionService {
     if (!tier) {
       throw AppError.badRequest(
         SUBSCRIPTION_ERRORS.SUB_002.message,
-        SUBSCRIPTION_ERRORS.SUB_002.code
+        SUBSCRIPTION_ERRORS.SUB_002.code,
       );
     }
 
     // Calculate end date (1 month or 1 year based on billing period)
     const durationMs =
-      tier.billingPeriod === 'annual' ? 365 * 24 * 60 * 60 * 1000 : 30 * 24 * 60 * 60 * 1000;
+      tier.billingPeriod === "annual"
+        ? 365 * 24 * 60 * 60 * 1000
+        : 30 * 24 * 60 * 60 * 1000;
 
     const subscription = await prisma.userSubscription.upsert({
       where: { userId },
       update: {
         tierId,
-        status: 'active',
+        status: "active",
         startDate: new Date(),
         endDate: new Date(Date.now() + durationMs),
-        paypalSubscriptionId: paypalOrderId,
       },
       create: {
         userId,
         tierId,
-        status: 'active',
+        status: "active",
         startDate: new Date(),
         endDate: new Date(Date.now() + durationMs),
-        paypalSubscriptionId: paypalOrderId,
       },
       include: { tier: true },
     });
-
-    // Record transaction - handled by stripe webhook now
-    // if (paypalOrderId) {
-    //   await prisma.paymentTransaction.create({
-    //     data: {
-    //       userId,
-    //       paypalOrderId,
-    //       amount: tier.price,
-    //       currency: 'USD',
-    //       status: 'completed',
-    //       tierId,
-    //       billingPeriod: tier.billingPeriod,
-    //     },
-    //   });
-    // }
 
     return {
       id: subscription.id,
@@ -154,13 +152,18 @@ export class SubscriptionService {
         id: subscription.tier.id,
         name: subscription.tier.name as TierName,
         price: subscription.tier.price,
-        billingPeriod: subscription.tier.billingPeriod as 'monthly' | 'annual',
+        billingPeriod: subscription.tier.billingPeriod as "monthly" | "annual",
         features: subscription.tier.features as unknown as TierFeatures,
       },
-      status: subscription.status as 'active' | 'cancelled' | 'expired' | 'grace_period',
+      status: subscription.status as
+        | "active"
+        | "cancelled"
+        | "expired"
+        | "grace_period",
       startDate: subscription.startDate,
       endDate: subscription.endDate,
-      paypalSubscriptionId: subscription.paypalSubscriptionId || undefined,
+      stripeSubscriptionId: subscription.stripeSubscriptionId || undefined,
+      stripeCustomerId: subscription.stripeCustomerId || undefined,
       createdAt: subscription.createdAt,
     };
   }
@@ -174,20 +177,18 @@ export class SubscriptionService {
     });
 
     if (!subscription) {
-      throw AppError.notFound('Subscription not found');
+      throw AppError.notFound("Subscription not found");
     }
 
     // Handle Stripe cancellation
     if (subscription.stripeSubscriptionId) {
-      const { stripeService } = await import('./stripe.service');
+      const { stripeService } = await import("./stripe.service");
       await stripeService.cancelSubscription(userId);
     }
 
-    // Handle PayPal cancellation (removed)
-
     await prisma.userSubscription.update({
       where: { userId },
-      data: { status: 'cancelled' },
+      data: { status: "cancelled" },
     });
   }
 
@@ -207,7 +208,7 @@ export class SubscriptionService {
     await prisma.userSubscription.update({
       where: { userId },
       data: {
-        status: 'grace_period',
+        status: "grace_period",
         endDate: gracePeriodEnd,
       },
     });
@@ -219,7 +220,7 @@ export class SubscriptionService {
   async expireSubscription(userId: string): Promise<void> {
     // Downgrade to free tier
     const freeTier = await prisma.subscriptionTier.findFirst({
-      where: { name: 'free' },
+      where: { name: "free" },
     });
 
     if (!freeTier) return;
@@ -230,7 +231,7 @@ export class SubscriptionService {
       where: { userId },
       data: {
         tierId: freeTier.id,
-        status: 'active', // Active on free tier
+        status: "active", // Active on free tier
         endDate: new Date(Date.now() + 365 * 10 * 24 * 60 * 60 * 1000), // Long expiry for free tier
       },
     });
@@ -243,22 +244,27 @@ export class SubscriptionService {
     if (team) {
       // In a real app we might disable the team or downgrade its limits
       // For now, we'll log it (placeholder)
-      logger.warn(`User ${userId} downgraded. Team ${team.id} might need attention.`);
+      logger.warn(
+        `User ${userId} downgraded. Team ${team.id} might need attention.`,
+      );
     }
   }
 
   /**
    * Check for expiring subscriptions (Cron job candidate)
    */
-  async checkSubscriptionExpiry(): Promise<{ processed: number; expired: number }> {
+  async checkSubscriptionExpiry(): Promise<{
+    processed: number;
+    expired: number;
+  }> {
     const today = new Date();
 
     // Find all expired subscriptions that are not 'free' tier
     const expiredSubscriptions = await prisma.userSubscription.findMany({
       where: {
         endDate: { lt: today },
-        status: { in: ['active', 'grace_period'] },
-        tier: { name: { not: 'free' } },
+        status: { in: ["active", "grace_period"] },
+        tier: { name: { not: "free" } },
       },
     });
 
@@ -266,11 +272,11 @@ export class SubscriptionService {
 
     for (const sub of expiredSubscriptions) {
       // If in active status, move to grace period first
-      if (sub.status === 'active') {
+      if (sub.status === "active") {
         await this.setGracePeriod(sub.userId);
       }
       // If already in grace period (and now past it), expire
-      else if (sub.status === 'grace_period') {
+      else if (sub.status === "grace_period") {
         await this.expireSubscription(sub.userId);
         expiredCount++;
       }
@@ -285,15 +291,22 @@ export class SubscriptionService {
   /**
    * Check if user has access to a feature
    */
-  async hasFeatureAccess(userId: string, feature: keyof TierFeatures): Promise<boolean> {
+  async hasFeatureAccess(
+    userId: string,
+    feature: keyof TierFeatures,
+  ): Promise<boolean> {
     const subscription = await this.getUserSubscription(userId);
 
     if (!subscription) return false;
-    if (subscription.status !== 'active' && subscription.status !== 'grace_period') return false;
+    if (
+      subscription.status !== "active" &&
+      subscription.status !== "grace_period"
+    )
+      return false;
 
     const featureValue = subscription.tier.features[feature];
 
-    if (typeof featureValue === 'boolean') {
+    if (typeof featureValue === "boolean") {
       return featureValue;
     }
 
@@ -309,7 +322,7 @@ export class SubscriptionService {
 
     if (!subscription) {
       // Return free tier limits
-      const freeTier = await this.getTierByName('free');
+      const freeTier = await this.getTierByName("free");
       return freeTier?.features || ({} as TierFeatures);
     }
 

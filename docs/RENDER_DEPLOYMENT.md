@@ -15,7 +15,7 @@ This guide walks you through deploying PMP Study Pro to Render with zero Docker 
 1. **Render Account** - Sign up at https://render.com
 2. **GitHub Access** - Your private repo connected to Render
 3. **Domain** - pmpstudypro.com purchased (Namecheap, GoDaddy, etc.)
-4. **Secrets** - API keys for Stripe, PayPal, JWT secrets
+4. **Secrets** - API keys for Stripe, JWT secrets
 
 ## Step 1: Connect GitHub to Render
 
@@ -51,11 +51,10 @@ JWT_SECRET                 # Generate with: openssl rand -base64 32
 JWT_REFRESH_SECRET         # Generate with: openssl rand -base64 32
 STRIPE_SECRET_KEY          # From Stripe Dashboard
 STRIPE_WEBHOOK_SECRET      # From Stripe Dashboard (webhook signing secret)
-PAYPAL_CLIENT_ID           # From PayPal Developer
-PAYPAL_CLIENT_SECRET       # From PayPal Developer
 ```
 
 **Generate JWT secrets:**
+
 ```bash
 openssl rand -base64 32
 ```
@@ -64,13 +63,12 @@ Copy this output for both `JWT_SECRET` and `JWT_REFRESH_SECRET`.
 
 ### For Web Service (pmp-web)
 
-```
-NEXT_PUBLIC_PAYPAL_CLIENT_ID    # Same as API service
-```
+No additional environment secrets required for Stripe (all payment processing is handled server-side).
 
 ### Database Setup
 
 Render's `render.yaml` automatically:
+
 - Creates PostgreSQL instance
 - Generates a strong password
 - Provides `DATABASE_URL` automatically
@@ -84,6 +82,7 @@ After deployment, connect to your Render PostgreSQL instance and run migrations:
 1. In Render Dashboard, click on `pmp-postgres` service
 2. Click "Connect" and note the connection string
 3. Locally, set your `DATABASE_URL`:
+
    ```bash
    export DATABASE_URL="your-render-connection-string"
    ```
@@ -139,11 +138,13 @@ In Render Dashboard:
 After domain is live, update these variables:
 
 **On pmp-api service:**
+
 ```
 CORS_ORIGIN = https://pmpstudypro.com,https://www.pmpstudypro.com
 ```
 
 **On pmp-web service:**
+
 ```
 NEXT_PUBLIC_API_URL = https://pmp-api.onrender.com/api
 ```
@@ -216,17 +217,20 @@ npm run dev
 ```
 
 The app will run on:
+
 - Frontend: http://localhost:3000
 - API: http://localhost:3001
 
 ## Monitoring & Logs
 
 **Render Dashboard:**
+
 - Each service has a "Logs" tab for real-time logs
 - View memory/CPU usage in "Metrics"
 - Set up alerts in Settings → Notifications
 
 **Best practices:**
+
 - Check logs after deployment
 - Monitor API response times
 - Set up error notifications in Render
@@ -234,6 +238,7 @@ The app will run on:
 ## Cost Estimate
 
 **Standard tier (recommended):**
+
 - PostgreSQL: ~$15/month (includes 1 GB RAM, auto-backups)
 - API Service: ~$7/month (0.5 CPU, 512 MB RAM, 100 GB bandwidth free)
 - Web Service: ~$7/month (0.5 CPU, 512 MB RAM, 100 GB bandwidth free)

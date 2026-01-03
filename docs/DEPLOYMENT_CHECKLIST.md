@@ -4,19 +4,13 @@ Use this checklist to deploy PMP Study Pro to Render with your custom domain.
 
 ## Pre-Deployment (15 minutes)
 
-- [ ] Create Render account at https://render.com
-- [ ] Generate JWT secrets:
-  ```bash
-  openssl rand -base64 32  # Copy output for JWT_SECRET
-  openssl rand -base64 32  # Copy output for JWT_REFRESH_SECRET
-  ```
-- [ ] Get these API keys from your providers:
-  - [ ] Stripe Secret Key (`sk_test_...` or `sk_live_...`)
-  - [ ] Stripe Webhook Secret (`whsec_...`)
-  - [ ] PayPal Client ID (sandbox or live)
-  - [ ] PayPal Client Secret
+- [x] Create Render account at https://render.com
+- [x] Generate JWT secrets (saved to `.render-secrets.env`)
+- [x] Get these API keys from your providers:
+  - [x] Stripe Secret Key (saved to `.render-secrets.env`)
+  - [x] Stripe Webhook Secret (created via CLI, saved to `.render-secrets.env`)
 - [ ] Have pmpstudypro.com domain ready
-- [ ] Ensure GitHub repo is private and you have access
+- [x] Ensure GitHub repo is private and you have access (dustinober1/pmp_application)
 
 ## Deployment Steps (30 minutes)
 
@@ -35,13 +29,14 @@ Use this checklist to deploy PMP Study Pro to Render with your custom domain.
 - [ ] Review the services it will create (PostgreSQL, API, Web)
 - [ ] Click "Create" or "Deploy"
 
-*Render will create all three services automatically from render.yaml*
+_Render will create all three services automatically from render.yaml_
 
 ### 3. Set Environment Variables/Secrets
 
 Once services are created:
 
 **For pmp-api service:**
+
 1. Go to Render Dashboard → pmp-api → Environment
 2. Add these environment variables:
    ```
@@ -49,16 +44,12 @@ Once services are created:
    JWT_REFRESH_SECRET         (paste generated value)
    STRIPE_SECRET_KEY          (from Stripe Dashboard)
    STRIPE_WEBHOOK_SECRET      (from Stripe Dashboard)
-   PAYPAL_CLIENT_ID           (from PayPal)
-   PAYPAL_CLIENT_SECRET       (from PayPal)
    ```
 
 **For pmp-web service:**
+
 1. Go to Render Dashboard → pmp-web → Environment
-2. Add:
-   ```
-   NEXT_PUBLIC_PAYPAL_CLIENT_ID    (same as API service)
-   ```
+2. No additional secrets required for Stripe (handled server-side)
 
 ### 4. Run Database Migrations
 
@@ -84,22 +75,22 @@ The API service's `buildCommand` in render.yaml should handle migrations, but if
 ### 6. Test API Health
 
 Once API service is live:
+
 - [ ] Visit `https://pmp-api.onrender.com/api/health`
 - [ ] Should return `{"status": "ok"}`
 - [ ] If fails, check logs for database connection errors
 
 ### 7. Set Up Stripe Webhooks
 
-1. Go to Stripe Dashboard → Developers → Webhooks
-2. Click "Add endpoint"
-3. Enter endpoint: `https://pmp-api.onrender.com/webhooks/stripe`
-4. Select events:
-   - `checkout.session.completed`
-   - `customer.subscription.deleted`
-   - `customer.subscription.updated`
-5. Copy the signing secret (Whsec_...)
-6. In Render (pmp-api service):
-   - Add `STRIPE_WEBHOOK_SECRET` with the copied value
+**Already created via Stripe CLI!**
+
+Webhook endpoint: `https://pmp-api.onrender.com/webhooks/stripe`
+
+- Endpoint ID: `we_1SlahCR7yUfIbM0W5sNeBi40`
+- Events: `checkout.session.completed`, `customer.subscription.deleted`, `customer.subscription.updated`
+- Secret: saved in `.render-secrets.env`
+
+Just add `STRIPE_WEBHOOK_SECRET` from `.render-secrets.env` to pmp-api environment in Render.
 
 ### 8. Configure Domain
 
@@ -128,16 +119,18 @@ Wait 24-48 hours for DNS to propagate.
 Once domain is live:
 
 **On pmp-api service (Environment):**
+
 ```
 CORS_ORIGIN = https://pmpstudypro.com,https://www.pmpstudypro.com
 ```
 
 **On pmp-web service (Environment):**
+
 ```
 NEXT_PUBLIC_API_URL = https://pmp-api.onrender.com/api
 ```
 
-*Note: If you want API on subdomain (api.pmpstudypro.com), that requires additional DNS setup*
+_Note: If you want API on subdomain (api.pmpstudypro.com), that requires additional DNS setup_
 
 ### 10. Verify Live Site
 
@@ -162,25 +155,25 @@ NEXT_PUBLIC_API_URL = https://pmp-api.onrender.com/api
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| **Services won't deploy** | Check logs. Usually missing env vars or database issues. |
-| **API can't reach database** | Verify `DATABASE_URL` is set in API environment. |
-| **Domain not working (404)** | Wait 24-48 hours for DNS propagation. Check Render custom domains. |
-| **API returns 500 errors** | Check pmp-api logs. Usually database migration failed. |
-| **Frontend shows blank page** | Check browser console. Likely `NEXT_PUBLIC_API_URL` is wrong. |
-| **Stripe webhooks not firing** | Verify webhook endpoint is correct. Check Stripe dashboard logs. |
+| Problem                        | Solution                                                           |
+| ------------------------------ | ------------------------------------------------------------------ |
+| **Services won't deploy**      | Check logs. Usually missing env vars or database issues.           |
+| **API can't reach database**   | Verify `DATABASE_URL` is set in API environment.                   |
+| **Domain not working (404)**   | Wait 24-48 hours for DNS propagation. Check Render custom domains. |
+| **API returns 500 errors**     | Check pmp-api logs. Usually database migration failed.             |
+| **Frontend shows blank page**  | Check browser console. Likely `NEXT_PUBLIC_API_URL` is wrong.      |
+| **Stripe webhooks not firing** | Verify webhook endpoint is correct. Check Stripe dashboard logs.   |
 
 ## Cost Summary
 
 With `standard` tier (recommended):
 
-| Service | Cost/Month |
-|---------|-----------|
-| PostgreSQL (standard) | ~$15 |
-| API Service (0.5 CPU) | ~$7 |
-| Web Service (0.5 CPU) | ~$7 |
-| **Total** | **~$29** |
+| Service               | Cost/Month |
+| --------------------- | ---------- |
+| PostgreSQL (standard) | ~$15       |
+| API Service (0.5 CPU) | ~$7        |
+| Web Service (0.5 CPU) | ~$7        |
+| **Total**             | **~$29**   |
 
 Free tier has limitations (auto-sleeps, 512MB RAM). Standard tier is recommended for production.
 

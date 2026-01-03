@@ -2,16 +2,20 @@
  * Subscription and tier related types
  */
 
-export type TierName = 'free' | 'pro' | 'corporate';
-export type BillingPeriod = 'monthly' | 'annual';
-export type SubscriptionStatus = 'active' | 'cancelled' | 'expired' | 'grace_period';
+export type TierName = "free" | "pro" | "corporate";
+export type BillingPeriod = "monthly" | "annual";
+export type SubscriptionStatus =
+  | "active"
+  | "cancelled"
+  | "expired"
+  | "grace_period";
 
 export interface TierFeatures {
-  studyGuidesAccess: 'limited' | 'full';
-  flashcardsLimit: number | 'unlimited';
-  practiceQuestionsPerDomain: number | 'unlimited';
+  studyGuidesAccess: "limited" | "full";
+  flashcardsLimit: number | "unlimited";
+  practiceQuestionsPerDomain: number | "unlimited";
   customFlashcards: boolean;
-  mockExams: boolean | 'unlimited';
+  mockExams: boolean | "unlimited";
   formulaCalculator: boolean;
   advancedAnalytics: boolean;
   personalizedStudyPlan: boolean;
@@ -35,23 +39,9 @@ export interface UserSubscription {
   status: SubscriptionStatus;
   startDate: Date;
   endDate: Date;
-  paypalSubscriptionId?: string;
+  stripeSubscriptionId?: string;
+  stripeCustomerId?: string;
   createdAt: Date;
-}
-
-export interface PayPalOrder {
-  orderId: string;
-  approvalUrl: string;
-  status: string;
-}
-
-export interface PayPalWebhookEvent {
-  event_type: string;
-  resource: {
-    id: string;
-    status: string;
-    [key: string]: unknown;
-  };
 }
 
 // Tier hierarchy for comparison
@@ -64,7 +54,7 @@ export const TIER_HIERARCHY: Record<TierName, number> = {
 // Default tier configurations
 export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
   free: {
-    studyGuidesAccess: 'limited',
+    studyGuidesAccess: "limited",
     flashcardsLimit: 500,
     practiceQuestionsPerDomain: 25,
     customFlashcards: false,
@@ -76,11 +66,11 @@ export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
     dedicatedSupport: false,
   },
   pro: {
-    studyGuidesAccess: 'full',
-    flashcardsLimit: 'unlimited',
-    practiceQuestionsPerDomain: 'unlimited',
+    studyGuidesAccess: "full",
+    flashcardsLimit: "unlimited",
+    practiceQuestionsPerDomain: "unlimited",
     customFlashcards: true,
-    mockExams: 'unlimited',
+    mockExams: "unlimited",
     formulaCalculator: true,
     advancedAnalytics: true,
     personalizedStudyPlan: true,
@@ -88,8 +78,8 @@ export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
     dedicatedSupport: false,
   },
   corporate: {
-    studyGuidesAccess: 'full',
-    flashcardsLimit: 'unlimited',
+    studyGuidesAccess: "full",
+    flashcardsLimit: "unlimited",
     practiceQuestionsPerDomain: 200,
     customFlashcards: true,
     mockExams: true,

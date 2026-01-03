@@ -70,15 +70,6 @@ npm run format           # Format code with Prettier
 npm run format:check     # Check formatting without modifying
 ```
 
-### Docker
-
-```bash
-docker-compose up -d             # Start all containers
-docker-compose down              # Stop all containers
-docker-compose build --no-cache  # Force rebuild without cache
-docker-compose build web && docker-compose up -d  # Rebuild just web container
-```
-
 ## Architecture Overview
 
 ### Backend Architecture (packages/api/)
@@ -217,18 +208,26 @@ const createFlashcardSchema = z.object({
   back: z.string().min(1).max(2000),
 });
 
-router.post('/', requireAuth, requireFeature('customFlashcards'), async (req, res, next) => {
-  const data = createFlashcardSchema.parse(req.body);
-  const result = await FlashcardService.createCustomFlashcard(req.user!.id, data);
-  res.json({ success: true, data: result });
-});
+router.post(
+  "/",
+  requireAuth,
+  requireFeature("customFlashcards"),
+  async (req, res, next) => {
+    const data = createFlashcardSchema.parse(req.body);
+    const result = await FlashcardService.createCustomFlashcard(
+      req.user!.id,
+      data,
+    );
+    res.json({ success: true, data: result });
+  },
+);
 ```
 
 2. **Implement business logic** (`services/*.service.ts`):
 
 ```typescript
-import { prisma } from '@/lib/prisma';
-import { AppError } from '@/utils/AppError';
+import { prisma } from "@/lib/prisma";
+import { AppError } from "@/utils/AppError";
 
 async function createCustomFlashcard(userId: string, data: CreateFlashcardDTO) {
   // Validate tier
@@ -238,10 +237,12 @@ async function createCustomFlashcard(userId: string, data: CreateFlashcardDTO) {
   });
 
   if (!subscription?.tier.features.customFlashcards) {
-    throw AppError.forbidden('This feature requires a higher subscription tier');
+    throw AppError.forbidden(
+      "This feature requires a higher subscription tier",
+    );
   }
 
-  return await prisma.$transaction(async tx => {
+  return await prisma.$transaction(async (tx) => {
     return tx.flashcard.create({ data: { ...data, userId } });
   });
 }
@@ -252,11 +253,16 @@ async function createCustomFlashcard(userId: string, data: CreateFlashcardDTO) {
 **Backend:**
 
 ```typescript
-import { requireFeature } from '@/middleware/requireFeature';
+import { requireFeature } from "@/middleware/requireFeature";
 
-router.post('/', requireAuth, requireFeature('customFlashcards'), async (req, res, next) => {
-  // ...
-});
+router.post(
+  "/",
+  requireAuth,
+  requireFeature("customFlashcards"),
+  async (req, res, next) => {
+    // ...
+  },
+);
 ```
 
 **Frontend:**
@@ -306,10 +312,10 @@ curl http://localhost:3001/api/domains | jq '.data.domains[] | select(.code == "
 **Backend (utils/AppError.ts):**
 
 ```typescript
-throw AppError.badRequest('Invalid input');
-throw AppError.unauthorized('Invalid credentials');
-throw AppError.forbidden('Feature not available');
-throw AppError.notFound('Resource not found');
+throw AppError.badRequest("Invalid input");
+throw AppError.unauthorized("Invalid credentials");
+throw AppError.forbidden("Feature not available");
+throw AppError.notFound("Resource not found");
 ```
 
 Error middleware returns: `{ error: { code: 'VALIDATION_ERROR', message: '...', details: [...] } }`
@@ -330,14 +336,19 @@ try {
 Used for critical business logic (SM-2 algorithm, EVM calculations):
 
 ```typescript
-import * as fc from 'fast-check';
+import * as fc from "fast-check";
 
-test('SM-2 algorithm properties', () => {
+test("SM-2 algorithm properties", () => {
   fc.assert(
-    fc.property(fc.integer(), fc.integer(), fc.integer(), (ease, interval, reps) => {
-      const result = calculateNextReview(ease, interval, reps);
-      return result.nextInterval >= 0 && result.easeFactor >= 1.3;
-    })
+    fc.property(
+      fc.integer(),
+      fc.integer(),
+      fc.integer(),
+      (ease, interval, reps) => {
+        const result = calculateNextReview(ease, interval, reps);
+        return result.nextInterval >= 0 && result.easeFactor >= 1.3;
+      },
+    ),
   );
 });
 ```

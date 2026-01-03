@@ -1,11 +1,11 @@
-import Stripe from 'stripe';
-import { env } from '../config/env';
-import { logger } from '../utils/logger';
-import prisma from '../config/database';
-import { subscriptionService } from './subscription.service';
+import Stripe from "stripe";
+import { env } from "../config/env";
+import { logger } from "../utils/logger";
+import prisma from "../config/database";
+import { subscriptionService } from "./subscription.service";
 
-const stripe = new Stripe(env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2023-10-16' as const,
+const stripe = new Stripe(env.STRIPE_SECRET_KEY || "", {
+  apiVersion: "2023-10-16" as const,
 });
 
 export class StripeService {
@@ -17,8 +17,8 @@ export class StripeService {
     tierId: string,
     tierName: string,
     price: number,
-    billingPeriod: 'monthly' | 'annual',
-    quantity: number = 1
+    billingPeriod: "monthly" | "annual",
+    quantity: number = 1,
   ): Promise<{ sessionId: string; url: string | null }> {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -26,29 +26,29 @@ export class StripeService {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
 
     // Create session
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
-            currency: 'usd',
+            currency: "usd",
             product_data: {
               name: `PMP Study Pro - ${tierName}`,
-              description: `${tierName} tier (${billingPeriod} billing)${quantity > 1 ? ` - ${quantity} seats` : ''}`,
+              description: `${tierName} tier (${billingPeriod} billing)${quantity > 1 ? ` - ${quantity} seats` : ""}`,
             },
             unit_amount: Math.round(price * 100),
             recurring: {
-              interval: billingPeriod === 'annual' ? 'year' : 'month',
+              interval: billingPeriod === "annual" ? "year" : "month",
             },
           },
           quantity: quantity,
         },
       ],
-      mode: 'subscription',
+      mode: "subscription",
       success_url: `${env.CORS_ORIGIN[0]}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${env.CORS_ORIGIN[0]}/checkout/cancel`,
       customer_email: user.email,
@@ -60,7 +60,7 @@ export class StripeService {
     });
 
     logger.info(
-      `Stripe Checkout Session created: ${session.id} for user ${userId} (${quantity} seats)`
+      `Stripe Checkout Session created: ${session.id} for user ${userId} (${quantity} seats)`,
     );
 
     return {
@@ -76,32 +76,38 @@ export class StripeService {
     let event: Stripe.Event;
 
     try {
-      event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRET || '');
+      event = stripe.webhooks.constructEvent(
+        body,
+        signature,
+        env.STRIPE_WEBHOOK_SECRET || "",
+      );
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-      logger.error(`Stripe Webhook signature verification failed: ${errorMessage}`);
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      logger.error(
+        `Stripe Webhook signature verification failed: ${errorMessage}`,
+      );
       throw new Error(`Webhook Error: ${errorMessage}`);
     }
 
     logger.info(`Processing Stripe Webhook event: ${event.type}`);
 
     switch (event.type) {
-      case 'checkout.session.completed': {
+      case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
         await this.handleCheckoutCompleted(session);
         break;
       }
-      case 'invoice.payment_succeeded': {
+      case "invoice.payment_succeeded": {
         const invoice = event.data.object as Stripe.Invoice;
         await this.handleInvoicePaymentSucceeded(invoice);
         break;
       }
-      case 'customer.subscription.deleted': {
+      case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
         await this.handleSubscriptionDeleted(subscription);
         break;
       }
-      case 'customer.subscription.updated': {
+      case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
         await this.handleSubscriptionUpdated(subscription);
         break;
@@ -128,7 +134,7 @@ export class StripeService {
       where: { userId },
       update: {
         tierId,
-        status: 'active',
+        status: "active",
         stripeCustomerId,
         stripeSubscriptionId,
         startDate: new Date(),
@@ -139,7 +145,7 @@ export class StripeService {
       create: {
         userId,
         tierId,
-        status: 'active',
+        status: "active",
         stripeCustomerId,
         stripeSubscriptionId,
         startDate: new Date(),
@@ -153,10 +159,10 @@ export class StripeService {
         userId,
         stripeSessionId: session.id,
         amount: (session.amount_total || 0) / 100,
-        currency: session.currency || 'USD',
-        status: 'completed',
+        currency: session.currency || "USD",
+        status: "completed",
         tierId,
-        billingPeriod: 'monthly', // We should properly get this from metadata or price_data
+        billingPeriod: "monthly", // We should properly get this from metadata or price_data
       },
     });
 
@@ -166,7 +172,9 @@ export class StripeService {
   private async handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
     if (!invoice.subscription) return;
 
-    const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+    const subscription = await stripe.subscriptions.retrieve(
+      invoice.subscription as string,
+    );
     const userId = subscription.metadata.userId;
 
     if (!userId) return;
@@ -175,13 +183,13 @@ export class StripeService {
     await prisma.userSubscription.update({
       where: { userId },
       data: {
-        status: 'active',
+        status: "active",
         endDate: new Date(subscription.current_period_end * 1000),
       },
     });
 
     logger.info(
-      `Subscription renewed for user ${userId} until ${new Date(subscription.current_period_end * 1000)}`
+      `Subscription renewed for user ${userId} until ${new Date(subscription.current_period_end * 1000)}`,
     );
   }
 
@@ -200,14 +208,16 @@ export class StripeService {
     if (subscription.cancel_at_period_end) {
       await prisma.userSubscription.update({
         where: { userId },
-        data: { status: 'cancelled' },
+        data: { status: "cancelled" },
       });
-      logger.info(`Subscription set to cancel at period end for user ${userId}`);
+      logger.info(
+        `Subscription set to cancel at period end for user ${userId}`,
+      );
     } else {
       await prisma.userSubscription.update({
         where: { userId },
         data: {
-          status: 'active',
+          status: "active",
           endDate: new Date(subscription.current_period_end * 1000),
         },
       });
@@ -220,7 +230,6 @@ export class StripeService {
     });
 
     if (!subscription || !subscription.stripeSubscriptionId) {
-      // Fallback or handle PayPal if needed, but this service is Stripe specific
       return;
     }
 
@@ -229,7 +238,7 @@ export class StripeService {
     });
 
     logger.info(
-      `Cancelled Stripe subscription ${subscription.stripeSubscriptionId} for user ${userId}`
+      `Cancelled Stripe subscription ${subscription.stripeSubscriptionId} for user ${userId}`,
     );
   }
 
@@ -242,7 +251,7 @@ export class StripeService {
     });
 
     if (!subscription || !subscription.stripeCustomerId) {
-      throw new Error('No Stripe customer found for this user');
+      throw new Error("No Stripe customer found for this user");
     }
 
     const session = await stripe.billingPortal.sessions.create({
@@ -250,7 +259,9 @@ export class StripeService {
       return_url: `${env.CORS_ORIGIN[0]}/dashboard`,
     });
 
-    logger.info(`Stripe Billing Portal created for customer: ${subscription.stripeCustomerId}`);
+    logger.info(
+      `Stripe Billing Portal created for customer: ${subscription.stripeCustomerId}`,
+    );
 
     return {
       url: session.url,

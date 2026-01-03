@@ -1,13 +1,12 @@
-services:
-  # PostgreSQL Database
-  - type: pserv
-    name: pmp-postgres
+databases:
+  - name: pmp-postgres
     plan: standard
-    ipAddress: private
-    postgresVersion: 15
-    initialDatabase: pmp_study_db
+    databaseName: pmp_study_db
     user: pmp_user
+    postgresMajorVersion: "15"
+    ipAllowList: []
 
+services:
   # Express API Service
   - type: web
     name: pmp-api
@@ -41,10 +40,6 @@ services:
         scope: secret
       - key: STRIPE_WEBHOOK_SECRET
         scope: secret
-      - key: PAYPAL_CLIENT_ID
-        scope: secret
-      - key: PAYPAL_CLIENT_SECRET
-        scope: secret
     healthCheckPath: /api/health
     healthCheckInterval: 10
     autoDeploy: true
@@ -64,8 +59,6 @@ services:
         value: 3000
       - key: NEXT_PUBLIC_API_URL
         value: https://pmp-api.onrender.com/api
-      - key: NEXT_PUBLIC_PAYPAL_CLIENT_ID
-        scope: secret
     healthCheckPath: /
     healthCheckInterval: 10
     autoDeploy: true
