@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import RootLayout, { metadata } from "./layout";
+import RootLayout, { metadata, viewport } from "./layout";
 import { vi, describe, it, expect, beforeEach } from "vitest";
 
 vi.mock("next/font/google", () => ({
@@ -120,12 +120,16 @@ describe("RootLayout metadata", () => {
   });
 
   it("has theme color", () => {
-    expect(metadata.themeColor).toBe("#7c3aed");
+    expect(viewport.themeColor).toBe("#7c3aed");
   });
 
   it("has viewport settings", () => {
-    expect(metadata.viewport).toBe(
-      "width=device-width, initial-scale=1, maximum-scale=1",
+    expect(viewport).toEqual(
+      expect.objectContaining({
+        width: "device-width",
+        initialScale: 1,
+        maximumScale: 1,
+      }),
     );
   });
 
