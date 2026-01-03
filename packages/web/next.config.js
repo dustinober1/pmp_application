@@ -54,7 +54,10 @@ const ContentSecurityPolicy = [
 
 const nextConfig = {
   reactStrictMode: true,
-  output: "standalone",
+  // standalone output requires special handling on Render
+  // using default output for better compatibility
+  // output: "standalone",
+  trailingSlash: true,
   transpilePackages: ["@pmp/shared"],
   async redirects() {
     return [
