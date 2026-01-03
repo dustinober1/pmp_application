@@ -26,10 +26,10 @@ Use this checklist to deploy PMP Study Pro to Render with your custom domain.
 
 - [ ] Render will detect `render.yaml` in root
 - [ ] Click "Use Render YAML" option
-- [ ] Review the services it will create (PostgreSQL, API, Web)
+- [ ] Review the services it will create (API, Web) - **Database is on Neon**
 - [ ] Click "Create" or "Deploy"
 
-_Render will create all three services automatically from render.yaml_
+_Render will create 2 services (API + Web). Database is on Neon free tier._
 
 ### 3. Set Environment Variables/Secrets
 
@@ -38,12 +38,13 @@ Once services are created:
 **For pmp-api service:**
 
 1. Go to Render Dashboard → pmp-api → Environment
-2. Add these environment variables:
+2. Add these environment variables from `.render-secrets.env`:
    ```
+   DATABASE_URL               (Neon connection string)
    JWT_SECRET                 (paste generated value)
    JWT_REFRESH_SECRET         (paste generated value)
-   STRIPE_SECRET_KEY          (from Stripe Dashboard)
-   STRIPE_WEBHOOK_SECRET      (from Stripe Dashboard)
+   STRIPE_SECRET_KEY          (from Stripe CLI)
+   STRIPE_WEBHOOK_SECRET      (from Stripe CLI)
    ```
 
 **For pmp-web service:**
@@ -53,21 +54,20 @@ Once services are created:
 
 ### 4. Run Database Migrations
 
-The API service's `buildCommand` in render.yaml should handle migrations, but if needed:
+Run migrations against Neon database locally:
 
-1. Get PostgreSQL connection string from Render dashboard (pmp-postgres service)
-2. Locally, run:
-   ```bash
-   export DATABASE_URL="postgresql://..."
-   npm run db:generate
-   npm run db:migrate
-   npm run db:seed
-   ```
+```bash
+# Copy DATABASE_URL from .render-secrets.env
+export DATABASE_URL="postgresql://neondb_owner:...@ep-falling-dew-adw5ts7n.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require"
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+```
 
 ### 5. Wait for Services to Build
 
 - [ ] Check Render Dashboard for build progress
-- [ ] Wait for all three services to show "Live"
+- [ ] Wait for both services to show "Live" (pmp-api, pmp-web)
 - [ ] Check logs if any service fails:
   - Click service → "Logs" tab
   - Look for error messages
