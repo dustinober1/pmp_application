@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces",
+    "build": "npm run build:shared && npm run build:api && npm run build:web",
     "build:api": "npm run build -w @pmp/api",
     "build:web": "npm run build -w @pmp/web",
     "build:shared": "npm run build -w @pmp/shared",
