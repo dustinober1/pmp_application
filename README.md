@@ -13,12 +13,12 @@ A comprehensive study platform for the 2026 PMP (Project Management Professional
 
 ## Tech Stack
 
-- **Frontend**: React 18 + Next.js + TypeScript + TailwindCSS
+- **Frontend**: React 18 + Next.js 14 + TypeScript + TailwindCSS
 - **Backend**: Node.js + Express + TypeScript
-- **Database**: PostgreSQL + Prisma ORM
-- **Cache**: Redis
-- **Testing**: Jest + fast-check (property-based testing)
+- **Database**: PostgreSQL (Neon) + Prisma ORM
+- **Testing**: Jest + Vitest + Playwright + fast-check (property-based testing)
 - **Payments**: Stripe
+- **Monitoring**: OpenTelemetry + Winston CloudWatch
 
 ## Project Structure
 
@@ -28,7 +28,6 @@ pmp_application/
 │   ├── api/           # Express backend API
 │   ├── web/           # Next.js frontend
 │   └── shared/        # Shared types and utilities
-├── docker-compose.yml # PostgreSQL + Redis
 └── package.json       # Workspace configuration
 ```
 
@@ -37,8 +36,7 @@ pmp_application/
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL 15+ (or Docker)
-- Redis (optional, or Docker)
+- Neon Database (or local PostgreSQL 15+)
 
 ### Installation
 
@@ -49,31 +47,34 @@ pmp_application/
    npm install
    ```
 
-3. Start the database (using Docker):
-
-   ```bash
-   docker-compose up -d
-   ```
-
-4. Set up environment variables:
+3. Set up environment variables:
 
    ```bash
    cp packages/api/.env.example packages/api/.env
+   # Add your Neon DATABASE_URL and other secrets
    ```
 
-5. Run database migrations:
+4. Run database migrations:
 
    ```bash
    npm run db:migrate
    ```
 
-6. Generate Prisma client:
+5. Generate Prisma client:
 
    ```bash
    npm run db:generate
    ```
 
+6. Seed the database:
+
+   ```bash
+   npm run db:seed
+   npm run db:seed:ebook
+   ```
+
 7. Start the development servers:
+
    ```bash
    npm run dev
    ```
@@ -88,18 +89,26 @@ pmp_application/
 - `npm run db:migrate` - Run database migrations
 - `npm run db:studio` - Open Prisma Studio
 
+## Deployment
+
+This application is configured for deployment on **Render**.
+
+- **API**: Deployed as a Web Service.
+- **Web**: Deployed as a Web Service (Static Site or SSR).
+- **Database**: Managed by **Neon**.
+
 ## Subscription Tiers
 
-| Feature            | Free    | Mid-Level | High-End  | Corporate |
-| ------------------ | ------- | --------- | --------- | --------- |
-| Study Guides       | Limited | Full      | Full      | Full      |
-| Flashcards         | 50      | Unlimited | Unlimited | Unlimited |
-| Questions/Domain   | 25      | 100       | 200       | 200       |
-| Mock Exams         | ❌      | ❌        | ✅        | ✅        |
-| Formula Calculator | ❌      | ❌        | ✅        | ✅        |
-| Custom Flashcards  | ❌      | ❌        | ✅        | ✅        |
-| Advanced Analytics | ❌      | ✅        | ✅        | ✅        |
-| Team Management    | ❌      | ❌        | ❌        | ✅        |
+| Feature            | Free    | Pro       | Corporate |
+| ------------------ | ------- | --------- | --------- |
+| Study Guides       | Limited | Full      | Full      |
+| Flashcards         | 500     | 2000      | 2000      |
+| Questions/Domain   | 25      | 200       | 200       |
+| Mock Exams         | ❌      | ✅        | ✅        |
+| Formula Calculator | ❌      | ✅        | ✅        |
+| Custom Flashcards  | ❌      | ✅        | ✅        |
+| Advanced Analytics | ❌      | ✅        | ✅        |
+| Team Management    | ❌      | ❌        | ✅        |
 
 ## License
 

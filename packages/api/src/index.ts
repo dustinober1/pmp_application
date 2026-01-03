@@ -47,6 +47,7 @@ import ebookRouter from "./routes/ebook.routes";
 import stripeWebhookRouter from "./routes/stripe.webhook.routes";
 import privacyRouter from "./routes/privacy.routes";
 import adminPrivacyRouter from "./routes/admin-privacy.routes";
+import analyticsRouter from "./routes/analytics.routes";
 import { createLoggerConfig } from "./logging/config";
 // Initialize structured logger
 initializeLogger(createLoggerConfig());
@@ -170,6 +171,7 @@ app.use("/api/search", searchRouter);
 app.use("/api/ebook", ebookRouter);
 app.use("/api/privacy", privacyRouter);
 app.use("/api/admin/privacy", adminPrivacyRouter);
+app.use("/api/analytics", analyticsRouter);
 
 // Error handling
 app.use(notFoundHandler);

@@ -19,3 +19,6 @@ export { consentService } from "./consent.service";
 export { dataExportService } from "./data-export.service";
 export { accountDeletionService } from "./account-deletion.service";
 export { adminPrivacyService } from "./admin-privacy.service";
+
+// Analytics Service
+export { AnalyticsService } from "./analytics.service";
