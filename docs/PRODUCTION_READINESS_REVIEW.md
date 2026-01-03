@@ -217,12 +217,17 @@ This document outlines the roadmap and checklist required to transition the PMP 
 ### Current State
 
 - **Readme:** Basic setup instructions.
+- **Design System:** Material You design system implemented in `tailwind.config.js` with `md-*` CSS classes for colors, typography, and components.
 
 ### Roadmap Actions
 
 - [x] **Runbooks:**
   - _Action:_ Create "How-To" guides for common incidents (e.g., "High CPU Usage", "Database Connection Spikes").
   - _Criteria:_ Stored in a searchable wiki (Confluence/Notion) or `/docs` folder. (Created `docs/RUNBOOK.md`)
+- [x] **Design System Consistency:**
+  - _Action:_ Refactor all pages to use shared layout components (Navbar, Footer) and Material You design system.
+  - _Criteria:_ All pages use `Navbar`, `Footer`, `btn btn-*`, `card`, `text-md-*` classes. Study guide page refactored on 2026-01-03.
+  - _Impact:_ Improved UX consistency, easier maintenance, follows Material Design guidelines.
 - [ ] **API Documentation:**
   - _Action:_ Generate OpenAPI/Swagger spec from Zod routes or manually.
   - _Criteria:_ Hosted Swagger UI accessible to developers.
@@ -233,5 +238,6 @@ This document outlines the roadmap and checklist required to transition the PMP 
 ### Sign-off Criteria
 
 - [x] Runbooks for top 3 expected incidents.
+- [x] Design system refactor completed for study-guide page.
 - [ ] API documentation up-to-date.
 - [x] Architecture diagrams committed to repo.
