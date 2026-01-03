@@ -11,27 +11,27 @@
  */
 export const truncateAtWordBoundary = (
   text: string | undefined | null,
-  maxLength: number
+  maxLength: number,
 ): string => {
-  if (!text) return '';
+  if (!text) return "";
 
   if (text.length <= maxLength) return text;
 
   // Find last complete word before maxLength
   const truncated = text.substring(0, maxLength);
-  const lastSpace = truncated.lastIndexOf(' ');
-  const lastNewline = truncated.lastIndexOf('\n');
-  const lastPeriod = truncated.lastIndexOf('. ');
-  const lastComma = truncated.lastIndexOf(', ');
+  const lastSpace = truncated.lastIndexOf(" ");
+  const lastNewline = truncated.lastIndexOf("\n");
+  const lastPeriod = truncated.lastIndexOf(". ");
+  const lastComma = truncated.lastIndexOf(", ");
   const lastBoundary = Math.max(lastSpace, lastNewline, lastPeriod, lastComma);
 
   // If no boundary found, just truncate at maxLength
   if (lastBoundary === -1 || lastBoundary < maxLength * 0.5) {
-    return truncated + '...';
+    return truncated + "...";
   }
 
   // Truncate at last word boundary
-  return text.substring(0, lastBoundary).trim() + '...';
+  return text.substring(0, lastBoundary).trim() + "...";
 };
 
 /**
@@ -42,9 +42,9 @@ export const truncateAtWordBoundary = (
  */
 export const truncateWithEmojiProtection = (
   text: string | undefined | null,
-  maxLength: number
+  maxLength: number,
 ): string => {
-  if (!text) return '';
+  if (!text) return "";
 
   if (text.length <= maxLength) return text;
 
@@ -54,13 +54,13 @@ export const truncateWithEmojiProtection = (
   if (chars.length <= maxLength) return text;
 
   // Truncate at character level, then find word boundary
-  let truncated = chars.slice(0, maxLength).join('');
+  let truncated = chars.slice(0, maxLength).join("");
 
   // Check if last character is part of an emoji or multi-byte sequence
   const lastChar = chars[maxLength - 1];
   if (lastChar && lastChar !== truncated[truncated.length - 1]) {
     // We might have cut an emoji, reduce length
-    truncated = chars.slice(0, maxLength - 1).join('');
+    truncated = chars.slice(0, maxLength - 1).join("");
   }
 
   // Now apply word boundary truncation
@@ -76,7 +76,7 @@ export const truncateWithEmojiProtection = (
 export const truncateHtml = (html: string, maxLength: number): string => {
   // Simple HTML truncation - strips tags and truncates text
   // For production, consider using a proper HTML parser
-  const stripTags = html.replace(/<[^>]*>/g, '');
+  const stripTags = html.replace(/<[^>]*>/g, "");
   return truncateWithEmojiProtection(stripTags, maxLength);
 };
 
@@ -86,13 +86,13 @@ export const truncateHtml = (html: string, maxLength: number): string => {
  * @returns Title cased text
  */
 export const toTitleCase = (text: string): string => {
-  if (!text) return '';
+  if (!text) return "";
 
   return text
     .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 };
 
 /**
@@ -101,14 +101,14 @@ export const toTitleCase = (text: string): string => {
  * @returns URL-safe slug
  */
 export const slugify = (text: string): string => {
-  if (!text) return '';
+  if (!text) return "";
 
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 };
 
 /**
@@ -117,7 +117,7 @@ export const slugify = (text: string): string => {
  * @returns Capitalized text
  */
 export const capitalize = (text: string): string => {
-  if (!text) return '';
+  if (!text) return "";
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
@@ -127,7 +127,7 @@ export const capitalize = (text: string): string => {
  * @returns Formatted number string
  */
 export const formatNumber = (num: number): string => {
-  return new Intl.NumberFormat('en-US').format(num);
+  return new Intl.NumberFormat("en-US").format(num);
 };
 
 /**
@@ -136,7 +136,10 @@ export const formatNumber = (num: number): string => {
  * @param decimals - Number of decimal places (default: 0)
  * @returns Formatted percentage string
  */
-export const formatPercentage = (value: number, decimals: number = 0): string => {
+export const formatPercentage = (
+  value: number,
+  decimals: number = 0,
+): string => {
   return `${(value * 100).toFixed(decimals)}%`;
 };
 
@@ -147,14 +150,14 @@ export const formatPercentage = (value: number, decimals: number = 0): string =>
  * @returns Initials string
  */
 export const getInitials = (name: string, maxInitials: number = 2): string => {
-  if (!name) return '';
+  if (!name) return "";
 
   return name
-    .split(' ')
-    .filter(word => word.length > 0)
+    .split(" ")
+    .filter((word) => word.length > 0)
     .slice(0, maxInitials)
-    .map(word => word.charAt(0).toUpperCase())
-    .join('');
+    .map((word) => word.charAt(0).toUpperCase())
+    .join("");
 };
 
 /**
@@ -181,7 +184,7 @@ export const isValidUrl = (text: string): boolean => {
 export const maskSensitiveData = (
   text: string,
   visibleChars: number = 4,
-  maskChar: string = '•'
+  maskChar: string = "•",
 ): string => {
   if (!text || text.length <= visibleChars * 2) return text;
 
@@ -199,7 +202,11 @@ export const maskSensitiveData = (
  * @param pluralForm - Optional plural form (defaults to word + 's')
  * @returns Pluralized word with count
  */
-export const pluralize = (word: string, count: number, pluralForm?: string): string => {
+export const pluralize = (
+  word: string,
+  count: number,
+  pluralForm?: string,
+): string => {
   const plural = pluralForm || `${word}s`;
   return `${count} ${count === 1 ? word : plural}`;
 };

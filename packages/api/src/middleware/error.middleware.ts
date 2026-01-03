@@ -1,6 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
-import type { ErrorResponseBody } from '@pmp/shared';
-import { GENERIC_ERRORS } from '@pmp/shared';
+import type { Request, Response, NextFunction } from "express";
+import type { ErrorResponseBody } from "@pmp/shared";
+import { GENERIC_ERRORS } from "@pmp/shared";
 
 export class AppError extends Error {
   public readonly code: string;
@@ -13,7 +13,7 @@ export class AppError extends Error {
     code: string,
     statusCode: number = 500,
     details?: Record<string, unknown>,
-    suggestion?: string
+    suggestion?: string,
   ) {
     super(message);
     this.code = code;
@@ -25,32 +25,47 @@ export class AppError extends Error {
 
   static badRequest(
     message: string,
-    code: string = 'BAD_REQUEST',
-    details?: Record<string, unknown>
+    code: string = "BAD_REQUEST",
+    details?: Record<string, unknown>,
   ): AppError {
     return new AppError(message, code, 400, details);
   }
 
   static unauthorized(
-    message: string = 'Authentication required',
-    code: string = 'UNAUTHORIZED'
+    message: string = "Authentication required",
+    code: string = "UNAUTHORIZED",
   ): AppError {
     return new AppError(message, code, 401);
   }
 
-  static forbidden(message: string, code: string = 'FORBIDDEN', suggestion?: string): AppError {
+  static forbidden(
+    message: string,
+    code: string = "FORBIDDEN",
+    suggestion?: string,
+  ): AppError {
     return new AppError(message, code, 403, undefined, suggestion);
   }
 
-  static notFound(message: string, code: string = 'NOT_FOUND'): AppError {
+  static notFound(message: string, code: string = "NOT_FOUND"): AppError {
     return new AppError(message, code, 404);
   }
 
-  static conflict(message: string, code: string = 'CONFLICT', suggestion?: string): AppError {
+  static conflict(
+    message: string,
+    code: string = "CONFLICT",
+    suggestion?: string,
+  ): AppError {
     return new AppError(message, code, 409, undefined, suggestion);
   }
 
-  static internal(message: string = 'An unexpected error occurred'): AppError {
+  static tooManyRequests(
+    message: string = "Too many requests",
+    code: string = "TOO_MANY_REQUESTS",
+  ): AppError {
+    return new AppError(message, code, 429);
+  }
+
+  static internal(message: string = "An unexpected error occurred"): AppError {
     return new AppError(message, GENERIC_ERRORS.INTERNAL_ERROR.code, 500);
   }
 }
@@ -60,10 +75,10 @@ export function errorHandler(
   req: Request,
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _next: NextFunction
+  _next: NextFunction,
 ): void {
   const timestamp = new Date().toISOString();
-  const requestId = req.requestId || 'unknown';
+  const requestId = req.requestId || "unknown";
 
   // Log error
   console.error(`[${timestamp}] [${requestId}] Error:`, err);
@@ -85,11 +100,11 @@ export function errorHandler(
   }
 
   // Handle Prisma errors
-  if (err.name === 'PrismaClientKnownRequestError') {
+  if (err.name === "PrismaClientKnownRequestError") {
     const response: ErrorResponseBody = {
       error: {
-        code: 'DATABASE_ERROR',
-        message: 'A database error occurred',
+        code: "DATABASE_ERROR",
+        message: "A database error occurred",
       },
       timestamp,
       requestId,
@@ -100,11 +115,11 @@ export function errorHandler(
   }
 
   // Handle validation errors (Zod)
-  if (err.name === 'ZodError') {
+  if (err.name === "ZodError") {
     const response: ErrorResponseBody = {
       error: {
-        code: 'VALIDATION_ERROR',
-        message: 'Validation failed',
+        code: "VALIDATION_ERROR",
+        message: "Validation failed",
         details: { errors: JSON.parse(err.message) },
       },
       timestamp,
@@ -120,7 +135,9 @@ export function errorHandler(
     error: {
       code: GENERIC_ERRORS.INTERNAL_ERROR.code,
       message:
-        process.env.NODE_ENV === 'production' ? GENERIC_ERRORS.INTERNAL_ERROR.message : err.message,
+        process.env.NODE_ENV === "production"
+          ? GENERIC_ERRORS.INTERNAL_ERROR.message
+          : err.message,
     },
     timestamp,
     requestId,
@@ -129,7 +146,11 @@ export function errorHandler(
   res.status(500).json(response);
 }
 
-export function notFoundHandler(req: Request, _res: Response, next: NextFunction): void {
+export function notFoundHandler(
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+): void {
   const error = AppError.notFound(`Route ${req.method} ${req.path} not found`);
   next(error);
 }

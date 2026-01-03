@@ -126,7 +126,7 @@ GET /api/flashcards (1200ms)
 const flashcards = await prisma.flashcard.findMany({
   skip: (page - 1) * pageSize,
   take: pageSize,
-  orderBy: { createdAt: 'desc' },
+  orderBy: { createdAt: "desc" },
 });
 ```
 
@@ -280,7 +280,7 @@ const questions = await prisma.question.findMany({
     domainId: request.domainId,
   },
   take: request.count,
-  orderBy: { createdAt: 'desc' },
+  orderBy: { createdAt: "desc" },
 });
 
 // Use database-level random sampling
@@ -380,7 +380,7 @@ const prisma = new PrismaClient({
     },
   },
   // Connection pool settings
-  log: ['query', 'error', 'warn'],
+  log: ["query", "error", "warn"],
 });
 ```
 
@@ -404,7 +404,7 @@ Event loop delays
 
 ```typescript
 // Ensure spans are ended
-const span = createSpan('operation');
+const span = createSpan("operation");
 try {
   // Do work
 } finally {
@@ -415,7 +415,7 @@ try {
 **Better - use withSpan:**
 
 ```typescript
-withSpan('operation', async span => {
+withSpan("operation", async (span) => {
   // Auto-cleanup
 });
 ```
@@ -495,8 +495,8 @@ Create alerts for:
   labels:
     severity: warning
   annotations:
-    summary: 'High API response time (P95 > 1s)'
-    description: 'P95 response time is {{ $value }}s'
+    summary: "High API response time (P95 > 1s)"
+    description: "P95 response time is {{ $value }}s"
 ```
 
 ## Continuous Optimization

@@ -3,21 +3,21 @@
  */
 
 export type ActivityType =
-  | 'study_guide_view'
-  | 'study_guide_complete'
-  | 'flashcard_session'
-  | 'flashcard_review'
-  | 'practice_session'
-  | 'mock_exam'
-  | 'formula_practice';
+  | "study_guide_view"
+  | "study_guide_complete"
+  | "flashcard_session"
+  | "flashcard_review"
+  | "practice_session"
+  | "mock_exam"
+  | "formula_practice";
 
-export type ReadinessConfidence = 'low' | 'medium' | 'high';
+export type ReadinessConfidence = "low" | "medium" | "high";
 export type RecommendationType =
-  | 'review_flashcards'
-  | 'practice_questions'
-  | 'study_guide'
-  | 'formula_practice';
-export type RecommendationPriority = 'high' | 'medium' | 'low';
+  | "review_flashcards"
+  | "practice_questions"
+  | "study_guide"
+  | "formula_practice";
+export type RecommendationPriority = "high" | "medium" | "low";
 
 export interface DashboardData {
   overallProgress: number;
@@ -57,7 +57,7 @@ export interface RecentActivity {
 }
 
 export interface UpcomingReview {
-  type: 'flashcard' | 'question';
+  type: "flashcard" | "question";
   id: string;
   title: string;
   domainName: string;

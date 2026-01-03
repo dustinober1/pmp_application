@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Navbar } from '@/components/Navbar';
-import { apiRequest } from '@/lib/api';
-import { useToast } from '@/components/ToastProvider';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { useEffect, useMemo, useState, useCallback } from "react";
+import { Navbar } from "@/components/Navbar";
+import { apiRequest } from "@/lib/api";
+import { useToast } from "@/components/ToastProvider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 
 interface Formula {
   id: string;
@@ -18,7 +18,12 @@ interface Formula {
 
 interface CalcResult {
   result: number;
-  steps: Array<{ stepNumber: number; description: string; expression: string; value: number }>;
+  steps: Array<{
+    stepNumber: number;
+    description: string;
+    expression: string;
+    value: number;
+  }>;
   interpretation: string;
 }
 
@@ -26,7 +31,7 @@ export default function FormulasPage() {
   const { user, canAccess, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [formulas, setFormulas] = useState<Formula[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [result, setResult] = useState<CalcResult | null>(null);
@@ -35,11 +40,11 @@ export default function FormulasPage() {
 
   const fetchFormulas = useCallback(async () => {
     try {
-      const response = await apiRequest<{ formulas: Formula[] }>('/formulas');
+      const response = await apiRequest<{ formulas: Formula[] }>("/formulas");
       setFormulas(response.data?.formulas ?? []);
     } catch (error) {
-      console.error('Failed to fetch formulas:', error);
-      toast.error('Failed to load formulas. Please try again.');
+      console.error("Failed to fetch formulas:", error);
+      toast.error("Failed to load formulas. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -65,28 +70,32 @@ export default function FormulasPage() {
 
       const response = await apiRequest<{ result: CalcResult }>(
         `/formulas/${selectedFormula.id}/calculate`,
-        { method: 'POST', body: { inputs: numericInputs } }
+        { method: "POST", body: { inputs: numericInputs } },
       );
       setResult(response.data?.result ?? null);
     } catch (error) {
-      console.error('Calculation failed:', error);
-      toast.error('Calculation failed. Please check your inputs and try again.');
+      console.error("Calculation failed:", error);
+      toast.error(
+        "Calculation failed. Please check your inputs and try again.",
+      );
     } finally {
       setCalculating(false);
     }
   };
 
   const categories = useMemo(
-    () => ['all', ...Array.from(new Set(formulas.map(f => f.category)))],
-    [formulas]
+    () => ["all", ...Array.from(new Set(formulas.map((f) => f.category)))],
+    [formulas],
   );
   const filteredFormulas = useMemo(
     () =>
-      selectedCategory === 'all' ? formulas : formulas.filter(f => f.category === selectedCategory),
-    [formulas, selectedCategory]
+      selectedCategory === "all"
+        ? formulas
+        : formulas.filter((f) => f.category === selectedCategory),
+    [formulas, selectedCategory],
   );
 
-  const canUseCalculator = user?.tier === 'pro' || user?.tier === 'corporate';
+  const canUseCalculator = user?.tier === "pro" || user?.tier === "corporate";
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;
@@ -106,17 +115,17 @@ export default function FormulasPage() {
 
         {/* Category Tabs */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {categories.map(category => (
+          {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
               className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition ${
                 selectedCategory === category
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)]'
+                  ? "bg-[var(--primary)] text-white"
+                  : "bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)]"
               }`}
             >
-              {category.replace('_', ' ')}
+              {category.replace("_", " ")}
             </button>
           ))}
         </div>
@@ -125,14 +134,14 @@ export default function FormulasPage() {
           {/* Formula List */}
           <div className="lg:col-span-2">
             <div className="grid gap-4">
-              {filteredFormulas.map(formula => (
+              {filteredFormulas.map((formula) => (
                 <button
                   key={formula.id}
                   type="button"
                   className={`card w-full text-left cursor-pointer transition ${
                     selectedFormula?.id === formula.id
-                      ? 'ring-2 ring-[var(--primary)]'
-                      : 'hover:border-[var(--primary)]'
+                      ? "ring-2 ring-[var(--primary)]"
+                      : "hover:border-[var(--primary)]"
                   }`}
                   onClick={() => {
                     setSelectedFormula(formula);
@@ -149,7 +158,7 @@ export default function FormulasPage() {
                       </p>
                     </div>
                     <span className="badge badge-primary capitalize">
-                      {formula.category.replace('_', ' ')}
+                      {formula.category.replace("_", " ")}
                     </span>
                   </div>
                   <p className="text-sm text-[var(--foreground-muted)] mt-3">
@@ -171,39 +180,50 @@ export default function FormulasPage() {
               {!canUseCalculator ? (
                 <div className="text-center py-8">
                   <p className="text-[var(--foreground-muted)] mb-4">
-                    Interactive calculator is available for High-End and Corporate tiers.
+                    Interactive calculator is available for High-End and
+                    Corporate tiers.
                   </p>
                   <button className="btn btn-primary">Upgrade Now</button>
                 </div>
               ) : selectedFormula ? (
                 <div>
-                  <p className="text-sm font-medium mb-2">{selectedFormula.name}</p>
+                  <p className="text-sm font-medium mb-2">
+                    {selectedFormula.name}
+                  </p>
                   <p className="text-lg font-mono text-[var(--primary)] mb-4">
                     {selectedFormula.expression}
                   </p>
 
                   {/* Dynamic inputs based on formula expression */}
                   <div className="space-y-3 mb-4">
-                    {getVariablesFromExpression(selectedFormula.expression).map(variable => {
-                      const inputId = `variable-${variable.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
-                      return (
-                        <div key={variable}>
-                          <label htmlFor={inputId} className="block text-sm font-medium mb-1">
-                            {variable}
-                          </label>
-                          <input
-                            id={inputId}
-                            type="number"
-                            value={inputs[variable] || ''}
-                            onChange={e =>
-                              setInputs(prev => ({ ...prev, [variable]: e.target.value }))
-                            }
-                            className="input"
-                            placeholder={`Enter ${variable}`}
-                          />
-                        </div>
-                      );
-                    })}
+                    {getVariablesFromExpression(selectedFormula.expression).map(
+                      (variable) => {
+                        const inputId = `variable-${variable.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+                        return (
+                          <div key={variable}>
+                            <label
+                              htmlFor={inputId}
+                              className="block text-sm font-medium mb-1"
+                            >
+                              {variable}
+                            </label>
+                            <input
+                              id={inputId}
+                              type="number"
+                              value={inputs[variable] || ""}
+                              onChange={(e) =>
+                                setInputs((prev) => ({
+                                  ...prev,
+                                  [variable]: e.target.value,
+                                }))
+                              }
+                              className="input"
+                              placeholder={`Enter ${variable}`}
+                            />
+                          </div>
+                        );
+                      },
+                    )}
                   </div>
 
                   <button
@@ -211,13 +231,15 @@ export default function FormulasPage() {
                     disabled={calculating}
                     className="btn btn-primary w-full"
                   >
-                    {calculating ? 'Calculating...' : 'Calculate'}
+                    {calculating ? "Calculating..." : "Calculate"}
                   </button>
 
                   {/* Result */}
                   {result && (
                     <div className="mt-4 p-4 bg-[var(--secondary)] rounded-lg">
-                      <p className="text-sm font-medium text-[var(--foreground-muted)]">Result</p>
+                      <p className="text-sm font-medium text-[var(--foreground-muted)]">
+                        Result
+                      </p>
                       <p className="text-2xl font-bold text-[var(--primary)]">
                         {result.result.toFixed(2)}
                       </p>
@@ -253,10 +275,10 @@ export default function FormulasPage() {
 
 // Helper to extract variables from formula expression
 function getVariablesFromExpression(expression: string): string[] {
-  const parts = expression.split('=');
+  const parts = expression.split("=");
   if (parts.length < 2) return [];
 
-  const rightSide = parts[1] || '';
+  const rightSide = parts[1] || "";
   const variables = rightSide.match(/[A-Z]+/g) || [];
   return [...new Set(variables)];
 }

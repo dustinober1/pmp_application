@@ -1,7 +1,7 @@
-import type { TeamRole, TeamAlertType, CreateTeamInput } from '@pmp/shared';
-import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
-import crypto from 'crypto';
+import type { TeamRole, TeamAlertType, CreateTeamInput } from "@pmp/shared";
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
+import crypto from "crypto";
 
 // Local response types for simplicity
 interface TeamResponse {
@@ -70,15 +70,18 @@ export class TeamService {
   /**
    * Create a new team
    */
-  async createTeam(adminId: string, data: CreateTeamInput): Promise<TeamResponse> {
+  async createTeam(
+    adminId: string,
+    data: CreateTeamInput,
+  ): Promise<TeamResponse> {
     // Verify user has corporate subscription
     const subscription = await prisma.userSubscription.findUnique({
       where: { userId: adminId },
       include: { tier: true },
     });
 
-    if (!subscription || subscription.tier.name !== 'corporate') {
-      throw AppError.forbidden('Corporate subscription required');
+    if (!subscription || subscription.tier.name !== "corporate") {
+      throw AppError.forbidden("Corporate subscription required");
     }
 
     const team = await prisma.team.create({
@@ -99,7 +102,7 @@ export class TeamService {
       data: {
         teamId: team.id,
         userId: adminId,
-        role: 'admin',
+        role: "admin",
       },
     });
 
@@ -122,9 +125,9 @@ export class TeamService {
     if (!team) return null;
 
     // Verify user is a member
-    const isMember = team.members.some(m => m.userId === userId);
+    const isMember = team.members.some((m) => m.userId === userId);
     if (!isMember) {
-      throw AppError.forbidden('Not a team member');
+      throw AppError.forbidden("Not a team member");
     }
 
     return this.mapTeam(team);
@@ -147,7 +150,7 @@ export class TeamService {
       },
     });
 
-    return memberships.map(m => this.mapTeam(m.team));
+    return memberships.map((m) => this.mapTeam(m.team));
   }
 
   /**
@@ -156,7 +159,7 @@ export class TeamService {
   async inviteMember(
     teamId: string,
     adminId: string,
-    email: string
+    email: string,
   ): Promise<TeamInvitationResponse> {
     const team = await prisma.team.findUnique({
       where: { id: teamId },
@@ -164,12 +167,12 @@ export class TeamService {
     });
 
     if (!team || team.adminId !== adminId) {
-      throw AppError.forbidden('Only team admin can invite members');
+      throw AppError.forbidden("Only team admin can invite members");
     }
 
     // Check license count
     if (team.members.length >= team.licenseCount) {
-      throw AppError.badRequest('Team license limit reached');
+      throw AppError.badRequest("Team license limit reached");
     }
 
     // Check if email is already invited
@@ -183,7 +186,7 @@ export class TeamService {
     });
 
     if (existingInvite) {
-      throw AppError.badRequest('Invitation already sent to this email');
+      throw AppError.badRequest("Invitation already sent to this email");
     }
 
     // Check if user is already a member
@@ -192,13 +195,13 @@ export class TeamService {
     });
 
     if (existingUser) {
-      const isMember = team.members.some(m => m.userId === existingUser.id);
+      const isMember = team.members.some((m) => m.userId === existingUser.id);
       if (isMember) {
-        throw AppError.badRequest('User is already a team member');
+        throw AppError.badRequest("User is already a team member");
       }
     }
 
-    const token = crypto.randomBytes(32).toString('hex');
+    const token = crypto.randomBytes(32).toString("hex");
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
     const invitation = await prisma.teamInvitation.create({
@@ -232,15 +235,15 @@ export class TeamService {
     });
 
     if (!invitation) {
-      throw AppError.notFound('Invitation not found');
+      throw AppError.notFound("Invitation not found");
     }
 
     if (invitation.acceptedAt) {
-      throw AppError.badRequest('Invitation already accepted');
+      throw AppError.badRequest("Invitation already accepted");
     }
 
     if (invitation.expiresAt < new Date()) {
-      throw AppError.badRequest('Invitation has expired');
+      throw AppError.badRequest("Invitation has expired");
     }
 
     // Verify user email matches invitation
@@ -249,12 +252,12 @@ export class TeamService {
     });
 
     if (!user || user.email !== invitation.email) {
-      throw AppError.forbidden('Invitation is for a different email');
+      throw AppError.forbidden("Invitation is for a different email");
     }
 
     // Check license count
     if (invitation.team.members.length >= invitation.team.licenseCount) {
-      throw AppError.badRequest('Team license limit reached');
+      throw AppError.badRequest("Team license limit reached");
     }
 
     await prisma.$transaction([
@@ -262,7 +265,7 @@ export class TeamService {
         data: {
           teamId: invitation.teamId,
           userId,
-          role: 'member',
+          role: "member",
         },
       }),
       prisma.teamInvitation.update({
@@ -275,17 +278,21 @@ export class TeamService {
   /**
    * Remove a member from the team
    */
-  async removeMember(teamId: string, adminId: string, memberId: string): Promise<void> {
+  async removeMember(
+    teamId: string,
+    adminId: string,
+    memberId: string,
+  ): Promise<void> {
     const team = await prisma.team.findUnique({
       where: { id: teamId },
     });
 
     if (!team || team.adminId !== adminId) {
-      throw AppError.forbidden('Only team admin can remove members');
+      throw AppError.forbidden("Only team admin can remove members");
     }
 
     if (memberId === adminId) {
-      throw AppError.badRequest('Cannot remove yourself as admin');
+      throw AppError.badRequest("Cannot remove yourself as admin");
     }
 
     await prisma.teamMember.deleteMany({
@@ -300,14 +307,14 @@ export class TeamService {
     teamId: string,
     adminId: string,
     memberId: string,
-    role: TeamRole
+    role: TeamRole,
   ): Promise<void> {
     const team = await prisma.team.findUnique({
       where: { id: teamId },
     });
 
     if (!team || team.adminId !== adminId) {
-      throw AppError.forbidden('Only team admin can update roles');
+      throw AppError.forbidden("Only team admin can update roles");
     }
 
     await prisma.teamMember.updateMany({
@@ -319,7 +326,10 @@ export class TeamService {
   /**
    * Get team dashboard
    */
-  async getTeamDashboard(teamId: string, userId: string): Promise<TeamDashboardResponse> {
+  async getTeamDashboard(
+    teamId: string,
+    userId: string,
+  ): Promise<TeamDashboardResponse> {
     const team = await prisma.team.findUnique({
       where: { id: teamId },
       include: {
@@ -328,25 +338,25 @@ export class TeamService {
         },
         alerts: {
           where: { acknowledged: false },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { createdAt: "desc" },
           take: 10,
         },
       },
     });
 
     if (!team) {
-      throw AppError.notFound('Team not found');
+      throw AppError.notFound("Team not found");
     }
 
     // Verify user is a member
-    const isMember = team.members.some(m => m.userId === userId);
+    const isMember = team.members.some((m) => m.userId === userId);
     if (!isMember) {
-      throw AppError.forbidden('Not a team member');
+      throw AppError.forbidden("Not a team member");
     }
 
     // Calculate member stats
     const memberStats: MemberStatsResponse[] = await Promise.all(
-      team.members.map(async member => {
+      team.members.map(async (member) => {
         const [progress, lastActivity] = await Promise.all([
           this.getMemberStudyProgress(member.userId),
           this.getLastActivity(member.userId),
@@ -361,14 +371,17 @@ export class TeamService {
           lastActiveDate: lastActivity,
           studyStreak: 0, // Would calculate from activities
         };
-      })
+      }),
     );
 
     // Calculate team averages
-    const activeMembers = memberStats.filter(m => m.progress > 0);
+    const activeMembers = memberStats.filter((m) => m.progress > 0);
     const avgProgress =
       activeMembers.length > 0
-        ? Math.round(activeMembers.reduce((sum, m) => sum + m.progress, 0) / activeMembers.length)
+        ? Math.round(
+            activeMembers.reduce((sum, m) => sum + m.progress, 0) /
+              activeMembers.length,
+          )
         : 0;
 
     return {
@@ -388,7 +401,7 @@ export class TeamService {
           memberName: a.memberName,
           createdAt: a.createdAt,
           acknowledged: a.acknowledged,
-        })
+        }),
       ),
     };
   }
@@ -403,7 +416,7 @@ export class TeamService {
     });
 
     if (!alert || alert.team.adminId !== userId) {
-      throw AppError.forbidden('Only team admin can acknowledge alerts');
+      throw AppError.forbidden("Only team admin can acknowledge alerts");
     }
 
     await prisma.teamAlert.update({
@@ -421,7 +434,9 @@ export class TeamService {
       where: { userId, completed: true },
     });
 
-    return totalSections > 0 ? Math.round((completedSections / totalSections) * 100) : 0;
+    return totalSections > 0
+      ? Math.round((completedSections / totalSections) * 100)
+      : 0;
   }
 
   /**
@@ -430,7 +445,7 @@ export class TeamService {
   private async getLastActivity(userId: string): Promise<Date | null> {
     const activity = await prisma.studyActivity.findFirst({
       where: { userId },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
       select: { createdAt: true },
     });
 
@@ -460,7 +475,7 @@ export class TeamService {
       name: team.name,
       adminId: team.adminId,
       licenseCount: team.licenseCount,
-      members: team.members.map(m => ({
+      members: team.members.map((m) => ({
         id: m.id,
         userId: m.userId,
         teamId: m.teamId,
@@ -482,14 +497,14 @@ export class TeamService {
   async createGoal(
     teamId: string,
     adminId: string,
-    data: { type: string; target: number; deadline: Date }
+    data: { type: string; target: number; deadline: Date },
   ): Promise<{ id: string; type: string; target: number; deadline: Date }> {
     const team = await prisma.team.findUnique({
       where: { id: teamId },
     });
 
     if (!team || team.adminId !== adminId) {
-      throw AppError.forbidden('Only team admin can create goals');
+      throw AppError.forbidden("Only team admin can create goals");
     }
 
     const goal = await prisma.teamGoal.create({
@@ -514,7 +529,7 @@ export class TeamService {
    */
   async getGoals(
     teamId: string,
-    userId: string
+    userId: string,
   ): Promise<
     Array<{
       id: string;
@@ -531,18 +546,22 @@ export class TeamService {
     });
 
     if (!team) {
-      throw AppError.notFound('Team not found');
+      throw AppError.notFound("Team not found");
     }
 
-    const isMember = team.members.some(m => m.userId === userId);
+    const isMember = team.members.some((m) => m.userId === userId);
     if (!isMember) {
-      throw AppError.forbidden('Not a team member');
+      throw AppError.forbidden("Not a team member");
     }
 
     // Calculate progress for each goal
     const goalsWithProgress = await Promise.all(
-      team.goals.map(async goal => {
-        const progress = await this.calculateGoalProgress(team.id, goal.type, team.members.length);
+      team.goals.map(async (goal) => {
+        const progress = await this.calculateGoalProgress(
+          team.id,
+          goal.type,
+          team.members.length,
+        );
         return {
           id: goal.id,
           type: goal.type,
@@ -551,7 +570,7 @@ export class TeamService {
           currentProgress: progress,
           isComplete: progress >= goal.target,
         };
-      })
+      }),
     );
 
     return goalsWithProgress;
@@ -560,13 +579,17 @@ export class TeamService {
   /**
    * Delete a team goal
    */
-  async deleteGoal(teamId: string, adminId: string, goalId: string): Promise<void> {
+  async deleteGoal(
+    teamId: string,
+    adminId: string,
+    goalId: string,
+  ): Promise<void> {
     const team = await prisma.team.findUnique({
       where: { id: teamId },
     });
 
     if (!team || team.adminId !== adminId) {
-      throw AppError.forbidden('Only team admin can delete goals');
+      throw AppError.forbidden("Only team admin can delete goals");
     }
 
     await prisma.teamGoal.delete({
@@ -581,18 +604,18 @@ export class TeamService {
   async removeMemberWithDataPreservation(
     teamId: string,
     adminId: string,
-    memberId: string
+    memberId: string,
   ): Promise<{ preserved: boolean; message: string }> {
     const team = await prisma.team.findUnique({
       where: { id: teamId },
     });
 
     if (!team || team.adminId !== adminId) {
-      throw AppError.forbidden('Only team admin can remove members');
+      throw AppError.forbidden("Only team admin can remove members");
     }
 
     if (memberId === adminId) {
-      throw AppError.badRequest('Cannot remove yourself as admin');
+      throw AppError.badRequest("Cannot remove yourself as admin");
     }
 
     // Get member info before removal
@@ -602,7 +625,7 @@ export class TeamService {
     });
 
     if (!member) {
-      throw AppError.notFound('Member not found');
+      throw AppError.notFound("Member not found");
     }
 
     // Store historical record before removal
@@ -617,7 +640,7 @@ export class TeamService {
           teamId,
           memberId,
           memberName: member.user.name,
-          type: 'inactive',
+          type: "inactive",
           message: `${member.user.name} was removed from the team. Historical data preserved.`,
         },
       }),
@@ -638,8 +661,8 @@ export class TeamService {
     options: {
       startDate?: Date;
       endDate?: Date;
-      format?: 'json' | 'csv';
-    } = {}
+      format?: "json" | "csv";
+    } = {},
   ): Promise<{
     teamId: string;
     teamName: string;
@@ -673,21 +696,24 @@ export class TeamService {
     });
 
     if (!team || team.adminId !== adminId) {
-      throw AppError.forbidden('Only team admin can generate reports');
+      throw AppError.forbidden("Only team admin can generate reports");
     }
 
     const endDate = options.endDate || new Date();
-    const startDate = options.startDate || new Date(endDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+    const startDate =
+      options.startDate ||
+      new Date(endDate.getTime() - 30 * 24 * 60 * 60 * 1000);
 
     // Get member details
     const memberDetails = await Promise.all(
-      team.members.map(async member => {
-        const [progress, studyStats, practiceStats, lastActivity] = await Promise.all([
-          this.getMemberStudyProgress(member.userId),
-          this.getMemberStudyStats(member.userId, startDate, endDate),
-          this.getMemberPracticeStats(member.userId, startDate, endDate),
-          this.getLastActivity(member.userId),
-        ]);
+      team.members.map(async (member) => {
+        const [progress, studyStats, practiceStats, lastActivity] =
+          await Promise.all([
+            this.getMemberStudyProgress(member.userId),
+            this.getMemberStudyStats(member.userId, startDate, endDate),
+            this.getMemberPracticeStats(member.userId, startDate, endDate),
+            this.getLastActivity(member.userId),
+          ]);
 
         return {
           userId: member.userId,
@@ -698,23 +724,35 @@ export class TeamService {
           accuracy: practiceStats.accuracy,
           lastActiveDate: lastActivity,
         };
-      })
+      }),
     );
 
     // Calculate summary
-    const activeMembers = memberDetails.filter(m => m.progress > 0 || m.questionsAnswered > 0);
-    const totalStudyHours = memberDetails.reduce((sum, m) => sum + m.studyHours, 0);
+    const activeMembers = memberDetails.filter(
+      (m) => m.progress > 0 || m.questionsAnswered > 0,
+    );
+    const totalStudyHours = memberDetails.reduce(
+      (sum, m) => sum + m.studyHours,
+      0,
+    );
     const avgProgress =
       memberDetails.length > 0
-        ? Math.round(memberDetails.reduce((sum, m) => sum + m.progress, 0) / memberDetails.length)
+        ? Math.round(
+            memberDetails.reduce((sum, m) => sum + m.progress, 0) /
+              memberDetails.length,
+          )
         : 0;
 
     // Calculate goal completion
     const goalsWithProgress = await Promise.all(
-      team.goals.map(async goal => {
-        const progress = await this.calculateGoalProgress(team.id, goal.type, team.members.length);
+      team.goals.map(async (goal) => {
+        const progress = await this.calculateGoalProgress(
+          team.id,
+          goal.type,
+          team.members.length,
+        );
         return progress >= goal.target;
-      })
+      }),
     );
     const goalsCompleted = goalsWithProgress.filter(Boolean).length;
 
@@ -736,26 +774,29 @@ export class TeamService {
     };
 
     // Generate CSV if requested
-    if (options.format === 'csv') {
+    if (options.format === "csv") {
       const headers = [
-        'User ID',
-        'Name',
-        'Progress %',
-        'Study Hours',
-        'Questions',
-        'Accuracy %',
-        'Last Active',
+        "User ID",
+        "Name",
+        "Progress %",
+        "Study Hours",
+        "Questions",
+        "Accuracy %",
+        "Last Active",
       ];
-      const rows = memberDetails.map(m => [
+      const rows = memberDetails.map((m) => [
         m.userId,
         m.userName,
         m.progress.toString(),
         m.studyHours.toString(),
         m.questionsAnswered.toString(),
         m.accuracy.toString(),
-        m.lastActiveDate?.toISOString() || 'N/A',
+        m.lastActiveDate?.toISOString() || "N/A",
       ]);
-      report.csvData = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      report.csvData = [
+        headers.join(","),
+        ...rows.map((r) => r.join(",")),
+      ].join("\n");
     }
 
     return report;
@@ -767,40 +808,51 @@ export class TeamService {
   private async calculateGoalProgress(
     teamId: string,
     goalType: string,
-    memberCount: number
+    memberCount: number,
   ): Promise<number> {
     switch (goalType) {
-      case 'completion': {
+      case "completion": {
         // Average completion percentage across members
         const members = await prisma.teamMember.findMany({
           where: { teamId },
           select: { userId: true },
         });
         const progresses = await Promise.all(
-          members.map(m => this.getMemberStudyProgress(m.userId))
+          members.map((m) => this.getMemberStudyProgress(m.userId)),
         );
-        return Math.round(progresses.reduce((sum, p) => sum + p, 0) / memberCount);
+        return Math.round(
+          progresses.reduce((sum, p) => sum + p, 0) / memberCount,
+        );
       }
-      case 'accuracy': {
+      case "accuracy": {
         // Average practice accuracy
         const members = await prisma.teamMember.findMany({
           where: { teamId },
           select: { userId: true },
         });
-        const stats = await Promise.all(members.map(m => this.getMemberPracticeStats(m.userId)));
-        const validStats = stats.filter(s => s.total > 0);
+        const stats = await Promise.all(
+          members.map((m) => this.getMemberPracticeStats(m.userId)),
+        );
+        const validStats = stats.filter((s) => s.total > 0);
         return validStats.length > 0
-          ? Math.round(validStats.reduce((sum, s) => sum + s.accuracy, 0) / validStats.length)
+          ? Math.round(
+              validStats.reduce((sum, s) => sum + s.accuracy, 0) /
+                validStats.length,
+            )
           : 0;
       }
-      case 'study_time': {
+      case "study_time": {
         // Total study hours
         const members = await prisma.teamMember.findMany({
           where: { teamId },
           select: { userId: true },
         });
-        const stats = await Promise.all(members.map(m => this.getMemberStudyStats(m.userId)));
-        return Math.round(stats.reduce((sum, s) => sum + s.totalMinutes, 0) / 60);
+        const stats = await Promise.all(
+          members.map((m) => this.getMemberStudyStats(m.userId)),
+        );
+        return Math.round(
+          stats.reduce((sum, s) => sum + s.totalMinutes, 0) / 60,
+        );
       }
       default:
         return 0;
@@ -813,7 +865,7 @@ export class TeamService {
   private async getMemberStudyStats(
     userId: string,
     startDate?: Date,
-    endDate?: Date
+    endDate?: Date,
   ): Promise<{ totalMinutes: number; sessions: number }> {
     const where: any = { userId };
     if (startDate || endDate) {
@@ -840,7 +892,7 @@ export class TeamService {
   private async getMemberPracticeStats(
     userId: string,
     startDate?: Date,
-    endDate?: Date
+    endDate?: Date,
   ): Promise<{ total: number; correct: number; accuracy: number }> {
     const where: any = { userId };
     if (startDate || endDate) {
@@ -855,7 +907,7 @@ export class TeamService {
     });
 
     const total = attempts.length;
-    const correct = attempts.filter(a => a.isCorrect).length;
+    const correct = attempts.filter((a) => a.isCorrect).length;
     return {
       total,
       correct,

@@ -1,5 +1,5 @@
-import type { Page, Locator } from '@playwright/test';
-import { TestHelpers } from '../utils/test-helpers';
+import type { Page, Locator } from "@playwright/test";
+import { TestHelpers } from "../utils/test-helpers";
 
 /**
  * Authentication Page Object Model
@@ -29,7 +29,9 @@ export class AuthPage {
     this.submitButton = page.locator('button[type="submit"]');
     this.registerLink = page.locator('a:has-text("Sign up")');
     this.forgotPasswordLink = page.locator('a:has-text("Forgot")');
-    this.errorMessage = page.locator('[data-testid="error"], .error, [role="alert"]');
+    this.errorMessage = page.locator(
+      '[data-testid="error"], .error, [role="alert"]',
+    );
     this.successMessage = page.locator('[data-testid="success"], .success');
   }
 
@@ -37,24 +39,24 @@ export class AuthPage {
    * Navigate to login page
    */
   async goto() {
-    await this.page.goto('/auth/login');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto("/auth/login");
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
    * Navigate to register page
    */
   async gotoRegister() {
-    await this.page.goto('/auth/register');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto("/auth/register");
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
    * Navigate to forgot password page
    */
   async gotoForgotPassword() {
-    await this.page.goto('/auth/forgot-password');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto("/auth/forgot-password");
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -64,7 +66,7 @@ export class AuthPage {
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
     await this.submitButton.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -79,7 +81,7 @@ export class AuthPage {
     await this.page.fill('input[name="confirmPassword"]', password);
 
     await this.submitButton.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -89,7 +91,7 @@ export class AuthPage {
     await this.gotoForgotPassword();
     await this.emailInput.fill(email);
     await this.submitButton.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -100,7 +102,7 @@ export class AuthPage {
     await this.page.fill('input[name="password"]', newPassword);
     await this.page.fill('input[name="confirmPassword"]', newPassword);
     await this.submitButton.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -108,7 +110,7 @@ export class AuthPage {
    */
   async logout() {
     await this.page.click('[data-testid="logout"], button:has-text("Logout")');
-    await this.page.waitForURL('/auth/login');
+    await this.page.waitForURL("/auth/login");
   }
 
   /**
@@ -129,7 +131,7 @@ export class AuthPage {
    * Get error message text
    */
   async getErrorMessage(): Promise<string> {
-    return (await this.errorMessage.textContent()) || '';
+    return (await this.errorMessage.textContent()) || "";
   }
 
   /**

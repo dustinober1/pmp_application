@@ -192,21 +192,21 @@ Errors are automatically captured with:
 ### API: Create Manual Span
 
 ```typescript
-import { withSpan, setUserContext, setDatabaseContext } from '../utils/tracing';
+import { withSpan, setUserContext, setDatabaseContext } from "../utils/tracing";
 
 async function createUser(userId: string, data: UserData) {
-  return withSpan('user.create', async span => {
+  return withSpan("user.create", async (span) => {
     setUserContext(span, { id: userId });
 
-    const user = await withSpan('user.create.db', async dbSpan => {
+    const user = await withSpan("user.create.db", async (dbSpan) => {
       setDatabaseContext(dbSpan, {
-        table: 'User',
-        operation: 'create',
+        table: "User",
+        operation: "create",
       });
       return prisma.user.create({ data });
     });
 
-    span.addEvent('user.created', { user_id: userId });
+    span.addEvent("user.created", { user_id: userId });
     return user;
   });
 }

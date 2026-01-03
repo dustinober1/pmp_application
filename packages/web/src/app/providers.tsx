@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { AuthProvider } from '@/contexts/AuthContext';
-import type { ReactNode } from 'react';
-import { useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { usePathname, useRouter } from 'next/navigation';
-import '@/lib/sync'; // Initialize sync service
-import { ToastProvider } from '@/components/ToastProvider';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { ThemeProvider } from '@/components/ThemeProvider';
-import { I18nProvider } from '@/components/I18nProvider';
-import { SkipToContentLink } from '@/components/SkipToContentLink';
+import { AuthProvider } from "@/contexts/AuthContext";
+import type { ReactNode } from "react";
+import { useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { usePathname, useRouter } from "next/navigation";
+import "@/lib/sync"; // Initialize sync service
+import { ToastProvider } from "@/components/ToastProvider";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { I18nProvider } from "@/components/I18nProvider";
+import { SkipToContentLink } from "@/components/SkipToContentLink";
 
 function EmailVerificationGate({ children }: { children: ReactNode }) {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -21,9 +21,9 @@ function EmailVerificationGate({ children }: { children: ReactNode }) {
     if (isLoading) return;
     if (!isAuthenticated || !user) return;
     if (user.emailVerified) return;
-    if (pathname.startsWith('/auth/verify-email')) return;
+    if (pathname.startsWith("/auth/verify-email")) return;
 
-    const nextParam = encodeURIComponent(pathname || '/dashboard');
+    const nextParam = encodeURIComponent(pathname || "/dashboard");
     router.push(`/auth/verify-email?next=${nextParam}`);
   }, [isAuthenticated, isLoading, pathname, router, user]);
 

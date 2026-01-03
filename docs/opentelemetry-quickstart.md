@@ -67,16 +67,16 @@ Any API call will automatically generate a trace!
 
 ```typescript
 // packages/api/src/routes/health.routes.ts
-import { withSpan } from '../utils/tracing';
+import { withSpan } from "../utils/tracing";
 
-router.get('/api/health', async (req, res) => {
-  return withSpan('health.check', async span => {
+router.get("/api/health", async (req, res) => {
+  return withSpan("health.check", async (span) => {
     span.setAttributes({
-      'health.status': 'ok',
-      'health.timestamp': Date.now(),
+      "health.status": "ok",
+      "health.timestamp": Date.now(),
     });
 
-    res.json({ status: 'ok', timestamp: Date.now() });
+    res.json({ status: "ok", timestamp: Date.now() });
   });
 });
 ```
@@ -162,16 +162,16 @@ health.check.completed
 ### 1. Track Database Queries
 
 ```typescript
-import { withSpan, setDatabaseContext } from '../utils/tracing';
+import { withSpan, setDatabaseContext } from "../utils/tracing";
 
-router.get('/api/users/:id', async (req, res) => {
-  return withSpan('users.getById', async span => {
-    span.setAttribute('user.id', req.params.id);
+router.get("/api/users/:id", async (req, res) => {
+  return withSpan("users.getById", async (span) => {
+    span.setAttribute("user.id", req.params.id);
 
-    const user = await withSpan('users.query', async dbSpan => {
+    const user = await withSpan("users.query", async (dbSpan) => {
       setDatabaseContext(dbSpan, {
-        table: 'User',
-        operation: 'findUnique',
+        table: "User",
+        operation: "findUnique",
       });
 
       return prisma.user.findUnique({
@@ -212,24 +212,24 @@ async function createStripeCheckout(userId: string) {
 ### 3. Track Business Operations
 
 ```typescript
-import { withSpan, setUserContext, setBusinessContext } from '../utils/tracing';
+import { withSpan, setUserContext, setBusinessContext } from "../utils/tracing";
 
 async function processPayment(userId: string, amount: number) {
-  return withSpan('payment.process', async span => {
+  return withSpan("payment.process", async (span) => {
     setBusinessContext(span, {
-      feature: 'payment',
-      action: 'process',
+      feature: "payment",
+      action: "process",
     });
     setUserContext(span, { id: userId });
 
     span.setAttributes({
-      'payment.amount': amount,
-      'payment.currency': 'USD',
+      "payment.amount": amount,
+      "payment.currency": "USD",
     });
 
     // Processing logic...
 
-    span.addEvent('payment.completed', {
+    span.addEvent("payment.completed", {
       user_id: userId,
       amount: amount,
     });
@@ -265,9 +265,9 @@ curl http://localhost:3001/api/health
 ```typescript
 // Test frontend to backend trace propagation
 // Run this in browser console
-fetch('/api/health')
-  .then(r => r.json())
-  .then(data => console.log(data));
+fetch("/api/health")
+  .then((r) => r.json())
+  .then((data) => console.log(data));
 
 // Check Jaeger - you should see:
 // - Browser span
@@ -328,7 +328,7 @@ curl http://localhost:3001/api/health
 ```typescript
 const span = trace.getActiveSpan();
 if (span) {
-  span.setAttribute('user.id', userId);
+  span.setAttribute("user.id", userId);
 }
 ```
 
@@ -400,10 +400,10 @@ For AWS deployment:
 
 ```typescript
 // Use AWS X-Ray exporter
-import { AWSXRayExporter } from '@opentelemetry/exporter-aws-xray';
+import { AWSXRayExporter } from "@opentelemetry/exporter-aws-xray";
 
 const traceExporter = new AWSXRayExporter({
-  region: 'us-east-1',
+  region: "us-east-1",
 });
 ```
 

@@ -47,7 +47,7 @@ export default function LandingPage() {
 1. Import Navbar component at top of file:
 
 ```typescript
-import { Navbar } from '@/components/Navbar';
+import { Navbar } from "@/components/Navbar";
 ```
 
 2. Add Navbar as first element inside main:
@@ -101,17 +101,17 @@ Feature cards have hover effects but no actual navigation. Users expect clicking
 1. Import Link from Next.js:
 
 ```typescript
-import Link from 'next/link';
+import Link from "next/link";
 ```
 
 2. Create mapping of features to routes:
 
 ```typescript
 const featureRoutes: Record<string, string> = {
-  'Comprehensive Study Guides': '/study',
-  'Adaptive Flashcards': '/flashcards',
-  'Practice Questions': '/practice',
-  'Formula Calculator': '/formulas',
+  "Comprehensive Study Guides": "/study",
+  "Adaptive Flashcards": "/flashcards",
+  "Practice Questions": "/practice",
+  "Formula Calculator": "/formulas",
 };
 ```
 
@@ -205,7 +205,7 @@ useEffect(() => {
   if (loading || examComplete || !session) return;
 
   timerRef.current = setInterval(() => {
-    setTimeLeft(prev => {
+    setTimeLeft((prev) => {
       if (prev <= 1) {
         clearInterval(timerRef.current!);
         void finishExam();
@@ -238,7 +238,7 @@ useEffect(() => {
   // Added showReview check above
 
   timerRef.current = setInterval(() => {
-    setTimeLeft(prev => {
+    setTimeLeft((prev) => {
       if (prev <= 1) {
         clearInterval(timerRef.current!);
         void finishExam();
@@ -312,7 +312,7 @@ it('renders PayPal button', async () => {
 1. Import AuthProvider:
 
 ```typescript
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider } from "@/contexts/AuthContext";
 ```
 
 2. Create test wrapper helper:
@@ -341,16 +341,18 @@ beforeEach(() => {
 
 ```typescript
 // OLD (Line 41-47):
-it('renders PayPal button', async () => {
-  expect(screen.getByText('Pay')).toBeInTheDocument();
-  expect(screen.getByText('Pal')).toBeInTheDocument();
+it("renders PayPal button", async () => {
+  expect(screen.getByText("Pay")).toBeInTheDocument();
+  expect(screen.getByText("Pal")).toBeInTheDocument();
 });
 
 // NEW:
-it('renders Stripe checkout button', async () => {
-  const button = await screen.findByRole('button', { name: /pay with credit card/i });
+it("renders Stripe checkout button", async () => {
+  const button = await screen.findByRole("button", {
+    name: /pay with credit card/i,
+  });
   expect(button).toBeInTheDocument();
-  expect(button).toHaveAttribute('disabled'); // Disabled when loading
+  expect(button).toHaveAttribute("disabled"); // Disabled when loading
 });
 ```
 
@@ -358,19 +360,19 @@ it('renders Stripe checkout button', async () => {
 
 ```typescript
 // OLD (Line 63-69):
-expect(mockApiRequest).toHaveBeenCalledWith('/subscriptions/upgrade-tier', {
-  method: 'POST',
+expect(mockApiRequest).toHaveBeenCalledWith("/subscriptions/upgrade-tier", {
+  method: "POST",
   body: {
-    tierId: 'high-end',
-    paymentId: expect.stringContaining('mock_pay_'),
+    tierId: "high-end",
+    paymentId: expect.stringContaining("mock_pay_"),
   },
 });
 
 // NEW:
-expect(mockApiRequest).toHaveBeenCalledWith('/subscriptions/stripe/checkout', {
-  method: 'POST',
+expect(mockApiRequest).toHaveBeenCalledWith("/subscriptions/stripe/checkout", {
+  method: "POST",
   body: {
-    tierId: 'high-end',
+    tierId: "high-end",
   },
 });
 ```
@@ -378,16 +380,16 @@ expect(mockApiRequest).toHaveBeenCalledWith('/subscriptions/stripe/checkout', {
 6. Add Stripe redirect test:
 
 ```typescript
-it('redirects to Stripe checkout on button click', async () => {
+it("redirects to Stripe checkout on button click", async () => {
   mockApiRequest.mockResolvedValue({
-    data: { checkoutUrl: 'https://checkout.stripe.com/pay/test' },
+    data: { checkoutUrl: "https://checkout.stripe.com/pay/test" },
   });
 
-  const button = screen.getByRole('button', { name: /pay with credit card/i });
+  const button = screen.getByRole("button", { name: /pay with credit card/i });
   fireEvent.click(button);
 
   await waitFor(() => {
-    expect(window.location.href).toBe('https://checkout.stripe.com/pay/test');
+    expect(window.location.href).toBe("https://checkout.stripe.com/pay/test");
   });
 });
 ```
@@ -435,7 +437,9 @@ API supports flagging questions (practice.routes.ts lines 196-234) but UI has no
 1. Add state for flagged questions:
 
 ```typescript
-const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(new Set());
+const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(
+  new Set(),
+);
 ```
 
 2. Add flag toggle function:
@@ -445,11 +449,14 @@ const toggleFlag = async (questionId: string) => {
   const isFlagged = flaggedQuestions.has(questionId);
 
   try {
-    await apiRequest(`/practice/sessions/${sessionId}/questions/${questionId}/flag`, {
-      method: isFlagged ? 'DELETE' : 'POST',
-    });
+    await apiRequest(
+      `/practice/sessions/${sessionId}/questions/${questionId}/flag`,
+      {
+        method: isFlagged ? "DELETE" : "POST",
+      },
+    );
 
-    setFlaggedQuestions(prev => {
+    setFlaggedQuestions((prev) => {
       const next = new Set(prev);
       if (isFlagged) {
         next.delete(questionId);
@@ -459,9 +466,9 @@ const toggleFlag = async (questionId: string) => {
       return next;
     });
 
-    toast.success(isFlagged ? 'Question unflagged' : 'Question flagged');
+    toast.success(isFlagged ? "Question unflagged" : "Question flagged");
   } catch (error) {
-    toast.error('Failed to flag question');
+    toast.error("Failed to flag question");
   }
 };
 ```
@@ -497,7 +504,7 @@ const toggleFlag = async (questionId: string) => {
 useEffect(() => {
   // Load existing flagged questions
   apiRequest<{ flagged: string[] }>(`/practice/sessions/${sessionId}/flagged`)
-    .then(res => setFlaggedQuestions(new Set(res.data.flagged)))
+    .then((res) => setFlaggedQuestions(new Set(res.data.flagged)))
     .catch(() => {}); // Silently fail if endpoint doesn't exist yet
 }, [sessionId]);
 ```
@@ -536,8 +543,10 @@ const [dueCards, setDueCards] = useState<Flashcard[]>([]);
 
 useEffect(() => {
   Promise.all([
-    apiRequest<ReviewStats>('/flashcards/stats').then(r => setStats(r.data)),
-    apiRequest<Flashcard[]>('/flashcards/review?limit=10').then(r => setDueCards(r.data)),
+    apiRequest<ReviewStats>("/flashcards/stats").then((r) => setStats(r.data)),
+    apiRequest<Flashcard[]>("/flashcards/review?limit=10").then((r) =>
+      setDueCards(r.data),
+    ),
     // ^^^ PROBLEM: limit=10 caps count
   ]);
 }, []);
@@ -548,7 +557,9 @@ useEffect(() => {
 **Option A: Increase Limit (Quick Fix)**
 
 ```typescript
-apiRequest<Flashcard[]>('/flashcards/review?limit=1000').then(r => setDueCards(r.data));
+apiRequest<Flashcard[]>("/flashcards/review?limit=1000").then((r) =>
+  setDueCards(r.data),
+);
 // Then display: Math.min(dueCards.length, 10) cards, but show actual count
 ```
 
@@ -557,7 +568,7 @@ apiRequest<Flashcard[]>('/flashcards/review?limit=1000').then(r => setDueCards(r
 1. Add new endpoint in `flashcard.routes.ts`:
 
 ```typescript
-router.get('/stats/due-count', requireAuth, async (req, res, next) => {
+router.get("/stats/due-count", requireAuth, async (req, res, next) => {
   try {
     const userId = req.user!.id;
     const count = await FlashcardRepository.getDueCount(userId);
@@ -594,11 +605,13 @@ const [dueCount, setDueCount] = useState(0);
 
 useEffect(() => {
   Promise.all([
-    apiRequest<ReviewStats>('/flashcards/stats').then(r => setStats(r.data)),
-    apiRequest<{ count: number }>('/flashcards/stats/due-count').then(r =>
-      setDueCount(r.data.count)
+    apiRequest<ReviewStats>("/flashcards/stats").then((r) => setStats(r.data)),
+    apiRequest<{ count: number }>("/flashcards/stats/due-count").then((r) =>
+      setDueCount(r.data.count),
     ),
-    apiRequest<Flashcard[]>('/flashcards/review?limit=10').then(r => setDueCards(r.data)),
+    apiRequest<Flashcard[]>("/flashcards/review?limit=10").then((r) =>
+      setDueCards(r.data),
+    ),
   ]);
 }, []);
 ```
@@ -859,8 +872,8 @@ const [rememberMe, setRememberMe] = useState(false);
 3. Include in login API call:
 
 ```typescript
-const response = await apiRequest('/auth/login', {
-  method: 'POST',
+const response = await apiRequest("/auth/login", {
+  method: "POST",
   body: {
     email,
     password,
@@ -875,11 +888,13 @@ const response = await apiRequest('/auth/login', {
 // auth.routes.ts - Login endpoint
 if (rememberMe) {
   // Set longer-lived token (30 days instead of 1 day)
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: '30d' });
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
+    expiresIn: "30d",
+  });
   // Set cookie with 30-day expiry
-  res.cookie('token', token, {
+  res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === "production",
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 }
@@ -935,19 +950,19 @@ export const getPasswordErrors = (password: string): string[] => {
   const errors: string[] = [];
 
   if (password.length < 8) {
-    errors.push('Password must be at least 8 characters');
+    errors.push("Password must be at least 8 characters");
   }
 
   if (!/[A-Z]/.test(password)) {
-    errors.push('Password must contain at least one uppercase letter');
+    errors.push("Password must contain at least one uppercase letter");
   }
 
   if (!/[a-z]/.test(password)) {
-    errors.push('Password must contain at least one lowercase letter');
+    errors.push("Password must contain at least one lowercase letter");
   }
 
   if (!/\d/.test(password)) {
-    errors.push('Password must contain at least one number');
+    errors.push("Password must contain at least one number");
   }
 
   return errors;
@@ -957,20 +972,20 @@ export const getPasswordErrors = (password: string): string[] => {
 2. Add validation to login form:
 
 ```typescript
-import { validateEmail } from '@/lib/validation';
+import { validateEmail } from "@/lib/validation";
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   // Validate email format
   if (!validateEmail(email)) {
-    setError('Please enter a valid email address');
+    setError("Please enter a valid email address");
     return;
   }
 
   // Validate password not empty
   if (!password.trim()) {
-    setError('Please enter your password');
+    setError("Please enter your password");
     return;
   }
 
@@ -1059,7 +1074,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   if (!agreedToTerms) {
-    setError('You must agree to the Terms of Service');
+    setError("You must agree to the Terms of Service");
     return;
   }
 
@@ -1093,7 +1108,9 @@ Progress uses `currentIndex` but initial state uses `session.progress.answered`.
 
 ```typescript
 const progress =
-  session.cards.length > 0 ? Math.round((currentIndex / session.cards.length) * 100) : 0;
+  session.cards.length > 0
+    ? Math.round((currentIndex / session.cards.length) * 100)
+    : 0;
 // Should use session.progress.answered instead
 ```
 
@@ -1114,7 +1131,7 @@ But also track `currentIndex` properly:
 const [currentIndex, setCurrentIndex] = useState(
   response.data.progress.answered > 0
     ? response.data.progress.answered - 1 // Convert to 0-indexed
-    : 0
+    : 0,
 );
 ```
 
@@ -1125,8 +1142,8 @@ And ensure API returns correct progress:
 return {
   progress: {
     total: session.cards.length,
-    answered: session.cards.filter(c => c.rating !== null).length,
-    correct: session.cards.filter(c => c.rating === 'know_it').length,
+    answered: session.cards.filter((c) => c.rating !== null).length,
+    correct: session.cards.filter((c) => c.rating === "know_it").length,
   },
 };
 ```
@@ -1187,7 +1204,7 @@ Users can't go back to review or change answers. Missing common functionality.
 ```typescript
 const handlePrevious = () => {
   if (currentIndex > 0) {
-    setCurrentIndex(prev => prev - 1);
+    setCurrentIndex((prev) => prev - 1);
     setFeedback(null); // Clear feedback when going back
     setSelectedOptionId(null); // Clear selection
   }
@@ -1202,11 +1219,11 @@ const handlePrevious = () => {
   if (currentIndex > 0) {
     if (feedback) {
       const confirm = window.confirm(
-        'You have already answered this question. Go back and change your answer?'
+        "You have already answered this question. Go back and change your answer?",
       );
       if (!confirm) return;
     }
-    setCurrentIndex(prev => prev - 1);
+    setCurrentIndex((prev) => prev - 1);
     setFeedback(null);
     setSelectedOptionId(null);
   }
@@ -1251,7 +1268,7 @@ Navigation doesn't show which page is currently active. Users lose context.
 1. Import pathname hook:
 
 ```typescript
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 ```
 
 2. Get current path in component:
@@ -1264,8 +1281,8 @@ const pathname = usePathname();
 
 ```typescript
 const isActiveRoute = (href: string) => {
-  if (href === '/') {
-    return pathname === '/';
+  if (href === "/") {
+    return pathname === "/";
   }
   return pathname?.startsWith(href) || false;
 };
@@ -1370,19 +1387,20 @@ No validation that timestamp is valid date. Can result in "Invalid Date" text.
 ```typescript
 const formatDate = (timestamp: string | Date): string => {
   try {
-    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const date =
+      typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 
     if (isNaN(date.getTime())) {
-      return 'Unknown date';
+      return "Unknown date";
     }
 
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   } catch {
-    return 'Unknown date';
+    return "Unknown date";
   }
 };
 ```
@@ -1401,39 +1419,41 @@ const formatDate = (timestamp: string | Date): string => {
 // lib/dateUtils.ts
 export const formatDate = (timestamp: string | Date): string => {
   try {
-    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const date =
+      typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 
     if (isNaN(date.getTime())) {
-      return 'Unknown date';
+      return "Unknown date";
     }
 
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   } catch {
-    return 'Unknown date';
+    return "Unknown date";
   }
 };
 
 export const formatDateTime = (timestamp: string | Date): string => {
   try {
-    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const date =
+      typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 
     if (isNaN(date.getTime())) {
-      return 'Unknown date';
+      return "Unknown date";
     }
 
-    return date.toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return date.toLocaleString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   } catch {
-    return 'Unknown date';
+    return "Unknown date";
   }
 };
 ```
@@ -1476,31 +1496,34 @@ Unsafe substring can cut words in half and emojis.
 
 ```typescript
 // lib/stringUtils.ts
-export const truncateAtWordBoundary = (text: string | undefined, maxLength: number): string => {
-  if (!text) return '';
+export const truncateAtWordBoundary = (
+  text: string | undefined,
+  maxLength: number,
+): string => {
+  if (!text) return "";
 
   if (text.length <= maxLength) return text;
 
   // Find last complete word before maxLength
   const truncated = text.substring(0, maxLength);
-  const lastSpace = truncated.lastIndexOf(' ');
-  const lastNewline = truncated.lastIndexOf('\n');
+  const lastSpace = truncated.lastIndexOf(" ");
+  const lastNewline = truncated.lastIndexOf("\n");
   const lastBoundary = Math.max(lastSpace, lastNewline);
 
   // If no boundary found, just truncate at maxLength
   if (lastBoundary === -1) {
-    return truncated + '...';
+    return truncated + "...";
   }
 
   // Truncate at last word boundary
-  return text.substring(0, lastBoundary) + '...';
+  return text.substring(0, lastBoundary) + "...";
 };
 
 export const truncateWithEmojiProtection = (
   text: string | undefined,
-  maxLength: number
+  maxLength: number,
 ): string => {
-  if (!text) return '';
+  if (!text) return "";
 
   // Simple emoji detection (not perfect but catches most)
   const emojiRegex = /\p{Emoji}/u;

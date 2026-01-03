@@ -1,16 +1,23 @@
-import type { Request, Response, NextFunction } from 'express';
-import { Router } from 'express';
-import { authMiddleware } from '../middleware/auth.middleware';
-import { adminMiddleware } from '../middleware/admin.middleware';
-import { validateBody, validateQuery } from '../middleware/validation.middleware';
+import type { Request, Response, NextFunction } from "express";
+import { Router } from "express";
+import { authMiddleware } from "../middleware/auth.middleware";
+import { adminMiddleware } from "../middleware/admin.middleware";
+import {
+  validateBody,
+  validateQuery,
+} from "../middleware/validation.middleware";
 import {
   adminExportQuerySchema,
   adminDeletionQuerySchema,
   adminProcessExportSchema,
   adminProcessDeletionSchema,
   auditLogQuerySchema,
-} from '../validators/privacy.validator';
-import { dataExportService, accountDeletionService, adminPrivacyService } from '../services';
+} from "../validators/privacy.validator";
+import {
+  dataExportService,
+  accountDeletionService,
+  adminPrivacyService,
+} from "../services";
 
 const router = Router();
 
@@ -21,24 +28,27 @@ router.use(authMiddleware, adminMiddleware);
  * GET /api/admin/privacy/dashboard
  * Get compliance dashboard
  */
-router.get('/dashboard', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const dashboard = await adminPrivacyService.getDashboard();
-    res.json({
-      success: true,
-      data: dashboard,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.get(
+  "/dashboard",
+  async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      const dashboard = await adminPrivacyService.getDashboard();
+      res.json({
+        success: true,
+        data: dashboard,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 /**
  * GET /api/admin/privacy/exports
  * Get all data export requests
  */
 router.get(
-  '/exports',
+  "/exports",
   validateQuery(adminExportQuerySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -50,7 +60,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -58,19 +68,22 @@ router.get(
  * Manually process a data export
  */
 router.post(
-  '/exports/process',
+  "/exports/process",
   validateBody(adminProcessExportSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await dataExportService.adminProcessExport(req.body.requestId, req.user!.userId);
+      await dataExportService.adminProcessExport(
+        req.body.requestId,
+        req.user!.userId,
+      );
       res.json({
         success: true,
-        message: 'Export processed successfully',
+        message: "Export processed successfully",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -78,7 +91,7 @@ router.post(
  * Get all account deletion requests
  */
 router.get(
-  '/deletions',
+  "/deletions",
   validateQuery(adminDeletionQuerySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -90,7 +103,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -98,23 +111,23 @@ router.get(
  * Manually process an account deletion
  */
 router.post(
-  '/deletions/process',
+  "/deletions/process",
   validateBody(adminProcessDeletionSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await accountDeletionService.adminProcessDeletion(
         req.body.requestId,
         req.user!.userId,
-        req.body.force
+        req.body.force,
       );
       res.json({
         success: true,
-        message: 'Deletion processed successfully',
+        message: "Deletion processed successfully",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -122,7 +135,7 @@ router.post(
  * Get privacy audit logs
  */
 router.get(
-  '/audit-logs',
+  "/audit-logs",
   validateQuery(auditLogQuerySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -134,40 +147,48 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/admin/privacy/users/:userId
  * Get user compliance summary
  */
-router.get('/users/:userId', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const summary = await adminPrivacyService.getUserComplianceSummary(req.params.userId);
-    res.json({
-      success: true,
-      data: summary,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.get(
+  "/users/:userId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = req.params.userId as string;
+      const summary =
+        await adminPrivacyService.getUserComplianceSummary(userId);
+      res.json({
+        success: true,
+        data: summary,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 /**
  * POST /api/admin/privacy/process-pending
  * Process all pending deletions (cron job endpoint)
  */
-router.post('/process-pending', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await accountDeletionService.processPendingDeletions();
-    res.json({
-      success: true,
-      data: result,
-      message: `Processed ${result.processed} pending deletions`,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.post(
+  "/process-pending",
+  async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = await accountDeletionService.processPendingDeletions();
+      res.json({
+        success: true,
+        data: result,
+        message: `Processed ${result.processed} pending deletions`,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 export default router;

@@ -1,4 +1,4 @@
-import prisma from '../config/database';
+import prisma from "../config/database";
 
 // Local types for dashboard responses
 interface DashboardResponse {
@@ -53,7 +53,7 @@ interface WeakAreaResponse {
 
 interface ReadinessResponse {
   overallScore: number;
-  confidence: 'high' | 'medium' | 'low';
+  confidence: "high" | "medium" | "low";
   breakdown: {
     contentCoverage: number;
     practiceAccuracy: number;
@@ -68,7 +68,7 @@ interface RecommendationResponse {
   type: string;
   title: string;
   description: string;
-  priority: 'high' | 'medium' | 'low';
+  priority: "high" | "medium" | "low";
   targetId?: string;
   estimatedTimeMinutes: number;
 }
@@ -78,18 +78,22 @@ export class DashboardService {
    * Get user's dashboard data
    */
   async getDashboardData(userId: string): Promise<DashboardResponse> {
-    const [streak, domainProgress, recentActivity, upcomingReviews, weakAreas] = await Promise.all([
-      this.getStudyStreak(userId),
-      this.getDomainProgress(userId),
-      this.getRecentActivity(userId, 5),
-      this.getUpcomingReviews(userId, 5),
-      this.getWeakAreas(userId),
-    ]);
+    const [streak, domainProgress, recentActivity, upcomingReviews, weakAreas] =
+      await Promise.all([
+        this.getStudyStreak(userId),
+        this.getDomainProgress(userId),
+        this.getRecentActivity(userId, 5),
+        this.getUpcomingReviews(userId, 5),
+        this.getWeakAreas(userId),
+      ]);
 
     // Calculate overall progress
     const totalProgress =
       domainProgress.length > 0
-        ? Math.round(domainProgress.reduce((sum, d) => sum + d.progress, 0) / domainProgress.length)
+        ? Math.round(
+            domainProgress.reduce((sum, d) => sum + d.progress, 0) /
+              domainProgress.length,
+          )
         : 0;
 
     return {
@@ -110,7 +114,7 @@ export class DashboardService {
     // Get all study activities for the user, ordered by date
     const activities = await prisma.studyActivity.findMany({
       where: { userId },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
       select: { createdAt: true },
     });
 
@@ -123,11 +127,11 @@ export class DashboardService {
     today.setHours(0, 0, 0, 0);
 
     const activityDates = new Set(
-      activities.map(a => {
+      activities.map((a) => {
         const date = new Date(a.createdAt);
         date.setHours(0, 0, 0, 0);
         return date.getTime();
-      })
+      }),
     );
 
     let currentStreak = 0;
@@ -197,7 +201,9 @@ export class DashboardService {
       select: { sectionId: true },
     });
 
-    const completedSectionIds = new Set(completedSections.map(s => s.sectionId));
+    const completedSectionIds = new Set(
+      completedSections.map((s) => s.sectionId),
+    );
 
     // Get practice stats by domain
     const practiceAttempts = await prisma.questionAttempt.findMany({
@@ -205,21 +211,27 @@ export class DashboardService {
       include: { question: { select: { domainId: true } } },
     });
 
-    const domainPracticeStats = new Map<string, { correct: number; total: number }>();
-    practiceAttempts.forEach(a => {
-      const current = domainPracticeStats.get(a.question.domainId) || { correct: 0, total: 0 };
+    const domainPracticeStats = new Map<
+      string,
+      { correct: number; total: number }
+    >();
+    practiceAttempts.forEach((a) => {
+      const current = domainPracticeStats.get(a.question.domainId) || {
+        correct: 0,
+        total: 0,
+      };
       current.total++;
       if (a.isCorrect) current.correct++;
       domainPracticeStats.set(a.question.domainId, current);
     });
 
-    return domains.map(domain => {
+    return domains.map((domain) => {
       let totalSections = 0;
       let completedCount = 0;
 
-      domain.tasks.forEach(task => {
+      domain.tasks.forEach((task) => {
         if (task.studyGuide) {
-          task.studyGuide.sections.forEach(section => {
+          task.studyGuide.sections.forEach((section) => {
             totalSections++;
             if (completedSectionIds.has(section.id)) {
               completedCount++;
@@ -228,8 +240,14 @@ export class DashboardService {
         }
       });
 
-      const progress = totalSections > 0 ? Math.round((completedCount / totalSections) * 100) : 0;
-      const practiceStats = domainPracticeStats.get(domain.id) || { correct: 0, total: 0 };
+      const progress =
+        totalSections > 0
+          ? Math.round((completedCount / totalSections) * 100)
+          : 0;
+      const practiceStats = domainPracticeStats.get(domain.id) || {
+        correct: 0,
+        total: 0,
+      };
       const accuracy =
         practiceStats.total > 0
           ? Math.round((practiceStats.correct / practiceStats.total) * 100)
@@ -249,19 +267,22 @@ export class DashboardService {
   /**
    * Get recent study activity
    */
-  async getRecentActivity(userId: string, limit: number = 10): Promise<ActivityResponse[]> {
+  async getRecentActivity(
+    userId: string,
+    limit: number = 10,
+  ): Promise<ActivityResponse[]> {
     const activities = await prisma.studyActivity.findMany({
       where: { userId },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
       take: limit,
     });
 
-    return activities.map(a => ({
+    return activities.map((a) => ({
       id: a.id,
       type: a.activityType,
       description: this.getActivityDescription(
         a.activityType,
-        a.metadata as Record<string, unknown>
+        a.metadata as Record<string, unknown>,
       ),
       timestamp: a.createdAt,
       durationMs: a.durationMs,
@@ -271,7 +292,10 @@ export class DashboardService {
   /**
    * Get upcoming flashcard reviews
    */
-  async getUpcomingReviews(userId: string, limit: number = 10): Promise<ReviewResponse[]> {
+  async getUpcomingReviews(
+    userId: string,
+    limit: number = 10,
+  ): Promise<ReviewResponse[]> {
     const reviews = await prisma.flashcardReview.findMany({
       where: {
         userId,
@@ -282,11 +306,11 @@ export class DashboardService {
           include: { task: true },
         },
       },
-      orderBy: { nextReviewDate: 'asc' },
+      orderBy: { nextReviewDate: "asc" },
       take: limit,
     });
 
-    return reviews.map(r => ({
+    return reviews.map((r) => ({
       cardId: r.cardId,
       cardFront: r.card.front.substring(0, 100),
       taskName: r.card.task.name,
@@ -323,7 +347,7 @@ export class DashboardService {
       }
     >();
 
-    attempts.forEach(a => {
+    attempts.forEach((a) => {
       const current = taskStats.get(a.question.taskId) || {
         correct: 0,
         total: 0,
@@ -339,7 +363,7 @@ export class DashboardService {
     // Find weak areas (less than 70% accuracy with at least 5 attempts)
     const weakAreas: WeakAreaResponse[] = [];
 
-    taskStats.forEach(stats => {
+    taskStats.forEach((stats) => {
       if (stats.total >= 5) {
         const accuracy = (stats.correct / stats.total) * 100;
         if (accuracy < 70) {
@@ -376,7 +400,8 @@ export class DashboardService {
     // Content coverage (40% weight)
     if (domainProgress.length > 0) {
       contentScore = Math.round(
-        domainProgress.reduce((sum, d) => sum + d.progress, 0) / domainProgress.length
+        domainProgress.reduce((sum, d) => sum + d.progress, 0) /
+          domainProgress.length,
       );
     }
 
@@ -387,19 +412,19 @@ export class DashboardService {
     retentionScore = flashcardStats.masteredPercentage;
 
     const overallScore = Math.round(
-      contentScore * 0.4 + practiceScore * 0.4 + retentionScore * 0.2
+      contentScore * 0.4 + practiceScore * 0.4 + retentionScore * 0.2,
     );
 
-    let confidence: 'high' | 'medium' | 'low';
-    if (overallScore >= 80) confidence = 'high';
-    else if (overallScore >= 60) confidence = 'medium';
-    else confidence = 'low';
+    let confidence: "high" | "medium" | "low";
+    if (overallScore >= 80) confidence = "high";
+    else if (overallScore >= 60) confidence = "medium";
+    else confidence = "low";
 
     const recommendation = this.getReadinessRecommendation(
       overallScore,
       contentScore,
       practiceScore,
-      retentionScore
+      retentionScore,
     );
 
     return {
@@ -431,10 +456,10 @@ export class DashboardService {
     weakAreas.forEach((area, index) => {
       recommendations.push({
         id: `weak-${area.taskId}`,
-        type: 'practice',
+        type: "practice",
         title: `Improve ${area.taskName}`,
         description: `Your accuracy on ${area.taskName} is ${area.accuracy}%. Practice more questions to improve.`,
-        priority: index === 0 ? 'high' : 'medium',
+        priority: index === 0 ? "high" : "medium",
         targetId: area.taskId,
         estimatedTimeMinutes: 15,
       });
@@ -443,25 +468,25 @@ export class DashboardService {
     // Recommend flashcard reviews
     if (upcomingReviews.length > 0) {
       recommendations.push({
-        id: 'flashcard-review',
-        type: 'flashcard',
-        title: 'Review Due Flashcards',
+        id: "flashcard-review",
+        type: "flashcard",
+        title: "Review Due Flashcards",
         description: `You have ${upcomingReviews.length} flashcards due for review. Regular review helps retention.`,
-        priority: 'high',
+        priority: "high",
         estimatedTimeMinutes: Math.min(upcomingReviews.length * 2, 30),
       });
     }
 
     // Recommend studying incomplete domains
-    const incompleteDomains = domainProgress.filter(d => d.progress < 100);
-    incompleteDomains.forEach(domain => {
+    const incompleteDomains = domainProgress.filter((d) => d.progress < 100);
+    incompleteDomains.forEach((domain) => {
       if (domain.progress < 50) {
         recommendations.push({
           id: `study-${domain.domainId}`,
-          type: 'study_guide',
+          type: "study_guide",
           title: `Continue ${domain.domainName}`,
           description: `You've completed ${domain.progress}% of ${domain.domainName}. Keep studying to improve coverage.`,
-          priority: 'medium',
+          priority: "medium",
           targetId: domain.domainId,
           estimatedTimeMinutes: 30,
         });
@@ -475,7 +500,7 @@ export class DashboardService {
    * Helper: Get practice overview
    */
   private async getPracticeOverview(
-    userId: string
+    userId: string,
   ): Promise<{ averageAccuracy: number; totalAttempts: number }> {
     const attempts = await prisma.questionAttempt.findMany({
       where: { userId },
@@ -483,7 +508,7 @@ export class DashboardService {
     });
 
     const totalAttempts = attempts.length;
-    const correctCount = attempts.filter(a => a.isCorrect).length;
+    const correctCount = attempts.filter((a) => a.isCorrect).length;
     const averageAccuracy =
       totalAttempts > 0 ? Math.round((correctCount / totalAttempts) * 100) : 0;
 
@@ -494,15 +519,18 @@ export class DashboardService {
    * Helper: Get flashcard overview
    */
   private async getFlashcardOverview(
-    userId: string
+    userId: string,
   ): Promise<{ masteredPercentage: number; totalCards: number }> {
     const reviews = await prisma.flashcardReview.findMany({
       where: { userId },
     });
 
     const totalCards = reviews.length;
-    const mastered = reviews.filter(r => r.repetitions >= 3 && r.easeFactor >= 2.5).length;
-    const masteredPercentage = totalCards > 0 ? Math.round((mastered / totalCards) * 100) : 0;
+    const mastered = reviews.filter(
+      (r) => r.repetitions >= 3 && r.easeFactor >= 2.5,
+    ).length;
+    const masteredPercentage =
+      totalCards > 0 ? Math.round((mastered / totalCards) * 100) : 0;
 
     return { masteredPercentage, totalCards };
   }
@@ -510,22 +538,25 @@ export class DashboardService {
   /**
    * Helper: Get activity description
    */
-  private getActivityDescription(type: string, metadata: Record<string, unknown> | null): string {
+  private getActivityDescription(
+    type: string,
+    metadata: Record<string, unknown> | null,
+  ): string {
     switch (type) {
-      case 'study_guide_view':
+      case "study_guide_view":
         return `Viewed study guide`;
-      case 'flashcard_session':
+      case "flashcard_session":
         return `Completed flashcard session`;
-      case 'practice_complete': {
+      case "practice_complete": {
         const score = metadata?.scorePercentage as number;
         return score
           ? `Completed practice session with ${score}% score`
-          : 'Completed practice session';
+          : "Completed practice session";
       }
-      case 'mock_exam':
-        return 'Completed mock exam';
+      case "mock_exam":
+        return "Completed mock exam";
       default:
-        return 'Study activity';
+        return "Study activity";
     }
   }
 
@@ -536,20 +567,20 @@ export class DashboardService {
     overall: number,
     content: number,
     practice: number,
-    retention: number
+    retention: number,
   ): string {
     if (overall >= 80) {
-      return 'You appear ready for the exam! Consider taking a mock exam to verify.';
+      return "You appear ready for the exam! Consider taking a mock exam to verify.";
     }
 
     const weakest = Math.min(content, practice, retention);
     if (weakest === content) {
-      return 'Focus on completing more study guide content to improve your readiness.';
+      return "Focus on completing more study guide content to improve your readiness.";
     }
     if (weakest === practice) {
-      return 'Practice more questions to improve your accuracy and exam performance.';
+      return "Practice more questions to improve your accuracy and exam performance.";
     }
-    return 'Review flashcards more regularly to improve your retention of key concepts.';
+    return "Review flashcards more regularly to improve your retention of key concepts.";
   }
 
   /**

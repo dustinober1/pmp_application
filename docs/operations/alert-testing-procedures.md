@@ -80,21 +80,21 @@ curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
   labels:
     severity: critical
   annotations:
-    summary: 'Test critical alert'
+    summary: "Test critical alert"
 
 - alert: TestAlertHigh
   expr: vector(1)
   labels:
     severity: high
   annotations:
-    summary: 'Test high alert'
+    summary: "Test high alert"
 
 - alert: TestAlertWarning
   expr: vector(1)
   labels:
     severity: warning
   annotations:
-    summary: 'Test warning alert'
+    summary: "Test warning alert"
 ```
 
 **Expected Result**:

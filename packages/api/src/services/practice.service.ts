@@ -6,13 +6,13 @@ import type {
   PracticeOptions,
   Difficulty,
   QuestionOption,
-} from '@pmp/shared';
-import { PMP_EXAM } from '@pmp/shared';
-import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
-import { SESSION_ERRORS } from '@pmp/shared';
-import * as fs from 'fs';
-import * as path from 'path';
+} from "@pmp/shared";
+import { PMP_EXAM } from "@pmp/shared";
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
+import { SESSION_ERRORS } from "@pmp/shared";
+import * as fs from "fs";
+import * as path from "path";
 
 interface MockExamConfig {
   id: number;
@@ -39,16 +39,13 @@ export class PracticeService {
     }
 
     try {
-      const configPath = path.join(
-        __dirname,
-        '../../prisma/mock-exams.json'
-      );
-      const rawData = fs.readFileSync(configPath, 'utf-8');
+      const configPath = path.join(__dirname, "../../prisma/mock-exams.json");
+      const rawData = fs.readFileSync(configPath, "utf-8");
       this.mockExamsCache = JSON.parse(rawData) as MockExamConfig[];
       return this.mockExamsCache;
     } catch (error) {
-      console.error('Failed to load mock exams configuration:', error);
-      throw AppError.internal('Mock exams configuration not available');
+      console.error("Failed to load mock exams configuration:", error);
+      throw AppError.internal("Mock exams configuration not available");
     }
   }
 
@@ -61,12 +58,12 @@ export class PracticeService {
       name: string;
       description: string;
       totalQuestions: number;
-      domainBreakdown: MockExamConfig['domainBreakdown'];
+      domainBreakdown: MockExamConfig["domainBreakdown"];
     }>
   > {
     const exams = this.loadMockExamsConfig();
 
-    return exams.map(exam => ({
+    return exams.map((exam) => ({
       id: exam.id,
       name: exam.name,
       description: exam.description,
@@ -81,13 +78,14 @@ export class PracticeService {
    */
   async startSession(
     userId: string,
-    options: PracticeOptions
+    options: PracticeOptions,
   ): Promise<{ sessionId: string; totalQuestions: number }> {
     const where: Record<string, unknown> = {};
 
     if (options.domainIds?.length) where.domainId = { in: options.domainIds };
     if (options.taskIds?.length) where.taskId = { in: options.taskIds };
-    if (options.difficulty?.length) where.difficulty = { in: options.difficulty };
+    if (options.difficulty?.length)
+      where.difficulty = { in: options.difficulty };
 
     // Get questions matching criteria
     const rawQuestions = await prisma.practiceQuestion.findMany({
@@ -127,21 +125,28 @@ export class PracticeService {
     sessionId: string,
     userId: string,
     offset: number = 0,
-    limit: number = 20
-  ): Promise<{ questions: PracticeQuestion[]; total: number; hasMore: boolean }> {
+    limit: number = 20,
+  ): Promise<{
+    questions: PracticeQuestion[];
+    total: number;
+    hasMore: boolean;
+  }> {
     // Verify session exists and belongs to user
     const session = await prisma.practiceSession.findFirst({
       where: { id: sessionId, userId },
     });
 
     if (!session) {
-      throw AppError.notFound(SESSION_ERRORS.SESSION_001.message, SESSION_ERRORS.SESSION_001.code);
+      throw AppError.notFound(
+        SESSION_ERRORS.SESSION_001.message,
+        SESSION_ERRORS.SESSION_001.code,
+      );
     }
 
     // Get paginated questions with session state (answers, flags)
     const sessionQuestions = await prisma.practiceSessionQuestion.findMany({
       where: { sessionId },
-      orderBy: { orderIndex: 'asc' },
+      orderBy: { orderIndex: "asc" },
       skip: offset,
       take: limit,
       include: {
@@ -157,7 +162,7 @@ export class PracticeService {
     });
 
     // Map to API response format
-    const mappedQuestions: PracticeQuestion[] = sessionQuestions.map(sq => {
+    const mappedQuestions: PracticeQuestion[] = sessionQuestions.map((sq) => {
       const q = sq.question;
       const isAnswered = !!sq.selectedOptionId;
 
@@ -172,11 +177,13 @@ export class PracticeService {
             questionId: o.questionId,
             text: o.text,
             isCorrect: isAnswered ? o.isCorrect : false,
-          })
+          }),
         ),
-        correctOptionId: isAnswered ? q.options.find(o => o.isCorrect)?.id || '' : '',
+        correctOptionId: isAnswered
+          ? q.options.find((o) => o.isCorrect)?.id || ""
+          : "",
         difficulty: q.difficulty as Difficulty,
-        explanation: isAnswered ? q.explanation : '',
+        explanation: isAnswered ? q.explanation : "",
         relatedFormulaIds: [],
         createdAt: q.createdAt,
         userAnswerId: sq.selectedOptionId || undefined,
@@ -196,7 +203,7 @@ export class PracticeService {
    */
   async getSessionStreak(
     sessionId: string,
-    userId: string
+    userId: string,
   ): Promise<{
     currentStreak: number;
     longestStreak: number;
@@ -208,13 +215,16 @@ export class PracticeService {
     });
 
     if (!session) {
-      throw AppError.notFound(SESSION_ERRORS.SESSION_001.message, SESSION_ERRORS.SESSION_001.code);
+      throw AppError.notFound(
+        SESSION_ERRORS.SESSION_001.message,
+        SESSION_ERRORS.SESSION_001.code,
+      );
     }
 
     // Get all answered questions in order
     const answeredQuestions = await prisma.practiceSessionQuestion.findMany({
       where: { sessionId, selectedOptionId: { not: null } },
-      orderBy: { orderIndex: 'asc' },
+      orderBy: { orderIndex: "asc" },
       include: {
         question: {
           include: { options: true },
@@ -280,7 +290,7 @@ export class PracticeService {
    */
   async getSession(
     sessionId: string,
-    userId: string
+    userId: string,
   ): Promise<{
     sessionId: string;
     questions: PracticeQuestion[];
@@ -298,23 +308,30 @@ export class PracticeService {
               include: { options: true },
             },
           },
-          orderBy: { question: { createdAt: 'asc' } }, // Or some specific order
+          orderBy: { question: { createdAt: "asc" } }, // Or some specific order
         },
       },
     });
 
     if (!session || session.userId !== userId) return null;
 
-    const answeredCount = session.questions.filter(q => q.selectedOptionId).length;
+    const answeredCount = session.questions.filter(
+      (q) => q.selectedOptionId,
+    ).length;
 
-    const timeLimitMs = session.isMockExam ? session.timeLimit || undefined : undefined;
+    const timeLimitMs = session.isMockExam
+      ? session.timeLimit || undefined
+      : undefined;
     const startedAt = session.isMockExam ? session.startedAt : undefined;
     const timeRemainingMs =
       session.isMockExam && session.timeLimit
-        ? Math.max(0, session.timeLimit - (Date.now() - session.startedAt.getTime()))
+        ? Math.max(
+            0,
+            session.timeLimit - (Date.now() - session.startedAt.getTime()),
+          )
         : undefined;
 
-    const mappedQuestions: PracticeQuestion[] = session.questions.map(sq => {
+    const mappedQuestions: PracticeQuestion[] = session.questions.map((sq) => {
       const q = sq.question;
       const isAnswered = !!sq.selectedOptionId;
 
@@ -332,11 +349,13 @@ export class PracticeService {
             // For practice mode, usually reveal immediately. For exam, hide.
             // We'll stick to hiding unless we fetch answer specifically or pass a "showAnswers" flag.
             // Current submitAnswer returns key info. Here we default to hidden for security/integrity.
-          })
+          }),
         ),
-        correctOptionId: isAnswered ? q.options.find(o => o.isCorrect)?.id || '' : '',
+        correctOptionId: isAnswered
+          ? q.options.find((o) => o.isCorrect)?.id || ""
+          : "",
         difficulty: q.difficulty as Difficulty,
-        explanation: isAnswered ? q.explanation : '',
+        explanation: isAnswered ? q.explanation : "",
         relatedFormulaIds: [],
         createdAt: q.createdAt,
         // Helper prop for frontend to know it's answered
@@ -365,7 +384,7 @@ export class PracticeService {
     questionId: string,
     userId: string,
     selectedOptionId: string,
-    timeSpentMs: number
+    timeSpentMs: number,
   ): Promise<AnswerResult> {
     const session = await prisma.practiceSession.findUnique({
       where: { id: sessionId },
@@ -375,21 +394,26 @@ export class PracticeService {
     });
 
     if (!session || session.userId !== userId) {
-      throw AppError.notFound(SESSION_ERRORS.SESSION_001.message, SESSION_ERRORS.SESSION_001.code);
+      throw AppError.notFound(
+        SESSION_ERRORS.SESSION_001.message,
+        SESSION_ERRORS.SESSION_001.code,
+      );
     }
 
     if (session.completedAt) {
       throw AppError.badRequest(
         SESSION_ERRORS.SESSION_002.message,
-        SESSION_ERRORS.SESSION_002.code
+        SESSION_ERRORS.SESSION_002.code,
       );
     }
 
-    const isInSession = session.questions.some(q => q.questionId === questionId);
+    const isInSession = session.questions.some(
+      (q) => q.questionId === questionId,
+    );
     if (!isInSession) {
       throw AppError.badRequest(
         SESSION_ERRORS.SESSION_003.message,
-        SESSION_ERRORS.SESSION_003.code
+        SESSION_ERRORS.SESSION_003.code,
       );
     }
 
@@ -401,7 +425,7 @@ export class PracticeService {
       throw AppError.forbidden(
         SESSION_ERRORS.SESSION_004.message,
         SESSION_ERRORS.SESSION_004.code,
-        'Mock exam time limit exceeded'
+        "Mock exam time limit exceeded",
       );
     }
 
@@ -412,10 +436,10 @@ export class PracticeService {
     });
 
     if (!question) {
-      throw AppError.notFound('Question not found');
+      throw AppError.notFound("Question not found");
     }
 
-    const correctOption = question.options.find(o => o.isCorrect);
+    const correctOption = question.options.find((o) => o.isCorrect);
     const isCorrect = correctOption?.id === selectedOptionId;
 
     // Record the attempt
@@ -446,7 +470,7 @@ export class PracticeService {
 
     return {
       isCorrect,
-      correctOptionId: correctOption?.id || '',
+      correctOptionId: correctOption?.id || "",
       explanation: question.explanation,
       timeSpentMs,
     };
@@ -455,13 +479,16 @@ export class PracticeService {
   /**
    * Complete a practice session
    */
-  async completeSession(sessionId: string, userId: string): Promise<PracticeSessionResult> {
+  async completeSession(
+    sessionId: string,
+    userId: string,
+  ): Promise<PracticeSessionResult> {
     const session = await prisma.practiceSession.findUnique({
       where: { id: sessionId },
     });
 
     if (!session || session.userId !== userId) {
-      throw AppError.notFound('Session not found');
+      throw AppError.notFound("Session not found");
     }
 
     // Get all attempts for this session
@@ -475,20 +502,32 @@ export class PracticeService {
     });
 
     // Calculate results
-    const correctCount = attempts.filter(a => a.isCorrect).length;
+    const correctCount = attempts.filter((a) => a.isCorrect).length;
     // Use total questions from session for accurate scoring (treat unanswered as incorrect)
     const totalQuestions = session.totalQuestions || attempts.length;
     const scorePercentage =
-      totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
-    const totalTimeMs = attempts.reduce((sum, a) => sum + (a.timeSpentMs || 0), 0);
+      totalQuestions > 0
+        ? Math.round((correctCount / totalQuestions) * 100)
+        : 0;
+    const totalTimeMs = attempts.reduce(
+      (sum, a) => sum + (a.timeSpentMs || 0),
+      0,
+    );
 
     // Calculate domain scores
-    const domainMap = new Map<string, { correct: number; total: number; name: string }>();
+    const domainMap = new Map<
+      string,
+      { correct: number; total: number; name: string }
+    >();
 
-    attempts.forEach(attempt => {
+    attempts.forEach((attempt) => {
       const domainId = attempt.question.domainId;
       const domainName = attempt.question.domain.name;
-      const current = domainMap.get(domainId) || { correct: 0, total: 0, name: domainName };
+      const current = domainMap.get(domainId) || {
+        correct: 0,
+        total: 0,
+        name: domainName,
+      };
       current.total++;
       if (attempt.isCorrect) current.correct++;
       domainMap.set(domainId, current);
@@ -501,7 +540,7 @@ export class PracticeService {
         totalQuestions: data.total,
         correctAnswers: data.correct,
         scorePercentage: Math.round((data.correct / data.total) * 100),
-      })
+      }),
     );
 
     // Update session
@@ -518,7 +557,7 @@ export class PracticeService {
     await prisma.studyActivity.create({
       data: {
         userId,
-        activityType: 'practice_complete',
+        activityType: "practice_complete",
         targetId: sessionId,
         metadata: { scorePercentage, correctCount, totalQuestions },
       },
@@ -530,7 +569,8 @@ export class PracticeService {
       correctAnswers: correctCount,
       scorePercentage,
       totalTimeMs,
-      averageTimePerQuestion: totalQuestions > 0 ? Math.round(totalTimeMs / totalQuestions) : 0,
+      averageTimePerQuestion:
+        totalQuestions > 0 ? Math.round(totalTimeMs / totalQuestions) : 0,
       domainBreakdown,
       flaggedQuestions: [],
     };
@@ -543,11 +583,16 @@ export class PracticeService {
    */
   async startMockExam(
     userId: string,
-    examId: number = 1
-  ): Promise<{ sessionId: string; totalQuestions: number; startedAt: Date; examName: string }> {
+    examId: number = 1,
+  ): Promise<{
+    sessionId: string;
+    totalQuestions: number;
+    startedAt: Date;
+    examName: string;
+  }> {
     // Load pre-built mock exam configuration
     const exams = this.loadMockExamsConfig();
-    const selectedExam = exams.find(e => e.id === examId);
+    const selectedExam = exams.find((e) => e.id === examId);
 
     if (!selectedExam) {
       throw AppError.notFound(`Mock exam ${examId} not found`);
@@ -612,10 +657,10 @@ export class PracticeService {
           include: { options: true },
         },
       },
-      distinct: ['questionId'],
+      distinct: ["questionId"],
     });
 
-    return flagged.map(f => ({
+    return flagged.map((f) => ({
       id: f.question.id,
       domainId: f.question.domainId,
       taskId: f.question.taskId,
@@ -626,11 +671,11 @@ export class PracticeService {
           questionId: o.questionId,
           text: o.text,
           isCorrect: false,
-        })
+        }),
       ),
-      correctOptionId: '',
+      correctOptionId: "",
       difficulty: f.question.difficulty as Difficulty,
-      explanation: '',
+      explanation: "",
       relatedFormulaIds: [],
       createdAt: f.question.createdAt,
     }));
@@ -661,17 +706,22 @@ export class PracticeService {
     }
 
     const totalSessions = sessions.length;
-    const totalQuestions = sessions.reduce((sum, s) => sum + s.totalQuestions, 0);
+    const totalQuestions = sessions.reduce(
+      (sum, s) => sum + s.totalQuestions,
+      0,
+    );
 
     // Calculate scores from sessions
-    const scores = sessions.map(s => {
+    const scores = sessions.map((s) => {
       const total = s.totalQuestions;
       const correct = s.correctAnswers;
       return total > 0 ? Math.round((correct / total) * 100) : 0;
     });
 
     const averageScore =
-      scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+      scores.length > 0
+        ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+        : 0;
     const bestScore = scores.length > 0 ? Math.max(...scores) : 0;
 
     // Find weak domains (below 70% accuracy)
@@ -681,8 +731,11 @@ export class PracticeService {
     });
 
     const domainStats = new Map<string, { correct: number; total: number }>();
-    attempts.forEach(a => {
-      const current = domainStats.get(a.question.domainId) || { correct: 0, total: 0 };
+    attempts.forEach((a) => {
+      const current = domainStats.get(a.question.domainId) || {
+        correct: 0,
+        total: 0,
+      };
       current.total++;
       if (a.isCorrect) current.correct++;
       domainStats.set(a.question.domainId, current);
@@ -705,7 +758,7 @@ export class PracticeService {
       totalQuestions,
       averageScore,
       bestScore,
-      weakDomains: weakDomains.map(d => d.name),
+      weakDomains: weakDomains.map((d) => d.name),
     };
   }
 

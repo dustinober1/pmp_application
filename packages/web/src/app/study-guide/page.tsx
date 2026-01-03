@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 // Note: For dynamic metadata in client components, use generateMetadata in layout.tsx
 // or set document title directly via useEffect
@@ -23,16 +23,21 @@ interface DomainSection {
 
 const domains: DomainSection[] = [
   {
-    id: 'people',
-    title: 'People',
+    id: "people",
+    title: "People",
     percentage: 33,
-    color: 'blue',
-    bgColor: 'bg-blue-500/10',
-    textColor: 'text-blue-400',
-    borderColor: 'border-blue-500',
-    ringColor: 'ring-blue-500/20',
+    color: "blue",
+    bgColor: "bg-blue-500/10",
+    textColor: "text-blue-400",
+    borderColor: "border-blue-500",
+    ringColor: "ring-blue-500/20",
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -42,27 +47,32 @@ const domains: DomainSection[] = [
       </svg>
     ),
     tasks: [
-      'Develop a common vision with stakeholders',
-      'Manage conflicts through agreed-on resolution strategies',
-      'Lead the project team (empower, solve problems, establish roles)',
-      'Engage stakeholders through tailored communication',
-      'Align stakeholder expectations through facilitation',
-      'Manage stakeholder expectations and satisfaction',
-      'Help ensure knowledge transfer across the team',
-      'Plan and manage communication (transparency, feedback)',
+      "Develop a common vision with stakeholders",
+      "Manage conflicts through agreed-on resolution strategies",
+      "Lead the project team (empower, solve problems, establish roles)",
+      "Engage stakeholders through tailored communication",
+      "Align stakeholder expectations through facilitation",
+      "Manage stakeholder expectations and satisfaction",
+      "Help ensure knowledge transfer across the team",
+      "Plan and manage communication (transparency, feedback)",
     ],
   },
   {
-    id: 'process',
-    title: 'Process',
+    id: "process",
+    title: "Process",
     percentage: 41,
-    color: 'emerald',
-    bgColor: 'bg-emerald-500/10',
-    textColor: 'text-emerald-400',
-    borderColor: 'border-emerald-500',
-    ringColor: 'ring-emerald-500/20',
+    color: "emerald",
+    bgColor: "bg-emerald-500/10",
+    textColor: "text-emerald-400",
+    borderColor: "border-emerald-500",
+    ringColor: "ring-emerald-500/20",
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -72,29 +82,34 @@ const domains: DomainSection[] = [
       </svg>
     ),
     tasks: [
-      'Develop integrated project management plan',
-      'Develop and manage project scope',
-      'Help ensure value-based delivery',
-      'Plan and manage resources',
-      'Plan and manage procurement',
-      'Plan and manage project finance',
-      'Plan and optimize quality of deliverables',
-      'Plan and manage project schedule',
-      'Evaluate project status and progress',
-      'Manage project closure',
+      "Develop integrated project management plan",
+      "Develop and manage project scope",
+      "Help ensure value-based delivery",
+      "Plan and manage resources",
+      "Plan and manage procurement",
+      "Plan and manage project finance",
+      "Plan and optimize quality of deliverables",
+      "Plan and manage project schedule",
+      "Evaluate project status and progress",
+      "Manage project closure",
     ],
   },
   {
-    id: 'business',
-    title: 'Business Environment',
+    id: "business",
+    title: "Business Environment",
     percentage: 26,
-    color: 'violet',
-    bgColor: 'bg-violet-500/10',
-    textColor: 'text-violet-400',
-    borderColor: 'border-violet-500',
-    ringColor: 'ring-violet-500/20',
+    color: "violet",
+    bgColor: "bg-violet-500/10",
+    textColor: "text-violet-400",
+    borderColor: "border-violet-500",
+    ringColor: "ring-violet-500/20",
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -104,26 +119,31 @@ const domains: DomainSection[] = [
       </svg>
     ),
     tasks: [
-      'Define and establish project governance',
-      'Plan and manage project compliance',
-      'Manage and control changes',
-      'Remove impediments and manage issues',
-      'Plan and manage risk',
-      'Continuous improvement (lessons learned, OPAs)',
-      'Support organizational change',
-      'Evaluate external business environment changes',
+      "Define and establish project governance",
+      "Plan and manage project compliance",
+      "Manage and control changes",
+      "Remove impediments and manage issues",
+      "Plan and manage risk",
+      "Continuous improvement (lessons learned, OPAs)",
+      "Support organizational change",
+      "Evaluate external business environment changes",
     ],
   },
 ];
 
 const eligibilityOptions = [
   {
-    degree: 'Secondary School',
-    experience: '60 months (5 years)',
-    education: '35 hours',
-    detail: 'High School Diploma, GED, or equivalent',
+    degree: "Secondary School",
+    experience: "60 months (5 years)",
+    education: "35 hours",
+    detail: "High School Diploma, GED, or equivalent",
     icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -141,11 +161,16 @@ const eligibilityOptions = [
   },
   {
     degree: "Associate's Degree",
-    experience: '48 months (4 years)',
-    education: '35 hours',
-    detail: 'Post-secondary, short-cycle tertiary',
+    experience: "48 months (4 years)",
+    education: "35 hours",
+    detail: "Post-secondary, short-cycle tertiary",
     icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -157,11 +182,16 @@ const eligibilityOptions = [
   },
   {
     degree: "Bachelor's Degree",
-    experience: '36 months (3 years)',
-    education: '35 hours',
-    detail: 'Four-year degree or higher',
+    experience: "36 months (3 years)",
+    education: "35 hours",
+    detail: "Four-year degree or higher",
     icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -178,12 +208,17 @@ const eligibilityOptions = [
     ),
   },
   {
-    degree: 'GAC Accredited Degree',
-    experience: '24 months (2 years)',
-    education: '35 hours',
-    detail: 'PMI Global Accreditation Center',
+    degree: "GAC Accredited Degree",
+    experience: "24 months (2 years)",
+    education: "35 hours",
+    detail: "PMI Global Accreditation Center",
     icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -196,50 +231,74 @@ const eligibilityOptions = [
 ];
 
 const studyTips = [
-  { icon: '📅', text: 'Study consistently daily, even if just 30 minutes', color: 'green' },
-  { icon: '🧠', text: 'Use active recall instead of passive reading', color: 'blue' },
-  { icon: '📝', text: 'Take practice exams under realistic conditions', color: 'purple' },
-  { icon: '❌', text: 'Review incorrect answers to understand weaknesses', color: 'red' },
-  { icon: '👥', text: 'Join study groups or online communities for support', color: 'orange' },
-  { icon: '🎯', text: 'Focus on Process domain (41% of exam)', color: 'emerald' },
+  {
+    icon: "📅",
+    text: "Study consistently daily, even if just 30 minutes",
+    color: "green",
+  },
+  {
+    icon: "🧠",
+    text: "Use active recall instead of passive reading",
+    color: "blue",
+  },
+  {
+    icon: "📝",
+    text: "Take practice exams under realistic conditions",
+    color: "purple",
+  },
+  {
+    icon: "❌",
+    text: "Review incorrect answers to understand weaknesses",
+    color: "red",
+  },
+  {
+    icon: "👥",
+    text: "Join study groups or online communities for support",
+    color: "orange",
+  },
+  {
+    icon: "🎯",
+    text: "Focus on Process domain (41% of exam)",
+    color: "emerald",
+  },
 ];
 
 const changesItems = [
   {
-    title: 'New Domain Structure',
-    desc: 'Three balanced domains: People (33%), Process (41%), Business Environment (26%).',
-    color: 'blue',
-    bgColor: 'bg-blue-500/10',
+    title: "New Domain Structure",
+    desc: "Three balanced domains: People (33%), Process (41%), Business Environment (26%).",
+    color: "blue",
+    bgColor: "bg-blue-500/10",
   },
   {
-    title: 'AI Integration',
-    desc: 'AI and sustainability trends integrated throughout the exam content.',
-    color: 'violet',
-    bgColor: 'bg-violet-500/10',
+    title: "AI Integration",
+    desc: "AI and sustainability trends integrated throughout the exam content.",
+    color: "violet",
+    bgColor: "bg-violet-500/10",
   },
   {
-    title: 'Agile & Hybrid',
-    desc: '60% of exam covers adaptive/agile and hybrid approaches, 40% predictive.',
-    color: 'emerald',
-    bgColor: 'bg-emerald-500/10',
+    title: "Agile & Hybrid",
+    desc: "60% of exam covers adaptive/agile and hybrid approaches, 40% predictive.",
+    color: "emerald",
+    bgColor: "bg-emerald-500/10",
   },
   {
-    title: 'Enhanced GAC Path',
-    desc: 'GAC degree holders only need 24 months experience (down from 36).',
-    color: 'orange',
-    bgColor: 'bg-orange-500/10',
+    title: "Enhanced GAC Path",
+    desc: "GAC degree holders only need 24 months experience (down from 36).",
+    color: "orange",
+    bgColor: "bg-orange-500/10",
   },
   {
-    title: 'Value Focus',
-    desc: 'Emphasis on value-based delivery and measuring project benefits.',
-    color: 'pink',
-    bgColor: 'bg-pink-500/10',
+    title: "Value Focus",
+    desc: "Emphasis on value-based delivery and measuring project benefits.",
+    color: "pink",
+    bgColor: "bg-pink-500/10",
   },
   {
-    title: 'Knowledge Transfer',
-    desc: 'New focus on knowledge management and organizational learning.',
-    color: 'cyan',
-    bgColor: 'bg-cyan-500/10',
+    title: "Knowledge Transfer",
+    desc: "New focus on knowledge management and organizational learning.",
+    color: "cyan",
+    bgColor: "bg-cyan-500/10",
   },
 ];
 
@@ -248,7 +307,7 @@ export default function StudyGuidePage() {
 
   // Set page title for client-side rendering
   useEffect(() => {
-    document.title = '2026 PMP Exam Study Guide - PMP Study Pro';
+    document.title = "2026 PMP Exam Study Guide - PMP Study Pro";
   }, []);
 
   return (
@@ -272,15 +331,18 @@ export default function StudyGuidePage() {
               <span className="block text-gradient">2026 Edition</span>
             </h1>
             <p className="text-xl text-md-on-surface-variant max-w-3xl mx-auto mb-8">
-              Your complete guide to passing the July 2026 PMP exam. Updated to reflect the new PMI
-              Exam Content Outline with emphasis on People, Process, and Business Environment
-              domains.
+              Your complete guide to passing the July 2026 PMP exam. Updated to
+              reflect the new PMI Exam Content Outline with emphasis on People,
+              Process, and Business Environment domains.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/study" className="btn btn-primary text-lg px-8 py-3">
                 Start Studying
               </Link>
-              <Link href="/practice" className="btn btn-outline text-lg px-8 py-3">
+              <Link
+                href="/practice"
+                className="btn btn-outline text-lg px-8 py-3"
+              >
                 Practice Questions
               </Link>
             </div>
@@ -289,16 +351,18 @@ export default function StudyGuidePage() {
           {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-16">
             {[
-              { value: '180', label: 'Questions', icon: '❓' },
-              { value: '170', label: 'Scored', icon: '✓' },
-              { value: '240', label: 'Minutes', icon: '⏱️' },
-              { value: '2', label: 'Breaks', icon: '☕' },
-              { value: '$405', label: 'Member Fee', icon: '💰' },
+              { value: "180", label: "Questions", icon: "❓" },
+              { value: "170", label: "Scored", icon: "✓" },
+              { value: "240", label: "Minutes", icon: "⏱️" },
+              { value: "2", label: "Breaks", icon: "☕" },
+              { value: "$405", label: "Member Fee", icon: "💰" },
             ].map((stat, idx) => (
               <div key={idx} className="card text-center">
                 <div className="text-2xl mb-1">{stat.icon}</div>
                 <p className="text-2xl font-bold text-gradient">{stat.value}</p>
-                <p className="text-sm text-md-on-surface-variant">{stat.label}</p>
+                <p className="text-sm text-md-on-surface-variant">
+                  {stat.label}
+                </p>
               </div>
             ))}
           </div>
@@ -312,8 +376,9 @@ export default function StudyGuidePage() {
             <span className="text-md-primary">✓</span> Eligibility Requirements
           </h2>
           <p className="text-md-on-surface-variant text-center mb-8 max-w-2xl mx-auto">
-            All experience must have been accrued within the last 10 years in a professional
-            setting. All paths require 35 hours of commercial training in project management.
+            All experience must have been accrued within the last 10 years in a
+            professional setting. All paths require 35 hours of commercial
+            training in project management.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             {eligibilityOptions.map((option, idx) => (
@@ -323,18 +388,26 @@ export default function StudyGuidePage() {
                     {option.icon}
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-md-on-surface">{option.degree}</h3>
-                    <p className="text-xs text-md-on-surface-variant">{option.detail}</p>
+                    <h3 className="text-lg font-semibold text-md-on-surface">
+                      {option.degree}
+                    </h3>
+                    <p className="text-xs text-md-on-surface-variant">
+                      {option.detail}
+                    </p>
                   </div>
                 </div>
                 <div className="space-y-2 text-md-on-surface-variant">
                   <div className="flex justify-between">
                     <span>Experience:</span>
-                    <span className="font-medium text-md-on-surface">{option.experience}</span>
+                    <span className="font-medium text-md-on-surface">
+                      {option.experience}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Training:</span>
-                    <span className="font-medium text-md-on-surface">{option.education}</span>
+                    <span className="font-medium text-md-on-surface">
+                      {option.education}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -350,27 +423,31 @@ export default function StudyGuidePage() {
             2026 Exam Domain Structure
           </h2>
           <p className="text-md-on-surface-variant text-center mb-12 max-w-2xl mx-auto">
-            The July 2026 PMP exam focuses on three balanced domains covering all aspects of modern
-            project management.
+            The July 2026 PMP exam focuses on three balanced domains covering
+            all aspects of modern project management.
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {domains.map(domain => (
+            {domains.map((domain) => (
               <div
                 key={domain.id}
                 role="button"
                 tabIndex={0}
-                onClick={() => setActiveDomain(activeDomain === domain.id ? null : domain.id)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
+                onClick={() =>
+                  setActiveDomain(activeDomain === domain.id ? null : domain.id)
+                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    setActiveDomain(activeDomain === domain.id ? null : domain.id);
+                    setActiveDomain(
+                      activeDomain === domain.id ? null : domain.id,
+                    );
                   }
                 }}
                 className={`card card-interactive cursor-pointer ${
                   activeDomain === domain.id
                     ? `ring-2 ${domain.ringColor} border-2 ${domain.borderColor}`
-                    : ''
+                    : ""
                 }`}
               >
                 <div className="flex items-center mb-4">
@@ -380,14 +457,21 @@ export default function StudyGuidePage() {
                     {domain.icon}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-md-on-surface">{domain.title}</h3>
-                    <p className={`text-2xl font-bold ${domain.textColor}`}>{domain.percentage}%</p>
+                    <h3 className="font-semibold text-md-on-surface">
+                      {domain.title}
+                    </h3>
+                    <p className={`text-2xl font-bold ${domain.textColor}`}>
+                      {domain.percentage}%
+                    </p>
                   </div>
                 </div>
                 {activeDomain === domain.id && (
                   <ul className="space-y-2 mt-4 pt-4 border-t border-md-outline-variant animate-in fade-in slide-in-from-top-2">
                     {domain.tasks.map((task, idx) => (
-                      <li key={idx} className="flex items-start text-sm text-md-on-surface-variant">
+                      <li
+                        key={idx}
+                        className="flex items-start text-sm text-md-on-surface-variant"
+                      >
                         <span className={`${domain.textColor} mr-2`}>•</span>
                         {task}
                       </li>
@@ -395,7 +479,9 @@ export default function StudyGuidePage() {
                   </ul>
                 )}
                 <p className="text-sm text-md-on-surface-variant/70 mt-2">
-                  {activeDomain === domain.id ? 'Click to collapse' : 'Click to expand tasks'}
+                  {activeDomain === domain.id
+                    ? "Click to collapse"
+                    : "Click to expand tasks"}
                 </p>
               </div>
             ))}
@@ -403,21 +489,23 @@ export default function StudyGuidePage() {
 
           {/* Visual Progress Bar - Approach Distribution */}
           <div className="card">
-            <h3 className="text-lg font-semibold mb-4 text-md-on-surface">Approach Distribution</h3>
+            <h3 className="text-lg font-semibold mb-4 text-md-on-surface">
+              Approach Distribution
+            </h3>
             <p className="text-md-on-surface-variant text-sm mb-4">
-              The exam integrates predictive, adaptive/agile, and hybrid approaches across all three
-              domains.
+              The exam integrates predictive, adaptive/agile, and hybrid
+              approaches across all three domains.
             </p>
             <div className="h-8 rounded-full overflow-hidden flex">
               <div
                 className="bg-md-tertiary h-full flex items-center justify-center text-xs font-medium text-md-on-tertiary"
-                style={{ width: '40%' }}
+                style={{ width: "40%" }}
               >
                 40% Predictive
               </div>
               <div
                 className="bg-md-primary h-full flex items-center justify-center text-xs font-medium text-md-on-primary"
-                style={{ width: '60%' }}
+                style={{ width: "60%" }}
               >
                 60% Agile & Hybrid
               </div>
@@ -438,7 +526,12 @@ export default function StudyGuidePage() {
                 <div
                   className={`w-10 h-10 ${item.bgColor} rounded-lg flex items-center justify-center mb-4`}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -447,8 +540,12 @@ export default function StudyGuidePage() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-md-on-surface">{item.title}</h3>
-                <p className="text-md-on-surface-variant text-sm">{item.desc}</p>
+                <h3 className="text-lg font-semibold mb-2 text-md-on-surface">
+                  {item.title}
+                </h3>
+                <p className="text-md-on-surface-variant text-sm">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -481,29 +578,35 @@ export default function StudyGuidePage() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                title: 'Study Guides',
-                desc: 'Comprehensive content covering all PMP domains and tasks',
-                href: '/study',
-                textColor: 'text-blue-400',
+                title: "Study Guides",
+                desc: "Comprehensive content covering all PMP domains and tasks",
+                href: "/study",
+                textColor: "text-blue-400",
               },
               {
-                title: 'Flashcards',
-                desc: 'Spaced repetition for memorizing key concepts and formulas',
-                href: '/flashcards',
-                textColor: 'text-violet-400',
+                title: "Flashcards",
+                desc: "Spaced repetition for memorizing key concepts and formulas",
+                href: "/flashcards",
+                textColor: "text-violet-400",
               },
               {
-                title: 'Practice Questions',
-                desc: 'Hundreds of exam-style questions with detailed explanations',
-                href: '/practice',
-                textColor: 'text-emerald-400',
+                title: "Practice Questions",
+                desc: "Hundreds of exam-style questions with detailed explanations",
+                href: "/practice",
+                textColor: "text-emerald-400",
               },
             ].map((resource, idx) => (
-              <Link key={idx} href={resource.href} className="card card-interactive group">
+              <Link
+                key={idx}
+                href={resource.href}
+                className="card card-interactive group"
+              >
                 <h3 className="text-xl font-semibold mb-2 text-md-on-surface group-hover:text-md-primary transition-colors">
                   {resource.title}
                 </h3>
-                <p className="text-md-on-surface-variant text-sm">{resource.desc}</p>
+                <p className="text-md-on-surface-variant text-sm">
+                  {resource.desc}
+                </p>
                 <div
                   className={`mt-4 ${resource.textColor} text-sm font-medium flex items-center group-hover:translate-x-1 transition-transform`}
                 >
@@ -523,14 +626,20 @@ export default function StudyGuidePage() {
             Ready to Start Your PMP Journey?
           </h2>
           <p className="text-md-on-surface-variant mb-8 text-lg">
-            Join thousands of successful PMPs who used PMP Study Pro to pass their exam on the first
-            try.
+            Join thousands of successful PMPs who used PMP Study Pro to pass
+            their exam on the first try.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/auth/register" className="btn btn-primary text-lg px-8 py-3">
+            <Link
+              href="/auth/register"
+              className="btn btn-primary text-lg px-8 py-3"
+            >
               Create Free Account
             </Link>
-            <Link href="/pricing" className="btn btn-secondary text-lg px-8 py-3">
+            <Link
+              href="/pricing"
+              className="btn btn-secondary text-lg px-8 py-3"
+            >
               View Plans
             </Link>
           </div>

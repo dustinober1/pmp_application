@@ -155,9 +155,9 @@ Enable AlertManager to receive status updates from PagerDuty:
 ```yaml
 # Add to alertmanager.yml
 receivers:
-  - name: 'pagerduty-critical'
+  - name: "pagerduty-critical"
     pagerduty_configs:
-      - service_key: '${PAGERDUTY_SERVICE_KEY_CRITICAL}'
+      - service_key: "${PAGERDUTY_SERVICE_KEY_CRITICAL}"
         send_resolved: true
 ```
 

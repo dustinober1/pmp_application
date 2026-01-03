@@ -1,11 +1,14 @@
-import type { Request, Response, NextFunction } from 'express';
-import { Router } from 'express';
-import { practiceService } from '../services/practice.service';
-import { authMiddleware } from '../middleware/auth.middleware';
-import { requireFeature } from '../middleware/tier.middleware';
-import { validateBody, validateParams } from '../middleware/validation.middleware';
-import { z } from 'zod';
-import { PMP_EXAM } from '@pmp/shared';
+import type { Request, Response, NextFunction } from "express";
+import { Router } from "express";
+import { practiceService } from "../services/practice.service";
+import { authMiddleware } from "../middleware/auth.middleware";
+import { requireFeature } from "../middleware/tier.middleware";
+import {
+  validateBody,
+  validateParams,
+} from "../middleware/validation.middleware";
+import { z } from "zod";
+import { PMP_EXAM } from "@pmp/shared";
 
 const router = Router();
 
@@ -13,22 +16,25 @@ const router = Router();
 const startSessionSchema = z.object({
   domainIds: z.array(z.string().uuid()).optional(),
   taskIds: z.array(z.string().uuid()).optional(),
-  difficulty: z.enum(['easy', 'medium', 'hard']).optional(),
+  difficulty: z.enum(["easy", "medium", "hard"]).optional(),
   questionCount: z.number().min(5).max(50).optional().default(20),
-  mode: z.enum(['practice', 'timed', 'mock_exam']).optional().default('practice'),
+  mode: z
+    .enum(["practice", "timed", "mock_exam"])
+    .optional()
+    .default("practice"),
 });
 
 const submitAnswerSchema = z.object({
-  selectedOptionId: z.string().uuid('Invalid option ID'),
+  selectedOptionId: z.string().uuid("Invalid option ID"),
   timeSpentMs: z.number().min(0),
 });
 
 const sessionIdSchema = z.object({
-  id: z.string().uuid('Invalid session ID'),
+  id: z.string().uuid("Invalid session ID"),
 });
 
 const questionIdSchema = z.object({
-  questionId: z.string().uuid('Invalid question ID'),
+  questionId: z.string().uuid("Invalid question ID"),
 });
 
 const questionsQuerySchema = z.object({
@@ -46,12 +52,15 @@ const startMockExamSchema = z.object({
  * Returns session metadata only - questions loaded separately via paginated endpoint
  */
 router.post(
-  '/sessions',
+  "/sessions",
   authMiddleware,
   validateBody(startSessionSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await practiceService.startSession(req.user!.userId, req.body);
+      const result = await practiceService.startSession(
+        req.user!.userId,
+        req.body,
+      );
 
       res.status(201).json({
         success: true,
@@ -63,7 +72,7 @@ router.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -72,7 +81,7 @@ router.post(
  * Enables lazy loading of questions in batches
  */
 router.get(
-  '/sessions/:id/questions',
+  "/sessions/:id/questions",
   authMiddleware,
   validateParams(sessionIdSchema),
   validateParams(questionsQuerySchema),
@@ -85,7 +94,7 @@ router.get(
         req.params.id!,
         req.user!.userId,
         offset,
-        limit
+        limit,
       );
 
       res.json({
@@ -95,7 +104,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -103,12 +112,15 @@ router.get(
  * Get current session streak (consecutive correct answers)
  */
 router.get(
-  '/sessions/:id/streak',
+  "/sessions/:id/streak",
   authMiddleware,
   validateParams(sessionIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const streak = await practiceService.getSessionStreak(req.params.id!, req.user!.userId);
+      const streak = await practiceService.getSessionStreak(
+        req.params.id!,
+        req.user!.userId,
+      );
 
       res.json({
         success: true,
@@ -117,7 +129,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -125,17 +137,20 @@ router.get(
  * Get an existing practice session (metadata only, questions loaded separately)
  */
 router.get(
-  '/sessions/:id',
+  "/sessions/:id",
   authMiddleware,
   validateParams(sessionIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const session = await practiceService.getSession(req.params.id!, req.user!.userId);
+      const session = await practiceService.getSession(
+        req.params.id!,
+        req.user!.userId,
+      );
 
       if (!session) {
         res.status(404).json({
           success: false,
-          error: { code: 'NOT_FOUND', message: 'Session not found' },
+          error: { code: "NOT_FOUND", message: "Session not found" },
         });
         return;
       }
@@ -147,7 +162,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -155,13 +170,13 @@ router.get(
  * Submit an answer for a question
  */
 router.post(
-  '/sessions/:id/answers/:questionId',
+  "/sessions/:id/answers/:questionId",
   authMiddleware,
   validateParams(
     z.object({
       id: z.string().uuid(),
       questionId: z.string().uuid(),
-    })
+    }),
   ),
   validateBody(submitAnswerSchema),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -171,7 +186,7 @@ router.post(
         req.params.questionId!,
         req.user!.userId,
         req.body.selectedOptionId,
-        req.body.timeSpentMs
+        req.body.timeSpentMs,
       );
 
       res.json({
@@ -181,7 +196,7 @@ router.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -189,22 +204,25 @@ router.post(
  * Complete a practice session
  */
 router.post(
-  '/sessions/:id/complete',
+  "/sessions/:id/complete",
   authMiddleware,
   validateParams(sessionIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await practiceService.completeSession(req.params.id!, req.user!.userId);
+      const result = await practiceService.completeSession(
+        req.params.id!,
+        req.user!.userId,
+      );
 
       res.json({
         success: true,
         data: { result },
-        message: 'Session completed',
+        message: "Session completed",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -212,7 +230,7 @@ router.post(
  * List available mock exams
  */
 router.get(
-  '/mock-exams',
+  "/mock-exams",
   authMiddleware,
   async (_req: Request, res: Response, next: NextFunction) => {
     try {
@@ -228,7 +246,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -237,14 +255,17 @@ router.get(
  * Returns session metadata only - questions loaded separately via paginated endpoint
  */
 router.post(
-  '/mock-exams',
+  "/mock-exams",
   authMiddleware,
-  requireFeature('mockExams'),
+  requireFeature("mockExams"),
   validateBody(startMockExamSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { examId } = req.body;
-      const result = await practiceService.startMockExam(req.user!.userId, examId);
+      const result = await practiceService.startMockExam(
+        req.user!.userId,
+        examId,
+      );
 
       res.status(201).json({
         success: true,
@@ -259,46 +280,55 @@ router.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/practice/flagged
  * Get flagged questions
  */
-router.get('/flagged', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const questions = await practiceService.getFlaggedQuestions(req.user!.userId);
+router.get(
+  "/flagged",
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const questions = await practiceService.getFlaggedQuestions(
+        req.user!.userId,
+      );
 
-    res.json({
-      success: true,
-      data: { questions, count: questions.length },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+      res.json({
+        success: true,
+        data: { questions, count: questions.length },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 /**
  * POST /api/practice/questions/:questionId/flag
  * Flag a question for review
  */
 router.post(
-  '/questions/:questionId/flag',
+  "/questions/:questionId/flag",
   authMiddleware,
   validateParams(questionIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await practiceService.flagQuestion(req.user!.userId, req.params.questionId!);
+      await practiceService.flagQuestion(
+        req.user!.userId,
+        req.params.questionId!,
+      );
 
       res.json({
         success: true,
-        message: 'Question flagged for review',
+        message: "Question flagged for review",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -306,38 +336,45 @@ router.post(
  * Unflag a question
  */
 router.delete(
-  '/questions/:questionId/flag',
+  "/questions/:questionId/flag",
   authMiddleware,
   validateParams(questionIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await practiceService.unflagQuestion(req.user!.userId, req.params.questionId!);
+      await practiceService.unflagQuestion(
+        req.user!.userId,
+        req.params.questionId!,
+      );
 
       res.json({
         success: true,
-        message: 'Question unflagged',
+        message: "Question unflagged",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/practice/stats
  * Get user's practice statistics
  */
-router.get('/stats', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const stats = await practiceService.getPracticeStats(req.user!.userId);
+router.get(
+  "/stats",
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const stats = await practiceService.getPracticeStats(req.user!.userId);
 
-    res.json({
-      success: true,
-      data: { stats },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+      res.json({
+        success: true,
+        data: { stats },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 export default router;

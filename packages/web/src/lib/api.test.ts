@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
@@ -14,15 +14,15 @@ import {
   searchApi,
   contentApi,
   subscriptionApi,
-} from './api';
+} from "./api";
 
-describe('apiRequest', () => {
+describe("apiRequest", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Mock document.cookie
-    Object.defineProperty(document, 'cookie', {
+    Object.defineProperty(document, "cookie", {
       writable: true,
-      value: '',
+      value: "",
     });
   });
 
@@ -30,29 +30,30 @@ describe('apiRequest', () => {
     vi.clearAllMocks();
   });
 
-  it('makes GET request with correct headers', async () => {
+  it("makes GET request with correct headers", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ success: true, data: { test: 'value' } }),
+      json: () => Promise.resolve({ success: true, data: { test: "value" } }),
     });
 
-    const result = await apiRequest('/test');
+    const result = await apiRequest("/test");
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/test'),
+      expect.stringContaining("/test"),
       expect.objectContaining({
-        method: 'GET',
-        credentials: 'include',
-      })
+        method: "GET",
+        credentials: "include",
+      }),
     );
-    expect(result).toEqual({ success: true, data: { test: 'value' } });
+    expect(result).toEqual({ success: true, data: { test: "value" } });
   });
 
-  it('makes POST request with body', async () => {
+  it("makes POST request with body", async () => {
     // Mock CSRF cookie fetch first
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ success: true, data: { csrfToken: 'test-csrf' } }),
+      json: () =>
+        Promise.resolve({ success: true, data: { csrfToken: "test-csrf" } }),
     });
     // Then the actual request
     mockFetch.mockResolvedValueOnce({
@@ -60,59 +61,61 @@ describe('apiRequest', () => {
       json: () => Promise.resolve({ success: true }),
     });
 
-    await apiRequest('/test', { method: 'POST', body: { key: 'value' } });
+    await apiRequest("/test", { method: "POST", body: { key: "value" } });
 
     // Second call should be the POST
     expect(mockFetch).toHaveBeenLastCalledWith(
-      expect.stringContaining('/test'),
+      expect.stringContaining("/test"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ key: 'value' }),
+        method: "POST",
+        body: JSON.stringify({ key: "value" }),
         headers: expect.objectContaining({
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         }),
-      })
+      }),
     );
   });
 
-  it('throws error on non-ok response', async () => {
+  it("throws error on non-ok response", async () => {
     mockFetch.mockReset();
     mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 400,
-      json: () => Promise.resolve({ error: { message: 'Test error' } }),
+      json: () => Promise.resolve({ error: { message: "Test error" } }),
     });
 
-    await expect(apiRequest('/test-error-' + Date.now())).rejects.toThrow('Test error');
+    await expect(apiRequest("/test-error-" + Date.now())).rejects.toThrow(
+      "Test error",
+    );
   });
 
-  it('handles 401 response', async () => {
+  it("handles 401 response", async () => {
     mockFetch.mockReset();
     // First call returns 401
     mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 401,
-      json: () => Promise.resolve({ error: { message: 'Unauthorized' } }),
+      json: () => Promise.resolve({ error: { message: "Unauthorized" } }),
     });
     // CSRF fetch for refresh
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ data: { csrfToken: 'test-csrf' } }),
+      json: () => Promise.resolve({ data: { csrfToken: "test-csrf" } }),
     });
     // Refresh fails
     mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 401,
-      json: () => Promise.resolve({ error: { message: 'Refresh failed' } }),
+      json: () => Promise.resolve({ error: { message: "Refresh failed" } }),
     });
 
     // Should throw after failed refresh
-    await expect(apiRequest('/test-401-' + Date.now())).rejects.toThrow();
+    await expect(apiRequest("/test-401-" + Date.now())).rejects.toThrow();
   });
 
-  it('uses cache for repeated GET requests to same endpoint', async () => {
+  it("uses cache for repeated GET requests to same endpoint", async () => {
     mockFetch.mockReset();
-    const uniqueEndpoint = '/domains-' + Date.now();
+    const uniqueEndpoint = "/domains-" + Date.now();
     mockFetch.mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ success: true, data: { cached: true } }),
@@ -127,14 +130,14 @@ describe('apiRequest', () => {
     expect(result1).toEqual(result2);
   });
 
-  it('does not cache auth endpoints', async () => {
+  it("does not cache auth endpoints", async () => {
     mockFetch.mockReset();
     mockFetch.mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    const endpoint = '/auth/me-' + Date.now();
+    const endpoint = "/auth/me-" + Date.now();
     await apiRequest(endpoint);
     await apiRequest(endpoint);
 
@@ -142,67 +145,70 @@ describe('apiRequest', () => {
     expect(mockFetch).toHaveBeenCalledTimes(2);
   });
 
-  it('handles JSON parse errors gracefully', async () => {
+  it("handles JSON parse errors gracefully", async () => {
     mockFetch.mockReset();
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.reject(new Error('No JSON')),
+      json: () => Promise.reject(new Error("No JSON")),
     });
 
-    const result = await apiRequest('/test-json-' + Date.now());
+    const result = await apiRequest("/test-json-" + Date.now());
 
     expect(result).toEqual({ success: true });
   });
 });
 
-describe('authApi', () => {
+describe("authApi", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    Object.defineProperty(document, 'cookie', {
+    Object.defineProperty(document, "cookie", {
       writable: true,
-      value: 'pmp_csrf_token=test-token',
+      value: "pmp_csrf_token=test-token",
     });
   });
 
-  it('login calls correct endpoint', async () => {
+  it("login calls correct endpoint", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await authApi.login('test@example.com', 'password');
+    await authApi.login("test@example.com", "password");
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/auth/login'),
+      expect.stringContaining("/auth/login"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ email: 'test@example.com', password: 'password' }),
-      })
-    );
-  });
-
-  it('register calls correct endpoint', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve({ success: true }),
-    });
-
-    await authApi.register('test@example.com', 'password', 'Test User');
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/auth/register'),
-      expect.objectContaining({
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({
-          email: 'test@example.com',
-          password: 'password',
-          name: 'Test User',
+          email: "test@example.com",
+          password: "password",
         }),
-      })
+      }),
     );
   });
 
-  it('me calls correct endpoint', async () => {
+  it("register calls correct endpoint", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ success: true }),
+    });
+
+    await authApi.register("test@example.com", "password", "Test User");
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("/auth/register"),
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify({
+          email: "test@example.com",
+          password: "password",
+          name: "Test User",
+        }),
+      }),
+    );
+  });
+
+  it("me calls correct endpoint", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true, data: { user: {} } }),
@@ -211,187 +217,187 @@ describe('authApi', () => {
     await authApi.me();
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/auth/me'),
-      expect.objectContaining({ method: 'GET' })
+      expect.stringContaining("/auth/me"),
+      expect.objectContaining({ method: "GET" }),
     );
   });
 
-  it('forgotPassword calls correct endpoint', async () => {
+  it("forgotPassword calls correct endpoint", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await authApi.forgotPassword('test@example.com');
+    await authApi.forgotPassword("test@example.com");
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/auth/forgot-password'),
+      expect.stringContaining("/auth/forgot-password"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ email: 'test@example.com' }),
-      })
+        method: "POST",
+        body: JSON.stringify({ email: "test@example.com" }),
+      }),
     );
   });
 
-  it('resetPassword calls correct endpoint', async () => {
+  it("resetPassword calls correct endpoint", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await authApi.resetPassword('token123', 'newpassword');
+    await authApi.resetPassword("token123", "newpassword");
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/auth/reset-password'),
+      expect.stringContaining("/auth/reset-password"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ token: 'token123', password: 'newpassword' }),
-      })
+        method: "POST",
+        body: JSON.stringify({ token: "token123", password: "newpassword" }),
+      }),
     );
   });
 });
 
-describe('flashcardApi', () => {
+describe("flashcardApi", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    Object.defineProperty(document, 'cookie', {
+    Object.defineProperty(document, "cookie", {
       writable: true,
-      value: 'pmp_csrf_token=test-token',
+      value: "pmp_csrf_token=test-token",
     });
   });
 
-  it('getFlashcards with params builds query string', async () => {
+  it("getFlashcards with params builds query string", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await flashcardApi.getFlashcards({ domainId: 'd1', limit: 10 });
+    await flashcardApi.getFlashcards({ domainId: "d1", limit: 10 });
 
     expect(mockFetch).toHaveBeenCalledWith(
       expect.stringMatching(/\/flashcards\?domainId=d1&limit=10/),
-      expect.anything()
+      expect.anything(),
     );
   });
 
-  it('startSession sends correct body', async () => {
+  it("startSession sends correct body", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await flashcardApi.startSession({ domainIds: ['d1'], cardCount: 20 });
+    await flashcardApi.startSession({ domainIds: ["d1"], cardCount: 20 });
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/flashcards/sessions'),
+      expect.stringContaining("/flashcards/sessions"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ domainIds: ['d1'], cardCount: 20 }),
-      })
+        method: "POST",
+        body: JSON.stringify({ domainIds: ["d1"], cardCount: 20 }),
+      }),
     );
   });
 
-  it('recordResponse sends to correct endpoint', async () => {
+  it("recordResponse sends to correct endpoint", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await flashcardApi.recordResponse('session1', 'card1', 'know', 5000);
+    await flashcardApi.recordResponse("session1", "card1", "know", 5000);
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/flashcards/sessions/session1/responses/card1'),
+      expect.stringContaining("/flashcards/sessions/session1/responses/card1"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ rating: 'know', timeSpentMs: 5000 }),
-      })
+        method: "POST",
+        body: JSON.stringify({ rating: "know", timeSpentMs: 5000 }),
+      }),
     );
   });
 });
 
-describe('practiceApi', () => {
+describe("practiceApi", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    Object.defineProperty(document, 'cookie', {
+    Object.defineProperty(document, "cookie", {
       writable: true,
-      value: 'pmp_csrf_token=test-token',
+      value: "pmp_csrf_token=test-token",
     });
   });
 
-  it('startSession creates practice session', async () => {
+  it("startSession creates practice session", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await practiceApi.startSession({ domainIds: ['d1'], questionCount: 10 });
+    await practiceApi.startSession({ domainIds: ["d1"], questionCount: 10 });
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/practice/sessions'),
+      expect.stringContaining("/practice/sessions"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ domainIds: ['d1'], questionCount: 10 }),
-      })
+        method: "POST",
+        body: JSON.stringify({ domainIds: ["d1"], questionCount: 10 }),
+      }),
     );
   });
 
-  it('submitAnswer sends answer correctly', async () => {
+  it("submitAnswer sends answer correctly", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
     await practiceApi.submitAnswer({
-      sessionId: 's1',
-      questionId: 'q1',
-      selectedOptionId: 'o1',
+      sessionId: "s1",
+      questionId: "q1",
+      selectedOptionId: "o1",
       timeSpentMs: 3000,
     });
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/practice/sessions/s1/answers/q1'),
+      expect.stringContaining("/practice/sessions/s1/answers/q1"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ selectedOptionId: 'o1', timeSpentMs: 3000 }),
-      })
+        method: "POST",
+        body: JSON.stringify({ selectedOptionId: "o1", timeSpentMs: 3000 }),
+      }),
     );
   });
 
-  it('flagQuestion toggles flag', async () => {
+  it("flagQuestion toggles flag", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await practiceApi.flagQuestion('q1');
+    await practiceApi.flagQuestion("q1");
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/practice/questions/q1/flag'),
-      expect.objectContaining({ method: 'POST' })
+      expect.stringContaining("/practice/questions/q1/flag"),
+      expect.objectContaining({ method: "POST" }),
     );
   });
 
-  it('unflagQuestion removes flag', async () => {
+  it("unflagQuestion removes flag", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await practiceApi.unflagQuestion('q1');
+    await practiceApi.unflagQuestion("q1");
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/practice/questions/q1/flag'),
-      expect.objectContaining({ method: 'DELETE' })
+      expect.stringContaining("/practice/questions/q1/flag"),
+      expect.objectContaining({ method: "DELETE" }),
     );
   });
 });
 
-describe('dashboardApi', () => {
+describe("dashboardApi", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('getDashboard fetches dashboard data', async () => {
+  it("getDashboard fetches dashboard data", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true, data: { dashboard: {} } }),
@@ -400,12 +406,12 @@ describe('dashboardApi', () => {
     await dashboardApi.getDashboard();
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/dashboard'),
-      expect.objectContaining({ method: 'GET' })
+      expect.stringContaining("/dashboard"),
+      expect.objectContaining({ method: "GET" }),
     );
   });
 
-  it('getActivity with limit adds query param', async () => {
+  it("getActivity with limit adds query param", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
@@ -415,96 +421,96 @@ describe('dashboardApi', () => {
 
     expect(mockFetch).toHaveBeenCalledWith(
       expect.stringMatching(/\/dashboard\/activity\?limit=5/),
-      expect.anything()
+      expect.anything(),
     );
   });
 });
 
-describe('formulaApi', () => {
+describe("formulaApi", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    Object.defineProperty(document, 'cookie', {
+    Object.defineProperty(document, "cookie", {
       writable: true,
-      value: 'pmp_csrf_token=test-token',
+      value: "pmp_csrf_token=test-token",
     });
   });
 
-  it('getFormulas with category filters', async () => {
+  it("getFormulas with category filters", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await formulaApi.getFormulas('time');
+    await formulaApi.getFormulas("time");
 
     expect(mockFetch).toHaveBeenCalledWith(
       expect.stringMatching(/\/formulas\?category=time/),
-      expect.anything()
+      expect.anything(),
     );
   });
 
-  it('calculate sends inputs', async () => {
+  it("calculate sends inputs", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true, data: { result: 42 } }),
     });
 
-    await formulaApi.calculate('f1', { x: 10, y: 20 });
+    await formulaApi.calculate("f1", { x: 10, y: 20 });
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/formulas/f1/calculate'),
+      expect.stringContaining("/formulas/f1/calculate"),
       expect.objectContaining({
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ inputs: { x: 10, y: 20 } }),
-      })
+      }),
     );
   });
 });
 
-describe('searchApi', () => {
+describe("searchApi", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('search encodes query properly', async () => {
+  it("search encodes query properly", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true, data: { results: [] } }),
     });
 
-    await searchApi.search('test query');
+    await searchApi.search("test query");
 
     expect(mockFetch).toHaveBeenCalledWith(
       expect.stringMatching(/\/search\?q=test%20query/),
-      expect.anything()
+      expect.anything(),
     );
   });
 
-  it('search with limit adds param', async () => {
+  it("search with limit adds param", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await searchApi.search('test', 5);
+    await searchApi.search("test", 5);
 
     expect(mockFetch).toHaveBeenCalledWith(
       expect.stringMatching(/\/search\?q=test&limit=5/),
-      expect.anything()
+      expect.anything(),
     );
   });
 });
 
-describe('contentApi', () => {
+describe("contentApi", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    Object.defineProperty(document, 'cookie', {
+    Object.defineProperty(document, "cookie", {
       writable: true,
-      value: 'pmp_csrf_token=test-token',
+      value: "pmp_csrf_token=test-token",
     });
   });
 
-  it('getDomains fetches all domains', async () => {
+  it("getDomains fetches all domains", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true, data: { domains: [] } }),
@@ -513,53 +519,53 @@ describe('contentApi', () => {
     await contentApi.getDomains();
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/domains'),
-      expect.objectContaining({ method: 'GET' })
+      expect.stringContaining("/domains"),
+      expect.objectContaining({ method: "GET" }),
     );
   });
 
-  it('markSectionComplete posts to correct endpoint', async () => {
+  it("markSectionComplete posts to correct endpoint", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await contentApi.markSectionComplete('section1');
+    await contentApi.markSectionComplete("section1");
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/domains/progress/sections/section1/complete'),
-      expect.objectContaining({ method: 'POST' })
+      expect.stringContaining("/domains/progress/sections/section1/complete"),
+      expect.objectContaining({ method: "POST" }),
     );
   });
 });
 
-describe('subscriptionApi', () => {
+describe("subscriptionApi", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    Object.defineProperty(document, 'cookie', {
+    Object.defineProperty(document, "cookie", {
       writable: true,
-      value: 'pmp_csrf_token=test-token',
+      value: "pmp_csrf_token=test-token",
     });
   });
 
-  it('create subscription', async () => {
+  it("create subscription", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     });
 
-    await subscriptionApi.create('tier-pro');
+    await subscriptionApi.create("tier-pro");
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/subscriptions/create'),
+      expect.stringContaining("/subscriptions/create"),
       expect.objectContaining({
-        method: 'POST',
-        body: JSON.stringify({ tierId: 'tier-pro' }),
-      })
+        method: "POST",
+        body: JSON.stringify({ tierId: "tier-pro" }),
+      }),
     );
   });
 
-  it('cancel subscription', async () => {
+  it("cancel subscription", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ success: true }),
@@ -568,8 +574,8 @@ describe('subscriptionApi', () => {
     await subscriptionApi.cancel();
 
     expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('/subscriptions/cancel'),
-      expect.objectContaining({ method: 'POST' })
+      expect.stringContaining("/subscriptions/cancel"),
+      expect.objectContaining({ method: "POST" }),
     );
   });
 });

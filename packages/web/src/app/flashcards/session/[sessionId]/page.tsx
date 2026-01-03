@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { apiRequest } from '@/lib/api';
-import type { Flashcard, FlashcardRating } from '@pmp/shared';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { useToast } from '@/components/ToastProvider';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { useCallback, useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { apiRequest } from "@/lib/api";
+import type { Flashcard, FlashcardRating } from "@pmp/shared";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useToast } from "@/components/ToastProvider";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 // LOW-001: Add swipe gestures using react-swipeable
-import { useSwipeable } from 'react-swipeable';
+import { useSwipeable } from "react-swipeable";
 
 interface SessionData {
   sessionId: string;
@@ -25,127 +25,127 @@ interface SessionData {
  */
 const ACRONYMS: Record<string, string> = {
   // Project Management Core
-  WBS: 'Work Breakdown Structure',
-  PMBOK: 'Project Management Body of Knowledge',
-  PMP: 'Project Management Professional',
-  PMI: 'Project Management Institute',
-  RACI: 'Responsible, Accountable, Consulted, Informed',
-  SWOT: 'Strengths, Weaknesses, Opportunities, Threats',
-  PERT: 'Program Evaluation and Review Technique',
-  CPM: 'Critical Path Method',
+  WBS: "Work Breakdown Structure",
+  PMBOK: "Project Management Body of Knowledge",
+  PMP: "Project Management Professional",
+  PMI: "Project Management Institute",
+  RACI: "Responsible, Accountable, Consulted, Informed",
+  SWOT: "Strengths, Weaknesses, Opportunities, Threats",
+  PERT: "Program Evaluation and Review Technique",
+  CPM: "Critical Path Method",
 
   // Earned Value Management
-  EVA: 'Earned Value Analysis',
-  EVT: 'Earned Value Technique',
-  CV: 'Cost Variance',
-  SV: 'Schedule Variance',
-  CPI: 'Cost Performance Index',
-  SPI: 'Schedule Performance Index',
-  BAC: 'Budget at Completion',
-  EAC: 'Estimate at Completion',
-  ETC: 'Estimate to Complete',
-  AC: 'Actual Cost',
-  PV: 'Planned Value',
-  EV: 'Earned Value',
-  EVM: 'Earned Value Management',
-  TCPI: 'To Complete Performance Index',
+  EVA: "Earned Value Analysis",
+  EVT: "Earned Value Technique",
+  CV: "Cost Variance",
+  SV: "Schedule Variance",
+  CPI: "Cost Performance Index",
+  SPI: "Schedule Performance Index",
+  BAC: "Budget at Completion",
+  EAC: "Estimate at Completion",
+  ETC: "Estimate to Complete",
+  AC: "Actual Cost",
+  PV: "Planned Value",
+  EV: "Earned Value",
+  EVM: "Earned Value Management",
+  TCPI: "To Complete Performance Index",
 
   // Quality
-  QA: 'Quality Assurance',
-  QC: 'Quality Control',
-  COQ: 'Cost of Quality',
+  QA: "Quality Assurance",
+  QC: "Quality Control",
+  COQ: "Cost of Quality",
 
   // Business/Strategy
-  MVP: 'Minimum Viable Product',
-  ROI: 'Return on Investment',
-  NPV: 'Net Present Value',
-  IRR: 'Internal Rate of Return',
-  KPI: 'Key Performance Indicator',
-  SMART: 'Specific, Measurable, Achievable, Relevant, Time-bound',
-  OKR: 'Objectives and Key Results',
-  CSF: 'Critical Success Factor',
+  MVP: "Minimum Viable Product",
+  ROI: "Return on Investment",
+  NPV: "Net Present Value",
+  IRR: "Internal Rate of Return",
+  KPI: "Key Performance Indicator",
+  SMART: "Specific, Measurable, Achievable, Relevant, Time-bound",
+  OKR: "Objectives and Key Results",
+  CSF: "Critical Success Factor",
 
   // Change & Contracts
-  CR: 'Change Request',
-  CCB: 'Change Control Board',
-  SOW: 'Statement of Work',
-  SLA: 'Service Level Agreement',
-  OLA: 'Operational Level Agreement',
-  UNC: 'Underpinning Contract',
+  CR: "Change Request",
+  CCB: "Change Control Board",
+  SOW: "Statement of Work",
+  SLA: "Service Level Agreement",
+  OLA: "Operational Level Agreement",
+  UNC: "Underpinning Contract",
 
   // Scheduling
-  PDM: 'Precedence Diagramming Method',
-  ADM: 'Arrow Diagramming Method',
-  AOA: 'Activity on Arrow',
-  AON: 'Activity on Node',
-  FF: 'Finish-to-Finish',
-  FS: 'Finish-to-Start',
-  SF: 'Start-to-Finish',
-  SS: 'Start-to-Start',
-  LEAD: 'Lead Time',
-  LAG: 'Lag Time',
-  CF: 'Critical Float',
-  LF: 'Late Finish',
-  LS: 'Late Start',
-  EF: 'Early Finish',
-  ES: 'Early Start',
+  PDM: "Precedence Diagramming Method",
+  ADM: "Arrow Diagramming Method",
+  AOA: "Activity on Arrow",
+  AON: "Activity on Node",
+  FF: "Finish-to-Finish",
+  FS: "Finish-to-Start",
+  SF: "Start-to-Finish",
+  SS: "Start-to-Start",
+  LEAD: "Lead Time",
+  LAG: "Lag Time",
+  CF: "Critical Float",
+  LF: "Late Finish",
+  LS: "Late Start",
+  EF: "Early Finish",
+  ES: "Early Start",
 
   // Organizational Structures
-  RAM: 'Responsibility Assignment Matrix',
-  RBS: 'Risk Breakdown Structure',
-  OBS: 'Organizational Breakdown Structure',
-  CBS: 'Cost Breakdown Structure',
-  PBS: 'Product Breakdown Structure',
-  BOM: 'Bill of Materials',
+  RAM: "Responsibility Assignment Matrix",
+  RBS: "Risk Breakdown Structure",
+  OBS: "Organizational Breakdown Structure",
+  CBS: "Cost Breakdown Structure",
+  PBS: "Product Breakdown Structure",
+  BOM: "Bill of Materials",
 
   // Process Improvement
-  DMAIC: 'Define, Measure, Analyze, Improve, Control',
-  PDCA: 'Plan-Do-Check-Act',
+  DMAIC: "Define, Measure, Analyze, Improve, Control",
+  PDCA: "Plan-Do-Check-Act",
   MoSCoW: "Must have, Should have, Could have, Won't have",
-  LSS: 'Lean Six Sigma',
-  TOC: 'Theory of Constraints',
-  FMEA: 'Failure Mode and Effects Analysis',
-  RCCA: 'Root Cause and Corrective Action',
-  RCA: 'Root Cause Analysis',
+  LSS: "Lean Six Sigma",
+  TOC: "Theory of Constraints",
+  FMEA: "Failure Mode and Effects Analysis",
+  RCCA: "Root Cause and Corrective Action",
+  RCA: "Root Cause Analysis",
 
   // Agile/Software
-  CI: 'Continuous Integration',
-  CD: 'Continuous Deployment',
-  API: 'Application Programming Interface',
-  UI: 'User Interface',
-  UX: 'User Experience',
-  SRS: 'Software Requirements Specification',
-  FSD: 'Functional Specification Document',
-  HLD: 'High Level Design',
-  LLD: 'Low Level Design',
+  CI: "Continuous Integration",
+  CD: "Continuous Deployment",
+  API: "Application Programming Interface",
+  UI: "User Interface",
+  UX: "User Experience",
+  SRS: "Software Requirements Specification",
+  FSD: "Functional Specification Document",
+  HLD: "High Level Design",
+  LLD: "Low Level Design",
 
   // Leadership
-  MBTI: 'Myers-Briggs Type Indicator',
-  MBO: 'Management by Objectives',
-  OODA: 'Observe, Orient, Decide, Act',
-  JTBD: 'Jobs to be Done',
+  MBTI: "Myers-Briggs Type Indicator",
+  MBO: "Management by Objectives",
+  OODA: "Observe, Orient, Decide, Act",
+  JTBD: "Jobs to be Done",
 
   // Executive Titles
-  CEO: 'Chief Executive Officer',
-  CFO: 'Chief Financial Officer',
-  COO: 'Chief Operating Officer',
-  CIO: 'Chief Information Officer',
-  CTO: 'Chief Technology Officer',
-  CPO: 'Chief Product Officer',
+  CEO: "Chief Executive Officer",
+  CFO: "Chief Financial Officer",
+  COO: "Chief Operating Officer",
+  CIO: "Chief Information Officer",
+  CTO: "Chief Technology Officer",
+  CPO: "Chief Product Officer",
 
   // Other
-  WIP: 'Work in Progress',
-  LOE: 'Level of Effort',
-  PC: 'Percent Complete',
-  HR: 'Human Resources',
-  IT: 'Information Technology',
-  OPEX: 'Operating Expenditure',
-  CAPEX: 'Capital Expenditure',
-  TBD: 'To Be Determined',
-  TBC: 'To Be Confirmed',
-  TTM: 'Time to Market',
-  FTA: 'Fault Tree Analysis',
-  ETA: 'Event Tree Analysis',
+  WIP: "Work in Progress",
+  LOE: "Level of Effort",
+  PC: "Percent Complete",
+  HR: "Human Resources",
+  IT: "Information Technology",
+  OPEX: "Operating Expenditure",
+  CAPEX: "Capital Expenditure",
+  TBD: "To Be Determined",
+  TBC: "To Be Confirmed",
+  TTM: "Time to Market",
+  FTA: "Fault Tree Analysis",
+  ETA: "Event Tree Analysis",
 };
 
 /**
@@ -155,7 +155,7 @@ const ACRONYMS: Record<string, string> = {
  */
 function formatFlashcardText(text: string): React.ReactNode {
   // First, expand acronyms (case-insensitive)
-  const formatted = text.replace(/\b([A-Z]{2,})\b/g, match => {
+  const formatted = text.replace(/\b([A-Z]{2,})\b/g, (match) => {
     const upperMatch = match.toUpperCase();
     if (ACRONYMS[upperMatch]) {
       return `${ACRONYMS[upperMatch]} (${upperMatch})`;
@@ -168,7 +168,7 @@ function formatFlashcardText(text: string): React.ReactNode {
   return (
     <>
       {parts.map((part, index) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
+        if (part.startsWith("**") && part.endsWith("**")) {
           // Remove the ** and render as bold
           const content = part.slice(2, -2);
           return (
@@ -201,7 +201,9 @@ export default function FlashcardSessionPage() {
       if (!sessionId) return;
       try {
         setLoading(true);
-        const response = await apiRequest<SessionData>(`/flashcards/sessions/${sessionId}`);
+        const response = await apiRequest<SessionData>(
+          `/flashcards/sessions/${sessionId}`,
+        );
         if (response.data) {
           setSession(response.data);
           setCurrentIndex(response.data.progress.answered);
@@ -213,8 +215,8 @@ export default function FlashcardSessionPage() {
           }
         }
       } catch (error) {
-        console.error('Failed to fetch session', error);
-        toast.error('Failed to load session. Please try again.');
+        console.error("Failed to fetch session", error);
+        toast.error("Failed to load session. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -227,16 +229,18 @@ export default function FlashcardSessionPage() {
 
   const handleFlip = useCallback(() => {
     if (ratingSubmitting) return;
-    setIsFlipped(prev => !prev);
+    setIsFlipped((prev) => !prev);
   }, [ratingSubmitting]);
 
   const completeSession = useCallback(async () => {
     try {
-      await apiRequest(`/flashcards/sessions/${sessionId}/complete`, { method: 'POST' });
+      await apiRequest(`/flashcards/sessions/${sessionId}/complete`, {
+        method: "POST",
+      });
       setSessionComplete(true);
     } catch (error) {
-      console.error('Failed to complete session', error);
-      toast.error('Failed to complete session. Please try again.');
+      console.error("Failed to complete session", error);
+      toast.error("Failed to complete session. Please try again.");
     }
   }, [sessionId, toast]);
 
@@ -252,31 +256,42 @@ export default function FlashcardSessionPage() {
 
       try {
         setRatingSubmitting(true);
-        await apiRequest(`/flashcards/sessions/${sessionId}/responses/${currentCard.id}`, {
-          method: 'POST',
-          body: {
-            rating,
-            timeSpentMs,
+        await apiRequest(
+          `/flashcards/sessions/${sessionId}/responses/${currentCard.id}`,
+          {
+            method: "POST",
+            body: {
+              rating,
+              timeSpentMs,
+            },
           },
-        });
+        );
 
         // Move to next card
         if (currentIndex < session.cards.length - 1) {
           setIsFlipped(false);
-          setCurrentIndex(prev => prev + 1);
+          setCurrentIndex((prev) => prev + 1);
           setStartTime(Date.now());
         } else {
           // Session complete
           await completeSession();
         }
       } catch (error) {
-        console.error('Failed to record response', error);
-        toast.error('Failed to record response. Please try again.');
+        console.error("Failed to record response", error);
+        toast.error("Failed to record response. Please try again.");
       } finally {
         setRatingSubmitting(false);
       }
     },
-    [completeSession, currentIndex, ratingSubmitting, session, sessionId, startTime, toast]
+    [
+      completeSession,
+      currentIndex,
+      ratingSubmitting,
+      session,
+      sessionId,
+      startTime,
+      toast,
+    ],
   );
 
   // Keyboard shortcuts (1/2/3 to rate, Space/Enter to flip)
@@ -284,37 +299,37 @@ export default function FlashcardSessionPage() {
     if (loading || sessionComplete) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        router.push('/flashcards');
+      if (e.key === "Escape") {
+        router.push("/flashcards");
         return;
       }
 
-      if (e.key === ' ' || e.key === 'Enter') {
+      if (e.key === " " || e.key === "Enter") {
         e.preventDefault();
         handleFlip();
         return;
       }
 
       if (!isFlipped) return;
-      if (e.key === '1') void handleRate('dont_know');
-      if (e.key === '2') void handleRate('learning');
-      if (e.key === '3') void handleRate('know_it');
+      if (e.key === "1") void handleRate("dont_know");
+      if (e.key === "2") void handleRate("learning");
+      if (e.key === "3") void handleRate("know_it");
     };
 
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [handleFlip, handleRate, isFlipped, loading, router, sessionComplete]);
 
   // LOW-001: Swipe gestures for flashcard interaction
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
       if (isFlipped) {
-        void handleRate('dont_know'); // Swipe left when flipped = Again
+        void handleRate("dont_know"); // Swipe left when flipped = Again
       }
     },
     onSwipedRight: () => {
       if (isFlipped) {
-        void handleRate('know_it'); // Swipe right when flipped = Easy
+        void handleRate("know_it"); // Swipe right when flipped = Easy
       }
     },
     onSwipedUp: () => {
@@ -341,8 +356,13 @@ export default function FlashcardSessionPage() {
       <div className="min-h-screen flex items-center justify-center bg-md-background relative overflow-hidden">
         <div className="blur-shape bg-md-error w-96 h-96 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
         <div className="card max-w-md w-full text-center relative z-10">
-          <h1 className="text-2xl font-bold text-md-on-surface mb-4">Session Not Found</h1>
-          <button onClick={() => router.push('/flashcards')} className="btn btn-primary w-full">
+          <h1 className="text-2xl font-bold text-md-on-surface mb-4">
+            Session Not Found
+          </h1>
+          <button
+            onClick={() => router.push("/flashcards")}
+            className="btn btn-primary w-full"
+          >
             Back to Flashcards
           </button>
         </div>
@@ -358,15 +378,23 @@ export default function FlashcardSessionPage() {
           <div className="text-6xl mb-6 animate-bounce" aria-hidden="true">
             🎉
           </div>
-          <h1 className="text-3xl font-bold text-md-on-surface mb-4">Session Complete!</h1>
+          <h1 className="text-3xl font-bold text-md-on-surface mb-4">
+            Session Complete!
+          </h1>
           <p className="text-md-on-surface-variant mb-8 text-lg">
             Great job! You’ve reviewed {session.cards.length} cards.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button onClick={() => router.push('/flashcards')} className="btn btn-secondary">
+            <button
+              onClick={() => router.push("/flashcards")}
+              className="btn btn-secondary"
+            >
               Back to Overview
             </button>
-            <button onClick={() => router.push('/dashboard')} className="btn btn-primary">
+            <button
+              onClick={() => router.push("/dashboard")}
+              className="btn btn-primary"
+            >
               Go to Dashboard
             </button>
           </div>
@@ -379,7 +407,9 @@ export default function FlashcardSessionPage() {
   // FIXED: Calculate progress based on current card position (1-indexed), not completed count
   // When viewing card at index N, we're on card N+1, so progress should be (N+1)/total
   const progress =
-    session.cards.length > 0 ? Math.round(((currentIndex + 1) / session.cards.length) * 100) : 0;
+    session.cards.length > 0
+      ? Math.round(((currentIndex + 1) / session.cards.length) * 100)
+      : 0;
 
   if (!currentCard) {
     return <FullPageSkeleton />;
@@ -395,7 +425,7 @@ export default function FlashcardSessionPage() {
         {/* Header / Progress */}
         <div className="mb-8 flex items-center justify-between">
           <button
-            onClick={() => router.push('/flashcards')}
+            onClick={() => router.push("/flashcards")}
             className="text-md-on-surface-variant hover:text-md-primary transition flex items-center gap-2 font-medium"
           >
             &larr; Exit
@@ -427,7 +457,7 @@ export default function FlashcardSessionPage() {
               aria-label="Flip card"
             >
               <div
-                className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}
+                className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? "rotate-y-180" : ""}`}
               >
                 {/* Front */}
                 <div className="absolute w-full h-full backface-hidden bg-md-surface-container border border-md-outline/10 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-lg group-hover:shadow-xl group-hover:scale-[1.01] transition-all duration-300">
@@ -464,17 +494,17 @@ export default function FlashcardSessionPage() {
           {isFlipped ? (
             <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto w-full">
               <button
-                onClick={() => handleRate('dont_know')}
+                onClick={() => handleRate("dont_know")}
                 disabled={ratingSubmitting}
                 className="group py-4 bg-md-error-container/50 border border-md-error/20 text-md-on-error-container rounded-2xl hover:bg-md-error-container hover:scale-105 transition-all duration-200"
               >
                 <div className="font-bold mb-1 text-lg">Again</div>
                 <div className="text-xs opacity-70 font-medium group-hover:opacity-100">
-                  {'< 1 min • 1'}
+                  {"< 1 min • 1"}
                 </div>
               </button>
               <button
-                onClick={() => handleRate('learning')}
+                onClick={() => handleRate("learning")}
                 disabled={ratingSubmitting}
                 className="group py-4 bg-md-secondary-container/50 border border-md-secondary/20 text-md-on-secondary-container rounded-2xl hover:bg-md-secondary-container hover:scale-105 transition-all duration-200"
               >
@@ -484,7 +514,7 @@ export default function FlashcardSessionPage() {
                 </div>
               </button>
               <button
-                onClick={() => handleRate('know_it')}
+                onClick={() => handleRate("know_it")}
                 disabled={ratingSubmitting}
                 className="group py-4 bg-green-100 border border-green-200 text-green-800 rounded-2xl hover:bg-green-200 hover:scale-105 transition-all duration-200 dark:bg-green-900/30 dark:border-green-800 dark:text-green-200 dark:hover:bg-green-900/50"
               >

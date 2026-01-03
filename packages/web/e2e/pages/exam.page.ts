@@ -1,5 +1,5 @@
-import type { Page, Locator } from '@playwright/test';
-import { TestHelpers } from '../utils/test-helpers';
+import type { Page, Locator } from "@playwright/test";
+import { TestHelpers } from "../utils/test-helpers";
 
 /**
  * Exam Page Object Model
@@ -26,10 +26,14 @@ export class ExamPage {
     this.page = page;
     this.helpers = new TestHelpers(page);
 
-    this.startButton = page.locator('button:has-text("Start"), button:has-text("Begin")');
+    this.startButton = page.locator(
+      'button:has-text("Start"), button:has-text("Begin")',
+    );
     this.nextButton = page.locator('button:has-text("Next")');
     this.previousButton = page.locator('button:has-text("Previous")');
-    this.submitButton = page.locator('button:has-text("Submit"), button:has-text("Finish")');
+    this.submitButton = page.locator(
+      'button:has-text("Submit"), button:has-text("Finish")',
+    );
     this.questionText = page.locator('[data-testid="question-text"]');
     this.optionButtons = page.locator('[data-testid="answer-option"]');
     this.progressBar = page.locator('[data-testid="progress-bar"]');
@@ -42,9 +46,9 @@ export class ExamPage {
    * Navigate to exam page
    */
   async goto(examId?: string) {
-    const url = examId ? `/exam/${examId}` : '/exam';
+    const url = examId ? `/exam/${examId}` : "/exam";
     await this.page.goto(url);
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -52,7 +56,7 @@ export class ExamPage {
    */
   async start() {
     await this.startButton.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -96,35 +100,35 @@ export class ExamPage {
     if (await confirmButton.isVisible().catch(() => false)) {
       await confirmButton.click();
     }
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
    * Get current question text
    */
   async getQuestionText(): Promise<string> {
-    return (await this.questionText.textContent()) || '';
+    return (await this.questionText.textContent()) || "";
   }
 
   /**
    * Get current question number
    */
   async getQuestionNumber(): Promise<string> {
-    return (await this.questionNumber.textContent()) || '';
+    return (await this.questionNumber.textContent()) || "";
   }
 
   /**
    * Get timer text
    */
   async getTimer(): Promise<string> {
-    return (await this.timer.textContent()) || '';
+    return (await this.timer.textContent()) || "";
   }
 
   /**
    * Get progress percentage
    */
   async getProgress(): Promise<number> {
-    const progressText = await this.progressBar.getAttribute('aria-valuenow');
+    const progressText = await this.progressBar.getAttribute("aria-valuenow");
     return progressText ? parseInt(progressText, 10) : 0;
   }
 
@@ -133,14 +137,16 @@ export class ExamPage {
    */
   async waitForResults() {
     await this.page.waitForURL(/\/results|\/score/);
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
    * Get exam score
    */
   async getScore(): Promise<string> {
-    const scoreElement = this.page.locator('[data-testid="score"], [data-testid="exam-score"]');
-    return (await scoreElement.textContent()) || '';
+    const scoreElement = this.page.locator(
+      '[data-testid="score"], [data-testid="exam-score"]',
+    );
+    return (await scoreElement.textContent()) || "";
   }
 }

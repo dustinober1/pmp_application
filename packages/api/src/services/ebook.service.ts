@@ -1,10 +1,14 @@
-import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
-import type { TierName } from '@pmp/shared';
-import { TIER_HIERARCHY } from '@pmp/shared';
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
+import type { TierName } from "@pmp/shared";
+import { TIER_HIERARCHY } from "@pmp/shared";
 
 // Free chapter slugs that are accessible to all users
-const FREE_CHAPTER_SLUGS = new Set(['01-introduction', '05-initiation', '11-exam-prep']);
+const FREE_CHAPTER_SLUGS = new Set([
+  "01-introduction",
+  "05-initiation",
+  "11-exam-prep",
+]);
 
 // Local types for ebook responses
 interface ChapterListItem {
@@ -93,7 +97,7 @@ export class EbookService {
    */
   async getAllChapters(): Promise<ChapterListItem[]> {
     const chapters = await prisma.ebookChapter.findMany({
-      orderBy: { orderIndex: 'asc' },
+      orderBy: { orderIndex: "asc" },
       include: {
         _count: {
           select: { sections: true },
@@ -101,7 +105,7 @@ export class EbookService {
       },
     });
 
-    return chapters.map(chapter => ({
+    return chapters.map((chapter) => ({
       id: chapter.id,
       slug: chapter.slug,
       title: chapter.title,
@@ -122,7 +126,7 @@ export class EbookService {
       where: { slug },
       include: {
         sections: {
-          orderBy: { orderIndex: 'asc' },
+          orderBy: { orderIndex: "asc" },
           select: {
             id: true,
             slug: true,
@@ -134,7 +138,7 @@ export class EbookService {
     });
 
     if (!chapter) {
-      throw AppError.notFound('Chapter not found', 'CHAPTER_NOT_FOUND');
+      throw AppError.notFound("Chapter not found", "CHAPTER_NOT_FOUND");
     }
 
     return {
@@ -156,7 +160,7 @@ export class EbookService {
   async getSectionBySlug(
     chapterSlug: string,
     sectionSlug: string,
-    userTier: TierName | null
+    userTier: TierName | null,
   ): Promise<SectionDetail> {
     const chapter = await prisma.ebookChapter.findUnique({
       where: { slug: chapterSlug },
@@ -170,11 +174,16 @@ export class EbookService {
     });
 
     if (!chapter) {
-      throw AppError.notFound('Chapter not found', 'CHAPTER_NOT_FOUND');
+      throw AppError.notFound("Chapter not found", "CHAPTER_NOT_FOUND");
     }
 
     // Check access control
-    this.checkChapterAccess(chapter.slug, chapter.isPremium, chapter.minTier, userTier);
+    this.checkChapterAccess(
+      chapter.slug,
+      chapter.isPremium,
+      chapter.minTier,
+      userTier,
+    );
 
     const section = await prisma.ebookSection.findFirst({
       where: {
@@ -193,7 +202,7 @@ export class EbookService {
     });
 
     if (!section) {
-      throw AppError.notFound('Section not found', 'SECTION_NOT_FOUND');
+      throw AppError.notFound("Section not found", "SECTION_NOT_FOUND");
     }
 
     // Get navigation info
@@ -203,7 +212,7 @@ export class EbookService {
           chapterId: chapter.id,
           orderIndex: { lt: section.orderIndex },
         },
-        orderBy: { orderIndex: 'desc' },
+        orderBy: { orderIndex: "desc" },
         select: {
           slug: true,
           title: true,
@@ -214,7 +223,7 @@ export class EbookService {
           chapterId: chapter.id,
           orderIndex: { gt: section.orderIndex },
         },
-        orderBy: { orderIndex: 'asc' },
+        orderBy: { orderIndex: "asc" },
         select: {
           slug: true,
           title: true,
@@ -255,7 +264,7 @@ export class EbookService {
   async searchContent(
     query: string,
     userTier: TierName | null,
-    options: SearchOptions = {}
+    options: SearchOptions = {},
   ): Promise<SearchResults> {
     const { page = 1, limit = 20 } = options;
 
@@ -292,7 +301,14 @@ export class EbookService {
 
     for (const chapter of chapters) {
       chapterSlugToTitle.set(chapter.slug, chapter.title);
-      if (this.canAccessChapter(chapter.slug, chapter.isPremium, chapter.minTier, userTier)) {
+      if (
+        this.canAccessChapter(
+          chapter.slug,
+          chapter.isPremium,
+          chapter.minTier,
+          userTier,
+        )
+      ) {
         accessibleChapterIds.add(chapter.id);
       }
     }
@@ -302,8 +318,8 @@ export class EbookService {
       where: {
         chapterId: { in: Array.from(accessibleChapterIds) },
         OR: [
-          { title: { contains: searchTerms, mode: 'insensitive' } },
-          { content: { contains: searchTerms, mode: 'insensitive' } },
+          { title: { contains: searchTerms, mode: "insensitive" } },
+          { content: { contains: searchTerms, mode: "insensitive" } },
         ],
       },
       include: {
@@ -318,39 +334,47 @@ export class EbookService {
 
     // Calculate relevance scores and format results
     const allResults: SearchResult[] = sections
-      .map(section => {
+      .map((section) => {
         const titleLower = section.title.toLowerCase();
         const contentLower = section.content.toLowerCase();
 
         let relevanceScore = 0;
         if (titleLower.includes(searchTerms)) relevanceScore += 10;
         if (titleLower.startsWith(searchTerms)) relevanceScore += 5;
-        relevanceScore += (contentLower.match(new RegExp(searchTerms, 'gi')) || []).length;
+        relevanceScore += (
+          contentLower.match(new RegExp(searchTerms, "gi")) || []
+        ).length;
 
         // Get excerpt from content (first 200 chars containing query)
         const matchIndex = contentLower.indexOf(searchTerms);
-        let excerpt = '';
+        let excerpt = "";
         if (matchIndex >= 0) {
           const start = Math.max(0, matchIndex - 50);
-          const end = Math.min(section.content.length, matchIndex + searchTerms.length + 50);
+          const end = Math.min(
+            section.content.length,
+            matchIndex + searchTerms.length + 50,
+          );
           excerpt =
-            (start > 0 ? '...' : '') +
+            (start > 0 ? "..." : "") +
             section.content.slice(start, end) +
-            (end < section.content.length ? '...' : '');
+            (end < section.content.length ? "..." : "");
         } else {
-          excerpt = section.content.slice(0, 200) + '...';
+          excerpt = section.content.slice(0, 200) + "...";
         }
 
         // Highlight matched terms in excerpt
-        const highlightedExcerpt = this.highlightSearchTerms(excerpt, searchTerms);
+        const highlightedExcerpt = this.highlightSearchTerms(
+          excerpt,
+          searchTerms,
+        );
 
         return {
           chapterSlug: section.chapter.slug,
           chapterTitle: section.chapter.title,
           sectionSlug: section.slug,
           sectionTitle: section.title,
-          excerpt: excerpt.replace(/\n+/g, ' ').trim(),
-          highlightedExcerpt: highlightedExcerpt.replace(/\n+/g, ' ').trim(),
+          excerpt: excerpt.replace(/\n+/g, " ").trim(),
+          highlightedExcerpt: highlightedExcerpt.replace(/\n+/g, " ").trim(),
           relevanceScore,
         };
       })
@@ -385,10 +409,10 @@ export class EbookService {
     if (!searchTerms) return text;
 
     // Escape special regex characters in search terms
-    const escapedTerms = searchTerms.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${escapedTerms})`, 'gi');
+    const escapedTerms = searchTerms.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escapedTerms})`, "gi");
 
-    return text.replace(regex, '**$1**');
+    return text.replace(regex, "**$1**");
   }
 
   /**
@@ -398,21 +422,21 @@ export class EbookService {
     chapterSlug: string,
     isPremium: boolean,
     minTier: string,
-    userTier: TierName | null
+    userTier: TierName | null,
   ): void {
     if (!isPremium || FREE_CHAPTER_SLUGS.has(chapterSlug)) {
       return;
     }
 
-    const effectiveUserTier = userTier || 'free';
+    const effectiveUserTier = userTier || "free";
     const userTierLevel = TIER_HIERARCHY[effectiveUserTier];
     const requiredTierLevel = TIER_HIERARCHY[minTier as TierName];
 
     if (userTierLevel < requiredTierLevel) {
       throw AppError.forbidden(
-        'This content requires a premium subscription',
-        'PREMIUM_CONTENT',
-        `Upgrade to ${minTier} tier or higher to access this content`
+        "This content requires a premium subscription",
+        "PREMIUM_CONTENT",
+        `Upgrade to ${minTier} tier or higher to access this content`,
       );
     }
   }
@@ -424,13 +448,13 @@ export class EbookService {
     chapterSlug: string,
     isPremium: boolean,
     minTier: string,
-    userTier: TierName | null
+    userTier: TierName | null,
   ): boolean {
     if (!isPremium || FREE_CHAPTER_SLUGS.has(chapterSlug)) {
       return true;
     }
 
-    const effectiveUserTier = userTier || 'free';
+    const effectiveUserTier = userTier || "free";
     const userTierLevel = TIER_HIERARCHY[effectiveUserTier];
     const requiredTierLevel = TIER_HIERARCHY[minTier as TierName];
 

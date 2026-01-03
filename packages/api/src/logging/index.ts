@@ -9,7 +9,7 @@ export {
   createLogger,
   generateTraceId,
   childLogger,
-} from './logger';
+} from "./logger";
 export {
   traceIdMiddleware,
   userIdMiddleware,
@@ -17,9 +17,14 @@ export {
   errorLoggingMiddleware,
   loggingMiddleware,
   contextCleanupMiddleware,
-} from './middleware';
-export { sanitize, createSanitizationRules, isSensitiveField, redact } from './sanitizer';
-export { createLoggerConfig, createWebLoggerConfig } from './config';
+} from "./middleware";
+export {
+  sanitize,
+  createSanitizationRules,
+  isSensitiveField,
+  redact,
+} from "./sanitizer";
+export { createLoggerConfig, createWebLoggerConfig } from "./config";
 
 // Re-export types
 export type {
@@ -29,4 +34,4 @@ export type {
   LogEntry,
   SanitizationRule,
   LoggerConfig,
-} from './types';
+} from "./types";

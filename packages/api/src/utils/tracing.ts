@@ -1,5 +1,5 @@
-import type { Span, SpanKind } from '@opentelemetry/api';
-import { trace, context, SpanStatusCode } from '@opentelemetry/api';
+import type { Span, SpanKind } from "@opentelemetry/api";
+import { trace, context, SpanStatusCode } from "@opentelemetry/api";
 
 /**
  * Tracing utilities for manual span creation and management
@@ -13,9 +13,9 @@ export function createSpan(
   options?: {
     attributes?: Record<string, string | number | boolean | undefined>;
     kind?: SpanKind;
-  }
+  },
 ): Span {
-  const tracer = trace.getTracer('@pmp/api');
+  const tracer = trace.getTracer("@pmp/api");
 
   return tracer.startSpan(name, {
     kind: options?.kind,
@@ -32,11 +32,21 @@ export async function withSpan<T>(
   options?: {
     attributes?: Record<string, string | number | boolean | undefined>;
     kind?: SpanKind;
-  }
+  },
 ): Promise<T> {
-  const tracer = trace.getTracer('@pmp/api');
+  const tracer = trace.getTracer("@pmp/api");
 
-  return tracer.startActiveSpan(name, options, async span => {
+  const spanOptions = options
+    ? {
+        kind: options.kind,
+        attributes: options.attributes as Record<
+          string,
+          string | number | boolean
+        >,
+      }
+    : undefined;
+
+  return tracer.startActiveSpan(name, spanOptions ?? {}, async (span) => {
     try {
       const result = await fn(span);
       span.setStatus({ code: SpanStatusCode.OK });
@@ -67,12 +77,12 @@ export function setUserContext(
     id: string;
     email?: string;
     tier?: string;
-  }
+  },
 ) {
   span.setAttributes({
-    'user.id': user.id,
-    'user.email': user.email,
-    'user.tier': user.tier,
+    "user.id": user.id,
+    "user.email": user.email,
+    "user.tier": user.tier,
   });
 }
 
@@ -85,14 +95,14 @@ export function setDatabaseContext(
     table: string;
     operation: string;
     statement?: string;
-  }
+  },
 ) {
   span.setAttributes({
-    'db.system': 'postgresql',
-    'db.name': process.env.DB_NAME || 'pmp_db',
-    'db.table': query.table,
-    'db.operation': query.operation,
-    ...(query.statement && { 'db.statement': query.statement }),
+    "db.system": "postgresql",
+    "db.name": process.env.DB_NAME || "pmp_db",
+    "db.table": query.table,
+    "db.operation": query.operation,
+    ...(query.statement && { "db.statement": query.statement }),
   });
 }
 
@@ -105,12 +115,12 @@ export function setHttpContext(
     method: string;
     url: string;
     statusCode?: number;
-  }
+  },
 ) {
   span.setAttributes({
-    'http.method': request.method,
-    'http.url': request.url,
-    ...(request.statusCode && { 'http.status_code': request.statusCode }),
+    "http.method": request.method,
+    "http.url": request.url,
+    ...(request.statusCode && { "http.status_code": request.statusCode }),
   });
 }
 
@@ -123,12 +133,12 @@ export function setExternalApiContext(
     name: string;
     method: string;
     url?: string;
-  }
+  },
 ) {
   span.setAttributes({
-    'http.method': api.method,
-    'http.url': api.url,
-    'external_api.name': api.name,
+    "http.method": api.method,
+    "http.url": api.url,
+    "external_api.name": api.name,
   });
 }
 
@@ -142,7 +152,7 @@ export function setBusinessContext(
     action?: string;
     domain?: string;
     [key: string]: string | number | boolean | undefined;
-  }
+  },
 ) {
   span.setAttributes(context);
 }
@@ -159,7 +169,7 @@ export function getCurrentSpan(): Span | undefined {
  */
 export function addEvent(
   name: string,
-  attributes?: Record<string, string | number | boolean | undefined>
+  attributes?: Record<string, string | number | boolean | undefined>,
 ) {
   const span = getCurrentSpan();
   if (span) {
@@ -172,7 +182,7 @@ export function addEvent(
  */
 export function recordError(
   error: Error,
-  attributes?: Record<string, string | number | boolean | undefined>
+  attributes?: Record<string, string | number | boolean | undefined>,
 ) {
   const span = getCurrentSpan();
   if (span) {

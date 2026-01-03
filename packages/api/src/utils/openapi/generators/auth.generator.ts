@@ -1,31 +1,31 @@
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPIV3_1 } from "openapi-types";
 
 /**
  * Generate Authentication endpoints OpenAPI spec
  */
 export const authPaths: OpenAPIV3_1.PathsObject = {
-  '/api/auth/csrf': {
+  "/api/auth/csrf": {
     get: {
-      tags: ['Authentication'],
-      summary: 'Get CSRF token',
+      tags: ["Authentication"],
+      summary: "Get CSRF token",
       description:
-        'Retrieve a CSRF token for form submissions. Used in double-submit cookie pattern.',
+        "Retrieve a CSRF token for form submissions. Used in double-submit cookie pattern.",
       security: [],
       responses: {
-        '200': {
-          description: 'CSRF token retrieved successfully',
+        "200": {
+          description: "CSRF token retrieved successfully",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       csrfToken: {
-                        type: 'string',
-                        description: 'CSRF token for form submissions',
+                        type: "string",
+                        description: "CSRF token for form submissions",
                       },
                     },
                   },
@@ -38,40 +38,41 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/register': {
+  "/api/auth/register": {
     post: {
-      tags: ['Authentication'],
-      summary: 'Register new user',
-      description: 'Create a new user account. Requires email verification before full access.',
+      tags: ["Authentication"],
+      summary: "Register new user",
+      description:
+        "Create a new user account. Requires email verification before full access.",
       security: [],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['email', 'password', 'name'],
+              type: "object",
+              required: ["email", "password", "name"],
               properties: {
                 email: {
-                  type: 'string',
-                  format: 'email',
-                  description: 'User email address',
-                  example: 'user@example.com',
+                  type: "string",
+                  format: "email",
+                  description: "User email address",
+                  example: "user@example.com",
                 },
                 password: {
-                  type: 'string',
+                  type: "string",
                   minLength: 8,
                   maxLength: 64,
                   description:
-                    'Password (min 8 chars, must contain uppercase, lowercase, and number)',
-                  example: 'Password123',
+                    "Password (min 8 chars, must contain uppercase, lowercase, and number)",
+                  example: "Password123",
                 },
                 name: {
-                  type: 'string',
+                  type: "string",
                   minLength: 1,
                   maxLength: 100,
-                  description: 'User display name',
-                  example: 'John Doe',
+                  description: "User display name",
+                  example: "John Doe",
                 },
               },
             },
@@ -79,53 +80,54 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
         },
       },
       responses: {
-        '201': {
-          description: 'User registered successfully',
+        "201": {
+          description: "User registered successfully",
           headers: {
-            'Set-Cookie': {
-              description: 'HTTP-only cookies for refresh token and CSRF token',
-              schema: { type: 'string' },
+            "Set-Cookie": {
+              description: "HTTP-only cookies for refresh token and CSRF token",
+              schema: { type: "string" },
             },
           },
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      user: { $ref: '#/components/schemas/User' },
+                      user: { $ref: "#/components/schemas/User" },
                       expiresIn: {
-                        type: 'number',
-                        description: 'Access token expiry time in seconds',
+                        type: "number",
+                        description: "Access token expiry time in seconds",
                         example: 3600,
                       },
                     },
                   },
                   message: {
-                    type: 'string',
-                    example: 'Registration successful. Please verify your email.',
+                    type: "string",
+                    example:
+                      "Registration successful. Please verify your email.",
                   },
                 },
               },
             },
           },
         },
-        '400': {
-          description: 'Validation error or user already exists',
+        "400": {
+          description: "Validation error or user already exists",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
-        '429': {
-          description: 'Too many registration attempts',
+        "429": {
+          description: "Too many registration attempts",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
@@ -133,28 +135,28 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/login': {
+  "/api/auth/login": {
     post: {
-      tags: ['Authentication'],
-      summary: 'User login',
-      description: 'Authenticate with email and password. Returns JWT tokens.',
+      tags: ["Authentication"],
+      summary: "User login",
+      description: "Authenticate with email and password. Returns JWT tokens.",
       security: [],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['email', 'password'],
+              type: "object",
+              required: ["email", "password"],
               properties: {
                 email: {
-                  type: 'string',
-                  format: 'email',
-                  example: 'user@example.com',
+                  type: "string",
+                  format: "email",
+                  example: "user@example.com",
                 },
                 password: {
-                  type: 'string',
-                  example: 'Password123',
+                  type: "string",
+                  example: "Password123",
                 },
               },
             },
@@ -162,26 +164,26 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
         },
       },
       responses: {
-        '200': {
-          description: 'Login successful',
+        "200": {
+          description: "Login successful",
           headers: {
-            'Set-Cookie': {
-              description: 'HTTP-only cookies for refresh token and CSRF token',
-              schema: { type: 'string' },
+            "Set-Cookie": {
+              description: "HTTP-only cookies for refresh token and CSRF token",
+              schema: { type: "string" },
             },
           },
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      user: { $ref: '#/components/schemas/User' },
+                      user: { $ref: "#/components/schemas/User" },
                       expiresIn: {
-                        type: 'number',
+                        type: "number",
                         example: 3600,
                       },
                     },
@@ -191,11 +193,11 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
             },
           },
         },
-        '401': {
-          description: 'Invalid credentials',
+        "401": {
+          description: "Invalid credentials",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
@@ -203,22 +205,23 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/refresh': {
+  "/api/auth/refresh": {
     post: {
-      tags: ['Authentication'],
-      summary: 'Refresh access token',
+      tags: ["Authentication"],
+      summary: "Refresh access token",
       description:
-        'Obtain a new access token using the refresh token from cookies or request body.',
+        "Obtain a new access token using the refresh token from cookies or request body.",
       security: [],
       requestBody: {
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
+              type: "object",
               properties: {
                 refreshToken: {
-                  type: 'string',
-                  description: 'Refresh token (optional if provided via cookie)',
+                  type: "string",
+                  description:
+                    "Refresh token (optional if provided via cookie)",
                 },
               },
             },
@@ -226,18 +229,18 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
         },
       },
       responses: {
-        '200': {
-          description: 'Token refreshed successfully',
+        "200": {
+          description: "Token refreshed successfully",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      expiresIn: { type: 'number', example: 3600 },
+                      expiresIn: { type: "number", example: 3600 },
                     },
                   },
                 },
@@ -245,11 +248,11 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
             },
           },
         },
-        '401': {
-          description: 'Invalid or expired refresh token',
+        "401": {
+          description: "Invalid or expired refresh token",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
@@ -257,22 +260,25 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/logout': {
+  "/api/auth/logout": {
     post: {
-      tags: ['Authentication'],
-      summary: 'Logout user',
-      description: 'Invalidate the refresh token and clear auth cookies.',
+      tags: ["Authentication"],
+      summary: "Logout user",
+      description: "Invalidate the refresh token and clear auth cookies.",
       security: [{ bearerAuth: [] }],
       responses: {
-        '200': {
-          description: 'Logout successful',
+        "200": {
+          description: "Logout successful",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
-                  message: { type: 'string', example: 'Logged out successfully' },
+                  success: { type: "boolean", example: true },
+                  message: {
+                    type: "string",
+                    example: "Logged out successfully",
+                  },
                 },
               },
             },
@@ -282,25 +288,25 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/forgot-password': {
+  "/api/auth/forgot-password": {
     post: {
-      tags: ['Authentication'],
-      summary: 'Request password reset',
+      tags: ["Authentication"],
+      summary: "Request password reset",
       description:
-        'Send a password reset email. Always returns 200 for security (user enumeration prevention).',
+        "Send a password reset email. Always returns 200 for security (user enumeration prevention).",
       security: [],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['email'],
+              type: "object",
+              required: ["email"],
               properties: {
                 email: {
-                  type: 'string',
-                  format: 'email',
-                  example: 'user@example.com',
+                  type: "string",
+                  format: "email",
+                  example: "user@example.com",
                 },
               },
             },
@@ -308,18 +314,18 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
         },
       },
       responses: {
-        '200': {
-          description: 'If email exists, reset link sent',
+        "200": {
+          description: "If email exists, reset link sent",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   message: {
-                    type: 'string',
+                    type: "string",
                     example:
-                      'If an account exists with this email, a password reset link has been sent.',
+                      "If an account exists with this email, a password reset link has been sent.",
                   },
                 },
               },
@@ -330,30 +336,31 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/reset-password': {
+  "/api/auth/reset-password": {
     post: {
-      tags: ['Authentication'],
-      summary: 'Reset password',
-      description: 'Reset password using the token from the reset email.',
+      tags: ["Authentication"],
+      summary: "Reset password",
+      description: "Reset password using the token from the reset email.",
       security: [],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['token', 'newPassword'],
+              type: "object",
+              required: ["token", "newPassword"],
               properties: {
                 token: {
-                  type: 'string',
-                  description: 'Password reset token from email',
+                  type: "string",
+                  description: "Password reset token from email",
                 },
                 newPassword: {
-                  type: 'string',
+                  type: "string",
                   minLength: 8,
                   maxLength: 64,
-                  description: 'New password (same requirements as registration)',
-                  example: 'NewPassword123',
+                  description:
+                    "New password (same requirements as registration)",
+                  example: "NewPassword123",
                 },
               },
             },
@@ -361,28 +368,29 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
         },
       },
       responses: {
-        '200': {
-          description: 'Password reset successful',
+        "200": {
+          description: "Password reset successful",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   message: {
-                    type: 'string',
-                    example: 'Password reset successful. You can now login with your new password.',
+                    type: "string",
+                    example:
+                      "Password reset successful. You can now login with your new password.",
                   },
                 },
               },
             },
           },
         },
-        '400': {
-          description: 'Invalid or expired token',
+        "400": {
+          description: "Invalid or expired token",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
@@ -390,23 +398,24 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/verify-email': {
+  "/api/auth/verify-email": {
     post: {
-      tags: ['Authentication'],
-      summary: 'Verify email address',
-      description: 'Verify user email using the token sent to their email address.',
+      tags: ["Authentication"],
+      summary: "Verify email address",
+      description:
+        "Verify user email using the token sent to their email address.",
       security: [],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['token'],
+              type: "object",
+              required: ["token"],
               properties: {
                 token: {
-                  type: 'string',
-                  description: 'Email verification token',
+                  type: "string",
+                  description: "Email verification token",
                 },
               },
             },
@@ -414,17 +423,17 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
         },
       },
       responses: {
-        '200': {
-          description: 'Email verified successfully',
+        "200": {
+          description: "Email verified successfully",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   message: {
-                    type: 'string',
-                    example: 'Email verified successfully.',
+                    type: "string",
+                    example: "Email verified successfully.",
                   },
                 },
               },
@@ -435,24 +444,26 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/resend-verification': {
+  "/api/auth/resend-verification": {
     post: {
-      tags: ['Authentication'],
-      summary: 'Resend verification email',
-      description: 'Request a new email verification token. Requires authentication.',
+      tags: ["Authentication"],
+      summary: "Resend verification email",
+      description:
+        "Request a new email verification token. Requires authentication.",
       security: [{ bearerAuth: [] }],
       responses: {
-        '200': {
-          description: 'Verification email sent',
+        "200": {
+          description: "Verification email sent",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   message: {
-                    type: 'string',
-                    example: 'Verification email sent. Please check your inbox.',
+                    type: "string",
+                    example:
+                      "Verification email sent. Please check your inbox.",
                   },
                 },
               },
@@ -463,25 +474,25 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/auth/me': {
+  "/api/auth/me": {
     get: {
-      tags: ['Authentication'],
-      summary: 'Get current user',
-      description: 'Retrieve the authenticated user profile.',
+      tags: ["Authentication"],
+      summary: "Get current user",
+      description: "Retrieve the authenticated user profile.",
       security: [{ bearerAuth: [] }],
       responses: {
-        '200': {
-          description: 'User profile retrieved',
+        "200": {
+          description: "User profile retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      user: { $ref: '#/components/schemas/User' },
+                      user: { $ref: "#/components/schemas/User" },
                     },
                   },
                 },
@@ -489,11 +500,11 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
             },
           },
         },
-        '401': {
-          description: 'Unauthorized',
+        "401": {
+          description: "Unauthorized",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },

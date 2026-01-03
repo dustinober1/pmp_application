@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const email = 'test@example.com';
-  const password = 'password123';
+  const email = "test@example.com";
+  const password = "password123";
   const passwordHash = await bcrypt.hash(password, 12);
 
   console.log(`Resetting password for ${email}...`);
@@ -21,11 +21,11 @@ async function main() {
     },
   });
 
-  console.log('Password reset successful for user:', user.email);
+  console.log("Password reset successful for user:", user.email);
 }
 
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })

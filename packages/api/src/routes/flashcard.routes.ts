@@ -1,11 +1,15 @@
-import type { Request, Response, NextFunction } from 'express';
-import { Router } from 'express';
-import { flashcardService } from '../services/flashcard.service';
-import { authMiddleware } from '../middleware/auth.middleware';
-import { requireFeature } from '../middleware/tier.middleware';
-import { validateBody, validateParams, validateQuery } from '../middleware/validation.middleware';
-import { z } from 'zod';
-import type { FlashcardRating } from '@pmp/shared';
+import type { Request, Response, NextFunction } from "express";
+import { Router } from "express";
+import { flashcardService } from "../services/flashcard.service";
+import { authMiddleware } from "../middleware/auth.middleware";
+import { requireFeature } from "../middleware/tier.middleware";
+import {
+  validateBody,
+  validateParams,
+  validateQuery,
+} from "../middleware/validation.middleware";
+import { z } from "zod";
+import type { FlashcardRating } from "@pmp/shared";
 
 const router = Router();
 
@@ -16,7 +20,7 @@ const flashcardQuerySchema = z.object({
   limit: z
     .string()
     .optional()
-    .transform(val => (val ? parseInt(val, 10) : 50)),
+    .transform((val) => (val ? parseInt(val, 10) : 50)),
 });
 
 const startSessionSchema = z.object({
@@ -28,19 +32,19 @@ const startSessionSchema = z.object({
 });
 
 const recordResponseSchema = z.object({
-  rating: z.enum(['know_it', 'learning', 'dont_know']),
+  rating: z.enum(["know_it", "learning", "dont_know"]),
   timeSpentMs: z.number().min(0),
 });
 
 const createFlashcardSchema = z.object({
-  domainId: z.string().uuid('Invalid domain ID'),
-  taskId: z.string().uuid('Invalid task ID'),
-  front: z.string().min(1, 'Front is required').max(1000),
-  back: z.string().min(1, 'Back is required').max(2000),
+  domainId: z.string().uuid("Invalid domain ID"),
+  taskId: z.string().uuid("Invalid task ID"),
+  front: z.string().min(1, "Front is required").max(1000),
+  back: z.string().min(1, "Back is required").max(2000),
 });
 
 const sessionIdSchema = z.object({
-  id: z.string().uuid('Invalid session ID'),
+  id: z.string().uuid("Invalid session ID"),
 });
 
 /**
@@ -48,7 +52,7 @@ const sessionIdSchema = z.object({
  * Get flashcards with optional filters
  */
 router.get(
-  '/',
+  "/",
   authMiddleware,
   validateQuery(flashcardQuerySchema),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -71,55 +75,71 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/flashcards/review
  * Get flashcards due for review
  */
-router.get('/review', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 20;
-    const flashcards = await flashcardService.getDueForReview(req.user!.userId, limit);
+router.get(
+  "/review",
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const limit = req.query.limit
+        ? parseInt(req.query.limit as string, 10)
+        : 20;
+      const flashcards = await flashcardService.getDueForReview(
+        req.user!.userId,
+        limit,
+      );
 
-    res.json({
-      success: true,
-      data: { flashcards, count: flashcards.length },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+      res.json({
+        success: true,
+        data: { flashcards, count: flashcards.length },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 /**
  * GET /api/flashcards/stats
  * Get user's flashcard review statistics
  */
-router.get('/stats', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const stats = await flashcardService.getReviewStats(req.user!.userId);
+router.get(
+  "/stats",
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const stats = await flashcardService.getReviewStats(req.user!.userId);
 
-    res.json({
-      success: true,
-      data: { stats },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+      res.json({
+        success: true,
+        data: { stats },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 /**
  * POST /api/flashcards/sessions
  * Start a new flashcard session
  */
 router.post(
-  '/sessions',
+  "/sessions",
   authMiddleware,
   validateBody(startSessionSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await flashcardService.startSession(req.user!.userId, req.body);
+      const result = await flashcardService.startSession(
+        req.user!.userId,
+        req.body,
+      );
 
       res.status(201).json({
         success: true,
@@ -132,7 +152,7 @@ router.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -140,17 +160,20 @@ router.post(
  * Get an existing session
  */
 router.get(
-  '/sessions/:id',
+  "/sessions/:id",
   authMiddleware,
   validateParams(sessionIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const session = await flashcardService.getSession(req.params.id!, req.user!.userId);
+      const session = await flashcardService.getSession(
+        req.params.id!,
+        req.user!.userId,
+      );
 
       if (!session) {
         res.status(404).json({
           success: false,
-          error: { code: 'NOT_FOUND', message: 'Session not found' },
+          error: { code: "NOT_FOUND", message: "Session not found" },
         });
         return;
       }
@@ -162,7 +185,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -170,13 +193,13 @@ router.get(
  * Record a response for a flashcard
  */
 router.post(
-  '/sessions/:id/responses/:cardId',
+  "/sessions/:id/responses/:cardId",
   authMiddleware,
   validateParams(
     z.object({
       id: z.string().uuid(),
       cardId: z.string().uuid(),
-    })
+    }),
   ),
   validateBody(recordResponseSchema),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -187,17 +210,17 @@ router.post(
         req.params.cardId!,
         req.user!.userId,
         rating as FlashcardRating,
-        timeSpentMs
+        timeSpentMs,
       );
 
       res.json({
         success: true,
-        message: 'Response recorded',
+        message: "Response recorded",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -205,7 +228,7 @@ router.post(
  * Complete a flashcard session
  */
 router.post(
-  '/sessions/:id/complete',
+  "/sessions/:id/complete",
   authMiddleware,
   validateParams(sessionIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -215,12 +238,12 @@ router.post(
       res.json({
         success: true,
         data: { stats },
-        message: 'Session completed',
+        message: "Session completed",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -228,23 +251,26 @@ router.post(
  * Create a custom flashcard (High-End/Corporate tier only)
  */
 router.post(
-  '/custom',
+  "/custom",
   authMiddleware,
-  requireFeature('customFlashcards'),
+  requireFeature("customFlashcards"),
   validateBody(createFlashcardSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const flashcard = await flashcardService.createCustomFlashcard(req.user!.userId, req.body);
+      const flashcard = await flashcardService.createCustomFlashcard(
+        req.user!.userId,
+        req.body,
+      );
 
       res.status(201).json({
         success: true,
         data: { flashcard },
-        message: 'Custom flashcard created',
+        message: "Custom flashcard created",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export default router;

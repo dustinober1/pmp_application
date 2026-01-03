@@ -456,7 +456,7 @@ avg(time_to_resolve)
     severity: high
     version: B
     # Mark as test so it doesn't page
-    test_only: 'true'
+    test_only: "true"
 ```
 
 ### Compare Results

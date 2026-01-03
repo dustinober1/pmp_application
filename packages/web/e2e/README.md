@@ -194,24 +194,24 @@ e2e/
 ### Basic Test Example
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('should load login page', async ({ page }) => {
-  await page.goto('/auth/login');
+test("should load login page", async ({ page }) => {
+  await page.goto("/auth/login");
 
   await expect(page).toHaveURL(/\/auth\/login/);
-  await expect(page.locator('h1')).toContainText('Welcome Back');
+  await expect(page.locator("h1")).toContainText("Welcome Back");
 });
 ```
 
 ### Using Fixtures
 
 ```typescript
-import { test } from './fixtures/auth.fixture';
+import { test } from "./fixtures/auth.fixture";
 
-test('should access protected route', async ({ authenticatedPage }) => {
+test("should access protected route", async ({ authenticatedPage }) => {
   // User is already logged in
-  await authenticatedPage.goto('/dashboard');
+  await authenticatedPage.goto("/dashboard");
   await expect(authenticatedPage).toHaveURL(/\/dashboard/);
 });
 ```
@@ -219,14 +219,14 @@ test('should access protected route', async ({ authenticatedPage }) => {
 ### Using Page Objects
 
 ```typescript
-import { test, expect } from '@playwright/test';
-import { AuthPage } from './pages/auth.page';
+import { test, expect } from "@playwright/test";
+import { AuthPage } from "./pages/auth.page";
 
-test('should login user', async ({ page }) => {
+test("should login user", async ({ page }) => {
   const authPage = new AuthPage(page);
 
   await authPage.goto();
-  await authPage.login('test@example.com', 'password123');
+  await authPage.login("test@example.com", "password123");
 
   await expect(page).toHaveURL(/\/dashboard/);
 });
@@ -239,7 +239,7 @@ Page Objects encapsulate page interactions and make tests more maintainable.
 ### Example: AuthPage
 
 ```typescript
-import { Page } from '@playwright/test';
+import { Page } from "@playwright/test";
 
 export class AuthPage {
   readonly page: Page;
@@ -255,7 +255,7 @@ export class AuthPage {
   }
 
   async goto() {
-    await this.page.goto('/auth/login');
+    await this.page.goto("/auth/login");
   }
 
   async login(email: string, password: string) {
@@ -281,11 +281,11 @@ Fixtures provide reusable test setup and authenticated sessions.
 ### Using Fixtures
 
 ```typescript
-import { test } from './fixtures/auth.fixture';
+import { test } from "./fixtures/auth.fixture";
 
-test('authenticated test', async ({ authenticatedPage }) => {
+test("authenticated test", async ({ authenticatedPage }) => {
   // User is already logged in
-  await authenticatedPage.goto('/dashboard');
+  await authenticatedPage.goto("/dashboard");
 });
 ```
 
@@ -296,11 +296,11 @@ Mock external services to make tests reliable and fast.
 ### Stripe Mocking
 
 ```typescript
-import { mockCreatePaymentIntent } from './mocks/stripe.mock';
+import { mockCreatePaymentIntent } from "./mocks/stripe.mock";
 
-test('should process payment', async ({ page }) => {
+test("should process payment", async ({ page }) => {
   // Mock successful payment
-  await mockCreatePaymentIntent(page, 'success');
+  await mockCreatePaymentIntent(page, "success");
 
   // Test payment flow...
 });
@@ -309,9 +309,9 @@ test('should process payment', async ({ page }) => {
 ### Email Mocking
 
 ```typescript
-import { mockSendEmail } from './mocks/email.mock';
+import { mockSendEmail } from "./mocks/email.mock";
 
-test('should send verification email', async ({ page }) => {
+test("should send verification email", async ({ page }) => {
   await mockSendEmail(page, true);
 
   // Test registration...
@@ -321,11 +321,11 @@ test('should send verification email', async ({ page }) => {
 ### API Mocking
 
 ```typescript
-test('should handle API response', async ({ page }) => {
-  await page.route('**/api/user', route => {
+test("should handle API response", async ({ page }) => {
+  await page.route("**/api/user", (route) => {
     route.fulfill({
       status: 200,
-      body: JSON.stringify({ name: 'Test User' }),
+      body: JSON.stringify({ name: "Test User" }),
     });
   });
 
@@ -361,7 +361,7 @@ Go to Actions → E2E Tests → Run workflow
 Each test should be able to run in isolation.
 
 ```typescript
-test('should do something', async ({ page }) => {
+test("should do something", async ({ page }) => {
   // Setup test data
   await setupTestData();
 
@@ -382,7 +382,7 @@ Prefer `data-testid` over CSS selectors for stability.
 await page.click('[data-testid="submit-button"]');
 
 // Avoid (fragile)
-await page.click('button.btn-primary');
+await page.click("button.btn-primary");
 ```
 
 ### 3. Wait Properly
@@ -419,7 +419,7 @@ Don't rely on real Stripe, email, etc.
 
 ```typescript
 // Mock Stripe
-await mockCreatePaymentIntent(page, 'success');
+await mockCreatePaymentIntent(page, "success");
 
 // Mock email
 await mockSendEmail(page, true);
@@ -496,8 +496,8 @@ npm run test:e2e:debug
 ### Inspect Page
 
 ```typescript
-test('debug example', async ({ page }) => {
-  await page.goto('/auth/login');
+test("debug example", async ({ page }) => {
+  await page.goto("/auth/login");
 
   // Pause execution
   await page.pause();
@@ -509,9 +509,9 @@ test('debug example', async ({ page }) => {
 ### Screenshots
 
 ```typescript
-test('with screenshot', async ({ page }) => {
-  await page.goto('/auth/login');
-  await page.screenshot({ path: 'screenshot.png' });
+test("with screenshot", async ({ page }) => {
+  await page.goto("/auth/login");
+  await page.screenshot({ path: "screenshot.png" });
 });
 ```
 

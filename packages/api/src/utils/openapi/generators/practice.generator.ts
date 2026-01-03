@@ -1,49 +1,49 @@
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPIV3_1 } from "openapi-types";
 
 /**
  * Generate Practice endpoints OpenAPI spec
  */
 export const practicePaths: OpenAPIV3_1.PathsObject = {
-  '/api/practice/sessions': {
+  "/api/practice/sessions": {
     post: {
-      tags: ['Practice'],
-      summary: 'Start practice session',
-      description: 'Start a new practice session with customizable parameters.',
+      tags: ["Practice"],
+      summary: "Start practice session",
+      description: "Start a new practice session with customizable parameters.",
       security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
+              type: "object",
               properties: {
                 domainIds: {
-                  type: 'array',
-                  items: { type: 'string', format: 'uuid' },
-                  description: 'Filter by knowledge domains',
+                  type: "array",
+                  items: { type: "string", format: "uuid" },
+                  description: "Filter by knowledge domains",
                 },
                 taskIds: {
-                  type: 'array',
-                  items: { type: 'string', format: 'uuid' },
-                  description: 'Filter by tasks',
+                  type: "array",
+                  items: { type: "string", format: "uuid" },
+                  description: "Filter by tasks",
                 },
                 difficulty: {
-                  type: 'string',
-                  enum: ['easy', 'medium', 'hard'],
-                  description: 'Question difficulty',
+                  type: "string",
+                  enum: ["easy", "medium", "hard"],
+                  description: "Question difficulty",
                 },
                 questionCount: {
-                  type: 'number',
+                  type: "number",
                   minimum: 5,
                   maximum: 50,
                   default: 20,
-                  description: 'Number of questions',
+                  description: "Number of questions",
                 },
                 mode: {
-                  type: 'string',
-                  enum: ['practice', 'timed', 'mock_exam'],
-                  default: 'practice',
-                  description: 'Practice mode',
+                  type: "string",
+                  enum: ["practice", "timed", "mock_exam"],
+                  default: "practice",
+                  description: "Practice mode",
                 },
               },
             },
@@ -51,39 +51,39 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
         },
       },
       responses: {
-        '201': {
-          description: 'Session created',
+        "201": {
+          description: "Session created",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      sessionId: { type: 'string', format: 'uuid' },
+                      sessionId: { type: "string", format: "uuid" },
                       questions: {
-                        type: 'array',
+                        type: "array",
                         items: {
-                          type: 'object',
+                          type: "object",
                           properties: {
-                            id: { type: 'string', format: 'uuid' },
-                            text: { type: 'string' },
+                            id: { type: "string", format: "uuid" },
+                            text: { type: "string" },
                             options: {
-                              type: 'array',
+                              type: "array",
                               items: {
-                                type: 'object',
+                                type: "object",
                                 properties: {
-                                  id: { type: 'string', format: 'uuid' },
-                                  text: { type: 'string' },
+                                  id: { type: "string", format: "uuid" },
+                                  text: { type: "string" },
                                 },
                               },
                             },
                           },
                         },
                       },
-                      questionCount: { type: 'number' },
+                      questionCount: { type: "number" },
                     },
                   },
                 },
@@ -95,51 +95,58 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/practice/sessions/{id}': {
+  "/api/practice/sessions/{id}": {
     get: {
-      tags: ['Practice'],
-      summary: 'Get practice session',
-      description: 'Retrieve an existing practice session with current progress.',
+      tags: ["Practice"],
+      summary: "Get practice session",
+      description:
+        "Retrieve an existing practice session with current progress.",
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: 'id',
-          in: 'path',
+          name: "id",
+          in: "path",
           required: true,
-          schema: { type: 'string', format: 'uuid' },
-          description: 'Session ID',
+          schema: { type: "string", format: "uuid" },
+          description: "Session ID",
         },
       ],
       responses: {
-        '200': {
-          description: 'Session retrieved',
+        "200": {
+          description: "Session retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       session: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          id: { type: 'string', format: 'uuid' },
-                          status: { type: 'string', enum: ['in_progress', 'completed'] },
+                          id: { type: "string", format: "uuid" },
+                          status: {
+                            type: "string",
+                            enum: ["in_progress", "completed"],
+                          },
                           questions: {
-                            type: 'array',
-                            items: { type: 'object' },
+                            type: "array",
+                            items: { type: "object" },
                           },
                           answers: {
-                            type: 'array',
+                            type: "array",
                             items: {
-                              type: 'object',
+                              type: "object",
                               properties: {
-                                questionId: { type: 'string', format: 'uuid' },
-                                selectedOptionId: { type: 'string', format: 'uuid' },
-                                isCorrect: { type: 'boolean' },
-                                timeSpentMs: { type: 'number' },
+                                questionId: { type: "string", format: "uuid" },
+                                selectedOptionId: {
+                                  type: "string",
+                                  format: "uuid",
+                                },
+                                isCorrect: { type: "boolean" },
+                                timeSpentMs: { type: "number" },
                               },
                             },
                           },
@@ -152,11 +159,11 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
             },
           },
         },
-        '404': {
-          description: 'Session not found',
+        "404": {
+          description: "Session not found",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
@@ -164,45 +171,45 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/practice/sessions/{id}/answers/{questionId}': {
+  "/api/practice/sessions/{id}/answers/{questionId}": {
     post: {
-      tags: ['Practice'],
-      summary: 'Submit answer',
-      description: 'Submit an answer for a specific question in the session.',
+      tags: ["Practice"],
+      summary: "Submit answer",
+      description: "Submit an answer for a specific question in the session.",
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: 'id',
-          in: 'path',
+          name: "id",
+          in: "path",
           required: true,
-          schema: { type: 'string', format: 'uuid' },
-          description: 'Session ID',
+          schema: { type: "string", format: "uuid" },
+          description: "Session ID",
         },
         {
-          name: 'questionId',
-          in: 'path',
+          name: "questionId",
+          in: "path",
           required: true,
-          schema: { type: 'string', format: 'uuid' },
-          description: 'Question ID',
+          schema: { type: "string", format: "uuid" },
+          description: "Question ID",
         },
       ],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['selectedOptionId', 'timeSpentMs'],
+              type: "object",
+              required: ["selectedOptionId", "timeSpentMs"],
               properties: {
                 selectedOptionId: {
-                  type: 'string',
-                  format: 'uuid',
-                  description: 'Selected option ID',
+                  type: "string",
+                  format: "uuid",
+                  description: "Selected option ID",
                 },
                 timeSpentMs: {
-                  type: 'number',
+                  type: "number",
                   minimum: 0,
-                  description: 'Time spent on question (milliseconds)',
+                  description: "Time spent on question (milliseconds)",
                 },
               },
             },
@@ -210,23 +217,23 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
         },
       },
       responses: {
-        '200': {
-          description: 'Answer submitted',
+        "200": {
+          description: "Answer submitted",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       result: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          isCorrect: { type: 'boolean' },
-                          correctOptionId: { type: 'string', format: 'uuid' },
-                          explanation: { type: 'string' },
+                          isCorrect: { type: "boolean" },
+                          correctOptionId: { type: "string", format: "uuid" },
+                          explanation: { type: "string" },
                         },
                       },
                     },
@@ -240,50 +247,51 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/practice/sessions/{id}/complete': {
+  "/api/practice/sessions/{id}/complete": {
     post: {
-      tags: ['Practice'],
-      summary: 'Complete session',
-      description: 'Mark a practice session as completed and calculate final results.',
+      tags: ["Practice"],
+      summary: "Complete session",
+      description:
+        "Mark a practice session as completed and calculate final results.",
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: 'id',
-          in: 'path',
+          name: "id",
+          in: "path",
           required: true,
-          schema: { type: 'string', format: 'uuid' },
-          description: 'Session ID',
+          schema: { type: "string", format: "uuid" },
+          description: "Session ID",
         },
       ],
       responses: {
-        '200': {
-          description: 'Session completed',
+        "200": {
+          description: "Session completed",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       result: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          sessionId: { type: 'string', format: 'uuid' },
+                          sessionId: { type: "string", format: "uuid" },
                           score: {
-                            type: 'number',
-                            description: 'Percentage score',
+                            type: "number",
+                            description: "Percentage score",
                             example: 85.5,
                           },
-                          correctAnswers: { type: 'number', example: 17 },
-                          totalQuestions: { type: 'number', example: 20 },
-                          timeSpentMs: { type: 'number' },
+                          correctAnswers: { type: "number", example: 17 },
+                          totalQuestions: { type: "number", example: 20 },
+                          timeSpentMs: { type: "number" },
                         },
                       },
                     },
                   },
-                  message: { type: 'string', example: 'Session completed' },
+                  message: { type: "string", example: "Session completed" },
                 },
               },
             },
@@ -293,33 +301,33 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/practice/mock-exams': {
+  "/api/practice/mock-exams": {
     post: {
-      tags: ['Practice'],
-      summary: 'Start mock exam',
+      tags: ["Practice"],
+      summary: "Start mock exam",
       description:
-        'Start a full PMP mock exam (180 questions, 230 minutes). Requires High-End tier.',
+        "Start a full PMP mock exam (180 questions, 230 minutes). Requires High-End tier.",
       security: [{ bearerAuth: [] }],
       responses: {
-        '201': {
-          description: 'Mock exam started',
+        "201": {
+          description: "Mock exam started",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      sessionId: { type: 'string', format: 'uuid' },
+                      sessionId: { type: "string", format: "uuid" },
                       questions: {
-                        type: 'array',
-                        items: { type: 'object' },
+                        type: "array",
+                        items: { type: "object" },
                       },
-                      questionCount: { type: 'number', example: 180 },
-                      startedAt: { type: 'string', format: 'date-time' },
-                      timeLimitMs: { type: 'number', example: 13800000 },
+                      questionCount: { type: "number", example: 180 },
+                      startedAt: { type: "string", format: "date-time" },
+                      timeLimitMs: { type: "number", example: 13800000 },
                     },
                   },
                 },
@@ -327,11 +335,11 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
             },
           },
         },
-        '403': {
-          description: 'Feature requires higher subscription tier',
+        "403": {
+          description: "Feature requires higher subscription tier",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
@@ -339,29 +347,29 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/practice/flagged': {
+  "/api/practice/flagged": {
     get: {
-      tags: ['Practice'],
-      summary: 'Get flagged questions',
-      description: 'Retrieve all questions flagged for review by the user.',
+      tags: ["Practice"],
+      summary: "Get flagged questions",
+      description: "Retrieve all questions flagged for review by the user.",
       security: [{ bearerAuth: [] }],
       responses: {
-        '200': {
-          description: 'Flagged questions retrieved',
+        "200": {
+          description: "Flagged questions retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       questions: {
-                        type: 'array',
-                        items: { type: 'object' },
+                        type: "array",
+                        items: { type: "object" },
                       },
-                      count: { type: 'number' },
+                      count: { type: "number" },
                     },
                   },
                 },
@@ -373,32 +381,32 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/practice/questions/{questionId}/flag': {
+  "/api/practice/questions/{questionId}/flag": {
     post: {
-      tags: ['Practice'],
-      summary: 'Flag question',
-      description: 'Flag a question for later review.',
+      tags: ["Practice"],
+      summary: "Flag question",
+      description: "Flag a question for later review.",
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: 'questionId',
-          in: 'path',
+          name: "questionId",
+          in: "path",
           required: true,
-          schema: { type: 'string', format: 'uuid' },
+          schema: { type: "string", format: "uuid" },
         },
       ],
       responses: {
-        '200': {
-          description: 'Question flagged',
+        "200": {
+          description: "Question flagged",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   message: {
-                    type: 'string',
-                    example: 'Question flagged for review',
+                    type: "string",
+                    example: "Question flagged for review",
                   },
                 },
               },
@@ -408,28 +416,28 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
       },
     },
     delete: {
-      tags: ['Practice'],
-      summary: 'Unflag question',
-      description: 'Remove flag from a question.',
+      tags: ["Practice"],
+      summary: "Unflag question",
+      description: "Remove flag from a question.",
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: 'questionId',
-          in: 'path',
+          name: "questionId",
+          in: "path",
           required: true,
-          schema: { type: 'string', format: 'uuid' },
+          schema: { type: "string", format: "uuid" },
         },
       ],
       responses: {
-        '200': {
-          description: 'Question unflagged',
+        "200": {
+          description: "Question unflagged",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
-                  message: { type: 'string', example: 'Question unflagged' },
+                  success: { type: "boolean", example: true },
+                  message: { type: "string", example: "Question unflagged" },
                 },
               },
             },
@@ -439,32 +447,32 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/practice/stats': {
+  "/api/practice/stats": {
     get: {
-      tags: ['Practice'],
-      summary: 'Get practice statistics',
-      description: 'Retrieve user practice statistics and performance metrics.',
+      tags: ["Practice"],
+      summary: "Get practice statistics",
+      description: "Retrieve user practice statistics and performance metrics.",
       security: [{ bearerAuth: [] }],
       responses: {
-        '200': {
-          description: 'Statistics retrieved',
+        "200": {
+          description: "Statistics retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       stats: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          totalQuestions: { type: 'number', example: 450 },
-                          correctAnswers: { type: 'number', example: 360 },
-                          averageScore: { type: 'number', example: 80.0 },
-                          timeSpentMinutes: { type: 'number', example: 500 },
-                          sessionsCompleted: { type: 'number', example: 25 },
+                          totalQuestions: { type: "number", example: 450 },
+                          correctAnswers: { type: "number", example: 360 },
+                          averageScore: { type: "number", example: 80.0 },
+                          timeSpentMinutes: { type: "number", example: 500 },
+                          sessionsCompleted: { type: "number", example: 25 },
                         },
                       },
                     },

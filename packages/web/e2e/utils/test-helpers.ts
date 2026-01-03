@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Page } from "@playwright/test";
 
 /**
  * Test helper utilities for common operations
@@ -11,11 +11,11 @@ export class TestHelpers {
    */
   async waitForApiResponse(urlPattern: string | RegExp) {
     return this.page.waitForResponse(
-      response =>
+      (response) =>
         response.status() === 200 &&
-        (typeof urlPattern === 'string'
+        (typeof urlPattern === "string"
           ? response.url().includes(urlPattern)
-          : urlPattern.test(response.url()))
+          : urlPattern.test(response.url())),
     );
   }
 
@@ -59,7 +59,7 @@ export class TestHelpers {
    * Get text content
    */
   async getText(selector: string): Promise<string> {
-    return (await this.page.locator(selector).textContent()) || '';
+    return (await this.page.locator(selector).textContent()) || "";
   }
 
   /**
@@ -67,9 +67,15 @@ export class TestHelpers {
    */
   async clickAndWait(selector: string, urlPattern?: string) {
     if (urlPattern) {
-      await Promise.all([this.page.waitForURL(urlPattern), this.page.click(selector)]);
+      await Promise.all([
+        this.page.waitForURL(urlPattern),
+        this.page.click(selector),
+      ]);
     } else {
-      await Promise.all([this.page.waitForLoadState('networkidle'), this.page.click(selector)]);
+      await Promise.all([
+        this.page.waitForLoadState("networkidle"),
+        this.page.click(selector),
+      ]);
     }
   }
 
@@ -77,11 +83,11 @@ export class TestHelpers {
    * Mock network response
    */
   async mockRoute(url: string, response: Record<string, unknown>) {
-    await this.page.route(url, route => {
+    await this.page.route(url, (route) => {
       route.fulfill({
         status: 200,
         body: JSON.stringify(response),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     });
   }
@@ -90,7 +96,9 @@ export class TestHelpers {
    * Wait for loading to complete
    */
   async waitForLoading() {
-    await this.page.waitForSelector('[data-testid="loading"]', { state: 'hidden' }).catch(() => {}); // Ignore if not found
+    await this.page
+      .waitForSelector('[data-testid="loading"]', { state: "hidden" })
+      .catch(() => {}); // Ignore if not found
   }
 
   /**
@@ -121,7 +129,7 @@ export class TestHelpers {
    */
   async refresh() {
     await this.page.reload();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -138,28 +146,35 @@ export class TestHelpers {
    * Set item in localStorage
    */
   async setLocalStorage(key: string, value: string) {
-    await this.page.evaluate(([k, v]) => localStorage.setItem(k, v), [key, value]);
+    await this.page.evaluate(
+      ([k, v]) => localStorage.setItem(k, v),
+      [key, value],
+    );
   }
 
   /**
    * Get item from localStorage
    */
   async getLocalStorage(key: string): Promise<string | null> {
-    return await this.page.evaluate(k => localStorage.getItem(k), key);
+    return await this.page.evaluate((k) => localStorage.getItem(k), key);
   }
 
   /**
    * Check accessibility (basic check)
    */
   async checkAccessibility(selector?: string) {
-    const element = selector ? this.page.locator(selector) : this.page.locator('body');
+    const element = selector
+      ? this.page.locator(selector)
+      : this.page.locator("body");
 
     // Basic checks
-    const images = await element.locator('img').count();
-    const imagesWithoutAlt = await element.locator('img:not([alt])').count();
+    const images = await element.locator("img").count();
+    const imagesWithoutAlt = await element.locator("img:not([alt])").count();
 
-    const buttons = await element.locator('button').count();
-    const buttonsWithoutText = await element.locator('button:not([aria-label]):empty').count();
+    const buttons = await element.locator("button").count();
+    const buttonsWithoutText = await element
+      .locator("button:not([aria-label]):empty")
+      .count();
 
     return {
       imagesWithoutAlt,

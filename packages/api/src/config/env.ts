@@ -1,20 +1,23 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const envSchema = z.object({
   // Server
-  PORT: z.string().default('3001').transform(Number),
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  PORT: z.string().default("3001").transform(Number),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
   CORS_ORIGIN: z
     .string()
-    .default('http://localhost:3000')
-    .transform(val =>
+    .default("http://localhost:3000")
+    .transform((val) =>
       val
-        .split(',')
-        .map(origin => origin.trim())
-        .filter(Boolean)
+        .split(",")
+        .map((origin) => origin.trim())
+        .filter(Boolean),
     )
-    .refine(origins => origins.length > 0 && !origins.includes('*'), {
-      message: 'CORS_ORIGIN must be a comma-separated list of specific origins (no wildcard)',
+    .refine((origins) => origins.length > 0 && !origins.includes("*"), {
+      message:
+        "CORS_ORIGIN must be a comma-separated list of specific origins (no wildcard)",
     }),
 
   // Database
@@ -22,9 +25,9 @@ const envSchema = z.object({
 
   // JWT
   JWT_SECRET: z.string().min(32),
-  JWT_EXPIRES_IN: z.string().default('15m'),
+  JWT_EXPIRES_IN: z.string().default("15m"),
   JWT_REFRESH_SECRET: z.string().min(32),
-  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+  JWT_REFRESH_EXPIRES_IN: z.string().default("7d"),
 
   // Redis (optional)
   REDIS_URL: z.string().optional(),
@@ -38,13 +41,13 @@ const envSchema = z.object({
   SMTP_PORT: z
     .string()
     .optional()
-    .transform(val => (val ? Number(val) : undefined)),
+    .transform((val) => (val ? Number(val) : undefined)),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  FROM_EMAIL: z.string().default('noreply@pmp-study.com'),
+  FROM_EMAIL: z.string().default("noreply@pmp-study.com"),
 
   // Logging
-  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error', 'http']).default('info'),
+  LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "http"]).default("info"),
 
   // AWS (for CloudWatch)
   AWS_REGION: z.string().optional(),
@@ -62,9 +65,14 @@ function validateEnv(): Env {
     return envSchema.parse(process.env);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const missingVars = error.issues.map(issue => issue.path.join('.'));
-      console.error('❌ Missing or invalid environment variables:', missingVars);
-      throw new Error(`Missing environment variables: ${missingVars.join(', ')}`);
+      const missingVars = error.issues.map((issue) => issue.path.join("."));
+      console.error(
+        "❌ Missing or invalid environment variables:",
+        missingVars,
+      );
+      throw new Error(
+        `Missing environment variables: ${missingVars.join(", ")}`,
+      );
     }
     throw error;
   }

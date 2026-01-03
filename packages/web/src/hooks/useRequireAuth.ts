@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function useRequireAuth() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export function useRequireAuth() {
     if (isLoading) return;
     if (isAuthenticated) return;
 
-    const nextParam = encodeURIComponent(pathname || '/dashboard');
+    const nextParam = encodeURIComponent(pathname || "/dashboard");
     router.push(`/auth/login?next=${nextParam}`);
   }, [isAuthenticated, isLoading, pathname, router]);
 

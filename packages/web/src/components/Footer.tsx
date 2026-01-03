@@ -3,10 +3,10 @@
  * Addresses MEDIUM-002: No footer links
  */
 
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
 
 interface FooterLink {
   href: string;
@@ -23,27 +23,27 @@ export const Footer: React.FC = () => {
 
   const sections: FooterSection[] = [
     {
-      title: 'Product',
+      title: "Product",
       links: [
-        { href: '/#features', label: 'Features' },
-        { href: '/pricing', label: 'Pricing' },
-        { href: '/#testimonials', label: 'Testimonials' },
+        { href: "/#features", label: "Features" },
+        { href: "/pricing", label: "Pricing" },
+        { href: "/#testimonials", label: "Testimonials" },
       ],
     },
     {
-      title: 'Resources',
+      title: "Resources",
       links: [
-        { href: '/blog', label: 'Blog' },
-        { href: '/study-guide', label: 'Study Guide' },
-        { href: '/faq', label: 'FAQ' },
+        { href: "/blog", label: "Blog" },
+        { href: "/study-guide", label: "Study Guide" },
+        { href: "/faq", label: "FAQ" },
       ],
     },
     {
-      title: 'Legal',
+      title: "Legal",
       links: [
-        { href: '/privacy', label: 'Privacy Policy' },
-        { href: '/terms', label: 'Terms of Service' },
-        { href: '/contact', label: 'Contact' },
+        { href: "/privacy", label: "Privacy Policy" },
+        { href: "/terms", label: "Terms of Service" },
+        { href: "/contact", label: "Contact" },
       ],
     },
   ];
@@ -54,25 +54,30 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="col-span-1">
-            <Link href="/" className="flex items-center gap-2" aria-label="PMP Study Pro - Home">
+            <Link
+              href="/"
+              className="flex items-center gap-2"
+              aria-label="PMP Study Pro - Home"
+            >
               <div className="w-8 h-8 rounded-full bg-md-primary flex items-center justify-center">
                 <span className="text-white font-bold">P</span>
               </div>
               <span className="text-lg font-semibold">PMP Study Pro</span>
             </Link>
             <p className="mt-4 text-sm text-gray-400">
-              Comprehensive PMP exam preparation with adaptive learning and real-time analytics.
+              Comprehensive PMP exam preparation with adaptive learning and
+              real-time analytics.
             </p>
           </div>
 
           {/* Footer Sections */}
-          {sections.map(section => (
+          {sections.map((section) => (
             <div key={section.title}>
               <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
                 {section.title}
               </h3>
               <ul className="mt-4 space-y-3">
-                {section.links.map(link => (
+                {section.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}

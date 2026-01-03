@@ -18,44 +18,44 @@ This application uses a production-grade structured logging solution powered by 
 ### Basic Usage
 
 ```typescript
-import { getLogger } from './logging';
+import { getLogger } from "./logging";
 
 const logger = getLogger();
 
 // Simple logging
-logger.info('User logged in');
-logger.error('Database connection failed', error);
-logger.warn('High memory usage');
+logger.info("User logged in");
+logger.error("Database connection failed", error);
+logger.warn("High memory usage");
 
 // Logging with metadata
-logger.info('Request received', {
-  method: 'GET',
-  path: '/api/users',
-  user_id: 'user-123',
+logger.info("Request received", {
+  method: "GET",
+  path: "/api/users",
+  user_id: "user-123",
 });
 
 // Error logging with context
-logger.error('Payment processing failed', error, {
-  payment_id: 'pay-123',
+logger.error("Payment processing failed", error, {
+  payment_id: "pay-123",
   amount: 99.99,
-  currency: 'USD',
+  currency: "USD",
 });
 ```
 
 ### Trace ID Management
 
 ```typescript
-import { Logger, generateTraceId } from './logging';
+import { Logger, generateTraceId } from "./logging";
 
 // Set trace ID for request context
-const traceId = generateTraceId(req.headers['x-trace-id']);
+const traceId = generateTraceId(req.headers["x-trace-id"]);
 Logger.setTraceId(traceId);
 
 // Get current trace ID
 const currentTraceId = Logger.getTraceId();
 
 // Set user ID
-Logger.setUserId('user-123');
+Logger.setUserId("user-123");
 const currentUserId = Logger.getUserId();
 
 // Clear context (usually after request completes)
@@ -65,18 +65,18 @@ Logger.clearContext();
 ### Child Loggers with Context
 
 ```typescript
-import { childLogger } from './logging';
+import { childLogger } from "./logging";
 
 // Create child logger with additional context
 const userLogger = childLogger({
-  service_name: 'user-service',
-  component: 'authentication',
+  service_name: "user-service",
+  component: "authentication",
 });
 
 // All logs from child logger include parent context
-userLogger.info('User authenticated', {
-  user_id: 'user-123',
-  auth_method: 'oauth',
+userLogger.info("User authenticated", {
+  user_id: "user-123",
+  auth_method: "oauth",
 });
 ```
 
@@ -93,14 +93,14 @@ The logger supports the following log levels (in order of severity):
 ### Setting Log Level
 
 ```typescript
-import { getLogger } from './logging';
+import { getLogger } from "./logging";
 
 const logger = getLogger();
 
 // Change log level at runtime
-logger.setLevel('debug'); // Most verbose
-logger.setLevel('info'); // Normal operation
-logger.setLevel('error'); // Only errors
+logger.setLevel("debug"); // Most verbose
+logger.setLevel("info"); // Normal operation
+logger.setLevel("error"); // Only errors
 ```
 
 ## Middleware Integration
@@ -108,9 +108,13 @@ logger.setLevel('error'); // Only errors
 ### Express Setup
 
 ```typescript
-import express from 'express';
-import { initializeLogger, loggingMiddleware, contextCleanupMiddleware } from './logging';
-import { createLoggerConfig } from './logging/config';
+import express from "express";
+import {
+  initializeLogger,
+  loggingMiddleware,
+  contextCleanupMiddleware,
+} from "./logging";
+import { createLoggerConfig } from "./logging/config";
 
 // Initialize logger
 const config = createLoggerConfig();
@@ -123,7 +127,7 @@ app.use(...loggingMiddleware());
 app.use(contextCleanupMiddleware);
 
 // Your routes...
-app.get('/api/users', (req, res) => {
+app.get("/api/users", (req, res) => {
   res.json({ users: [] });
 });
 ```
@@ -205,20 +209,20 @@ app.get('/api/users', (req, res) => {
 The logger automatically redacts sensitive fields from log metadata:
 
 ```typescript
-import { getLogger } from './logging';
+import { getLogger } from "./logging";
 
 const logger = getLogger();
 
 // Password automatically redacted
-logger.info('User registration', {
-  email: 'user@example.com',
-  password: 'secret123', // Automatically becomes '*********'
+logger.info("User registration", {
+  email: "user@example.com",
+  password: "secret123", // Automatically becomes '*********'
 });
 
 // API keys redacted
-logger.info('API request', {
-  url: 'https://api.example.com',
-  apiKey: 'sk-1234567890', // Automatically becomes '************'
+logger.info("API request", {
+  url: "https://api.example.com",
+  apiKey: "sk-1234567890", // Automatically becomes '************'
 });
 ```
 
@@ -236,14 +240,17 @@ logger.info('API request', {
 ### Custom Sanitization
 
 ```typescript
-import { sanitize, createSanitizationRules } from './logging';
+import { sanitize, createSanitizationRules } from "./logging";
 
 // Custom sanitization rules
-const customRules = createSanitizationRules(['customField1', 'customField2'], '[HIDDEN]');
+const customRules = createSanitizationRules(
+  ["customField1", "customField2"],
+  "[HIDDEN]",
+);
 
 const data = {
-  customField1: 'sensitive-data',
-  publicField: 'public-data',
+  customField1: "sensitive-data",
+  publicField: "public-data",
 };
 
 const sanitized = sanitize(data, customRules);
@@ -309,20 +316,20 @@ fields @timestamp, message, metadata.duration
 ### Logger Configuration
 
 ```typescript
-import type { LoggerConfig } from './logging';
+import type { LoggerConfig } from "./logging";
 
 const config: LoggerConfig = {
-  level: 'info', // Minimum log level
-  environment: 'production', // Environment name
-  serviceName: 'pmp-api', // Service identifier
+  level: "info", // Minimum log level
+  environment: "production", // Environment name
+  serviceName: "pmp-api", // Service identifier
   enableCloudWatch: true, // Enable CloudWatch transport
-  cloudWatchLogGroup: '/pmp-app/api', // CloudWatch log group
-  cloudWatchLogStream: 'production-instance-1', // Log stream name
+  cloudWatchLogGroup: "/pmp-app/api", // CloudWatch log group
+  cloudWatchLogStream: "production-instance-1", // Log stream name
   sanitizeFields: [
     // Fields to redact
-    'password',
-    'secret',
-    'token',
+    "password",
+    "secret",
+    "token",
   ],
 };
 ```
@@ -330,7 +337,7 @@ const config: LoggerConfig = {
 ### Environment-Based Configuration
 
 ```typescript
-import { createLoggerConfig, createWebLoggerConfig } from './logging/config';
+import { createLoggerConfig, createWebLoggerConfig } from "./logging/config";
 
 // API configuration
 const apiConfig = createLoggerConfig();
@@ -339,7 +346,7 @@ const apiConfig = createLoggerConfig();
 const webConfig = createWebLoggerConfig();
 
 // Initialize with config
-import { initializeLogger } from './logging';
+import { initializeLogger } from "./logging";
 initializeLogger(apiConfig);
 ```
 
@@ -349,36 +356,36 @@ initializeLogger(apiConfig);
 
 ```typescript
 // Good
-logger.info('User created', {
+logger.info("User created", {
   user_id: user.id,
   email: user.email,
   plan: user.plan,
 });
 
 // Less useful
-logger.info('User created');
+logger.info("User created");
 ```
 
 ### 2. Use Appropriate Log Levels
 
 ```typescript
-logger.debug('Cache lookup', { key: 'user-123' }); // Detailed debugging
-logger.info('User logged in'); // Normal operation
-logger.warn('High memory usage', { memory: '90%' }); // Potential issue
-logger.error('Database error', err); // Critical failure
+logger.debug("Cache lookup", { key: "user-123" }); // Detailed debugging
+logger.info("User logged in"); // Normal operation
+logger.warn("High memory usage", { memory: "90%" }); // Potential issue
+logger.error("Database error", err); // Critical failure
 ```
 
 ### 3. Don't Log Sensitive Data
 
 ```typescript
 // Bad - password will be in logs
-logger.info('User login', {
+logger.info("User login", {
   email: user.email,
   password: user.password, // DON'T DO THIS
 });
 
 // Good - password automatically redacted
-logger.info('User login', {
+logger.info("User login", {
   email: user.email,
   password: user.password, // Automatically redacted
 });
@@ -387,15 +394,15 @@ logger.info('User login', {
 ### 4. Use Child Loggers for Components
 
 ```typescript
-import { childLogger } from './logging';
+import { childLogger } from "./logging";
 
 const paymentLogger = childLogger({
-  component: 'payment-processing',
-  service_name: 'payment-service',
+  component: "payment-processing",
+  service_name: "payment-service",
 });
 
-paymentLogger.info('Payment processed', {
-  payment_id: 'pay-123',
+paymentLogger.info("Payment processed", {
+  payment_id: "pay-123",
   amount: 99.99,
 });
 ```
@@ -403,15 +410,15 @@ paymentLogger.info('Payment processed', {
 ### 5. Always Include Trace IDs in External Calls
 
 ```typescript
-import { Logger } from './logging';
+import { Logger } from "./logging";
 
 const traceId = Logger.getTraceId();
 
 // Include trace ID in API calls
-await fetch('https://external-api.com', {
+await fetch("https://external-api.com", {
   headers: {
-    'X-Trace-ID': traceId,
-    'Content-Type': 'application/json',
+    "X-Trace-ID": traceId,
+    "Content-Type": "application/json",
   },
 });
 ```
@@ -459,7 +466,7 @@ await fetch('https://external-api.com', {
 1. **Adjust Log Level**:
 
    ```typescript
-   logger.setLevel('warn'); // Only warnings and errors
+   logger.setLevel("warn"); // Only warnings and errors
    ```
 
 2. **Set Environment Variable**:
@@ -472,31 +479,31 @@ await fetch('https://external-api.com', {
 ### Old Code
 
 ```typescript
-import { logger } from './utils/logger';
+import { logger } from "./utils/logger";
 
-logger.info('User logged in');
-logger.error('Error occurred');
+logger.info("User logged in");
+logger.error("Error occurred");
 ```
 
 ### New Code (Same Import, More Power)
 
 ```typescript
-import { logger } from './utils/logger'; // Still works!
+import { logger } from "./utils/logger"; // Still works!
 
 // Or import directly from new module
-import { getLogger } from './logging';
+import { getLogger } from "./logging";
 
 const logger = getLogger();
 
 // Now with metadata support
-logger.info('User logged in', {
-  user_id: 'user-123',
-  ip: '192.168.1.1',
+logger.info("User logged in", {
+  user_id: "user-123",
+  ip: "192.168.1.1",
 });
 
 // Error logging with context
-logger.error('Error occurred', error, {
-  context: 'user-registration',
+logger.error("Error occurred", error, {
+  context: "user-registration",
 });
 ```
 
@@ -507,19 +514,21 @@ The old import path still works through a backward-compatible wrapper, but new c
 ### Mock Logger in Tests
 
 ```typescript
-import { Logger } from './logging';
+import { Logger } from "./logging";
 
 beforeEach(() => {
-  Logger.setTraceId('test-trace');
-  Logger.setUserId('test-user');
+  Logger.setTraceId("test-trace");
+  Logger.setUserId("test-user");
 });
 
 afterEach(() => {
   Logger.clearContext();
 });
 
-test('user endpoint', async () => {
-  const response = await request(app).get('/api/users').set('X-Trace-ID', 'test-trace-123');
+test("user endpoint", async () => {
+  const response = await request(app)
+    .get("/api/users")
+    .set("X-Trace-ID", "test-trace-123");
 
   expect(response.status).toBe(200);
 });
@@ -528,20 +537,20 @@ test('user endpoint', async () => {
 ### Testing Log Output
 
 ```typescript
-import { createLogger } from './logging';
+import { createLogger } from "./logging";
 
 const logger = createLogger({
-  level: 'debug',
-  environment: 'test',
-  serviceName: 'test-service',
+  level: "debug",
+  environment: "test",
+  serviceName: "test-service",
   enableCloudWatch: false,
-  cloudWatchLogGroup: '/test',
-  cloudWatchLogStream: 'test-stream',
+  cloudWatchLogGroup: "/test",
+  cloudWatchLogStream: "test-stream",
   sanitizeFields: [],
 });
 
 // Log to console during tests
-logger.info('Test message');
+logger.info("Test message");
 ```
 
 ## Performance Considerations

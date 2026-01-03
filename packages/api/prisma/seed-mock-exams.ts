@@ -9,9 +9,9 @@
  * Usage: npx ts-node prisma/seed-mock-exams.ts
  */
 
-import { PrismaClient, Domain } from '@prisma/client';
-import * as fs from 'fs';
-import * as path from 'path';
+import { PrismaClient, Domain } from "@prisma/client";
+import * as fs from "fs";
+import * as path from "path";
 
 const prisma = new PrismaClient();
 
@@ -45,10 +45,13 @@ function shuffleArray<T>(array: T[]): T[] {
 async function selectQuestionsForExam(
   domains: Domain[],
   examNumber: number,
-  questionsPool: Map<string, string[]>
-): Promise<{ questionIds: string[]; breakdown: MockExamConfig['domainBreakdown'] }> {
+  questionsPool: Map<string, string[]>,
+): Promise<{
+  questionIds: string[];
+  breakdown: MockExamConfig["domainBreakdown"];
+}> {
   const selectedQuestions: string[] = [];
-  const breakdown: MockExamConfig['domainBreakdown'] = [];
+  const breakdown: MockExamConfig["domainBreakdown"] = [];
 
   // PMP Exam distribution (180 questions total)
   const EXAM_DISTRIBUTION = {
@@ -67,7 +70,7 @@ async function selectQuestionsForExam(
 
     if (needed < questionCount) {
       console.warn(
-        `⚠️  Warning: Not enough questions for ${domain.name} domain. Need ${questionCount}, only ${pool.length} available.`
+        `⚠️  Warning: Not enough questions for ${domain.name} domain. Need ${questionCount}, only ${pool.length} available.`,
       );
     }
 
@@ -100,41 +103,41 @@ async function selectQuestionsForExam(
 }
 
 async function main() {
-  console.log('🎯 Generating 6 Pre-Built Mock Exams...\n');
+  console.log("🎯 Generating 6 Pre-Built Mock Exams...\n");
 
   // Fetch all domains
   const domains = await prisma.domain.findMany({
-    orderBy: { orderIndex: 'asc' },
+    orderBy: { orderIndex: "asc" },
   });
 
   if (domains.length === 0) {
-    console.error('❌ No domains found. Please run seed.ts first.');
+    console.error("❌ No domains found. Please run seed.ts first.");
     process.exit(1);
   }
 
   console.log(`📚 Found ${domains.length} domains:`);
-  domains.forEach(d => {
+  domains.forEach((d) => {
     console.log(`   - ${d.name}: ${d.weightPercentage}%`);
   });
-  console.log('');
+  console.log("");
 
   // Fetch all available practice questions grouped by domain
   const questionsPool = new Map<string, string[]>();
   let totalQuestionsAvailable = 0;
 
-  console.log('🔍 Loading practice questions...');
+  console.log("🔍 Loading practice questions...");
   for (const domain of domains) {
     const questions = await prisma.practiceQuestion.findMany({
       where: { domainId: domain.id },
       select: { id: true },
     });
 
-    const questionIds = questions.map(q => q.id);
+    const questionIds = questions.map((q) => q.id);
     questionsPool.set(domain.id, shuffleArray(questionIds));
     totalQuestionsAvailable += questionIds.length;
 
     console.log(
-      `   - ${domain.name}: ${questionIds.length} questions available`
+      `   - ${domain.name}: ${questionIds.length} questions available`,
     );
   }
 
@@ -142,10 +145,10 @@ async function main() {
 
   if (totalQuestionsAvailable < 1080) {
     console.warn(
-      `⚠️  Warning: You have ${totalQuestionsAvailable} questions, but 6 exams × 180 questions = 1080 questions needed.`
+      `⚠️  Warning: You have ${totalQuestionsAvailable} questions, but 6 exams × 180 questions = 1080 questions needed.`,
     );
     console.warn(
-      '   Some questions may be repeated across exams. Add more questions for better variety.\n'
+      "   Some questions may be repeated across exams. Add more questions for better variety.\n",
     );
   }
 
@@ -158,7 +161,7 @@ async function main() {
     const { questionIds, breakdown } = await selectQuestionsForExam(
       domains,
       examNum,
-      questionsPool
+      questionsPool,
     );
 
     const examConfig: MockExamConfig = {
@@ -172,29 +175,31 @@ async function main() {
     mockExams.push(examConfig);
 
     console.log(`   ✅ ${questionIds.length} questions selected`);
-    breakdown.forEach(b => {
-      console.log(`      - ${b.domainName}: ${b.count} questions (${b.percentage}%)`);
+    breakdown.forEach((b) => {
+      console.log(
+        `      - ${b.domainName}: ${b.count} questions (${b.percentage}%)`,
+      );
     });
-    console.log('');
+    console.log("");
   }
 
   // Write to JSON file
-  const outputPath = path.join(__dirname, 'mock-exams.json');
-  fs.writeFileSync(outputPath, JSON.stringify(mockExams, null, 2), 'utf-8');
+  const outputPath = path.join(__dirname, "mock-exams.json");
+  fs.writeFileSync(outputPath, JSON.stringify(mockExams, null, 2), "utf-8");
 
   console.log(`✅ Successfully generated 6 mock exams!`);
   console.log(`📄 Configuration saved to: ${outputPath}`);
-  console.log('\n📊 Summary:');
-  mockExams.forEach(exam => {
+  console.log("\n📊 Summary:");
+  mockExams.forEach((exam) => {
     console.log(
-      `   ${exam.name}: ${exam.questions.length} questions, ${exam.domainBreakdown.length} domains`
+      `   ${exam.name}: ${exam.questions.length} questions, ${exam.domainBreakdown.length} domains`,
     );
   });
 }
 
 main()
-  .catch(e => {
-    console.error('❌ Error generating mock exams:', e);
+  .catch((e) => {
+    console.error("❌ Error generating mock exams:", e);
     process.exit(1);
   })
   .finally(async () => {

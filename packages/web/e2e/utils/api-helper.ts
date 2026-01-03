@@ -1,4 +1,4 @@
-import type { APIRequestContext, APIResponse } from '@playwright/test';
+import type { APIRequestContext, APIResponse } from "@playwright/test";
 
 /**
  * API Helper for E2E tests
@@ -11,20 +11,24 @@ export class APIHelper {
   }
 
   private get baseURL(): string {
-    return process.env.API_URL || 'http://localhost:3001';
+    return process.env.API_URL || "http://localhost:3001";
   }
 
   private get headers() {
     return {
-      'Content-Type': 'application/json',
-      'x-e2e-test': 'true',
+      "Content-Type": "application/json",
+      "x-e2e-test": "true",
     };
   }
 
   /**
    * Register a new user
    */
-  async registerUser(email: string, password: string, name: string): Promise<APIResponse> {
+  async registerUser(
+    email: string,
+    password: string,
+    name: string,
+  ): Promise<APIResponse> {
     return this.request.post(`${this.baseURL}/auth/register`, {
       headers: this.headers,
       data: { email, password, name },
@@ -36,7 +40,7 @@ export class APIHelper {
    */
   async loginUser(
     email: string,
-    password: string
+    password: string,
   ): Promise<{ token: string; refreshToken: string }> {
     const response = await this.request.post(`${this.baseURL}/auth/login`, {
       headers: this.headers,
@@ -77,8 +81,8 @@ export class APIHelper {
    */
   async createTestOrder(
     token: string,
-    tier: 'mid' | 'high' | 'corporate',
-    billing: 'monthly' | 'annual'
+    tier: "mid" | "high" | "corporate",
+    billing: "monthly" | "annual",
   ): Promise<APIResponse> {
     const authHeaders = await this.authenticatedRequest(token);
     return this.request.post(`${this.baseURL}/orders/test`, {
@@ -90,7 +94,10 @@ export class APIHelper {
   /**
    * Mock Stripe webhook
    */
-  async mockStripeWebhook(eventType: string, data: Record<string, unknown>): Promise<APIResponse> {
+  async mockStripeWebhook(
+    eventType: string,
+    data: Record<string, unknown>,
+  ): Promise<APIResponse> {
     return this.request.post(`${this.baseURL}/webhooks/stripe/test`, {
       headers: this.headers,
       data: { eventType, data },

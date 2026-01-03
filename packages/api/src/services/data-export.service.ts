@@ -1,9 +1,12 @@
-import { v4 as uuidv4 } from 'uuid';
-import type { UserDataExport, DataExportRequest as DataExportRequestType } from '@pmp/shared';
-import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
-import { PRIVACY_ERRORS } from '@pmp/shared';
-import { logger } from '../utils/logger';
+import { v4 as uuidv4 } from "uuid";
+import type {
+  UserDataExport,
+  DataExportRequest as DataExportRequestType,
+} from "@pmp/shared";
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
+import { PRIVACY_ERRORS } from "@pmp/shared";
+import { logger } from "../utils/logger";
 
 const EXPORT_RETENTION_DAYS = 7;
 const RATE_LIMIT_HOURS = 24;
@@ -19,25 +22,28 @@ export class DataExportService {
       includeActivityLogs?: boolean;
       emailMe?: boolean;
     } = {},
-    metadata?: { ipAddress?: string; userAgent?: string }
+    metadata?: { ipAddress?: string; userAgent?: string },
   ): Promise<DataExportRequestType> {
     // Check if there's a pending export
     const pendingExport = await prisma.dataExportRequest.findFirst({
       where: {
         userId,
-        status: { in: ['pending', 'processing'] },
+        status: { in: ["pending", "processing"] },
       },
     });
 
     if (pendingExport) {
-      throw AppError.conflict(PRIVACY_ERRORS.PRIVACY_001.message, PRIVACY_ERRORS.PRIVACY_001.code);
+      throw AppError.conflict(
+        PRIVACY_ERRORS.PRIVACY_001.message,
+        PRIVACY_ERRORS.PRIVACY_001.code,
+      );
     }
 
     // Rate limiting check
     const recentExport = await prisma.dataExportRequest.findFirst({
       where: {
         userId,
-        status: 'completed',
+        status: "completed",
         requestedAt: {
           gte: new Date(Date.now() - RATE_LIMIT_HOURS * 60 * 60 * 1000),
         },
@@ -47,7 +53,7 @@ export class DataExportService {
     if (recentExport) {
       throw AppError.tooManyRequests(
         `You can request an export once every ${RATE_LIMIT_HOURS} hours. Please try again later.`,
-        'RATE_LIMITED'
+        "RATE_LIMITED",
       );
     }
 
@@ -57,16 +63,18 @@ export class DataExportService {
       data: {
         userId,
         requestId,
-        status: 'pending',
-        expiresAt: new Date(Date.now() + EXPORT_RETENTION_DAYS * 24 * 60 * 60 * 1000),
+        status: "pending",
+        expiresAt: new Date(
+          Date.now() + EXPORT_RETENTION_DAYS * 24 * 60 * 60 * 1000,
+        ),
       },
     });
 
     // Log the request
     await prisma.privacyAuditLog.create({
       data: {
-        actionType: 'data_export',
-        entityType: 'export_request',
+        actionType: "data_export",
+        entityType: "export_request",
         entityId: exportRequest.id,
         userId,
         performedBy: userId,
@@ -101,13 +109,19 @@ export class DataExportService {
   /**
    * Get export status
    */
-  async getExportStatus(userId: string, requestId: string): Promise<DataExportRequestType> {
+  async getExportStatus(
+    userId: string,
+    requestId: string,
+  ): Promise<DataExportRequestType> {
     const exportRequest = await prisma.dataExportRequest.findUnique({
       where: { requestId },
     });
 
     if (!exportRequest || exportRequest.userId !== userId) {
-      throw AppError.notFound(PRIVACY_ERRORS.PRIVACY_002.message, PRIVACY_ERRORS.PRIVACY_002.code);
+      throw AppError.notFound(
+        PRIVACY_ERRORS.PRIVACY_002.message,
+        PRIVACY_ERRORS.PRIVACY_002.code,
+      );
     }
 
     return {
@@ -131,11 +145,11 @@ export class DataExportService {
   async getExportHistory(userId: string): Promise<DataExportRequestType[]> {
     const exports = await prisma.dataExportRequest.findMany({
       where: { userId },
-      orderBy: { requestedAt: 'desc' },
+      orderBy: { requestedAt: "desc" },
       take: 10,
     });
 
-    return exports.map(exp => ({
+    return exports.map((exp) => ({
       id: exp.id,
       userId: exp.userId,
       status: exp.status as any,
@@ -159,31 +173,31 @@ export class DataExportService {
     options: {
       includePaymentHistory?: boolean;
       includeActivityLogs?: boolean;
-    }
+    },
   ): Promise<void> {
     try {
       // Mark as processing
       await prisma.dataExportRequest.update({
         where: { id: exportRequestId },
-        data: { status: 'processing' },
+        data: { status: "processing" },
       });
 
       const exportRequest = await prisma.dataExportRequest.findUnique({
         where: { id: exportRequestId },
       });
 
-      if (!exportRequest) throw new Error('Export request not found');
+      if (!exportRequest) throw new Error("Export request not found");
 
       // Generate comprehensive export
       const userData = await this.generateUserDataExport(
         exportRequest.userId,
         options.includePaymentHistory !== false,
-        options.includeActivityLogs !== false
+        options.includeActivityLogs !== false,
       );
 
       // Convert to JSON
       const jsonData = JSON.stringify(userData, null, 2);
-      const fileSize = Buffer.byteLength(jsonData, 'utf8');
+      const fileSize = Buffer.byteLength(jsonData, "utf8");
 
       // In production, this would be uploaded to secure storage
       // For now, we'll store a placeholder URL
@@ -193,7 +207,7 @@ export class DataExportService {
       await prisma.dataExportRequest.update({
         where: { id: exportRequestId },
         data: {
-          status: 'completed',
+          status: "completed",
           completedAt: new Date(),
           downloadUrl,
           fileSize,
@@ -205,12 +219,13 @@ export class DataExportService {
         fileSize,
       });
     } catch (error) {
-      logger.error('Data export processing failed', { error, exportRequestId });
+      logger.error("Data export processing failed", { error, exportRequestId });
       await prisma.dataExportRequest.update({
         where: { id: exportRequestId },
         data: {
-          status: 'failed',
-          errorMessage: error instanceof Error ? error.message : 'Unknown error',
+          status: "failed",
+          errorMessage:
+            error instanceof Error ? error.message : "Unknown error",
         },
       });
     }
@@ -222,7 +237,7 @@ export class DataExportService {
   private async generateUserDataExport(
     userId: string,
     includePaymentHistory: boolean,
-    includeActivityLogs: boolean
+    includeActivityLogs: boolean,
   ): Promise<UserDataExport> {
     // Fetch user data
     const user = await prisma.user.findUnique({
@@ -235,16 +250,16 @@ export class DataExportService {
       },
     });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error("User not found");
 
     // Fetch payment history
     let paymentHistory: any[] = [];
     if (includePaymentHistory) {
       const transactions = await prisma.paymentTransaction.findMany({
         where: { userId },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
       });
-      paymentHistory = transactions.map(t => ({
+      paymentHistory = transactions.map((t) => ({
         id: t.id,
         amount: t.amount,
         currency: t.currency,
@@ -262,7 +277,7 @@ export class DataExportService {
     // Fetch practice sessions
     const practiceSessions = await prisma.practiceSession.findMany({
       where: { userId },
-      orderBy: { startedAt: 'desc' },
+      orderBy: { startedAt: "desc" },
       take: 50,
     });
 
@@ -271,10 +286,10 @@ export class DataExportService {
     if (includeActivityLogs) {
       const activities = await prisma.studyActivity.findMany({
         where: { userId },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
         take: 100,
       });
-      recentActivity = activities.map(a => ({
+      recentActivity = activities.map((a) => ({
         type: a.activityType,
         targetId: a.targetId,
         createdAt: a.createdAt,
@@ -313,41 +328,47 @@ export class DataExportService {
       },
       flashcardReviews: flashcardReviewsCount,
       questionAttempts: questionAttemptsCount,
-      practiceSessions: practiceSessions.map(s => ({
+      practiceSessions: practiceSessions.map((s) => ({
         id: s.id,
         totalQuestions: s.totalQuestions,
         correctAnswers: s.correctAnswers,
         completedAt: s.completedAt || undefined,
       })),
       recentActivity,
-      teamMemberships: teamMemberships.map(m => ({
+      teamMemberships: teamMemberships.map((m) => ({
         teamName: m.team.name,
         role: m.role,
         joinedAt: m.joinedAt,
       })),
       exportGeneratedAt: new Date(),
-      exportVersion: '1.0',
+      exportVersion: "1.0",
     };
   }
 
   /**
    * Download export data
    */
-  async downloadExport(userId: string, requestId: string): Promise<UserDataExport> {
+  async downloadExport(
+    userId: string,
+    requestId: string,
+  ): Promise<UserDataExport> {
     const exportRequest = await prisma.dataExportRequest.findUnique({
       where: { requestId },
     });
 
     if (!exportRequest || exportRequest.userId !== userId) {
-      throw AppError.notFound(PRIVACY_ERRORS.PRIVACY_002.message, PRIVACY_ERRORS.PRIVACY_002.code);
+      throw AppError.notFound(
+        PRIVACY_ERRORS.PRIVACY_002.message,
+        PRIVACY_ERRORS.PRIVACY_002.code,
+      );
     }
 
-    if (exportRequest.status !== 'completed') {
-      throw AppError.badRequest('Export is not ready', 'EXPORT_NOT_READY');
+    if (exportRequest.status !== "completed") {
+      throw AppError.badRequest("Export is not ready", "EXPORT_NOT_READY");
     }
 
     if (exportRequest.expiresAt < new Date()) {
-      throw AppError.badRequest('Export has expired', 'EXPORT_EXPIRED');
+      throw AppError.badRequest("Export has expired", "EXPORT_EXPIRED");
     }
 
     // Regenerate the export data
@@ -356,8 +377,8 @@ export class DataExportService {
     // Log download
     await prisma.privacyAuditLog.create({
       data: {
-        actionType: 'data_accessed',
-        entityType: 'export_request',
+        actionType: "data_accessed",
+        entityType: "export_request",
         entityId: exportRequest.id,
         userId,
         performedBy: userId,
@@ -372,7 +393,7 @@ export class DataExportService {
    * Admin: Get all export requests
    */
   async getAllExports(filters?: {
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
+    status?: "pending" | "processing" | "completed" | "failed";
     userId?: string;
     limit?: number;
     offset?: number;
@@ -384,7 +405,7 @@ export class DataExportService {
     const [exports, total] = await Promise.all([
       prisma.dataExportRequest.findMany({
         where,
-        orderBy: { requestedAt: 'desc' },
+        orderBy: { requestedAt: "desc" },
         take: filters?.limit || 20,
         skip: filters?.offset || 0,
       }),
@@ -392,7 +413,7 @@ export class DataExportService {
     ]);
 
     return {
-      exports: exports.map(exp => ({
+      exports: exports.map((exp) => ({
         id: exp.id,
         userId: exp.userId,
         status: exp.status as any,
@@ -412,17 +433,23 @@ export class DataExportService {
   /**
    * Admin: Manually process export
    */
-  async adminProcessExport(exportRequestId: string, adminUserId: string): Promise<void> {
+  async adminProcessExport(
+    exportRequestId: string,
+    adminUserId: string,
+  ): Promise<void> {
     const exportRequest = await prisma.dataExportRequest.findUnique({
       where: { id: exportRequestId },
     });
 
     if (!exportRequest) {
-      throw AppError.notFound('Export request not found', 'EXPORT_NOT_FOUND');
+      throw AppError.notFound("Export request not found", "EXPORT_NOT_FOUND");
     }
 
-    if (exportRequest.status === 'completed') {
-      throw AppError.badRequest('Export already completed', 'EXPORT_ALREADY_COMPLETED');
+    if (exportRequest.status === "completed") {
+      throw AppError.badRequest(
+        "Export already completed",
+        "EXPORT_ALREADY_COMPLETED",
+      );
     }
 
     await this.processExport(exportRequestId, {

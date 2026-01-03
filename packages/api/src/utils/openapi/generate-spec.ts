@@ -1,10 +1,10 @@
-import openapiConfig from '../../config/openapi';
-import { authPaths } from './generators/auth.generator';
-import { subscriptionPaths } from './generators/subscription.generator';
-import { ebookPaths } from './generators/ebook.generator';
-import { practicePaths } from './generators/practice.generator';
-import { healthPaths } from './generators/health.generator';
-import { dashboardPaths } from './generators/dashboard.generator';
+import openapiConfig from "../../config/openapi";
+import { authPaths } from "./generators/auth.generator";
+import { subscriptionPaths } from "./generators/subscription.generator";
+import { ebookPaths } from "./generators/ebook.generator";
+import { practicePaths } from "./generators/practice.generator";
+import { healthPaths } from "./generators/health.generator";
+import { dashboardPaths } from "./generators/dashboard.generator";
 
 /**
  * Generate complete OpenAPI specification
@@ -21,33 +21,34 @@ export function generateOpenAPISpec(): any {
       ...practicePaths,
       ...dashboardPaths,
       // Add remaining routes as stubs for now
-      '/api/flashcards': {
+      "/api/flashcards": {
         get: {
-          tags: ['Flashcards'],
-          summary: 'Get flashcards',
-          description: 'Retrieve flashcards for study (requires authentication)',
+          tags: ["Flashcards"],
+          summary: "Get flashcards",
+          description:
+            "Retrieve flashcards for study (requires authentication)",
           security: [{ bearerAuth: [] }],
           responses: {
-            '200': {
-              description: 'Flashcards retrieved',
+            "200": {
+              description: "Flashcards retrieved",
               content: {
-                'application/json': {
+                "application/json": {
                   schema: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      success: { type: 'boolean', example: true },
+                      success: { type: "boolean", example: true },
                       data: {
-                        type: 'object',
+                        type: "object",
                         properties: {
                           flashcards: {
-                            type: 'array',
+                            type: "array",
                             items: {
-                              type: 'object',
+                              type: "object",
                               properties: {
-                                id: { type: 'string', format: 'uuid' },
-                                question: { type: 'string' },
-                                answer: { type: 'string' },
-                                domain: { type: 'string' },
+                                id: { type: "string", format: "uuid" },
+                                question: { type: "string" },
+                                answer: { type: "string" },
+                                domain: { type: "string" },
                               },
                             },
                           },
@@ -61,33 +62,33 @@ export function generateOpenAPISpec(): any {
           },
         },
       },
-      '/api/domains': {
+      "/api/domains": {
         get: {
-          tags: ['Domains'],
-          summary: 'Get knowledge domains',
-          description: 'Retrieve all PMP knowledge domains',
+          tags: ["Domains"],
+          summary: "Get knowledge domains",
+          description: "Retrieve all PMP knowledge domains",
           security: [],
           responses: {
-            '200': {
-              description: 'Domains retrieved',
+            "200": {
+              description: "Domains retrieved",
               content: {
-                'application/json': {
+                "application/json": {
                   schema: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      success: { type: 'boolean', example: true },
+                      success: { type: "boolean", example: true },
                       data: {
-                        type: 'object',
+                        type: "object",
                         properties: {
                           domains: {
-                            type: 'array',
+                            type: "array",
                             items: {
-                              type: 'object',
+                              type: "object",
                               properties: {
-                                id: { type: 'string', format: 'uuid' },
-                                name: { type: 'string', example: 'People' },
-                                description: { type: 'string' },
-                                percentage: { type: 'number', example: 42 },
+                                id: { type: "string", format: "uuid" },
+                                name: { type: "string", example: "People" },
+                                description: { type: "string" },
+                                percentage: { type: "number", example: 42 },
                               },
                             },
                           },
@@ -101,34 +102,34 @@ export function generateOpenAPISpec(): any {
           },
         },
       },
-      '/api/formulas': {
+      "/api/formulas": {
         get: {
-          tags: ['Formulas'],
-          summary: 'Get PMP formulas',
-          description: 'Retrieve PMP formulas and calculation reference',
+          tags: ["Formulas"],
+          summary: "Get PMP formulas",
+          description: "Retrieve PMP formulas and calculation reference",
           security: [{ bearerAuth: [] }],
           responses: {
-            '200': {
-              description: 'Formulas retrieved',
+            "200": {
+              description: "Formulas retrieved",
               content: {
-                'application/json': {
+                "application/json": {
                   schema: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      success: { type: 'boolean', example: true },
+                      success: { type: "boolean", example: true },
                       data: {
-                        type: 'object',
+                        type: "object",
                         properties: {
                           formulas: {
-                            type: 'array',
+                            type: "array",
                             items: {
-                              type: 'object',
+                              type: "object",
                               properties: {
-                                id: { type: 'string', format: 'uuid' },
-                                name: { type: 'string' },
-                                formula: { type: 'string' },
-                                description: { type: 'string' },
-                                example: { type: 'string' },
+                                id: { type: "string", format: "uuid" },
+                                name: { type: "string" },
+                                formula: { type: "string" },
+                                description: { type: "string" },
+                                example: { type: "string" },
                               },
                             },
                           },
@@ -142,33 +143,33 @@ export function generateOpenAPISpec(): any {
           },
         },
       },
-      '/api/teams': {
+      "/api/teams": {
         get: {
-          tags: ['Teams'],
-          summary: 'Get team members (corporate accounts)',
-          description: 'Retrieve team members for corporate accounts',
+          tags: ["Teams"],
+          summary: "Get team members (corporate accounts)",
+          description: "Retrieve team members for corporate accounts",
           security: [{ bearerAuth: [] }],
           responses: {
-            '200': {
-              description: 'Team members retrieved',
+            "200": {
+              description: "Team members retrieved",
               content: {
-                'application/json': {
+                "application/json": {
                   schema: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      success: { type: 'boolean', example: true },
+                      success: { type: "boolean", example: true },
                       data: {
-                        type: 'object',
+                        type: "object",
                         properties: {
                           members: {
-                            type: 'array',
+                            type: "array",
                             items: {
-                              type: 'object',
+                              type: "object",
                               properties: {
-                                id: { type: 'string', format: 'uuid' },
-                                name: { type: 'string' },
-                                email: { type: 'string' },
-                                role: { type: 'string' },
+                                id: { type: "string", format: "uuid" },
+                                name: { type: "string" },
+                                email: { type: "string" },
+                                role: { type: "string" },
                               },
                             },
                           },
@@ -182,45 +183,50 @@ export function generateOpenAPISpec(): any {
           },
         },
       },
-      '/api/search': {
+      "/api/search": {
         get: {
-          tags: ['Search'],
-          summary: 'Global search',
-          description: 'Search across all content types',
+          tags: ["Search"],
+          summary: "Global search",
+          description: "Search across all content types",
           security: [{ bearerAuth: [] }],
           parameters: [
             {
-              name: 'q',
-              in: 'query',
+              name: "q",
+              in: "query",
               required: true,
-              schema: { type: 'string' },
-              description: 'Search query',
+              schema: { type: "string" },
+              description: "Search query",
             },
           ],
           responses: {
-            '200': {
-              description: 'Search results',
+            "200": {
+              description: "Search results",
               content: {
-                'application/json': {
+                "application/json": {
                   schema: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      success: { type: 'boolean', example: true },
+                      success: { type: "boolean", example: true },
                       data: {
-                        type: 'object',
+                        type: "object",
                         properties: {
                           results: {
-                            type: 'array',
+                            type: "array",
                             items: {
-                              type: 'object',
+                              type: "object",
                               properties: {
                                 type: {
-                                  type: 'string',
-                                  enum: ['chapter', 'question', 'flashcard', 'formula'],
+                                  type: "string",
+                                  enum: [
+                                    "chapter",
+                                    "question",
+                                    "flashcard",
+                                    "formula",
+                                  ],
                                 },
-                                title: { type: 'string' },
-                                snippet: { type: 'string' },
-                                url: { type: 'string' },
+                                title: { type: "string" },
+                                snippet: { type: "string" },
+                                url: { type: "string" },
                               },
                             },
                           },
@@ -234,36 +240,36 @@ export function generateOpenAPISpec(): any {
           },
         },
       },
-      '/webhooks/stripe': {
+      "/webhooks/stripe": {
         post: {
-          tags: ['Webhooks'],
-          summary: 'Stripe webhook handler',
+          tags: ["Webhooks"],
+          summary: "Stripe webhook handler",
           description:
-            'Process Stripe webhook events (payment.success, subscription.cancelled, etc.)',
+            "Process Stripe webhook events (payment.success, subscription.cancelled, etc.)",
           security: [],
           requestBody: {
             content: {
-              'application/json': {
+              "application/json": {
                 schema: {
-                  type: 'object',
+                  type: "object",
                   properties: {
-                    id: { type: 'string' },
-                    type: { type: 'string' },
-                    data: { type: 'object' },
+                    id: { type: "string" },
+                    type: { type: "string" },
+                    data: { type: "object" },
                   },
                 },
               },
             },
           },
           responses: {
-            '200': {
-              description: 'Webhook processed',
+            "200": {
+              description: "Webhook processed",
               content: {
-                'application/json': {
+                "application/json": {
                   schema: {
-                    type: 'object',
+                    type: "object",
                     properties: {
-                      received: { type: 'boolean', example: true },
+                      received: { type: "boolean", example: true },
                     },
                   },
                 },

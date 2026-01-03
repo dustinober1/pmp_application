@@ -21,7 +21,12 @@ function normalizeEnablers(
 ): Enabler[] {
   if (!enablers || enablers.length === 0) return [];
   if (typeof enablers[0] === "string") {
-    return [{ category: "Key Concepts" as const, items: enablers as string[] }];
+    return [
+      {
+        category: "Key Knowledge and Skills" as const,
+        items: enablers as string[],
+      },
+    ];
   }
   return enablers as Enabler[];
 }

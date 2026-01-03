@@ -2,7 +2,7 @@
  * Authentication related types
  */
 
-import type { TierName } from './subscription';
+import type { TierName } from "./subscription";
 
 export interface User {
   id: string;

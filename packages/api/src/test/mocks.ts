@@ -11,7 +11,7 @@ import type {
   Task,
   Team,
   User,
-} from '@pmp/shared';
+} from "@pmp/shared";
 
 /**
  * Generate mock user data
@@ -19,11 +19,12 @@ import type {
 export function mockUser(overrides: Partial<User> = {}): User {
   return {
     id: overrides.id || crypto.randomUUID(),
-    email: overrides.email || 'test@example.com',
-    name: overrides.name || 'Test User',
+    email: overrides.email || "test@example.com",
+    name: overrides.name || "Test User",
     emailVerified: overrides.emailVerified ?? true,
     failedLoginAttempts: overrides.failedLoginAttempts ?? 0,
     lockedUntil: overrides.lockedUntil || null,
+    tier: overrides.tier || "free",
     createdAt: overrides.createdAt || new Date(),
     updatedAt: overrides.updatedAt || new Date(),
     ...overrides,
@@ -39,9 +40,9 @@ export function mockUser(overrides: Partial<User> = {}): User {
 export function mockDomain(overrides: Partial<Domain> = {}): Domain {
   return {
     id: overrides.id || crypto.randomUUID(),
-    name: overrides.name || 'People',
-    code: overrides.code || 'PEOPLE',
-    description: overrides.description || 'Test domain description',
+    name: overrides.name || "People",
+    code: overrides.code || "PEOPLE",
+    description: overrides.description || "Test domain description",
     weightPercentage: overrides.weightPercentage || 42,
     orderIndex: overrides.orderIndex || 1,
     ...overrides,
@@ -58,10 +59,10 @@ export function mockTask(overrides: Partial<Task> = {}): Task {
   return {
     id: overrides.id || crypto.randomUUID(),
     domainId: overrides.domainId || crypto.randomUUID(),
-    code: overrides.code || '1.1',
-    name: overrides.name || 'Test Task',
-    description: overrides.description || 'Test task description',
-    enablers: overrides.enablers || ['Enabler 1', 'Enabler 2'],
+    code: overrides.code || "1.1",
+    name: overrides.name || "Test Task",
+    description: overrides.description || "Test task description",
+    enablers: overrides.enablers || ["Enabler 1", "Enabler 2"],
     orderIndex: overrides.orderIndex || 1,
     ...overrides,
   };
@@ -75,8 +76,8 @@ export function mockFlashcard(overrides: Partial<Flashcard> = {}): Flashcard {
     id: overrides.id || crypto.randomUUID(),
     domainId: overrides.domainId || crypto.randomUUID(),
     taskId: overrides.taskId || crypto.randomUUID(),
-    front: overrides.front || 'Test Front',
-    back: overrides.back || 'Test Back',
+    front: overrides.front || "Test Front",
+    back: overrides.back || "Test Back",
     isCustom: overrides.isCustom ?? false,
     createdBy: overrides.createdBy,
     createdAt: overrides.createdAt || new Date(),
@@ -87,22 +88,24 @@ export function mockFlashcard(overrides: Partial<Flashcard> = {}): Flashcard {
 /**
  * Generate mock practice question data
  */
-export function mockPracticeQuestion(overrides: Partial<PracticeQuestion> = {}): PracticeQuestion {
+export function mockPracticeQuestion(
+  overrides: Partial<PracticeQuestion> = {},
+): PracticeQuestion {
   const questionId = overrides.id || crypto.randomUUID();
   return {
     id: questionId,
     domainId: overrides.domainId || crypto.randomUUID(),
     taskId: overrides.taskId || crypto.randomUUID(),
-    questionText: overrides.questionText || 'Test question?',
-    difficulty: overrides.difficulty || 'medium',
-    explanation: overrides.explanation || 'Test explanation',
-    correctOptionId: '1',
+    questionText: overrides.questionText || "Test question?",
+    difficulty: overrides.difficulty || "medium",
+    explanation: overrides.explanation || "Test explanation",
+    correctOptionId: "1",
     relatedFormulaIds: overrides.relatedFormulaIds || [],
     options: overrides.options || [
-      { id: '1', questionId, text: 'Option A', isCorrect: true },
-      { id: '2', questionId, text: 'Option B', isCorrect: false },
-      { id: '3', questionId, text: 'Option C', isCorrect: false },
-      { id: '4', questionId, text: 'Option D', isCorrect: false },
+      { id: "1", questionId, text: "Option A", isCorrect: true },
+      { id: "2", questionId, text: "Option B", isCorrect: false },
+      { id: "3", questionId, text: "Option C", isCorrect: false },
+      { id: "4", questionId, text: "Option D", isCorrect: false },
     ],
     createdAt: overrides.createdAt || new Date(),
     ...overrides,
@@ -115,7 +118,7 @@ export function mockPracticeQuestion(overrides: Partial<PracticeQuestion> = {}):
 export function mockTeam(overrides: Partial<Team> = {}): Team {
   return {
     id: overrides.id || crypto.randomUUID(),
-    name: overrides.name || 'Test Team',
+    name: overrides.name || "Test Team",
     adminId: overrides.adminId || crypto.randomUUID(),
     licenseCount: overrides.licenseCount || 10,
     members: overrides.members || [],
@@ -130,7 +133,7 @@ export function mockTeam(overrides: Partial<Team> = {}): Team {
 export function mockArray<T>(
   factory: (overrides?: Partial<T>) => T,
   count: number,
-  overrides?: Partial<T>
+  overrides?: Partial<T>,
 ): T[] {
   return Array.from({ length: count }, () => factory(overrides));
 }
@@ -138,7 +141,11 @@ export function mockArray<T>(
 /**
  * Generate mock Prisma response with pagination
  */
-export function mockPaginatedResponse<T>(items: T[], page: number = 1, limit: number = 10) {
+export function mockPaginatedResponse<T>(
+  items: T[],
+  page: number = 1,
+  limit: number = 10,
+) {
   const total = items.length;
   const totalPages = Math.ceil(total / limit);
   const startIndex = (page - 1) * limit;
@@ -164,8 +171,8 @@ export function mockPaginatedResponse<T>(items: T[], page: number = 1, limit: nu
 export function mockJwtPayload(overrides: Partial<JwtPayload> = {}) {
   return {
     userId: overrides.userId || crypto.randomUUID(),
-    email: overrides.email || 'test@example.com',
-    tierId: overrides.tierId || 'free',
+    email: overrides.email || "test@example.com",
+    tierId: overrides.tierId || "free",
     ...overrides,
   };
 }

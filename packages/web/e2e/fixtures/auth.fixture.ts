@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks -- Playwright fixtures use 'use' callback, not React hooks */
-import type { Page } from '@playwright/test';
-import { test as base } from '@playwright/test';
-import { testUsers } from './test-users.fixture';
-import { AuthPage } from '../pages/auth.page';
-import { APIHelper } from '../utils/api-helper';
+import type { Page } from "@playwright/test";
+import { test as base } from "@playwright/test";
+import { testUsers } from "./test-users.fixture";
+import { AuthPage } from "../pages/auth.page";
+import { APIHelper } from "../utils/api-helper";
 
 /**
  * Authentication fixture
@@ -28,7 +28,7 @@ export const test = base.extend<AuthFixtures>({
     await authPage.login(user.email, user.password);
 
     // Verify successful login
-    await page.waitForURL('/dashboard');
+    await page.waitForURL("/dashboard");
 
     await use(page);
 
@@ -42,7 +42,7 @@ export const test = base.extend<AuthFixtures>({
 
     await authPage.goto();
     await authPage.login(user.email, user.password);
-    await page.waitForURL('/dashboard');
+    await page.waitForURL("/dashboard");
 
     await use(page);
 
@@ -55,7 +55,7 @@ export const test = base.extend<AuthFixtures>({
 
     await authPage.goto();
     await authPage.login(user.email, user.password);
-    await page.waitForURL('/dashboard');
+    await page.waitForURL("/dashboard");
 
     await use(page);
 
@@ -68,4 +68,4 @@ export const test = base.extend<AuthFixtures>({
   },
 });
 
-export { expect } from '@playwright/test';
+export { expect } from "@playwright/test";

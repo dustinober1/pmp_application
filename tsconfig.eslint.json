@@ -12,5 +12,11 @@
     "packages/**/*.tsx",
     "packages/**/*.js"
   ],
-  "exclude": ["node_modules", "dist", "coverage", "packages/**/dist", "packages/**/.next"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "packages/**/dist",
+    "packages/**/.next"
+  ]
 }

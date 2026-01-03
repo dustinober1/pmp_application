@@ -1,6 +1,9 @@
-import type { ConsentUpdateInput, PrivacyConsent as PrivacyConsentType } from '@pmp/shared';
-import prisma from '../config/database';
-import { logger } from '../utils/logger';
+import type {
+  ConsentUpdateInput,
+  PrivacyConsent as PrivacyConsentType,
+} from "@pmp/shared";
+import prisma from "../config/database";
+import { logger } from "../utils/logger";
 
 export class ConsentService {
   /**
@@ -35,7 +38,7 @@ export class ConsentService {
   async updateConsent(
     userId: string,
     consentData: ConsentUpdateInput,
-    metadata?: { ipAddress?: string; userAgent?: string }
+    metadata?: { ipAddress?: string; userAgent?: string },
   ): Promise<PrivacyConsentType> {
     const existing = await prisma.privacyConsent.findUnique({
       where: { userId },
@@ -51,8 +54,12 @@ export class ConsentService {
             consentIpAddress: metadata?.ipAddress,
             consentUserAgent: metadata?.userAgent,
             // Clear withdrawal if consent is being given again
-            withdrawnAt: consentData.cookieConsent ? null : existing.withdrawnAt,
-            withdrawnReason: consentData.cookieConsent ? null : existing.withdrawnReason,
+            withdrawnAt: consentData.cookieConsent
+              ? null
+              : existing.withdrawnAt,
+            withdrawnReason: consentData.cookieConsent
+              ? null
+              : existing.withdrawnReason,
           },
         })
       : await prisma.privacyConsent.create({
@@ -69,14 +76,16 @@ export class ConsentService {
     // Log consent action
     await prisma.privacyAuditLog.create({
       data: {
-        actionType: consentData.cookieConsent ? 'consent_given' : 'consent_withdrawn',
-        entityType: 'consent',
+        actionType: consentData.cookieConsent
+          ? "consent_given"
+          : "consent_withdrawn",
+        entityType: "consent",
         entityId: consentRecord.id,
         userId,
         performedBy: userId,
         ipAddress: metadata?.ipAddress,
         userAgent: metadata?.userAgent,
-        details: consentData,
+        details: { ...consentData },
       },
     });
 
@@ -108,7 +117,7 @@ export class ConsentService {
   async withdrawConsent(
     userId: string,
     reason?: string,
-    metadata?: { ipAddress?: string; userAgent?: string }
+    metadata?: { ipAddress?: string; userAgent?: string },
   ): Promise<void> {
     const consent = await prisma.privacyConsent.findUnique({
       where: { userId },
@@ -132,8 +141,8 @@ export class ConsentService {
     // Log withdrawal
     await prisma.privacyAuditLog.create({
       data: {
-        actionType: 'consent_withdrawn',
-        entityType: 'consent',
+        actionType: "consent_withdrawn",
+        entityType: "consent",
         entityId: consent.id,
         userId,
         performedBy: userId,
@@ -149,7 +158,10 @@ export class ConsentService {
   /**
    * Check if user has given consent
    */
-  async hasConsent(userId: string, consentType: 'cookies' | 'privacy' | 'terms'): Promise<boolean> {
+  async hasConsent(
+    userId: string,
+    consentType: "cookies" | "privacy" | "terms",
+  ): Promise<boolean> {
     const consent = await prisma.privacyConsent.findUnique({
       where: { userId },
     });
@@ -160,11 +172,11 @@ export class ConsentService {
     if (consent.withdrawnAt) return false;
 
     switch (consentType) {
-      case 'cookies':
+      case "cookies":
         return consent.cookieConsent;
-      case 'privacy':
+      case "privacy":
         return consent.privacyPolicyAccepted;
-      case 'terms':
+      case "terms":
         return consent.termsAccepted;
       default:
         return false;

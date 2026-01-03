@@ -1,21 +1,27 @@
-import type { Request, Response, NextFunction } from 'express';
-import { Router } from 'express';
-import type { FormulaCategory } from '@pmp/shared';
-import { formulaService } from '../services/formula.service';
-import { authMiddleware } from '../middleware/auth.middleware';
-import { requireFeature } from '../middleware/tier.middleware';
-import { validateBody, validateParams, validateQuery } from '../middleware/validation.middleware';
-import { z } from 'zod';
+import type { Request, Response, NextFunction } from "express";
+import { Router } from "express";
+import type { FormulaCategory } from "@pmp/shared";
+import { formulaService } from "../services/formula.service";
+import { authMiddleware } from "../middleware/auth.middleware";
+import { requireFeature } from "../middleware/tier.middleware";
+import {
+  validateBody,
+  validateParams,
+  validateQuery,
+} from "../middleware/validation.middleware";
+import { z } from "zod";
 
 const router = Router();
 
 // Validation schemas
 const formulaIdSchema = z.object({
-  id: z.string().uuid('Invalid formula ID'),
+  id: z.string().uuid("Invalid formula ID"),
 });
 
 const categoryQuerySchema = z.object({
-  category: z.enum(['earned_value', 'scheduling', 'cost', 'communication', 'other']).optional(),
+  category: z
+    .enum(["earned_value", "scheduling", "cost", "communication", "other"])
+    .optional(),
 });
 
 const calculateSchema = z.object({
@@ -27,13 +33,15 @@ const calculateSchema = z.object({
  * Get all formulas (optionally filtered by category)
  */
 router.get(
-  '/',
+  "/",
   authMiddleware,
   validateQuery(categoryQuerySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const category = req.query.category as string | undefined;
-      const formulas = await formulaService.getFormulas(category as FormulaCategory);
+      const formulas = await formulaService.getFormulas(
+        category as FormulaCategory,
+      );
 
       res.json({
         success: true,
@@ -42,32 +50,35 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
  * GET /api/formulas/variables
  * Get EVM variable definitions
  */
-router.get('/variables', async (_req: Request, res: Response, next: NextFunction) => {
-  try {
-    const variables = formulaService.getEVMVariables();
+router.get(
+  "/variables",
+  async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      const variables = formulaService.getEVMVariables();
 
-    res.json({
-      success: true,
-      data: { variables },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+      res.json({
+        success: true,
+        data: { variables },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 /**
  * GET /api/formulas/:id
  * Get a formula by ID
  */
 router.get(
-  '/:id',
+  "/:id",
   authMiddleware,
   validateParams(formulaIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -77,7 +88,7 @@ router.get(
       if (!formula) {
         res.status(404).json({
           success: false,
-          error: { code: 'FORMULA_001', message: 'Formula not found' },
+          error: { code: "FORMULA_001", message: "Formula not found" },
         });
         return;
       }
@@ -89,7 +100,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -97,13 +108,19 @@ router.get(
  * Get practice questions related to a formula
  */
 router.get(
-  '/:id/questions',
+  "/:id/questions",
   authMiddleware,
   validateParams(formulaIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const limit = typeof req.query.limit === 'string' ? parseInt(req.query.limit, 10) : 10;
-      const questionIds = await formulaService.getRelatedQuestions(req.params.id!, limit);
+      const limit =
+        typeof req.query.limit === "string"
+          ? parseInt(req.query.limit, 10)
+          : 10;
+      const questionIds = await formulaService.getRelatedQuestions(
+        req.params.id!,
+        limit,
+      );
 
       res.json({
         success: true,
@@ -112,7 +129,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -120,14 +137,17 @@ router.get(
  * Calculate a formula with given inputs (High-End/Corporate tier)
  */
 router.post(
-  '/:id/calculate',
+  "/:id/calculate",
   authMiddleware,
-  requireFeature('formulaCalculator'),
+  requireFeature("formulaCalculator"),
   validateParams(formulaIdSchema),
   validateBody(calculateSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await formulaService.calculateFormula(req.params.id!, req.body.inputs);
+      const result = await formulaService.calculateFormula(
+        req.params.id!,
+        req.body.inputs,
+      );
 
       res.json({
         success: true,
@@ -136,7 +156,7 @@ router.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export default router;

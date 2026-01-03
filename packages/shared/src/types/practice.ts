@@ -2,7 +2,7 @@
  * Practice Question related types
  */
 
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = "easy" | "medium" | "hard";
 
 export interface PracticeQuestion {
   id: string;

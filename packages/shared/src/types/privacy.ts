@@ -28,7 +28,7 @@ export interface ConsentUpdateInput {
 export interface DataExportRequest {
   id: string;
   userId: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
   requestId: string;
   requestedAt: Date;
   completedAt?: Date;
@@ -105,7 +105,7 @@ export interface UserDataExport {
 export interface AccountDeletionRequest {
   id: string;
   userId: string;
-  status: 'pending' | 'processing' | 'completed' | 'cancelled';
+  status: "pending" | "processing" | "completed" | "cancelled";
   requestedAt: Date;
   gracePeriodEnds: Date;
   completedAt?: Date;
@@ -127,14 +127,14 @@ export interface DeletionRequestInput {
 export interface PrivacyAuditLog {
   id: string;
   actionType:
-    | 'data_export'
-    | 'account_deletion'
-    | 'consent_given'
-    | 'consent_withdrawn'
-    | 'data_accessed'
-    | 'account_soft_deleted'
-    | 'account_hard_deleted';
-  entityType: 'user' | 'consent' | 'export_request' | 'deletion_request';
+    | "data_export"
+    | "account_deletion"
+    | "consent_given"
+    | "consent_withdrawn"
+    | "data_accessed"
+    | "account_soft_deleted"
+    | "account_hard_deleted";
+  entityType: "user" | "consent" | "export_request" | "deletion_request";
   entityId: string;
   userId?: string;
   performedBy?: string;
@@ -142,7 +142,7 @@ export interface PrivacyAuditLog {
   userAgent?: string;
   requestId?: string;
   details?: Record<string, unknown>;
-  status: 'success' | 'failed' | 'cancelled';
+  status: "success" | "failed" | "cancelled";
   createdAt: Date;
 }
 
@@ -174,27 +174,28 @@ export interface AdminComplianceDashboard {
 // Error Codes
 export const PRIVACY_ERRORS = {
   PRIVACY_001: {
-    code: 'PRIVACY_001',
-    message: 'Export request already exists. Please wait for current request to complete.',
+    code: "PRIVACY_001",
+    message:
+      "Export request already exists. Please wait for current request to complete.",
   },
   PRIVACY_002: {
-    code: 'PRIVACY_002',
-    message: 'Export not found or has expired.',
+    code: "PRIVACY_002",
+    message: "Export not found or has expired.",
   },
   PRIVACY_003: {
-    code: 'PRIVACY_003',
-    message: 'Deletion request already exists.',
+    code: "PRIVACY_003",
+    message: "Deletion request already exists.",
   },
   PRIVACY_004: {
-    code: 'PRIVACY_004',
-    message: 'Invalid deletion request.',
+    code: "PRIVACY_004",
+    message: "Invalid deletion request.",
   },
   PRIVACY_005: {
-    code: 'PRIVACY_005',
-    message: 'Grace period has expired. Cannot cancel deletion.',
+    code: "PRIVACY_005",
+    message: "Grace period has expired. Cannot cancel deletion.",
   },
   PRIVACY_006: {
-    code: 'PRIVACY_006',
-    message: 'Admin access required.',
+    code: "PRIVACY_006",
+    message: "Admin access required.",
   },
 } as const;

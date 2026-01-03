@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import type { PracticeQuestion } from '@pmp/shared';
+import type { PracticeQuestion } from "@pmp/shared";
 
 export function MockExamHeader(props: {
   currentIndex: number;
@@ -10,14 +10,21 @@ export function MockExamHeader(props: {
   onShowReview: () => void;
   formatTime: (seconds: number) => string;
 }) {
-  const { currentIndex, totalCount, progressPercent, timeLeftSeconds, onShowReview, formatTime } =
-    props;
+  const {
+    currentIndex,
+    totalCount,
+    progressPercent,
+    timeLeftSeconds,
+    onShowReview,
+    formatTime,
+  } = props;
 
   return (
     <div className="flex items-center justify-between mb-6 bg-gray-900/50 p-4 rounded-xl border border-gray-800">
       <div className="flex items-center space-x-4">
         <span className="text-gray-300 font-medium">
-          Question {currentIndex + 1} <span className="text-gray-500">/ {totalCount}</span>
+          Question {currentIndex + 1}{" "}
+          <span className="text-gray-500">/ {totalCount}</span>
         </span>
         <div className="h-4 w-32 bg-gray-800 rounded-full overflow-hidden hidden sm:block">
           <div
@@ -31,7 +38,10 @@ export function MockExamHeader(props: {
         <div className="text-2xl font-mono font-bold text-primary-400 tracking-wider bg-gray-900 px-4 py-1 rounded-lg border border-gray-800 shadow-inner">
           {formatTime(timeLeftSeconds)}
         </div>
-        <button onClick={onShowReview} className="text-sm text-gray-300 hover:text-white underline">
+        <button
+          onClick={onShowReview}
+          className="text-sm text-gray-300 hover:text-white underline"
+        >
           Review All
         </button>
       </div>
@@ -62,7 +72,9 @@ export function MockExamReviewScreen(props: {
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-white">Review Your Answers</h1>
-        <div className="text-xl font-mono text-primary-400">{formatTime(timeLeftSeconds)}</div>
+        <div className="text-xl font-mono text-primary-400">
+          {formatTime(timeLeftSeconds)}
+        </div>
       </div>
 
       <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
@@ -73,8 +85,8 @@ export function MockExamReviewScreen(props: {
               onClick={() => onJumpToQuestion(idx)}
               className={`p-2 rounded text-sm font-medium border transition-colors ${
                 q.userAnswerId
-                  ? 'bg-primary-900/40 border-primary-600 text-white'
-                  : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-500'
+                  ? "bg-primary-900/40 border-primary-600 text-white"
+                  : "bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-500"
               }`}
             >
               {idx + 1}
@@ -95,7 +107,7 @@ export function MockExamReviewScreen(props: {
           disabled={isSubmitting}
           className="px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg"
         >
-          {isSubmitting ? 'Submitting...' : 'Submit Exam'}
+          {isSubmitting ? "Submitting..." : "Submit Exam"}
         </button>
       </div>
     </div>
@@ -116,7 +128,7 @@ export function MockExamQuestionCard(props: {
       </p>
 
       <div className="space-y-3">
-        {question.options.map(option => {
+        {question.options.map((option) => {
           const isSelected = selectedOptionId === option.id;
           return (
             <button
@@ -124,20 +136,24 @@ export function MockExamQuestionCard(props: {
               onClick={() => onSelectOption(option.id)}
               className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group ${
                 isSelected
-                  ? 'bg-primary-900/20 border-primary-500 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
-                  : 'bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:border-gray-500'
+                  ? "bg-primary-900/20 border-primary-500 shadow-[0_0_15px_rgba(59,130,246,0.1)]"
+                  : "bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:border-gray-500"
               }`}
             >
               <div
                 className={`mt-0.5 w-6 h-6 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors ${
                   isSelected
-                    ? 'border-primary-500 bg-primary-500'
-                    : 'border-gray-600 group-hover:border-gray-500'
+                    ? "border-primary-500 bg-primary-500"
+                    : "border-gray-600 group-hover:border-gray-500"
                 }`}
               >
-                {isSelected && <div className="w-2.5 h-2.5 bg-white rounded-full"></div>}
+                {isSelected && (
+                  <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                )}
               </div>
-              <span className={`text-lg ${isSelected ? 'text-white' : 'text-gray-200'}`}>
+              <span
+                className={`text-lg ${isSelected ? "text-white" : "text-gray-200"}`}
+              >
                 {option.text}
               </span>
             </button>
@@ -167,10 +183,10 @@ export function MockExamSideNav(props: {
             onClick={() => onSelectIndex(idx)}
             className={`w-full aspect-square rounded flex items-center justify-center text-sm font-bold transition-all ${
               isActive
-                ? 'bg-primary-600 text-white shadow-lg scale-105'
+                ? "bg-primary-600 text-white shadow-lg scale-105"
                 : isAnswered
-                  ? 'bg-primary-900/30 text-primary-400 border border-primary-900'
-                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                  ? "bg-primary-900/30 text-primary-400 border border-primary-900"
+                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
             }`}
           >
             {idx + 1}
@@ -196,8 +212,8 @@ export function MockExamFooter(props: {
         disabled={!canGoPrev}
         className={`px-6 py-2.5 rounded-lg border font-medium transition ${
           !canGoPrev
-            ? 'border-gray-800 text-gray-500 cursor-not-allowed'
-            : 'border-gray-700 text-gray-200 hover:bg-gray-800 hover:text-white'
+            ? "border-gray-800 text-gray-500 cursor-not-allowed"
+            : "border-gray-700 text-gray-200 hover:bg-gray-800 hover:text-white"
         }`}
       >
         &larr; Previous

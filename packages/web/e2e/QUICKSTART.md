@@ -101,13 +101,13 @@ npm run test:e2e:report
 Create a new file in `e2e/`:
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('my first test', async ({ page }) => {
-  await page.goto('/');
+test("my first test", async ({ page }) => {
+  await page.goto("/");
 
   await expect(page).toHaveTitle(/PMP Study/);
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator("h1")).toBeVisible();
 });
 ```
 

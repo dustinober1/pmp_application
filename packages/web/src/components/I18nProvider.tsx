@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { I18nextProvider } from 'react-i18next';
-import i18n, { getInitialLocale } from '@/i18n/i18n';
+import { useEffect } from "react";
+import { I18nextProvider } from "react-i18next";
+import i18n, { getInitialLocale } from "@/i18n/i18n";
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {

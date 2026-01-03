@@ -388,17 +388,17 @@ npm test -- --coverage
 **Option 2: In-Process Cron**
 
 ```typescript
-import cron from 'node-cron';
+import cron from "node-cron";
 
 // Process pending deletions at 2 AM daily
-cron.schedule('0 2 * * *', async () => {
-  const { accountDeletionService } = await import('./services');
+cron.schedule("0 2 * * *", async () => {
+  const { accountDeletionService } = await import("./services");
   await accountDeletionService.processPendingDeletions();
 });
 
 // Cleanup expired exports at 3 AM daily
-cron.schedule('0 3 * * *', async () => {
-  const prisma = await import('./config/database');
+cron.schedule("0 3 * * *", async () => {
+  const prisma = await import("./config/database");
   await prisma.default.dataExportRequest.deleteMany({
     where: { expiresAt: { lt: new Date() } },
   });

@@ -1,5 +1,5 @@
-import { defineConfig, devices } from '@playwright/test';
-import path from 'path';
+import { defineConfig, devices } from "@playwright/test";
+import path from "path";
 
 /**
  * Playwright E2E Test Configuration for PMP Study Application
@@ -19,7 +19,7 @@ export default defineConfig<{
   /* eslint-enable @typescript-eslint/no-explicit-any */
 }>({
   // Test directory
-  testDir: './e2e',
+  testDir: "./e2e",
 
   // Fully parallel test execution
   fullyParallel: true,
@@ -35,10 +35,10 @@ export default defineConfig<{
 
   // Reporter configuration
   reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['json', { outputFile: 'test-results/results.json' }],
-    ['junit', { outputFile: 'test-results/results.xml' }],
-    ['list'],
+    ["html", { outputFolder: "playwright-report", open: "never" }],
+    ["json", { outputFile: "test-results/results.json" }],
+    ["junit", { outputFile: "test-results/results.xml" }],
+    ["list"],
   ],
 
   // Global timeout
@@ -52,21 +52,21 @@ export default defineConfig<{
   // Test configuration
   use: {
     // Base URL for tests
-    baseURL: process.env.BASE_URL || 'http://localhost:3005',
+    baseURL: process.env.BASE_URL || "http://localhost:3005",
 
     // Custom headers for E2E tests
     extraHTTPHeaders: {
-      'x-e2e-test': 'true',
+      "x-e2e-test": "true",
     },
 
     // Trace configuration (on failure, or on first retry)
-    trace: 'retain-on-failure',
+    trace: "retain-on-failure",
 
     // Screenshot configuration
-    screenshot: 'only-on-failure',
+    screenshot: "only-on-failure",
 
     // Video configuration
-    video: 'retain-on-failure',
+    video: "retain-on-failure",
 
     // Viewport size
     viewport: { width: 1280, height: 720 },
@@ -84,9 +84,9 @@ export default defineConfig<{
   // Test projects for different browsers and devices
   projects: [
     {
-      name: 'chromium',
+      name: "chromium",
       use: {
-        ...devices['Desktop Chrome'],
+        ...devices["Desktop Chrome"],
         contextOptions: {
           // Accept downloads in tests
           acceptDownloads: true,
@@ -95,53 +95,54 @@ export default defineConfig<{
     },
 
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
 
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
     },
 
     // Mobile viewport tests
     {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
+      name: "Mobile Chrome",
+      use: { ...devices["Pixel 5"] },
     },
     {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
+      name: "Mobile Safari",
+      use: { ...devices["iPhone 12"] },
     },
 
     // Visual regression tests
     {
-      name: 'visual-regression',
+      name: "visual-regression",
       testMatch: /.*\.visual\.spec\.ts/,
       use: {
-        ...devices['Desktop Chrome'],
-        screenshot: 'only-on-failure',
+        ...devices["Desktop Chrome"],
+        screenshot: "only-on-failure",
       },
     },
   ],
 
   // Web server configuration for local development
   webServer: {
-    command: 'PORT=3005 npm run dev',
-    url: 'http://localhost:3005',
+    command: "PORT=3005 npm run dev",
+    url: "http://localhost:3005",
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
     env: {
       ...process.env,
-      E2E_TEST: 'true',
-      NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+      E2E_TEST: "true",
+      NEXT_PUBLIC_API_URL:
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001",
     },
   },
 
   // Output directories
-  outputDir: 'test-results/artifacts',
+  outputDir: "test-results/artifacts",
 
   // Global setup and teardown
-  globalSetup: path.join(__dirname, 'e2e/setup/global-setup.ts'),
-  globalTeardown: path.join(__dirname, 'e2e/setup/global-teardown.ts'),
+  globalSetup: path.join(__dirname, "e2e/setup/global-setup.ts"),
+  globalTeardown: path.join(__dirname, "e2e/setup/global-teardown.ts"),
 });

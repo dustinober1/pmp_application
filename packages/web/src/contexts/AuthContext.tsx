@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import type { ReactNode } from 'react';
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { UserProfile } from '@pmp/shared';
-import { apiRequest } from '@/lib/api';
+import type { ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import type { UserProfile } from "@pmp/shared";
+import { apiRequest } from "@/lib/api";
 
 interface AuthState {
   user: UserProfile | null;
@@ -12,7 +12,11 @@ interface AuthState {
 }
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
+  login: (
+    email: string,
+    password: string,
+    rememberMe?: boolean,
+  ) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
@@ -34,12 +38,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const hydrate = async () => {
     // Skip hydration during server-side rendering
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return;
     }
 
     try {
-      const response = await apiRequest<{ user: UserProfile }>('/auth/me');
+      const response = await apiRequest<{ user: UserProfile }>("/auth/me");
       const user = response.data?.user || null;
 
       setState({
@@ -56,9 +60,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const login = async (email: string, password: string, rememberMe: boolean = false) => {
-    const response = await apiRequest<{ user: UserProfile }>('/auth/login', {
-      method: 'POST',
+  const login = async (
+    email: string,
+    password: string,
+    rememberMe: boolean = false,
+  ) => {
+    const response = await apiRequest<{ user: UserProfile }>("/auth/login", {
+      method: "POST",
       body: { email, password, rememberMe },
     });
 
@@ -71,8 +79,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (email: string, password: string, name: string) => {
-    const response = await apiRequest<{ user: UserProfile }>('/auth/register', {
-      method: 'POST',
+    const response = await apiRequest<{ user: UserProfile }>("/auth/register", {
+      method: "POST",
       body: { email, password, name },
     });
 
@@ -86,7 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
-      await apiRequest('/auth/logout', { method: 'POST' });
+      await apiRequest("/auth/logout", { method: "POST" });
     } finally {
       setState({
         user: null,
@@ -98,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshToken = async () => {
     try {
-      await apiRequest('/auth/refresh', { method: 'POST' });
+      await apiRequest("/auth/refresh", { method: "POST" });
       await hydrate();
     } catch {
       await logout();
@@ -110,7 +118,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout, refreshToken, refreshUser }}>
+    <AuthContext.Provider
+      value={{ ...state, login, register, logout, refreshToken, refreshUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -119,7 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

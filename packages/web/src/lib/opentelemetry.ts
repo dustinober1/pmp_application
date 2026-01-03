@@ -5,30 +5,33 @@
  */
 
 /* eslint-disable no-console -- OpenTelemetry console output is expected */
-import { trace, context, SpanStatusCode } from '@opentelemetry/api';
-import type { Span } from '@opentelemetry/api';
-import { WebTracerProvider, BatchSpanProcessor } from '@opentelemetry/sdk-trace-web';
-import { Resource } from '@opentelemetry/resources';
-import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
-import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
-import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
-import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
+import { trace, context, SpanStatusCode } from "@opentelemetry/api";
+import type { Span } from "@opentelemetry/api";
+import {
+  WebTracerProvider,
+  BatchSpanProcessor,
+} from "@opentelemetry/sdk-trace-web";
+import { Resource } from "@opentelemetry/resources";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import { FetchInstrumentation } from "@opentelemetry/instrumentation-fetch";
+import { XMLHttpRequestInstrumentation } from "@opentelemetry/instrumentation-xml-http-request";
+import { UserInteractionInstrumentation } from "@opentelemetry/instrumentation-user-interaction";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
 
 // Configuration
-const SERVICE_NAME = process.env.NEXT_PUBLIC_OTEL_SERVICE_NAME || 'pmp-web';
-const SERVICE_VERSION = process.env.NEXT_PUBLIC_OTEL_SERVICE_VERSION || '1.0.0';
+const SERVICE_NAME = process.env.NEXT_PUBLIC_OTEL_SERVICE_NAME || "pmp-web";
+const SERVICE_VERSION = process.env.NEXT_PUBLIC_OTEL_SERVICE_VERSION || "1.0.0";
 const OTEL_EXPORTER_OTLP_ENDPOINT =
   process.env.NEXT_PUBLIC_OTEL_EXPORTER_OTLP_ENDPOINT ||
-  (typeof window !== 'undefined'
+  (typeof window !== "undefined"
     ? `${window.location.origin}/otlp`
-    : 'http://localhost:4318/v1/traces');
+    : "http://localhost:4318/v1/traces");
 
 // Initialize tracing
 export function initializeTracing() {
   // Only initialize in browser
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return;
   }
 
@@ -37,8 +40,9 @@ export function initializeTracing() {
     new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: SERVICE_NAME,
       [SemanticResourceAttributes.SERVICE_VERSION]: SERVICE_VERSION,
-      [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV || 'development',
-    })
+      [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]:
+        process.env.NODE_ENV || "development",
+    }),
   );
 
   // Create tracer provider
@@ -47,14 +51,14 @@ export function initializeTracing() {
   });
 
   // Configure exporter (using collector in production, console in development)
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = process.env.NODE_ENV === "development";
 
   if (!isDevelopment) {
     // Production: Send to OTLP collector
     const exporter = new OTLPTraceExporter({
       url: OTEL_EXPORTER_OTLP_ENDPOINT,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
@@ -84,7 +88,7 @@ export function initializeTracing() {
       ...(isDevelopment
         ? [
             new UserInteractionInstrumentation({
-              eventNames: ['click', 'submit', 'change'],
+              eventNames: ["click", "submit", "change"],
             }),
           ]
         : []),
@@ -93,7 +97,7 @@ export function initializeTracing() {
 
   // Log initialization
   if (isDevelopment) {
-    console.log('[OpenTelemetry] Browser tracing initialized', {
+    console.log("[OpenTelemetry] Browser tracing initialized", {
       service: SERVICE_NAME,
       version: SERVICE_VERSION,
       environment: process.env.NODE_ENV,
@@ -113,10 +117,13 @@ export function createSpan(name: string): Span {
 /**
  * Run an operation within a span
  */
-export async function withSpan<T>(name: string, fn: (span: Span) => Promise<T> | T): Promise<T> {
+export async function withSpan<T>(
+  name: string,
+  fn: (span: Span) => Promise<T> | T,
+): Promise<T> {
   const tracer = trace.getTracer(SERVICE_NAME);
 
-  return tracer.startActiveSpan(name, async span => {
+  return tracer.startActiveSpan(name, async (span) => {
     try {
       const result = await fn(span);
       span.setStatus({ code: SpanStatusCode.OK });
@@ -141,13 +148,17 @@ export async function withSpan<T>(name: string, fn: (span: Span) => Promise<T> |
 /**
  * Add user context to current span
  */
-export function setUserContext(user: { id: string; email?: string; tier?: string }) {
+export function setUserContext(user: {
+  id: string;
+  email?: string;
+  tier?: string;
+}) {
   const span = trace.getSpan(context.active());
   if (span) {
     span.setAttributes({
-      'user.id': user.id,
-      'user.email': user.email,
-      'user.tier': user.tier,
+      "user.id": user.id,
+      "user.email": user.email,
+      "user.tier": user.tier,
     });
   }
 }
@@ -155,13 +166,17 @@ export function setUserContext(user: { id: string; email?: string; tier?: string
 /**
  * Add page context to current span
  */
-export function setPageContext(page: { path: string; title?: string; referrer?: string }) {
+export function setPageContext(page: {
+  path: string;
+  title?: string;
+  referrer?: string;
+}) {
   const span = trace.getSpan(context.active());
   if (span) {
     span.setAttributes({
-      'page.path': page.path,
-      'page.title': page.title,
-      'page.referrer': page.referrer,
+      "page.path": page.path,
+      "page.title": page.title,
+      "page.referrer": page.referrer,
     });
   }
 }
@@ -192,7 +207,7 @@ export function getCurrentSpan(): Span | undefined {
  */
 export function addEvent(
   name: string,
-  attributes?: Record<string, string | number | boolean | undefined>
+  attributes?: Record<string, string | number | boolean | undefined>,
 ) {
   const span = getCurrentSpan();
   if (span) {
@@ -205,7 +220,7 @@ export function addEvent(
  */
 export function recordError(
   error: Error,
-  attributes?: Record<string, string | number | boolean | undefined>
+  attributes?: Record<string, string | number | boolean | undefined>,
 ) {
   const span = getCurrentSpan();
   if (span) {
@@ -225,7 +240,7 @@ export function recordError(
  * Track page navigation
  */
 export function trackPageNavigation(path: string, title?: string) {
-  withSpan(`page.navigation:${path}`, span => {
+  withSpan(`page.navigation:${path}`, (span) => {
     setPageContext({
       path,
       title,
@@ -233,7 +248,7 @@ export function trackPageNavigation(path: string, title?: string) {
     });
 
     span.setAttributes({
-      'navigation.type': 'route_change',
+      "navigation.type": "route_change",
     });
   });
 }
@@ -242,11 +257,11 @@ export function trackPageNavigation(path: string, title?: string) {
  * Track API call
  */
 export function trackApiCall(url: string, method: string) {
-  return withSpan(`http.request:${method}:${url}`, span => {
+  return withSpan(`http.request:${method}:${url}`, (span) => {
     span.setAttributes({
-      'http.method': method,
-      'http.url': url,
-      'http.type': 'fetch',
+      "http.method": method,
+      "http.url": url,
+      "http.type": "fetch",
     });
   });
 }
@@ -254,13 +269,17 @@ export function trackApiCall(url: string, method: string) {
 /**
  * Track user interaction
  */
-export function trackUserInteraction(elementType: string, action: string, elementId?: string) {
-  if (process.env.NODE_ENV === 'development') {
-    withSpan(`user.interaction:${action}`, span => {
+export function trackUserInteraction(
+  elementType: string,
+  action: string,
+  elementId?: string,
+) {
+  if (process.env.NODE_ENV === "development") {
+    withSpan(`user.interaction:${action}`, (span) => {
       span.setAttributes({
-        'ui.element_type': elementType,
-        'ui.action': action,
-        'ui.element_id': elementId,
+        "ui.element_type": elementType,
+        "ui.action": action,
+        "ui.element_id": elementId,
       });
     });
   }

@@ -1,28 +1,43 @@
 /* eslint-disable no-console */
-import { PrismaClient } from '@prisma/client';
-import * as fs from 'fs';
-import * as path from 'path';
+import { PrismaClient } from "@prisma/client";
+import * as fs from "fs";
+import * as path from "path";
 
 const prisma = new PrismaClient();
 
 // Path to the PMP-2026 guide markdown files
-const GUIDE_BASE_PATH = '/Users/dustinober/PMP-2026/guide';
+const GUIDE_BASE_PATH = "/Users/dustinober/PMP-2026/guide";
 
 // Define chapter configuration
 const CHAPTERS = [
   // FREE chapters
-  { slug: '01-introduction', orderIndex: 1, isPremium: false, titlePrefix: '1' },
-  { slug: '02-strategic', orderIndex: 2, isPremium: true, titlePrefix: '2' },
-  { slug: '03-team-leadership', orderIndex: 3, isPremium: true, titlePrefix: '3' },
-  { slug: '04-stakeholder', orderIndex: 4, isPremium: true, titlePrefix: '4' },
-  { slug: '05-initiation', orderIndex: 5, isPremium: false, titlePrefix: '5' },
-  { slug: '06-project-planning', orderIndex: 6, isPremium: true, titlePrefix: '6' },
-  { slug: '07-risk-quality', orderIndex: 7, isPremium: true, titlePrefix: '7' },
-  { slug: '08-execution', orderIndex: 8, isPremium: true, titlePrefix: '8' },
-  { slug: '09-monitoring', orderIndex: 9, isPremium: true, titlePrefix: '9' },
-  { slug: '10-ai-pm', orderIndex: 10, isPremium: true, titlePrefix: '10' },
-  { slug: '11-exam-prep', orderIndex: 11, isPremium: false, titlePrefix: '11' },
-  { slug: 'appendices', orderIndex: 12, isPremium: true, titlePrefix: 'A' },
+  {
+    slug: "01-introduction",
+    orderIndex: 1,
+    isPremium: false,
+    titlePrefix: "1",
+  },
+  { slug: "02-strategic", orderIndex: 2, isPremium: true, titlePrefix: "2" },
+  {
+    slug: "03-team-leadership",
+    orderIndex: 3,
+    isPremium: true,
+    titlePrefix: "3",
+  },
+  { slug: "04-stakeholder", orderIndex: 4, isPremium: true, titlePrefix: "4" },
+  { slug: "05-initiation", orderIndex: 5, isPremium: false, titlePrefix: "5" },
+  {
+    slug: "06-project-planning",
+    orderIndex: 6,
+    isPremium: true,
+    titlePrefix: "6",
+  },
+  { slug: "07-risk-quality", orderIndex: 7, isPremium: true, titlePrefix: "7" },
+  { slug: "08-execution", orderIndex: 8, isPremium: true, titlePrefix: "8" },
+  { slug: "09-monitoring", orderIndex: 9, isPremium: true, titlePrefix: "9" },
+  { slug: "10-ai-pm", orderIndex: 10, isPremium: true, titlePrefix: "10" },
+  { slug: "11-exam-prep", orderIndex: 11, isPremium: false, titlePrefix: "11" },
+  { slug: "appendices", orderIndex: 12, isPremium: true, titlePrefix: "A" },
 ];
 
 /**
@@ -38,10 +53,10 @@ function extractTitleFromMarkdown(content: string, filename: string): string {
 
   // Derive from filename
   return filename
-    .replace(/\.md$/, '')
-    .split('-')
-    .map(word => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ''))
-    .join(' ');
+    .replace(/\.md$/, "")
+    .split("-")
+    .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ""))
+    .join(" ");
 }
 
 /**
@@ -50,18 +65,23 @@ function extractTitleFromMarkdown(content: string, filename: string): string {
  */
 function extractDescriptionFromIndex(content: string): string {
   // Remove the title line
-  const lines = content.split('\n').filter(line => !line.match(/^#\s+/));
+  const lines = content.split("\n").filter((line) => !line.match(/^#\s+/));
 
   // Find the first paragraph (non-empty line that's not a heading)
   for (const line of lines) {
     const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith('#') && !trimmed.startsWith('<') && trimmed.length > 20) {
+    if (
+      trimmed &&
+      !trimmed.startsWith("#") &&
+      !trimmed.startsWith("<") &&
+      trimmed.length > 20
+    ) {
       // Take up to 500 characters for description
-      return trimmed.substring(0, 500) + (trimmed.length > 500 ? '...' : '');
+      return trimmed.substring(0, 500) + (trimmed.length > 500 ? "..." : "");
     }
   }
 
-  return 'Chapter content and study materials.';
+  return "Chapter content and study materials.";
 }
 
 /**
@@ -76,9 +96,9 @@ function parseChapterTitle(indexContent: string, chapterSlug: string): string {
   // Fallback: derive from slug
   return (
     chapterSlug
-      .split('-')
-      .map(word => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ''))
-      .join(' ') + ' (Chapter)'
+      .split("-")
+      .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ""))
+      .join(" ") + " (Chapter)"
   );
 }
 
@@ -86,7 +106,7 @@ function parseChapterTitle(indexContent: string, chapterSlug: string): string {
  * Convert filename to slug
  */
 function filenameToSlug(filename: string): string {
-  return filename.replace(/\.md$/, '');
+  return filename.replace(/\.md$/, "");
 }
 
 /**
@@ -98,7 +118,7 @@ function getMarkdownFiles(dirPath: string): string[] {
   }
 
   const files = fs.readdirSync(dirPath);
-  return files.filter(file => file.endsWith('.md'));
+  return files.filter((file) => file.endsWith(".md"));
 }
 
 /**
@@ -111,7 +131,7 @@ async function importChapter(chapterConfig: {
   titlePrefix: string;
 }): Promise<void> {
   const chapterPath = path.join(GUIDE_BASE_PATH, chapterConfig.slug);
-  const indexPath = path.join(chapterPath, 'index.md');
+  const indexPath = path.join(chapterPath, "index.md");
 
   if (!fs.existsSync(chapterPath)) {
     console.warn(`    ⚠️ Chapter directory not found: ${chapterConfig.slug}`);
@@ -119,12 +139,14 @@ async function importChapter(chapterConfig: {
   }
 
   if (!fs.existsSync(indexPath)) {
-    console.warn(`    ⚠️ index.md not found for chapter: ${chapterConfig.slug}`);
+    console.warn(
+      `    ⚠️ index.md not found for chapter: ${chapterConfig.slug}`,
+    );
     return;
   }
 
   // Read index.md for chapter metadata
-  const indexContent = fs.readFileSync(indexPath, 'utf-8');
+  const indexContent = fs.readFileSync(indexPath, "utf-8");
   const chapterTitle = parseChapterTitle(indexContent, chapterConfig.slug);
   const chapterDescription = extractDescriptionFromIndex(indexContent);
 
@@ -136,7 +158,7 @@ async function importChapter(chapterConfig: {
       description: chapterDescription,
       orderIndex: chapterConfig.orderIndex,
       isPremium: chapterConfig.isPremium,
-      minTier: chapterConfig.isPremium ? 'pro' : 'free',
+      minTier: chapterConfig.isPremium ? "pro" : "free",
     },
     create: {
       slug: chapterConfig.slug,
@@ -144,16 +166,16 @@ async function importChapter(chapterConfig: {
       description: chapterDescription,
       orderIndex: chapterConfig.orderIndex,
       isPremium: chapterConfig.isPremium,
-      minTier: chapterConfig.isPremium ? 'pro' : 'free',
+      minTier: chapterConfig.isPremium ? "pro" : "free",
     },
   });
 
   console.log(
-    `    ${chapterConfig.isPremium ? '🔒' : '📖'} ${chapterTitle} (${chapterConfig.slug})`
+    `    ${chapterConfig.isPremium ? "🔒" : "📖"} ${chapterTitle} (${chapterConfig.slug})`,
   );
 
   // Get all markdown files except index.md
-  const mdFiles = getMarkdownFiles(chapterPath).filter(f => f !== 'index.md');
+  const mdFiles = getMarkdownFiles(chapterPath).filter((f) => f !== "index.md");
   mdFiles.sort(); // Alphabetical sort for consistent ordering
 
   const sections: Array<{ id: string; slug: string; orderIndex: number }> = [];
@@ -163,7 +185,7 @@ async function importChapter(chapterConfig: {
     const file = mdFiles[i]!;
     const filePath = path.join(chapterPath, file);
     const slug = filenameToSlug(file);
-    const content = fs.readFileSync(filePath, 'utf-8');
+    const content = fs.readFileSync(filePath, "utf-8");
     const title = extractTitleFromMarkdown(content, file);
 
     const prevFile = mdFiles[i - 1];
@@ -201,13 +223,13 @@ async function importChapter(chapterConfig: {
 }
 
 async function main() {
-  console.log('📚 Seeding PMP 2026 Ebook from markdown files...');
+  console.log("📚 Seeding PMP 2026 Ebook from markdown files...");
   console.log(`   Source: ${GUIDE_BASE_PATH}`);
 
   // Verify guide directory exists
   if (!fs.existsSync(GUIDE_BASE_PATH)) {
     console.error(`❌ Guide directory not found: ${GUIDE_BASE_PATH}`);
-    console.error('   Please ensure the PMP-2026/guide directory exists.');
+    console.error("   Please ensure the PMP-2026/guide directory exists.");
     process.exit(1);
   }
 
@@ -222,7 +244,9 @@ async function main() {
     // Count sections
     const chapterPath = path.join(GUIDE_BASE_PATH, chapterConfig.slug);
     if (fs.existsSync(chapterPath)) {
-      const mdFiles = getMarkdownFiles(chapterPath).filter(f => f !== 'index.md');
+      const mdFiles = getMarkdownFiles(chapterPath).filter(
+        (f) => f !== "index.md",
+      );
       totalSections += mdFiles.length;
     }
   }
@@ -234,8 +258,8 @@ async function main() {
 }
 
 main()
-  .catch(e => {
-    console.error('❌ Ebook seed failed:', e);
+  .catch((e) => {
+    console.error("❌ Ebook seed failed:", e);
     process.exit(1);
   })
   .finally(async () => {

@@ -1,17 +1,17 @@
 /* eslint-disable no-console */
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
   const user = await prisma.user.findUnique({
-    where: { email: 'test@example.com' },
+    where: { email: "test@example.com" },
   });
-  console.log('User found:', user);
+  console.log("User found:", user);
 }
 
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })

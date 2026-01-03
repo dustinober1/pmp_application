@@ -1,4 +1,4 @@
-import prisma from '../config/database';
+import prisma from "../config/database";
 
 // Types for ebook progress responses
 interface EbookProgressResponse {
@@ -27,7 +27,7 @@ export class EbookProgressService {
   async updateProgress(
     userId: string,
     chapterSlug: string,
-    sectionSlug: string
+    sectionSlug: string,
   ): Promise<EbookProgressResponse> {
     // Find the chapter and section to get IDs
     const chapter = await prisma.ebookChapter.findUnique({
@@ -50,7 +50,9 @@ export class EbookProgressService {
     });
 
     if (!section) {
-      throw new Error(`Section not found: ${sectionSlug} in chapter: ${chapterSlug}`);
+      throw new Error(
+        `Section not found: ${sectionSlug} in chapter: ${chapterSlug}`,
+      );
     }
 
     // Get or create user progress
@@ -69,7 +71,9 @@ export class EbookProgressService {
       });
     } else {
       // Update last read position
-      const updatedCompletedSections = progress.completedSections.includes(section.id)
+      const updatedCompletedSections = progress.completedSections.includes(
+        section.id,
+      )
         ? progress.completedSections
         : [...progress.completedSections, section.id];
 
@@ -86,7 +90,9 @@ export class EbookProgressService {
     // Calculate overall progress
     const totalSections = await prisma.ebookSection.count();
     const overallProgress =
-      totalSections > 0 ? Math.round((progress.completedSections.length / totalSections) * 100) : 0;
+      totalSections > 0
+        ? Math.round((progress.completedSections.length / totalSections) * 100)
+        : 0;
 
     return {
       lastChapterId: progress.lastChapterId,
@@ -120,7 +126,9 @@ export class EbookProgressService {
 
     const totalSections = await prisma.ebookSection.count();
     const overallProgress =
-      totalSections > 0 ? Math.round((progress.completedSections.length / totalSections) * 100) : 0;
+      totalSections > 0
+        ? Math.round((progress.completedSections.length / totalSections) * 100)
+        : 0;
 
     return {
       lastChapterId: progress.lastChapterId,
@@ -136,7 +144,10 @@ export class EbookProgressService {
    * Returns which sections are completed
    * Shows chapter progress percentage
    */
-  async getChapterProgress(userId: string, chapterSlug: string): Promise<ChapterProgressResponse> {
+  async getChapterProgress(
+    userId: string,
+    chapterSlug: string,
+  ): Promise<ChapterProgressResponse> {
     const chapter = await prisma.ebookChapter.findUnique({
       where: { slug: chapterSlug },
       select: { id: true, title: true },
@@ -150,7 +161,7 @@ export class EbookProgressService {
       prisma.ebookSection.findMany({
         where: { chapterId: chapter.id },
         select: { id: true },
-        orderBy: { orderIndex: 'asc' },
+        orderBy: { orderIndex: "asc" },
       }),
       prisma.userEbookProgress.findUnique({
         where: { userId },
@@ -160,15 +171,19 @@ export class EbookProgressService {
 
     const totalSections = sections.length;
     const completedSectionIds = progress?.completedSections ?? [];
-    const completedSectionsInChapter = sections.filter(s => completedSectionIds.includes(s.id));
+    const completedSectionsInChapter = sections.filter((s) =>
+      completedSectionIds.includes(s.id),
+    );
 
     const progressPercentage =
-      totalSections > 0 ? Math.round((completedSectionsInChapter.length / totalSections) * 100) : 0;
+      totalSections > 0
+        ? Math.round((completedSectionsInChapter.length / totalSections) * 100)
+        : 0;
 
     return {
       chapterSlug,
       chapterTitle: chapter.title,
-      completedSections: completedSectionsInChapter.map(s => s.id),
+      completedSections: completedSectionsInChapter.map((s) => s.id),
       totalSections,
       progressPercentage,
     };
@@ -181,7 +196,7 @@ export class EbookProgressService {
   async markSectionComplete(
     userId: string,
     chapterSlug: string,
-    sectionSlug: string
+    sectionSlug: string,
   ): Promise<void> {
     const chapter = await prisma.ebookChapter.findUnique({
       where: { slug: chapterSlug },
@@ -203,7 +218,9 @@ export class EbookProgressService {
     });
 
     if (!section) {
-      throw new Error(`Section not found: ${sectionSlug} in chapter: ${chapterSlug}`);
+      throw new Error(
+        `Section not found: ${sectionSlug} in chapter: ${chapterSlug}`,
+      );
     }
 
     const progress = await prisma.userEbookProgress.findUnique({

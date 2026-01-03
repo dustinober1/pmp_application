@@ -1,7 +1,7 @@
-import { test, expect } from './fixtures/auth.fixture';
-import { PricingPage } from './pages/pricing.page';
-import { CheckoutPage } from './pages/checkout.page';
-import { DashboardPage } from './pages/dashboard.page';
+import { test, expect } from "./fixtures/auth.fixture";
+import { PricingPage } from "./pages/pricing.page";
+import { CheckoutPage } from "./pages/checkout.page";
+import { DashboardPage } from "./pages/dashboard.page";
 
 /**
  * Checkout and Payment Flow Tests
@@ -13,7 +13,7 @@ import { DashboardPage } from './pages/dashboard.page';
  * - Order confirmation
  * - Subscription activation
  */
-test.describe('Checkout and Payment Flow', () => {
+test.describe("Checkout and Payment Flow", () => {
   let pricingPage: PricingPage;
   let checkoutPage: CheckoutPage;
   let dashboardPage: DashboardPage;
@@ -24,42 +24,42 @@ test.describe('Checkout and Payment Flow', () => {
     dashboardPage = new DashboardPage(page);
   });
 
-  test.describe('Pricing Page', () => {
-    test('should display all pricing tiers', async ({ _page }) => {
+  test.describe("Pricing Page", () => {
+    test("should display all pricing tiers", async ({ _page }) => {
       await pricingPage.goto();
 
       // Verify all tiers are visible
-      expect(await pricingPage.isTierVisible('free')).toBeTruthy();
-      expect(await pricingPage.isTierVisible('mid')).toBeTruthy();
-      expect(await pricingPage.isTierVisible('high')).toBeTruthy();
-      expect(await pricingPage.isTierVisible('corporate')).toBeTruthy();
+      expect(await pricingPage.isTierVisible("free")).toBeTruthy();
+      expect(await pricingPage.isTierVisible("mid")).toBeTruthy();
+      expect(await pricingPage.isTierVisible("high")).toBeTruthy();
+      expect(await pricingPage.isTierVisible("corporate")).toBeTruthy();
     });
 
-    test('should show monthly pricing by default', async ({ _page }) => {
+    test("should show monthly pricing by default", async ({ _page }) => {
       await pricingPage.goto();
 
       const prices = await pricingPage.getAllPrices();
 
       // Verify monthly prices
-      expect(prices.free).toContain('Free');
-      expect(prices.mid).toContain('/mo');
-      expect(prices.high).toContain('/mo');
-      expect(prices.corporate).toContain('/mo');
+      expect(prices.free).toContain("Free");
+      expect(prices.mid).toContain("/mo");
+      expect(prices.high).toContain("/mo");
+      expect(prices.corporate).toContain("/mo");
     });
 
-    test('should switch to annual pricing', async ({ _page }) => {
+    test("should switch to annual pricing", async ({ _page }) => {
       await pricingPage.goto();
       await pricingPage.selectAnnual();
 
       const prices = await pricingPage.getAllPrices();
 
       // Verify annual prices
-      expect(prices.mid).toContain('/yr');
-      expect(prices.high).toContain('/yr');
-      expect(prices.corporate).toContain('/yr');
+      expect(prices.mid).toContain("/yr");
+      expect(prices.high).toContain("/yr");
+      expect(prices.corporate).toContain("/yr");
     });
 
-    test('should toggle between monthly and annual', async ({ _page }) => {
+    test("should toggle between monthly and annual", async ({ _page }) => {
       await pricingPage.goto();
 
       // Get initial (monthly) prices
@@ -78,39 +78,41 @@ test.describe('Checkout and Payment Flow', () => {
       expect(monthlyPrices.mid).toEqual(newMonthlyPrices.mid);
     });
 
-    test('should show "Most Popular" badge on High-End tier', async ({ page }) => {
+    test('should show "Most Popular" badge on High-End tier', async ({
+      page,
+    }) => {
       await pricingPage.goto();
 
       const highTier = page.locator('[data-testid="pricing-card-high"]');
-      await expect(highTier.locator('text=Most Popular')).toBeVisible();
+      await expect(highTier.locator("text=Most Popular")).toBeVisible();
     });
   });
 
-  test.describe('Checkout Initiation', () => {
-    test('should start checkout for tier', async ({ page }) => {
+  test.describe("Checkout Initiation", () => {
+    test("should start checkout for tier", async ({ page }) => {
       await pricingPage.goto();
-      await pricingPage.selectTier('high');
+      await pricingPage.selectTier("high");
 
       // Should navigate to checkout
       await expect(page).toHaveURL(/\/checkout/);
     });
 
-    test('should pass tier and billing to checkout', async ({ page }) => {
+    test("should pass tier and billing to checkout", async ({ page }) => {
       await pricingPage.goto();
       await pricingPage.selectAnnual();
-      await pricingPage.selectTier('mid');
+      await pricingPage.selectTier("mid");
 
       // Verify URL parameters or state
       await expect(page).toHaveURL(/\/checkout/);
 
       // Should show correct tier and billing in summary
-      await expect(page.locator('text=Mid-Level')).toBeVisible();
-      await expect(page.locator('text=Annual')).toBeVisible();
+      await expect(page.locator("text=Mid-Level")).toBeVisible();
+      await expect(page.locator("text=Annual")).toBeVisible();
     });
   });
 
-  test.describe('Payment Form', () => {
-    test('should display payment form', async ({ _page }) => {
+  test.describe("Payment Form", () => {
+    test("should display payment form", async ({ _page }) => {
       await checkoutPage.goto();
 
       // Verify form elements
@@ -120,55 +122,55 @@ test.describe('Checkout and Payment Flow', () => {
       await expect(checkoutPage.payButton).toBeVisible();
     });
 
-    test('should validate card number', async ({ page }) => {
+    test("should validate card number", async ({ page }) => {
       await checkoutPage.goto();
 
       // Enter invalid card number
       await checkoutPage.fillPaymentDetails({
-        cardNumber: '123',
-        expiry: '12/25',
-        cvc: '123',
+        cardNumber: "123",
+        expiry: "12/25",
+        cvc: "123",
       });
 
       await checkoutPage.payButton.click();
 
       // Should show validation error
-      await expect(page.locator('text=/invalid card number/i')).toBeVisible();
+      await expect(page.locator("text=/invalid card number/i")).toBeVisible();
     });
 
-    test('should validate expiry date', async ({ page }) => {
+    test("should validate expiry date", async ({ page }) => {
       await checkoutPage.goto();
 
       // Enter past expiry
       await checkoutPage.fillPaymentDetails({
-        cardNumber: '4242424242424242',
-        expiry: '12/20', // Past date
-        cvc: '123',
+        cardNumber: "4242424242424242",
+        expiry: "12/20", // Past date
+        cvc: "123",
       });
 
       await checkoutPage.payButton.click();
 
       // Should show validation error
-      await expect(page.locator('text=/invalid expiry/i')).toBeVisible();
+      await expect(page.locator("text=/invalid expiry/i")).toBeVisible();
     });
 
-    test('should validate CVC', async ({ page }) => {
+    test("should validate CVC", async ({ page }) => {
       await checkoutPage.goto();
 
       // Enter invalid CVC
       await checkoutPage.fillPaymentDetails({
-        cardNumber: '4242424242424242',
-        expiry: '12/25',
-        cvc: '1',
+        cardNumber: "4242424242424242",
+        expiry: "12/25",
+        cvc: "1",
       });
 
       await checkoutPage.payButton.click();
 
       // Should show validation error
-      await expect(page.locator('text=/invalid cvc/i')).toBeVisible();
+      await expect(page.locator("text=/invalid cvc/i")).toBeVisible();
     });
 
-    test('should show order summary', async ({ _page }) => {
+    test("should show order summary", async ({ _page }) => {
       await checkoutPage.goto();
 
       // Order summary should be visible
@@ -177,24 +179,24 @@ test.describe('Checkout and Payment Flow', () => {
     });
   });
 
-  test.describe('Payment Processing', () => {
-    test('should process successful payment', async ({ authenticatedPage }) => {
+  test.describe("Payment Processing", () => {
+    test("should process successful payment", async ({ authenticatedPage }) => {
       // Start checkout
-      await authenticatedPage.goto('/pricing');
-      await pricingPage.selectTier('high');
+      await authenticatedPage.goto("/pricing");
+      await pricingPage.selectTier("high");
 
       // Mock Stripe success response
-      await authenticatedPage.route('**/api/create-payment-intent', route => {
+      await authenticatedPage.route("**/api/create-payment-intent", (route) => {
         route.fulfill({
           status: 200,
           body: JSON.stringify({
-            clientSecret: 'mock-client-secret',
+            clientSecret: "mock-client-secret",
           }),
         });
       });
 
       // Mock webhook
-      await authenticatedPage.route('**/api/webhooks/stripe', route => {
+      await authenticatedPage.route("**/api/webhooks/stripe", (route) => {
         route.fulfill({
           status: 200,
           body: JSON.stringify({ success: true }),
@@ -203,83 +205,91 @@ test.describe('Checkout and Payment Flow', () => {
 
       // Fill payment form with Stripe test card
       await checkoutPage.fillPaymentDetails({
-        cardNumber: '4242424242424242', // Stripe test card
-        expiry: '12/25',
-        cvc: '123',
+        cardNumber: "4242424242424242", // Stripe test card
+        expiry: "12/25",
+        cvc: "123",
       });
 
       await checkoutPage.submitPayment();
       await checkoutPage.waitForSuccess();
 
       // Should redirect to success page
-      await expect(authenticatedPage).toHaveURL(/\/success|\/order-confirmation/);
-      await expect(authenticatedPage.locator('text=/payment successful/i')).toBeVisible();
+      await expect(authenticatedPage).toHaveURL(
+        /\/success|\/order-confirmation/,
+      );
+      await expect(
+        authenticatedPage.locator("text=/payment successful/i"),
+      ).toBeVisible();
     });
 
-    test('should handle payment failure', async ({ authenticatedPage }) => {
-      await authenticatedPage.goto('/pricing');
-      await pricingPage.selectTier('mid');
+    test("should handle payment failure", async ({ authenticatedPage }) => {
+      await authenticatedPage.goto("/pricing");
+      await pricingPage.selectTier("mid");
 
       // Mock Stripe failure
-      await authenticatedPage.route('**/api/create-payment-intent', route => {
+      await authenticatedPage.route("**/api/create-payment-intent", (route) => {
         route.fulfill({
           status: 402,
           body: JSON.stringify({
-            error: { message: 'Your card was declined.' },
+            error: { message: "Your card was declined." },
           }),
         });
       });
 
       await checkoutPage.fillPaymentDetails({
-        cardNumber: '4000000000000002', // Stripe decline card
-        expiry: '12/25',
-        cvc: '123',
+        cardNumber: "4000000000000002", // Stripe decline card
+        expiry: "12/25",
+        cvc: "123",
       });
 
       await checkoutPage.submitPayment();
       await checkoutPage.waitForError();
 
       // Should show error message
-      await expect(authenticatedPage.locator('text=/card declined/i')).toBeVisible();
+      await expect(
+        authenticatedPage.locator("text=/card declined/i"),
+      ).toBeVisible();
     });
 
-    test('should retry payment after failure', async ({ authenticatedPage }) => {
-      await authenticatedPage.goto('/pricing');
-      await pricingPage.selectTier('high');
+    test("should retry payment after failure", async ({
+      authenticatedPage,
+    }) => {
+      await authenticatedPage.goto("/pricing");
+      await pricingPage.selectTier("high");
 
       // First attempt fails
-      await authenticatedPage.route('**/api/create-payment-intent', route => {
+      await authenticatedPage.route("**/api/create-payment-intent", (route) => {
         route.fulfill({
           status: 402,
           body: JSON.stringify({
-            error: { message: 'Payment failed.' },
+            error: { message: "Payment failed." },
           }),
         });
       });
 
       await checkoutPage.fillPaymentDetails({
-        cardNumber: '4000000000000002',
-        expiry: '12/25',
-        cvc: '123',
+        cardNumber: "4000000000000002",
+        expiry: "12/25",
+        cvc: "123",
       });
 
       await checkoutPage.submitPayment();
       await checkoutPage.waitForError();
 
       // Retry with different card
-      await authenticatedPage.route('**/api/create-payment-intent', route => {
+      await authenticatedPage.route("**/api/create-payment-intent", (route) => {
         route.fulfill({
           status: 200,
           body: JSON.stringify({
-            clientSecret: 'mock-client-secret',
+            clientSecret: "mock-client-secret",
           }),
         });
       });
 
       await checkoutPage.fillPaymentDetails({
-        cardNumber: '4242424242424242',
-        expiry: '12/25',
-        cvc: '123',
+        cardNumber: "4242424242424242",
+        expiry: "12/25",
+        cvc: "123",
       });
 
       await checkoutPage.submitPayment();
@@ -289,24 +299,35 @@ test.describe('Checkout and Payment Flow', () => {
     });
   });
 
-  test.describe('Order Confirmation', () => {
-    test('should show order confirmation details', async ({ authenticatedPage }) => {
+  test.describe("Order Confirmation", () => {
+    test("should show order confirmation details", async ({
+      authenticatedPage,
+    }) => {
       // Assuming payment was successful
-      await authenticatedPage.goto('/order-confirmation/123');
+      await authenticatedPage.goto("/order-confirmation/123");
 
-      await expect(authenticatedPage.locator('[data-testid="order-id"]')).toBeVisible();
-      await expect(authenticatedPage.locator('[data-testid="order-total"]')).toBeVisible();
-      await expect(authenticatedPage.locator('[data-testid="order-date"]')).toBeVisible();
+      await expect(
+        authenticatedPage.locator('[data-testid="order-id"]'),
+      ).toBeVisible();
+      await expect(
+        authenticatedPage.locator('[data-testid="order-total"]'),
+      ).toBeVisible();
+      await expect(
+        authenticatedPage.locator('[data-testid="order-date"]'),
+      ).toBeVisible();
     });
 
-    test('should send confirmation email', async ({ _authenticatedPage, _apiHelper }) => {
+    test("should send confirmation email", async ({
+      _authenticatedPage,
+      _apiHelper,
+    }) => {
       // This would verify email was sent
-      test.skip(true, 'Requires email service verification');
+      test.skip(true, "Requires email service verification");
     });
   });
 
-  test.describe('Subscription Activation', () => {
-    test('should activate subscription after successful payment', async ({
+  test.describe("Subscription Activation", () => {
+    test("should activate subscription after successful payment", async ({
       _authenticatedPage,
     }) => {
       // After successful payment
@@ -314,19 +335,25 @@ test.describe('Checkout and Payment Flow', () => {
 
       // Verify subscription tier is updated
       const tier = await dashboardPage.getSubscriptionTier();
-      expect(tier.toLowerCase()).toContain('pro');
+      expect(tier.toLowerCase()).toContain("pro");
     });
 
-    test('should show subscription details in dashboard', async ({ authenticatedPage }) => {
+    test("should show subscription details in dashboard", async ({
+      authenticatedPage,
+    }) => {
       await dashboardPage.goto();
 
-      await expect(authenticatedPage.locator('[data-testid="subscription-status"]')).toBeVisible();
-      await expect(authenticatedPage.locator('[data-testid="subscription-renewal"]')).toBeVisible();
+      await expect(
+        authenticatedPage.locator('[data-testid="subscription-status"]'),
+      ).toBeVisible();
+      await expect(
+        authenticatedPage.locator('[data-testid="subscription-renewal"]'),
+      ).toBeVisible();
     });
   });
 
-  test.describe('Checkout Abandonment', () => {
-    test('should allow cancellation of checkout', async ({ page }) => {
+  test.describe("Checkout Abandonment", () => {
+    test("should allow cancellation of checkout", async ({ page }) => {
       await checkoutPage.goto();
       await checkoutPage.cancel();
 
@@ -334,19 +361,23 @@ test.describe('Checkout and Payment Flow', () => {
       await expect(page).toHaveURL(/\/pricing|\/dashboard/);
     });
 
-    test('should save checkout state for returning user', async ({ authenticatedPage }) => {
+    test("should save checkout state for returning user", async ({
+      authenticatedPage,
+    }) => {
       // Start checkout
-      await authenticatedPage.goto('/pricing');
-      await pricingPage.selectTier('corporate');
+      await authenticatedPage.goto("/pricing");
+      await pricingPage.selectTier("corporate");
 
       // Navigate away
-      await authenticatedPage.goto('/dashboard');
+      await authenticatedPage.goto("/dashboard");
 
       // Return to checkout
-      await authenticatedPage.goto('/checkout');
+      await authenticatedPage.goto("/checkout");
 
       // Should have saved tier selection
-      await expect(authenticatedPage.locator('text=Corporate Team')).toBeVisible();
+      await expect(
+        authenticatedPage.locator("text=Corporate Team"),
+      ).toBeVisible();
     });
   });
 });

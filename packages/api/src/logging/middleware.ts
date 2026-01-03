@@ -2,8 +2,8 @@
  * Express middleware for request logging and trace ID management
  */
 
-import type { Request, Response, NextFunction } from 'express';
-import { getLogger, generateTraceId, Logger } from './logger';
+import type { Request, Response, NextFunction } from "express";
+import { getLogger, generateTraceId, Logger } from "./logger";
 
 /**
  * Extend Express Request to include trace ID and start time
@@ -23,9 +23,13 @@ declare global {
 /**
  * Middleware to add trace ID to every request
  */
-export function traceIdMiddleware(req: Request, res: Response, next: NextFunction): void {
+export function traceIdMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
   // Extract trace ID from header or generate new one
-  const traceId = generateTraceId(req.headers['x-trace-id'] as string);
+  const traceId = generateTraceId(req.headers["x-trace-id"] as string);
 
   // Set trace ID on request
   req.trace_id = traceId;
@@ -34,7 +38,7 @@ export function traceIdMiddleware(req: Request, res: Response, next: NextFunctio
   Logger.setTraceId(traceId);
 
   // Add trace ID to response header for client-side tracking
-  res.setHeader('X-Trace-ID', traceId);
+  res.setHeader("X-Trace-ID", traceId);
 
   next();
 }
@@ -42,7 +46,11 @@ export function traceIdMiddleware(req: Request, res: Response, next: NextFunctio
 /**
  * Middleware to add user ID to request context
  */
-export function userIdMiddleware(req: Request, _res: Response, next: NextFunction): void {
+export function userIdMiddleware(
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+): void {
   // Extract user ID from request if authenticated
   const userId = (req as any).user?.id || (req as any).userId;
 
@@ -57,27 +65,31 @@ export function userIdMiddleware(req: Request, _res: Response, next: NextFunctio
 /**
  * Middleware to log all HTTP requests
  */
-export function requestLoggingMiddleware(req: Request, res: Response, next: NextFunction): void {
+export function requestLoggingMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
   const logger = getLogger();
   const startTime = Date.now();
   req.start_time = startTime;
 
-  logger.http('Incoming request', {
+  logger.http("Incoming request", {
     method: req.method,
     path: req.path,
     ip: req.ip,
-    user_agent: req.get('user-agent'),
+    user_agent: req.get("user-agent"),
     trace_id: req.trace_id,
     user_id: req.user_id,
   });
 
   // Log response when finished
-  res.on('finish', () => {
+  res.on("finish", () => {
     const duration = Date.now() - startTime;
 
     // Select log level based on status code
     if (res.statusCode >= 500) {
-      logger.error('Request completed with server error', undefined, {
+      logger.error("Request completed with server error", undefined, {
         method: req.method,
         path: req.path,
         status: res.statusCode,
@@ -87,7 +99,7 @@ export function requestLoggingMiddleware(req: Request, res: Response, next: Next
         user_id: req.user_id,
       });
     } else if (res.statusCode >= 400) {
-      logger.warn('Request completed with client error', {
+      logger.warn("Request completed with client error", {
         method: req.method,
         path: req.path,
         status: res.statusCode,
@@ -97,7 +109,7 @@ export function requestLoggingMiddleware(req: Request, res: Response, next: Next
         user_id: req.user_id,
       });
     } else {
-      logger.info('Request completed successfully', {
+      logger.info("Request completed successfully", {
         method: req.method,
         path: req.path,
         status: res.statusCode,
@@ -119,7 +131,7 @@ export function errorLoggingMiddleware(
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void {
   const logger = getLogger();
   const duration = req.start_time ? Date.now() - req.start_time : 0;
@@ -141,14 +153,22 @@ export function errorLoggingMiddleware(
  * Combined middleware with all logging features
  */
 export function loggingMiddleware() {
-  return [traceIdMiddleware, userIdMiddleware, requestLoggingMiddleware] as const;
+  return [
+    traceIdMiddleware,
+    userIdMiddleware,
+    requestLoggingMiddleware,
+  ] as const;
 }
 
 /**
  * Middleware to clear context after request completes
  */
-export function contextCleanupMiddleware(_req: Request, res: Response, next: NextFunction): void {
-  res.on('finish', () => {
+export function contextCleanupMiddleware(
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
+  res.on("finish", () => {
     Logger.clearContext();
   });
 

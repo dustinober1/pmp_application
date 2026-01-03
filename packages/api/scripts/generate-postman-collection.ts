@@ -3,9 +3,9 @@
  * Usage: npm run generate:postman
  */
 
-import fs from 'fs';
-import path from 'path';
-import { generateOpenAPISpec } from '../dist/utils/openapi/generate-spec';
+import fs from "fs";
+import path from "path";
+import { generateOpenAPISpec } from "../dist/utils/openapi/generate-spec";
 
 const __dirname = path.dirname(__filename);
 
@@ -20,26 +20,27 @@ interface PostmanCollection {
 }
 
 function generatePostmanCollection(openAPISpec: any): PostmanCollection {
-  const baseUrl = openAPISpec.servers?.[0]?.url || 'http://localhost:4000';
+  const baseUrl = openAPISpec.servers?.[0]?.url || "http://localhost:4000";
 
   const collection: PostmanCollection = {
     info: {
       name: openAPISpec.info.title,
       description: openAPISpec.info.description,
-      schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
+      schema:
+        "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     },
     item: [],
     variable: [
       {
-        key: 'baseUrl',
+        key: "baseUrl",
         value: baseUrl,
-        type: 'string',
+        type: "string",
       },
       {
-        key: 'token',
-        value: '',
-        type: 'string',
-        description: 'JWT authentication token',
+        key: "token",
+        value: "",
+        type: "string",
+        description: "JWT authentication token",
       },
     ],
   };
@@ -52,7 +53,7 @@ function generatePostmanCollection(openAPISpec: any): PostmanCollection {
       const operation = operationSpec as any;
 
       // Get tag (use first tag or 'General')
-      const tag = operation.tags?.[0] || 'General';
+      const tag = operation.tags?.[0] || "General";
 
       if (!tagGroups[tag]) {
         tagGroups[tag] = [];
@@ -60,19 +61,22 @@ function generatePostmanCollection(openAPISpec: any): PostmanCollection {
 
       // Build request
       const request: any = {
-        name: operation.summary || operation.operationId || `${method.toUpperCase()} ${path}`,
+        name:
+          operation.summary ||
+          operation.operationId ||
+          `${method.toUpperCase()} ${path}`,
         request: {
           method: method.toUpperCase(),
           header: [
             {
-              key: 'Content-Type',
-              value: 'application/json',
+              key: "Content-Type",
+              value: "application/json",
             },
           ],
           url: {
             raw: `{{baseUrl}}${path}`,
-            host: ['{{baseUrl}}'],
-            path: path.split('/').filter(Boolean),
+            host: ["{{baseUrl}}"],
+            path: path.split("/").filter(Boolean),
           },
           description: operation.description,
         },
@@ -81,9 +85,9 @@ function generatePostmanCollection(openAPISpec: any): PostmanCollection {
       // Add authentication if required
       if (operation.security?.length > 0) {
         request.request.header.push({
-          key: 'Authorization',
-          value: 'Bearer {{token}}',
-          description: 'JWT authentication token',
+          key: "Authorization",
+          value: "Bearer {{token}}",
+          description: "JWT authentication token",
         });
       }
 
@@ -91,10 +95,10 @@ function generatePostmanCollection(openAPISpec: any): PostmanCollection {
       if (operation.parameters) {
         request.request.url.query = [];
         for (const param of operation.parameters) {
-          if ((param as any).in === 'query') {
+          if ((param as any).in === "query") {
             request.request.url.query.push({
               key: (param as any).name,
-              value: (param as any).schema?.example || '',
+              value: (param as any).schema?.example || "",
               description: (param as any).description,
             });
           }
@@ -104,10 +108,11 @@ function generatePostmanCollection(openAPISpec: any): PostmanCollection {
       // Add path parameters
       if (operation.parameters) {
         for (const param of operation.parameters) {
-          if ((param as any).in === 'path') {
+          if ((param as any).in === "path") {
             const pathVar = (param as any).name;
-            request.request.url.path = request.request.url.path.map((segment: string) =>
-              segment === `:${pathVar}` ? `:${pathVar}` : segment
+            request.request.url.path = request.request.url.path.map(
+              (segment: string) =>
+                segment === `:${pathVar}` ? `:${pathVar}` : segment,
             );
           }
         }
@@ -115,14 +120,18 @@ function generatePostmanCollection(openAPISpec: any): PostmanCollection {
 
       // Add request body
       if (operation.requestBody) {
-        const content = operation.requestBody.content?.['application/json'];
+        const content = operation.requestBody.content?.["application/json"];
         if (content?.schema) {
           request.request.body = {
-            mode: 'raw',
-            raw: JSON.stringify(generateExampleFromSchema(content.schema), null, 2),
+            mode: "raw",
+            raw: JSON.stringify(
+              generateExampleFromSchema(content.schema),
+              null,
+              2,
+            ),
             options: {
               raw: {
-                language: 'json',
+                language: "json",
               },
             },
           };
@@ -153,13 +162,16 @@ function generateExampleFromSchema(schema: any): any {
     const example: any = {};
     for (const [key, value] of Object.entries(schema.properties)) {
       const prop = value as any;
-      if (prop.type === 'string') {
-        example[key] = prop.format === 'email' ? 'user@example.com' : prop.example || 'string';
-      } else if (prop.type === 'number' || prop.type === 'integer') {
+      if (prop.type === "string") {
+        example[key] =
+          prop.format === "email"
+            ? "user@example.com"
+            : prop.example || "string";
+      } else if (prop.type === "number" || prop.type === "integer") {
         example[key] = prop.example || 0;
-      } else if (prop.type === 'boolean') {
+      } else if (prop.type === "boolean") {
         example[key] = prop.example !== undefined ? prop.example : true;
-      } else if (prop.type === 'array') {
+      } else if (prop.type === "array") {
         example[key] = prop.example || [];
       } else if (prop.enum) {
         example[key] = prop.enum[0];
@@ -176,8 +188,8 @@ const openAPISpec = generateOpenAPISpec();
 const postmanCollection = generatePostmanCollection(openAPISpec);
 
 // Output directory
-const outputDir = path.join(__dirname, '..', 'openapi');
-const collectionPath = path.join(outputDir, 'postman-collection.json');
+const outputDir = path.join(__dirname, "..", "openapi");
+const collectionPath = path.join(outputDir, "postman-collection.json");
 
 // Create directory if it doesn't exist
 if (!fs.existsSync(outputDir)) {
@@ -185,9 +197,13 @@ if (!fs.existsSync(outputDir)) {
 }
 
 // Write collection
-fs.writeFileSync(collectionPath, JSON.stringify(postmanCollection, null, 2), 'utf-8');
+fs.writeFileSync(
+  collectionPath,
+  JSON.stringify(postmanCollection, null, 2),
+  "utf-8",
+);
 console.log(`✅ Postman collection exported to: ${collectionPath}`);
 console.log(
-  `📊 Total requests: ${postmanCollection.item.reduce((acc, folder) => acc + folder.item.length, 0)}`
+  `📊 Total requests: ${postmanCollection.item.reduce((acc, folder) => acc + folder.item.length, 0)}`,
 );
 console.log(`📁 Total folders: ${postmanCollection.item.length}`);

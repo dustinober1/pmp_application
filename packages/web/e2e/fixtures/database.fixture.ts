@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks -- Playwright fixtures use 'use' callback, not React hooks */
-import { test as base } from '@playwright/test';
+import { test as base } from "@playwright/test";
 
 /**
  * Database fixture for test data management
@@ -20,11 +20,14 @@ export const test = base.extend<DatabaseFixtures>({
   seedDatabase: async ({ request }, use) => {
     const seedFn = async () => {
       // Call API endpoint to seed database
-      await request.post(`${process.env.API_URL || 'http://localhost:3001'}/test/seed`, {
-        headers: {
-          'x-e2e-test': 'true',
+      await request.post(
+        `${process.env.API_URL || "http://localhost:3001"}/test/seed`,
+        {
+          headers: {
+            "x-e2e-test": "true",
+          },
         },
-      });
+      );
     };
 
     await use(seedFn);
@@ -32,11 +35,14 @@ export const test = base.extend<DatabaseFixtures>({
 
   cleanupDatabase: async ({ request }, use) => {
     const cleanupFn = async () => {
-      await request.post(`${process.env.API_URL || 'http://localhost:3001'}/test/cleanup`, {
-        headers: {
-          'x-e2e-test': 'true',
+      await request.post(
+        `${process.env.API_URL || "http://localhost:3001"}/test/cleanup`,
+        {
+          headers: {
+            "x-e2e-test": "true",
+          },
         },
-      });
+      );
     };
 
     await use(cleanupFn);
@@ -52,4 +58,4 @@ export const test = base.extend<DatabaseFixtures>({
   },
 });
 
-export { expect } from '@playwright/test';
+export { expect } from "@playwright/test";

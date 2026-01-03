@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { useToast } from '@/components/ToastProvider';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
-import { practiceApi } from '@/lib/api';
-import { QuestionNavigator } from '@/components/QuestionNavigator';
-import { StreakCounter } from '@/components/StreakCounter';
-import { QuestionSkeleton, LoadingOverlay } from '@/components/QuestionSkeleton';
+import { useEffect, useState, useCallback, useRef } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useToast } from "@/components/ToastProvider";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
+import { practiceApi } from "@/lib/api";
+import { QuestionNavigator } from "@/components/QuestionNavigator";
+import { StreakCounter } from "@/components/StreakCounter";
+import { LoadingOverlay } from "@/components/QuestionSkeleton";
 
 interface PracticeQuestion {
   id: string;
@@ -21,7 +21,7 @@ interface PracticeQuestion {
   explanation: string;
   domain: string;
   task: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: "easy" | "medium" | "hard";
   isFlagged: boolean;
 }
 
@@ -55,15 +55,20 @@ export default function PracticeSessionPage() {
   const { canAccess, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
 
-  const [session, setSession] = useState<PracticeSession | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_session, setSession] = useState<PracticeSession | null>(null);
   const [questions, setQuestions] = useState<PracticeQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [answeredQuestions, setAnsweredQuestions] = useState<Set<string>>(new Set());
-  const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(new Set());
+  const [answeredQuestions, setAnsweredQuestions] = useState<Set<string>>(
+    new Set(),
+  );
+  const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(
+    new Set(),
+  );
   const [streak, setStreak] = useState<StreakData | null>(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -79,27 +84,34 @@ export default function PracticeSessionPage() {
         setTotalQuestions((response.data as PracticeSession).totalQuestions);
       }
     } catch (error) {
-      console.error('Failed to fetch session:', error);
-      toast.error('Failed to load session. Please try again.');
+      console.error("Failed to fetch session:", error);
+      toast.error("Failed to load session. Please try again.");
     }
   }, [sessionId, toast]);
 
-  const fetchQuestions = useCallback(async (batchNumber: number) => {
-    try {
-      const offset = batchNumber * BATCH_SIZE;
-      const response = await practiceApi.getSessionQuestions(sessionId, offset, BATCH_SIZE);
-      
-      if (response.data) {
-        const data = response.data as QuestionsResponse;
-        setQuestions(prev => [...prev, ...data.questions]);
-        setTotalQuestions(data.total);
-        setHasMore(data.hasMore);
+  const fetchQuestions = useCallback(
+    async (batchNumber: number) => {
+      try {
+        const offset = batchNumber * BATCH_SIZE;
+        const response = await practiceApi.getSessionQuestions(
+          sessionId,
+          offset,
+          BATCH_SIZE,
+        );
+
+        if (response.data) {
+          const data = response.data as QuestionsResponse;
+          setQuestions((prev) => [...prev, ...data.questions]);
+          setTotalQuestions(data.total);
+          setHasMore(data.hasMore);
+        }
+      } catch (error) {
+        console.error("Failed to fetch questions:", error);
+        toast.error("Failed to load questions. Please try again.");
       }
-    } catch (error) {
-      console.error('Failed to fetch questions:', error);
-      toast.error('Failed to load questions. Please try again.');
-    }
-  }, [sessionId, toast]);
+    },
+    [sessionId, toast],
+  );
 
   const fetchStreak = useCallback(async () => {
     try {
@@ -108,7 +120,7 @@ export default function PracticeSessionPage() {
         setStreak(response.data as StreakData);
       }
     } catch (error) {
-      console.error('Failed to fetch streak:', error);
+      console.error("Failed to fetch streak:", error);
     }
   }, [sessionId]);
 
@@ -116,11 +128,7 @@ export default function PracticeSessionPage() {
     if (canAccess && sessionId) {
       const initSession = async () => {
         setLoading(true);
-        await Promise.all([
-          fetchSession(),
-          fetchQuestions(0),
-          fetchStreak(),
-        ]);
+        await Promise.all([fetchSession(), fetchQuestions(0), fetchStreak()]);
         setLoading(false);
       };
       initSession();
@@ -131,12 +139,16 @@ export default function PracticeSessionPage() {
     // Prefetch next batch when approaching end of current batch
     const questionsInCurrentBatch = (currentBatch + 1) * BATCH_SIZE;
     const remainingInBatch = questionsInCurrentBatch - currentIndex;
-    
-    if (hasMore && remainingInBatch <= PREFETCH_THRESHOLD && !prefetchTriggeredRef.current) {
+
+    if (
+      hasMore &&
+      remainingInBatch <= PREFETCH_THRESHOLD &&
+      !prefetchTriggeredRef.current
+    ) {
       prefetchTriggeredRef.current = true;
       setIsLoadingMore(true);
       fetchQuestions(currentBatch + 1).then(() => {
-        setCurrentBatch(prev => prev + 1);
+        setCurrentBatch((prev) => prev + 1);
         setIsLoadingMore(false);
         prefetchTriggeredRef.current = false;
       });
@@ -157,8 +169,7 @@ export default function PracticeSessionPage() {
       setSubmitting(false);
       return;
     }
-    const startTime = Date.now();
-    
+
     try {
       await practiceApi.submitAnswer({
         sessionId,
@@ -167,14 +178,13 @@ export default function PracticeSessionPage() {
         timeSpentMs: 0, // TODO: Track actual time
       });
 
-      const isCorrect = question.options.find(opt => opt.id === selectedOptionId)?.isCorrect ?? false;
-      setAnsweredQuestions(prev => new Set(prev).add(question.id));
-      
+      setAnsweredQuestions((prev) => new Set(prev).add(question.id));
+
       await fetchStreak();
       setShowExplanation(true);
     } catch (error) {
-      console.error('Failed to submit answer:', error);
-      toast.error('Failed to submit answer. Please try again.');
+      console.error("Failed to submit answer:", error);
+      toast.error("Failed to submit answer. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -182,7 +192,7 @@ export default function PracticeSessionPage() {
 
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex((prev) => prev + 1);
       setSelectedOptionId(null);
       setShowExplanation(false);
     }
@@ -190,7 +200,7 @@ export default function PracticeSessionPage() {
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
+      setCurrentIndex((prev) => prev - 1);
       setSelectedOptionId(null);
       setShowExplanation(false);
     }
@@ -207,39 +217,40 @@ export default function PracticeSessionPage() {
     if (!question) return;
 
     const isFlagged = flaggedQuestions.has(question.id);
-    
+
     try {
       if (isFlagged) {
         await practiceApi.unflagQuestion(question.id);
-        setFlaggedQuestions(prev => {
+        setFlaggedQuestions((prev) => {
           const newSet = new Set(prev);
           newSet.delete(question.id);
           return newSet;
         });
-        toast.success('Question unflagged');
+        toast.success("Question unflagged");
       } else {
         await practiceApi.flagQuestion(question.id);
-        setFlaggedQuestions(prev => new Set(prev).add(question.id));
-        toast.success('Question flagged');
+        setFlaggedQuestions((prev) => new Set(prev).add(question.id));
+        toast.success("Question flagged");
       }
     } catch (error) {
-      console.error('Failed to flag question:', error);
-      toast.error('Failed to flag question. Please try again.');
+      console.error("Failed to flag question:", error);
+      toast.error("Failed to flag question. Please try again.");
     }
   };
 
   const handleCompleteSession = async () => {
     try {
       await practiceApi.completeSession(sessionId);
-      router.push('/dashboard');
+      router.push("/dashboard");
     } catch (error) {
-      console.error('Failed to complete session:', error);
-      toast.error('Failed to complete session. Please try again.');
+      console.error("Failed to complete session:", error);
+      toast.error("Failed to complete session. Please try again.");
     }
   };
 
   const currentQuestion = questions[currentIndex];
-  const progress = totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
+  const progress =
+    totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
   const isLastQuestion = currentIndex === totalQuestions - 1;
 
   if (authLoading || loading || !currentQuestion) {
@@ -288,17 +299,21 @@ export default function PracticeSessionPage() {
                   onClick={handleFlag}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     flaggedQuestions.has(currentQuestion.id)
-                      ? 'bg-red-100 text-red-700 hover:bg-red-200'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? "bg-red-100 text-red-700 hover:bg-red-200"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
-                  {flaggedQuestions.has(currentQuestion.id) ? '🚩 Flagged' : 'Flag'}
+                  {flaggedQuestions.has(currentQuestion.id)
+                    ? "🚩 Flagged"
+                    : "Flag"}
                 </button>
               </div>
 
               {/* Question Text */}
               <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-4">{currentQuestion.question}</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                  {currentQuestion.question}
+                </h2>
               </div>
 
               {/* Options */}
@@ -306,7 +321,8 @@ export default function PracticeSessionPage() {
                 {currentQuestion.options.map((option) => {
                   const isSelected = selectedOptionId === option.id;
                   const showCorrect = showExplanation && option.isCorrect;
-                  const showIncorrect = showExplanation && isSelected && !option.isCorrect;
+                  const showIncorrect =
+                    showExplanation && isSelected && !option.isCorrect;
 
                   return (
                     <button
@@ -315,24 +331,24 @@ export default function PracticeSessionPage() {
                       disabled={showExplanation}
                       className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                         showCorrect
-                          ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                          ? "border-green-500 bg-green-50 dark:bg-green-900/20"
                           : showIncorrect
-                          ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
-                          : isSelected
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                          : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700'
-                      } ${showExplanation ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                            ? "border-red-500 bg-red-50 dark:bg-red-900/20"
+                            : isSelected
+                              ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                              : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"
+                      } ${showExplanation ? "cursor-not-allowed" : "cursor-pointer"}`}
                     >
                       <div className="flex items-center gap-3">
                         <div
                           className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                             showCorrect
-                              ? 'border-green-500 bg-green-500'
+                              ? "border-green-500 bg-green-500"
                               : showIncorrect
-                              ? 'border-red-500 bg-red-500'
-                              : isSelected
-                              ? 'border-blue-500 bg-blue-500'
-                              : 'border-gray-300 dark:border-gray-600'
+                                ? "border-red-500 bg-red-500"
+                                : isSelected
+                                  ? "border-blue-500 bg-blue-500"
+                                  : "border-gray-300 dark:border-gray-600"
                           }`}
                         >
                           {isSelected && !showExplanation && (
@@ -356,7 +372,9 @@ export default function PracticeSessionPage() {
               {showExplanation && (
                 <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
                   <h3 className="font-semibold mb-2">Explanation</h3>
-                  <p className="text-sm text-gray-700 dark:text-gray-300">{currentQuestion.explanation}</p>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                    {currentQuestion.explanation}
+                  </p>
                 </div>
               )}
 
@@ -376,7 +394,7 @@ export default function PracticeSessionPage() {
                       disabled={!selectedOptionId || submitting}
                       className="px-6 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {submitting ? 'Submitting...' : 'Submit Answer'}
+                      {submitting ? "Submitting..." : "Submit Answer"}
                     </button>
                   ) : (
                     <>

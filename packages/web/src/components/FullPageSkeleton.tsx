@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Skeleton } from '@/components/Skeleton';
+import { Skeleton } from "@/components/Skeleton";
 
 export function FullPageSkeleton() {
   return (

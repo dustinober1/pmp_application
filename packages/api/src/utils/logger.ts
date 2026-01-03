@@ -3,7 +3,7 @@
  * @deprecated Import from @pmp/api/logging instead
  */
 
-import { getLogger } from '../logging';
+import { getLogger } from "../logging";
 
 /**
  * Legacy logger interface for backward compatibility

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- Test files use any for mocking */
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import FlaggedQuestionsPage from './page';
-import { vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import FlaggedQuestionsPage from "./page";
+import { vi } from "vitest";
 
 const { mockPush, mockUseAuth, mockApiRequest, mockToast } = vi.hoisted(() => {
   const toastObj = {
@@ -18,41 +18,41 @@ const { mockPush, mockUseAuth, mockApiRequest, mockToast } = vi.hoisted(() => {
   };
 });
 
-vi.mock('next/navigation', () => ({
+vi.mock("next/navigation", () => ({
   useRouter: () => ({
     push: mockPush,
   }),
-  usePathname: () => '/practice/flagged',
+  usePathname: () => "/practice/flagged",
 }));
 
-vi.mock('@/components/ToastProvider', () => ({
+vi.mock("@/components/ToastProvider", () => ({
   useToast: () => mockToast,
 }));
 
-vi.mock('@/contexts/AuthContext', () => ({
+vi.mock("@/contexts/AuthContext", () => ({
   useAuth: () => mockUseAuth(),
 }));
 
-vi.mock('@/components/Navbar', () => ({
+vi.mock("@/components/Navbar", () => ({
   Navbar: () => <div data-testid="navbar">Navbar</div>,
 }));
 
-vi.mock('@/lib/api', () => ({
+vi.mock("@/lib/api", () => ({
   apiRequest: (...args: any[]) => mockApiRequest(...args),
 }));
 
-describe('FlaggedQuestionsPage', () => {
+describe("FlaggedQuestionsPage", () => {
   const mockQuestions = [
     {
-      id: 'q1',
-      text: 'Question 1',
-      questionText: 'Question 1', // Component uses questionText
-      difficulty: 'hard',
+      id: "q1",
+      text: "Question 1",
+      questionText: "Question 1", // Component uses questionText
+      difficulty: "hard",
       options: [
-        { id: 'o1', text: 'Option A', isCorrect: true },
-        { id: 'o2', text: 'Option B', isCorrect: false },
+        { id: "o1", text: "Option A", isCorrect: true },
+        { id: "o2", text: "Option B", isCorrect: false },
       ],
-      explanation: 'Explanation 1',
+      explanation: "Explanation 1",
     },
   ];
 
@@ -60,7 +60,7 @@ describe('FlaggedQuestionsPage', () => {
     vi.clearAllMocks();
   });
 
-  it('redirects to auth login if unauthenticated', async () => {
+  it("redirects to auth login if unauthenticated", async () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: false,
       isLoading: false,
@@ -70,17 +70,22 @@ describe('FlaggedQuestionsPage', () => {
     render(<FlaggedQuestionsPage />);
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/auth/login?next=%2Fpractice%2Fflagged');
+      expect(mockPush).toHaveBeenCalledWith(
+        "/auth/login?next=%2Fpractice%2Fflagged",
+      );
     });
   });
 
-  it('displays empty state when no questions flagged', async () => {
+  it("displays empty state when no questions flagged", async () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { id: 'u1', emailVerified: true },
+      user: { id: "u1", emailVerified: true },
     });
-    mockApiRequest.mockResolvedValue({ success: true, data: { questions: [] } });
+    mockApiRequest.mockResolvedValue({
+      success: true,
+      data: { questions: [] },
+    });
 
     render(<FlaggedQuestionsPage />);
 
@@ -90,39 +95,45 @@ describe('FlaggedQuestionsPage', () => {
     expect(screen.getByText(/flags are a great way/i)).toBeInTheDocument();
   });
 
-  it('displays list of flagged questions', async () => {
+  it("displays list of flagged questions", async () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { id: 'u1', emailVerified: true },
+      user: { id: "u1", emailVerified: true },
     });
-    mockApiRequest.mockResolvedValue({ success: true, data: { questions: mockQuestions } });
+    mockApiRequest.mockResolvedValue({
+      success: true,
+      data: { questions: mockQuestions },
+    });
 
     render(<FlaggedQuestionsPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Question 1')).toBeInTheDocument();
+      expect(screen.getByText("Question 1")).toBeInTheDocument();
     });
-    expect(screen.getByText('hard')).toBeInTheDocument();
+    expect(screen.getByText("hard")).toBeInTheDocument();
   });
 
-  it('allows unflagging a question', async () => {
+  it("allows unflagging a question", async () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { id: 'u1', emailVerified: true },
+      user: { id: "u1", emailVerified: true },
     });
 
     let questionRemoved = false;
     mockApiRequest.mockImplementation((endpoint: string, options?: any) => {
-      if (endpoint === '/practice/flagged') {
+      if (endpoint === "/practice/flagged") {
         // Return empty array after question has been removed
         return Promise.resolve({
           success: true,
           data: { questions: questionRemoved ? [] : mockQuestions },
         });
       }
-      if (endpoint.includes('/practice/questions/q1/flag') && options?.method === 'DELETE') {
+      if (
+        endpoint.includes("/practice/questions/q1/flag") &&
+        options?.method === "DELETE"
+      ) {
         questionRemoved = true;
         return Promise.resolve({ success: true, data: {} });
       }
@@ -132,18 +143,18 @@ describe('FlaggedQuestionsPage', () => {
     render(<FlaggedQuestionsPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Question 1')).toBeInTheDocument();
+      expect(screen.getByText("Question 1")).toBeInTheDocument();
     });
 
-    const unflagButton = screen.getByTitle('Remove flag');
+    const unflagButton = screen.getByTitle("Remove flag");
     fireEvent.click(unflagButton);
 
     // Wait for the async operation to complete and state to update
     await waitFor(
       () => {
-        expect(screen.queryByText('Question 1')).not.toBeInTheDocument();
+        expect(screen.queryByText("Question 1")).not.toBeInTheDocument();
       },
-      { timeout: 3000 }
+      { timeout: 3000 },
     );
 
     // Should revert to empty state if last one removed

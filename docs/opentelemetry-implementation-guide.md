@@ -116,9 +116,9 @@ Traces are automatically propagated using W3C Trace Context headers:
 **Frontend sends:**
 
 ```javascript
-fetch('/api/users', {
+fetch("/api/users", {
   headers: {
-    traceparent: '00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01',
+    traceparent: "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
   },
 });
 ```
@@ -239,11 +239,11 @@ import {
   setPageContext,
   addEvent,
   recordError,
-} from '@/lib/opentelemetry';
+} from "@/lib/opentelemetry";
 
 // Track page navigation
 function trackPageView(path: string) {
-  withSpan(`page.view:${path}`, span => {
+  withSpan(`page.view:${path}`, (span) => {
     setPageContext({
       path,
       title: document.title,
@@ -254,22 +254,22 @@ function trackPageView(path: string) {
 
 // Track user action
 async function handleFormSubmit(formData: FormData) {
-  return withSpan('form.submit:login', async span => {
+  return withSpan("form.submit:login", async (span) => {
     span.setAttributes({
-      'form.name': 'login',
-      'form.fields_count': Object.keys(formData).length,
+      "form.name": "login",
+      "form.fields_count": Object.keys(formData).length,
     });
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         body: JSON.stringify(formData),
       });
 
-      addEvent('form.submitted', { success: response.ok });
+      addEvent("form.submitted", { success: response.ok });
       return response;
     } catch (error) {
-      recordError(error as Error, { 'form.name': 'login' });
+      recordError(error as Error, { "form.name": "login" });
       throw error;
     }
   });
@@ -296,17 +296,17 @@ export class UserService {
 **After:**
 
 ```typescript
-import { withSpan, setDatabaseContext } from '../utils/tracing';
+import { withSpan, setDatabaseContext } from "../utils/tracing";
 
 export class UserService {
   async getUserById(id: string) {
-    return withSpan('user.getById', async span => {
-      span.setAttribute('user.id', id);
+    return withSpan("user.getById", async (span) => {
+      span.setAttribute("user.id", id);
 
-      const user = await withSpan('user.getById.query', async dbSpan => {
+      const user = await withSpan("user.getById.query", async (dbSpan) => {
         setDatabaseContext(dbSpan, {
-          table: 'User',
-          operation: 'findUnique',
+          table: "User",
+          operation: "findUnique",
         });
 
         return prisma.user.findUnique({
@@ -315,9 +315,9 @@ export class UserService {
       });
 
       if (user) {
-        span.addEvent('user.found', { user_id: id });
+        span.addEvent("user.found", { user_id: id });
       } else {
-        span.addEvent('user.not_found', { user_id: id });
+        span.addEvent("user.not_found", { user_id: id });
       }
 
       return user;
@@ -331,7 +331,7 @@ export class UserService {
 **Before:**
 
 ```typescript
-router.get('/users/:id', async (req, res) => {
+router.get("/users/:id", async (req, res) => {
   const user = await userService.getById(req.params.id);
   res.json(user);
 });
@@ -340,21 +340,21 @@ router.get('/users/:id', async (req, res) => {
 **After:**
 
 ```typescript
-router.get('/users/:id', async (req, res) => {
-  return withSpan('route.getUser', async span => {
+router.get("/users/:id", async (req, res) => {
+  return withSpan("route.getUser", async (span) => {
     span.setAttributes({
-      'http.route': '/users/:id',
-      'user.id': req.params.id,
+      "http.route": "/users/:id",
+      "user.id": req.params.id,
     });
 
     try {
       const user = await userService.getById(req.params.id);
-      span.addEvent('user.retrieved', { user_id: req.params.id });
+      span.addEvent("user.retrieved", { user_id: req.params.id });
       res.json(user);
     } catch (error) {
       recordError(error as Error, {
-        route: '/users/:id',
-        'user.id': req.params.id,
+        route: "/users/:id",
+        "user.id": req.params.id,
       });
       throw error;
     }
@@ -396,16 +396,16 @@ withSpan('Stripe API Call', ...)
 
 ```typescript
 // HTTP
-('http.method', 'http.route', 'http.status_code', 'http.url');
+("http.method", "http.route", "http.status_code", "http.url");
 
 // Database
-('db.system', 'db.name', 'db.table', 'db.operation', 'db.statement');
+("db.system", "db.name", "db.table", "db.operation", "db.statement");
 
 // User
-('user.id', 'user.email', 'user.tier');
+("user.id", "user.email", "user.tier");
 
 // Errors
-('error.type', 'error.message');
+("error.type", "error.message");
 ```
 
 ### 3. Events
@@ -421,8 +421,8 @@ try {
   // Operation
 } catch (error) {
   recordError(error as Error, {
-    'operation.name': ' createUser',
-    'operation.phase': 'database',
+    "operation.name": " createUser",
+    "operation.phase": "database",
   });
   throw error;
 }
@@ -435,7 +435,7 @@ The current implementation uses a tiered sampling strategy:
 **Development (100%):**
 
 ```typescript
-if (DEPLOYMENT_ENVIRONMENT === 'development') {
+if (DEPLOYMENT_ENVIRONMENT === "development") {
   return true; // Sample everything
 }
 ```
@@ -444,12 +444,12 @@ if (DEPLOYMENT_ENVIRONMENT === 'development') {
 
 ```typescript
 // Critical paths - 100%
-if (route.includes('/api/stripe') || route.includes('/api/subscriptions')) {
+if (route.includes("/api/stripe") || route.includes("/api/subscriptions")) {
   return true;
 }
 
 // Health checks - 10%
-if (route.includes('/api/health')) {
+if (route.includes("/api/health")) {
   return Math.random() < 0.1;
 }
 
@@ -491,10 +491,10 @@ http://localhost:16686
 
 ```typescript
 // In packages/api/src/config/opentelemetry.ts
-import { AWSXRayExporter } from '@opentelemetry/exporter-aws-xray';
+import { AWSXRayExporter } from "@opentelemetry/exporter-aws-xray";
 
 const traceExporter = new AWSXRayExporter({
-  region: 'us-east-1',
+  region: "us-east-1",
 });
 ```
 
@@ -581,9 +581,9 @@ export async function authMiddleware(req, res, next) {
   if (user) {
     const span = getActiveSpan();
     span?.setAttributes({
-      'user.id': user.id,
-      'user.email': user.email,
-      'user.tier': user.tier,
+      "user.id": user.id,
+      "user.email": user.email,
+      "user.tier": user.tier,
     });
   }
   next();
@@ -632,15 +632,15 @@ processors:
 ```typescript
 // BAD - Spans in tight loop
 for (let i = 0; i < 1000; i++) {
-  withSpan('process.item', async () => processItem(i));
+  withSpan("process.item", async () => processItem(i));
 }
 
 // GOOD - Single span with event
-withSpan('process.items', async span => {
+withSpan("process.items", async (span) => {
   for (let i = 0; i < 1000; i++) {
     await processItem(i);
   }
-  span.addEvent('items.processed', { count: 1000 });
+  span.addEvent("items.processed", { count: 1000 });
 });
 ```
 

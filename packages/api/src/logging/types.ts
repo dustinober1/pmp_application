@@ -1,7 +1,7 @@
 /**
  * Log level definitions aligned with Winston standards
  */
-export type LogLevel = 'error' | 'warn' | 'info' | 'http' | 'debug';
+export type LogLevel = "error" | "warn" | "info" | "http" | "debug";
 
 /**
  * Structured log context that will be included in every log entry

@@ -1,4 +1,4 @@
-import { FullConfig } from '@playwright/test';
+import { FullConfig } from "@playwright/test";
 
 /**
  * Global teardown for E2E tests
@@ -9,7 +9,7 @@ import { FullConfig } from '@playwright/test';
  * - Generate final reports
  */
 async function globalTeardown(config: FullConfig) {
-  console.log('🧹 Starting E2E test teardown...');
+  console.log("🧹 Starting E2E test teardown...");
 
   // Cleanup test database
   await cleanupDatabase();
@@ -17,25 +17,25 @@ async function globalTeardown(config: FullConfig) {
   // Generate reports
   await generateReports();
 
-  console.log('✅ E2E test teardown complete');
+  console.log("✅ E2E test teardown complete");
 }
 
 async function cleanupDatabase() {
-  console.log('📊 Cleaning up test database...');
+  console.log("📊 Cleaning up test database...");
 
   // Clean up test data
   // In production, this might use a test-specific database
   // that gets dropped after tests
 
-  console.log('✅ Database cleanup complete');
+  console.log("✅ Database cleanup complete");
 }
 
 async function generateReports() {
-  console.log('📈 Generating reports...');
+  console.log("📈 Generating reports...");
 
   // Could aggregate test results, send notifications, etc.
 
-  console.log('✅ Reports generated');
+  console.log("✅ Reports generated");
 }
 
 export default globalTeardown;

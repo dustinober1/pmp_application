@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- SyncAction payloads vary by action type */
-'use client';
+"use client";
 
-import { apiRequest } from './api';
+import { apiRequest } from "./api";
 
-export type SyncActionType = 'MARK_SECTION_COMPLETE' | 'SUBMIT_FLASHCARD_RESULT';
+export type SyncActionType =
+  | "MARK_SECTION_COMPLETE"
+  | "SUBMIT_FLASHCARD_RESULT";
 
 export interface SyncAction {
   id: string;
@@ -12,10 +14,10 @@ export interface SyncAction {
   timestamp: number;
 }
 
-const STORAGE_KEY = 'pmp_offline_sync_queue';
+const STORAGE_KEY = "pmp_offline_sync_queue";
 
 function emit(event: string, detail?: unknown) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
   window.dispatchEvent(new CustomEvent(event, { detail }));
 }
 
@@ -24,9 +26,9 @@ class SyncService {
   private isSyncing = false;
 
   constructor() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       this.loadQueue();
-      window.addEventListener('online', this.sync.bind(this));
+      window.addEventListener("online", this.sync.bind(this));
     }
   }
 
@@ -89,20 +91,23 @@ class SyncService {
       this.saveQueue();
     }
 
-    if (failureCount > 0) emit('pmp-sync-failed', { count: failureCount });
+    if (failureCount > 0) emit("pmp-sync-failed", { count: failureCount });
   }
 
   private async processAction(action: SyncAction) {
     switch (action.type) {
-      case 'MARK_SECTION_COMPLETE':
-        await apiRequest(`/domains/progress/sections/${action.payload.sectionId}/complete`, {
-          method: 'POST',
-        });
+      case "MARK_SECTION_COMPLETE":
+        await apiRequest(
+          `/domains/progress/sections/${action.payload.sectionId}/complete`,
+          {
+            method: "POST",
+          },
+        );
         break;
 
       // Flashcard logic might be more complex if batched,
       // assuming single submission for now as per existng service
-      case 'SUBMIT_FLASHCARD_RESULT':
+      case "SUBMIT_FLASHCARD_RESULT":
         // Assuming payload has { flashcardId, quality }
         // The endpoint is likely /flashcards/:id/review or similar
         // We'll need to double check the exact endpoint in flashcard.service or routes
@@ -110,13 +115,13 @@ class SyncService {
         // NOTE: The actual flashcard submission might need to be verified.
         // Checking flashcard.routes.ts... it is POST /:id/review
         await apiRequest(`/flashcards/${action.payload.flashcardId}/review`, {
-          method: 'POST',
+          method: "POST",
           body: { quality: action.payload.quality },
         });
         break;
 
       default:
-        console.warn('Unknown action type', action.type);
+        console.warn("Unknown action type", action.type);
     }
   }
 }

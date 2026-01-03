@@ -1,66 +1,68 @@
-'use client';
+"use client";
 
-import { useState, Suspense } from 'react';
-import Link from 'next/link';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { apiRequest } from '../../../lib/api';
-import type { PasswordReset } from '@pmp/shared';
-import { useToast } from '@/components/ToastProvider';
+import { useState, Suspense } from "react";
+import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
+import { apiRequest } from "../../../lib/api";
+import type { PasswordReset } from "@pmp/shared";
+import { useToast } from "@/components/ToastProvider";
 
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+  const token = searchParams.get("token");
   const toast = useToast();
 
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!token) {
-      const message = 'Invalid or missing reset token.';
+      const message = "Invalid or missing reset token.";
       setErrorMessage(message);
-      setStatus('error');
+      setStatus("error");
       toast.error(message);
       return;
     }
 
     if (password !== confirmPassword) {
-      const message = 'Passwords do not match.';
+      const message = "Passwords do not match.";
       setErrorMessage(message);
-      setStatus('error');
+      setStatus("error");
       toast.error(message);
       return;
     }
 
     if (password.length < 8) {
-      const message = 'Password must be at least 8 characters long.';
+      const message = "Password must be at least 8 characters long.";
       setErrorMessage(message);
-      setStatus('error');
+      setStatus("error");
       toast.error(message);
       return;
     }
 
-    setStatus('loading');
-    setErrorMessage('');
+    setStatus("loading");
+    setErrorMessage("");
 
     try {
-      await apiRequest<void>('/auth/reset-password', {
-        method: 'POST',
+      await apiRequest<void>("/auth/reset-password", {
+        method: "POST",
         body: { token, newPassword: password } as PasswordReset,
       });
-      setStatus('success');
+      setStatus("success");
       setTimeout(() => {
-        router.push('/auth/login');
+        router.push("/auth/login");
       }, 3000);
     } catch (error: unknown) {
-      console.error('Password reset failed', error);
-      const message = 'Failed to reset password. The link may have expired.';
-      setStatus('error');
+      console.error("Password reset failed", error);
+      const message = "Failed to reset password. The link may have expired.";
+      setStatus("error");
       setErrorMessage(message);
       toast.error(message);
     }
@@ -74,7 +76,8 @@ function ResetPasswordForm() {
         </div>
         <h2 className="text-2xl font-bold text-white">Invalid Link</h2>
         <p className="mt-2 text-sm text-gray-400">
-          This password reset link is invalid or has expired. Please request a new one.
+          This password reset link is invalid or has expired. Please request a
+          new one.
         </p>
         <div className="mt-6">
           <Link
@@ -88,7 +91,7 @@ function ResetPasswordForm() {
     );
   }
 
-  if (status === 'success') {
+  if (status === "success") {
     return (
       <div className="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-gray-700 text-center">
         <div className="text-5xl mb-4" aria-hidden="true">
@@ -113,7 +116,9 @@ function ResetPasswordForm() {
   return (
     <div className="max-w-md w-full space-y-8">
       <div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Set new password</h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+          Set new password
+        </h2>
         <p className="mt-2 text-center text-sm text-gray-400">
           Please enter your new password below.
         </p>
@@ -121,7 +126,10 @@ function ResetPasswordForm() {
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <div className="rounded-md shadow-sm space-y-4">
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-400 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-400 mb-1"
+            >
               New Password
             </label>
             <input
@@ -130,7 +138,7 @@ function ResetPasswordForm() {
               type="password"
               required
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm transition-colors"
               placeholder="********"
             />
@@ -148,14 +156,14 @@ function ResetPasswordForm() {
               type="password"
               required
               value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm transition-colors"
               placeholder="********"
             />
           </div>
         </div>
 
-        {status === 'error' && (
+        {status === "error" && (
           <div className="rounded-md bg-red-900/30 p-4 border border-red-800">
             <div className="flex">
               <div className="ml-3">
@@ -171,14 +179,14 @@ function ResetPasswordForm() {
         <div>
           <button
             type="submit"
-            disabled={status === 'loading'}
+            disabled={status === "loading"}
             className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white ${
-              status === 'loading'
-                ? 'bg-primary-700 cursor-not-allowed'
-                : 'bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-primary-500'
+              status === "loading"
+                ? "bg-primary-700 cursor-not-allowed"
+                : "bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-primary-500"
             } transition-colors shadow-lg hover:shadow-primary-900/20`}
           >
-            {status === 'loading' ? 'Resetting...' : 'Reset Password'}
+            {status === "loading" ? "Resetting..." : "Reset Password"}
           </button>
         </div>
       </form>

@@ -2,7 +2,7 @@
  * Flashcard related types
  */
 
-export type FlashcardRating = 'know_it' | 'learning' | 'dont_know';
+export type FlashcardRating = "know_it" | "learning" | "dont_know";
 
 export interface Flashcard {
   id: string;

@@ -1,5 +1,5 @@
-import type { Page, Locator } from '@playwright/test';
-import { TestHelpers } from '../utils/test-helpers';
+import type { Page, Locator } from "@playwright/test";
+import { TestHelpers } from "../utils/test-helpers";
 
 /**
  * Dashboard Page Object Model
@@ -34,29 +34,29 @@ export class DashboardPage {
    * Navigate to dashboard
    */
   async goto() {
-    await this.page.goto('/dashboard');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto("/dashboard");
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
    * Get welcome message
    */
   async getWelcomeMessage(): Promise<string> {
-    return (await this.welcomeMessage.textContent()) || '';
+    return (await this.welcomeMessage.textContent()) || "";
   }
 
   /**
    * Get subscription tier
    */
   async getSubscriptionTier(): Promise<string> {
-    return (await this.subscriptionTier.textContent()) || '';
+    return (await this.subscriptionTier.textContent()) || "";
   }
 
   /**
    * Get study streak
    */
   async getStudyStreak(): Promise<number> {
-    const text = (await this.studyStreak.textContent()) || '0';
+    const text = (await this.studyStreak.textContent()) || "0";
     const match = text.match(/\d+/);
     return match ? parseInt(match[0], 10) : 0;
   }
@@ -72,7 +72,7 @@ export class DashboardPage {
    * Get progress percentage
    */
   async getProgress(): Promise<number> {
-    const progressText = (await this.progressCard.textContent()) || '0%';
+    const progressText = (await this.progressCard.textContent()) || "0%";
     const match = progressText.match(/(\d+)%/);
     return match ? parseInt(match[1], 10) : 0;
   }

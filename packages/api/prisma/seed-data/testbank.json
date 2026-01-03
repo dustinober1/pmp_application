@@ -10478,7 +10478,11 @@
       "scenario": "A project manager gathers experts to identify risks for a nuclear plant upgrade. The experts are located globally and there is a concern that dominant personalities might sway the group's opinion.",
       "questionText": "Which identification technique is **BEST** suited for this situation?",
       "correctAnswer": "Delphi Technique.",
-      "distractors": ["Brainstorming.", "Nominal Group Technique.", "Root Cause Analysis."],
+      "distractors": [
+        "Brainstorming.",
+        "Nominal Group Technique.",
+        "Root Cause Analysis."
+      ],
       "answers": [
         {
           "text": "Delphi Technique.",
@@ -11302,7 +11306,11 @@
       "scenario": "A PM is trying to visualize how a \"Strike at the Port\" (Risk A) influences \"Material Supply\" (Risk B) which influences \"Construction Delay\" (Risk C).",
       "questionText": "Which graphical tool best models these causal influences?",
       "correctAnswer": "**Influence Diagram**.",
-      "distractors": ["Tornado Diagram.", "Monte Carlo S-Curve.", "Probability-Impact Matrix."],
+      "distractors": [
+        "Tornado Diagram.",
+        "Monte Carlo S-Curve.",
+        "Probability-Impact Matrix."
+      ],
       "answers": [
         {
           "text": "**Influence Diagram**.",
@@ -11344,7 +11352,11 @@
       "scenario": "A risk (\"Database Scalability\") was assigned to the Lead Architect. However, the architect has been pulled into critical path coding work and hasn't touched the risk response tasks for two sprints.",
       "questionText": "Who is accountable for ensuring this risk is addressed?",
       "correctAnswer": "The **whole team** (in Agile) or the **Risk Owner** (Architect) accountability model. Strictly, the Agile Leader/Scrum Master should facilitate the discussion to re-assign or prioritize the work.",
-      "distractors": ["The Product Owner alone.", "The Project Manager.", "The Stakeholders."],
+      "distractors": [
+        "The Product Owner alone.",
+        "The Project Manager.",
+        "The Stakeholders."
+      ],
       "answers": [
         {
           "text": "The **whole team** (in Agile) or the **Risk Owner** (Architect) accountability model. Strictly, the Agile Leader/Scrum Master should facilitate the discussion to re-assign or prioritize the work.",
@@ -48338,7 +48350,11 @@
       "scenario": "A project team is deciding whether to build a custom data encryption module internally or purchase a commercial off-the-shelf (COTS) solution. The internal team has the skills, but they are currently fully allocated to core product features. The COTS solution is expensive upfront but offers immediate deployment and ongoing security updates.",
       "questionText": "What tool or technique should the project manager use to make this decision?",
       "correctAnswer": "Make-or-buy analysis",
-      "distractors": ["Source selection criteria", "Bidder conferences", "Resource leveling"],
+      "distractors": [
+        "Source selection criteria",
+        "Bidder conferences",
+        "Resource leveling"
+      ],
       "answers": [
         {
           "text": "Make-or-buy analysis",
@@ -55658,7 +55674,11 @@
       "scenario": "A project manager is estimating the duration of a software testing phase. Based on historical data from similar projects, the PM knows that it typically takes 1 hour of testing for every 10 lines of code. The current project has 50,000 lines of code.",
       "questionText": "Which estimation technique is the project manager using?",
       "correctAnswer": "Parametric Estimation",
-      "distractors": ["Analogous Estimation", "Bottom-Up Estimation", "Three-Point Estimation"],
+      "distractors": [
+        "Analogous Estimation",
+        "Bottom-Up Estimation",
+        "Three-Point Estimation"
+      ],
       "answers": [
         {
           "text": "Parametric Estimation",
@@ -56658,7 +56678,11 @@
       "scenario": "A project manager is overseeing a clinical trial project. The phase \"Patient Enrollment\" must occur at specific hospitals that have limited availability for research staff. The PM must ensure the schedule doesn't over-allocate the staff across multiple trials.",
       "questionText": "Which scheduling technique is most appropriate to manage this constraint?",
       "correctAnswer": "Resource Leveling",
-      "distractors": ["Fast-Tracking", "Three-Point Estimation", "Rolling Wave Planning"],
+      "distractors": [
+        "Fast-Tracking",
+        "Three-Point Estimation",
+        "Rolling Wave Planning"
+      ],
       "answers": [
         {
           "text": "Resource Leveling",
@@ -57114,7 +57138,11 @@
       "scenario": "An agile project is nearing its final release. The Product Owner wants to ensure that the \"Product Launch\" marketing campaign is perfectly synchronized with the \"v1.0\" code deployment.",
       "questionText": "Which agile tool provides the best high-level view for this coordination?",
       "correctAnswer": "The Product Roadmap",
-      "distractors": ["The Sprint Backlog", "The Daily Stand-up Notes", "The Velocity Trend Chart"],
+      "distractors": [
+        "The Sprint Backlog",
+        "The Daily Stand-up Notes",
+        "The Velocity Trend Chart"
+      ],
       "answers": [
         {
           "text": "The Product Roadmap",

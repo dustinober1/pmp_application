@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { apiRequest } from '@/lib/api';
-import type { TeamDashboard, Team } from '@pmp/shared';
-import { useToast } from '@/components/ToastProvider';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { apiRequest } from "@/lib/api";
+import type { TeamDashboard, Team } from "@pmp/shared";
+import { useToast } from "@/components/ToastProvider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 
 export default function TeamDashboardPage() {
   const router = useRouter();
@@ -15,10 +15,10 @@ export default function TeamDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [team, setTeam] = useState<Team | null>(null);
   const [dashboard, setDashboard] = useState<TeamDashboard | null>(null);
-  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteEmail, setInviteEmail] = useState("");
   const [inviting, setInviting] = useState(false);
   const [inviteResult, setInviteResult] = useState<{
-    type: 'success' | 'error';
+    type: "success" | "error";
     message: string;
   } | null>(null);
 
@@ -26,7 +26,7 @@ export default function TeamDashboardPage() {
     try {
       setLoading(true);
       // 1. Get User's Teams
-      const teamsResponse = await apiRequest<{ teams: Team[] }>('/teams');
+      const teamsResponse = await apiRequest<{ teams: Team[] }>("/teams");
       const teams = teamsResponse.data?.teams || [];
 
       if (teams.length === 0) {
@@ -46,15 +46,15 @@ export default function TeamDashboardPage() {
 
       // 2. Get Dashboard Data for this Team
       const dashboardResponse = await apiRequest<{ dashboard: TeamDashboard }>(
-        `/teams/${currentTeam.id}/dashboard`
+        `/teams/${currentTeam.id}/dashboard`,
       );
 
       if (dashboardResponse.data) {
         setDashboard(dashboardResponse.data.dashboard);
       }
     } catch (error) {
-      console.error('Failed to load team data', error);
-      toast.error('Failed to load team dashboard. Please try again.');
+      console.error("Failed to load team data", error);
+      toast.error("Failed to load team dashboard. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -79,16 +79,20 @@ export default function TeamDashboardPage() {
 
     try {
       await apiRequest(`/teams/${team.id}/invitations`, {
-        method: 'POST',
+        method: "POST",
         body: { email: inviteEmail },
       });
-      setInviteResult({ type: 'success', message: `Invitation sent to ${inviteEmail}` });
-      setInviteEmail('');
+      setInviteResult({
+        type: "success",
+        message: `Invitation sent to ${inviteEmail}`,
+      });
+      setInviteEmail("");
       // Refresh dashboard to potentially update stats/license counts if we tracked pending invites (optional)
     } catch (error: unknown) {
-      console.error('Invite failed', error);
-      const message = error instanceof Error ? error.message : 'Failed to send invitation';
-      setInviteResult({ type: 'error', message });
+      console.error("Invite failed", error);
+      const message =
+        error instanceof Error ? error.message : "Failed to send invitation";
+      setInviteResult({ type: "error", message });
     } finally {
       setInviting(false);
     }
@@ -97,37 +101,43 @@ export default function TeamDashboardPage() {
   const handleRemoveMember = async (memberId: string, memberName: string) => {
     const isAdmin = !!(user && team && team.adminId === user.id);
     if (!isAdmin) {
-      toast.error('Only team admins can remove members.');
+      toast.error("Only team admins can remove members.");
       return;
     }
-    if (!team || !confirm(`Are you sure you want to remove ${memberName} from the team?`)) return;
+    if (
+      !team ||
+      !confirm(`Are you sure you want to remove ${memberName} from the team?`)
+    )
+      return;
 
     try {
       // Using preserve endpoint to keep data (11.5 requirement)
       await apiRequest(`/teams/${team.id}/members/${memberId}/preserve`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       // Refresh data
       fetchTeamData();
     } catch (error) {
-      console.error('Failed to remove member', error);
-      toast.error('Failed to remove member. Please try again.');
+      console.error("Failed to remove member", error);
+      toast.error("Failed to remove member. Please try again.");
     }
   };
 
   const handleAcknowledgeAlert = async (alertId: string) => {
     if (!team) return;
     try {
-      await apiRequest(`/teams/${team.id}/alerts/${alertId}/acknowledge`, { method: 'POST' });
+      await apiRequest(`/teams/${team.id}/alerts/${alertId}/acknowledge`, {
+        method: "POST",
+      });
       // Optimistically remove from UI
       if (dashboard) {
         setDashboard({
           ...dashboard,
-          alerts: dashboard.alerts.filter(a => a.id !== alertId),
+          alerts: dashboard.alerts.filter((a) => a.id !== alertId),
         });
       }
     } catch (error) {
-      console.error('Failed to acknowledge alert', error);
+      console.error("Failed to acknowledge alert", error);
     }
   };
 
@@ -143,9 +153,11 @@ export default function TeamDashboardPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-12 text-center text-white">
         <h2 className="text-2xl font-bold mb-4">No Team Found</h2>
-        <p className="text-gray-400 mb-8">You do not seem to have a corporate team set up yet.</p>
+        <p className="text-gray-400 mb-8">
+          You do not seem to have a corporate team set up yet.
+        </p>
         <button
-          onClick={() => router.push('/dashboard')}
+          onClick={() => router.push("/dashboard")}
           className="px-6 py-2 bg-gray-800 rounded hover:bg-gray-700 transition"
         >
           Back to Dashboard
@@ -159,20 +171,30 @@ export default function TeamDashboardPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">{dashboard.teamName}</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">
+            {dashboard.teamName}
+          </h1>
           <div className="flex gap-4 text-sm text-gray-400">
             <span>
-              Members: <span className="text-white font-medium">{dashboard.totalMembers}</span>
+              Members:{" "}
+              <span className="text-white font-medium">
+                {dashboard.totalMembers}
+              </span>
             </span>
             <span>
-              Active: <span className="text-green-400 font-medium">{dashboard.activeMembers}</span>
+              Active:{" "}
+              <span className="text-green-400 font-medium">
+                {dashboard.activeMembers}
+              </span>
             </span>
           </div>
         </div>
         <div className="flex gap-4">
           <div className="text-right">
             <div className="text-sm text-gray-400">Avg. Progress</div>
-            <div className="text-2xl font-bold text-primary-400">{dashboard.averageProgress}%</div>
+            <div className="text-2xl font-bold text-primary-400">
+              {dashboard.averageProgress}%
+            </div>
           </div>
           <div className="text-right pl-6 border-l border-gray-700">
             <div className="text-sm text-gray-400">Avg. Readiness</div>
@@ -192,11 +214,11 @@ export default function TeamDashboardPage() {
               <h3 className="text-lg font-bold text-white mb-4 flex items-center">
                 <span className="text-yellow-500 mr-2" aria-hidden="true">
                   ⚠️
-                </span>{' '}
+                </span>{" "}
                 Needs Attention
               </h3>
               <div className="space-y-3">
-                {dashboard.alerts.map(alert => (
+                {dashboard.alerts.map((alert) => (
                   <div
                     key={alert.id}
                     className="flex justify-between items-center bg-gray-900/50 p-4 rounded-lg border border-gray-800"
@@ -204,14 +226,14 @@ export default function TeamDashboardPage() {
                     <div>
                       <span
                         className={`inline-block px-2 py-0.5 rounded text-xs uppercase font-bold mr-3 ${
-                          alert.type === 'inactive'
-                            ? 'bg-gray-700 text-gray-300'
-                            : alert.type === 'struggling'
-                              ? 'bg-red-900/50 text-red-400'
-                              : 'bg-yellow-900/50 text-yellow-400'
+                          alert.type === "inactive"
+                            ? "bg-gray-700 text-gray-300"
+                            : alert.type === "struggling"
+                              ? "bg-red-900/50 text-red-400"
+                              : "bg-yellow-900/50 text-yellow-400"
                         }`}
                       >
-                        {alert.type.replace('_', ' ')}
+                        {alert.type.replace("_", " ")}
                       </span>
                       <span className="text-gray-300">{alert.message}</span>
                     </div>
@@ -243,10 +265,15 @@ export default function TeamDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-800">
-                  {dashboard.memberStats.map(member => (
-                    <tr key={member.memberId} className="hover:bg-gray-800/30 transition">
+                  {dashboard.memberStats.map((member) => (
+                    <tr
+                      key={member.memberId}
+                      className="hover:bg-gray-800/30 transition"
+                    >
                       <td className="px-6 py-4">
-                        <div className="font-medium text-white">{member.userName}</div>
+                        <div className="font-medium text-white">
+                          {member.userName}
+                        </div>
                         {/* <div className="text-sm text-gray-500">{member.email} - need email in response ideally</div> */}
                       </td>
                       <td className="px-6 py-4">
@@ -257,18 +284,24 @@ export default function TeamDashboardPage() {
                               style={{ width: `${member.progress}%` }}
                             ></div>
                           </div>
-                          <span className="text-gray-300 text-sm">{member.progress}%</span>
+                          <span className="text-gray-300 text-sm">
+                            {member.progress}%
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-gray-400 text-sm">
                         {member.lastActiveDate
                           ? new Date(member.lastActiveDate).toLocaleDateString()
-                          : 'Never'}
+                          : "Never"}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        {user && team?.adminId === user.id && member.userId !== user.id ? (
+                        {user &&
+                        team?.adminId === user.id &&
+                        member.userId !== user.id ? (
                           <button
-                            onClick={() => handleRemoveMember(member.userId, member.userName)}
+                            onClick={() =>
+                              handleRemoveMember(member.userId, member.userName)
+                            }
                             className="text-red-400 hover:text-red-300 text-sm font-medium transition"
                           >
                             Remove
@@ -281,7 +314,10 @@ export default function TeamDashboardPage() {
                   ))}
                   {dashboard.memberStats.length === 0 && (
                     <tr>
-                      <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                      <td
+                        colSpan={4}
+                        className="px-6 py-12 text-center text-gray-500"
+                      >
                         No members found. Invite someone to get started!
                       </td>
                     </tr>
@@ -299,7 +335,10 @@ export default function TeamDashboardPage() {
             <h3 className="text-lg font-bold text-white mb-4">Invite Member</h3>
             <form onSubmit={handleInvite} className="space-y-4">
               <div>
-                <label htmlFor="invite-email" className="block text-sm text-gray-400 mb-1">
+                <label
+                  htmlFor="invite-email"
+                  className="block text-sm text-gray-400 mb-1"
+                >
                   Email Address
                 </label>
                 <input
@@ -307,14 +346,14 @@ export default function TeamDashboardPage() {
                   type="email"
                   required
                   value={inviteEmail}
-                  onChange={e => setInviteEmail(e.target.value)}
+                  onChange={(e) => setInviteEmail(e.target.value)}
                   placeholder="colleague@company.com"
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary-500 transition"
                 />
               </div>
               {inviteResult && (
                 <div
-                  className={`p-3 rounded text-sm ${inviteResult.type === 'success' ? 'bg-green-900/30 text-green-400' : 'bg-red-900/30 text-red-400'}`}
+                  className={`p-3 rounded text-sm ${inviteResult.type === "success" ? "bg-green-900/30 text-green-400" : "bg-red-900/30 text-red-400"}`}
                 >
                   {inviteResult.message}
                 </div>
@@ -324,7 +363,7 @@ export default function TeamDashboardPage() {
                 disabled={inviting}
                 className="w-full py-2 bg-white text-gray-900 rounded-lg font-bold hover:bg-gray-200 transition disabled:opacity-50"
               >
-                {inviting ? 'Sending...' : 'Send Invitation'}
+                {inviting ? "Sending..." : "Send Invitation"}
               </button>
               <p className="text-xs text-center text-gray-500 mt-2">
                 You have used {dashboard.totalMembers} of 10 licenses.
@@ -336,7 +375,9 @@ export default function TeamDashboardPage() {
           {/* Placeholder for Goals Widget */}
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 opacity-60">
             <h3 className="text-lg font-bold text-gray-400 mb-4">Team Goals</h3>
-            <div className="text-center py-8 text-gray-600">Goals feature coming soon</div>
+            <div className="text-center py-8 text-gray-600">
+              Goals feature coming soon
+            </div>
           </div>
         </div>
       </div>

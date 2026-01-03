@@ -201,29 +201,31 @@ Add X-Ray sidecar:
 **File:** `packages/api/src/config/opentelemetry.ts`
 
 ```typescript
-import { NodeSDK, NodeSDKConfiguration } from '@opentelemetry/sdk-node';
-import { AWSXRayExporter } from '@opentelemetry/exporter-aws-xray';
-import { AwsInstrumentation } from '@opentelemetry/instrumentation-aws-sdk';
-import { Resource } from '@opentelemetry/resources';
-import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { NodeSDK, NodeSDKConfiguration } from "@opentelemetry/sdk-node";
+import { AWSXRayExporter } from "@opentelemetry/exporter-aws-xray";
+import { AwsInstrumentation } from "@opentelemetry/instrumentation-aws-sdk";
+import { Resource } from "@opentelemetry/resources";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 
 // Determine environment
-const isProduction = process.env.NODE_ENV === 'production';
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isProduction = process.env.NODE_ENV === "production";
+const isDevelopment = process.env.NODE_ENV === "development";
 
 // Configure resource
 const resource = Resource.default().merge(
   new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'pmp-api',
-    [SemanticResourceAttributes.SERVICE_VERSION]: process.env.npm_package_version || '1.0.0',
-    [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV || 'development',
+    [SemanticResourceAttributes.SERVICE_NAME]: "pmp-api",
+    [SemanticResourceAttributes.SERVICE_VERSION]:
+      process.env.npm_package_version || "1.0.0",
+    [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]:
+      process.env.NODE_ENV || "development",
     // AWS-specific attributes
     ...(isProduction && {
-      'cloud.provider': 'aws',
-      'cloud.platform': 'aws_eks', // or 'aws_ecs'
-      'aws.region': process.env.AWS_REGION || 'us-east-1',
+      "cloud.provider": "aws",
+      "cloud.platform": "aws_eks", // or 'aws_ecs'
+      "aws.region": process.env.AWS_REGION || "us-east-1",
     }),
-  })
+  }),
 );
 
 // Configure exporter
@@ -232,13 +234,15 @@ let traceExporter;
 if (isProduction) {
   // Production: AWS X-Ray
   traceExporter = new AWSXRayExporter({
-    region: process.env.AWS_REGION || 'us-east-1',
+    region: process.env.AWS_REGION || "us-east-1",
   });
 } else {
   // Development: OTLP Collector
-  const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-grpc');
+  const {
+    OTLPTraceExporter,
+  } = require("@opentelemetry/exporter-trace-otlp-grpc");
   traceExporter = new OTLPTraceExporter({
-    url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://localhost:4317',
+    url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || "http://localhost:4317",
   });
 }
 
@@ -255,23 +259,24 @@ const sdkConfig: NodeSDKConfiguration = {
   resource,
   traceExporter,
   instrumentations,
-  serviceName: 'pmp-api',
+  serviceName: "pmp-api",
 
   // Sampling strategy
   sampler: {
     shouldSample: (context, traceId, spanName, spanKind, attributes, links) => {
       // Critical paths - 100%
-      const route = (attributes?.[SemanticResourceAttributes.HTTP_ROUTE] as string) || '';
+      const route =
+        (attributes?.[SemanticResourceAttributes.HTTP_ROUTE] as string) || "";
       if (
-        route.includes('/api/stripe') ||
-        route.includes('/api/subscriptions') ||
-        route.includes('/api/auth')
+        route.includes("/api/stripe") ||
+        route.includes("/api/subscriptions") ||
+        route.includes("/api/auth")
       ) {
         return true;
       }
 
       // Health checks - 1%
-      if (route.includes('/api/health')) {
+      if (route.includes("/api/health")) {
         return Math.random() < 0.01;
       }
 
@@ -291,7 +296,7 @@ const sdk = new NodeSDK(sdkConfig);
 export { sdk };
 export async function startOpenTelemetry() {
   await sdk.start();
-  console.log('[OpenTelemetry] Started with AWS X-Ray exporter');
+  console.log("[OpenTelemetry] Started with AWS X-Ray exporter");
 }
 ```
 
@@ -326,10 +331,10 @@ metadata:
   name: pmp-api-config
   namespace: pmp
 data:
-  NODE_ENV: 'production'
-  OTEL_SERVICE_NAME: 'pmp-api'
-  AWS_REGION: 'us-east-1'
-  AWS_XRAY_DAEMON_ADDRESS: 'xray-daemon:2000'
+  NODE_ENV: "production"
+  OTEL_SERVICE_NAME: "pmp-api"
+  AWS_REGION: "us-east-1"
+  AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
 ```
 
 ### ECS Task Definition
@@ -466,7 +471,7 @@ aws xray create-sampling-rule \
 
 ```typescript
 // In your middleware or routes
-import { trace } from '@opentelemetry/api';
+import { trace } from "@opentelemetry/api";
 
 export function sanitizeDataMiddleware(req, res, next) {
   const span = trace.getSpan(trace.context.active());
@@ -477,7 +482,7 @@ export function sanitizeDataMiddleware(req, res, next) {
     delete sanitizedBody.password;
     delete sanitizedBody.creditCard;
 
-    span.setAttribute('http.body', JSON.stringify(sanitizedBody));
+    span.setAttribute("http.body", JSON.stringify(sanitizedBody));
   }
 
   next();
@@ -487,18 +492,22 @@ export function sanitizeDataMiddleware(req, res, next) {
 ### Add Custom Annotations
 
 ```typescript
-import { trace } from '@opentelemetry/api';
+import { trace } from "@opentelemetry/api";
 
-function annotateTrace(metadata: { userId?: string; tier?: string; feature?: string }) {
+function annotateTrace(metadata: {
+  userId?: string;
+  tier?: string;
+  feature?: string;
+}) {
   const span = trace.getActiveSpan();
   if (span) {
     // Annotations are indexed in X-Ray
-    span.setAttribute('user.id', metadata.userId);
-    span.setAttribute('user.tier', metadata.tier);
-    span.setAttribute('feature.name', metadata.feature);
+    span.setAttribute("user.id", metadata.userId);
+    span.setAttribute("user.tier", metadata.tier);
+    span.setAttribute("feature.name", metadata.feature);
 
     // Metadata is not indexed
-    span.setAttribute('metadata', JSON.stringify(metadata));
+    span.setAttribute("metadata", JSON.stringify(metadata));
   }
 }
 ```
@@ -506,7 +515,7 @@ function annotateTrace(metadata: { userId?: string; tier?: string; feature?: str
 ### Error Tracking
 
 ```typescript
-import { trace, SpanStatusCode } from '@opentelemetry/api';
+import { trace, SpanStatusCode } from "@opentelemetry/api";
 
 export function recordError(error: Error, context: any) {
   const span = trace.getActiveSpan();
@@ -518,8 +527,8 @@ export function recordError(error: Error, context: any) {
     });
 
     // Add error context
-    span.setAttribute('error.type', error.constructor.name);
-    span.setAttribute('error.context', JSON.stringify(context));
+    span.setAttribute("error.type", error.constructor.name);
+    span.setAttribute("error.context", JSON.stringify(context));
   }
 }
 ```

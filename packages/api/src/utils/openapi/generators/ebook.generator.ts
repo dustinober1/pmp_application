@@ -1,45 +1,50 @@
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPIV3_1 } from "openapi-types";
 
 /**
  * Generate Ebook endpoints OpenAPI spec
  */
 export const ebookPaths: OpenAPIV3_1.PathsObject = {
-  '/api/ebook': {
+  "/api/ebook": {
     get: {
-      tags: ['Ebooks'],
-      summary: 'Get all ebook chapters',
-      description: 'Retrieve all chapters with metadata. Premium chapters are marked.',
+      tags: ["Ebooks"],
+      summary: "Get all ebook chapters",
+      description:
+        "Retrieve all chapters with metadata. Premium chapters are marked.",
       security: [],
       responses: {
-        '200': {
-          description: 'Chapters retrieved',
+        "200": {
+          description: "Chapters retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       chapters: {
-                        type: 'array',
+                        type: "array",
                         items: {
-                          type: 'object',
+                          type: "object",
                           properties: {
-                            id: { type: 'string', format: 'uuid' },
-                            slug: { type: 'string', example: 'introduction' },
-                            title: { type: 'string', example: 'Introduction to PMP' },
-                            order: { type: 'number', example: 1 },
-                            isPremium: {
-                              type: 'boolean',
-                              description: 'Whether chapter requires premium subscription',
+                            id: { type: "string", format: "uuid" },
+                            slug: { type: "string", example: "introduction" },
+                            title: {
+                              type: "string",
+                              example: "Introduction to PMP",
                             },
-                            sectionCount: { type: 'number', example: 10 },
+                            order: { type: "number", example: 1 },
+                            isPremium: {
+                              type: "boolean",
+                              description:
+                                "Whether chapter requires premium subscription",
+                            },
+                            sectionCount: { type: "number", example: 10 },
                           },
                         },
                       },
-                      count: { type: 'number', example: 12 },
+                      count: { type: "number", example: 12 },
                     },
                   },
                 },
@@ -51,51 +56,52 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/ebook/chapters/{slug}': {
+  "/api/ebook/chapters/{slug}": {
     get: {
-      tags: ['Ebooks'],
-      summary: 'Get chapter details',
-      description: 'Retrieve chapter metadata and list of sections (no content).',
+      tags: ["Ebooks"],
+      summary: "Get chapter details",
+      description:
+        "Retrieve chapter metadata and list of sections (no content).",
       security: [],
       parameters: [
         {
-          name: 'slug',
-          in: 'path',
+          name: "slug",
+          in: "path",
           required: true,
-          schema: { type: 'string' },
-          description: 'Chapter slug',
-          example: 'introduction',
+          schema: { type: "string" },
+          description: "Chapter slug",
+          example: "introduction",
         },
       ],
       responses: {
-        '200': {
-          description: 'Chapter details retrieved',
+        "200": {
+          description: "Chapter details retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       chapter: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          id: { type: 'string', format: 'uuid' },
-                          slug: { type: 'string' },
-                          title: { type: 'string' },
-                          content: { type: 'string' },
+                          id: { type: "string", format: "uuid" },
+                          slug: { type: "string" },
+                          title: { type: "string" },
+                          content: { type: "string" },
                           sections: {
-                            type: 'array',
+                            type: "array",
                             items: {
-                              type: 'object',
+                              type: "object",
                               properties: {
-                                id: { type: 'string', format: 'uuid' },
-                                slug: { type: 'string' },
-                                title: { type: 'string' },
-                                order: { type: 'number' },
-                                isPremium: { type: 'boolean' },
+                                id: { type: "string", format: "uuid" },
+                                slug: { type: "string" },
+                                title: { type: "string" },
+                                order: { type: "number" },
+                                isPremium: { type: "boolean" },
                               },
                             },
                           },
@@ -108,11 +114,11 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
             },
           },
         },
-        '404': {
-          description: 'Chapter not found',
+        "404": {
+          description: "Chapter not found",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
@@ -120,50 +126,51 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/ebook/chapters/{chapterSlug}/sections/{sectionSlug}': {
+  "/api/ebook/chapters/{chapterSlug}/sections/{sectionSlug}": {
     get: {
-      tags: ['Ebooks'],
-      summary: 'Get section content',
-      description: 'Retrieve full section content with access control based on subscription tier.',
+      tags: ["Ebooks"],
+      summary: "Get section content",
+      description:
+        "Retrieve full section content with access control based on subscription tier.",
       security: [],
       parameters: [
         {
-          name: 'chapterSlug',
-          in: 'path',
+          name: "chapterSlug",
+          in: "path",
           required: true,
-          schema: { type: 'string' },
-          description: 'Chapter slug',
+          schema: { type: "string" },
+          description: "Chapter slug",
         },
         {
-          name: 'sectionSlug',
-          in: 'path',
+          name: "sectionSlug",
+          in: "path",
           required: true,
-          schema: { type: 'string' },
-          description: 'Section slug',
+          schema: { type: "string" },
+          description: "Section slug",
         },
       ],
       responses: {
-        '200': {
-          description: 'Section content retrieved',
+        "200": {
+          description: "Section content retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       section: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          id: { type: 'string', format: 'uuid' },
-                          title: { type: 'string' },
+                          id: { type: "string", format: "uuid" },
+                          title: { type: "string" },
                           content: {
-                            type: 'string',
-                            description: 'Full section content (Markdown)',
+                            type: "string",
+                            description: "Full section content (Markdown)",
                           },
-                          isPremium: { type: 'boolean' },
+                          isPremium: { type: "boolean" },
                         },
                       },
                     },
@@ -173,19 +180,19 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
             },
           },
         },
-        '403': {
-          description: 'Premium content requires subscription',
+        "403": {
+          description: "Premium content requires subscription",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
-        '404': {
-          description: 'Section not found',
+        "404": {
+          description: "Section not found",
           content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Error' },
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Error" },
             },
           },
         },
@@ -193,82 +200,83 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/ebook/search': {
+  "/api/ebook/search": {
     get: {
-      tags: ['Ebooks'],
-      summary: 'Search ebook content',
-      description: 'Search across all ebook content. Premium content requires subscription.',
+      tags: ["Ebooks"],
+      summary: "Search ebook content",
+      description:
+        "Search across all ebook content. Premium content requires subscription.",
       security: [],
       parameters: [
         {
-          name: 'q',
-          in: 'query',
+          name: "q",
+          in: "query",
           required: true,
-          schema: { type: 'string' },
-          description: 'Search query',
-          example: 'stakeholder management',
+          schema: { type: "string" },
+          description: "Search query",
+          example: "stakeholder management",
         },
         {
-          name: 'page',
-          in: 'query',
-          schema: { type: 'integer', minimum: 1, default: 1 },
-          description: 'Page number',
+          name: "page",
+          in: "query",
+          schema: { type: "integer", minimum: 1, default: 1 },
+          description: "Page number",
         },
         {
-          name: 'limit',
-          in: 'query',
-          schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
-          description: 'Results per page',
+          name: "limit",
+          in: "query",
+          schema: { type: "integer", minimum: 1, maximum: 100, default: 20 },
+          description: "Results per page",
         },
       ],
       responses: {
-        '200': {
-          description: 'Search results',
+        "200": {
+          description: "Search results",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       results: {
-                        type: 'array',
+                        type: "array",
                         items: {
-                          type: 'object',
+                          type: "object",
                           properties: {
                             chapter: {
-                              type: 'object',
+                              type: "object",
                               properties: {
-                                slug: { type: 'string' },
-                                title: { type: 'string' },
+                                slug: { type: "string" },
+                                title: { type: "string" },
                               },
                             },
                             section: {
-                              type: 'object',
+                              type: "object",
                               properties: {
-                                slug: { type: 'string' },
-                                title: { type: 'string' },
+                                slug: { type: "string" },
+                                title: { type: "string" },
                               },
                             },
                             snippet: {
-                              type: 'string',
-                              description: 'Relevant text excerpt',
+                              type: "string",
+                              description: "Relevant text excerpt",
                             },
-                            isPremium: { type: 'boolean' },
+                            isPremium: { type: "boolean" },
                           },
                         },
                       },
                       pagination: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          page: { type: 'integer' },
-                          limit: { type: 'integer' },
-                          total: { type: 'integer' },
-                          totalPages: { type: 'integer' },
-                          hasNext: { type: 'boolean' },
-                          hasPrev: { type: 'boolean' },
+                          page: { type: "integer" },
+                          limit: { type: "integer" },
+                          total: { type: "integer" },
+                          totalPages: { type: "integer" },
+                          hasNext: { type: "boolean" },
+                          hasPrev: { type: "boolean" },
                         },
                       },
                     },
@@ -282,39 +290,39 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/ebook/progress': {
+  "/api/ebook/progress": {
     get: {
-      tags: ['Ebooks'],
-      summary: 'Get reading progress',
+      tags: ["Ebooks"],
+      summary: "Get reading progress",
       description: "Retrieve user's overall ebook reading progress.",
       security: [{ bearerAuth: [] }],
       responses: {
-        '200': {
-          description: 'Progress retrieved',
+        "200": {
+          description: "Progress retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       progress: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          lastChapterSlug: { type: 'string' },
-                          lastSectionSlug: { type: 'string' },
+                          lastChapterSlug: { type: "string" },
+                          lastSectionSlug: { type: "string" },
                           completedSections: {
-                            type: 'array',
+                            type: "array",
                             items: {
-                              type: 'string',
-                              format: 'uuid',
+                              type: "string",
+                              format: "uuid",
                             },
                           },
                           overallPercentage: {
-                            type: 'number',
-                            description: 'Overall completion percentage',
+                            type: "number",
+                            description: "Overall completion percentage",
                             example: 35.5,
                           },
                         },
@@ -329,45 +337,46 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
       },
     },
     post: {
-      tags: ['Ebooks'],
-      summary: 'Update reading progress',
-      description: "Update user's reading progress. Automatically tracks sections read.",
+      tags: ["Ebooks"],
+      summary: "Update reading progress",
+      description:
+        "Update user's reading progress. Automatically tracks sections read.",
       security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['chapterSlug', 'sectionSlug'],
+              type: "object",
+              required: ["chapterSlug", "sectionSlug"],
               properties: {
-                chapterSlug: { type: 'string' },
-                sectionSlug: { type: 'string' },
+                chapterSlug: { type: "string" },
+                sectionSlug: { type: "string" },
               },
             },
           },
         },
       },
       responses: {
-        '200': {
-          description: 'Progress updated',
+        "200": {
+          description: "Progress updated",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       progress: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          lastChapterSlug: { type: 'string' },
-                          lastSectionSlug: { type: 'string' },
+                          lastChapterSlug: { type: "string" },
+                          lastSectionSlug: { type: "string" },
                           completedSections: {
-                            type: 'array',
-                            items: { type: 'string', format: 'uuid' },
+                            type: "array",
+                            items: { type: "string", format: "uuid" },
                           },
                         },
                       },
@@ -382,43 +391,43 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/ebook/progress/chapter/{chapterSlug}': {
+  "/api/ebook/progress/chapter/{chapterSlug}": {
     get: {
-      tags: ['Ebooks'],
-      summary: 'Get chapter progress',
+      tags: ["Ebooks"],
+      summary: "Get chapter progress",
       description: "Retrieve user's progress for a specific chapter.",
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: 'chapterSlug',
-          in: 'path',
+          name: "chapterSlug",
+          in: "path",
           required: true,
-          schema: { type: 'string' },
-          description: 'Chapter slug',
+          schema: { type: "string" },
+          description: "Chapter slug",
         },
       ],
       responses: {
-        '200': {
-          description: 'Chapter progress retrieved',
+        "200": {
+          description: "Chapter progress retrieved",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       progress: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          chapterSlug: { type: 'string' },
+                          chapterSlug: { type: "string" },
                           completedSections: {
-                            type: 'array',
-                            items: { type: 'string', format: 'uuid' },
+                            type: "array",
+                            items: { type: "string", format: "uuid" },
                           },
                           chapterPercentage: {
-                            type: 'number',
+                            type: "number",
                             example: 60.0,
                           },
                         },
@@ -434,39 +443,39 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/ebook/progress/complete': {
+  "/api/ebook/progress/complete": {
     post: {
-      tags: ['Ebooks'],
-      summary: 'Mark section complete',
-      description: 'Manually mark a section as completed.',
+      tags: ["Ebooks"],
+      summary: "Mark section complete",
+      description: "Manually mark a section as completed.",
       security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['chapterSlug', 'sectionSlug'],
+              type: "object",
+              required: ["chapterSlug", "sectionSlug"],
               properties: {
-                chapterSlug: { type: 'string' },
-                sectionSlug: { type: 'string' },
+                chapterSlug: { type: "string" },
+                sectionSlug: { type: "string" },
               },
             },
           },
         },
       },
       responses: {
-        '200': {
-          description: 'Section marked complete',
+        "200": {
+          description: "Section marked complete",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   message: {
-                    type: 'string',
-                    example: 'Section marked as complete',
+                    type: "string",
+                    example: "Section marked as complete",
                   },
                 },
               },
@@ -477,24 +486,24 @@ export const ebookPaths: OpenAPIV3_1.PathsObject = {
     },
   },
 
-  '/api/ebook/progress/reset': {
+  "/api/ebook/progress/reset": {
     post: {
-      tags: ['Ebooks'],
-      summary: 'Reset reading progress',
-      description: 'Reset all reading progress for the authenticated user.',
+      tags: ["Ebooks"],
+      summary: "Reset reading progress",
+      description: "Reset all reading progress for the authenticated user.",
       security: [{ bearerAuth: [] }],
       responses: {
-        '200': {
-          description: 'Progress reset',
+        "200": {
+          description: "Progress reset",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   message: {
-                    type: 'string',
-                    example: 'Progress reset successfully',
+                    type: "string",
+                    example: "Progress reset successfully",
                   },
                 },
               },

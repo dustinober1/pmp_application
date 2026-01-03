@@ -1,48 +1,48 @@
-import type { Request, Response } from 'express';
-import { Router } from 'express';
-import prisma from '../config/database';
+import type { Request, Response } from "express";
+import { Router } from "express";
+import prisma from "../config/database";
 
 const router = Router();
 
 // Health check endpoint
-router.get('/', async (_req: Request, res: Response) => {
+router.get("/", async (_req: Request, res: Response) => {
   try {
     // Test database connection
     await prisma.$queryRaw`SELECT 1`;
 
     res.json({
-      status: 'healthy',
+      status: "healthy",
       timestamp: new Date().toISOString(),
-      version: '1.0.0',
+      version: "1.0.0",
       services: {
-        database: 'connected',
+        database: "connected",
       },
     });
   } catch (error) {
     res.status(503).json({
-      status: 'unhealthy',
+      status: "unhealthy",
       timestamp: new Date().toISOString(),
-      version: '1.0.0',
+      version: "1.0.0",
       services: {
-        database: 'disconnected',
+        database: "disconnected",
       },
-      error: 'Database connection failed',
+      error: "Database connection failed",
     });
   }
 });
 
 // Liveness probe
-router.get('/live', (_req: Request, res: Response) => {
-  res.json({ status: 'alive' });
+router.get("/live", (_req: Request, res: Response) => {
+  res.json({ status: "alive" });
 });
 
 // Readiness probe
-router.get('/ready', async (_req: Request, res: Response) => {
+router.get("/ready", async (_req: Request, res: Response) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
-    res.json({ status: 'ready' });
+    res.json({ status: "ready" });
   } catch {
-    res.status(503).json({ status: 'not ready' });
+    res.status(503).json({ status: "not ready" });
   }
 });
 

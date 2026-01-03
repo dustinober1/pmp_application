@@ -52,7 +52,7 @@ export interface StudyProgress {
 }
 
 export interface SearchResult {
-  type: 'study_guide' | 'flashcard' | 'question' | 'formula';
+  type: "study_guide" | "flashcard" | "question" | "formula";
   id: string;
   title: string;
   excerpt: string;

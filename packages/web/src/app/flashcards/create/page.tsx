@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Navbar } from '@/components/Navbar';
-import { apiRequest, flashcardApi } from '@/lib/api';
-import type { Domain, Task } from '@pmp/shared';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { useToast } from '@/components/ToastProvider';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Navbar } from "@/components/Navbar";
+import { apiRequest, flashcardApi } from "@/lib/api";
+import type { Domain, Task } from "@pmp/shared";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useToast } from "@/components/ToastProvider";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 
 export default function CreateFlashcardPage() {
   const router = useRouter();
@@ -18,25 +18,25 @@ export default function CreateFlashcardPage() {
   const [domains, setDomains] = useState<Domain[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const [selectedDomainId, setSelectedDomainId] = useState('');
-  const [selectedTaskId, setSelectedTaskId] = useState('');
-  const [front, setFront] = useState('');
-  const [back, setBack] = useState('');
+  const [selectedDomainId, setSelectedDomainId] = useState("");
+  const [selectedTaskId, setSelectedTaskId] = useState("");
+  const [front, setFront] = useState("");
+  const [back, setBack] = useState("");
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // Load domains
   useEffect(() => {
     async function fetchDomains() {
       try {
-        const response = await apiRequest<{ domains: Domain[] }>('/domains');
+        const response = await apiRequest<{ domains: Domain[] }>("/domains");
         setDomains(response.data?.domains ?? []);
       } catch (err) {
-        console.error('Failed to load domains', err);
-        setError('Failed to load content domains. Please refresh.');
-        toast.error('Failed to load content. Please try again.');
+        console.error("Failed to load domains", err);
+        setError("Failed to load content domains. Please refresh.");
+        toast.error("Failed to load content. Please try again.");
       } finally {
         setIsLoading(false);
       }
@@ -56,12 +56,14 @@ export default function CreateFlashcardPage() {
       }
 
       try {
-        const response = await apiRequest<{ tasks: Task[] }>(`/domains/${selectedDomainId}/tasks`);
+        const response = await apiRequest<{ tasks: Task[] }>(
+          `/domains/${selectedDomainId}/tasks`,
+        );
         setTasks(response.data?.tasks ?? []);
-        setSelectedTaskId('');
+        setSelectedTaskId("");
       } catch (err) {
-        console.error('Failed to load tasks', err);
-        toast.error('Failed to load tasks. Please try again.');
+        console.error("Failed to load tasks", err);
+        toast.error("Failed to load tasks. Please try again.");
       }
     }
 
@@ -70,11 +72,11 @@ export default function CreateFlashcardPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsSubmitting(true);
 
     if (!selectedDomainId || !selectedTaskId || !front.trim() || !back.trim()) {
-      setError('All fields are required.');
+      setError("All fields are required.");
       setIsSubmitting(false);
       return;
     }
@@ -87,10 +89,11 @@ export default function CreateFlashcardPage() {
         back: back.trim(),
       });
 
-      router.push('/flashcards');
+      router.push("/flashcards");
     } catch (err: unknown) {
-      console.error('Failed to create flashcard', err);
-      const message = err instanceof Error ? err.message : 'Failed to create flashcard';
+      console.error("Failed to create flashcard", err);
+      const message =
+        err instanceof Error ? err.message : "Failed to create flashcard";
       setError(message);
       setIsSubmitting(false);
     }
@@ -101,7 +104,7 @@ export default function CreateFlashcardPage() {
   }
 
   // Tier check (optional UI enforcement)
-  const canCreate = user?.tier === 'pro' || user?.tier === 'corporate';
+  const canCreate = user?.tier === "pro" || user?.tier === "corporate";
 
   return (
     <div className="min-h-screen">
@@ -116,7 +119,9 @@ export default function CreateFlashcardPage() {
             ← Back to Flashcards
           </Link>
           <h1 className="text-2xl font-bold">Create Custom Flashcard</h1>
-          <p className="text-[var(--foreground-muted)]">Add your own cards to your study deck.</p>
+          <p className="text-[var(--foreground-muted)]">
+            Add your own cards to your study deck.
+          </p>
         </div>
 
         {!canCreate && (
@@ -125,7 +130,10 @@ export default function CreateFlashcardPage() {
             <p className="text-sm mt-1">
               Custom flashcards are available on Pro and Corporate plans.
             </p>
-            <Link href="/pricing" className="text-sm underline mt-2 inline-block">
+            <Link
+              href="/pricing"
+              className="text-sm underline mt-2 inline-block"
+            >
               View Upgrades
             </Link>
           </div>
@@ -141,18 +149,21 @@ export default function CreateFlashcardPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="domain-select" className="block text-sm font-medium mb-1">
+                <label
+                  htmlFor="domain-select"
+                  className="block text-sm font-medium mb-1"
+                >
                   Domain
                 </label>
                 <select
                   id="domain-select"
                   value={selectedDomainId}
-                  onChange={e => setSelectedDomainId(e.target.value)}
+                  onChange={(e) => setSelectedDomainId(e.target.value)}
                   className="w-full p-2 rounded-md bg-[var(--background)] border border-[var(--border)] focus:border-[var(--primary)] outline-none transition"
                   disabled={!canCreate || isSubmitting}
                 >
                   <option value="">Select Domain</option>
-                  {domains.map(d => (
+                  {domains.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.name}
                     </option>
@@ -160,18 +171,21 @@ export default function CreateFlashcardPage() {
                 </select>
               </div>
               <div>
-                <label htmlFor="task-select" className="block text-sm font-medium mb-1">
+                <label
+                  htmlFor="task-select"
+                  className="block text-sm font-medium mb-1"
+                >
                   Task
                 </label>
                 <select
                   id="task-select"
                   value={selectedTaskId}
-                  onChange={e => setSelectedTaskId(e.target.value)}
+                  onChange={(e) => setSelectedTaskId(e.target.value)}
                   className="w-full p-2 rounded-md bg-[var(--background)] border border-[var(--border)] focus:border-[var(--primary)] outline-none transition"
                   disabled={!selectedDomainId || !canCreate || isSubmitting}
                 >
                   <option value="">Select Task</option>
-                  {tasks.map(t => (
+                  {tasks.map((t) => (
                     <option key={t.id} value={t.id}>
                       {t.code} {t.name}
                     </option>
@@ -181,13 +195,16 @@ export default function CreateFlashcardPage() {
             </div>
 
             <div>
-              <label htmlFor="front-input" className="block text-sm font-medium mb-1">
+              <label
+                htmlFor="front-input"
+                className="block text-sm font-medium mb-1"
+              >
                 Front (Question/Term)
               </label>
               <textarea
                 id="front-input"
                 value={front}
-                onChange={e => setFront(e.target.value)}
+                onChange={(e) => setFront(e.target.value)}
                 rows={3}
                 className="w-full p-3 rounded-md bg-[var(--background)] border border-[var(--border)] focus:border-[var(--primary)] outline-none transition"
                 placeholder="What is..."
@@ -196,13 +213,16 @@ export default function CreateFlashcardPage() {
             </div>
 
             <div>
-              <label htmlFor="back-input" className="block text-sm font-medium mb-1">
+              <label
+                htmlFor="back-input"
+                className="block text-sm font-medium mb-1"
+              >
                 Back (Answer/Definition)
               </label>
               <textarea
                 id="back-input"
                 value={back}
-                onChange={e => setBack(e.target.value)}
+                onChange={(e) => setBack(e.target.value)}
                 rows={5}
                 className="w-full p-3 rounded-md bg-[var(--background)] border border-[var(--border)] focus:border-[var(--primary)] outline-none transition"
                 placeholder="The answer is..."
@@ -216,7 +236,7 @@ export default function CreateFlashcardPage() {
                 disabled={!canCreate || isSubmitting}
                 className="btn btn-primary px-8"
               >
-                {isSubmitting ? 'Creating...' : 'Create Flashcard'}
+                {isSubmitting ? "Creating..." : "Create Flashcard"}
               </button>
             </div>
           </form>

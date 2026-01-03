@@ -1,11 +1,11 @@
-import type { Request, Response, NextFunction } from 'express';
-import type { ZodSchema } from 'zod';
-import { ZodError } from 'zod';
-import { AppError } from './error.middleware';
+import type { Request, Response, NextFunction } from "express";
+import type { ZodSchema } from "zod";
+import { ZodError } from "zod";
+import { AppError } from "./error.middleware";
 
-type RequestPart = 'body' | 'query' | 'params';
+type RequestPart = "body" | "query" | "params";
 
-export function validate(schema: ZodSchema, part: RequestPart = 'body') {
+export function validate(schema: ZodSchema, part: RequestPart = "body") {
   return (req: Request, _res: Response, next: NextFunction): void => {
     try {
       const data = req[part];
@@ -14,15 +14,15 @@ export function validate(schema: ZodSchema, part: RequestPart = 'body') {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const details = error.errors.map(err => ({
-          field: err.path.join('.'),
+        const details = error.errors.map((err) => ({
+          field: err.path.join("."),
           message: err.message,
         }));
 
         next(
-          AppError.badRequest('Validation failed', 'VALIDATION_ERROR', {
+          AppError.badRequest("Validation failed", "VALIDATION_ERROR", {
             errors: details,
-          })
+          }),
         );
         return;
       }
@@ -31,6 +31,6 @@ export function validate(schema: ZodSchema, part: RequestPart = 'body') {
   };
 }
 
-export const validateBody = (schema: ZodSchema) => validate(schema, 'body');
-export const validateQuery = (schema: ZodSchema) => validate(schema, 'query');
-export const validateParams = (schema: ZodSchema) => validate(schema, 'params');
+export const validateBody = (schema: ZodSchema) => validate(schema, "body");
+export const validateQuery = (schema: ZodSchema) => validate(schema, "query");
+export const validateParams = (schema: ZodSchema) => validate(schema, "params");

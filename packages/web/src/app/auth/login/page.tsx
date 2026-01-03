@@ -1,37 +1,37 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/components/ToastProvider';
-import { validateEmail } from '@/lib/validation';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/components/ToastProvider";
+import { validateEmail } from "@/lib/validation";
 
-const REMEMBER_ME_EMAIL_KEY = 'pmp_remember_email';
-const REMEMBER_ME_FLAG_KEY = 'pmp_remember_flag';
+const REMEMBER_ME_EMAIL_KEY = "pmp_remember_email";
+const REMEMBER_ME_FLAG_KEY = "pmp_remember_flag";
 
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login, isLoading } = useAuth();
   const toast = useToast();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   // HIGH-002: Add email validation state
-  const [emailError, setEmailError] = useState('');
+  const [emailError, setEmailError] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   // Load remembered email on mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       try {
         const rememberedEmail = localStorage.getItem(REMEMBER_ME_EMAIL_KEY);
         const rememberFlag = localStorage.getItem(REMEMBER_ME_FLAG_KEY);
 
-        if (rememberedEmail && rememberFlag === 'true') {
+        if (rememberedEmail && rememberFlag === "true") {
           setEmail(rememberedEmail);
           setRememberMe(true);
         }
@@ -44,11 +44,11 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     // HIGH-002: Validate email on submit
     if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError("Please enter a valid email address");
       return;
     }
 
@@ -58,11 +58,11 @@ export default function LoginPage() {
       await login(email, password, rememberMe);
 
       // Save or clear remembered email based on checkbox
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         try {
           if (rememberMe) {
             localStorage.setItem(REMEMBER_ME_EMAIL_KEY, email);
-            localStorage.setItem(REMEMBER_ME_FLAG_KEY, 'true');
+            localStorage.setItem(REMEMBER_ME_FLAG_KEY, "true");
           } else {
             localStorage.removeItem(REMEMBER_ME_EMAIL_KEY);
             localStorage.removeItem(REMEMBER_ME_FLAG_KEY);
@@ -72,14 +72,16 @@ export default function LoginPage() {
         }
       }
 
-      const requestedNext = searchParams.get('next');
+      const requestedNext = searchParams.get("next");
       const next =
-        requestedNext && requestedNext.startsWith('/') && !requestedNext.startsWith('//')
+        requestedNext &&
+        requestedNext.startsWith("/") &&
+        !requestedNext.startsWith("//")
           ? requestedNext
-          : '/dashboard';
+          : "/dashboard";
       router.push(next);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed';
+      const message = err instanceof Error ? err.message : "Login failed";
       setError(message);
       toast.error(message);
     } finally {
@@ -91,16 +93,16 @@ export default function LoginPage() {
   const handleEmailChange = (value: string) => {
     setEmail(value);
     if (emailTouched && value && !validateEmail(value)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError("Please enter a valid email address");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
   const handleEmailBlur = () => {
     setEmailTouched(true);
     if (email && !validateEmail(email)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError("Please enter a valid email address");
     }
   };
 
@@ -119,8 +121,12 @@ export default function LoginPage() {
               </span>
             </div>
           </Link>
-          <h1 className="text-2xl font-bold text-md-on-surface">Welcome Back</h1>
-          <p className="text-md-on-surface-variant mt-2">Sign in to continue your PMP journey</p>
+          <h1 className="text-2xl font-bold text-md-on-surface">
+            Welcome Back
+          </h1>
+          <p className="text-md-on-surface-variant mt-2">
+            Sign in to continue your PMP journey
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -141,16 +147,20 @@ export default function LoginPage() {
               id="email"
               type="email"
               value={email}
-              onChange={e => handleEmailChange(e.target.value)}
+              onChange={(e) => handleEmailChange(e.target.value)}
               onBlur={handleEmailBlur}
-              className={`input ${emailError ? 'border-md-error focus:border-md-error focus:ring-md-error' : ''}`}
+              className={`input ${emailError ? "border-md-error focus:border-md-error focus:ring-md-error" : ""}`}
               placeholder="you@example.com"
               required
-              aria-invalid={emailError ? 'true' : 'false'}
-              aria-describedby={emailError ? 'email-error' : undefined}
+              aria-invalid={emailError ? "true" : "false"}
+              aria-describedby={emailError ? "email-error" : undefined}
             />
             {emailError && (
-              <p id="email-error" className="mt-1 text-sm text-md-error" role="alert">
+              <p
+                id="email-error"
+                className="mt-1 text-sm text-md-error"
+                role="alert"
+              >
                 {emailError}
               </p>
             )}
@@ -167,7 +177,7 @@ export default function LoginPage() {
               id="password"
               type="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className="input"
               placeholder="••••••••"
               required
@@ -179,12 +189,15 @@ export default function LoginPage() {
               <input
                 type="checkbox"
                 checked={rememberMe}
-                onChange={e => setRememberMe(e.target.checked)}
+                onChange={(e) => setRememberMe(e.target.checked)}
                 className="rounded border-md-outline text-md-primary focus:ring-md-primary w-4 h-4"
               />
               <span>Remember me</span>
             </label>
-            <Link href="/auth/forgot-password" className="text-md-primary hover:underline">
+            <Link
+              href="/auth/forgot-password"
+              className="text-md-primary hover:underline"
+            >
               Forgot password?
             </Link>
           </div>
@@ -194,13 +207,16 @@ export default function LoginPage() {
             disabled={submitting || isLoading}
             className="btn btn-primary w-full"
           >
-            {submitting ? 'Signing in...' : 'Sign In'}
+            {submitting ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
         <p className="text-center text-sm text-md-on-surface-variant mt-6">
-          Don’t have an account?{' '}
-          <Link href="/auth/register" className="text-md-primary font-medium hover:underline">
+          Don’t have an account?{" "}
+          <Link
+            href="/auth/register"
+            className="text-md-primary font-medium hover:underline"
+          >
             Sign up for free
           </Link>
         </p>

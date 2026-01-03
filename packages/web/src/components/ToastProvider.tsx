@@ -1,8 +1,15 @@
-'use client';
+"use client";
 
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-type ToastType = 'success' | 'error' | 'info';
+type ToastType = "success" | "error" | "info";
 
 interface Toast {
   id: string;
@@ -21,7 +28,8 @@ interface ToastContextValue {
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
 
 function createId(): string {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID();
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto)
+    return crypto.randomUUID();
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
@@ -29,37 +37,39 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   const dismiss = useCallback((id: string) => {
-    setToasts(prev => prev.filter(t => t.id !== id));
+    setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
   const show = useCallback(
-    (message: string, type: ToastType = 'info', durationMs: number = 4000) => {
+    (message: string, type: ToastType = "info", durationMs: number = 4000) => {
       const id = createId();
-      setToasts(prev => [...prev, { id, type, message, durationMs }]);
+      setToasts((prev) => [...prev, { id, type, message, durationMs }]);
       window.setTimeout(() => dismiss(id), durationMs);
     },
-    [dismiss]
+    [dismiss],
   );
 
   const value = useMemo<ToastContextValue>(
     () => ({
       show,
-      success: (message, durationMs) => show(message, 'success', durationMs),
-      error: (message, durationMs) => show(message, 'error', durationMs),
-      info: (message, durationMs) => show(message, 'info', durationMs),
+      success: (message, durationMs) => show(message, "success", durationMs),
+      error: (message, durationMs) => show(message, "error", durationMs),
+      info: (message, durationMs) => show(message, "info", durationMs),
     }),
-    [show]
+    [show],
   );
 
   useEffect(() => {
     const onSyncFailed = (event: Event) => {
       const detail = (event as CustomEvent<{ count?: number }>).detail;
       const count = detail?.count ?? 1;
-      value.error(`Some offline actions failed to sync (${count}). We'll retry automatically.`);
+      value.error(
+        `Some offline actions failed to sync (${count}). We'll retry automatically.`,
+      );
     };
 
-    window.addEventListener('pmp-sync-failed', onSyncFailed);
-    return () => window.removeEventListener('pmp-sync-failed', onSyncFailed);
+    window.addEventListener("pmp-sync-failed", onSyncFailed);
+    return () => window.removeEventListener("pmp-sync-failed", onSyncFailed);
   }, [value]);
 
   return (
@@ -70,16 +80,16 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         aria-live="polite"
         aria-relevant="additions"
       >
-        {toasts.map(t => (
+        {toasts.map((t) => (
           <div
             key={t.id}
-            role={t.type === 'error' ? 'alert' : 'status'}
+            role={t.type === "error" ? "alert" : "status"}
             className={`max-w-sm rounded-xl border px-4 py-3 shadow-lg backdrop-blur ${
-              t.type === 'success'
-                ? 'bg-green-900/30 border-green-800 text-green-200'
-                : t.type === 'error'
-                  ? 'bg-red-900/30 border-red-800 text-red-200'
-                  : 'bg-gray-900/60 border-gray-700 text-gray-200'
+              t.type === "success"
+                ? "bg-green-900/30 border-green-800 text-green-200"
+                : t.type === "error"
+                  ? "bg-red-900/30 border-red-800 text-red-200"
+                  : "bg-gray-900/60 border-gray-700 text-gray-200"
             }`}
           >
             <div className="flex items-start justify-between gap-3">
@@ -102,6 +112,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
 export function useToast(): ToastContextValue {
   const ctx = useContext(ToastContext);
-  if (!ctx) throw new Error('useToast must be used within a ToastProvider');
+  if (!ctx) throw new Error("useToast must be used within a ToastProvider");
   return ctx;
 }

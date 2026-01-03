@@ -5,9 +5,9 @@ import type {
   SearchResult,
   UserStudyProgress,
   DomainProgress,
-} from '@pmp/shared';
-import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
+} from "@pmp/shared";
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
 
 export class ContentService {
   /**
@@ -15,10 +15,10 @@ export class ContentService {
    */
   async getDomains(): Promise<Domain[]> {
     const domains = await prisma.domain.findMany({
-      orderBy: { orderIndex: 'asc' },
+      orderBy: { orderIndex: "asc" },
       include: {
         tasks: {
-          orderBy: { orderIndex: 'asc' },
+          orderBy: { orderIndex: "asc" },
           select: {
             id: true,
             code: true,
@@ -30,14 +30,14 @@ export class ContentService {
       },
     });
 
-    return domains.map(domain => ({
+    return domains.map((domain) => ({
       id: domain.id,
       name: domain.name,
       code: domain.code,
       description: domain.description,
       weightPercentage: domain.weightPercentage,
       orderIndex: domain.orderIndex,
-      tasks: domain.tasks.map(task => ({
+      tasks: domain.tasks.map((task) => ({
         id: task.id,
         domainId: domain.id,
         code: task.code,
@@ -55,7 +55,7 @@ export class ContentService {
   async getDomainById(domainId: string): Promise<Domain | null> {
     const domain = await prisma.domain.findUnique({
       where: { id: domainId },
-      include: { tasks: { orderBy: { orderIndex: 'asc' } } },
+      include: { tasks: { orderBy: { orderIndex: "asc" } } },
     });
 
     if (!domain) return null;
@@ -67,7 +67,7 @@ export class ContentService {
       description: domain.description,
       weightPercentage: domain.weightPercentage,
       orderIndex: domain.orderIndex,
-      tasks: domain.tasks.map(task => ({
+      tasks: domain.tasks.map((task) => ({
         id: task.id,
         domainId: task.domainId,
         code: task.code,
@@ -85,11 +85,11 @@ export class ContentService {
   async getTasksByDomain(domainId: string): Promise<Task[]> {
     const tasks = await prisma.task.findMany({
       where: { domainId },
-      orderBy: { orderIndex: 'asc' },
+      orderBy: { orderIndex: "asc" },
       include: { domain: true },
     });
 
-    return tasks.map(task => ({
+    return tasks.map((task) => ({
       id: task.id,
       domainId: task.domainId,
       code: task.code,
@@ -129,7 +129,7 @@ export class ContentService {
     const guide = await prisma.studyGuide.findUnique({
       where: { taskId },
       include: {
-        sections: { orderBy: { orderIndex: 'asc' } },
+        sections: { orderBy: { orderIndex: "asc" } },
         task: { include: { domain: true } },
       },
     });
@@ -154,7 +154,7 @@ export class ContentService {
       id: guide.id,
       taskId: guide.taskId,
       title: guide.title,
-      sections: guide.sections.map(section => ({
+      sections: guide.sections.map((section) => ({
         id: section.id,
         studyGuideId: section.studyGuideId,
         title: section.title,
@@ -162,8 +162,8 @@ export class ContentService {
         orderIndex: section.orderIndex,
       })),
       relatedFormulas: [], // TODO: Add formula relations
-      relatedFlashcardIds: flashcards.map(f => f.id),
-      relatedQuestionIds: questions.map(q => q.id),
+      relatedFlashcardIds: flashcards.map((f) => f.id),
+      relatedQuestionIds: questions.map((q) => q.id),
       createdAt: guide.createdAt,
       updatedAt: guide.updatedAt,
     };
@@ -179,7 +179,7 @@ export class ContentService {
     });
 
     if (!section) {
-      throw AppError.notFound('Section not found');
+      throw AppError.notFound("Section not found");
     }
 
     await prisma.studyProgress.upsert({
@@ -233,15 +233,15 @@ export class ContentService {
       },
     });
 
-    const domainProgress: DomainProgress[] = domains.map(domain => {
+    const domainProgress: DomainProgress[] = domains.map((domain) => {
       let totalDomainSections = 0;
       let completedDomainSections = 0;
 
-      domain.tasks.forEach(task => {
+      domain.tasks.forEach((task) => {
         if (task.studyGuide) {
           totalDomainSections += task.studyGuide.sections.length;
-          task.studyGuide.sections.forEach(section => {
-            if (completedProgress.some(p => p.sectionId === section.id)) {
+          task.studyGuide.sections.forEach((section) => {
+            if (completedProgress.some((p) => p.sectionId === section.id)) {
               completedDomainSections++;
             }
           });
@@ -265,7 +265,9 @@ export class ContentService {
       totalSections,
       completedSections: completedProgress.length,
       overallProgress:
-        totalSections > 0 ? Math.round((completedProgress.length / totalSections) * 100) : 0,
+        totalSections > 0
+          ? Math.round((completedProgress.length / totalSections) * 100)
+          : 0,
       domainProgress,
     };
   }
@@ -273,15 +275,18 @@ export class ContentService {
   /**
    * Search content across study guides, flashcards, and questions
    */
-  async searchContent(query: string, limit: number = 20): Promise<SearchResult[]> {
+  async searchContent(
+    query: string,
+    limit: number = 20,
+  ): Promise<SearchResult[]> {
     const results: SearchResult[] = [];
 
     // Search study guide sections
     const sections = await prisma.studySection.findMany({
       where: {
         OR: [
-          { title: { contains: query, mode: 'insensitive' } },
-          { content: { contains: query, mode: 'insensitive' } },
+          { title: { contains: query, mode: "insensitive" } },
+          { content: { contains: query, mode: "insensitive" } },
         ],
       },
       include: {
@@ -292,12 +297,12 @@ export class ContentService {
       take: Math.floor(limit / 3),
     });
 
-    sections.forEach(section => {
+    sections.forEach((section) => {
       results.push({
-        type: 'study_guide',
+        type: "study_guide",
         id: section.studyGuide.id,
         title: section.title,
-        excerpt: section.content.substring(0, 150) + '...',
+        excerpt: section.content.substring(0, 150) + "...",
         domainId: section.studyGuide.task.domainId,
         taskId: section.studyGuide.taskId,
       });
@@ -307,20 +312,20 @@ export class ContentService {
     const flashcards = await prisma.flashcard.findMany({
       where: {
         OR: [
-          { front: { contains: query, mode: 'insensitive' } },
-          { back: { contains: query, mode: 'insensitive' } },
+          { front: { contains: query, mode: "insensitive" } },
+          { back: { contains: query, mode: "insensitive" } },
         ],
       },
       include: { task: true },
       take: Math.floor(limit / 3),
     });
 
-    flashcards.forEach(card => {
+    flashcards.forEach((card) => {
       results.push({
-        type: 'flashcard',
+        type: "flashcard",
         id: card.id,
         title: card.front.substring(0, 100),
-        excerpt: card.back.substring(0, 150) + '...',
+        excerpt: card.back.substring(0, 150) + "...",
         domainId: card.domainId,
         taskId: card.taskId,
       });
@@ -330,20 +335,20 @@ export class ContentService {
     const questions = await prisma.practiceQuestion.findMany({
       where: {
         OR: [
-          { questionText: { contains: query, mode: 'insensitive' } },
-          { explanation: { contains: query, mode: 'insensitive' } },
+          { questionText: { contains: query, mode: "insensitive" } },
+          { explanation: { contains: query, mode: "insensitive" } },
         ],
       },
       include: { task: true },
       take: Math.floor(limit / 3),
     });
 
-    questions.forEach(question => {
+    questions.forEach((question) => {
       results.push({
-        type: 'question',
+        type: "question",
         id: question.id,
         title: question.questionText.substring(0, 100),
-        excerpt: question.explanation.substring(0, 150) + '...',
+        excerpt: question.explanation.substring(0, 150) + "...",
         domainId: question.domainId,
         taskId: question.taskId,
       });

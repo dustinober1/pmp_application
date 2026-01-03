@@ -1,10 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
-import bcrypt from 'bcrypt';
-import type { AccountDeletionRequest as AccountDeletionRequestType } from '@pmp/shared';
-import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
-import { PRIVACY_ERRORS } from '@pmp/shared';
-import { logger } from '../utils/logger';
+import { v4 as uuidv4 } from "uuid";
+import bcrypt from "bcrypt";
+import type { AccountDeletionRequest as AccountDeletionRequestType } from "@pmp/shared";
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
+import { PRIVACY_ERRORS } from "@pmp/shared";
+import { logger } from "../utils/logger";
 
 const GRACE_PERIOD_DAYS = 30;
 
@@ -18,7 +18,7 @@ export class AccountDeletionService {
       reason?: string;
       confirmPassword: string;
     },
-    metadata?: { ipAddress?: string; userAgent?: string }
+    metadata?: { ipAddress?: string; userAgent?: string },
   ): Promise<AccountDeletionRequestType> {
     // Verify password
     const user = await prisma.user.findUnique({
@@ -26,37 +26,41 @@ export class AccountDeletionService {
     });
 
     if (!user) {
-      throw AppError.notFound('User not found', 'USER_NOT_FOUND');
+      throw AppError.notFound("User not found", "USER_NOT_FOUND");
     }
 
-    const isPasswordValid = await bcrypt.compare(deletionData.confirmPassword, user.passwordHash);
+    const isPasswordValid = await bcrypt.compare(
+      deletionData.confirmPassword,
+      user.passwordHash,
+    );
 
     if (!isPasswordValid) {
-      throw AppError.unauthorized('Invalid password', 'INVALID_PASSWORD');
+      throw AppError.unauthorized("Invalid password", "INVALID_PASSWORD");
     }
 
     // Check for existing pending deletion
     const existingDeletion = await prisma.accountDeletionRequest.findFirst({
       where: {
         userId,
-        status: { in: ['pending', 'processing'] },
+        status: { in: ["pending", "processing"] },
       },
     });
 
     if (existingDeletion) {
-      throw AppError.conflict(PRIVACY_ERRORS.PRIVACY_003.message, PRIVACY_ERRORS.PRIVACY_003.code);
+      throw AppError.conflict(
+        PRIVACY_ERRORS.PRIVACY_003.message,
+        PRIVACY_ERRORS.PRIVACY_003.code,
+      );
     }
 
     // Create deletion request
-    const requestId = uuidv4();
     const gracePeriodEnds = new Date();
     gracePeriodEnds.setDate(gracePeriodEnds.getDate() + GRACE_PERIOD_DAYS);
 
     const deletionRequest = await prisma.accountDeletionRequest.create({
       data: {
         userId,
-        requestId,
-        status: 'pending',
+        status: "pending",
         deletionReason: deletionData.reason,
         ipAddress: metadata?.ipAddress,
         userAgent: metadata?.userAgent,
@@ -67,20 +71,20 @@ export class AccountDeletionService {
     // Log the request
     await prisma.privacyAuditLog.create({
       data: {
-        actionType: 'account_deletion',
-        entityType: 'deletion_request',
+        actionType: "account_deletion",
+        entityType: "deletion_request",
         entityId: deletionRequest.id,
         userId,
         performedBy: userId,
         ipAddress: metadata?.ipAddress,
         userAgent: metadata?.userAgent,
-        requestId,
+        requestId: deletionRequest.id,
         details: { reason: deletionData.reason },
       },
     });
 
     logger.info(`Account deletion requested for user ${userId}`, {
-      requestId,
+      requestId: deletionRequest.id,
       gracePeriodEnds,
     });
 
@@ -98,7 +102,8 @@ export class AccountDeletionService {
       ipAddress: deletionRequest.ipAddress || undefined,
       userAgent: deletionRequest.userAgent || undefined,
       softDeletedAt: deletionRequest.softDeletedAt || undefined,
-      hardDeleteScheduledFor: deletionRequest.hardDeleteScheduledFor || undefined,
+      hardDeleteScheduledFor:
+        deletionRequest.hardDeleteScheduledFor || undefined,
       processedBy: deletionRequest.processedBy || undefined,
     };
   }
@@ -109,34 +114,37 @@ export class AccountDeletionService {
   async cancelDeletion(
     userId: string,
     requestId: string,
-    metadata?: { ipAddress?: string; userAgent?: string }
+    metadata?: { ipAddress?: string; userAgent?: string },
   ): Promise<void> {
     const deletionRequest = await prisma.accountDeletionRequest.findUnique({
       where: { id: requestId },
     });
 
     if (!deletionRequest || deletionRequest.userId !== userId) {
-      throw AppError.notFound('Deletion request not found', 'DELETION_NOT_FOUND');
+      throw AppError.notFound(
+        "Deletion request not found",
+        "DELETION_NOT_FOUND",
+      );
     }
 
-    if (deletionRequest.status !== 'pending') {
+    if (deletionRequest.status !== "pending") {
       throw AppError.badRequest(
-        'Cannot cancel deletion that is already in progress',
-        'DELETION_IN_PROGRESS'
+        "Cannot cancel deletion that is already in progress",
+        "DELETION_IN_PROGRESS",
       );
     }
 
     if (deletionRequest.gracePeriodEnds < new Date()) {
       throw AppError.badRequest(
         PRIVACY_ERRORS.PRIVACY_005.message,
-        PRIVACY_ERRORS.PRIVACY_005.code
+        PRIVACY_ERRORS.PRIVACY_005.code,
       );
     }
 
     await prisma.accountDeletionRequest.update({
       where: { id: requestId },
       data: {
-        status: 'cancelled',
+        status: "cancelled",
         cancelledAt: new Date(),
       },
     });
@@ -144,15 +152,15 @@ export class AccountDeletionService {
     // Log cancellation
     await prisma.privacyAuditLog.create({
       data: {
-        actionType: 'account_deletion',
-        entityType: 'deletion_request',
+        actionType: "account_deletion",
+        entityType: "deletion_request",
         entityId: requestId,
         userId,
         performedBy: userId,
         ipAddress: metadata?.ipAddress,
         userAgent: metadata?.userAgent,
-        details: { action: 'cancelled' },
-        status: 'cancelled',
+        details: { action: "cancelled" },
+        status: "cancelled",
       },
     });
 
@@ -164,13 +172,15 @@ export class AccountDeletionService {
   /**
    * Get deletion status
    */
-  async getDeletionStatus(userId: string): Promise<AccountDeletionRequestType | null> {
+  async getDeletionStatus(
+    userId: string,
+  ): Promise<AccountDeletionRequestType | null> {
     const deletionRequest = await prisma.accountDeletionRequest.findFirst({
       where: {
         userId,
-        status: { in: ['pending', 'processing'] },
+        status: { in: ["pending", "processing"] },
       },
-      orderBy: { requestedAt: 'desc' },
+      orderBy: { requestedAt: "desc" },
     });
 
     if (!deletionRequest) return null;
@@ -187,7 +197,8 @@ export class AccountDeletionService {
       ipAddress: deletionRequest.ipAddress || undefined,
       userAgent: deletionRequest.userAgent || undefined,
       softDeletedAt: deletionRequest.softDeletedAt || undefined,
-      hardDeleteScheduledFor: deletionRequest.hardDeleteScheduledFor || undefined,
+      hardDeleteScheduledFor:
+        deletionRequest.hardDeleteScheduledFor || undefined,
       processedBy: deletionRequest.processedBy || undefined,
     };
   }
@@ -195,8 +206,11 @@ export class AccountDeletionService {
   /**
    * Process soft delete (anonymize data)
    */
-  private async softDelete(userId: string, deletionRequestId: string): Promise<void> {
-    await prisma.$transaction(async tx => {
+  private async softDelete(
+    userId: string,
+    deletionRequestId: string,
+  ): Promise<void> {
+    await prisma.$transaction(async (tx) => {
       // Anonymize user data
       const anonymousId = `deleted-${uuidv4()}`;
       const anonymousEmail = `deleted-${anonymousId}@deleted.local`;
@@ -205,8 +219,8 @@ export class AccountDeletionService {
         where: { id: userId },
         data: {
           email: anonymousEmail,
-          name: 'Deleted User',
-          passwordHash: '', // Remove password hash
+          name: "Deleted User",
+          passwordHash: "", // Remove password hash
           emailVerified: false,
           emailVerifyToken: null,
           failedLoginAttempts: 0,
@@ -218,7 +232,7 @@ export class AccountDeletionService {
       await tx.userSubscription.updateMany({
         where: { userId },
         data: {
-          status: 'cancelled',
+          status: "cancelled",
           stripeCustomerId: null,
           stripeSubscriptionId: null,
           paypalSubscriptionId: null,
@@ -229,7 +243,7 @@ export class AccountDeletionService {
       await tx.accountDeletionRequest.update({
         where: { id: deletionRequestId },
         data: {
-          status: 'processing',
+          status: "processing",
           softDeletedAt: new Date(),
         },
       });
@@ -237,11 +251,11 @@ export class AccountDeletionService {
       // Log soft delete
       await tx.privacyAuditLog.create({
         data: {
-          actionType: 'account_soft_deleted',
-          entityType: 'user',
+          actionType: "account_soft_deleted",
+          entityType: "user",
           entityId: userId,
           userId,
-          performedBy: 'system',
+          performedBy: "system",
           details: { deletionRequestId, anonymousId },
         },
       });
@@ -253,12 +267,17 @@ export class AccountDeletionService {
   /**
    * Process hard delete (complete removal)
    * This should be run after grace period + legal retention
+   * @internal Reserved for future background job implementation
    */
-  private async hardDelete(userId: string, deletionRequestId: string): Promise<void> {
+  // @ts-ignore - Reserved for future background job implementation
+  private async hardDelete(
+    userId: string,
+    deletionRequestId: string,
+  ): Promise<void> {
     // Note: Due to foreign key constraints, cascading deletes will handle most data
     // Payment transactions should be kept for legal requirements (anonymized)
 
-    await prisma.$transaction(async tx => {
+    await prisma.$transaction(async (tx) => {
       // Anonymize payment transactions instead of deleting (legal requirement)
       await tx.paymentTransaction.updateMany({
         where: { userId },
@@ -277,7 +296,7 @@ export class AccountDeletionService {
       await tx.accountDeletionRequest.update({
         where: { id: deletionRequestId },
         data: {
-          status: 'completed',
+          status: "completed",
           completedAt: new Date(),
         },
       });
@@ -285,10 +304,10 @@ export class AccountDeletionService {
       // Log hard delete
       await tx.privacyAuditLog.create({
         data: {
-          actionType: 'account_hard_deleted',
-          entityType: 'user',
+          actionType: "account_hard_deleted",
+          entityType: "user",
           entityId: userId,
-          performedBy: 'system',
+          performedBy: "system",
           details: { deletionRequestId },
         },
       });
@@ -301,7 +320,7 @@ export class AccountDeletionService {
    * Admin: Get all deletion requests
    */
   async getAllDeletions(filters?: {
-    status?: 'pending' | 'processing' | 'completed' | 'cancelled';
+    status?: "pending" | "processing" | "completed" | "cancelled";
     userId?: string;
     limit?: number;
     offset?: number;
@@ -313,7 +332,7 @@ export class AccountDeletionService {
     const [deletions, total] = await Promise.all([
       prisma.accountDeletionRequest.findMany({
         where,
-        orderBy: { requestedAt: 'desc' },
+        orderBy: { requestedAt: "desc" },
         take: filters?.limit || 20,
         skip: filters?.offset || 0,
       }),
@@ -321,7 +340,7 @@ export class AccountDeletionService {
     ]);
 
     return {
-      deletions: deletions.map(del => ({
+      deletions: deletions.map((del) => ({
         id: del.id,
         userId: del.userId,
         status: del.status as any,
@@ -346,24 +365,30 @@ export class AccountDeletionService {
   async adminProcessDeletion(
     deletionRequestId: string,
     adminUserId: string,
-    force: boolean = false
+    force: boolean = false,
   ): Promise<void> {
     const deletionRequest = await prisma.accountDeletionRequest.findUnique({
       where: { id: deletionRequestId },
     });
 
     if (!deletionRequest) {
-      throw AppError.notFound('Deletion request not found', 'DELETION_NOT_FOUND');
+      throw AppError.notFound(
+        "Deletion request not found",
+        "DELETION_NOT_FOUND",
+      );
     }
 
-    if (deletionRequest.status === 'completed') {
-      throw AppError.badRequest('Deletion already completed', 'DELETION_ALREADY_COMPLETED');
+    if (deletionRequest.status === "completed") {
+      throw AppError.badRequest(
+        "Deletion already completed",
+        "DELETION_ALREADY_COMPLETED",
+      );
     }
 
     if (!force && deletionRequest.gracePeriodEnds > new Date()) {
       throw AppError.badRequest(
-        'Grace period has not ended. Use force=true to bypass.',
-        'GRACE_PERIOD_ACTIVE'
+        "Grace period has not ended. Use force=true to bypass.",
+        "GRACE_PERIOD_ACTIVE",
       );
     }
 
@@ -382,9 +407,12 @@ export class AccountDeletionService {
       },
     });
 
-    logger.info(`Deletion ${deletionRequestId} processed by admin ${adminUserId}`, {
-      hardDeleteScheduledFor: retentionDate,
-    });
+    logger.info(
+      `Deletion ${deletionRequestId} processed by admin ${adminUserId}`,
+      {
+        hardDeleteScheduledFor: retentionDate,
+      },
+    );
 
     // TODO: Schedule background job for hard delete at retentionDate
   }
@@ -396,7 +424,7 @@ export class AccountDeletionService {
   async processPendingDeletions(): Promise<{ processed: number }> {
     const pendingDeletions = await prisma.accountDeletionRequest.findMany({
       where: {
-        status: 'pending',
+        status: "pending",
         gracePeriodEnds: { lte: new Date() },
       },
     });

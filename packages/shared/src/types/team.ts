@@ -2,10 +2,10 @@
  * Team Management types (Corporate tier)
  */
 
-export type TeamRole = 'admin' | 'member';
-export type TeamGoalType = 'completion' | 'accuracy' | 'study_time';
-export type TeamAlertType = 'behind_schedule' | 'inactive' | 'struggling';
-export type ReportFormat = 'csv' | 'pdf';
+export type TeamRole = "admin" | "member";
+export type TeamGoalType = "completion" | "accuracy" | "study_time";
+export type TeamAlertType = "behind_schedule" | "inactive" | "struggling";
+export type ReportFormat = "csv" | "pdf";
 
 export interface Team {
   id: string;

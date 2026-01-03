@@ -173,9 +173,9 @@ When adding new API endpoints, follow these steps to document them:
 
 ```typescript
 // src/routes/example.routes.ts
-import { Router } from 'express';
-import { z } from 'zod';
-import { validateBody } from '../middleware/validation.middleware';
+import { Router } from "express";
+import { z } from "zod";
+import { validateBody } from "../middleware/validation.middleware";
 
 const router = Router();
 
@@ -184,9 +184,13 @@ const createItemSchema = z.object({
   description: z.string().optional(),
 });
 
-router.post('/items', validateBody(createItemSchema), async (req, res, next) => {
-  // Implementation
-});
+router.post(
+  "/items",
+  validateBody(createItemSchema),
+  async (req, res, next) => {
+    // Implementation
+  },
+);
 ```
 
 ### Step 2: Create OpenAPI Generator
@@ -195,31 +199,31 @@ Create a new generator file or add to existing:
 
 ```typescript
 // src/utils/openapi/generators/example.generator.ts
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPIV3_1 } from "openapi-types";
 
 export const examplePaths: OpenAPIV3_1.PathObject = {
-  '/api/items': {
+  "/api/items": {
     post: {
-      tags: ['Items'],
-      summary: 'Create item',
-      description: 'Create a new item with validation',
+      tags: ["Items"],
+      summary: "Create item",
+      description: "Create a new item with validation",
       security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
-              required: ['name'],
+              type: "object",
+              required: ["name"],
               properties: {
                 name: {
-                  type: 'string',
+                  type: "string",
                   minLength: 1,
-                  description: 'Item name',
+                  description: "Item name",
                 },
                 description: {
-                  type: 'string',
-                  description: 'Item description',
+                  type: "string",
+                  description: "Item description",
                 },
               },
             },
@@ -227,22 +231,22 @@ export const examplePaths: OpenAPIV3_1.PathObject = {
         },
       },
       responses: {
-        '201': {
-          description: 'Item created',
+        "201": {
+          description: "Item created",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
-                type: 'object',
+                type: "object",
                 properties: {
-                  success: { type: 'boolean', example: true },
+                  success: { type: "boolean", example: true },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       item: {
-                        type: 'object',
+                        type: "object",
                         properties: {
-                          id: { type: 'string', format: 'uuid' },
-                          name: { type: 'string' },
+                          id: { type: "string", format: "uuid" },
+                          name: { type: "string" },
                         },
                       },
                     },
@@ -262,7 +266,7 @@ export const examplePaths: OpenAPIV3_1.PathObject = {
 
 ```typescript
 // src/utils/openapi/generate-spec.ts
-import { examplePaths } from './generators/example.generator';
+import { examplePaths } from "./generators/example.generator";
 
 export function generateOpenAPISpec(): any {
   return {
@@ -395,8 +399,8 @@ name: API Documentation
 on:
   pull_request:
     paths:
-      - 'packages/api/src/routes/**'
-      - 'packages/api/src/utils/openapi/**'
+      - "packages/api/src/routes/**"
+      - "packages/api/src/utils/openapi/**"
 
 jobs:
   validate-docs:
@@ -405,7 +409,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
       - run: cd packages/api && npm install
       - run: cd packages/api && npm run export:openapi
       - name: Check for changes

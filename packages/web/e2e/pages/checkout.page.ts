@@ -1,5 +1,5 @@
-import type { Page, Locator } from '@playwright/test';
-import { TestHelpers } from '../utils/test-helpers';
+import type { Page, Locator } from "@playwright/test";
+import { TestHelpers } from "../utils/test-helpers";
 
 /**
  * Checkout Page Object Model
@@ -25,10 +25,18 @@ export class CheckoutPage {
     this.helpers = new TestHelpers(page);
 
     this.emailInput = page.locator('input[name="email"]');
-    this.cardNumberInput = page.locator('input[name="cardNumber"], input[placeholder*="card"]');
-    this.cardExpiryInput = page.locator('input[name="expiry"], input[placeholder*="MM"]');
-    this.cardCvcInput = page.locator('input[name="cvc"], input[placeholder*="CVC"]');
-    this.payButton = page.locator('button:has-text("Pay"), button:has-text("Subscribe")');
+    this.cardNumberInput = page.locator(
+      'input[name="cardNumber"], input[placeholder*="card"]',
+    );
+    this.cardExpiryInput = page.locator(
+      'input[name="expiry"], input[placeholder*="MM"]',
+    );
+    this.cardCvcInput = page.locator(
+      'input[name="cvc"], input[placeholder*="CVC"]',
+    );
+    this.payButton = page.locator(
+      'button:has-text("Pay"), button:has-text("Subscribe")',
+    );
     this.cancelButton = page.locator('button:has-text("Cancel")');
     this.orderSummary = page.locator('[data-testid="order-summary"]');
     this.totalAmount = page.locator('[data-testid="total-amount"]');
@@ -38,8 +46,8 @@ export class CheckoutPage {
    * Navigate to checkout page
    */
   async goto() {
-    await this.page.goto('/checkout');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto("/checkout");
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -73,7 +81,7 @@ export class CheckoutPage {
    */
   async submitPayment() {
     await this.payButton.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -87,7 +95,7 @@ export class CheckoutPage {
    * Get total amount
    */
   async getTotalAmount(): Promise<string> {
-    return (await this.totalAmount.textContent()) || '';
+    return (await this.totalAmount.textContent()) || "";
   }
 
   /**
@@ -101,6 +109,8 @@ export class CheckoutPage {
    * Wait for error message
    */
   async waitForError() {
-    await this.page.waitForSelector('[data-testid="error"], .error', { timeout: 5000 });
+    await this.page.waitForSelector('[data-testid="error"], .error', {
+      timeout: 5000,
+    });
   }
 }

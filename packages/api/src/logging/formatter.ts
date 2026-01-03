@@ -2,16 +2,16 @@
  * Custom log formatters for Winston
  */
 
-import type { TransformableInfo } from 'logform';
-import { format } from 'winston';
-import util from 'util';
+import type { TransformableInfo } from "logform";
+import { format } from "winston";
+import util from "util";
 
 /**
  * Format log entry for development (pretty-print with colors)
  */
 export const devFormat = format.combine(
   format.colorize({ all: true }),
-  format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   format.printf((info: TransformableInfo) => {
     const { timestamp, level, message, context, ...meta } = info as any;
 
@@ -23,7 +23,7 @@ export const devFormat = format.combine(
       if (context.trace_id) contextParts.push(`trace_id=${context.trace_id}`);
       if (context.user_id) contextParts.push(`user_id=${context.user_id}`);
       if (contextParts.length > 0) {
-        output += ` (${contextParts.join(', ')})`;
+        output += ` (${contextParts.join(", ")})`;
       }
     }
 
@@ -43,17 +43,17 @@ export const devFormat = format.combine(
     }
 
     return output;
-  })
+  }),
 );
 
 /**
  * Format log entry for production (structured JSON)
  */
 export const prodFormat = format.combine(
-  format.timestamp({ format: 'YYYY-MM-DDTHH:mm:ss.SSSZ' }),
+  format.timestamp({ format: "YYYY-MM-DDTHH:mm:ss.SSSZ" }),
   format.errors({ stack: true }),
-  format.metadata({ fillExcept: ['message', 'level', 'timestamp'] }),
-  format.json()
+  format.metadata({ fillExcept: ["message", "level", "timestamp"] }),
+  format.json(),
 );
 
 /**
@@ -73,7 +73,7 @@ export const cloudWatchFormat = format.combine(
       ...metadata,
       ...rest,
     });
-  })
+  }),
 );
 
 /**
@@ -95,7 +95,8 @@ export const httpFormat = format.combine(
       if (metadata.method) logData.method = metadata.method;
       if (metadata.path) logData.path = metadata.path;
       if (metadata.status) logData.status = metadata.status;
-      if (metadata.response_time) logData.response_time = metadata.response_time;
+      if (metadata.response_time)
+        logData.response_time = metadata.response_time;
       if (metadata.ip) logData.ip = metadata.ip;
       if (metadata.user_agent) logData.user_agent = metadata.user_agent;
       if (metadata.trace_id) logData.trace_id = metadata.trace_id;
@@ -103,5 +104,5 @@ export const httpFormat = format.combine(
     }
 
     return JSON.stringify(logData);
-  })
+  }),
 );

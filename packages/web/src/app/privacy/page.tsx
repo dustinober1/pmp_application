@@ -1,27 +1,33 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - PMP Study Pro',
-  description: 'Learn how PMP Study Pro collects, uses, and protects your personal information.',
+  title: "Privacy Policy - PMP Study Pro",
+  description:
+    "Learn how PMP Study Pro collects, uses, and protects your personal information.",
 };
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-md-surface">
       <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Privacy Policy</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+          Privacy Policy
+        </h1>
 
         <div className="prose prose-lg dark:prose-invert max-w-none">
-          <p className="text-gray-600 dark:text-gray-300 mb-6">Last updated: January 2025</p>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            Last updated: January 2025
+          </p>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
               Introduction
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
-              PMP Study Pro (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to
-              protecting your privacy. This Privacy Policy explains how we collect, use, disclosure,
-              and safeguard your information when you use our PMP exam preparation platform.
+              PMP Study Pro (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;)
+              is committed to protecting your privacy. This Privacy Policy
+              explains how we collect, use, disclosure, and safeguard your
+              information when you use our PMP exam preparation platform.
             </p>
           </section>
 
@@ -61,7 +67,8 @@ export default function PrivacyPage() {
               Data Sharing
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We do not sell your personal information. We may share your data with:
+              We do not sell your personal information. We may share your data
+              with:
             </p>
             <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 space-y-2">
               <li>Service providers who assist in our operations</li>
@@ -76,9 +83,10 @@ export default function PrivacyPage() {
               Data Security
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
-              We implement industry-standard security measures including encryption, secure socket
-              layer (SSL) technology, and regular security audits to protect your personal
-              information from unauthorized access, alteration, or disclosure.
+              We implement industry-standard security measures including
+              encryption, secure socket layer (SSL) technology, and regular
+              security audits to protect your personal information from
+              unauthorized access, alteration, or disclosure.
             </p>
           </section>
 
@@ -116,8 +124,8 @@ export default function PrivacyPage() {
               Contact Us
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
-              If you have questions about this Privacy Policy or our data practices, please contact
-              us at:
+              If you have questions about this Privacy Policy or our data
+              practices, please contact us at:
             </p>
             <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
               <p className="text-gray-600 dark:text-gray-300">

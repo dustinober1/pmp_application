@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Navbar } from '@/components/Navbar';
-import { apiRequest } from '@/lib/api';
-import { useToast } from '@/components/ToastProvider';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
-import type { Domain } from '@/data/pmpExamContent';
+import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Navbar } from "@/components/Navbar";
+import { apiRequest } from "@/lib/api";
+import { useToast } from "@/components/ToastProvider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
+import type { Domain } from "@/data/pmpExamContent";
 
 interface FlashcardStats {
   mastered: number;
@@ -24,7 +24,9 @@ export default function FlashcardsPage() {
   const [stats, setStats] = useState<FlashcardStats | null>(null);
   const [domains, setDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
-  const [starting, setStarting] = useState<'review' | 'all' | 'focused' | null>(null);
+  const [starting, setStarting] = useState<"review" | "all" | "focused" | null>(
+    null,
+  );
 
   // Selection state for focused mode
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
@@ -34,15 +36,17 @@ export default function FlashcardsPage() {
 
   const fetchData = useCallback(async () => {
     try {
-      const statsRes = await apiRequest<{ stats: FlashcardStats }>('/flashcards/stats');
+      const statsRes = await apiRequest<{ stats: FlashcardStats }>(
+        "/flashcards/stats",
+      );
       setStats(statsRes.data?.stats ?? null);
 
       // Fetch domains for selection
-      const domainsRes = await apiRequest<{ domains: Domain[] }>('/domains');
+      const domainsRes = await apiRequest<{ domains: Domain[] }>("/domains");
       setDomains(domainsRes.data?.domains ?? []);
     } catch (error) {
-      console.error('Failed to fetch flashcard data:', error);
-      toast.error('Failed to load flashcards. Please try again.');
+      console.error("Failed to fetch flashcard data:", error);
+      toast.error("Failed to load flashcards. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -56,23 +60,23 @@ export default function FlashcardsPage() {
 
   const getFilteredDomainTasks = useCallback(() => {
     if (!selectedDomainId) return [];
-    const domain = domains.find(d => d.id === selectedDomainId);
+    const domain = domains.find((d) => d.id === selectedDomainId);
     return domain?.tasks || [];
   }, [domains, selectedDomainId]);
 
-  const startSession = async (mode: 'review' | 'all' | 'focused') => {
+  const startSession = async (mode: "review" | "all" | "focused") => {
     try {
       setStarting(mode);
 
       let options: Record<string, unknown> = { cardCount };
 
-      if (mode === 'review') {
+      if (mode === "review") {
         options = { ...options, prioritizeReview: true };
       }
 
-      if (mode === 'focused') {
+      if (mode === "focused") {
         if (!selectedDomainId) {
-          toast.error('Please select a domain');
+          toast.error("Please select a domain");
           setStarting(null);
           return;
         }
@@ -84,17 +88,20 @@ export default function FlashcardsPage() {
         };
       }
 
-      const response = await apiRequest<{ sessionId: string }>('/flashcards/sessions', {
-        method: 'POST',
-        body: options,
-      });
+      const response = await apiRequest<{ sessionId: string }>(
+        "/flashcards/sessions",
+        {
+          method: "POST",
+          body: options,
+        },
+      );
       const sessionId = response.data?.sessionId;
       if (sessionId) {
         router.push(`/flashcards/session/${sessionId}`);
       }
     } catch (error) {
-      console.error('Failed to start session:', error);
-      toast.error('Failed to start session. Please try again.');
+      console.error("Failed to start session:", error);
+      toast.error("Failed to start session. Please try again.");
     } finally {
       setStarting(null);
     }
@@ -107,9 +114,10 @@ export default function FlashcardsPage() {
     setShowFilters(false);
   }, []);
 
-  const selectedDomain = domains.find(d => d.id === selectedDomainId);
+  const selectedDomain = domains.find((d) => d.id === selectedDomainId);
   const tasksForSelectedDomain = getFilteredDomainTasks();
-  const hasActiveFilters = selectedDomainId !== null || selectedTaskId !== null || cardCount !== 20;
+  const hasActiveFilters =
+    selectedDomainId !== null || selectedTaskId !== null || cardCount !== 20;
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;
@@ -128,7 +136,9 @@ export default function FlashcardsPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold mb-4 text-md-on-background">Flashcards</h1>
+          <h1 className="text-4xl font-bold mb-4 text-md-on-background">
+            Flashcards
+          </h1>
           <p className="text-xl text-md-on-surface-variant max-w-2xl mx-auto">
             Master key concepts with spaced repetition learning.
           </p>
@@ -137,20 +147,36 @@ export default function FlashcardsPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div className="card text-center hover:scale-105 transition-transform duration-300">
-            <p className="text-4xl font-bold text-md-primary mb-2">{stats?.mastered || 0}</p>
-            <p className="text-sm font-medium text-md-on-surface-variant">Mastered</p>
+            <p className="text-4xl font-bold text-md-primary mb-2">
+              {stats?.mastered || 0}
+            </p>
+            <p className="text-sm font-medium text-md-on-surface-variant">
+              Mastered
+            </p>
           </div>
           <div className="card text-center hover:scale-105 transition-transform duration-300">
-            <p className="text-4xl font-bold text-md-tertiary mb-2">{stats?.learning || 0}</p>
-            <p className="text-sm font-medium text-md-on-surface-variant">Learning</p>
+            <p className="text-4xl font-bold text-md-tertiary mb-2">
+              {stats?.learning || 0}
+            </p>
+            <p className="text-sm font-medium text-md-on-surface-variant">
+              Learning
+            </p>
           </div>
           <div className="card text-center hover:scale-105 transition-transform duration-300">
-            <p className="text-4xl font-bold text-md-error mb-2">{dueCardsCount}</p>
-            <p className="text-sm font-medium text-md-on-surface-variant">Due Today</p>
+            <p className="text-4xl font-bold text-md-error mb-2">
+              {dueCardsCount}
+            </p>
+            <p className="text-sm font-medium text-md-on-surface-variant">
+              Due Today
+            </p>
           </div>
           <div className="card text-center hover:scale-105 transition-transform duration-300">
-            <p className="text-4xl font-bold text-md-on-surface mb-2">{stats?.totalCards || 0}</p>
-            <p className="text-sm font-medium text-md-on-surface-variant">Total Cards</p>
+            <p className="text-4xl font-bold text-md-on-surface mb-2">
+              {stats?.totalCards || 0}
+            </p>
+            <p className="text-sm font-medium text-md-on-surface-variant">
+              Total Cards
+            </p>
           </div>
         </div>
 
@@ -159,7 +185,12 @@ export default function FlashcardsPage() {
           {/* Review Due Cards */}
           <div className="card group hover:shadow-lg transition-all duration-300 border border-transparent hover:border-md-primary/20">
             <div className="w-14 h-14 rounded-2xl bg-md-primary-container text-md-on-primary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -168,25 +199,32 @@ export default function FlashcardsPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-xl font-bold mb-3 text-md-on-surface">Review Due Cards</h2>
+            <h2 className="text-xl font-bold mb-3 text-md-on-surface">
+              Review Due Cards
+            </h2>
             <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               {dueCardsCount > 0
                 ? `You have ${dueCardsCount} cards due for review. Keep your streak going!`
-                : 'No cards due right now. Start a session to review any available cards!'}
+                : "No cards due right now. Start a session to review any available cards!"}
             </p>
             <button
-              onClick={() => startSession('review')}
+              onClick={() => startSession("review")}
               disabled={starting !== null}
               className="btn btn-primary w-full"
             >
-              {starting === 'review' ? 'Starting...' : 'Start Review'}
+              {starting === "review" ? "Starting..." : "Start Review"}
             </button>
           </div>
 
           {/* Study All Cards */}
           <div className="card group hover:shadow-lg transition-all duration-300 border border-transparent hover:border-md-secondary/20">
             <div className="w-14 h-14 rounded-2xl bg-md-secondary-container text-md-on-secondary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -195,25 +233,32 @@ export default function FlashcardsPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-xl font-bold mb-3 text-md-on-surface">Study Session</h2>
+            <h2 className="text-xl font-bold mb-3 text-md-on-surface">
+              Study Session
+            </h2>
             <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               Start a new study session with a mix of new and review cards.
             </p>
             <button
-              onClick={() => startSession('all')}
+              onClick={() => startSession("all")}
               disabled={starting !== null}
               className="btn btn-secondary w-full"
             >
-              {starting === 'all' ? 'Starting...' : 'Start Session'}
+              {starting === "all" ? "Starting..." : "Start Session"}
             </button>
           </div>
 
           {/* Focus on Task */}
           <div
-            className={`card group hover:shadow-lg transition-all duration-300 border ${hasActiveFilters ? 'border-md-tertiary/50 bg-md-tertiary-container/10' : 'border-transparent hover:border-md-tertiary/20'}`}
+            className={`card group hover:shadow-lg transition-all duration-300 border ${hasActiveFilters ? "border-md-tertiary/50 bg-md-tertiary-container/10" : "border-transparent hover:border-md-tertiary/20"}`}
           >
             <div className="w-14 h-14 rounded-2xl bg-md-tertiary-container text-md-on-tertiary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -222,26 +267,33 @@ export default function FlashcardsPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-xl font-bold mb-3 text-md-on-surface">Focus on Task</h2>
+            <h2 className="text-xl font-bold mb-3 text-md-on-surface">
+              Focus on Task
+            </h2>
             <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               {selectedDomain && selectedTaskId
-                ? `Studying: ${selectedDomain.name} - ${tasksForSelectedDomain.find(t => t.id === selectedTaskId)?.code}`
+                ? `Studying: ${selectedDomain.name} - ${tasksForSelectedDomain.find((t) => t.id === selectedTaskId)?.code}`
                 : selectedDomain
                   ? `Domain selected: ${selectedDomain.name}`
-                  : 'Target specific domains and tasks for focused practice.'}
+                  : "Target specific domains and tasks for focused practice."}
             </p>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`btn w-full justify-center ${hasActiveFilters ? 'btn-tertiary' : 'btn-outline'}`}
+              className={`btn w-full justify-center ${hasActiveFilters ? "btn-tertiary" : "btn-outline"}`}
             >
-              {showFilters ? 'Hide Options' : 'Select Focus'}
+              {showFilters ? "Hide Options" : "Select Focus"}
             </button>
           </div>
 
           {/* Create Custom */}
           <div className="card group hover:shadow-lg transition-all duration-300 border border-transparent hover:border-md-tertiary/20">
             <div className="w-14 h-14 rounded-2xl bg-md-tertiary-container text-md-on-tertiary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -250,11 +302,16 @@ export default function FlashcardsPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-xl font-bold mb-3 text-md-on-surface">Create Custom Card</h2>
+            <h2 className="text-xl font-bold mb-3 text-md-on-surface">
+              Create Custom Card
+            </h2>
             <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               Create your own flashcards for concepts you want to remember.
             </p>
-            <Link href="/flashcards/create" className="btn btn-outline w-full justify-center">
+            <Link
+              href="/flashcards/create"
+              className="btn btn-outline w-full justify-center"
+            >
               Create Card
             </Link>
           </div>
@@ -264,9 +321,14 @@ export default function FlashcardsPage() {
         {showFilters && (
           <div className="card mt-8 animate-slideUp bg-md-surface-container">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-md-on-surface">Session Options</h3>
+              <h3 className="text-lg font-bold text-md-on-surface">
+                Session Options
+              </h3>
               {hasActiveFilters && (
-                <button onClick={resetFilters} className="text-sm text-md-primary hover:underline">
+                <button
+                  onClick={resetFilters}
+                  className="text-sm text-md-primary hover:underline"
+                >
                   Reset to Defaults
                 </button>
               )}
@@ -283,15 +345,15 @@ export default function FlashcardsPage() {
                 </label>
                 <select
                   id="domain-select"
-                  value={selectedDomainId || ''}
-                  onChange={e => {
+                  value={selectedDomainId || ""}
+                  onChange={(e) => {
                     setSelectedDomainId(e.target.value || null);
                     setSelectedTaskId(null); // Reset task when domain changes
                   }}
                   className="input w-full"
                 >
                   <option value="">All Domains</option>
-                  {domains.map(domain => (
+                  {domains.map((domain) => (
                     <option key={domain.id} value={domain.id}>
                       {domain.code} - {domain.name}
                     </option>
@@ -309,13 +371,13 @@ export default function FlashcardsPage() {
                 </label>
                 <select
                   id="task-select"
-                  value={selectedTaskId || ''}
-                  onChange={e => setSelectedTaskId(e.target.value || null)}
+                  value={selectedTaskId || ""}
+                  onChange={(e) => setSelectedTaskId(e.target.value || null)}
                   disabled={!selectedDomainId}
                   className="input w-full disabled:opacity-50"
                 >
                   <option value="">All Tasks in Domain</option>
-                  {tasksForSelectedDomain.map(task => (
+                  {tasksForSelectedDomain.map((task) => (
                     <option key={task.id} value={task.id}>
                       {task.code} - {task.name.substring(0, 30)}...
                     </option>
@@ -334,7 +396,7 @@ export default function FlashcardsPage() {
                 <select
                   id="card-count"
                   value={cardCount}
-                  onChange={e => setCardCount(Number(e.target.value))}
+                  onChange={(e) => setCardCount(Number(e.target.value))}
                   className="input w-full"
                 >
                   <option value={10}>10 cards</option>
@@ -347,11 +409,13 @@ export default function FlashcardsPage() {
               {/* Start Button */}
               <div className="flex items-end">
                 <button
-                  onClick={() => startSession('focused')}
+                  onClick={() => startSession("focused")}
                   disabled={starting !== null || !selectedDomainId}
                   className="btn btn-tertiary w-full"
                 >
-                  {starting === 'focused' ? 'Starting...' : 'Start Focused Session'}
+                  {starting === "focused"
+                    ? "Starting..."
+                    : "Start Focused Session"}
                 </button>
               </div>
             </div>
@@ -361,7 +425,7 @@ export default function FlashcardsPage() {
               <div className="mt-4 p-3 bg-md-surface-container-low rounded-lg">
                 <p className="text-sm text-md-on-surface-variant">
                   {selectedTaskId
-                    ? `This will show flashcards specifically for the "${selectedDomain?.name}" domain and task "${tasksForSelectedDomain.find(t => t.id === selectedTaskId)?.name}".`
+                    ? `This will show flashcards specifically for the "${selectedDomain?.name}" domain and task "${tasksForSelectedDomain.find((t) => t.id === selectedTaskId)?.name}".`
                     : `This will show flashcards for the "${selectedDomain?.name}" domain across all its tasks.`}
                 </p>
               </div>
@@ -379,7 +443,9 @@ export default function FlashcardsPage() {
               <div className="w-16 h-16 rounded-full bg-md-primary/10 text-md-primary flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-2xl font-bold">1</span>
               </div>
-              <p className="font-bold text-lg mb-2 text-md-on-surface">Know It</p>
+              <p className="font-bold text-lg mb-2 text-md-on-surface">
+                Know It
+              </p>
               <p className="text-md-on-surface-variant">
                 Cards you know well are shown less frequently.
               </p>
@@ -388,7 +454,9 @@ export default function FlashcardsPage() {
               <div className="w-16 h-16 rounded-full bg-md-secondary/10 text-md-secondary flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-2xl font-bold">2</span>
               </div>
-              <p className="font-bold text-lg mb-2 text-md-on-surface">Learning</p>
+              <p className="font-bold text-lg mb-2 text-md-on-surface">
+                Learning
+              </p>
               <p className="text-md-on-surface-variant">
                 Cards you{"'"}re learning are shown more often.
               </p>
@@ -397,7 +465,9 @@ export default function FlashcardsPage() {
               <div className="w-16 h-16 rounded-full bg-md-tertiary/10 text-md-tertiary flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-2xl font-bold">3</span>
               </div>
-              <p className="font-bold text-lg mb-2 text-md-on-surface">Don{"'"}t Know</p>
+              <p className="font-bold text-lg mb-2 text-md-on-surface">
+                Don{"'"}t Know
+              </p>
               <p className="text-md-on-surface-variant">
                 Cards you don{"'"}t know are shown again soon.
               </p>

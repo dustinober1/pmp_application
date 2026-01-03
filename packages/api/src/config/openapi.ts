@@ -1,12 +1,12 @@
-import type { OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPIV3_1 } from "openapi-types";
 
 /**
  * OpenAPI Configuration
  */
 export const openapiConfig: OpenAPIV3_1.Document = {
-  openapi: '3.1.0',
+  openapi: "3.1.0",
   info: {
-    title: 'PMP Study Application API',
+    title: "PMP Study Application API",
     description: `# PMP Study Application API
 
 Comprehensive API for the PMP Study Application, a learning platform for PMP exam preparation.
@@ -57,153 +57,154 @@ Current API version: **1.0.0**
 ## Support
 
 For API support, contact: support@pmpstudy.com`,
-    version: '1.0.0',
+    version: "1.0.0",
     contact: {
-      name: 'PMP Study API Support',
-      email: 'support@pmpstudy.com',
+      name: "PMP Study API Support",
+      email: "support@pmpstudy.com",
     },
     license: {
-      name: 'Proprietary',
+      name: "Proprietary",
     },
   },
   servers: [
     {
-      url: 'http://localhost:4000',
-      description: 'Development server',
+      url: "http://localhost:4000",
+      description: "Development server",
     },
     {
-      url: 'https://api-staging.pmpstudy.com',
-      description: 'Staging server',
+      url: "https://api-staging.pmpstudy.com",
+      description: "Staging server",
     },
     {
-      url: 'https://api.pmpstudy.com',
-      description: 'Production server',
+      url: "https://api.pmpstudy.com",
+      description: "Production server",
     },
   ],
   tags: [
     {
-      name: 'Health',
-      description: 'Health check and monitoring endpoints',
+      name: "Health",
+      description: "Health check and monitoring endpoints",
     },
     {
-      name: 'Authentication',
-      description: 'User authentication and authorization',
+      name: "Authentication",
+      description: "User authentication and authorization",
     },
     {
-      name: 'Subscriptions',
-      description: 'Subscription management and payment processing',
+      name: "Subscriptions",
+      description: "Subscription management and payment processing",
     },
     {
-      name: 'Ebooks',
-      description: 'Ebook content and progress tracking',
+      name: "Ebooks",
+      description: "Ebook content and progress tracking",
     },
     {
-      name: 'Practice',
-      description: 'Practice questions and mock exams',
+      name: "Practice",
+      description: "Practice questions and mock exams",
     },
     {
-      name: 'Flashcards',
-      description: 'Flashcard management and spaced repetition',
+      name: "Flashcards",
+      description: "Flashcard management and spaced repetition",
     },
     {
-      name: 'Dashboard',
-      description: 'User dashboard and analytics',
+      name: "Dashboard",
+      description: "User dashboard and analytics",
     },
     {
-      name: 'Domains',
-      description: 'PMP knowledge domain management',
+      name: "Domains",
+      description: "PMP knowledge domain management",
     },
     {
-      name: 'Formulas',
-      description: 'PMP formulas and calculations',
+      name: "Formulas",
+      description: "PMP formulas and calculations",
     },
     {
-      name: 'Teams',
-      description: 'Team management for corporate accounts',
+      name: "Teams",
+      description: "Team management for corporate accounts",
     },
     {
-      name: 'Search',
-      description: 'Search functionality across content',
+      name: "Search",
+      description: "Search functionality across content",
     },
   ],
   components: {
     securitySchemes: {
       bearerAuth: {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        description: 'JWT authentication token. Obtain from /api/auth/login or /api/auth/register',
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+        description:
+          "JWT authentication token. Obtain from /api/auth/login or /api/auth/register",
       },
     },
     schemas: {
       // Common schemas
       Error: {
-        type: 'object',
+        type: "object",
         properties: {
           success: {
-            type: 'boolean',
+            type: "boolean",
             example: false,
           },
           error: {
-            type: 'object',
+            type: "object",
             properties: {
               code: {
-                type: 'string',
-                example: 'VALIDATION_ERROR',
-                description: 'Machine-readable error code',
+                type: "string",
+                example: "VALIDATION_ERROR",
+                description: "Machine-readable error code",
               },
               message: {
-                type: 'string',
-                example: 'Invalid input data',
-                description: 'Human-readable error message',
+                type: "string",
+                example: "Invalid input data",
+                description: "Human-readable error message",
               },
             },
           },
         },
       },
       SuccessResponse: {
-        type: 'object',
+        type: "object",
         properties: {
           success: {
-            type: 'boolean',
+            type: "boolean",
             example: true,
           },
           data: {
-            type: 'object',
-            description: 'Response data (varies by endpoint)',
+            type: "object",
+            description: "Response data (varies by endpoint)",
           },
           message: {
-            type: 'string',
-            description: 'Optional success message',
+            type: "string",
+            description: "Optional success message",
           },
         },
       },
       // User schemas
       User: {
-        type: 'object',
+        type: "object",
         properties: {
           id: {
-            type: 'string',
-            format: 'uuid',
-            description: 'User unique identifier',
+            type: "string",
+            format: "uuid",
+            description: "User unique identifier",
           },
           email: {
-            type: 'string',
-            format: 'email',
-            description: 'User email address',
+            type: "string",
+            format: "email",
+            description: "User email address",
           },
           name: {
-            type: 'string',
-            description: 'User display name',
+            type: "string",
+            description: "User display name",
           },
           isVerified: {
-            type: 'boolean',
-            description: 'Email verification status',
+            type: "boolean",
+            description: "Email verification status",
           },
           createdAt: {
-            type: 'string',
-            format: 'date-time',
-            description: 'Account creation timestamp',
+            type: "string",
+            format: "date-time",
+            description: "Account creation timestamp",
           },
         },
       },

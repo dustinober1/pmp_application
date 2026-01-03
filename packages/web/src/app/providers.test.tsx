@@ -1,16 +1,16 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { Providers } from './providers';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { render, screen, waitFor } from "@testing-library/react";
+import { Providers } from "./providers";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 
 const { mockPush, mockUseAuth, mockPathname } = vi.hoisted(() => {
   return {
     mockPush: vi.fn(),
     mockUseAuth: vi.fn(),
-    mockPathname: vi.fn(() => '/dashboard'),
+    mockPathname: vi.fn(() => "/dashboard"),
   };
 });
 
-vi.mock('next/navigation', () => ({
+vi.mock("next/navigation", () => ({
   useRouter: () => ({
     push: mockPush,
     replace: vi.fn(),
@@ -21,14 +21,14 @@ vi.mock('next/navigation', () => ({
   usePathname: () => mockPathname(),
 }));
 
-vi.mock('@/contexts/AuthContext', () => ({
+vi.mock("@/contexts/AuthContext", () => ({
   AuthProvider: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="auth-provider">{children}</div>
   ),
   useAuth: () => mockUseAuth(),
 }));
 
-vi.mock('@/components/ToastProvider', () => ({
+vi.mock("@/components/ToastProvider", () => ({
   ToastProvider: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="toast-provider">{children}</div>
   ),
@@ -40,25 +40,25 @@ vi.mock('@/components/ToastProvider', () => ({
   }),
 }));
 
-vi.mock('@/components/ErrorBoundary', () => ({
+vi.mock("@/components/ErrorBoundary", () => ({
   ErrorBoundary: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="error-boundary">{children}</div>
   ),
 }));
 
-vi.mock('@/components/ThemeProvider', () => ({
+vi.mock("@/components/ThemeProvider", () => ({
   ThemeProvider: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="theme-provider">{children}</div>
   ),
 }));
 
-vi.mock('@/components/I18nProvider', () => ({
+vi.mock("@/components/I18nProvider", () => ({
   I18nProvider: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="i18n-provider">{children}</div>
   ),
 }));
 
-vi.mock('@/components/SkipToContentLink', () => ({
+vi.mock("@/components/SkipToContentLink", () => ({
   SkipToContentLink: () => (
     <a href="#content" data-testid="skip-link">
       Skip to content
@@ -66,9 +66,9 @@ vi.mock('@/components/SkipToContentLink', () => ({
   ),
 }));
 
-vi.mock('@/lib/sync', () => ({}));
+vi.mock("@/lib/sync", () => ({}));
 
-describe('Providers', () => {
+describe("Providers", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseAuth.mockReturnValue({
@@ -78,52 +78,52 @@ describe('Providers', () => {
     });
   });
 
-  it('renders all providers in correct hierarchy', () => {
+  it("renders all providers in correct hierarchy", () => {
     render(
       <Providers>
         <div data-testid="child-content">Test Child</div>
-      </Providers>
+      </Providers>,
     );
 
-    expect(screen.getByTestId('auth-provider')).toBeInTheDocument();
-    expect(screen.getByTestId('i18n-provider')).toBeInTheDocument();
-    expect(screen.getByTestId('theme-provider')).toBeInTheDocument();
-    expect(screen.getByTestId('toast-provider')).toBeInTheDocument();
-    expect(screen.getByTestId('error-boundary')).toBeInTheDocument();
-    expect(screen.getByTestId('skip-link')).toBeInTheDocument();
-    expect(screen.getByTestId('child-content')).toBeInTheDocument();
+    expect(screen.getByTestId("auth-provider")).toBeInTheDocument();
+    expect(screen.getByTestId("i18n-provider")).toBeInTheDocument();
+    expect(screen.getByTestId("theme-provider")).toBeInTheDocument();
+    expect(screen.getByTestId("toast-provider")).toBeInTheDocument();
+    expect(screen.getByTestId("error-boundary")).toBeInTheDocument();
+    expect(screen.getByTestId("skip-link")).toBeInTheDocument();
+    expect(screen.getByTestId("child-content")).toBeInTheDocument();
   });
 
-  it('renders children correctly', () => {
+  it("renders children correctly", () => {
     render(
       <Providers>
         <main>Application Content</main>
-      </Providers>
+      </Providers>,
     );
 
-    expect(screen.getByText('Application Content')).toBeInTheDocument();
+    expect(screen.getByText("Application Content")).toBeInTheDocument();
   });
 
-  it('skip to content link is rendered', () => {
+  it("skip to content link is rendered", () => {
     render(
       <Providers>
         <div>Content</div>
-      </Providers>
+      </Providers>,
     );
 
-    expect(screen.getByTestId('skip-link')).toBeInTheDocument();
+    expect(screen.getByTestId("skip-link")).toBeInTheDocument();
   });
 });
 
-describe('EmailVerificationGate', () => {
+describe("EmailVerificationGate", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockPathname.mockReturnValue('/dashboard');
+    mockPathname.mockReturnValue("/dashboard");
   });
 
-  it('does not redirect when loading', async () => {
+  it("does not redirect when loading", async () => {
     mockUseAuth.mockReturnValue({
-      user: { id: '1', name: 'Test', emailVerified: false },
+      user: { id: "1", name: "Test", emailVerified: false },
       isAuthenticated: true,
       isLoading: true,
     });
@@ -131,7 +131,7 @@ describe('EmailVerificationGate', () => {
     render(
       <Providers>
         <div>Content</div>
-      </Providers>
+      </Providers>,
     );
 
     await waitFor(() => {
@@ -139,7 +139,7 @@ describe('EmailVerificationGate', () => {
     });
   });
 
-  it('does not redirect when not authenticated', async () => {
+  it("does not redirect when not authenticated", async () => {
     mockUseAuth.mockReturnValue({
       user: null,
       isAuthenticated: false,
@@ -149,7 +149,7 @@ describe('EmailVerificationGate', () => {
     render(
       <Providers>
         <div>Content</div>
-      </Providers>
+      </Providers>,
     );
 
     await waitFor(() => {
@@ -157,9 +157,9 @@ describe('EmailVerificationGate', () => {
     });
   });
 
-  it('does not redirect when email is verified', async () => {
+  it("does not redirect when email is verified", async () => {
     mockUseAuth.mockReturnValue({
-      user: { id: '1', name: 'Test', emailVerified: true },
+      user: { id: "1", name: "Test", emailVerified: true },
       isAuthenticated: true,
       isLoading: false,
     });
@@ -167,7 +167,7 @@ describe('EmailVerificationGate', () => {
     render(
       <Providers>
         <div>Content</div>
-      </Providers>
+      </Providers>,
     );
 
     await waitFor(() => {
@@ -175,37 +175,39 @@ describe('EmailVerificationGate', () => {
     });
   });
 
-  it('redirects to verify-email when email is not verified', async () => {
+  it("redirects to verify-email when email is not verified", async () => {
     mockUseAuth.mockReturnValue({
-      user: { id: '1', name: 'Test', emailVerified: false },
+      user: { id: "1", name: "Test", emailVerified: false },
       isAuthenticated: true,
       isLoading: false,
     });
-    mockPathname.mockReturnValue('/dashboard');
+    mockPathname.mockReturnValue("/dashboard");
 
     render(
       <Providers>
         <div>Content</div>
-      </Providers>
+      </Providers>,
     );
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/auth/verify-email?next=%2Fdashboard');
+      expect(mockPush).toHaveBeenCalledWith(
+        "/auth/verify-email?next=%2Fdashboard",
+      );
     });
   });
 
-  it('does not redirect when already on verify-email page', async () => {
+  it("does not redirect when already on verify-email page", async () => {
     mockUseAuth.mockReturnValue({
-      user: { id: '1', name: 'Test', emailVerified: false },
+      user: { id: "1", name: "Test", emailVerified: false },
       isAuthenticated: true,
       isLoading: false,
     });
-    mockPathname.mockReturnValue('/auth/verify-email');
+    mockPathname.mockReturnValue("/auth/verify-email");
 
     render(
       <Providers>
         <div>Content</div>
-      </Providers>
+      </Providers>,
     );
 
     await waitFor(() => {

@@ -442,7 +442,7 @@ curl -v https://events.pagerduty.com/v2/enqueue
 ```yaml
 # Don't set dedup_key, let AlertManager handle it
 pagerduty_configs:
-  - service_key: '${PAGERDUTY_SERVICE_KEY_CRITICAL}'
+  - service_key: "${PAGERDUTY_SERVICE_KEY_CRITICAL}"
     # Don't set dedup_key
 ```
 
@@ -538,9 +538,9 @@ metadata:
   name: alertmanager-viewer
   namespace: monitoring
 rules:
-  - apiGroups: ['']
-    resources: ['pods', 'pods/log']
-    verbs: ['get', 'list']
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list"]
 ```
 
 ## Post-Deployment

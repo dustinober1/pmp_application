@@ -8,33 +8,33 @@ export const MOCK_EMAIL_RESPONSES = {
   sendEmail: {
     success: {
       success: true,
-      messageId: 'msg_test_1234567890',
+      messageId: "msg_test_1234567890",
     },
     error: {
       success: false,
-      error: 'Failed to send email',
+      error: "Failed to send email",
     },
   },
 
   verificationEmail: {
-    to: 'test@example.com',
-    subject: 'Verify your email',
-    body: 'Click here to verify',
-    verifyUrl: 'http://localhost:3005/auth/verify?token=test-token',
+    to: "test@example.com",
+    subject: "Verify your email",
+    body: "Click here to verify",
+    verifyUrl: "http://localhost:3005/auth/verify?token=test-token",
   },
 
   passwordResetEmail: {
-    to: 'test@example.com',
-    subject: 'Reset your password',
-    body: 'Click here to reset',
-    resetUrl: 'http://localhost:3005/auth/reset-password?token=reset-token',
+    to: "test@example.com",
+    subject: "Reset your password",
+    body: "Click here to reset",
+    resetUrl: "http://localhost:3005/auth/reset-password?token=reset-token",
   },
 
   orderConfirmationEmail: {
-    to: 'test@example.com',
-    subject: 'Order confirmation',
-    body: 'Thank you for your order',
-    orderId: 'order_test_1234567890',
+    to: "test@example.com",
+    subject: "Order confirmation",
+    body: "Thank you for your order",
+    orderId: "order_test_1234567890",
   },
 };
 
@@ -42,13 +42,15 @@ export const MOCK_EMAIL_RESPONSES = {
  * Mock email sending API
  */
 export function mockSendEmail(page: any, success: boolean = true) {
-  return page.route('**/api/send-email', (route: any) => {
+  return page.route("**/api/send-email", (route: any) => {
     route.fulfill({
       status: 200,
       body: JSON.stringify(
-        success ? MOCK_EMAIL_RESPONSES.sendEmail.success : MOCK_EMAIL_RESPONSES.sendEmail.error
+        success
+          ? MOCK_EMAIL_RESPONSES.sendEmail.success
+          : MOCK_EMAIL_RESPONSES.sendEmail.error,
       ),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   });
 }
@@ -60,9 +62,9 @@ export async function getLastSentEmail(): Promise<any> {
   // In a real implementation, this would query a test email service
   // or use a service like Mailtrap
   return {
-    to: 'test@example.com',
-    subject: 'Test Email',
-    body: 'Test body',
+    to: "test@example.com",
+    subject: "Test Email",
+    body: "Test body",
   };
 }
 
@@ -72,7 +74,7 @@ export async function getLastSentEmail(): Promise<any> {
 export async function getVerificationLink(email: string): Promise<string> {
   // Parse email and extract verification URL
   const match = email.match(/http[^\s]+verify[^\s]*/);
-  return match ? match[0] : '';
+  return match ? match[0] : "";
 }
 
 /**
@@ -80,5 +82,5 @@ export async function getVerificationLink(email: string): Promise<string> {
  */
 export async function getPasswordResetLink(email: string): Promise<string> {
   const match = email.match(/http[^\s]+reset-password[^\s]*/);
-  return match ? match[0] : '';
+  return match ? match[0] : "";
 }

@@ -1,31 +1,31 @@
-import crypto from 'crypto';
-import type { Response } from 'express';
-import type { TokenPair } from '@pmp/shared';
-import { env } from '../config/env';
+import crypto from "crypto";
+import type { Response } from "express";
+import type { TokenPair } from "@pmp/shared";
+import { env } from "../config/env";
 
-export const ACCESS_TOKEN_COOKIE = 'pmp_access_token';
-export const REFRESH_TOKEN_COOKIE = 'pmp_refresh_token';
-export const CSRF_TOKEN_COOKIE = 'pmp_csrf_token';
+export const ACCESS_TOKEN_COOKIE = "pmp_access_token";
+export const REFRESH_TOKEN_COOKIE = "pmp_refresh_token";
+export const CSRF_TOKEN_COOKIE = "pmp_csrf_token";
 
 const REFRESH_TOKEN_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 const CSRF_TOKEN_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
-type SameSiteOption = 'lax' | 'strict' | 'none';
+type SameSiteOption = "lax" | "strict" | "none";
 
 function getSameSite(): SameSiteOption {
-  return env.NODE_ENV === 'production' ? 'lax' : 'lax';
+  return env.NODE_ENV === "production" ? "lax" : "lax";
 }
 
 function baseCookieOptions() {
   return {
-    secure: env.NODE_ENV === 'production',
+    secure: env.NODE_ENV === "production",
     sameSite: getSameSite(),
-    path: '/',
+    path: "/",
   } as const;
 }
 
 export function generateCsrfToken(): string {
-  return crypto.randomBytes(32).toString('hex');
+  return crypto.randomBytes(32).toString("hex");
 }
 
 export function setCsrfCookie(res: Response, csrfToken: string): void {

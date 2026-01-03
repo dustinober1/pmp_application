@@ -1,6 +1,6 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 import type {
   RegisterInput,
   LoginInput,
@@ -8,12 +8,12 @@ import type {
   TokenPair,
   UserProfile,
   TierName,
-} from '@pmp/shared';
-import prisma from '../config/database';
-import { env } from '../config/env';
-import { AppError } from '../middleware/error.middleware';
-import { AUTH_ERRORS } from '@pmp/shared';
-import { logger } from '../utils/logger';
+} from "@pmp/shared";
+import prisma from "../config/database";
+import { env } from "../config/env";
+import { AppError } from "../middleware/error.middleware";
+import { AUTH_ERRORS } from "@pmp/shared";
+import { logger } from "../utils/logger";
 
 const SALT_ROUNDS = 12;
 const MAX_FAILED_ATTEMPTS = 5;
@@ -33,7 +33,7 @@ export class AuthService {
       throw AppError.conflict(
         AUTH_ERRORS.AUTH_002.message,
         AUTH_ERRORS.AUTH_002.code,
-        'Please login instead'
+        "Please login instead",
       );
     }
 
@@ -52,7 +52,7 @@ export class AuthService {
 
     // Create free tier subscription
     const freeTier = await prisma.subscriptionTier.findFirst({
-      where: { name: 'free' },
+      where: { name: "free" },
     });
 
     if (freeTier) {
@@ -60,7 +60,7 @@ export class AuthService {
         data: {
           userId: user.id,
           tierId: freeTier.id,
-          status: 'active',
+          status: "active",
           startDate: new Date(),
           endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year
         },
@@ -68,7 +68,7 @@ export class AuthService {
     }
 
     // Generate tokens
-    const tierName = (freeTier?.name as TierName) || 'free';
+    const tierName = (freeTier?.name as TierName) || "free";
     const tokens = await this.generateTokens(user.id, user.email, tierName);
 
     // TODO: Send verification email
@@ -96,7 +96,10 @@ export class AuthService {
     });
 
     if (!user) {
-      throw AppError.unauthorized(AUTH_ERRORS.AUTH_003.message, AUTH_ERRORS.AUTH_003.code);
+      throw AppError.unauthorized(
+        AUTH_ERRORS.AUTH_003.message,
+        AUTH_ERRORS.AUTH_003.code,
+      );
     }
 
     // Check if account is locked
@@ -104,12 +107,15 @@ export class AuthService {
       throw AppError.forbidden(
         AUTH_ERRORS.AUTH_004.message,
         AUTH_ERRORS.AUTH_004.code,
-        `Account locked until ${user.lockedUntil.toISOString()}`
+        `Account locked until ${user.lockedUntil.toISOString()}`,
       );
     }
 
     // Verify password
-    const isValidPassword = await bcrypt.compare(credentials.password, user.passwordHash);
+    const isValidPassword = await bcrypt.compare(
+      credentials.password,
+      user.passwordHash,
+    );
 
     if (!isValidPassword) {
       // Increment failed login attempts
@@ -128,7 +134,10 @@ export class AuthService {
         data: updates,
       });
 
-      throw AppError.unauthorized(AUTH_ERRORS.AUTH_003.message, AUTH_ERRORS.AUTH_003.code);
+      throw AppError.unauthorized(
+        AUTH_ERRORS.AUTH_003.message,
+        AUTH_ERRORS.AUTH_003.code,
+      );
     }
 
     // Reset failed attempts on successful login
@@ -148,8 +157,13 @@ export class AuthService {
     // }
 
     // Generate tokens with rememberMe flag for longer session
-    const tierName = (user.subscription?.tier?.name as TierName) || 'free';
-    const tokens = await this.generateTokens(user.id, user.email, tierName, rememberMe);
+    const tierName = (user.subscription?.tier?.name as TierName) || "free";
+    const tokens = await this.generateTokens(
+      user.id,
+      user.email,
+      tierName,
+      rememberMe,
+    );
 
     return {
       user: { ...this.sanitizeUser(user), tier: tierName },
@@ -180,15 +194,23 @@ export class AuthService {
       if (storedToken) {
         await prisma.refreshToken.delete({ where: { id: storedToken.id } });
       }
-      throw AppError.unauthorized(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
+      throw AppError.unauthorized(
+        AUTH_ERRORS.AUTH_005.message,
+        AUTH_ERRORS.AUTH_005.code,
+      );
     }
 
     // Delete old token
     await prisma.refreshToken.delete({ where: { id: storedToken.id } });
 
     // Generate new tokens
-    const tierName = (storedToken.user.subscription?.tier?.name as TierName) || 'free';
-    return this.generateTokens(storedToken.userId, storedToken.user.email, tierName);
+    const tierName =
+      (storedToken.user.subscription?.tier?.name as TierName) || "free";
+    return this.generateTokens(
+      storedToken.userId,
+      storedToken.user.email,
+      tierName,
+    );
   }
 
   /**
@@ -233,7 +255,7 @@ export class AuthService {
     });
 
     // TODO: Send password reset email
-    if (env.NODE_ENV !== 'production') {
+    if (env.NODE_ENV !== "production") {
       logger.info(`Password reset token for ${email}: ${token}`);
     }
   }
@@ -247,8 +269,15 @@ export class AuthService {
       include: { user: true },
     });
 
-    if (!resetRecord || resetRecord.expiresAt < new Date() || resetRecord.usedAt) {
-      throw AppError.badRequest(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
+    if (
+      !resetRecord ||
+      resetRecord.expiresAt < new Date() ||
+      resetRecord.usedAt
+    ) {
+      throw AppError.badRequest(
+        AUTH_ERRORS.AUTH_005.message,
+        AUTH_ERRORS.AUTH_005.code,
+      );
     }
 
     // Hash new password
@@ -284,7 +313,10 @@ export class AuthService {
     });
 
     if (!user) {
-      throw AppError.badRequest(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
+      throw AppError.badRequest(
+        AUTH_ERRORS.AUTH_005.message,
+        AUTH_ERRORS.AUTH_005.code,
+      );
     }
 
     await prisma.user.update({
@@ -309,7 +341,10 @@ export class AuthService {
     });
 
     if (!user) {
-      throw AppError.unauthorized(AUTH_ERRORS.AUTH_005.message, AUTH_ERRORS.AUTH_005.code);
+      throw AppError.unauthorized(
+        AUTH_ERRORS.AUTH_005.message,
+        AUTH_ERRORS.AUTH_005.code,
+      );
     }
 
     if (user.emailVerified) {
@@ -333,23 +368,29 @@ export class AuthService {
     userId: string,
     email: string,
     tierId: string,
-    rememberMe: boolean = false
+    rememberMe: boolean = false,
   ): Promise<TokenPair> {
     // When rememberMe is true, use longer expiration times
     // Access token: 15 minutes normal, 1 hour when remembered
     // Refresh token: 7 days normal, 30 days when remembered
-    const accessExpiresIn = rememberMe ? '1h' : env.JWT_EXPIRES_IN;
-    const refreshExpiresIn = rememberMe ? '30d' : env.JWT_REFRESH_EXPIRES_IN;
-    const refreshMaxAgeMs = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000;
+    const accessExpiresIn = rememberMe ? "1h" : env.JWT_EXPIRES_IN;
+    const refreshExpiresIn = rememberMe ? "30d" : env.JWT_REFRESH_EXPIRES_IN;
+    const refreshMaxAgeMs = rememberMe
+      ? 30 * 24 * 60 * 60 * 1000
+      : 7 * 24 * 60 * 60 * 1000;
     const accessTokenExpiresInSeconds = rememberMe ? 60 * 60 : 15 * 60; // 1 hour or 15 minutes
 
     const accessToken = jwt.sign({ userId, email, tierId }, env.JWT_SECRET, {
-      expiresIn: accessExpiresIn as jwt.SignOptions['expiresIn'],
+      expiresIn: accessExpiresIn as jwt.SignOptions["expiresIn"],
     });
 
-    const refreshToken = jwt.sign({ userId, type: 'refresh' }, env.JWT_REFRESH_SECRET, {
-      expiresIn: refreshExpiresIn as jwt.SignOptions['expiresIn'],
-    });
+    const refreshToken = jwt.sign(
+      { userId, type: "refresh" },
+      env.JWT_REFRESH_SECRET,
+      {
+        expiresIn: refreshExpiresIn as jwt.SignOptions["expiresIn"],
+      },
+    );
 
     // Store refresh token
     await prisma.refreshToken.create({
@@ -382,7 +423,7 @@ export class AuthService {
 
     if (!user) return null;
 
-    const tierName = (user.subscription?.tier?.name as TierName) || 'free';
+    const tierName = (user.subscription?.tier?.name as TierName) || "free";
     return { ...this.sanitizeUser(user), tier: tierName };
   }
 
@@ -398,7 +439,7 @@ export class AuthService {
     lockedUntil: Date | null;
     createdAt: Date;
     updatedAt: Date;
-  }): Omit<UserProfile, 'tier'> {
+  }): Omit<UserProfile, "tier"> {
     return {
       id: user.id,
       email: user.email,

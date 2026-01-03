@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Navbar } from '@/components/Navbar';
-import { apiRequest } from '@/lib/api';
-import { useToast } from '@/components/ToastProvider';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Navbar } from "@/components/Navbar";
+import { apiRequest } from "@/lib/api";
+import { useToast } from "@/components/ToastProvider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 
 interface PracticeStats {
   totalSessions: number;
@@ -51,16 +51,18 @@ export default function PracticePage() {
   const fetchData = useCallback(async () => {
     try {
       const [statsRes, domainsRes, mockExamsRes] = await Promise.all([
-        apiRequest<{ stats: PracticeStats }>('/practice/stats'),
-        apiRequest<{ domains: Domain[] }>('/domains'),
-        apiRequest<{ exams: MockExam[]; count: number }>('/practice/mock-exams').catch(() => ({ data: { exams: [], count: 0 } })),
+        apiRequest<{ stats: PracticeStats }>("/practice/stats"),
+        apiRequest<{ domains: Domain[] }>("/domains"),
+        apiRequest<{ exams: MockExam[]; count: number }>(
+          "/practice/mock-exams",
+        ).catch(() => ({ data: { exams: [], count: 0 } })),
       ]);
       setStats(statsRes.data?.stats ?? null);
       setDomains(domainsRes.data?.domains ?? []);
       setMockExams(mockExamsRes.data?.exams ?? []);
     } catch (error) {
-      console.error('Failed to fetch data:', error);
-      toast.error('Failed to load practice data. Please try again.');
+      console.error("Failed to fetch data:", error);
+      toast.error("Failed to load practice data. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -75,20 +77,23 @@ export default function PracticePage() {
   const startSession = async () => {
     setStarting(true);
     try {
-      const response = await apiRequest<{ sessionId: string }>('/practice/sessions', {
-        method: 'POST',
-        body: {
-          domainIds: selectedDomains.length > 0 ? selectedDomains : undefined,
-          questionCount,
+      const response = await apiRequest<{ sessionId: string }>(
+        "/practice/sessions",
+        {
+          method: "POST",
+          body: {
+            domainIds: selectedDomains.length > 0 ? selectedDomains : undefined,
+            questionCount,
+          },
         },
-      });
+      );
       const sessionId = response.data?.sessionId;
       if (sessionId) {
         router.push(`/practice/session/${sessionId}`);
       }
     } catch (error) {
-      console.error('Failed to start session:', error);
-      toast.error('Failed to start practice session. Please try again.');
+      console.error("Failed to start session:", error);
+      toast.error("Failed to start practice session. Please try again.");
     } finally {
       setStarting(false);
     }
@@ -97,25 +102,30 @@ export default function PracticePage() {
   const startMockExam = async (examId: number) => {
     setStarting(true);
     try {
-      const response = await apiRequest<{ sessionId: string }>('/practice/mock-exams', {
-        method: 'POST',
-        body: { examId },
-      });
+      const response = await apiRequest<{ sessionId: string }>(
+        "/practice/mock-exams",
+        {
+          method: "POST",
+          body: { examId },
+        },
+      );
       const sessionId = response.data?.sessionId;
       if (sessionId) {
         router.push(`/practice/mock/session/${sessionId}`);
       }
     } catch (error) {
-      console.error('Failed to start mock exam:', error);
-      toast.error('Failed to start mock exam. Please try again.');
+      console.error("Failed to start mock exam:", error);
+      toast.error("Failed to start mock exam. Please try again.");
     } finally {
       setStarting(false);
     }
   };
 
   const toggleDomain = (domainId: string) => {
-    setSelectedDomains(prev =>
-      prev.includes(domainId) ? prev.filter(id => id !== domainId) : [...prev, domainId]
+    setSelectedDomains((prev) =>
+      prev.includes(domainId)
+        ? prev.filter((id) => id !== domainId)
+        : [...prev, domainId],
     );
   };
 
@@ -123,7 +133,7 @@ export default function PracticePage() {
     return <FullPageSkeleton />;
   }
 
-  const canTakeMockExam = user?.tier === 'pro' || user?.tier === 'corporate';
+  const canTakeMockExam = user?.tier === "pro" || user?.tier === "corporate";
 
   return (
     <div className="min-h-screen">
@@ -145,14 +155,22 @@ export default function PracticePage() {
           </div>
           <div className="card text-center">
             <p className="text-3xl font-bold">{stats?.totalQuestions || 0}</p>
-            <p className="text-sm text-[var(--foreground-muted)]">Questions Answered</p>
+            <p className="text-sm text-[var(--foreground-muted)]">
+              Questions Answered
+            </p>
           </div>
           <div className="card text-center">
-            <p className="text-3xl font-bold text-[var(--primary)]">{stats?.averageScore || 0}%</p>
-            <p className="text-sm text-[var(--foreground-muted)]">Average Score</p>
+            <p className="text-3xl font-bold text-[var(--primary)]">
+              {stats?.averageScore || 0}%
+            </p>
+            <p className="text-sm text-[var(--foreground-muted)]">
+              Average Score
+            </p>
           </div>
           <div className="card text-center">
-            <p className="text-3xl font-bold text-[var(--success)]">{stats?.bestScore || 0}%</p>
+            <p className="text-3xl font-bold text-[var(--success)]">
+              {stats?.bestScore || 0}%
+            </p>
             <p className="text-sm text-[var(--foreground-muted)]">Best Score</p>
           </div>
         </div>
@@ -169,14 +187,14 @@ export default function PracticePage() {
                   Select Domains (optional)
                 </legend>
                 <div className="flex flex-wrap gap-2">
-                  {domains.map(domain => (
+                  {domains.map((domain) => (
                     <button
                       key={domain.id}
                       onClick={() => toggleDomain(domain.id)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
                         selectedDomains.includes(domain.id)
-                          ? 'bg-[var(--primary)] text-white'
-                          : 'bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)]'
+                          ? "bg-[var(--primary)] text-white"
+                          : "bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)]"
                       }`}
                     >
                       {domain.name}
@@ -190,16 +208,18 @@ export default function PracticePage() {
 
               {/* Question Count */}
               <fieldset className="mb-6">
-                <legend className="block text-sm font-medium mb-2">Number of Questions</legend>
+                <legend className="block text-sm font-medium mb-2">
+                  Number of Questions
+                </legend>
                 <div className="flex gap-2">
-                  {[10, 20, 30, 50].map(count => (
+                  {[10, 20, 30, 50].map((count) => (
                     <button
                       key={count}
                       onClick={() => setQuestionCount(count)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
                         questionCount === count
-                          ? 'bg-[var(--primary)] text-white'
-                          : 'bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)]'
+                          ? "bg-[var(--primary)] text-white"
+                          : "bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)]"
                       }`}
                     >
                       {count}
@@ -208,8 +228,12 @@ export default function PracticePage() {
                 </div>
               </fieldset>
 
-              <button onClick={startSession} disabled={starting} className="btn btn-primary w-full">
-                {starting ? 'Starting...' : 'Start Practice Session'}
+              <button
+                onClick={startSession}
+                disabled={starting}
+                className="btn btn-primary w-full"
+              >
+                {starting ? "Starting..." : "Start Practice Session"}
               </button>
             </div>
 
@@ -252,13 +276,17 @@ export default function PracticePage() {
               </div>
               <h2 className="text-lg font-semibold">Full Mock Exams</h2>
               <p className="text-sm text-[var(--foreground-muted)] mt-2">
-                Simulate the real PMP exam with 180 questions and a 3h 50min time limit.
+                Simulate the real PMP exam with 180 questions and a 3h 50min
+                time limit.
               </p>
               {canTakeMockExam ? (
                 <div className="mt-4 space-y-2">
                   {mockExams.length > 0 ? (
-                    mockExams.map(exam => (
-                      <div key={exam.id} className="border border-[var(--border)] rounded-lg p-3">
+                    mockExams.map((exam) => (
+                      <div
+                        key={exam.id}
+                        className="border border-[var(--border)] rounded-lg p-3"
+                      >
                         <div className="flex items-center justify-between mb-2">
                           <h3 className="font-medium text-sm">{exam.name}</h3>
                           <span className="text-xs text-[var(--foreground-muted)]">
@@ -266,13 +294,14 @@ export default function PracticePage() {
                           </span>
                         </div>
                         <div className="flex flex-wrap gap-1 mb-3">
-                          {exam.domainBreakdown.map(domain => (
+                          {exam.domainBreakdown.map((domain) => (
                             <span
                               key={domain.domainId}
                               className="text-xs px-2 py-1 rounded-full bg-[var(--secondary)] text-[var(--secondary-foreground)]"
                               title={`${domain.domainName}: ${domain.count} questions`}
                             >
-                              {domain.domainName.split(' ')[0]} {domain.percentage}%
+                              {domain.domainName.split(" ")[0]}{" "}
+                              {domain.percentage}%
                             </span>
                           ))}
                         </div>
@@ -281,7 +310,7 @@ export default function PracticePage() {
                           disabled={starting}
                           className="btn btn-primary w-full text-sm"
                         >
-                          {starting ? 'Starting...' : `Start ${exam.name}`}
+                          {starting ? "Starting..." : `Start ${exam.name}`}
                         </button>
                       </div>
                     ))
@@ -309,7 +338,10 @@ export default function PracticePage() {
               <p className="text-sm text-[var(--foreground-muted)]">
                 Review questions you have flagged for later.
               </p>
-              <Link href="/practice/flagged" className="btn btn-secondary w-full mt-4">
+              <Link
+                href="/practice/flagged"
+                className="btn btn-secondary w-full mt-4"
+              >
                 View Flagged
               </Link>
             </div>

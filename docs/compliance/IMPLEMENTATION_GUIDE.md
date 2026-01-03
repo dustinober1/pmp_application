@@ -232,11 +232,11 @@ Set up a cron job to process pending deletions daily:
 **Or use node-cron:**
 
 ```typescript
-import cron from 'node-cron';
+import cron from "node-cron";
 
 // Run daily at 2 AM
-cron.schedule('0 2 * * *', async () => {
-  const { accountDeletionService } = await import('./services');
+cron.schedule("0 2 * * *", async () => {
+  const { accountDeletionService } = await import("./services");
   const result = await accountDeletionService.processPendingDeletions();
   console.log(`Processed ${result.processed} deletions`);
 });
@@ -246,8 +246,8 @@ cron.schedule('0 2 * * *', async () => {
 
 ```typescript
 // Run daily
-cron.schedule('0 3 * * *', async () => {
-  const prisma = await import('./config/database');
+cron.schedule("0 3 * * *", async () => {
+  const prisma = await import("./config/database");
   const deleted = await prisma.default.dataExportRequest.deleteMany({
     where: {
       expiresAt: { lt: new Date() },
@@ -268,13 +268,13 @@ Monitor all privacy-related actions:
 ```typescript
 // Get recent activity
 const logs = await prisma.privacyAuditLog.findMany({
-  orderBy: { createdAt: 'desc' },
+  orderBy: { createdAt: "desc" },
   take: 100,
 });
 
 // Filter by action type
 const exportLogs = await prisma.privacyAuditLog.findMany({
-  where: { actionType: 'data_export' },
+  where: { actionType: "data_export" },
 });
 
 // Filter by date range
@@ -295,7 +295,7 @@ Track key compliance metrics:
 // Export statistics
 const totalExports = await prisma.dataExportRequest.count();
 const pendingExports = await prisma.dataExportRequest.count({
-  where: { status: 'pending' },
+  where: { status: "pending" },
 });
 const avgProcessingTime = await getAverageProcessingTime();
 
@@ -303,7 +303,7 @@ const avgProcessingTime = await getAverageProcessingTime();
 const totalDeletions = await prisma.accountDeletionRequest.count();
 const inGracePeriod = await prisma.accountDeletionRequest.count({
   where: {
-    status: 'pending',
+    status: "pending",
     gracePeriodEnds: { gt: new Date() },
   },
 });
@@ -379,7 +379,9 @@ const inGracePeriod = await prisma.accountDeletionRequest.count({
       <p><strong>Grace Period Ends:</strong> {{gracePeriodEnds}}</p>
       <p>Your account will be permanently deleted after 30 days.</p>
       <p>To cancel this request, <a href="{{cancelUrl}}">click here</a>.</p>
-      <p>If you did not request this deletion, please contact us immediately.</p>
+      <p>
+        If you did not request this deletion, please contact us immediately.
+      </p>
     </div>
   </body>
 </html>

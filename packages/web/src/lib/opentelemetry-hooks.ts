@@ -7,9 +7,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- Tracing payloads vary */
 /* eslint-disable react-hooks/exhaustive-deps -- Dynamic dependencies for tracing */
 
-'use client';
+"use client";
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from "react";
 import {
   createSpan,
   withSpan,
@@ -20,23 +20,26 @@ import {
   recordError,
   trackPageNavigation,
   trackUserInteraction,
-} from './opentelemetry';
+} from "./opentelemetry";
 
 /**
  * Hook to track component lifecycle
  */
-export function useComponentTrace(componentName: string, enabled: boolean = true) {
+export function useComponentTrace(
+  componentName: string,
+  enabled: boolean = true,
+) {
   useEffect(() => {
     if (!enabled) return;
 
     const span = createSpan(`component.mount:${componentName}`);
     span.setAttributes({
-      'component.name': componentName,
-      'component.lifecycle': 'mount',
+      "component.name": componentName,
+      "component.lifecycle": "mount",
     });
 
     return () => {
-      span.addEvent('component.unmount');
+      span.addEvent("component.unmount");
       span.end();
     };
   }, [componentName, enabled]);
@@ -57,17 +60,17 @@ export function usePageTracking(path: string, title?: string) {
 export function useAsyncTracer<T>(
   operation: string,
   asyncFn: () => Promise<T>,
-  dependencies: any[] = []
+  dependencies: any[] = [],
 ) {
   return useCallback(
     () =>
-      withSpan(`async.operation:${operation}`, async span => {
+      withSpan(`async.operation:${operation}`, async (span) => {
         span.setAttributes({
-          'operation.name': operation,
+          "operation.name": operation,
         });
         return asyncFn();
       }),
-    [operation, ...dependencies]
+    [operation, ...dependencies],
   );
 }
 
@@ -76,24 +79,27 @@ export function useAsyncTracer<T>(
  */
 export function useInteractionTracker() {
   const trackClick = useCallback((elementId: string, elementType: string) => {
-    trackUserInteraction(elementType, 'click', elementId);
+    trackUserInteraction(elementType, "click", elementId);
   }, []);
 
   const trackSubmit = useCallback((formId: string) => {
-    trackUserInteraction('form', 'submit', formId);
+    trackUserInteraction("form", "submit", formId);
   }, []);
 
-  const trackChange = useCallback((elementId: string, elementType: string, value: any) => {
-    trackUserInteraction(elementType, 'change', elementId);
+  const trackChange = useCallback(
+    (elementId: string, elementType: string, value: any) => {
+      trackUserInteraction(elementType, "change", elementId);
 
-    const span = createSpan(`input.change:${elementId}`);
-    span.setAttributes({
-      'input.element_id': elementId,
-      'input.element_type': elementType,
-      'input.value_length': String(value)?.length || 0,
-    });
-    span.end();
-  }, []);
+      const span = createSpan(`input.change:${elementId}`);
+      span.setAttributes({
+        "input.element_id": elementId,
+        "input.element_type": elementType,
+        "input.value_length": String(value)?.length || 0,
+      });
+      span.end();
+    },
+    [],
+  );
 
   return { trackClick, trackSubmit, trackChange };
 }
@@ -103,37 +109,41 @@ export function useInteractionTracker() {
  */
 export function useApiTracer() {
   const traceApiCall = useCallback(
-    async <T>(url: string, method: string, apiCall: () => Promise<T>): Promise<T> => {
-      return withSpan(`api.call:${method}:${url}`, async span => {
+    async <T>(
+      url: string,
+      method: string,
+      apiCall: () => Promise<T>,
+    ): Promise<T> => {
+      return withSpan(`api.call:${method}:${url}`, async (span) => {
         try {
           span.setAttributes({
-            'http.method': method,
-            'http.url': url,
-            'http.type': 'fetch',
+            "http.method": method,
+            "http.url": url,
+            "http.type": "fetch",
           });
 
-          addEvent('api.call.start', { url, method });
+          addEvent("api.call.start", { url, method });
 
           const result = await apiCall();
 
-          addEvent('api.call.success', {
+          addEvent("api.call.success", {
             url,
             method,
-            status: 'success',
+            status: "success",
           });
 
           return result;
         } catch (error) {
           recordError(error as Error, {
-            'api.url': url,
-            'api.method': method,
+            "api.url": url,
+            "api.method": method,
           });
 
           throw error;
         }
       });
     },
-    []
+    [],
   );
 
   return { traceApiCall };
@@ -156,8 +166,8 @@ export function usePerformanceTracker(componentName: string) {
 
     const span = createSpan(`component.render:${componentName}`);
     span.setAttributes({
-      'component.name': componentName,
-      'performance.render_time_ms': renderTime,
+      "component.name": componentName,
+      "performance.render_time_ms": renderTime,
     });
     span.end();
   });
@@ -167,30 +177,45 @@ export function usePerformanceTracker(componentName: string) {
  * Hook to add context to spans
  */
 export function useTracingContext() {
-  const setUser = useCallback((user: { id: string; email?: string; tier?: string }) => {
-    setUserContext(user);
-  }, []);
+  const setUser = useCallback(
+    (user: { id: string; email?: string; tier?: string }) => {
+      setUserContext(user);
+    },
+    [],
+  );
 
-  const setPage = useCallback((page: { path: string; title?: string; referrer?: string }) => {
-    setPageContext(page);
-  }, []);
+  const setPage = useCallback(
+    (page: { path: string; title?: string; referrer?: string }) => {
+      setPageContext(page);
+    },
+    [],
+  );
 
-  const setFeature = useCallback((feature: { name: string; action?: string }) => {
-    setFeatureContext(feature);
-  }, []);
+  const setFeature = useCallback(
+    (feature: { name: string; action?: string }) => {
+      setFeatureContext(feature);
+    },
+    [],
+  );
 
   const addCustomEvent = useCallback(
-    (name: string, attributes?: Record<string, string | number | boolean | undefined>) => {
+    (
+      name: string,
+      attributes?: Record<string, string | number | boolean | undefined>,
+    ) => {
       addEvent(name, attributes);
     },
-    []
+    [],
   );
 
   const logError = useCallback(
-    (error: Error, attributes?: Record<string, string | number | boolean | undefined>) => {
+    (
+      error: Error,
+      attributes?: Record<string, string | number | boolean | undefined>,
+    ) => {
       recordError(error, attributes);
     },
-    []
+    [],
   );
 
   return {

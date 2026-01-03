@@ -2,12 +2,12 @@
  * Production-grade structured logger with Winston
  */
 
-import winston from 'winston';
-import { v4 as uuidv4 } from 'uuid';
-import type { LogLevel, LogContext } from './types';
-import { sanitize } from './sanitizer';
-import { createTransports } from './transports';
-import type { LoggerConfig } from './types';
+import winston from "winston";
+import { v4 as uuidv4 } from "uuid";
+import type { LogLevel, LogContext } from "./types";
+import { sanitize } from "./sanitizer";
+import { createTransports } from "./transports";
+import type { LoggerConfig } from "./types";
 
 /**
  * Async local storage for request context
@@ -42,13 +42,13 @@ export class Logger {
     };
 
     // Add trace_id from async storage if available
-    const traceId = asyncLocalStorage.get('trace_id');
+    const traceId = asyncLocalStorage.get("trace_id");
     if (traceId) {
       context.trace_id = traceId;
     }
 
     // Add user_id from async storage if available
-    const userId = asyncLocalStorage.get('user_id');
+    const userId = asyncLocalStorage.get("user_id");
     if (userId) {
       context.user_id = userId;
     }
@@ -130,28 +130,28 @@ export class Logger {
    * Set trace ID for current context
    */
   static setTraceId(traceId: string): void {
-    asyncLocalStorage.set('trace_id', traceId);
+    asyncLocalStorage.set("trace_id", traceId);
   }
 
   /**
    * Get trace ID from current context
    */
   static getTraceId(): string | undefined {
-    return asyncLocalStorage.get('trace_id');
+    return asyncLocalStorage.get("trace_id");
   }
 
   /**
    * Set user ID for current context
    */
   static setUserId(userId: string | number): void {
-    asyncLocalStorage.set('user_id', userId);
+    asyncLocalStorage.set("user_id", userId);
   }
 
   /**
    * Get user ID from current context
    */
   static getUserId(): string | number | undefined {
-    return asyncLocalStorage.get('user_id');
+    return asyncLocalStorage.get("user_id");
   }
 
   /**
@@ -192,8 +192,8 @@ export class Logger {
    */
   async flush(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.winston.on('finish', resolve);
-      this.winston.on('error', reject);
+      this.winston.on("finish", resolve);
+      this.winston.on("error", reject);
       this.winston.end();
     });
   }
@@ -217,7 +217,7 @@ export function initializeLogger(config: LoggerConfig): Logger {
  */
 export function getLogger(): Logger {
   if (!defaultLogger) {
-    throw new Error('Logger not initialized. Call initializeLogger() first.');
+    throw new Error("Logger not initialized. Call initializeLogger() first.");
   }
   return defaultLogger;
 }

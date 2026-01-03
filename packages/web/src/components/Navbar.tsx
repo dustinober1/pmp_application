@@ -1,13 +1,17 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useState } from 'react';
-import SearchDialog from './SearchDialog';
-import { setStoredTheme } from '@/components/ThemeProvider';
-import { useTranslation } from 'react-i18next';
-import { setLocale, SUPPORTED_LOCALES, type SupportedLocale } from '@/i18n/i18n';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect, useState } from "react";
+import SearchDialog from "./SearchDialog";
+import { setStoredTheme } from "@/components/ThemeProvider";
+import { useTranslation } from "react-i18next";
+import {
+  setLocale,
+  SUPPORTED_LOCALES,
+  type SupportedLocale,
+} from "@/i18n/i18n";
 
 export function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -19,23 +23,24 @@ export function Navbar() {
 
   // HIGH-006: Helper function to check if a path is active
   const isActive = (path: string): boolean => {
-    if (path === '/') return pathname === '/';
+    if (path === "/") return pathname === "/";
     // For nested routes, check if pathname starts with the path
     return pathname === path || pathname?.startsWith(`${path}/`);
   };
 
   useEffect(() => {
-    setDarkMode(document.documentElement.classList.contains('dark'));
+    setDarkMode(document.documentElement.classList.contains("dark"));
   }, []);
 
   const toggleDarkMode = () => {
     const next = !darkMode;
     setDarkMode(next);
-    setStoredTheme(next ? 'dark' : 'light');
+    setStoredTheme(next ? "dark" : "light");
   };
 
-  const currentLocale = (i18n.language?.split('-')[0] || 'en') as SupportedLocale;
-  const nextLocale = currentLocale === 'es' ? 'en' : 'es';
+  const currentLocale = (i18n.language?.split("-")[0] ||
+    "en") as SupportedLocale;
+  const nextLocale = currentLocale === "es" ? "en" : "es";
 
   return (
     <>
@@ -46,11 +51,16 @@ export function Navbar() {
             <div className="flex items-center">
               <Link href="/" className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm" aria-hidden="true">
+                  <span
+                    className="text-white font-bold text-sm"
+                    aria-hidden="true"
+                  >
                     PM
                   </span>
                 </div>
-                <span className="font-semibold text-lg hidden sm:block">PMP Study Pro</span>
+                <span className="font-semibold text-lg hidden sm:block">
+                  PMP Study Pro
+                </span>
               </Link>
             </div>
 
@@ -60,52 +70,52 @@ export function Navbar() {
                 <Link
                   href="/dashboard"
                   className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive('/dashboard')
-                      ? 'text-[var(--primary)] after:opacity-100'
-                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                    isActive("/dashboard")
+                      ? "text-[var(--primary)] after:opacity-100"
+                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
                   }`}
                 >
-                  {t('Dashboard')}
+                  {t("Dashboard")}
                 </Link>
                 <Link
                   href="/study"
                   className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive('/study')
-                      ? 'text-[var(--primary)] after:opacity-100'
-                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                    isActive("/study")
+                      ? "text-[var(--primary)] after:opacity-100"
+                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
                   }`}
                 >
-                  {t('Study')}
+                  {t("Study")}
                 </Link>
                 <Link
                   href="/flashcards"
                   className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive('/flashcards')
-                      ? 'text-[var(--primary)] after:opacity-100'
-                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                    isActive("/flashcards")
+                      ? "text-[var(--primary)] after:opacity-100"
+                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
                   }`}
                 >
-                  {t('Flashcards')}
+                  {t("Flashcards")}
                 </Link>
                 <Link
                   href="/practice"
                   className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive('/practice')
-                      ? 'text-[var(--primary)] after:opacity-100'
-                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                    isActive("/practice")
+                      ? "text-[var(--primary)] after:opacity-100"
+                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
                   }`}
                 >
-                  {t('Practice')}
+                  {t("Practice")}
                 </Link>
                 <Link
                   href="/formulas"
                   className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive('/formulas')
-                      ? 'text-[var(--primary)] after:opacity-100'
-                      : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'
+                    isActive("/formulas")
+                      ? "text-[var(--primary)] after:opacity-100"
+                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
                   }`}
                 >
-                  {t('Formulas')}
+                  {t("Formulas")}
                 </Link>
               </div>
             )}
@@ -117,7 +127,7 @@ export function Navbar() {
                   type="button"
                   onClick={() => setSearchOpen(true)}
                   className="p-2 text-gray-400 hover:text-white transition-colors"
-                  aria-label={t('Search')}
+                  aria-label={t("Search")}
                 >
                   <svg
                     className="h-5 w-5"
@@ -150,7 +160,11 @@ export function Navbar() {
                 type="button"
                 onClick={toggleDarkMode}
                 className="p-2 text-gray-400 hover:text-white transition-colors"
-                aria-label={darkMode ? t('Switch to light mode') : t('Switch to dark mode')}
+                aria-label={
+                  darkMode
+                    ? t("Switch to light mode")
+                    : t("Switch to dark mode")
+                }
               >
                 {darkMode ? (
                   <svg
@@ -186,17 +200,26 @@ export function Navbar() {
                       {user?.tier} Tier
                     </p>
                   </div>
-                  <button onClick={logout} className="btn btn-secondary text-sm">
-                    {t('Logout')}
+                  <button
+                    onClick={logout}
+                    className="btn btn-secondary text-sm"
+                  >
+                    {t("Logout")}
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Link href="/auth/login" className="btn btn-secondary text-sm">
-                    {t('Login')}
+                  <Link
+                    href="/auth/login"
+                    className="btn btn-secondary text-sm"
+                  >
+                    {t("Login")}
                   </Link>
-                  <Link href="/auth/register" className="btn btn-primary text-sm">
-                    {t('Get Started')}
+                  <Link
+                    href="/auth/register"
+                    className="btn btn-primary text-sm"
+                  >
+                    {t("Get Started")}
                   </Link>
                 </div>
               )}
@@ -207,11 +230,20 @@ export function Navbar() {
                   type="button"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className="md:hidden p-2 text-[var(--foreground-muted)]"
-                  aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                  aria-label={
+                    mobileMenuOpen
+                      ? "Close navigation menu"
+                      : "Open navigation menu"
+                  }
                   aria-expanded={mobileMenuOpen}
                   aria-controls="mobile-navigation"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     {mobileMenuOpen ? (
                       <path
                         strokeLinecap="round"
@@ -244,52 +276,52 @@ export function Navbar() {
                 <Link
                   href="/dashboard"
                   className={`px-4 py-2 rounded-lg transition ${
-                    isActive('/dashboard')
-                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
-                      : 'hover:bg-[var(--secondary)]'
+                    isActive("/dashboard")
+                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
+                      : "hover:bg-[var(--secondary)]"
                   }`}
                 >
-                  {t('Dashboard')}
+                  {t("Dashboard")}
                 </Link>
                 <Link
                   href="/study"
                   className={`px-4 py-2 rounded-lg transition ${
-                    isActive('/study')
-                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
-                      : 'hover:bg-[var(--secondary)]'
+                    isActive("/study")
+                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
+                      : "hover:bg-[var(--secondary)]"
                   }`}
                 >
-                  {t('Study')}
+                  {t("Study")}
                 </Link>
                 <Link
                   href="/flashcards"
                   className={`px-4 py-2 rounded-lg transition ${
-                    isActive('/flashcards')
-                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
-                      : 'hover:bg-[var(--secondary)]'
+                    isActive("/flashcards")
+                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
+                      : "hover:bg-[var(--secondary)]"
                   }`}
                 >
-                  {t('Flashcards')}
+                  {t("Flashcards")}
                 </Link>
                 <Link
                   href="/practice"
                   className={`px-4 py-2 rounded-lg transition ${
-                    isActive('/practice')
-                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
-                      : 'hover:bg-[var(--secondary)]'
+                    isActive("/practice")
+                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
+                      : "hover:bg-[var(--secondary)]"
                   }`}
                 >
-                  {t('Practice')}
+                  {t("Practice")}
                 </Link>
                 <Link
                   href="/formulas"
                   className={`px-4 py-2 rounded-lg transition ${
-                    isActive('/formulas')
-                      ? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
-                      : 'hover:bg-[var(--secondary)]'
+                    isActive("/formulas")
+                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
+                      : "hover:bg-[var(--secondary)]"
                   }`}
                 >
-                  {t('Formulas')}
+                  {t("Formulas")}
                 </Link>
               </div>
             </div>

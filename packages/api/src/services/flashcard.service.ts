@@ -4,10 +4,10 @@ import type {
   FlashcardRating,
   FlashcardSessionOptions,
   CreateFlashcardInput,
-} from '@pmp/shared';
-import { SM2_DEFAULTS } from '@pmp/shared';
-import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
+} from "@pmp/shared";
+import { SM2_DEFAULTS } from "@pmp/shared";
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
 
 export class FlashcardService {
   /**
@@ -27,10 +27,10 @@ export class FlashcardService {
     const flashcards = await prisma.flashcard.findMany({
       where,
       take: options.limit || 50,
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: "asc" },
     });
 
-    return flashcards.map(card => ({
+    return flashcards.map((card) => ({
       id: card.id,
       domainId: card.domainId,
       taskId: card.taskId,
@@ -45,7 +45,10 @@ export class FlashcardService {
   /**
    * Get flashcards due for review (spaced repetition)
    */
-  async getDueForReview(userId: string, limit: number = 20): Promise<Flashcard[]> {
+  async getDueForReview(
+    userId: string,
+    limit: number = 20,
+  ): Promise<Flashcard[]> {
     const now = new Date();
 
     // Get cards due for review
@@ -56,10 +59,10 @@ export class FlashcardService {
       },
       include: { card: true },
       take: limit,
-      orderBy: { nextReviewDate: 'asc' },
+      orderBy: { nextReviewDate: "asc" },
     });
 
-    return dueReviews.map(review => ({
+    return dueReviews.map((review) => ({
       id: review.card.id,
       domainId: review.card.domainId,
       taskId: review.card.taskId,
@@ -76,7 +79,7 @@ export class FlashcardService {
    */
   async startSession(
     userId: string,
-    options: FlashcardSessionOptions
+    options: FlashcardSessionOptions,
   ): Promise<{ sessionId: string; cards: Flashcard[] }> {
     const where: Record<string, unknown> = {};
 
@@ -88,7 +91,10 @@ export class FlashcardService {
 
     if (options.prioritizeReview) {
       // Get cards due for review first
-      const dueCards = await this.getDueForReview(userId, options.cardCount || 20);
+      const dueCards = await this.getDueForReview(
+        userId,
+        options.cardCount || 20,
+      );
       if (dueCards.length >= (options.cardCount || 20)) {
         cards = dueCards;
       } else {
@@ -97,14 +103,14 @@ export class FlashcardService {
           where: {
             ...where,
             NOT: {
-              id: { in: dueCards.map(c => c.id) },
+              id: { in: dueCards.map((c) => c.id) },
             },
           },
           take: (options.cardCount || 20) - dueCards.length,
         });
         cards = [
           ...dueCards,
-          ...additionalCards.map(c => ({
+          ...additionalCards.map((c) => ({
             id: c.id,
             domainId: c.domainId,
             taskId: c.taskId,
@@ -120,9 +126,9 @@ export class FlashcardService {
       const rawCards = await prisma.flashcard.findMany({
         where,
         take: options.cardCount || 20,
-        orderBy: { createdAt: 'asc' },
+        orderBy: { createdAt: "asc" },
       });
-      cards = rawCards.map(c => ({
+      cards = rawCards.map((c) => ({
         id: c.id,
         domainId: c.domainId,
         taskId: c.taskId,
@@ -144,7 +150,7 @@ export class FlashcardService {
 
     // Add cards to session
     await prisma.flashcardSessionCard.createMany({
-      data: cards.map(card => ({
+      data: cards.map((card) => ({
         sessionId: session.id,
         cardId: card.id,
       })),
@@ -161,7 +167,7 @@ export class FlashcardService {
    */
   async getSession(
     sessionId: string,
-    userId: string
+    userId: string,
   ): Promise<{
     sessionId: string;
     cards: Flashcard[];
@@ -172,7 +178,7 @@ export class FlashcardService {
       include: {
         cards: {
           include: { card: true },
-          orderBy: { cardId: 'asc' }, // Consistent order
+          orderBy: { cardId: "asc" }, // Consistent order
         },
       },
     });
@@ -180,11 +186,11 @@ export class FlashcardService {
     if (!session || session.userId !== userId) return null;
 
     // Check progress
-    const answeredCount = session.cards.filter(c => c.rating !== null).length;
+    const answeredCount = session.cards.filter((c) => c.rating !== null).length;
 
     return {
       sessionId: session.id,
-      cards: session.cards.map(sc => ({
+      cards: session.cards.map((sc) => ({
         id: sc.card.id,
         domainId: sc.card.domainId,
         taskId: sc.card.taskId,
@@ -212,7 +218,7 @@ export class FlashcardService {
     cardId: string,
     userId: string,
     rating: FlashcardRating,
-    timeSpentMs: number
+    timeSpentMs: number,
   ): Promise<void> {
     // Update session card
     await prisma.flashcardSessionCard.updateMany({
@@ -229,10 +235,8 @@ export class FlashcardService {
       where: { userId_cardId: { userId, cardId } },
     });
 
-    const { easeFactor, interval, repetitions, nextReviewDate } = this.calculateSM2(
-      existingReview,
-      rating
-    );
+    const { easeFactor, interval, repetitions, nextReviewDate } =
+      this.calculateSM2(existingReview, rating);
 
     await prisma.flashcardReview.upsert({
       where: { userId_cardId: { userId, cardId } },
@@ -265,7 +269,7 @@ export class FlashcardService {
     });
 
     if (!session) {
-      throw AppError.notFound('Session not found');
+      throw AppError.notFound("Session not found");
     }
 
     // Calculate stats
@@ -274,10 +278,10 @@ export class FlashcardService {
     let dontKnow = 0;
     let totalTimeMs = 0;
 
-    session.cards.forEach(card => {
-      if (card.rating === 'know_it') knowIt++;
-      else if (card.rating === 'learning') learning++;
-      else if (card.rating === 'dont_know') dontKnow++;
+    session.cards.forEach((card) => {
+      if (card.rating === "know_it") knowIt++;
+      else if (card.rating === "learning") learning++;
+      else if (card.rating === "dont_know") dontKnow++;
       totalTimeMs += card.timeSpentMs || 0;
     });
 
@@ -300,21 +304,26 @@ export class FlashcardService {
       dontKnow,
       totalTimeMs,
       averageTimePerCard:
-        session.cards.length > 0 ? Math.round(totalTimeMs / session.cards.length) : 0,
+        session.cards.length > 0
+          ? Math.round(totalTimeMs / session.cards.length)
+          : 0,
     };
   }
 
   /**
    * Create a custom flashcard (High-End/Corporate tier)
    */
-  async createCustomFlashcard(userId: string, data: CreateFlashcardInput): Promise<Flashcard> {
+  async createCustomFlashcard(
+    userId: string,
+    data: CreateFlashcardInput,
+  ): Promise<Flashcard> {
     // Verify domain and task exist
     const task = await prisma.task.findUnique({
       where: { id: data.taskId },
     });
 
     if (!task || task.domainId !== data.domainId) {
-      throw AppError.badRequest('Invalid domain or task');
+      throw AppError.badRequest("Invalid domain or task");
     }
 
     const card = await prisma.flashcard.create({
@@ -345,23 +354,33 @@ export class FlashcardService {
    * Updates ease factor, interval, and repetitions based on rating
    */
   private calculateSM2(
-    existingReview: { easeFactor: number; interval: number; repetitions: number } | null,
-    rating: FlashcardRating
-  ): { easeFactor: number; interval: number; repetitions: number; nextReviewDate: Date } {
-    let easeFactor = existingReview?.easeFactor || SM2_DEFAULTS.INITIAL_EASE_FACTOR;
+    existingReview: {
+      easeFactor: number;
+      interval: number;
+      repetitions: number;
+    } | null,
+    rating: FlashcardRating,
+  ): {
+    easeFactor: number;
+    interval: number;
+    repetitions: number;
+    nextReviewDate: Date;
+  } {
+    let easeFactor =
+      existingReview?.easeFactor || SM2_DEFAULTS.INITIAL_EASE_FACTOR;
     let interval = existingReview?.interval || SM2_DEFAULTS.INITIAL_INTERVAL;
     let repetitions = existingReview?.repetitions || 0;
 
     // Convert rating to a quality score (0-5)
     let quality: number;
     switch (rating) {
-      case 'know_it':
+      case "know_it":
         quality = 5; // Perfect response
         break;
-      case 'learning':
+      case "learning":
         quality = 3; // Correct with difficulty
         break;
-      case 'dont_know':
+      case "dont_know":
         quality = 0; // Complete blackout
         break;
       default:
@@ -385,7 +404,8 @@ export class FlashcardService {
     }
 
     // Update ease factor
-    easeFactor = easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+    easeFactor =
+      easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
 
     // Ensure ease factor doesn't go below minimum
     if (easeFactor < SM2_DEFAULTS.MINIMUM_EASE_FACTOR) {
@@ -418,7 +438,7 @@ export class FlashcardService {
     let learning = 0;
     let dueForReview = 0;
 
-    reviews.forEach(review => {
+    reviews.forEach((review) => {
       if (review.repetitions >= 3 && review.easeFactor >= 2.5) {
         mastered++;
       } else {

@@ -33,11 +33,12 @@ Refactor the `/study-guide` page to strictly adhere to the Material You design s
 ```css
 /* Backgrounds & Surfaces */
 --md-background: #fffbfe --md-on-background: #1c1b1f --md-surface: #fffbfe
-  --md-surface-variant: #e7e0ec --md-surface-container: #f3edf7 --md-surface-container-low: #f7f2fa
-  /* Primary (Seed: #6750A4) */ --md-primary: #6750a4 --md-on-primary: #ffffff
-  --md-primary-container: #eaddff --md-on-primary-container: #21005d /* Secondary */
-  --md-secondary: #625b71 --md-on-secondary: #ffffff --md-secondary-container: #e8def8
-  /* Tertiary */ --md-tertiary: #7d5260 --md-on-tertiary: #ffffff /* Outline */
+  --md-surface-variant: #e7e0ec --md-surface-container: #f3edf7
+  --md-surface-container-low: #f7f2fa /* Primary (Seed: #6750A4) */
+  --md-primary: #6750a4 --md-on-primary: #ffffff --md-primary-container: #eaddff
+  --md-on-primary-container: #21005d /* Secondary */ --md-secondary: #625b71
+  --md-on-secondary: #ffffff --md-secondary-container: #e8def8 /* Tertiary */
+  --md-tertiary: #7d5260 --md-on-tertiary: #ffffff /* Outline */
   --md-outline: #79747e;
 ```
 
@@ -62,8 +63,8 @@ Refactor the `/study-guide` page to strictly adhere to the Material You design s
 
 ```tsx
 // Add to existing imports
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 ```
 
 ### Step 2: Update Page Wrapper
@@ -118,13 +119,13 @@ import { Footer } from '@/components/Footer';
 **Current:**
 
 ```tsx
-className = 'bg-gray-800 border border-gray-700 rounded-xl p-6';
+className = "bg-gray-800 border border-gray-700 rounded-xl p-6";
 ```
 
 **Expected:**
 
 ```tsx
-className = 'card';
+className = "card";
 ```
 
 ### Step 7: Update Badges
@@ -133,13 +134,13 @@ className = 'card';
 
 ```tsx
 className =
-  'inline-flex items-center px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium';
+  "inline-flex items-center px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium";
 ```
 
 **Expected:**
 
 ```tsx
-className = 'badge badge-primary';
+className = "badge badge-primary";
 ```
 
 ### Step 8: Add Organic Blur Shapes

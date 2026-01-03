@@ -12,26 +12,27 @@
  */
 export const formatDate = (
   timestamp: string | Date | undefined | null,
-  locale: string = 'en-US'
+  locale: string = "en-US",
 ): string => {
   try {
     if (!timestamp) {
-      return 'Unknown date';
+      return "Unknown date";
     }
 
-    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const date =
+      typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 
     if (isNaN(date.getTime())) {
-      return 'Unknown date';
+      return "Unknown date";
     }
 
     return date.toLocaleDateString(locale, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   } catch {
-    return 'Unknown date';
+    return "Unknown date";
   }
 };
 
@@ -43,28 +44,29 @@ export const formatDate = (
  */
 export const formatDateTime = (
   timestamp: string | Date | undefined | null,
-  locale: string = 'en-US'
+  locale: string = "en-US",
 ): string => {
   try {
     if (!timestamp) {
-      return 'Unknown date';
+      return "Unknown date";
     }
 
-    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const date =
+      typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 
     if (isNaN(date.getTime())) {
-      return 'Unknown date';
+      return "Unknown date";
     }
 
     return date.toLocaleString(locale, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   } catch {
-    return 'Unknown date';
+    return "Unknown date";
   }
 };
 
@@ -76,25 +78,26 @@ export const formatDateTime = (
  */
 export const formatTime = (
   timestamp: string | Date | undefined | null,
-  locale: string = 'en-US'
+  locale: string = "en-US",
 ): string => {
   try {
     if (!timestamp) {
-      return 'Unknown time';
+      return "Unknown time";
     }
 
-    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const date =
+      typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 
     if (isNaN(date.getTime())) {
-      return 'Unknown time';
+      return "Unknown time";
     }
 
     return date.toLocaleTimeString(locale, {
-      hour: '2-digit',
-      minute: '2-digit',
+      hour: "2-digit",
+      minute: "2-digit",
     });
   } catch {
-    return 'Unknown time';
+    return "Unknown time";
   }
 };
 
@@ -104,7 +107,7 @@ export const formatTime = (
  * @returns Formatted duration string (e.g., "1h 30m 45s")
  */
 export const formatDuration = (seconds: number): string => {
-  if (seconds < 0) return '0s';
+  if (seconds < 0) return "0s";
 
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
@@ -115,7 +118,7 @@ export const formatDuration = (seconds: number): string => {
   if (minutes > 0) parts.push(`${minutes}m`);
   if (secs > 0 || parts.length === 0) parts.push(`${secs}s`);
 
-  return parts.join(' ');
+  return parts.join(" ");
 };
 
 /**
@@ -123,13 +126,16 @@ export const formatDuration = (seconds: number): string => {
  * @param timestamp - Date string or Date object
  * @returns Relative time string
  */
-export const getRelativeTime = (timestamp: string | Date | undefined | null): string => {
+export const getRelativeTime = (
+  timestamp: string | Date | undefined | null,
+): string => {
   try {
-    if (!timestamp) return 'Unknown time';
+    if (!timestamp) return "Unknown time";
 
-    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const date =
+      typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 
-    if (isNaN(date.getTime())) return 'Unknown time';
+    if (isNaN(date.getTime())) return "Unknown time";
 
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
@@ -138,14 +144,16 @@ export const getRelativeTime = (timestamp: string | Date | undefined | null): st
     const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffHours / 24);
 
-    if (diffSecs < 60) return 'just now';
-    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
-    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    if (diffSecs < 60) return "just now";
+    if (diffMins < 60)
+      return `${diffMins} minute${diffMins > 1 ? "s" : ""} ago`;
+    if (diffHours < 24)
+      return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
 
     return formatDate(date);
   } catch {
-    return 'Unknown time';
+    return "Unknown time";
   }
 };
 
@@ -154,11 +162,14 @@ export const getRelativeTime = (timestamp: string | Date | undefined | null): st
  * @param timestamp - Date string or Date object
  * @returns true if date is valid, false otherwise
  */
-export const isValidDate = (timestamp: string | Date | undefined | null): boolean => {
+export const isValidDate = (
+  timestamp: string | Date | undefined | null,
+): boolean => {
   try {
     if (!timestamp) return false;
 
-    const date = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
+    const date =
+      typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 
     return !isNaN(date.getTime());
   } catch {
@@ -172,13 +183,13 @@ export const isValidDate = (timestamp: string | Date | undefined | null): boolea
  * @returns Formatted string (e.g., "02:30:45" for hours, or "05:30" for minutes)
  */
 export const formatCountdown = (seconds: number): string => {
-  if (seconds <= 0) return '00:00';
+  if (seconds <= 0) return "00:00";
 
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const secs = Math.floor(seconds % 60);
 
-  const pad = (n: number) => n.toString().padStart(2, '0');
+  const pad = (n: number) => n.toString().padStart(2, "0");
 
   if (hours > 0) {
     return `${pad(hours)}:${pad(minutes)}:${pad(secs)}`;

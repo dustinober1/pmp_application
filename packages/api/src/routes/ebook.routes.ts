@@ -1,19 +1,22 @@
-import type { Request, Response, NextFunction } from 'express';
-import { Router } from 'express';
-import { ebookService } from '../services/ebook.service';
-import { ebookProgressService } from '../services/ebook-progress.service';
-import { authMiddleware, optionalAuthMiddleware } from '../middleware/auth.middleware';
-import { validateBody } from '../middleware/validation.middleware';
-import prisma from '../config/database';
-import type { TierName } from '@pmp/shared';
-import { z } from 'zod';
+import type { Request, Response, NextFunction } from "express";
+import { Router } from "express";
+import { ebookService } from "../services/ebook.service";
+import { ebookProgressService } from "../services/ebook-progress.service";
+import {
+  authMiddleware,
+  optionalAuthMiddleware,
+} from "../middleware/auth.middleware";
+import { validateBody } from "../middleware/validation.middleware";
+import prisma from "../config/database";
+import type { TierName } from "@pmp/shared";
+import { z } from "zod";
 
 const router = Router();
 
 // Validators
 const updateProgressSchema = z.object({
-  chapterSlug: z.string().min(1, 'Chapter slug is required'),
-  sectionSlug: z.string().min(1, 'Section slug is required'),
+  chapterSlug: z.string().min(1, "Chapter slug is required"),
+  sectionSlug: z.string().min(1, "Section slug is required"),
 });
 
 /**
@@ -21,7 +24,7 @@ const updateProgressSchema = z.object({
  * Get all chapters (accessible to all users, premium indicator shown)
  */
 router.get(
-  '/',
+  "/",
   optionalAuthMiddleware,
   async (_req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,7 +37,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -42,7 +45,7 @@ router.get(
  * Get chapter details with all sections (metadata only, no content)
  */
 router.get(
-  '/chapters/:slug',
+  "/chapters/:slug",
   optionalAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -50,7 +53,10 @@ router.get(
       if (!slug) {
         res.status(400).json({
           success: false,
-          error: { code: 'INVALID_PARAMS', message: 'Chapter slug is required' },
+          error: {
+            code: "INVALID_PARAMS",
+            message: "Chapter slug is required",
+          },
         });
         return;
       }
@@ -63,7 +69,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -71,7 +77,7 @@ router.get(
  * Get a single section's full content with access control
  */
 router.get(
-  '/chapters/:chapterSlug/sections/:sectionSlug',
+  "/chapters/:chapterSlug/sections/:sectionSlug",
   optionalAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -79,7 +85,10 @@ router.get(
       if (!chapterSlug || !sectionSlug) {
         res.status(400).json({
           success: false,
-          error: { code: 'INVALID_PARAMS', message: 'Chapter and section slugs are required' },
+          error: {
+            code: "INVALID_PARAMS",
+            message: "Chapter and section slugs are required",
+          },
         });
         return;
       }
@@ -91,18 +100,22 @@ router.get(
           where: { userId: req.user.userId },
           include: { tier: true },
         });
-        userTier = (subscription?.tier?.name as TierName) || 'free';
+        userTier = (subscription?.tier?.name as TierName) || "free";
       }
 
-      const section = await ebookService.getSectionBySlug(chapterSlug, sectionSlug, userTier);
+      const section = await ebookService.getSectionBySlug(
+        chapterSlug,
+        sectionSlug,
+        userTier,
+      );
 
       // Track progress for authenticated users
       if (req.user?.userId) {
         // Don't await - fire and forget for better performance
         ebookProgressService
           .updateProgress(req.user.userId, chapterSlug, sectionSlug)
-          .catch(error => {
-            console.error('Failed to update ebook progress:', error);
+          .catch((error) => {
+            console.error("Failed to update ebook progress:", error);
           });
       }
 
@@ -113,7 +126,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -122,7 +135,7 @@ router.get(
  * Query params: q (search query), page (pagination), limit (results per page)
  */
 router.get(
-  '/search',
+  "/search",
   optionalAuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -135,10 +148,10 @@ router.get(
           where: { userId: req.user.userId },
           include: { tier: true },
         });
-        userTier = (subscription?.tier?.name as TierName) || 'free';
+        userTier = (subscription?.tier?.name as TierName) || "free";
       }
 
-      if (typeof q !== 'string') {
+      if (typeof q !== "string") {
         res.json({
           success: true,
           data: {
@@ -176,7 +189,7 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -188,7 +201,7 @@ router.get(
  * Adds sectionId to completedSections array
  */
 router.post(
-  '/progress',
+  "/progress",
   authMiddleware,
   validateBody(updateProgressSchema),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -197,7 +210,7 @@ router.post(
       const progress = await ebookProgressService.updateProgress(
         req.user!.userId,
         chapterSlug,
-        sectionSlug
+        sectionSlug,
       );
 
       res.json({
@@ -207,7 +220,7 @@ router.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -216,39 +229,12 @@ router.post(
  * Returns lastChapterId, lastSectionId, completedSections array
  * Calculates overall progress percentage
  */
-router.get('/progress', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const progress = await ebookProgressService.getProgress(req.user!.userId);
-
-    res.json({
-      success: true,
-      data: { progress },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
- * GET /api/ebook/progress/chapter/:chapterSlug
- * Get progress for specific chapter
- * Returns which sections are completed
- * Shows chapter progress percentage
- */
 router.get(
-  '/progress/chapter/:chapterSlug',
+  "/progress",
   authMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { chapterSlug } = req.params;
-      if (!chapterSlug) {
-        res.status(400).json({
-          success: false,
-          error: { code: 'INVALID_PARAMS', message: 'Chapter slug is required' },
-        });
-        return;
-      }
-      const progress = await ebookProgressService.getChapterProgress(req.user!.userId, chapterSlug);
+      const progress = await ebookProgressService.getProgress(req.user!.userId);
 
       res.json({
         success: true,
@@ -257,7 +243,44 @@ router.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
+);
+
+/**
+ * GET /api/ebook/progress/chapter/:chapterSlug
+ * Get progress for specific chapter
+ * Returns which sections are completed
+ * Shows chapter progress percentage
+ */
+router.get(
+  "/progress/chapter/:chapterSlug",
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { chapterSlug } = req.params;
+      if (!chapterSlug) {
+        res.status(400).json({
+          success: false,
+          error: {
+            code: "INVALID_PARAMS",
+            message: "Chapter slug is required",
+          },
+        });
+        return;
+      }
+      const progress = await ebookProgressService.getChapterProgress(
+        req.user!.userId,
+        chapterSlug,
+      );
+
+      res.json({
+        success: true,
+        data: { progress },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
 
 /**
@@ -266,22 +289,26 @@ router.get(
  * Body: { chapterSlug, sectionSlug }
  */
 router.post(
-  '/progress/complete',
+  "/progress/complete",
   authMiddleware,
   validateBody(updateProgressSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { chapterSlug, sectionSlug } = req.body;
-      await ebookProgressService.markSectionComplete(req.user!.userId, chapterSlug, sectionSlug);
+      await ebookProgressService.markSectionComplete(
+        req.user!.userId,
+        chapterSlug,
+        sectionSlug,
+      );
 
       res.json({
         success: true,
-        message: 'Section marked as complete',
+        message: "Section marked as complete",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 /**
@@ -289,7 +316,7 @@ router.post(
  * Reset all progress for current user
  */
 router.post(
-  '/progress/reset',
+  "/progress/reset",
   authMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -297,12 +324,12 @@ router.post(
 
       res.json({
         success: true,
-        message: 'Progress reset successfully',
+        message: "Progress reset successfully",
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export default router;

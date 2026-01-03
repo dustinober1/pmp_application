@@ -1,18 +1,18 @@
 /** @type {import('jest').Config} */
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  roots: ['<rootDir>/src'],
-  testMatch: ['**/__tests__/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
+  preset: "ts-jest",
+  testEnvironment: "node",
+  roots: ["<rootDir>/src"],
+  testMatch: ["**/__tests__/**/*.ts", "**/*.test.ts", "**/*.spec.ts"],
   transform: {
-    '^.+\\.ts$': 'ts-jest',
+    "^.+\\.ts$": "ts-jest",
   },
   moduleNameMapper: {
-    '^@pmp/shared$': '<rootDir>/../shared/src/index.ts',
-    '^@pmp/shared/(.*)$': '<rootDir>/../shared/src/$1',
-    '^(\\.{1,2}/.*)\\.js$': '$1',
+    "^@pmp/shared$": "<rootDir>/../shared/src/index.ts",
+    "^@pmp/shared/(.*)$": "<rootDir>/../shared/src/$1",
+    "^(\\.{1,2}/.*)\\.js$": "$1",
   },
-  collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/index.ts'],
+  collectCoverageFrom: ["src/**/*.ts", "!src/**/*.d.ts", "!src/index.ts"],
   coverageThreshold: {
     global: {
       branches: 80,
@@ -21,6 +21,6 @@ module.exports = {
       statements: 80,
     },
   },
-  setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
+  setupFilesAfterEnv: ["<rootDir>/src/test/setup.ts"],
   verbose: true,
 };

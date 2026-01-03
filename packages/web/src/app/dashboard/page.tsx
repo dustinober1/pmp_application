@@ -1,27 +1,31 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useCallback } from 'react';
-import Link from 'next/link';
-import { Navbar } from '@/components/Navbar';
-import { apiRequest } from '@/lib/api';
-import { useToast } from '@/components/ToastProvider';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
-import { formatDate } from '@/lib/dateUtils';
-import { truncateAtWordBoundary } from '@/lib/stringUtils';
+import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
+import { Navbar } from "@/components/Navbar";
+import { apiRequest } from "@/lib/api";
+import { useToast } from "@/components/ToastProvider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
+import { formatDate } from "@/lib/dateUtils";
+import { truncateAtWordBoundary } from "@/lib/stringUtils";
 
 /**
  * CRITICAL-003: Safe helper to extract first name from user name
  * Handles null, undefined, empty strings, and single-word names
  */
 const getFirstName = (name: string | null | undefined): string => {
-  if (!name || name.trim() === '') return 'there';
-  const parts = name.trim().split(' ');
-  return parts[0] || 'there';
+  if (!name || name.trim() === "") return "there";
+  const parts = name.trim().split(" ");
+  return parts[0] || "there";
 };
 
 interface DashboardData {
-  streak: { currentStreak: number; longestStreak: number; lastStudyDate: string | null };
+  streak: {
+    currentStreak: number;
+    longestStreak: number;
+    lastStudyDate: string | null;
+  };
   overallProgress: number;
   domainProgress: Array<{
     domainId: string;
@@ -60,11 +64,13 @@ export default function DashboardPage() {
 
   const fetchDashboard = useCallback(async () => {
     try {
-      const response = await apiRequest<{ dashboard: DashboardData }>('/dashboard');
+      const response = await apiRequest<{ dashboard: DashboardData }>(
+        "/dashboard",
+      );
       setData(response.data?.dashboard ?? null);
     } catch (error) {
-      console.error('Failed to fetch dashboard:', error);
-      toast.error('Failed to load dashboard. Please try again.');
+      console.error("Failed to fetch dashboard:", error);
+      toast.error("Failed to load dashboard. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -88,7 +94,8 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold">
-            Welcome back, {getFirstName(user?.name)}! <span aria-hidden="true">👋</span>
+            Welcome back, {getFirstName(user?.name)}!{" "}
+            <span aria-hidden="true">👋</span>
           </h1>
           <p className="text-[var(--foreground-muted)]">
             Here&apos;s your study progress at a glance.
@@ -98,17 +105,24 @@ export default function DashboardPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div className="card">
-            <p className="text-sm text-[var(--foreground-muted)]">Current Streak</p>
+            <p className="text-sm text-[var(--foreground-muted)]">
+              Current Streak
+            </p>
             <p className="text-3xl font-bold mt-1">
-              {data?.streak?.currentStreak || 0} <span aria-hidden="true">🔥</span>
+              {data?.streak?.currentStreak || 0}{" "}
+              <span aria-hidden="true">🔥</span>
             </p>
             <p className="text-xs text-[var(--foreground-muted)] mt-1">
               Best: {data?.streak?.longestStreak || 0} days
             </p>
           </div>
           <div className="card">
-            <p className="text-sm text-[var(--foreground-muted)]">Overall Progress</p>
-            <p className="text-3xl font-bold mt-1">{data?.overallProgress || 0}%</p>
+            <p className="text-sm text-[var(--foreground-muted)]">
+              Overall Progress
+            </p>
+            <p className="text-3xl font-bold mt-1">
+              {data?.overallProgress || 0}%
+            </p>
             <div className="progress mt-2">
               <div
                 className="progress-bar"
@@ -117,8 +131,12 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="card">
-            <p className="text-sm text-[var(--foreground-muted)]">Cards to Review</p>
-            <p className="text-3xl font-bold mt-1">{data?.upcomingReviews?.length || 0}</p>
+            <p className="text-sm text-[var(--foreground-muted)]">
+              Cards to Review
+            </p>
+            <p className="text-3xl font-bold mt-1">
+              {data?.upcomingReviews?.length || 0}
+            </p>
             <Link
               href="/flashcards/review"
               className="text-xs text-[var(--primary)] mt-1 hover:underline"
@@ -128,8 +146,12 @@ export default function DashboardPage() {
           </div>
           <div className="card">
             <p className="text-sm text-[var(--foreground-muted)]">Weak Areas</p>
-            <p className="text-3xl font-bold mt-1">{data?.weakAreas?.length || 0}</p>
-            <p className="text-xs text-[var(--foreground-muted)] mt-1">Topics needing focus</p>
+            <p className="text-3xl font-bold mt-1">
+              {data?.weakAreas?.length || 0}
+            </p>
+            <p className="text-xs text-[var(--foreground-muted)] mt-1">
+              Topics needing focus
+            </p>
           </div>
         </div>
 
@@ -139,19 +161,25 @@ export default function DashboardPage() {
             <div className="card">
               <h2 className="font-semibold mb-4">Domain Progress</h2>
               <div className="space-y-4">
-                {data?.domainProgress?.map(domain => (
+                {data?.domainProgress?.map((domain) => (
                   <div key={domain.domainId}>
                     <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium">{domain.domainName}</span>
+                      <span className="text-sm font-medium">
+                        {domain.domainName}
+                      </span>
                       <span className="text-sm text-[var(--foreground-muted)]">
                         {domain.progress}%
                       </span>
                     </div>
                     <div className="progress">
-                      <div className="progress-bar" style={{ width: `${domain.progress}%` }}></div>
+                      <div
+                        className="progress-bar"
+                        style={{ width: `${domain.progress}%` }}
+                      ></div>
                     </div>
                     <p className="text-xs text-[var(--foreground-muted)] mt-1">
-                      {domain.questionsAnswered} questions • {domain.accuracy}% accuracy
+                      {domain.questionsAnswered} questions • {domain.accuracy}%
+                      accuracy
                     </p>
                   </div>
                 ))}
@@ -163,20 +191,27 @@ export default function DashboardPage() {
               <div className="card mt-6">
                 <h2 className="font-semibold mb-4">Areas to Improve</h2>
                 <div className="space-y-3">
-                  {data.weakAreas.map(area => (
+                  {data.weakAreas.map((area) => (
                     <div
                       key={area.taskId}
                       className="flex items-center justify-between p-3 bg-[var(--secondary)] rounded-lg"
                     >
                       <div>
                         {/* MEDIUM-001: Smart text truncation for task names */}
-                        <p className="font-medium text-sm" title={area.taskName}>
+                        <p
+                          className="font-medium text-sm"
+                          title={area.taskName}
+                        >
                           {truncateAtWordBoundary(area.taskName, 50)}
                         </p>
-                        <p className="text-xs text-[var(--foreground-muted)]">{area.domainName}</p>
+                        <p className="text-xs text-[var(--foreground-muted)]">
+                          {area.domainName}
+                        </p>
                       </div>
                       <div className="text-right">
-                        <span className="badge badge-warning">{area.accuracy}%</span>
+                        <span className="badge badge-warning">
+                          {area.accuracy}%
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -190,8 +225,16 @@ export default function DashboardPage() {
             <div className="card">
               <h2 className="font-semibold mb-4">Quick Actions</h2>
               <div className="space-y-2">
-                <Link href="/study" className="btn btn-primary w-full justify-start gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <Link
+                  href="/study"
+                  className="btn btn-primary w-full justify-start gap-2"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -201,8 +244,16 @@ export default function DashboardPage() {
                   </svg>
                   Continue Studying
                 </Link>
-                <Link href="/flashcards" className="btn btn-secondary w-full justify-start gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <Link
+                  href="/flashcards"
+                  className="btn btn-secondary w-full justify-start gap-2"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -212,8 +263,16 @@ export default function DashboardPage() {
                   </svg>
                   Review Flashcards
                 </Link>
-                <Link href="/practice" className="btn btn-secondary w-full justify-start gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <Link
+                  href="/practice"
+                  className="btn btn-secondary w-full justify-start gap-2"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -228,20 +287,27 @@ export default function DashboardPage() {
                   onClick={async () => {
                     try {
                       const response = await apiRequest<{ url: string }>(
-                        '/subscriptions/stripe/portal',
-                        { method: 'POST' }
+                        "/subscriptions/stripe/portal",
+                        { method: "POST" },
                       );
                       if (response.data?.url) {
                         window.location.href = response.data.url;
                       }
                     } catch (err) {
-                      console.error('Failed to open billing portal:', err);
-                      toast.error('Could not open billing portal. Please try again.');
+                      console.error("Failed to open billing portal:", err);
+                      toast.error(
+                        "Could not open billing portal. Please try again.",
+                      );
                     }
                   }}
                   className="btn btn-secondary w-full justify-start gap-2 text-md-on-surface-variant hover:text-md-primary"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -258,8 +324,11 @@ export default function DashboardPage() {
             <div className="card">
               <h2 className="font-semibold mb-4">Recent Activity</h2>
               <div className="space-y-3">
-                {data?.recentActivity?.slice(0, 5).map(activity => (
-                  <div key={activity.id} className="flex items-start gap-3 text-sm">
+                {data?.recentActivity?.slice(0, 5).map((activity) => (
+                  <div
+                    key={activity.id}
+                    className="flex items-start gap-3 text-sm"
+                  >
                     <div className="w-2 h-2 rounded-full bg-[var(--primary)] mt-2"></div>
                     <div>
                       {/* MEDIUM-001: Smart text truncation for activity descriptions */}
@@ -272,7 +341,8 @@ export default function DashboardPage() {
                     </div>
                   </div>
                 ))}
-                {(!data?.recentActivity || data.recentActivity.length === 0) && (
+                {(!data?.recentActivity ||
+                  data.recentActivity.length === 0) && (
                   <p className="text-sm text-[var(--foreground-muted)]">
                     No recent activity yet. Start studying!
                   </p>
