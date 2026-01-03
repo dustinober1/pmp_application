@@ -36,6 +36,10 @@ const questionsQuerySchema = z.object({
   limit: z.coerce.number().min(1).max(50).optional().default(20),
 });
 
+const startMockExamSchema = z.object({
+  examId: z.number().int().min(1).max(6).optional().default(1),
+});
+
 /**
  * POST /api/practice/sessions
  * Start a new practice session
@@ -204,6 +208,30 @@ router.post(
 );
 
 /**
+ * GET /api/practice/mock-exams
+ * List available mock exams
+ */
+router.get(
+  '/mock-exams',
+  authMiddleware,
+  async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      const exams = await practiceService.getAvailableMockExams();
+
+      res.json({
+        success: true,
+        data: {
+          exams,
+          count: exams.length,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/**
  * POST /api/practice/mock-exams
  * Start a mock exam (High-End/Corporate tier)
  * Returns session metadata only - questions loaded separately via paginated endpoint
@@ -212,9 +240,11 @@ router.post(
   '/mock-exams',
   authMiddleware,
   requireFeature('mockExams'),
+  validateBody(startMockExamSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await practiceService.startMockExam(req.user!.userId);
+      const { examId } = req.body;
+      const result = await practiceService.startMockExam(req.user!.userId, examId);
 
       res.status(201).json({
         success: true,
@@ -222,6 +252,7 @@ router.post(
           sessionId: result.sessionId,
           totalQuestions: result.totalQuestions,
           startedAt: result.startedAt,
+          examName: result.examName,
           timeLimitMs: PMP_EXAM.TIME_LIMIT_MINUTES * 60 * 1000,
         },
       });

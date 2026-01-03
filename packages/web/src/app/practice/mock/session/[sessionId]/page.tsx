@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { apiRequest } from '@/lib/api';
+import { practiceApi } from '@/lib/api';
 import type { PracticeQuestion } from '@pmp/shared';
 import { useToast } from '@/components/ToastProvider';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
@@ -21,15 +21,23 @@ interface SessionProgress {
 }
 
 interface SessionData {
-  sessionId: string;
-  questions: (PracticeQuestion & { userAnswerId?: string })[];
+  id: string;
+  totalQuestions: number;
   progress: SessionProgress;
   timeRemainingMs?: number;
   timeLimitMs?: number;
   startedAt?: string;
 }
 
+interface QuestionsResponse {
+  questions: PracticeQuestion[];
+  total: number;
+  hasMore: boolean;
+}
+
 const FALLBACK_SECONDS_PER_QUESTION = 75;
+const BATCH_SIZE = 20;
+const PREFETCH_THRESHOLD = 5;
 
 export default function MockExamSessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>();
@@ -38,6 +46,8 @@ export default function MockExamSessionPage() {
   const toast = useToast();
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<SessionData | null>(null);
+  const [questions, setQuestions] = useState<(PracticeQuestion & { userAnswerId?: string })[]>([]);
+  const [totalQuestions, setTotalQuestions] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,6 +56,10 @@ export default function MockExamSessionPage() {
   const [timeLeft, setTimeLeft] = useState<number>(0); // in seconds
   const [showReview, setShowReview] = useState(false);
   const [examComplete, setExamComplete] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentBatch, setCurrentBatch] = useState(0);
+  const prefetchTriggeredRef = useRef(false);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -54,7 +68,7 @@ export default function MockExamSessionPage() {
     if (!sessionId) return;
     setIsSubmitting(true);
     try {
-      await apiRequest(`/practice/sessions/${sessionId}/complete`, { method: 'POST' });
+      await practiceApi.completeSession(sessionId);
       setExamComplete(true);
       router.push('/dashboard'); // Or a results page
     } catch (error) {
@@ -69,24 +83,18 @@ export default function MockExamSessionPage() {
     if (!sessionId) return;
     try {
       setLoading(true);
-      const response = await apiRequest<SessionData>(`/practice/sessions/${sessionId}`);
+      const response = await practiceApi.getSession(sessionId);
 
       if (response.data) {
-        setSession(response.data);
+        const sessionData = response.data as SessionData;
+        setSession(sessionData);
+        setTotalQuestions(sessionData.totalQuestions);
 
         const timeRemainingMs =
-          typeof response.data.timeRemainingMs === 'number'
-            ? response.data.timeRemainingMs
-            : response.data.questions.length * FALLBACK_SECONDS_PER_QUESTION * 1000;
+          typeof sessionData.timeRemainingMs === 'number'
+            ? sessionData.timeRemainingMs
+            : sessionData.totalQuestions * FALLBACK_SECONDS_PER_QUESTION * 1000;
         setTimeLeft(Math.max(0, Math.floor(timeRemainingMs / 1000)));
-
-        // Restore answer for first question if exists
-        if (response.data.questions.length > 0) {
-          const firstQ = response.data.questions[0];
-          if (firstQ) {
-            setSelectedOptionId(firstQ.userAnswerId || null);
-          }
-        }
       }
     } catch (error) {
       console.error('Failed to fetch session', error);
@@ -96,11 +104,51 @@ export default function MockExamSessionPage() {
     }
   }, [sessionId, toast]);
 
+  // Fetch questions in batches
+  const fetchQuestions = useCallback(async (batchNumber: number) => {
+    try {
+      const offset = batchNumber * BATCH_SIZE;
+      const response = await practiceApi.getSessionQuestions(sessionId, offset, BATCH_SIZE);
+      
+      if (response.data) {
+        const data = response.data as QuestionsResponse;
+        setQuestions(prev => [...prev, ...data.questions]);
+        setTotalQuestions(data.total);
+        setHasMore(data.hasMore);
+      }
+    } catch (error) {
+      console.error('Failed to fetch questions:', error);
+      toast.error('Failed to load questions. Please try again.');
+    }
+  }, [sessionId, toast]);
+
   useEffect(() => {
     if (canAccess) {
-      void fetchSession();
+      const initSession = async () => {
+        await Promise.all([
+          fetchSession(),
+          fetchQuestions(0),
+        ]);
+      };
+      initSession();
     }
-  }, [canAccess, fetchSession]);
+  }, [canAccess, fetchSession, fetchQuestions]);
+
+  // Prefetch next batch when approaching end of current batch
+  useEffect(() => {
+    const questionsInCurrentBatch = (currentBatch + 1) * BATCH_SIZE;
+    const remainingInBatch = questionsInCurrentBatch - currentIndex;
+    
+    if (hasMore && remainingInBatch <= PREFETCH_THRESHOLD && !prefetchTriggeredRef.current) {
+      prefetchTriggeredRef.current = true;
+      setIsLoadingMore(true);
+      fetchQuestions(currentBatch + 1).then(() => {
+        setCurrentBatch(prev => prev + 1);
+        setIsLoadingMore(false);
+        prefetchTriggeredRef.current = false;
+      });
+    }
+  }, [currentIndex, currentBatch, hasMore, fetchQuestions]);
 
   // Timer Tick
   // CRITICAL-004: Pause timer when in review mode (showReview is true)
@@ -125,21 +173,20 @@ export default function MockExamSessionPage() {
 
   // Sync current selection when index changes
   useEffect(() => {
-    if (session && session.questions[currentIndex]) {
-      setSelectedOptionId(session.questions[currentIndex].userAnswerId || null);
+    if (questions && questions[currentIndex]) {
+      setSelectedOptionId(questions[currentIndex].userAnswerId || null);
     }
     if (scrollRef.current) {
       scrollRef.current.scrollTop = 0;
     }
-  }, [currentIndex, session]);
+  }, [currentIndex, questions]);
 
   const handleOptionSelect = async (optionId: string) => {
     setSelectedOptionId(optionId);
 
     // Optimistically update local state
-    setSession(prev => {
-      if (!prev) return null;
-      const updatedQuestions = [...prev.questions];
+    setQuestions(prev => {
+      const updatedQuestions = [...prev];
       const currentQ = updatedQuestions[currentIndex];
 
       if (!currentQ) return prev;
@@ -147,32 +194,20 @@ export default function MockExamSessionPage() {
       if (currentQ.userAnswerId === optionId) return prev;
 
       updatedQuestions[currentIndex] = { ...currentQ, userAnswerId: optionId };
-
-      // Update progress count
-      const newAnsweredCount = updatedQuestions.filter(q => q.userAnswerId).length;
-
-      return {
-        ...prev,
-        questions: updatedQuestions,
-        progress: { ...prev.progress, answered: newAnsweredCount },
-      };
+      return updatedQuestions;
     });
 
     // Silently sync with backend
     // We don't wait for this to resolve to let user move fast
     // We assume success, or retries could be handled in a more robust queue system in future
-    if (session && session.questions[currentIndex]) {
+    if (questions && questions[currentIndex]) {
       try {
-        await apiRequest(
-          `/practice/sessions/${sessionId}/answers/${session.questions[currentIndex].id}`,
-          {
-            method: 'POST',
-            body: {
-              selectedOptionId: optionId,
-              timeSpentMs: 0, // We could track per-question time but global timer is more important here
-            },
-          }
-        );
+        await practiceApi.submitAnswer({
+          sessionId,
+          questionId: questions[currentIndex].id,
+          selectedOptionId: optionId,
+          timeSpentMs: 0, // We could track per-question time but global timer is more important here
+        });
       } catch (err) {
         console.error('Failed to sync answer', err);
         const message = err instanceof Error ? err.message : 'Failed to submit answer';
@@ -192,8 +227,7 @@ export default function MockExamSessionPage() {
   };
 
   const handleNext = () => {
-    if (!session) return;
-    if (currentIndex < session.questions.length - 1) {
+    if (currentIndex < totalQuestions - 1) {
       setCurrentIndex(prev => prev + 1);
     } else {
       setShowReview(true);
@@ -228,19 +262,19 @@ export default function MockExamSessionPage() {
     );
   }
 
-  const currentQuestion = session.questions[currentIndex];
+  const currentQuestion = questions[currentIndex];
   // Safe guard access
   if (!currentQuestion) return <FullPageSkeleton />;
-
-  const answeredCount = session.progress.answered;
-  const totalCount = session.questions.length;
+  
+  const answeredCount = questions.filter(q => q.userAnswerId).length;
+  const totalCount = totalQuestions;
   const progressPercent = Math.round((answeredCount / totalCount) * 100);
 
   // Review Screen
   if (showReview) {
     return (
       <MockExamReviewScreen
-        questions={session.questions}
+        questions={questions}
         timeLeftSeconds={timeLeft}
         onJumpToQuestion={jumpToQuestion}
         onReturnToExam={() => setShowReview(false)}
@@ -275,7 +309,7 @@ export default function MockExamSessionPage() {
 
         {/* Side Navigation (Desktop) */}
         <MockExamSideNav
-          questions={session.questions}
+          questions={questions}
           currentIndex={currentIndex}
           onSelectIndex={setCurrentIndex}
         />

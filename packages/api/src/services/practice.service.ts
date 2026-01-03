@@ -11,8 +11,70 @@ import { PMP_EXAM } from '@pmp/shared';
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 import { SESSION_ERRORS } from '@pmp/shared';
+import * as fs from 'fs';
+import * as path from 'path';
+
+interface MockExamConfig {
+  id: number;
+  name: string;
+  description: string;
+  questions: string[];
+  domainBreakdown: {
+    domainId: string;
+    domainName: string;
+    count: number;
+    percentage: number;
+  }[];
+}
 
 export class PracticeService {
+  private mockExamsCache: MockExamConfig[] | null = null;
+
+  /**
+   * Load mock exams configuration from JSON file
+   */
+  private loadMockExamsConfig(): MockExamConfig[] {
+    if (this.mockExamsCache) {
+      return this.mockExamsCache;
+    }
+
+    try {
+      const configPath = path.join(
+        __dirname,
+        '../../prisma/mock-exams.json'
+      );
+      const rawData = fs.readFileSync(configPath, 'utf-8');
+      this.mockExamsCache = JSON.parse(rawData) as MockExamConfig[];
+      return this.mockExamsCache;
+    } catch (error) {
+      console.error('Failed to load mock exams configuration:', error);
+      throw AppError.internal('Mock exams configuration not available');
+    }
+  }
+
+  /**
+   * Get list of available mock exams
+   */
+  async getAvailableMockExams(): Promise<
+    Array<{
+      id: number;
+      name: string;
+      description: string;
+      totalQuestions: number;
+      domainBreakdown: MockExamConfig['domainBreakdown'];
+    }>
+  > {
+    const exams = this.loadMockExamsConfig();
+
+    return exams.map(exam => ({
+      id: exam.id,
+      name: exam.name,
+      description: exam.description,
+      totalQuestions: exam.questions.length,
+      domainBreakdown: exam.domainBreakdown,
+    }));
+  }
+
   /**
    * Start a new practice session
    * Returns session metadata only - questions loaded separately via paginated endpoint
@@ -476,48 +538,34 @@ export class PracticeService {
 
   /**
    * Start a mock exam (High-End/Corporate tier)
+   * Uses pre-built mock exams for instant loading
    * Returns session metadata only - questions loaded separately via paginated endpoint
    */
   async startMockExam(
-    userId: string
-  ): Promise<{ sessionId: string; totalQuestions: number; startedAt: Date }> {
-    // Get questions proportional to domain weights
-    const domains = await prisma.domain.findMany();
-    // Collect all question IDs first to create session properly
-    const allQuestions: { id: string }[] = [];
+    userId: string,
+    examId: number = 1
+  ): Promise<{ sessionId: string; totalQuestions: number; startedAt: Date; examName: string }> {
+    // Load pre-built mock exam configuration
+    const exams = this.loadMockExamsConfig();
+    const selectedExam = exams.find(e => e.id === examId);
 
-    for (const domain of domains) {
-      // Calculate how many questions for this domain (based on weight)
-      const questionCount = Math.round((domain.weightPercentage / 100) * PMP_EXAM.TOTAL_QUESTIONS);
-
-      const domainQuestions = await prisma.practiceQuestion.findMany({
-        where: { domainId: domain.id },
-        select: { id: true },
-        take: questionCount,
-      });
-
-      domainQuestions.forEach(q => {
-        allQuestions.push({ id: q.id });
-      });
+    if (!selectedExam) {
+      throw AppError.notFound(`Mock exam ${examId} not found`);
     }
-
-    // Shuffle all questions
-    const shuffledQuestions = this.shuffleArray(allQuestions);
-    const finalQuestions = shuffledQuestions.slice(0, PMP_EXAM.TOTAL_QUESTIONS);
 
     const startedAt = new Date();
 
-    // Create mock exam session with linked questions (orderIndex for pagination)
+    // Create mock exam session with pre-selected questions (orderIndex for pagination)
     const session = await prisma.practiceSession.create({
       data: {
         userId,
         startedAt,
         isMockExam: true,
-        totalQuestions: finalQuestions.length,
+        totalQuestions: selectedExam.questions.length,
         timeLimit: PMP_EXAM.TIME_LIMIT_MINUTES * 60 * 1000,
         questions: {
-          create: finalQuestions.map((q, index) => ({
-            questionId: q.id,
+          create: selectedExam.questions.map((questionId, index) => ({
+            questionId,
             orderIndex: index,
           })),
         },
@@ -528,6 +576,7 @@ export class PracticeService {
       sessionId: session.id,
       totalQuestions: session.totalQuestions,
       startedAt,
+      examName: selectedExam.name,
     };
   }
 

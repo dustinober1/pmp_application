@@ -3,6 +3,7 @@ import { Roboto } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { Providers } from './providers';
+import { SkipToContentLink } from '@/components/SkipToContentLink';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {plausibleDomain ? (
           <Script src={plausibleSrc} data-domain={plausibleDomain} strategy="afterInteractive" />
         ) : null}
+        <SkipToContentLink />
         <Providers>
           <div id="main-content" tabIndex={-1}>
             {children}

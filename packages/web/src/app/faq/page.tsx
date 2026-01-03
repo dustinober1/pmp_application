@@ -64,7 +64,7 @@ const faqSections = [
       {
         question: 'How many practice questions are included?',
         answer:
-          'The number of practice questions varies by subscription tier. High-End and Corporate subscribers get unlimited access to our question bank of 1,000+ PMP exam-style questions.',
+          'The number of practice questions varies by subscription tier. Pro and Corporate subscribers get unlimited access to our question bank of 1,000+ PMP exam-style questions.',
       },
       {
         question: 'Are the mock exams similar to the real PMP exam?',
@@ -74,7 +74,7 @@ const faqSections = [
       {
         question: 'Can I create custom flashcards?',
         answer:
-          'High-End and Corporate subscribers can create unlimited custom flashcards. Free and Mid-Level subscribers can use our pre-made flashcard decks.',
+          'Pro and Corporate subscribers can create unlimited custom flashcards. Free subscribers can use our pre-made flashcard decks.',
       },
     ],
   },
@@ -138,7 +138,7 @@ function FAQAccordion({
         <span className="font-medium text-gray-900 dark:text-white">{item.question}</span>
         <span className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>
           <svg
-            className="w-5 h-5 text-gray-500"
+            className="w-5 h-5 text-gray-500 dark:text-gray-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -147,7 +147,7 @@ function FAQAccordion({
           </svg>
         </span>
       </button>
-      {isOpen && <div className="px-4 pb-4 text-gray-600 dark:text-gray-300">{item.answer}</div>}
+      {isOpen && <div className="px-4 pb-4 text-gray-700 dark:text-gray-200">{item.answer}</div>}
     </div>
   );
 }
@@ -166,7 +166,7 @@ export default function FAQPage() {
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 text-center">
           Frequently Asked Questions
         </h1>
-        <p className="text-gray-600 dark:text-gray-300 text-center mb-12">
+        <p className="text-gray-700 dark:text-gray-200 text-center mb-12">
           Find answers to common questions about PMP Study Pro
         </p>
 
@@ -195,7 +195,7 @@ export default function FAQPage() {
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
             Still have questions?
           </h3>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
+          <p className="text-gray-700 dark:text-gray-200 mb-4">
             Can&apos;t find the answer you&apos;re looking for? Please reach out to our support
             team.
           </p>

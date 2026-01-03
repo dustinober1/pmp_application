@@ -1,12 +1,21 @@
 services:
-  # API Service
+  # PostgreSQL Database
+  - type: pserv
+    name: pmp-postgres
+    plan: standard
+    ipAddress: private
+    postgresVersion: 15
+    initialDatabase: pmp_study_db
+    user: pmp_user
+
+  # Express API Service
   - type: web
     name: pmp-api
-    env: docker
-    dockerContext: .
-    dockerfilePath: ./packages/api/Dockerfile
-    plan: free
+    runtime: node
+    plan: standard
     region: oregon
+    buildCommand: npm install && npm run build:shared && npm run build:api
+    startCommand: cd packages/api && npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,28 +23,40 @@ services:
         value: 3001
       - key: DATABASE_URL
         fromDatabase:
-          name: pmp-db
+          name: pmp-postgres
           property: connectionString
       - key: JWT_SECRET
-        generateValue: true
+        scope: secret
       - key: JWT_REFRESH_SECRET
-        generateValue: true
+        scope: secret
+      - key: JWT_EXPIRES_IN
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+      - key: LOG_LEVEL
+        value: info
       - key: CORS_ORIGIN
-        value: https://pmp-study-app.onrender.com
+        value: https://pmpstudypro.com,https://www.pmpstudypro.com
       - key: STRIPE_SECRET_KEY
-        fromSecret: stripe-secret-key
+        scope: secret
       - key: STRIPE_WEBHOOK_SECRET
-        fromSecret: stripe-webhook-secret
+        scope: secret
+      - key: PAYPAL_CLIENT_ID
+        scope: secret
+      - key: PAYPAL_CLIENT_SECRET
+        scope: secret
     healthCheckPath: /api/health
+    healthCheckInterval: 10
+    autoDeploy: true
 
-  # Frontend Service
+  # Next.js Web Service
   - type: web
     name: pmp-web
-    env: docker
-    dockerContext: .
-    dockerfilePath: ./packages/web/Dockerfile
-    plan: free
+    runtime: node
+    plan: standard
     region: oregon
+    buildCommand: npm install && npm run build:shared && npm run build:web
+    startCommand: cd packages/web && npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -43,18 +64,8 @@ services:
         value: 3000
       - key: NEXT_PUBLIC_API_URL
         value: https://pmp-api.onrender.com/api
+      - key: NEXT_PUBLIC_PAYPAL_CLIENT_ID
+        scope: secret
     healthCheckPath: /
-
-databases:
-  # PostgreSQL Database
-  - name: pmp-db
-    databaseName: pmp_study_db
-    user: pmp_user
-    plan: free
-    region: oregon
-    version: "15"
-
-secrets:
-  # Add these secrets in Render dashboard:
-  # - stripe-secret-key: Your Stripe secret key (sk_live_...)
-  # - stripe-webhook-secret: Your Stripe webhook secret (whsec_...)
+    healthCheckInterval: 10
+    autoDeploy: true

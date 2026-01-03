@@ -57,6 +57,11 @@ module.exports = {
           outline: '#79747E',
           'outline-variant': '#CAC4D0',
         },
+        // Override standard gray scale to ensure accessibility compliance for 400/500 levels
+        gray: {
+          400: '#757575', // Adjusted from #9ca3af to pass AA (4.5:1)
+          500: '#6b7280', // Adjusted from #6b7280 to ensure smooth gradient
+        },
       },
       borderRadius: {
         xs: '8px',

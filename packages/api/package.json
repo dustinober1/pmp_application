@@ -16,6 +16,8 @@
     "db:push": "prisma db push",
     "db:seed": "ts-node prisma/seed.ts",
     "db:seed:ebook": "ts-node prisma/seed-ebook.ts",
+    "seed:flashcards:json": "ts-node prisma/seed-flashcards-json.ts",
+    "seed:questions:json": "ts-node prisma/seed-questions-json.ts",
     "db:studio": "prisma studio",
     "export:openapi": "ts-node scripts/export-openapi-spec.ts",
     "generate:postman": "ts-node scripts/generate-postman-collection.ts",

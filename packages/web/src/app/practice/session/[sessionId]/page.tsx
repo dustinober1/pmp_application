@@ -1,444 +1,453 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { apiRequest } from '@/lib/api';
-import type { PracticeQuestion } from '@pmp/shared';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
-import { FullPageSkeleton } from '@/components/FullPageSkeleton';
 import { useToast } from '@/components/ToastProvider';
+import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import { practiceApi } from '@/lib/api';
+import { QuestionNavigator } from '@/components/QuestionNavigator';
+import { StreakCounter } from '@/components/StreakCounter';
+import { QuestionSkeleton, LoadingOverlay } from '@/components/QuestionSkeleton';
 
-interface SessionProgress {
+interface PracticeQuestion {
+  id: string;
+  question: string;
+  options: Array<{
+    id: string;
+    text: string;
+    isCorrect: boolean;
+  }>;
+  explanation: string;
+  domain: string;
+  task: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  isFlagged: boolean;
+}
+
+interface PracticeSession {
+  id: string;
+  totalQuestions: number;
+  progress: number;
+  completedAt?: Date;
+}
+
+interface StreakData {
+  currentStreak: number;
+  longestStreak: number;
+  totalAnswered: number;
+  correctCount: number;
+}
+
+interface QuestionsResponse {
+  questions: PracticeQuestion[];
   total: number;
-  answered: number;
+  hasMore: boolean;
 }
 
-interface SessionData {
-  sessionId: string;
-  questions: (PracticeQuestion & { userAnswerId?: string })[];
-  progress: SessionProgress;
-}
+const BATCH_SIZE = 20;
+const PREFETCH_THRESHOLD = 5;
 
 export default function PracticeSessionPage() {
-  const { sessionId } = useParams<{ sessionId: string }>();
   const router = useRouter();
+  const params = useParams();
+  const sessionId = params.sessionId as string;
   const { canAccess, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
-  const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<SessionData | null>(null);
+
+  const [session, setSession] = useState<PracticeSession | null>(null);
+  const [questions, setQuestions] = useState<PracticeQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [feedback, setFeedback] = useState<{
-    isCorrect: boolean;
-    explanation: string;
-    correctOptionId: string;
-  } | null>(null);
-  const [sessionComplete, setSessionComplete] = useState(false);
-  const [startTime, setStartTime] = useState<number>(Date.now());
-
-  // CRITICAL-006: State for flagged questions
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [answeredQuestions, setAnsweredQuestions] = useState<Set<string>>(new Set());
   const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(new Set());
+  const [streak, setStreak] = useState<StreakData | null>(null);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentBatch, setCurrentBatch] = useState(0);
+  const [totalQuestions, setTotalQuestions] = useState(0);
+  const prefetchTriggeredRef = useRef(false);
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    async function fetchSession() {
-      if (!sessionId) return;
-      try {
-        setLoading(true);
-        const response = await apiRequest<SessionData>(`/practice/sessions/${sessionId}`);
-
-        if (response.data) {
-          setSession(response.data);
-
-          // Find first unanswered question
-          const firstUnanswered = response.data.questions.findIndex(q => !q.userAnswerId);
-          setCurrentIndex(firstUnanswered >= 0 ? firstUnanswered : 0);
-
-          if (
-            response.data.progress.answered >= response.data.progress.total &&
-            response.data.progress.total > 0
-          ) {
-            setSessionComplete(true);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to fetch session', error);
-        toast.error('Failed to load practice session. Please try again.');
-      } finally {
-        setLoading(false);
+  const fetchSession = useCallback(async () => {
+    try {
+      const response = await practiceApi.getSession(sessionId);
+      if (response.data) {
+        setSession(response.data as PracticeSession);
+        setTotalQuestions((response.data as PracticeSession).totalQuestions);
       }
+    } catch (error) {
+      console.error('Failed to fetch session:', error);
+      toast.error('Failed to load session. Please try again.');
     }
+  }, [sessionId, toast]);
 
-    if (canAccess) {
-      void fetchSession();
+  const fetchQuestions = useCallback(async (batchNumber: number) => {
+    try {
+      const offset = batchNumber * BATCH_SIZE;
+      const response = await practiceApi.getSessionQuestions(sessionId, offset, BATCH_SIZE);
+      
+      if (response.data) {
+        const data = response.data as QuestionsResponse;
+        setQuestions(prev => [...prev, ...data.questions]);
+        setTotalQuestions(data.total);
+        setHasMore(data.hasMore);
+      }
+    } catch (error) {
+      console.error('Failed to fetch questions:', error);
+      toast.error('Failed to load questions. Please try again.');
     }
-  }, [canAccess, sessionId, toast]);
+  }, [sessionId, toast]);
 
-  // Reset state when question changes
-  useEffect(() => {
-    setSelectedOptionId(null);
-    setFeedback(null);
-    setStartTime(Date.now());
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = 0;
+  const fetchStreak = useCallback(async () => {
+    try {
+      const response = await practiceApi.getSessionStreak(sessionId);
+      if (response.data) {
+        setStreak(response.data as StreakData);
+      }
+    } catch (error) {
+      console.error('Failed to fetch streak:', error);
     }
-  }, [currentIndex]);
-
-  // CRITICAL-006: Load existing flagged questions on mount
-  useEffect(() => {
-    if (!sessionId) return;
-
-    apiRequest<{ flagged: string[] }>(`/practice/sessions/${sessionId}/flagged`)
-      .then(res => setFlaggedQuestions(new Set(res.data?.flagged || [])))
-      .catch(() => {
-        // Silently fail if endpoint doesn't exist yet
-        setFlaggedQuestions(new Set());
-      });
   }, [sessionId]);
 
-  // CRITICAL-006: Toggle flag on a question
-  const toggleFlag = async (questionId: string) => {
-    const isFlagged = flaggedQuestions.has(questionId);
-
-    try {
-      await apiRequest(`/practice/sessions/${sessionId}/questions/${questionId}/flag`, {
-        method: isFlagged ? 'DELETE' : 'POST',
-      });
-
-      setFlaggedQuestions(prev => {
-        const next = new Set(prev);
-        if (isFlagged) {
-          next.delete(questionId);
-        } else {
-          next.add(questionId);
-        }
-        return next;
-      });
-
-      toast.success(isFlagged ? 'Question unflagged' : 'Question flagged');
-    } catch (error) {
-      console.error('Failed to flag question:', error);
-      toast.error('Failed to flag question');
+  useEffect(() => {
+    if (canAccess && sessionId) {
+      const initSession = async () => {
+        setLoading(true);
+        await Promise.all([
+          fetchSession(),
+          fetchQuestions(0),
+          fetchStreak(),
+        ]);
+        setLoading(false);
+      };
+      initSession();
     }
+  }, [canAccess, sessionId, fetchSession, fetchQuestions, fetchStreak]);
+
+  useEffect(() => {
+    // Prefetch next batch when approaching end of current batch
+    const questionsInCurrentBatch = (currentBatch + 1) * BATCH_SIZE;
+    const remainingInBatch = questionsInCurrentBatch - currentIndex;
+    
+    if (hasMore && remainingInBatch <= PREFETCH_THRESHOLD && !prefetchTriggeredRef.current) {
+      prefetchTriggeredRef.current = true;
+      setIsLoadingMore(true);
+      fetchQuestions(currentBatch + 1).then(() => {
+        setCurrentBatch(prev => prev + 1);
+        setIsLoadingMore(false);
+        prefetchTriggeredRef.current = false;
+      });
+    }
+  }, [currentIndex, currentBatch, hasMore, fetchQuestions]);
+
+  const handleOptionSelect = (optionId: string) => {
+    if (showExplanation) return;
+    setSelectedOptionId(optionId);
   };
 
   const handleSubmitAnswer = async () => {
-    if (!session || !sessionId || !selectedOptionId) return;
+    if (!selectedOptionId || submitting) return;
 
-    const currentQuestion = session.questions[currentIndex];
-    if (!currentQuestion) return;
-
-    const timeSpentMs = Date.now() - startTime;
-    setIsSubmitting(true);
-
+    setSubmitting(true);
+    const question = questions[currentIndex];
+    if (!question) {
+      setSubmitting(false);
+      return;
+    }
+    const startTime = Date.now();
+    
     try {
-      const response = await apiRequest<{
-        result: { isCorrect: boolean; explanation: string; correctOptionId: string };
-      }>(`/practice/sessions/${sessionId}/answers/${currentQuestion.id}`, {
-        method: 'POST',
-        body: {
-          selectedOptionId,
-          timeSpentMs,
-        },
+      await practiceApi.submitAnswer({
+        sessionId,
+        questionId: question.id,
+        selectedOptionId,
+        timeSpentMs: 0, // TODO: Track actual time
       });
 
-      // Show feedback
-      if (response.data) {
-        setFeedback(response.data.result);
-      }
-
-      // Update local session state
-      setSession(prev => {
-        if (!prev) return null;
-        const updatedQuestions = [...prev.questions];
-        const questionToUpdate = updatedQuestions[currentIndex];
-        updatedQuestions[currentIndex] = {
-          ...questionToUpdate,
-          userAnswerId: selectedOptionId,
-        } as PracticeQuestion & { userAnswerId?: string };
-        return {
-          ...prev,
-          questions: updatedQuestions,
-          progress: { ...prev.progress, answered: prev.progress.answered + 1 },
-        };
-      });
+      const isCorrect = question.options.find(opt => opt.id === selectedOptionId)?.isCorrect ?? false;
+      setAnsweredQuestions(prev => new Set(prev).add(question.id));
+      
+      await fetchStreak();
+      setShowExplanation(true);
     } catch (error) {
-      console.error('Failed to submit answer', error);
+      console.error('Failed to submit answer:', error);
+      toast.error('Failed to submit answer. Please try again.');
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
-  const handleNext = async () => {
-    if (!session) return;
-
-    if (currentIndex < session.questions.length - 1) {
+  const handleNext = () => {
+    if (currentIndex < questions.length - 1) {
       setCurrentIndex(prev => prev + 1);
-    } else {
-      await finishSession();
+      setSelectedOptionId(null);
+      setShowExplanation(false);
     }
   };
 
-  // HIGH-005: Add Previous button functionality
   const handlePrevious = () => {
     if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
+      setSelectedOptionId(null);
+      setShowExplanation(false);
     }
   };
 
-  const finishSession = async () => {
-    if (!sessionId) return;
+  const handleJumpToQuestion = (index: number) => {
+    setCurrentIndex(index);
+    setSelectedOptionId(null);
+    setShowExplanation(false);
+  };
+
+  const handleFlag = async () => {
+    const question = questions[currentIndex];
+    if (!question) return;
+
+    const isFlagged = flaggedQuestions.has(question.id);
+    
     try {
-      await apiRequest(`/practice/sessions/${sessionId}/complete`, { method: 'POST' });
-      setSessionComplete(true);
+      if (isFlagged) {
+        await practiceApi.unflagQuestion(question.id);
+        setFlaggedQuestions(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(question.id);
+          return newSet;
+        });
+        toast.success('Question unflagged');
+      } else {
+        await practiceApi.flagQuestion(question.id);
+        setFlaggedQuestions(prev => new Set(prev).add(question.id));
+        toast.success('Question flagged');
+      }
     } catch (error) {
-      console.error('Failed to complete session', error);
+      console.error('Failed to flag question:', error);
+      toast.error('Failed to flag question. Please try again.');
     }
   };
 
-  if (authLoading || loading) {
+  const handleCompleteSession = async () => {
+    try {
+      await practiceApi.completeSession(sessionId);
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Failed to complete session:', error);
+      toast.error('Failed to complete session. Please try again.');
+    }
+  };
+
+  const currentQuestion = questions[currentIndex];
+  const progress = totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
+  const isLastQuestion = currentIndex === totalQuestions - 1;
+
+  if (authLoading || loading || !currentQuestion) {
     return <FullPageSkeleton />;
   }
 
-  if (!session) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-8 text-center bg-gray-900 border border-gray-800 rounded-lg">
-        <h1 className="text-2xl font-bold text-white mb-2">Session Not Found</h1>
-        <button
-          onClick={() => router.push('/practice')}
-          className="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 transition"
-        >
-          Back to Practice
-        </button>
-      </div>
-    );
-  }
-
-  if (sessionComplete) {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-xl">
-          <div className="text-6xl mb-4" aria-hidden="true">
-            🏆
-          </div>
-          <h1 className="text-3xl font-bold text-white mb-4">Practice Complete!</h1>
-          <p className="text-gray-400 mb-8">
-            You have completed {session.questions.length} questions. Check the dashboard for
-            detailed analytics.
-          </p>
-          <div className="flex justify-center space-x-4">
-            <button
-              onClick={() => router.push('/practice')}
-              className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
-            >
-              Back to Overview
-            </button>
-            <button
-              onClick={() => router.push('/dashboard')}
-              className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition"
-            >
-              Go to Dashboard
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const currentQuestion = session.questions[currentIndex];
-  // Calculate progress safely
-  const progressPercent =
-    session.questions.length > 0 ? Math.round((currentIndex / session.questions.length) * 100) : 0;
-
-  if (!currentQuestion) return null;
-
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6 md:py-8 h-[calc(100vh-64px)] flex flex-col">
-      {/* Header */}
-      <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={() => router.push('/practice')}
-            className="text-gray-400 hover:text-white transition"
-          >
-            &larr; Exit
-          </button>
-          <div className="px-3 py-1 bg-gray-800 rounded text-xs text-gray-400 font-mono">
-            Q{currentIndex + 1}/{session.questions.length}
+    <div className="min-h-screen">
+      <Navbar />
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Progress Bar */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium">
+              Question {currentIndex + 1} of {totalQuestions}
+            </span>
+            <span className="text-sm font-medium">{Math.round(progress)}%</span>
           </div>
-          {currentQuestion.difficulty && (
-            <span
-              className={`px-2 py-0.5 rounded text-xs font-medium uppercase border ${
-                currentQuestion.difficulty === 'easy'
-                  ? 'border-green-800 text-green-400 bg-green-900/20'
-                  : currentQuestion.difficulty === 'medium'
-                    ? 'border-yellow-800 text-yellow-400 bg-yellow-900/20'
-                    : 'border-red-800 text-red-400 bg-red-900/20'
-              }`}
-            >
-              {currentQuestion.difficulty}
-            </span>
-          )}
-          {/* CRITICAL-006: Flag button */}
-          <button
-            onClick={() => toggleFlag(currentQuestion.id)}
-            className={`
-              flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-sm
-              ${
-                flaggedQuestions.has(currentQuestion.id)
-                  ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/50'
-                  : 'bg-gray-700/50 text-gray-400 border border-gray-600/50 hover:bg-gray-700/50'
-              }
-            `}
-            aria-label={
-              flaggedQuestions.has(currentQuestion.id) ? 'Unflag question' : 'Flag question'
-            }
-          >
-            <span className="text-base">
-              {flaggedQuestions.has(currentQuestion.id) ? '★' : '☆'}
-            </span>
-            <span>{flaggedQuestions.has(currentQuestion.id) ? 'Flagged' : 'Flag'}</span>
-          </button>
-        </div>
-        <div className="flex-1 max-w-md mx-auto w-full">
-          <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+          <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
             <div
-              className="h-full bg-primary-600 transition-all duration-300"
-              style={{ width: `${progressPercent}%` }}
-            ></div>
+              className="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
-        <div className="w-20 hidden md:block"></div>
-      </div>
 
-      {/* Question Content */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto mb-6 pr-2 custom-scrollbar">
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8 mb-6">
-          <h2 className="text-xl md:text-2xl text-white font-medium mb-8 leading-relaxed">
-            {currentQuestion.questionText}
-          </h2>
-
-          <div className="space-y-3">
-            {currentQuestion.options.map(option => {
-              const isSelected = selectedOptionId === option.id;
-              const isCorrect = feedback?.correctOptionId === option.id;
-              const isWrong = feedback && isSelected && !feedback.isCorrect;
-
-              let containerClasses =
-                'w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-start group relative';
-
-              if (feedback) {
-                if (isCorrect) containerClasses += ' bg-green-900/30 border-green-500/50';
-                else if (isWrong) containerClasses += ' bg-red-900/30 border-red-500/50';
-                else containerClasses += ' border-gray-800 opacity-60';
-              } else {
-                if (isSelected) containerClasses += ' bg-primary-900/20 border-primary-500';
-                else
-                  containerClasses +=
-                    ' bg-gray-800/50 border-gray-700 hover:border-gray-600 hover:bg-gray-800';
-              }
-
-              return (
-                <button
-                  key={option.id}
-                  onClick={() => !feedback && setSelectedOptionId(option.id)}
-                  disabled={!!feedback || isSubmitting}
-                  className={containerClasses}
-                >
-                  <div
-                    className={`mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center mr-4 flex-shrink-0 transition-colors ${
-                      feedback
-                        ? isCorrect
-                          ? 'border-green-500 bg-green-500'
-                          : isWrong
-                            ? 'border-red-500 bg-red-500'
-                            : 'border-gray-600'
-                        : isSelected
-                          ? 'border-primary-500 bg-primary-500'
-                          : 'border-gray-500 group-hover:border-gray-400'
-                    }`}
-                  >
-                    {(feedback && (isCorrect || isWrong)) || isSelected ? (
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
-                    ) : null}
-                  </div>
-                  <span
-                    className={`text-base ${
-                      feedback && (isCorrect || isWrong) ? 'text-white' : 'text-gray-300'
-                    }`}
-                  >
-                    {option.text}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Question Area */}
+          <div className="lg:col-span-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+              {/* Question Header */}
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex gap-2">
+                  <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                    {currentQuestion.domain}
                   </span>
+                  <span className="px-3 py-1 text-xs font-medium rounded-full bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200">
+                    {currentQuestion.task}
+                  </span>
+                  <span className="px-3 py-1 text-xs font-medium rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                    {currentQuestion.difficulty}
+                  </span>
+                </div>
+                <button
+                  onClick={handleFlag}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    flaggedQuestions.has(currentQuestion.id)
+                      ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {flaggedQuestions.has(currentQuestion.id) ? '🚩 Flagged' : 'Flag'}
                 </button>
-              );
-            })}
+              </div>
+
+              {/* Question Text */}
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold mb-4">{currentQuestion.question}</h2>
+              </div>
+
+              {/* Options */}
+              <div className="space-y-3 mb-6">
+                {currentQuestion.options.map((option) => {
+                  const isSelected = selectedOptionId === option.id;
+                  const showCorrect = showExplanation && option.isCorrect;
+                  const showIncorrect = showExplanation && isSelected && !option.isCorrect;
+
+                  return (
+                    <button
+                      key={option.id}
+                      onClick={() => handleOptionSelect(option.id)}
+                      disabled={showExplanation}
+                      className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
+                        showCorrect
+                          ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                          : showIncorrect
+                          ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
+                          : isSelected
+                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700'
+                      } ${showExplanation ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                            showCorrect
+                              ? 'border-green-500 bg-green-500'
+                              : showIncorrect
+                              ? 'border-red-500 bg-red-500'
+                              : isSelected
+                              ? 'border-blue-500 bg-blue-500'
+                              : 'border-gray-300 dark:border-gray-600'
+                          }`}
+                        >
+                          {isSelected && !showExplanation && (
+                            <div className="w-2 h-2 rounded-full bg-white" />
+                          )}
+                          {showCorrect && (
+                            <span className="text-white text-xs">✓</span>
+                          )}
+                          {showIncorrect && (
+                            <span className="text-white text-xs">✗</span>
+                          )}
+                        </div>
+                        <span className="flex-1">{option.text}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Explanation */}
+              {showExplanation && (
+                <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <h3 className="font-semibold mb-2">Explanation</h3>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{currentQuestion.explanation}</p>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex justify-between">
+                <button
+                  onClick={handlePrevious}
+                  disabled={currentIndex === 0}
+                  className="px-6 py-2 rounded-lg font-medium bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Previous
+                </button>
+                <div className="flex gap-2">
+                  {!showExplanation ? (
+                    <button
+                      onClick={handleSubmitAnswer}
+                      disabled={!selectedOptionId || submitting}
+                      className="px-6 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {submitting ? 'Submitting...' : 'Submit Answer'}
+                    </button>
+                  ) : (
+                    <>
+                      {isLastQuestion ? (
+                        <button
+                          onClick={handleCompleteSession}
+                          className="px-6 py-2 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700"
+                        >
+                          Complete Session
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleNext}
+                          className="px-6 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700"
+                        >
+                          Next Question
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Streak Counter */}
+            {streak && (
+              <StreakCounter
+                currentStreak={streak.currentStreak}
+                longestStreak={streak.longestStreak}
+                totalAnswered={streak.totalAnswered}
+                correctCount={streak.correctCount}
+              />
+            )}
+
+            {/* Question Navigator */}
+            <QuestionNavigator
+              totalQuestions={totalQuestions}
+              currentIndex={currentIndex}
+              answeredQuestions={answeredQuestions}
+              flaggedQuestions={flaggedQuestions}
+              onJumpToQuestion={handleJumpToQuestion}
+              questionsPerPage={25}
+            />
           </div>
         </div>
 
-        {feedback && (
-          <div
-            className={`rounded-xl p-6 mb-6 border animate-in fade-in slide-in-from-bottom-4 duration-300 ${
-              feedback.isCorrect
-                ? 'bg-green-900/20 border-green-800'
-                : 'bg-red-900/20 border-red-800'
-            }`}
-          >
-            <div className="flex items-center mb-3">
-              <span
-                className={`text-2xl mr-3 ${feedback.isCorrect ? 'text-green-400' : 'text-red-400'}`}
-              >
-                {feedback.isCorrect ? '✓ Correct' : '✗ Incorrect'}
-              </span>
-            </div>
-            <div className="text-gray-300 leading-relaxed">
-              <span className="font-semibold text-white block mb-1">Explanation:</span>
-              {feedback.explanation}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Footer Actions */}
-      <div className="pt-4 border-t border-gray-800 flex justify-between">
-        {!feedback ? (
-          <button
-            onClick={handleSubmitAnswer}
-            disabled={!selectedOptionId || isSubmitting}
-            className={`px-8 py-3 rounded-lg font-medium transition-all transform active:scale-95 ml-auto ${
-              !selectedOptionId || isSubmitting
-                ? 'bg-gray-800 text-gray-500 cursor-not-allowed hidden' // Hide if not actionable
-                : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-primary-900/20'
-            }`}
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit Answer'}
-          </button>
-        ) : (
-          <>
-            {/* HIGH-005: Previous button */}
-            <button
-              onClick={handlePrevious}
-              disabled={currentIndex === 0}
-              className={`px-6 py-3 rounded-lg font-medium transition-all flex items-center ${
-                currentIndex === 0
-                  ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              <span className="mr-2">&larr;</span>
-              Previous
-            </button>
-            <button
-              onClick={handleNext}
-              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-900/20 flex items-center"
-            >
-              {currentIndex === session.questions.length - 1 ? 'Finish Session' : 'Next Question'}
-              <span className="ml-2">&rarr;</span>
-            </button>
-          </>
-        )}
-      </div>
+        {/* Loading Overlay for batch loading */}
+        {isLoadingMore && <LoadingOverlay />}
+      </main>
     </div>
+  );
+}
+
+function Navbar() {
+  return (
+    <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <button
+              onClick={() => window.history.back()}
+              className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              ← Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 }

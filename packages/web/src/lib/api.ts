@@ -196,6 +196,10 @@ export const practiceApi = {
     questionCount?: number;
     prioritizeFlagged?: boolean;
   }) => apiRequest('/practice/sessions', { method: 'POST', body: options }),
+  getSession: (sessionId: string) => apiRequest(`/practice/sessions/${sessionId}`),
+  getSessionQuestions: (sessionId: string, offset: number = 0, limit: number = 20) =>
+    apiRequest(`/practice/sessions/${sessionId}/questions?offset=${offset}&limit=${limit}`),
+  getSessionStreak: (sessionId: string) => apiRequest(`/practice/sessions/${sessionId}/streak`),
   submitAnswer: (params: {
     sessionId: string;
     questionId: string;

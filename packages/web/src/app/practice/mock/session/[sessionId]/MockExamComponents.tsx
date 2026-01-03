@@ -16,8 +16,8 @@ export function MockExamHeader(props: {
   return (
     <div className="flex items-center justify-between mb-6 bg-gray-900/50 p-4 rounded-xl border border-gray-800">
       <div className="flex items-center space-x-4">
-        <span className="text-gray-400 font-medium">
-          Question {currentIndex + 1} <span className="text-gray-600">/ {totalCount}</span>
+        <span className="text-gray-300 font-medium">
+          Question {currentIndex + 1} <span className="text-gray-500">/ {totalCount}</span>
         </span>
         <div className="h-4 w-32 bg-gray-800 rounded-full overflow-hidden hidden sm:block">
           <div
@@ -31,7 +31,7 @@ export function MockExamHeader(props: {
         <div className="text-2xl font-mono font-bold text-primary-400 tracking-wider bg-gray-900 px-4 py-1 rounded-lg border border-gray-800 shadow-inner">
           {formatTime(timeLeftSeconds)}
         </div>
-        <button onClick={onShowReview} className="text-sm text-gray-400 hover:text-white underline">
+        <button onClick={onShowReview} className="text-sm text-gray-300 hover:text-white underline">
           Review All
         </button>
       </div>
@@ -74,7 +74,7 @@ export function MockExamReviewScreen(props: {
               className={`p-2 rounded text-sm font-medium border transition-colors ${
                 q.userAnswerId
                   ? 'bg-primary-900/40 border-primary-600 text-white'
-                  : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500'
+                  : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-500'
               }`}
             >
               {idx + 1}
@@ -137,7 +137,7 @@ export function MockExamQuestionCard(props: {
               >
                 {isSelected && <div className="w-2.5 h-2.5 bg-white rounded-full"></div>}
               </div>
-              <span className={`text-lg ${isSelected ? 'text-white' : 'text-gray-300'}`}>
+              <span className={`text-lg ${isSelected ? 'text-white' : 'text-gray-200'}`}>
                 {option.text}
               </span>
             </button>
@@ -170,7 +170,7 @@ export function MockExamSideNav(props: {
                 ? 'bg-primary-600 text-white shadow-lg scale-105'
                 : isAnswered
                   ? 'bg-primary-900/30 text-primary-400 border border-primary-900'
-                  : 'bg-gray-800 text-gray-500 hover:bg-gray-700'
+                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
             }`}
           >
             {idx + 1}
@@ -196,8 +196,8 @@ export function MockExamFooter(props: {
         disabled={!canGoPrev}
         className={`px-6 py-2.5 rounded-lg border font-medium transition ${
           !canGoPrev
-            ? 'border-gray-800 text-gray-600 cursor-not-allowed'
-            : 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white'
+            ? 'border-gray-800 text-gray-500 cursor-not-allowed'
+            : 'border-gray-700 text-gray-200 hover:bg-gray-800 hover:text-white'
         }`}
       >
         &larr; Previous
@@ -208,7 +208,7 @@ export function MockExamFooter(props: {
           onClick={() => {
             // Flag logic could go here
           }}
-          className="px-4 py-2.5 text-gray-400 hover:text-yellow-400 transition"
+          className="px-4 py-2.5 text-gray-300 hover:text-yellow-400 transition"
         >
           Flag for Review
         </button>

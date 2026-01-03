@@ -9,9 +9,9 @@ export type SubscriptionStatus = 'active' | 'cancelled' | 'expired' | 'grace_per
 export interface TierFeatures {
   studyGuidesAccess: 'limited' | 'full';
   flashcardsLimit: number | 'unlimited';
-  practiceQuestionsPerDomain: number;
+  practiceQuestionsPerDomain: number | 'unlimited';
   customFlashcards: boolean;
-  mockExams: boolean;
+  mockExams: boolean | 'unlimited';
   formulaCalculator: boolean;
   advancedAnalytics: boolean;
   personalizedStudyPlan: boolean;
@@ -77,10 +77,10 @@ export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
   },
   pro: {
     studyGuidesAccess: 'full',
-    flashcardsLimit: 2000,
-    practiceQuestionsPerDomain: 200,
+    flashcardsLimit: 'unlimited',
+    practiceQuestionsPerDomain: 'unlimited',
     customFlashcards: true,
-    mockExams: true,
+    mockExams: 'unlimited',
     formulaCalculator: true,
     advancedAnalytics: true,
     personalizedStudyPlan: true,

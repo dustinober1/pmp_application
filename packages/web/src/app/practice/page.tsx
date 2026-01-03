@@ -23,12 +23,26 @@ interface Domain {
   code: string;
 }
 
+interface MockExam {
+  id: number;
+  name: string;
+  description: string;
+  totalQuestions: number;
+  domainBreakdown: Array<{
+    domainId: string;
+    domainName: string;
+    count: number;
+    percentage: number;
+  }>;
+}
+
 export default function PracticePage() {
   const router = useRouter();
   const { user, canAccess, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [stats, setStats] = useState<PracticeStats | null>(null);
   const [domains, setDomains] = useState<Domain[]>([]);
+  const [mockExams, setMockExams] = useState<MockExam[]>([]);
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [questionCount, setQuestionCount] = useState(20);
   const [loading, setLoading] = useState(true);
@@ -36,12 +50,14 @@ export default function PracticePage() {
 
   const fetchData = useCallback(async () => {
     try {
-      const [statsRes, domainsRes] = await Promise.all([
+      const [statsRes, domainsRes, mockExamsRes] = await Promise.all([
         apiRequest<{ stats: PracticeStats }>('/practice/stats'),
         apiRequest<{ domains: Domain[] }>('/domains'),
+        apiRequest<{ exams: MockExam[]; count: number }>('/practice/mock-exams').catch(() => ({ data: { exams: [], count: 0 } })),
       ]);
       setStats(statsRes.data?.stats ?? null);
       setDomains(domainsRes.data?.domains ?? []);
+      setMockExams(mockExamsRes.data?.exams ?? []);
     } catch (error) {
       console.error('Failed to fetch data:', error);
       toast.error('Failed to load practice data. Please try again.');
@@ -78,11 +94,12 @@ export default function PracticePage() {
     }
   };
 
-  const startMockExam = async () => {
+  const startMockExam = async (examId: number) => {
     setStarting(true);
     try {
       const response = await apiRequest<{ sessionId: string }>('/practice/mock-exams', {
         method: 'POST',
+        body: { examId },
       });
       const sessionId = response.data?.sessionId;
       if (sessionId) {
@@ -233,22 +250,51 @@ export default function PracticePage() {
                   />
                 </svg>
               </div>
-              <h2 className="text-lg font-semibold">Full Mock Exam</h2>
+              <h2 className="text-lg font-semibold">Full Mock Exams</h2>
               <p className="text-sm text-[var(--foreground-muted)] mt-2">
                 Simulate the real PMP exam with 180 questions and a 3h 50min time limit.
               </p>
               {canTakeMockExam ? (
-                <button
-                  onClick={startMockExam}
-                  disabled={starting}
-                  className="btn btn-primary w-full mt-4"
-                >
-                  Start Mock Exam
-                </button>
+                <div className="mt-4 space-y-2">
+                  {mockExams.length > 0 ? (
+                    mockExams.map(exam => (
+                      <div key={exam.id} className="border border-[var(--border)] rounded-lg p-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="font-medium text-sm">{exam.name}</h3>
+                          <span className="text-xs text-[var(--foreground-muted)]">
+                            {exam.totalQuestions} questions
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-1 mb-3">
+                          {exam.domainBreakdown.map(domain => (
+                            <span
+                              key={domain.domainId}
+                              className="text-xs px-2 py-1 rounded-full bg-[var(--secondary)] text-[var(--secondary-foreground)]"
+                              title={`${domain.domainName}: ${domain.count} questions`}
+                            >
+                              {domain.domainName.split(' ')[0]} {domain.percentage}%
+                            </span>
+                          ))}
+                        </div>
+                        <button
+                          onClick={() => startMockExam(exam.id)}
+                          disabled={starting}
+                          className="btn btn-primary w-full text-sm"
+                        >
+                          {starting ? 'Starting...' : `Start ${exam.name}`}
+                        </button>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-[var(--foreground-muted)] text-center py-4">
+                      No mock exams available
+                    </p>
+                  )}
+                </div>
               ) : (
                 <div className="mt-4">
                   <p className="text-xs text-[var(--foreground-muted)] mb-2">
-                    Available for High-End and Corporate tiers
+                    Available for Pro and Corporate tiers
                   </p>
                   <Link href="/pricing" className="btn btn-secondary w-full">
                     Upgrade to Access
