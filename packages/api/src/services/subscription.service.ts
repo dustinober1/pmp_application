@@ -19,7 +19,7 @@ export class SubscriptionService {
       orderBy: { price: "asc" },
     });
 
-    return tiers.map((tier) => ({
+    return tiers.map((tier: { id: string; name: string; price: number; billingPeriod: string; features: any }) => ({
       id: tier.id,
       name: tier.name as TierName,
       price: tier.price,

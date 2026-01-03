@@ -172,7 +172,7 @@ export class PracticeService {
         taskId: q.taskId,
         questionText: q.questionText,
         options: q.options.map(
-          (o): QuestionOption => ({
+          (o: { id: string; questionId: string; text: string; isCorrect: boolean }): QuestionOption => ({
             id: o.id,
             questionId: o.questionId,
             text: o.text,
@@ -180,7 +180,7 @@ export class PracticeService {
           }),
         ),
         correctOptionId: isAnswered
-          ? q.options.find((o) => o.isCorrect)?.id || ""
+          ? q.options.find((o: { id: string; questionId: string; text: string; isCorrect: boolean }) => o.isCorrect)?.id || ""
           : "",
         difficulty: q.difficulty as Difficulty,
         explanation: isAnswered ? q.explanation : "",
@@ -326,9 +326,9 @@ export class PracticeService {
     const timeRemainingMs =
       session.isMockExam && session.timeLimit
         ? Math.max(
-            0,
-            session.timeLimit - (Date.now() - session.startedAt.getTime()),
-          )
+          0,
+          session.timeLimit - (Date.now() - session.startedAt.getTime()),
+        )
         : undefined;
 
     const mappedQuestions: PracticeQuestion[] = session.questions.map((sq) => {
@@ -341,7 +341,7 @@ export class PracticeService {
         taskId: q.taskId,
         questionText: q.questionText,
         options: q.options.map(
-          (o): QuestionOption => ({
+          (o: { id: string; questionId: string; text: string; isCorrect: boolean }): QuestionOption => ({
             id: o.id,
             questionId: o.questionId,
             text: o.text,
@@ -352,7 +352,7 @@ export class PracticeService {
           }),
         ),
         correctOptionId: isAnswered
-          ? q.options.find((o) => o.isCorrect)?.id || ""
+          ? q.options.find((o: { id: string; questionId: string; text: string; isCorrect: boolean }) => o.isCorrect)?.id || ""
           : "",
         difficulty: q.difficulty as Difficulty,
         explanation: isAnswered ? q.explanation : "",
@@ -439,7 +439,7 @@ export class PracticeService {
       throw AppError.notFound("Question not found");
     }
 
-    const correctOption = question.options.find((o) => o.isCorrect);
+    const correctOption = question.options.find((o: { id: string; questionId: string; text: string; isCorrect: boolean }) => o.isCorrect);
     const isCorrect = correctOption?.id === selectedOptionId;
 
     // Record the attempt
@@ -510,7 +510,7 @@ export class PracticeService {
         ? Math.round((correctCount / totalQuestions) * 100)
         : 0;
     const totalTimeMs = attempts.reduce(
-      (sum, a) => sum + (a.timeSpentMs || 0),
+      (sum: number, a: { timeSpentMs: number | null }) => sum + (a.timeSpentMs || 0),
       0,
     );
 
@@ -520,7 +520,7 @@ export class PracticeService {
       { correct: number; total: number; name: string }
     >();
 
-    attempts.forEach((attempt) => {
+    attempts.forEach((attempt: { question: { domainId: string; domain: { name: string } }; isCorrect: boolean }) => {
       const domainId = attempt.question.domainId;
       const domainName = attempt.question.domain.name;
       const current = domainMap.get(domainId) || {
@@ -660,13 +660,13 @@ export class PracticeService {
       distinct: ["questionId"],
     });
 
-    return flagged.map((f) => ({
+    return flagged.map((f: { question: any }) => ({
       id: f.question.id,
       domainId: f.question.domainId,
       taskId: f.question.taskId,
       questionText: f.question.questionText,
       options: f.question.options.map(
-        (o): QuestionOption => ({
+        (o: { id: string; questionId: string; text: string; isCorrect: boolean }): QuestionOption => ({
           id: o.id,
           questionId: o.questionId,
           text: o.text,
@@ -707,7 +707,7 @@ export class PracticeService {
 
     const totalSessions = sessions.length;
     const totalQuestions = sessions.reduce(
-      (sum, s) => sum + s.totalQuestions,
+      (sum: number, s: { totalQuestions: number }) => sum + s.totalQuestions,
       0,
     );
 
@@ -720,7 +720,7 @@ export class PracticeService {
 
     const averageScore =
       scores.length > 0
-        ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+        ? Math.round(scores.reduce((a: number, b: number) => a + b, 0) / scores.length)
         : 0;
     const bestScore = scores.length > 0 ? Math.max(...scores) : 0;
 
@@ -731,7 +731,7 @@ export class PracticeService {
     });
 
     const domainStats = new Map<string, { correct: number; total: number }>();
-    attempts.forEach((a) => {
+    attempts.forEach((a: { question: { domainId: string }; isCorrect: boolean }) => {
       const current = domainStats.get(a.question.domainId) || {
         correct: 0,
         total: 0,
@@ -758,7 +758,7 @@ export class PracticeService {
       totalQuestions,
       averageScore,
       bestScore,
-      weakDomains: weakDomains.map((d) => d.name),
+      weakDomains: weakDomains.map((d: { name: string }) => d.name),
     };
   }
 

@@ -3,16 +3,104 @@
  * Provides consistent test data generation across all test suites
  */
 
-import type {
-  User,
-  UserSubscription,
-  EbookChapter,
-  EbookSection,
-  PracticeSession,
-  PracticeQuestion,
-  Flashcard,
-  SubscriptionTier,
-} from "@prisma/client";
+interface User {
+  id: string;
+  email: string;
+  passwordHash: string;
+  name: string;
+  emailVerified: boolean;
+  emailVerifyToken: string | null;
+  failedLoginAttempts: number;
+  lockedUntil: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface UserSubscription {
+  id: string;
+  userId: string;
+  tierId: string;
+  status: string;
+  startDate: Date;
+  endDate: Date;
+  paypalSubscriptionId: string | null;
+  stripeCustomerId: string | null;
+  stripeSubscriptionId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface SubscriptionTier {
+  id: string;
+  name: string;
+  displayName: string;
+  price: number;
+  billingPeriod: string;
+  features: Record<string, unknown>;
+  isActive: boolean;
+  createdAt: Date;
+}
+
+interface EbookChapter {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  orderIndex: number;
+  isPremium: boolean;
+  minTier: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface EbookSection {
+  id: string;
+  chapterId: string;
+  slug: string;
+  title: string;
+  content: string;
+  orderIndex: number;
+  prevSection: string | null;
+  nextSection: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface PracticeSession {
+  id: string;
+  userId: string;
+  startedAt: Date;
+  completedAt: Date | null;
+  totalQuestions: number;
+  correctAnswers: number;
+  totalTimeMs: number;
+  isMockExam: boolean;
+  timeLimit: number | null;
+}
+
+interface PracticeQuestion {
+  id: string;
+  domainId: string;
+  taskId: string;
+  questionText: string;
+  explanation: string;
+  difficulty: string;
+  methodology: string | null;
+  tags: string[];
+  externalId: string | null;
+  createdAt: Date;
+}
+
+interface Flashcard {
+  id: string;
+  domainId: string;
+  taskId: string;
+  front: string;
+  back: string;
+  isCustom: boolean;
+  createdBy: string | null;
+  createdAt: Date;
+}
 
 /**
  * User Factory

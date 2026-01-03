@@ -125,7 +125,7 @@ export class TeamService {
     if (!team) return null;
 
     // Verify user is a member
-    const isMember = team.members.some((m) => m.userId === userId);
+    const isMember = team.members.some((m: { userId: string }) => m.userId === userId);
     if (!isMember) {
       throw AppError.forbidden("Not a team member");
     }
@@ -150,7 +150,7 @@ export class TeamService {
       },
     });
 
-    return memberships.map((m) => this.mapTeam(m.team));
+    return memberships.map((m: { team: any }) => this.mapTeam(m.team));
   }
 
   /**
@@ -195,7 +195,7 @@ export class TeamService {
     });
 
     if (existingUser) {
-      const isMember = team.members.some((m) => m.userId === existingUser.id);
+      const isMember = team.members.some((m: { userId: string }) => m.userId === existingUser.id);
       if (isMember) {
         throw AppError.badRequest("User is already a team member");
       }
@@ -349,7 +349,7 @@ export class TeamService {
     }
 
     // Verify user is a member
-    const isMember = team.members.some((m) => m.userId === userId);
+    const isMember = team.members.some((m: { userId: string }) => m.userId === userId);
     if (!isMember) {
       throw AppError.forbidden("Not a team member");
     }
@@ -379,9 +379,9 @@ export class TeamService {
     const avgProgress =
       activeMembers.length > 0
         ? Math.round(
-            activeMembers.reduce((sum, m) => sum + m.progress, 0) /
-              activeMembers.length,
-          )
+          activeMembers.reduce((sum, m) => sum + m.progress, 0) /
+          activeMembers.length,
+        )
         : 0;
 
     return {
@@ -549,7 +549,7 @@ export class TeamService {
       throw AppError.notFound("Team not found");
     }
 
-    const isMember = team.members.some((m) => m.userId === userId);
+    const isMember = team.members.some((m: { userId: string }) => m.userId === userId);
     if (!isMember) {
       throw AppError.forbidden("Not a team member");
     }
@@ -738,9 +738,9 @@ export class TeamService {
     const avgProgress =
       memberDetails.length > 0
         ? Math.round(
-            memberDetails.reduce((sum, m) => sum + m.progress, 0) /
-              memberDetails.length,
-          )
+          memberDetails.reduce((sum, m) => sum + m.progress, 0) /
+          memberDetails.length,
+        )
         : 0;
 
     // Calculate goal completion
@@ -836,9 +836,9 @@ export class TeamService {
         const validStats = stats.filter((s) => s.total > 0);
         return validStats.length > 0
           ? Math.round(
-              validStats.reduce((sum, s) => sum + s.accuracy, 0) /
-                validStats.length,
-            )
+            validStats.reduce((sum, s) => sum + s.accuracy, 0) /
+            validStats.length,
+          )
           : 0;
       }
       case "study_time": {
