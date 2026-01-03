@@ -15,11 +15,12 @@ import { SESSION_ERRORS } from '@pmp/shared';
 export class PracticeService {
   /**
    * Start a new practice session
+   * Returns session metadata only - questions loaded separately via paginated endpoint
    */
   async startSession(
     userId: string,
     options: PracticeOptions
-  ): Promise<{ sessionId: string; questions: PracticeQuestion[] }> {
+  ): Promise<{ sessionId: string; totalQuestions: number }> {
     const where: Record<string, unknown> = {};
 
     if (options.domainIds?.length) where.domainId = { in: options.domainIds };
@@ -36,31 +37,68 @@ export class PracticeService {
     // Shuffle questions for variety
     const shuffledQuestions = this.shuffleArray(rawQuestions);
 
-    // Create session with questions linked
+    // Create session with questions linked (orderIndex will be auto-populated)
     const session = await prisma.practiceSession.create({
       data: {
         userId,
         totalQuestions: shuffledQuestions.length,
         questions: {
-          create: shuffledQuestions.map(q => ({
+          create: shuffledQuestions.map((q, index) => ({
             questionId: q.id,
+            orderIndex: index,
           })),
-        },
-      },
-      include: {
-        questions: {
-          include: {
-            question: {
-              include: { options: true },
-            },
-          },
         },
       },
     });
 
+    return {
+      sessionId: session.id,
+      totalQuestions: session.totalQuestions,
+    };
+  }
+
+  /**
+   * Get paginated questions for a session
+   * Enables lazy loading of questions in batches
+   */
+  async getSessionQuestions(
+    sessionId: string,
+    userId: string,
+    offset: number = 0,
+    limit: number = 20
+  ): Promise<{ questions: PracticeQuestion[]; total: number; hasMore: boolean }> {
+    // Verify session exists and belongs to user
+    const session = await prisma.practiceSession.findFirst({
+      where: { id: sessionId, userId },
+    });
+
+    if (!session) {
+      throw AppError.notFound(SESSION_ERRORS.SESSION_001.message, SESSION_ERRORS.SESSION_001.code);
+    }
+
+    // Get paginated questions with session state (answers, flags)
+    const sessionQuestions = await prisma.practiceSessionQuestion.findMany({
+      where: { sessionId },
+      orderBy: { orderIndex: 'asc' },
+      skip: offset,
+      take: limit,
+      include: {
+        question: {
+          include: { options: true },
+        },
+      },
+    });
+
+    // Get total count for pagination metadata
+    const totalCount = await prisma.practiceSessionQuestion.count({
+      where: { sessionId },
+    });
+
     // Map to API response format
-    const mappedQuestions: PracticeQuestion[] = session.questions.map(sq => {
+    const mappedQuestions: PracticeQuestion[] = sessionQuestions.map(sq => {
       const q = sq.question;
+      const isAnswered = !!sq.selectedOptionId;
+
       return {
         id: q.id,
         domainId: q.domainId,
@@ -71,20 +109,107 @@ export class PracticeService {
             id: o.id,
             questionId: o.questionId,
             text: o.text,
-            isCorrect: false,
+            isCorrect: isAnswered ? o.isCorrect : false,
           })
         ),
-        correctOptionId: '',
+        correctOptionId: isAnswered ? q.options.find(o => o.isCorrect)?.id || '' : '',
         difficulty: q.difficulty as Difficulty,
-        explanation: '',
+        explanation: isAnswered ? q.explanation : '',
         relatedFormulaIds: [],
         createdAt: q.createdAt,
-      };
+        userAnswerId: sq.selectedOptionId || undefined,
+        orderIndex: sq.orderIndex,
+      } as PracticeQuestion & { userAnswerId?: string; orderIndex: number };
     });
 
     return {
-      sessionId: session.id,
       questions: mappedQuestions,
+      total: totalCount,
+      hasMore: offset + limit < totalCount,
+    };
+  }
+
+  /**
+   * Get current session streak (consecutive correct answers)
+   */
+  async getSessionStreak(
+    sessionId: string,
+    userId: string
+  ): Promise<{
+    currentStreak: number;
+    longestStreak: number;
+    totalAnswered: number;
+    correctCount: number;
+  }> {
+    const session = await prisma.practiceSession.findFirst({
+      where: { id: sessionId, userId },
+    });
+
+    if (!session) {
+      throw AppError.notFound(SESSION_ERRORS.SESSION_001.message, SESSION_ERRORS.SESSION_001.code);
+    }
+
+    // Get all answered questions in order
+    const answeredQuestions = await prisma.practiceSessionQuestion.findMany({
+      where: { sessionId, selectedOptionId: { not: null } },
+      orderBy: { orderIndex: 'asc' },
+      include: {
+        question: {
+          include: { options: true },
+        },
+      },
+    });
+
+    // Calculate streak metrics
+    let currentStreak = 0;
+    let longestStreak = 0;
+    let tempStreak = 0;
+    const totalAnswered = answeredQuestions.length;
+    let correctCount = 0;
+
+    for (const sq of answeredQuestions) {
+      const isCorrect = sq.isCorrect ?? false;
+      if (isCorrect) {
+        correctCount++;
+        tempStreak++;
+        if (tempStreak > longestStreak) {
+          longestStreak = tempStreak;
+        }
+        // Only count towards current streak if we're at the end
+        if (sq === answeredQuestions[answeredQuestions.length - 1]) {
+          currentStreak = tempStreak;
+        }
+      } else {
+        // Streak is broken
+        currentStreak = 0;
+        tempStreak = 0;
+      }
+    }
+
+    // If all answered and last was correct, currentStreak is set above
+    // If last was incorrect or no questions, currentStreak is 0
+    if (answeredQuestions.length > 0) {
+      const lastSQ = answeredQuestions[answeredQuestions.length - 1];
+      if (lastSQ?.isCorrect) {
+        // Count backwards from end to find current streak
+        currentStreak = 0;
+        for (let i = answeredQuestions.length - 1; i >= 0; i--) {
+          if (answeredQuestions[i]?.isCorrect) {
+            currentStreak++;
+          } else {
+            break;
+          }
+        }
+      } else {
+        currentStreak = 0;
+      }
+    }
+
+    return {
+      currentStreak,
+      longestStreak,
+      totalAnswered,
+      correctCount,
     };
   }
 
@@ -351,14 +476,15 @@ export class PracticeService {
 
   /**
    * Start a mock exam (High-End/Corporate tier)
+   * Returns session metadata only - questions loaded separately via paginated endpoint
    */
   async startMockExam(
     userId: string
-  ): Promise<{ sessionId: string; questions: PracticeQuestion[]; startedAt: Date }> {
+  ): Promise<{ sessionId: string; totalQuestions: number; startedAt: Date }> {
     // Get questions proportional to domain weights
     const domains = await prisma.domain.findMany();
     // Collect all question IDs first to create session properly
-    const allQuestionData: { id: string; data: any }[] = [];
+    const allQuestions: { id: string }[] = [];
 
     for (const domain of domains) {
       // Calculate how many questions for this domain (based on weight)
@@ -366,22 +492,22 @@ export class PracticeService {
 
       const domainQuestions = await prisma.practiceQuestion.findMany({
         where: { domainId: domain.id },
-        include: { options: true },
+        select: { id: true },
         take: questionCount,
       });
 
       domainQuestions.forEach(q => {
-        allQuestionData.push({ id: q.id, data: q });
+        allQuestions.push({ id: q.id });
       });
     }
 
     // Shuffle all questions
-    const shuffledQuestions = this.shuffleArray(allQuestionData);
+    const shuffledQuestions = this.shuffleArray(allQuestions);
     const finalQuestions = shuffledQuestions.slice(0, PMP_EXAM.TOTAL_QUESTIONS);
 
     const startedAt = new Date();
 
-    // Create mock exam session with linked questions
+    // Create mock exam session with linked questions (orderIndex for pagination)
     const session = await prisma.practiceSession.create({
       data: {
         userId,
@@ -390,8 +516,9 @@ export class PracticeService {
         totalQuestions: finalQuestions.length,
         timeLimit: PMP_EXAM.TIME_LIMIT_MINUTES * 60 * 1000,
         questions: {
-          create: finalQuestions.map(q => ({
+          create: finalQuestions.map((q, index) => ({
             questionId: q.id,
+            orderIndex: index,
           })),
         },
       },
@@ -399,27 +526,8 @@ export class PracticeService {
 
     return {
       sessionId: session.id,
+      totalQuestions: session.totalQuestions,
       startedAt,
-      questions: finalQuestions.map(entry => {
-        const q = entry.data;
-        return {
-          id: q.id,
-          domainId: q.domainId,
-          taskId: q.taskId,
-          questionText: q.questionText,
-          options: q.options.map((o: any) => ({
-            id: o.id,
-            questionId: o.questionId,
-            text: o.text,
-            isCorrect: false,
-          })),
-          correctOptionId: '',
-          difficulty: q.difficulty as Difficulty,
-          explanation: '',
-          relatedFormulaIds: [],
-          createdAt: q.createdAt,
-        };
-      }),
     };
   }
 

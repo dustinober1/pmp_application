@@ -31,9 +31,15 @@ const questionIdSchema = z.object({
   questionId: z.string().uuid('Invalid question ID'),
 });
 
+const questionsQuerySchema = z.object({
+  offset: z.coerce.number().min(0).optional().default(0),
+  limit: z.coerce.number().min(1).max(50).optional().default(20),
+});
+
 /**
  * POST /api/practice/sessions
  * Start a new practice session
+ * Returns session metadata only - questions loaded separately via paginated endpoint
  */
 router.post(
   '/sessions',
@@ -47,8 +53,7 @@ router.post(
         success: true,
         data: {
           sessionId: result.sessionId,
-          questions: result.questions,
-          questionCount: result.questions.length,
+          totalQuestions: result.totalQuestions,
         },
       });
     } catch (error) {
@@ -58,8 +63,62 @@ router.post(
 );
 
 /**
+ * GET /api/practice/sessions/:id/questions
+ * Get paginated questions for a session
+ * Enables lazy loading of questions in batches
+ */
+router.get(
+  '/sessions/:id/questions',
+  authMiddleware,
+  validateParams(sessionIdSchema),
+  validateParams(questionsQuerySchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const offset = parseInt(req.query.offset as string) || 0;
+      const limit = parseInt(req.query.limit as string) || 20;
+
+      const result = await practiceService.getSessionQuestions(
+        req.params.id!,
+        req.user!.userId,
+        offset,
+        limit
+      );
+
+      res.json({
+        success: true,
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/**
+ * GET /api/practice/sessions/:id/streak
+ * Get current session streak (consecutive correct answers)
+ */
+router.get(
+  '/sessions/:id/streak',
+  authMiddleware,
+  validateParams(sessionIdSchema),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const streak = await practiceService.getSessionStreak(req.params.id!, req.user!.userId);
+
+      res.json({
+        success: true,
+        data: streak,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/**
  * GET /api/practice/sessions/:id
- * Get an existing practice session
+ * Get an existing practice session (metadata only, questions loaded separately)
  */
 router.get(
   '/sessions/:id',
@@ -147,6 +206,7 @@ router.post(
 /**
  * POST /api/practice/mock-exams
  * Start a mock exam (High-End/Corporate tier)
+ * Returns session metadata only - questions loaded separately via paginated endpoint
  */
 router.post(
   '/mock-exams',
@@ -160,8 +220,7 @@ router.post(
         success: true,
         data: {
           sessionId: result.sessionId,
-          questions: result.questions,
-          questionCount: result.questions.length,
+          totalQuestions: result.totalQuestions,
           startedAt: result.startedAt,
           timeLimitMs: PMP_EXAM.TIME_LIMIT_MINUTES * 60 * 1000,
         },
