@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
-import { SkipToContentLink } from "@/components/SkipToContentLink";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
@@ -15,6 +14,13 @@ const roboto = Roboto({
 const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const plausibleSrc =
   process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || "https://plausible.io/js/script.js";
+
+export const viewport: Viewport = {
+  themeColor: "#7c3aed",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "PMP Study Pro",
@@ -28,8 +34,6 @@ export const metadata: Metadata = {
     "Exam Prep",
   ],
   manifest: "/manifest.json",
-  themeColor: "#7c3aed",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -57,7 +61,6 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         ) : null}
-        <SkipToContentLink />
         <Providers>
           <div id="main-content" tabIndex={-1}>
             {children}
