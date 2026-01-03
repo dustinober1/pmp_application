@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 import { authMiddleware } from '../middleware/auth.middleware';
-import { validateBody, validateQuery } from '../middleware/validation.middleware';
+import { validateBody } from '../middleware/validation.middleware';
 import {
   consentUpdateSchema,
   consentWithdrawSchema,
@@ -10,11 +10,7 @@ import {
   accountDeletionRequestSchema,
   cancelDeletionSchema,
 } from '../validators/privacy.validator';
-import {
-  consentService,
-  dataExportService,
-  accountDeletionService,
-} from '../services';
+import { consentService, dataExportService, accountDeletionService } from '../services';
 
 const router = Router();
 
@@ -64,11 +60,7 @@ router.put(
         userAgent: req.headers['user-agent'],
       };
 
-      const consent = await consentService.updateConsent(
-        req.user!.userId,
-        req.body,
-        metadata
-      );
+      const consent = await consentService.updateConsent(req.user!.userId, req.body, metadata);
 
       res.json({
         success: true,
@@ -146,17 +138,21 @@ router.post(
  * GET /api/privacy/data-export
  * Get user's export history
  */
-router.get('/data-export', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const history = await dataExportService.getExportHistory(req.user!.userId);
-    res.json({
-      success: true,
-      data: { exports: history },
-    });
-  } catch (error) {
-    next(error);
+router.get(
+  '/data-export',
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const history = await dataExportService.getExportHistory(req.user!.userId);
+      res.json({
+        success: true,
+        data: { exports: history },
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 /**
  * GET /api/privacy/data-export/:requestId
@@ -279,11 +275,7 @@ router.post(
         userAgent: req.headers['user-agent'],
       };
 
-      await accountDeletionService.cancelDeletion(
-        req.user!.userId,
-        req.body.requestId,
-        metadata
-      );
+      await accountDeletionService.cancelDeletion(req.user!.userId, req.body.requestId, metadata);
 
       res.json({
         success: true,

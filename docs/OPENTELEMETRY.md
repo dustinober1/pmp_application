@@ -14,6 +14,7 @@ Complete distributed tracing implementation for the PMP Study Application with f
 This implementation provides:
 
 ### Automatic Instrumentation
+
 - HTTP/HTTPS requests (Express, Next.js)
 - PostgreSQL queries (Prisma/pg driver)
 - Redis operations (ioredis)
@@ -21,12 +22,14 @@ This implementation provides:
 - Browser fetch/XMLHttpRequest
 
 ### Manual Instrumentation
+
 - Custom business logic spans
 - External API calls
 - Database operations
 - User interactions
 
 ### Trace Backends
+
 - **Local Development:** Jaeger (http://localhost:16686)
 - **Production:** AWS X-Ray
 - **Metrics:** Prometheus + Grafana
@@ -69,6 +72,7 @@ Go to http://localhost:16686, select service `pmp-api` or `pmp-web`, and click "
 ## Key Files
 
 ### API (`packages/api`)
+
 ```
 src/
 ├── config/
@@ -81,6 +85,7 @@ src/
 ```
 
 ### Web (`packages/web`)
+
 ```
 src/lib/
 ├── opentelemetry.ts              # Browser tracing config
@@ -96,10 +101,10 @@ src/lib/
 import { withSpan, setUserContext, setDatabaseContext } from '../utils/tracing';
 
 async function createUser(userId: string, data: UserData) {
-  return withSpan('user.create', async (span) => {
+  return withSpan('user.create', async span => {
     setUserContext(span, { id: userId });
 
-    const user = await withSpan('user.create.db', async (dbSpan) => {
+    const user = await withSpan('user.create.db', async dbSpan => {
       setDatabaseContext(dbSpan, {
         table: 'User',
         operation: 'create',
@@ -137,16 +142,19 @@ function MyComponent() {
 ## Features
 
 ### Trace Propagation
+
 - W3C Trace Context format
 - Automatic frontend-to-backend propagation
 - Distributed context across services
 
 ### Sampling
+
 - Development: 100% sampling
 - Production: Smart sampling (100% critical, 10% default)
 - Configurable per route
 
 ### Performance Monitoring
+
 - P50, P95, P99 latency metrics
 - Database query performance
 - External API call tracking
@@ -155,6 +163,7 @@ function MyComponent() {
 ## Production Deployment
 
 See [AWS X-Ray Setup Guide](./opentelemetry-aws-xray.md) for:
+
 - IAM permissions
 - X-Ray daemon deployment
 - Sampling strategy
@@ -164,6 +173,7 @@ See [AWS X-Ray Setup Guide](./opentelemetry-aws-xray.md) for:
 ## Support
 
 For issues:
+
 1. Check the [troubleshooting section](./opentelemetry-implementation-guide.md#troubleshooting)
 2. Review [quick start guide](./opentelemetry-quickstart.md)
 3. Check logs: `docker-compose logs -f otel-collector`

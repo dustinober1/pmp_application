@@ -5,27 +5,20 @@ import type {
   PrivacyAuditLog as PrivacyAuditLogType,
 } from '@pmp/shared';
 import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
-import { PRIVACY_ERRORS } from '@pmp/shared';
 
 export class AdminPrivacyService {
   /**
    * Get compliance dashboard data
    */
   async getDashboard(): Promise<AdminComplianceDashboard> {
-    const [
-      exportStats,
-      deletionStats,
-      recentActivity,
-      pendingExports,
-      pendingDeletions,
-    ] = await Promise.all([
-      this.getExportStats(),
-      this.getDeletionStats(),
-      this.getRecentAuditLogs(20),
-      this.getPendingExports(10),
-      this.getPendingDeletions(10),
-    ]);
+    const [exportStats, deletionStats, recentActivity, pendingExports, pendingDeletions] =
+      await Promise.all([
+        this.getExportStats(),
+        this.getDeletionStats(),
+        this.getRecentAuditLogs(20),
+        this.getPendingExports(10),
+        this.getPendingDeletions(10),
+      ]);
 
     return {
       exportStats,
@@ -40,13 +33,12 @@ export class AdminPrivacyService {
    * Get export statistics
    */
   async getExportStats(): Promise<AdminExportStats> {
-    const [totalRequests, pendingRequests, completedExports, failedExports] =
-      await Promise.all([
-        prisma.dataExportRequest.count(),
-        prisma.dataExportRequest.count({ where: { status: 'pending' } }),
-        prisma.dataExportRequest.count({ where: { status: 'completed' } }),
-        prisma.dataExportRequest.count({ where: { status: 'failed' } }),
-      ]);
+    const [totalRequests, pendingRequests, completedExports, failedExports] = await Promise.all([
+      prisma.dataExportRequest.count(),
+      prisma.dataExportRequest.count({ where: { status: 'pending' } }),
+      prisma.dataExportRequest.count({ where: { status: 'completed' } }),
+      prisma.dataExportRequest.count({ where: { status: 'failed' } }),
+    ]);
 
     // Calculate average processing time (in minutes)
     const completedExportsWithTime = await prisma.dataExportRequest.findMany({
@@ -83,17 +75,13 @@ export class AdminPrivacyService {
    * Get deletion statistics
    */
   async getDeletionStats(): Promise<AdminDeletionStats> {
-    const [
-      totalRequests,
-      pendingRequests,
-      completedDeletions,
-      cancelledDeletions,
-    ] = await Promise.all([
-      prisma.accountDeletionRequest.count(),
-      prisma.accountDeletionRequest.count({ where: { status: 'pending' } }),
-      prisma.accountDeletionRequest.count({ where: { status: 'completed' } }),
-      prisma.accountDeletionRequest.count({ where: { status: 'cancelled' } }),
-    ]);
+    const [totalRequests, pendingRequests, completedDeletions, cancelledDeletions] =
+      await Promise.all([
+        prisma.accountDeletionRequest.count(),
+        prisma.accountDeletionRequest.count({ where: { status: 'pending' } }),
+        prisma.accountDeletionRequest.count({ where: { status: 'completed' } }),
+        prisma.accountDeletionRequest.count({ where: { status: 'cancelled' } }),
+      ]);
 
     // Count requests in grace period
     const inGracePeriod = await prisma.accountDeletionRequest.count({
@@ -121,7 +109,7 @@ export class AdminPrivacyService {
       take: limit,
     });
 
-    return logs.map((log) => ({
+    return logs.map(log => ({
       id: log.id,
       actionType: log.actionType as any,
       entityType: log.entityType as any,
@@ -156,7 +144,7 @@ export class AdminPrivacyService {
       },
     });
 
-    return exports.map((exp) => ({
+    return exports.map(exp => ({
       id: exp.id,
       userId: exp.userId,
       user: exp.user,
@@ -185,7 +173,7 @@ export class AdminPrivacyService {
       },
     });
 
-    return deletions.map((del) => ({
+    return deletions.map(del => ({
       id: del.id,
       userId: del.userId,
       user: del.user,
@@ -229,7 +217,7 @@ export class AdminPrivacyService {
     ]);
 
     return {
-      logs: logs.map((log) => ({
+      logs: logs.map(log => ({
         id: log.id,
         actionType: log.actionType as any,
         entityType: log.entityType as any,
@@ -273,7 +261,7 @@ export class AdminPrivacyService {
       consent: consent || null,
       exports: exportCount,
       deletions: deletionCount,
-      recentActivity: recentActivity.map((log) => ({
+      recentActivity: recentActivity.map(log => ({
         id: log.id,
         actionType: log.actionType as any,
         entityType: log.entityType as any,

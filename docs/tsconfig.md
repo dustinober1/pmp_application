@@ -7,6 +7,6 @@ This repo uses a root `tsconfig.json` for shared defaults, with per-package over
 - `packages/web/tsconfig.json`: uses settings appropriate for Next.js/App Router and bundler tooling.
 
 If changing module settings, ensure:
+
 - API tests (`npm run test:api`) still run under Jest.
 - Web builds (`npm run build:web`) still work under Next.js.
-

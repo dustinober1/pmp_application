@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 import { TestHelpers } from '../utils/test-helpers';
 
 /**
@@ -23,7 +23,9 @@ export class PricingPage {
     this.monthlyButton = page.locator('button:has-text("Monthly")');
     this.annualButton = page.locator('button:has-text("Annual")');
     this.tierCards = page.locator('[data-testid="pricing-card"]');
-    this.checkoutButton = page.locator('button:has-text("Get Started"), button:has-text("Subscribe")');
+    this.checkoutButton = page.locator(
+      'button:has-text("Get Started"), button:has-text("Subscribe")'
+    );
   }
 
   /**
@@ -56,7 +58,7 @@ export class PricingPage {
   async getTierPrice(tierName: string): Promise<string> {
     const tierCard = this.page.locator(`[data-testid="pricing-card-${tierName}"]`);
     const priceElement = tierCard.locator('[data-testid="price"]');
-    return await priceElement.textContent() || '';
+    return (await priceElement.textContent()) || '';
   }
 
   /**

@@ -7,6 +7,7 @@
 ---
 
 ## Table of Contents
+
 1. [Quick Response Checklist](#quick-response-checklist)
 2. [Incident Scenarios](#incident-scenarios)
 3. [Escalation Procedures](#escalation-procedures)
@@ -18,6 +19,7 @@
 ## Quick Response Checklist
 
 ### 🚨 SEV-1 (Critical Incident)
+
 **Time: 0-15 minutes**
 
 - [ ] **Activate Incident Response Team**
@@ -48,13 +50,16 @@
 ### Scenario 1: SQL Injection Attack Detected
 
 **Detection:**
+
 - Semgrep/CodeQL alert in GitHub Security
 - Web Application Firewall (WAF) alert
 - Database error logs showing suspicious queries
 - Customer reports of data anomalies
 
 **Immediate Actions:**
+
 1. **Verify the vulnerability**
+
    ```bash
    # Check security scan results
    gh api /repos/{owner}/{repo}/code-scanning/alerts
@@ -66,6 +71,7 @@
    - Query database for unauthorized changes
 
 3. **Containment (if exploited)**
+
    ```bash
    # Block attacker IPs
    aws ec2 revoke-security-group-ingress \
@@ -87,6 +93,7 @@
    - Monitor for 24 hours for recurrence
 
 **Prevention for Future:**
+
 - Enable Prisma ORM query logging
 - Add SQL injection rules to WAF
 - Security training for developers
@@ -96,13 +103,16 @@
 ### Scenario 2: Data Breach / PII Exposure
 
 **Detection:**
+
 - Gitleaks/TruffleHog alert (secret in code)
 - Security Hub finding (S3 bucket public)
 - Customer report of unauthorized account access
 - Unusual database query patterns
 
 **Immediate Actions:**
+
 1. **Contain Data Exposure**
+
    ```bash
    # If S3 bucket exposed
    aws s3api put-bucket-acl \
@@ -137,6 +147,7 @@
    - Update secrets detection patterns
 
 **Post-Incident:**
+
 - Full security audit (third-party)
 - Review and update data handling policies
 - Implement additional encryption
@@ -146,13 +157,16 @@
 ### Scenario 3: DDoS Attack
 
 **Detection:**
+
 - CloudWatch alarm spike in request count
 - CloudFront/WAF alert (rate limit exceeded)
 - Application latency spikes
 - Customer reports of service unavailability
 
 **Immediate Actions:**
+
 1. **Activate DDoS Protection**
+
    ```bash
    # Enable AWS Shield Advanced (if available)
    aws shield update-emergency-contact \
@@ -181,6 +195,7 @@
    - Regular incident updates (hourly)
 
 **Post-Incident:**
+
 - Review WAF rules effectiveness
 - Implement geo-blocking if attack source concentrated
 - Update Auto Scaling policies
@@ -190,18 +205,21 @@
 ### Scenario 4: Malicious Dependency (Supply Chain Attack)
 
 **Detection:**
+
 - Snyk/npm audit alert (critical dependency)
 - GitHub Dependabot security advisory
 - Unusual behavior in application
 - Unknown code execution
 
 **Immediate Actions:**
+
 1. **Assess Impact**
    - Check if vulnerable dependency is used
    - Review dependency tree (`npm ls <package>`)
    - Determine if exploited (check logs for suspicious activity)
 
 2. **Emergency Patch**
+
    ```bash
    # Update to safe version
    npm update <package>@latest-safe-version
@@ -232,13 +250,16 @@
 ### Scenario 5: Compromised AWS Account
 
 **Detection:**
+
 - AWS GuardDuty alert (unusual API activity)
 - CloudTrail alert (unauthorized region access)
 - Unknown IAM users/roles created
 - Unexpected resource provisioning
 
 **Immediate Actions:**
+
 1. **Lock Down Account**
+
    ```bash
    # Revoke all active access keys
    aws iam list-access-keys --user-name affected-user
@@ -275,27 +296,30 @@
 
 ### Escalation Matrix
 
-| Severity | Response Time | Escalation Path |
-|----------|---------------|-----------------|
-| SEV-1 | 15 min | On-call → CTO → Exec Team |
-| SEV-2 | 1 hour | On-call → Engineering Lead → CTO |
-| SEV-3 | 4 hours | On-call → Engineering Lead |
-| SEV-4 | 1 business day | On-call |
+| Severity | Response Time  | Escalation Path                  |
+| -------- | -------------- | -------------------------------- |
+| SEV-1    | 15 min         | On-call → CTO → Exec Team        |
+| SEV-2    | 1 hour         | On-call → Engineering Lead → CTO |
+| SEV-3    | 4 hours        | On-call → Engineering Lead       |
+| SEV-4    | 1 business day | On-call                          |
 
 ### Escalation Triggers
 
 **Escalate to SEV-1 if:**
+
 - Customer data confirmed exposed
 - Production service completely down
 - Regulatory breach (GDPR, PCI)
 - Active exploitation in progress
 
 **Escalate to SEV-2 if:**
+
 - Critical vulnerability with no known exploit
 - Partial service degradation
 - Security control failure
 
 **De-escalate when:**
+
 - Service fully restored and stable
 - Root cause identified and fixed
 - Monitoring shows no recurrence for 2 hours
@@ -308,18 +332,21 @@
 ### Internal Communication
 
 **Slack Channels:**
+
 - `#incidents` - All incidents
 - `#incident-XXX` - Specific incident discussion
 - `#security-alerts` - Automated security alerts
 - `#engineering` - Engineering updates
 
 **Status Updates:**
+
 - **SEV-1:** Every 30 minutes
 - **SEV-2:** Every hour
 - **SEV-3:** Every 4 hours
 - **SEV-4:** Daily
 
 **Update Template:**
+
 ```
 🚨 INCIDENT UPDATE - SEV-X
 
@@ -336,6 +363,7 @@
 ### External Communication
 
 **Customer Communication:**
+
 1. **Initial Notification** (within 1 hour of SEV-1/SEV-2)
    - Status page update
    - Email to affected customers
@@ -350,6 +378,7 @@
    - RCA document (public if applicable)
 
 **Status Page Template:**
+
 ```
 ⚠️ INCIDENT - [Service Degraded/Outage]
 
@@ -366,6 +395,7 @@ We're experiencing [issue]. Our team is actively working on a fix.
 ### Regulatory Notification
 
 **GDPR Breach Notification (72 hours):**
+
 1. **Information Required:**
    - Nature of breach
    - Categories of data affected
@@ -380,6 +410,7 @@ We're experiencing [issue]. Our team is actively working on a fix.
    - Document breach timeline
 
 **PCI DSS Breach (if applicable):**
+
 1. **Immediate Actions:**
    - Notify payment processor (Stripe)
    - Freeze all payment transactions
@@ -437,17 +468,20 @@ We're experiencing [issue]. Our team is actively working on a fix.
 ### Continuous Improvement
 
 **Process Improvements:**
+
 - Update security baselines
 - Add new test cases to security suite
 - Enhance monitoring/alerting
 - Update runbooks with learnings
 
 **Training:**
+
 - Security awareness training for engineers
 - Incident response drills (quarterly)
 - Tabletop exercises (annually)
 
 **Tooling:**
+
 - Evaluate new security tools
 - Automate manual response steps
 - Integrate security alerts better
@@ -512,15 +546,16 @@ trivy image pmp-api:latest --severity HIGH,CRITICAL --output trivy-report.json
 
 ## Emergency Contacts
 
-| Role | Name | Contact | On-Call |
-|------|------|---------|---------|
-| CTO | [Name] | @cto-slack | PagerDuty |
-| Security Lead | [Name] | @security-slack | PagerDuty |
-| Engineering Lead | [Name] | @eng-slack | Weekday hours |
-| Legal Counsel | [Name] | legal@example.com | Business hours |
-| PR/Comms | [Name] | comms@example.com | As needed |
+| Role             | Name   | Contact           | On-Call        |
+| ---------------- | ------ | ----------------- | -------------- |
+| CTO              | [Name] | @cto-slack        | PagerDuty      |
+| Security Lead    | [Name] | @security-slack   | PagerDuty      |
+| Engineering Lead | [Name] | @eng-slack        | Weekday hours  |
+| Legal Counsel    | [Name] | legal@example.com | Business hours |
+| PR/Comms         | [Name] | comms@example.com | As needed      |
 
 ### External Contacts
+
 - **AWS Support:** 1-800-XXX-XXXX (Enterprise Support)
 - **Legal Counsel:** law-firm@example.com
 - **Forensic Investigator:** security-firm@example.com (retainer)

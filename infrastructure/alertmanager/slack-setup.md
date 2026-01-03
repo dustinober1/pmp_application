@@ -1,9 +1,11 @@
 # Slack Integration Setup Guide
 
 ## Overview
+
 Set up Slack to receive alert notifications from AlertManager for all severity levels.
 
 ## Prerequisites
+
 - Slack workspace (e.g., `pmp-study`)
 - Admin permissions to create apps and webhooks
 - Incoming webhooks enabled in workspace
@@ -39,6 +41,7 @@ Set up Slack to receive alert notifications from AlertManager for all severity l
 ## Step 4: Create Alert Channels
 
 ### #ops-alerts (Primary)
+
 - **Purpose**: All alert notifications
 - **Members**: Engineering team, on-call engineers
 - **Settings**:
@@ -46,11 +49,13 @@ Set up Slack to receive alert notifications from AlertManager for all severity l
   - Post permissions: Only admins and webhooks
 
 ### #incidents (Critical)
+
 - **Purpose**: P1 incident discussion only
 - **Members**: Engineering team, product, management
 - **Integrate**: Forward critical alerts to this channel
 
 ### #ops-daily (Digest)
+
 - **Purpose**: Daily/weekly alert summaries
 - **Members**: All engineers
 - **Automation**: Post daily summaries at 9 AM EST
@@ -58,6 +63,7 @@ Set up Slack to receive alert notifications from AlertManager for all severity l
 ## Step 5: Set Up Channel Permissions
 
 ### #ops-alerts Configuration
+
 ```
 /permissions add #ops-alerts
 - @engineering-team (full access)
@@ -65,7 +71,9 @@ Set up Slack to receive alert notifications from AlertManager for all severity l
 ```
 
 ### Pinned Messages
+
 Pin important information:
+
 ```
 📌 On-Call Schedule: https://pagerduty.pmpstudy.com/schedules
 📌 Runbooks: https://runbooks.pmpstudy.com
@@ -86,13 +94,16 @@ kubectl create secret generic slack-secrets \
 ## Step 7: Customize Slack Messages
 
 ### AlertManager Config (Already Done)
+
 The `alertmanager.yml` includes:
+
 - Color-coded messages by severity
 - Action buttons (Grafana, Runbook, Acknowledge)
 - Detailed alert information
 - Firing and resolved alert counts
 
 ### Message Format Example
+
 ```
 🚨 [CRITICAL:1] ServiceDown
 
@@ -110,6 +121,7 @@ Runbook: https://runbooks.pmpstudy.com/service-down
 ## Step 8: Create Slack Workflow Bot (Optional)
 
 ### Automated Actions
+
 Create Slack app with interactive buttons:
 
 1. **Acknowledge Alert**: Button to silence alert
@@ -131,11 +143,14 @@ Create Slack app with interactive buttons:
 ## Step 9: Set Up Alert Bots
 
 ### Summary Bot (Daily Digest)
+
 Create Slack Workflow Builder workflow:
+
 - **Trigger**: Every day at 9 AM EST
 - **Action**: Query AlertManager API for resolved alerts
 - **Format**: Post summary to #ops-daily
 - **Content**:
+
   ```
   Daily Alert Summary - {date}
   --------------------------------
@@ -153,11 +168,14 @@ Create Slack Workflow Builder workflow:
   ```
 
 ### Status Bot (Hourly Health)
+
 Create workflow:
+
 - **Trigger**: Every hour
 - **Action**: Query Prometheus for health metrics
 - **Post to**: #ops-alerts
 - **Content**:
+
   ```
   📊 System Health Check - {time}
   --------------------------------
@@ -179,6 +197,7 @@ Create workflow:
 ## Step 10: Integration Testing
 
 ### Test Webhook
+
 ```bash
 # Test webhook manually
 curl -X POST $SLACK_WEBHOOK_URL \
@@ -194,6 +213,7 @@ curl -X POST $SLACK_WEBHOOK_URL \
 ```
 
 ### Test AlertManager Integration
+
 1. Deploy AlertManager with Slack config
 2. Trigger a test alert:
    ```bash
@@ -206,7 +226,9 @@ curl -X POST $SLACK_WEBHOOK_URL \
 ## Step 11: Set Up Alert Workflows
 
 ### Incident Workflow
+
 When P1 alert fires:
+
 1. AlertManager posts to #ops-alerts
 2. Auto-creates thread in #incidents
 3. Tags on-call engineer: `@on-call`
@@ -214,14 +236,18 @@ When P1 alert fires:
 5. Adds to incident tracking sheet
 
 ### Acknowledgment Workflow
+
 When someone acknowledges:
+
 1. React to message with 👍
 2. AlertManager updates status
 3. Posts update to thread: "Acknowledged by @user at {time}"
 4. Pages secondary on-call if no response in 15 min
 
 ### Resolution Workflow
+
 When incident resolved:
+
 1. React with ✅
 2. AlertManager marks resolved
 3. Posts summary to #ops-daily
@@ -245,26 +271,30 @@ When incident resolved:
 ## Slack Channel Guidelines
 
 ### #ops-alerts Rules
+
 - **Purpose**: Alert notifications only
 - **Do**: Post updates, acknowledge alerts, share findings
 - **Don't**: General discussion, memes, off-topic
 - **Etiquette**: Use threads for discussions
 
 ### #incidents Rules
+
 - **Purpose**: Active P1 incidents only
 - **Do**: Post incident updates, coordinate response
 - **Don't**: Non-critical discussions
 - **Etiquette**: Keep signal-to-noise high
 
 ### Message Formatting
+
 Use Slack formatting:
+
 ```markdown
-*Alert:* ServiceDown
-*Severity:* critical
-*Summary:* API Gateway error rate > 5%
-*Investigation:* Checking logs...
-*Action:* Rolling back deployment
-*ETA:* 5 minutes
+_Alert:_ ServiceDown
+_Severity:_ critical
+_Summary:_ API Gateway error rate > 5%
+_Investigation:_ Checking logs...
+_Action:_ Rolling back deployment
+_ETA:_ 5 minutes
 
 _Grafana Dashboard_: https://grafana.pmpstudy.com/...
 _Runbook_: https://runbooks.pmpstudy.com/service-down
@@ -273,16 +303,19 @@ _Runbook_: https://runbooks.pmpstudy.com/service-down
 ## Integration with Other Tools
 
 ### PagerDuty → Slack
+
 - Forward PagerDuty notifications to #ops-alerts
 - Include incident link and severity
 - Auto-tag on-call engineer
 
 ### Grafana → Slack
+
 - Set up Grafana alert notifications
 - Use same webhook or dedicated channel
 - Include panel snapshots
 
 ### GitHub → Slack
+
 - Post deployment notifications
 - Show merge to main
 - Alert on failed deployments
@@ -290,22 +323,26 @@ _Runbook_: https://runbooks.pmpstudy.com/service-down
 ## Troubleshooting
 
 ### Webhook Not Working
+
 1. Verify webhook URL is correct
 2. Check AlertManager logs: `kubectl logs -l app=alertmanager -n monitoring`
 3. Test webhook with curl
 4. Verify secret is mounted correctly
 
 ### Messages Not Formatted
+
 1. Check JSON syntax in alertmanager.yml
 2. Verify Slack API changes
 3. Test message format with webhook tester
 
 ### Buttons Not Working
+
 1. Verify URLs are correct
 2. Check Grafana accessibility
 3. Test runbook links
 
 ### No Alerts Received
+
 1. Check AlertManager routing rules
 2. Verify severity labels match
 3. Review AlertManager silence list
@@ -323,16 +360,19 @@ _Runbook_: https://runbooks.pmpstudy.com/service-down
 ## Advanced Features
 
 ### Workflow Builder
+
 - Create automated incident response workflows
 - Build custom approval processes
 - Set up escalation reminders
 
 ### Slack Atlas (Enterprise)
+
 - Create channel governance rules
 - Set up compliance exports
 - Configure audit logging
 
 ### Slack Huddles
+
 - Enable for incident discussions
 - Use for urgent coordination
 - Record for documentation

@@ -106,7 +106,7 @@ export default function PracticePage() {
     return <FullPageSkeleton />;
   }
 
-  const canTakeMockExam = user?.tier === 'high-end' || user?.tier === 'corporate';
+  const canTakeMockExam = user?.tier === 'pro' || user?.tier === 'corporate';
 
   return (
     <div className="min-h-screen">

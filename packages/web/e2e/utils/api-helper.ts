@@ -1,4 +1,4 @@
-import { APIRequestContext, APIResponse } from '@playwright/test';
+import type { APIRequestContext, APIResponse } from '@playwright/test';
 
 /**
  * API Helper for E2E tests
@@ -34,7 +34,10 @@ export class APIHelper {
   /**
    * Login user and get token
    */
-  async loginUser(email: string, password: string): Promise<{ token: string; refreshToken: string }> {
+  async loginUser(
+    email: string,
+    password: string
+  ): Promise<{ token: string; refreshToken: string }> {
     const response = await this.request.post(`${this.baseURL}/auth/login`, {
       headers: this.headers,
       data: { email, password },
@@ -78,13 +81,10 @@ export class APIHelper {
     billing: 'monthly' | 'annual'
   ): Promise<APIResponse> {
     const authHeaders = await this.authenticatedRequest(token);
-    return this.request.post(
-      `${this.baseURL}/orders/test`,
-      {
-        headers: authHeaders.headers,
-        data: { tier, billing },
-      }
-    );
+    return this.request.post(`${this.baseURL}/orders/test`, {
+      headers: authHeaders.headers,
+      data: { tier, billing },
+    });
   }
 
   /**

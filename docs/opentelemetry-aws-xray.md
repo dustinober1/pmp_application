@@ -43,15 +43,14 @@ Create `x-ray-policy.json`:
         "xray:GetSamplingTargets",
         "xray:GetSamplingStatisticSummaries"
       ],
-      "Resource": [
-        "arn:aws:xray:us-east-1:123456789012:*"
-      ]
+      "Resource": ["arn:aws:xray:us-east-1:123456789012:*"]
     }
   ]
 }
 ```
 
 **Create policy:**
+
 ```bash
 aws iam create-policy \
   --policy-name PMPXRayAccess \
@@ -61,6 +60,7 @@ aws iam create-policy \
 ### 2. Create IAM Role for EKS
 
 **For EKS (IRSA):**
+
 ```bash
 # Create OIDC provider (if not exists)
 eksctl utils associate-iam-oidc-provider \
@@ -79,6 +79,7 @@ eksctl create iamserviceaccount \
 ```
 
 **For ECS:**
+
 ```bash
 # Create task role
 aws iam create-role \
@@ -113,23 +114,23 @@ spec:
         app: xray-daemon
     spec:
       containers:
-      - name: xray-daemon
-        image: amazon/aws-xray-daemon:latest
-        ports:
-        - containerPort: 2000/udp
-          protocol: UDP
-        resources:
-          limits:
-            cpu: 100m
-            memory: 256Mi
-        volumeMounts:
-        - name: config
-          mountPath: /aws/xray
-          readOnly: true
+        - name: xray-daemon
+          image: amazon/aws-xray-daemon:latest
+          ports:
+            - containerPort: 2000/udp
+              protocol: UDP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            - name: config
+              mountPath: /aws/xray
+              readOnly: true
       volumes:
-      - name: config
-        configMap:
-          name: xray-config
+        - name: config
+          configMap:
+            name: xray-config
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -147,6 +148,7 @@ data:
 ```
 
 **Deploy:**
+
 ```bash
 kubectl apply -f x-ray-daemon.yaml
 ```
@@ -154,6 +156,7 @@ kubectl apply -f x-ray-daemon.yaml
 **ECS Task Definition:**
 
 Add X-Ray sidecar:
+
 ```json
 {
   "family": "pmp-api",
@@ -198,22 +201,11 @@ Add X-Ray sidecar:
 **File:** `packages/api/src/config/opentelemetry.ts`
 
 ```typescript
-import {
-  NodeSDK,
-  NodeSDKConfiguration,
-} from '@opentelemetry/sdk-node';
-import {
-  AWSXRayExporter,
-} from '@opentelemetry/exporter-aws-xray';
-import {
-  AwsInstrumentation,
-} from '@opentelemetry/instrumentation-aws-sdk';
-import {
-  Resource,
-} from '@opentelemetry/resources';
-import {
-  SemanticResourceAttributes,
-} from '@opentelemetry/semantic-conventions';
+import { NodeSDK, NodeSDKConfiguration } from '@opentelemetry/sdk-node';
+import { AWSXRayExporter } from '@opentelemetry/exporter-aws-xray';
+import { AwsInstrumentation } from '@opentelemetry/instrumentation-aws-sdk';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
 // Determine environment
 const isProduction = process.env.NODE_ENV === 'production';
@@ -269,10 +261,12 @@ const sdkConfig: NodeSDKConfiguration = {
   sampler: {
     shouldSample: (context, traceId, spanName, spanKind, attributes, links) => {
       // Critical paths - 100%
-      const route = attributes?.[SemanticResourceAttributes.HTTP_ROUTE] as string || '';
-      if (route.includes('/api/stripe') ||
-          route.includes('/api/subscriptions') ||
-          route.includes('/api/auth')) {
+      const route = (attributes?.[SemanticResourceAttributes.HTTP_ROUTE] as string) || '';
+      if (
+        route.includes('/api/stripe') ||
+        route.includes('/api/subscriptions') ||
+        route.includes('/api/auth')
+      ) {
         return true;
       }
 
@@ -313,6 +307,7 @@ npm install @opentelemetry/exporter-aws-xray @opentelemetry/instrumentation-aws-
 ### Production (EKS/ECS)
 
 **Add to deployment:**
+
 ```bash
 OTEL_SERVICE_NAME=pmp-api
 OTEL_EXPORTER_OTLP_ENDPOINT= # Not needed for X-Ray
@@ -331,10 +326,10 @@ metadata:
   name: pmp-api-config
   namespace: pmp
 data:
-  NODE_ENV: "production"
-  OTEL_SERVICE_NAME: "pmp-api"
-  AWS_REGION: "us-east-1"
-  AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
+  NODE_ENV: 'production'
+  OTEL_SERVICE_NAME: 'pmp-api'
+  AWS_REGION: 'us-east-1'
+  AWS_XRAY_DAEMON_ADDRESS: 'xray-daemon:2000'
 ```
 
 ### ECS Task Definition
@@ -372,6 +367,7 @@ data:
 ### 1. Check X-Ray Daemon
 
 **EKS:**
+
 ```bash
 # Check pods
 kubectl get pods -n pmp -l app=xray-daemon
@@ -381,6 +377,7 @@ kubectl logs -n pmp -l app=xray-daemon
 ```
 
 **ECS:**
+
 ```bash
 # Check task
 aws ecs describe-tasks --cluster pmp-cluster --tasks <task-id>
@@ -403,6 +400,7 @@ https://console.aws.amazon.com/xray/home?region=us-east-1
 ```
 
 **You should see:**
+
 - Service map with nodes and connections
 - Traces with segments
 - Latency distribution
@@ -430,6 +428,7 @@ In AWS X-Ray Console → Sampling → Create sampling rule:
 ```
 
 **Or via AWS CLI:**
+
 ```bash
 aws xray create-sampling-rule \
   --sampling-rule '{
@@ -490,11 +489,7 @@ export function sanitizeDataMiddleware(req, res, next) {
 ```typescript
 import { trace } from '@opentelemetry/api';
 
-function annotateTrace(metadata: {
-  userId?: string;
-  tier?: string;
-  feature?: string;
-}) {
+function annotateTrace(metadata: { userId?: string; tier?: string; feature?: string }) {
   const span = trace.getActiveSpan();
   if (span) {
     // Annotations are indexed in X-Ray
@@ -536,6 +531,7 @@ export function recordError(error: Error, context: any) {
 X-Ray automatically sends metrics to CloudWatch:
 
 **Key Metrics:**
+
 - `Trace` - Trace count
 - `Segment` - Segment count
 - `Fault` - Error count
@@ -553,6 +549,7 @@ aws cloudwatch put-dashboard \
 ```
 
 **Example dashboard widget:**
+
 ```json
 {
   "widgets": [
@@ -577,6 +574,7 @@ aws cloudwatch put-dashboard \
 ### Alarms
 
 **Create alarm for high error rate:**
+
 ```bash
 aws cloudwatch put-metric-alarm \
   --alarm-name pmp-api-high-error-rate \
@@ -599,17 +597,20 @@ aws cloudwatch put-metric-alarm \
 **Production:** 10% sampling (adjust based on traffic)
 
 **Estimated costs:**
+
 - 1M traces/month ~ $5-10
 - Adjust sampling to control costs
 
 ### Data Retention
 
 Set up X-Ray data retention:
+
 ```
 Console → X-Ray → Settings → Data retention
 ```
 
 Options:
+
 - Real-time only (0 days)
 - 7 days
 - 30 days (default)
@@ -620,6 +621,7 @@ Options:
 ### Missing Traces
 
 **1. Check IAM permissions:**
+
 ```bash
 aws iam simulate-principal-policy \
   --policy-source-arn arn:aws:iam::123456789012:role/pmp-api-task-role \
@@ -627,11 +629,13 @@ aws iam simulate-principal-policy \
 ```
 
 **2. Check X-Ray daemon logs:**
+
 ```bash
 kubectl logs -n pmp -l app=xray-daemon
 ```
 
 **3. Verify network connectivity:**
+
 ```bash
 # Test X-Ray endpoint
 curl https://xray.us-east-1.amazonaws.com
@@ -640,15 +644,18 @@ curl https://xray.us-east-1.amazonaws.com
 ### Sampling Not Working
 
 **1. Check sampling rules:**
+
 ```bash
 aws xray get-sampling-rules
 ```
 
 **2. Verify rule priority:**
+
 - Lower number = higher priority
 - No conflicts in rules
 
 **3. Test sampling:**
+
 ```bash
 # Send 100 requests
 for i in {1..100}; do
@@ -682,6 +689,7 @@ done
 ## Support
 
 For issues or questions:
+
 1. Check X-Ray daemon logs
 2. Verify IAM permissions
 3. Test trace export manually

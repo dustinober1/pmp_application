@@ -6,6 +6,7 @@
 **Status:** Active
 
 ## Table of Contents
+
 1. [Overview](#overview)
 2. [Security Scanning Pipeline](#security-scanning-pipeline)
 3. [Vulnerability Management](#vulnerability-management)
@@ -20,12 +21,14 @@
 This document establishes the security baseline for the PMP Study Application, defining the minimum security requirements and scanning mechanisms in place.
 
 ### Security Objectives
+
 - **Zero High/Critical vulnerabilities** in production
 - **100% dependency scanning** coverage
 - **Continuous security monitoring** via automated CI/CD
 - **Rapid remediation** of security issues (SLA: 7 days for High, 30 days for Medium)
 
 ### Threat Model
+
 - **Application Layer:** XSS, SQL Injection, Auth bypass
 - **Infrastructure Layer:** AWS misconfiguration, IAM over-permissive policies
 - **Supply Chain:** Vulnerable dependencies, compromised packages
@@ -38,23 +41,27 @@ This document establishes the security baseline for the PMP Study Application, d
 ### 1. Static Application Security Testing (SAST)
 
 #### Tools
+
 - **Semgrep:** Custom rules for Express.js, Next.js, and TypeScript security
 - **CodeQL (GitHub):** Deep semantic analysis for code-level vulnerabilities
 
 #### Coverage
+
 - All TypeScript/JavaScript source code
 - Configuration files (JSON, YAML)
 - Infrastructure as Code (Terraform)
 
 #### Findings Breakdown
-| Severity | Threshold | Action |
-|----------|-----------|--------|
+
+| Severity | Threshold  | Action                 |
+| -------- | ---------- | ---------------------- |
 | Critical | Fail build | Immediate fix required |
-| High | Fail build | Fix within 7 days |
-| Medium | Warning | Fix within 30 days |
-| Low | Info | Technical debt backlog |
+| High     | Fail build | Fix within 7 days      |
+| Medium   | Warning    | Fix within 30 days     |
+| Low      | Info       | Technical debt backlog |
 
 #### Vulnerability Categories Scanned
+
 - SQL Injection (CWE-89)
 - Cross-Site Scripting (CWE-79)
 - Command Injection (CWE-78)
@@ -69,14 +76,17 @@ This document establishes the security baseline for the PMP Study Application, d
 ### 2. Dynamic Application Security Testing (DAST)
 
 #### Tools
+
 - **OWASP ZAP:** Automated web application security scanner
 - **Burp Suite:** Manual security testing for staging environment
 
 #### Test Schedule
+
 - **Automated:** Daily scans on staging environment (4 AM UTC)
 - **Manual:** Quarterly penetration testing
 
 #### OWASP Top 10 Coverage
+
 1. Broken Access Control ✅
 2. Cryptographic Failures ✅
 3. Injection ✅
@@ -93,48 +103,56 @@ This document establishes the security baseline for the PMP Study Application, d
 ### 3. Dependency Scanning
 
 #### Tools
+
 - **npm audit:** Native Node.js vulnerability scanner
 - **Snyk:** Enterprise-grade dependency analysis
 - **Dependabot:** Automated dependency updates via PRs
 
 #### Scanning Frequency
+
 - **On Commit:** Every push/PR scans modified packages
 - **Scheduled:** Daily at 3 AM UTC
 - **Manual:** `npm audit` run locally by developers
 
 #### License Compliance
+
 - **GPL/AGPL:** Automatically flagged for review
 - **MIT/Apache 2.0:** Auto-approved
 - **Custom Licenses:** Manual legal review required
 
 #### CVSS Score Management
-| Score Range | Action Required | SLA |
-|-------------|-----------------|-----|
-| 9.0-10.0 (Critical) | Immediate patch | 24 hours |
-| 7.0-8.9 (High) | Patch or mitigations | 7 days |
-| 4.0-6.9 (Medium) | Schedule update | 30 days |
-| 0.1-3.9 (Low) | Backlog | 90 days |
+
+| Score Range         | Action Required      | SLA      |
+| ------------------- | -------------------- | -------- |
+| 9.0-10.0 (Critical) | Immediate patch      | 24 hours |
+| 7.0-8.9 (High)      | Patch or mitigations | 7 days   |
+| 4.0-6.9 (Medium)    | Schedule update      | 30 days  |
+| 0.1-3.9 (Low)       | Backlog              | 90 days  |
 
 ---
 
 ### 4. Container Security
 
 #### Tools
+
 - **Trivy:** Comprehensive vulnerability scanner for Docker images
 - **Hadolint:** Dockerfile best practices linter
 
 #### Scanning Process
+
 1. Build Docker image
 2. Scan with Trivy (CRITICAL, HIGH severity)
 3. Fail deployment if vulnerabilities found
 4. Generate SARIF report for GitHub Security tab
 
 #### Base Image Requirements
+
 - **API:** `node:18-alpine` (minimal attack surface)
 - **Web:** `node:18-alpine` (minimal attack surface)
 - **Updates:** Monthly base image refresh
 
 #### Image Hardening
+
 - Run as non-root user
 - Minimal layers (multi-stage builds)
 - No development tools in production images
@@ -145,11 +163,13 @@ This document establishes the security baseline for the PMP Study Application, d
 ### 5. Infrastructure Security
 
 #### Tools
+
 - **tfsec:** Terraform security configuration scanner
 - **Checkov:** Infrastructure as Code security analysis
 - **AWS Security Hub:** Centralized security findings
 
 #### AWS Security Controls
+
 - **IAM:** Least privilege policies, MFA required
 - **VPC:** Network segmentation, security groups
 - **Encryption:** TLS 1.3 for data in transit, AES-256 for at rest
@@ -157,6 +177,7 @@ This document establishes the security baseline for the PMP Study Application, d
 - **Monitoring:** CloudWatch Alarms, GuardDuty threat detection
 
 #### Terraform Security Rules
+
 - No hardcoded secrets
 - Encryption enabled (S3, RDS, EBS)
 - VPC with private subnets
@@ -168,11 +189,13 @@ This document establishes the security baseline for the PMP Study Application, d
 ### 6. Secrets Detection
 
 #### Tools
+
 - **Gitleaks:** Git history secret scanning
 - **TruffleHog:** Advanced secret detection
 - **git-secrets:** Pre-commit hook (local)
 
 #### Pre-Commit Hooks
+
 ```bash
 # Install pre-commit secrets detection
 cp .github/scripts/pre-commit-secrets.sh .git/hooks/pre-commit
@@ -180,6 +203,7 @@ chmod +x .git/hooks/pre-commit
 ```
 
 #### Patterns Detected
+
 - AWS Access Keys (`AKIA[0-9A-Z]{16}`)
 - API Keys/Tokens
 - Passwords/Secrets
@@ -188,6 +212,7 @@ chmod +x .git/hooks/pre-commit
 - Stripe Keys (`sk_live_`, `pk_live_`)
 
 #### Incident Response for Leaked Secrets
+
 1. **Immediate:** Rotate compromised credentials
 2. **Within 1 hour:** Revoke all access using leaked keys
 3. **Within 4 hours:** Commit to new branch without secrets
@@ -201,21 +226,25 @@ chmod +x .git/hooks/pre-commit
 ### Severity Classification
 
 #### Critical (9.0-10.0 CVSS)
+
 - **Definition:** Remote code execution, full data access
 - **Response:** Emergency patch within 24 hours
 - **Escalation:** CTO, Security Lead notified immediately
 
 #### High (7.0-8.9 CVSS)
+
 - **Definition:** Significant data exposure, authentication bypass
 - **Response:** Patch within 7 days
 - **Escalation:** Engineering Lead, Product Owner notified
 
 #### Medium (4.0-6.9 CVSS)
+
 - **Definition:** Limited exposure, requires user interaction
 - **Response:** Patch within 30 days
 - **Tracking:** Technical backlog
 
 #### Low (0.1-3.9 CVSS)
+
 - **Definition:** Minor issues, information disclosure
 - **Response:** Best effort basis
 - **Tracking:** Technical debt backlog
@@ -256,6 +285,7 @@ chmod +x .git/hooks/pre-commit
 ### Application-Level
 
 #### Authentication & Authorization
+
 - ✅ JWT-based stateless authentication
 - ✅ Password hashing with bcrypt (cost factor 12)
 - ✅ Role-based access control (RBAC)
@@ -263,6 +293,7 @@ chmod +x .git/hooks/pre-commit
 - ✅ Session timeout (15 minutes inactivity)
 
 #### Input Validation
+
 - ✅ Request validation with Zod schemas
 - ✅ SQL injection prevention (Prisma ORM)
 - ✅ XSS sanitization (DOMPurify)
@@ -270,6 +301,7 @@ chmod +x .git/hooks/pre-commit
 - ✅ Rate limiting (Express Rate Limit)
 
 #### Data Protection
+
 - ✅ TLS 1.3 for all connections
 - ✅ Sensitive data encryption at rest (AWS KMS)
 - �PII redaction in logs
@@ -281,18 +313,21 @@ chmod +x .git/hooks/pre-commit
 ### Infrastructure-Level
 
 #### Network Security
+
 - ✅ VPC with public/private subnets
 - ✅ Security groups with least privilege
 - ✅ WAF (AWS Web Application Firewall)
 - ✅ DDoS protection (AWS Shield)
 
 #### Access Control
+
 - ✅ IAM roles for service accounts
 - ✅ SSO with Okta/Azure AD (planned)
 - ✅ MFA enforced for all console access
 - ✅ IAM Access Analyzer enabled
 
 #### Monitoring & Logging
+
 - ✅ CloudTrail for API audit logs
 - ✅ VPC Flow Logs for network monitoring
 - ✅ CloudWatch Logs aggregation
@@ -304,6 +339,7 @@ chmod +x .git/hooks/pre-commit
 ## Incident Response
 
 ### Response Team
+
 - **Incident Commander:** CTO
 - **Security Lead:** DevOps Engineer
 - **Communication:** Product Owner
@@ -312,21 +348,25 @@ chmod +x .git/hooks/pre-commit
 ### Severity Levels
 
 #### SEV-1 (Critical)
+
 - **Definition:** Active exploitation, data breach, production down
 - **Response Time:** 15 minutes
 - **Escalation:** Executive team, legal (if PII involved)
 
 #### SEV-2 (High)
+
 - **Definition:** Security vulnerability with no known exploitation
 - **Response Time:** 1 hour
 - **Escalation:** CTO, Engineering Lead
 
 #### SEV-3 (Medium)
+
 - **Definition:** Potential security issue
 - **Response Time:** 4 hours
 - **Escalation:** Engineering Lead
 
 #### SEV-4 (Low)
+
 - **Definition:** Minor security finding
 - **Response Time:** 1 business day
 - **Escalation:** None
@@ -363,17 +403,20 @@ chmod +x .git/hooks/pre-commit
 ## Compliance
 
 ### OWASP Compliance
+
 - ✅ Top 10 2021 coverage
 - ✅ ASVS Level 2 requirements
 - ✅ Security testing documentation
 
 ### SOC 2 Alignment (Planned)
+
 - 🔄 Access control policies
 - 🔄 Change management procedures
 - 🔄 Incident response plan
 - 🔄 Risk assessment process
 
 ### GDPR Compliance
+
 - ✅ Data minimization principle
 - ✅ Right to erasure (user data deletion)
 - ✅ Data portability (user data export)
@@ -381,6 +424,7 @@ chmod +x .git/hooks/pre-commit
 - ✅ Breach notification procedures
 
 ### PCI DSS (If payment processing)
+
 - ✅ Stripe handles card data (PCI-compliant)
 - ✅ No raw card data storage
 - ✅ TLS for payment flows
@@ -391,6 +435,7 @@ chmod +x .git/hooks/pre-commit
 ## Security Metrics & KPIs
 
 ### Key Performance Indicators
+
 - **Mean Time to Detect (MTTD):** < 4 hours
 - **Mean Time to Respond (MTTR):** < 24 hours for High/Critical
 - **Vulnerability Remediation Rate:** 95% within SLA
@@ -398,6 +443,7 @@ chmod +x .git/hooks/pre-commit
 - **Security Test Coverage:** 100% of codebase
 
 ### Monthly Security Report
+
 - Total vulnerabilities found
 - Remediation rate (by severity)
 - Average remediation time
@@ -405,6 +451,7 @@ chmod +x .git/hooks/pre-commit
 - Security training completion
 
 ### Quarterly Review
+
 - Security baseline effectiveness
 - Tool performance evaluation
 - Threat model updates
@@ -415,34 +462,37 @@ chmod +x .git/hooks/pre-commit
 
 ## Security Tools Summary
 
-| Tool | Purpose | Frequency | Cost |
-|------|---------|-----------|------|
-| Semgrep | SAST | Every commit | Free |
-| CodeQL | Deep code analysis | Daily | Free (GitHub) |
-| npm audit | Dependency scan | Every commit | Free |
-| Snyk | Dependency analysis | Daily | Paid (optional) |
-| Trivy | Container scan | On push | Free |
-| tfsec | IaC security | On push | Free |
-| Checkov | IaC analysis | Daily | Free |
-| Gitleaks | Secrets detection | Every commit | Free |
-| TruffleHog | Advanced secrets | Daily | Free |
-| OWASP ZAP | DAST | Daily (staging) | Free |
+| Tool       | Purpose             | Frequency       | Cost            |
+| ---------- | ------------------- | --------------- | --------------- |
+| Semgrep    | SAST                | Every commit    | Free            |
+| CodeQL     | Deep code analysis  | Daily           | Free (GitHub)   |
+| npm audit  | Dependency scan     | Every commit    | Free            |
+| Snyk       | Dependency analysis | Daily           | Paid (optional) |
+| Trivy      | Container scan      | On push         | Free            |
+| tfsec      | IaC security        | On push         | Free            |
+| Checkov    | IaC analysis        | Daily           | Free            |
+| Gitleaks   | Secrets detection   | Every commit    | Free            |
+| TruffleHog | Advanced secrets    | Daily           | Free            |
+| OWASP ZAP  | DAST                | Daily (staging) | Free            |
 
 ---
 
 ## References & Resources
 
 ### Documentation
+
 - [OWASP Top 10 2021](https://owasp.org/Top10/)
 - [CWE Mitigation](https://cwe.mitre.org/)
 - [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
 
 ### Internal Links
+
 - [Incident Response Runbook](./runbooks/security-incident-response.md)
 - [Security Training Materials](./training/security-awareness.md)
 - [Architecture Decisions](./architecture/security-architecture.md)
 
 ### Contact
+
 - **Security Lead:** security@example.com
 - **Security Issues:** Report via private GitHub vulnerability disclosure
 - **Emergency:** On-call rotation (Slack #security-alerts)

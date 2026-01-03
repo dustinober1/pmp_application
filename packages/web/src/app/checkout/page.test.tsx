@@ -15,7 +15,7 @@ const mockApiRequest = vi.fn();
 vi.mock('next/navigation', () => ({
   useRouter: () => mockRouter,
   useSearchParams: () => ({
-    get: (key: string) => (key === 'tier' ? 'high-end' : null),
+    get: (key: string) => (key === 'tier' ? 'pro' : null),
   }),
 }));
 
@@ -31,14 +31,14 @@ describe('CheckoutPage', () => {
   const mockTierData = {
     tiers: [
       {
-        id: 'high-end',
-        name: 'high-end',
+        id: 'pro',
+        name: 'pro',
         price: 29,
         billingPeriod: 'monthly' as const,
       },
       {
-        id: 'mid-level',
-        name: 'mid-level',
+        id: 'pro',
+        name: 'pro',
         price: 9.99,
         billingPeriod: 'monthly' as const,
       },
@@ -107,8 +107,8 @@ describe('CheckoutPage', () => {
       data: {
         tiers: [
           {
-            id: 'mid-level',
-            name: 'mid-level',
+            id: 'pro',
+            name: 'pro',
             price: 9.99,
             billingPeriod: 'monthly' as const,
           },
@@ -175,7 +175,7 @@ describe('CheckoutPage', () => {
     await waitFor(() => {
       expect(mockApiRequest).toHaveBeenCalledWith('/subscriptions/stripe/checkout', {
         method: 'POST',
-        body: { tierId: 'high-end' },
+        body: { tierId: 'pro' },
       });
     });
 
@@ -344,8 +344,8 @@ describe('CheckoutPage', () => {
       data: {
         tiers: [
           {
-            id: 'high-end',
-            name: 'high-end',
+            id: 'pro',
+            name: 'pro',
             price: 29.5,
             billingPeriod: 'monthly' as const,
           },
@@ -384,7 +384,7 @@ describe('CheckoutPage', () => {
     await waitFor(() => {
       expect(mockApiRequest).toHaveBeenCalledWith('/subscriptions/stripe/checkout', {
         method: 'POST',
-        body: { tierId: 'high-end' },
+        body: { tierId: 'pro' },
       });
     });
   });
@@ -423,8 +423,8 @@ describe('CheckoutPage with different tier configurations', () => {
     const annualTierData = {
       tiers: [
         {
-          id: 'high-end',
-          name: 'high-end',
+          id: 'pro',
+          name: 'pro',
           price: 299,
           billingPeriod: 'annual' as const,
         },
@@ -463,18 +463,18 @@ describe('CheckoutPage with different tier configurations', () => {
 
     render(<CheckoutPage />);
 
-    // The component will look for high-end but won't find it, showing error
+    // The component will look for pro but won't find it, showing error
     await waitFor(() => {
       expect(screen.getByText('Invalid tier selected')).toBeInTheDocument();
     });
   });
 
-  it('handles mid-level tier pricing', async () => {
+  it('handles pro tier pricing', async () => {
     const midLevelTierData = {
       tiers: [
         {
-          id: 'high-end',
-          name: 'high-end',
+          id: 'pro',
+          name: 'pro',
           price: 14.99,
           billingPeriod: 'monthly' as const,
         },

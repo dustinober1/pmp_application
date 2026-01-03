@@ -5,6 +5,7 @@ Complete alerting system for PMP Study Application with PagerDuty, Slack, and Al
 ## Overview
 
 This alerting system provides:
+
 - **P1 Critical Alerts**: Immediate page via PagerDuty (5-min response)
 - **P2 High Priority Alerts**: Page within 15 minutes via PagerDuty
 - **P3 Low Priority Alerts**: Slack notifications only (1-hour response)
@@ -14,6 +15,7 @@ This alerting system provides:
 ## Quick Start
 
 ### 1. Prerequisites
+
 ```bash
 # Ensure you have:
 - kubectl configured for production cluster
@@ -23,6 +25,7 @@ This alerting system provides:
 ```
 
 ### 2. Deploy System
+
 ```bash
 # Create secrets (replace with actual values)
 kubectl create secret generic alertmanager-secrets \
@@ -41,6 +44,7 @@ kubectl wait --for=condition=ready pod -l app=alertmanager -n monitoring --timeo
 ```
 
 ### 3. Verify Deployment
+
 ```bash
 # Check AlertManager is running
 kubectl get pods -l app=alertmanager -n monitoring
@@ -89,6 +93,7 @@ docs/operations/
 ## Alert Categories
 
 ### P1 Critical (Immediate Page - 5 min response)
+
 - ServiceDown: Error rate > 5% for 5 minutes
 - DatabaseConnectionFailure: Deadlocks > 10 or conflicts > 50
 - DatabaseDown: PostgreSQL not responding
@@ -97,6 +102,7 @@ docs/operations/
 - SecurityEvent: Intrusion detection or brute force
 
 ### P2 High Priority (Page within 15 min)
+
 - HighErrorRate: Error rate > 1% for 10 minutes
 - HighLatency: p95 latency > 500ms for 10 minutes
 - LowDiskSpace: < 20% disk free
@@ -106,6 +112,7 @@ docs/operations/
 - RedisConnectionFailure: Cache connectivity issues
 
 ### P3 Low Priority (Slack only - 1 hour response)
+
 - ElevatedErrorRate: Error rate > 0.5% for 15 minutes
 - PerformanceDegradation: 50% slower than baseline
 - BackupJobFailure: No backup in 24 hours
@@ -117,22 +124,26 @@ docs/operations/
 ## Key Features
 
 ### Intelligent Routing
+
 - P1/P2 alerts → PagerDuty (pages on-call engineer)
 - P3 alerts → Slack only (#ops-alerts channel)
 - Database alerts → Always critical priority
 - Payment alerts → Critical with 10-min repeat
 
 ### Alert Grouping
+
 - Groups by service and alert name
 - Prevents alert spam
 - Reduces notification fatigue
 
 ### Inhibition Rules
+
 - Suppresses warnings if critical is firing
 - Reduces noise during outages
 - Focuses on root cause
 
 ### Rich Notifications
+
 - Color-coded by severity (red/orange/yellow)
 - Action buttons (View in Grafana, Runbook, Acknowledge)
 - Detailed context (summary, description, service, instance)
@@ -141,18 +152,21 @@ docs/operations/
 ## On-Call Procedures
 
 ### Rotation
+
 - **Primary On-Call**: 24/7 coverage, 1-week rotation
 - **Secondary On-Call**: Backup, 1-week rotation (offset)
 - **Engineering Lead**: Business hours escalation
 - **CTO**: Critical incidents > 30 minutes
 
 ### Handoff
+
 - Every Monday 9 AM EST
 - Review open incidents
 - Post status in #ops-alerts
 - Transfer PagerDuty on-call
 
 ### Response Times
+
 - **P1 Critical**: Acknowledge within 5 min
 - **P2 High**: Acknowledge within 15 min
 - **P3 Warning**: Respond within 1 hour
@@ -160,6 +174,7 @@ docs/operations/
 ## Runbooks
 
 Every alert has a detailed runbook:
+
 - **Diagnosis steps**: What to check first
 - **Investigation steps**: Systematic troubleshooting
 - **Resolution strategies**: Multiple fix approaches
@@ -170,11 +185,13 @@ Access runbooks at: https://runbooks.pmpstudy.com
 ## Testing
 
 ### Regular Testing
+
 - **Weekly**: P3 alert tests (low disruption)
 - **Monthly**: P2 alert tests (maintenance window)
 - **Quarterly**: Full-scale drill with P1 simulation
 
 ### Test Coverage
+
 - Slack notifications
 - PagerDuty integration
 - Alert rule evaluation
@@ -187,22 +204,26 @@ See: `/docs/operations/alert-testing-procedures.md`
 ## Maintenance
 
 ### Daily
+
 - Review open incidents
 - Check alert fatigue
 - Monitor false positives
 
 ### Weekly
+
 - Review alert performance metrics
 - Tune problematic alerts
 - Update runbooks if needed
 
 ### Monthly
+
 - Full alert rule review
 - Threshold adjustments
 - On-call feedback session
 - Documentation updates
 
 ### Quarterly
+
 - Full alert system audit
 - On-call rotation review
 - Escalation policy updates
@@ -224,12 +245,14 @@ See: `/docs/operations/alert-tuning-guide.md`
 ## Metrics and Dashboards
 
 ### Key Metrics
+
 - Alert firing accuracy (> 95% target)
 - False positive rate (< 10% target)
 - Mean time to acknowledge (< 5 min for P1)
 - Mean time to resolve (< 30 min average)
 
 ### Grafana Dashboards
+
 - AlertManager health
 - Prometheus alert statistics
 - Notification performance
@@ -240,12 +263,14 @@ Access: https://grafana.pmpstudy.com
 ## Security
 
 ### Secrets Management
+
 - Never commit secrets to git
 - Use Kubernetes secrets or external secret manager
 - Rotate integration keys quarterly
 - Restrict secret access to platform team
 
 ### Network Security
+
 - Network policies limit egress
 - TLS for all external communications
 - Authentication for AlertManager UI
@@ -254,18 +279,21 @@ Access: https://grafana.pmpstudy.com
 ## Troubleshooting
 
 ### Alerts Not Firing
+
 1. Check Prometheus rules are loaded: http://localhost:9090/rules
 2. Verify metrics are being scraped
 3. Test alert expression manually
 4. Check for syntax errors
 
 ### Notifications Not Sent
+
 1. Check AlertManager logs: `kubectl logs -l app=alertmanager -n monitoring`
 2. Verify secrets are mounted correctly
 3. Test webhook/API endpoints manually
 4. Check network policies allow egress
 
 ### PagerDuty Duplicates
+
 1. Check for duplicate alert rules
 2. Verify dedup key configuration
 3. Review alert grouping settings
@@ -275,6 +303,7 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 ## Support and Resources
 
 ### Documentation
+
 - **Deployment Guide**: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md`
 - **PagerDuty Setup**: `/infrastructure/alertmanager/pagerduty-setup.md`
 - **Slack Setup**: `/infrastructure/alertmanager/slack-setup.md`
@@ -283,10 +312,12 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 - **Alert Tuning**: `/docs/operations/alert-tuning-guide.md`
 
 ### Runbooks
+
 - Located in: `/docs/operations/runbooks/`
 - Published at: https://runbooks.pmpstudy.com
 
 ### Contact
+
 - **Platform Team**: engineering@pmpstudy.com
 - **On-Call**: Check #ops-alerts channel topic
 - **Emergencies**: Page via PagerDuty
@@ -301,6 +332,7 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 ## Implementation Checklist
 
 ### Phase 1: Setup (Week 1)
+
 - [ ] Create PagerDuty services and integration keys
 - [ ] Create Slack app and configure webhook
 - [ ] Set up on-call schedules in PagerDuty
@@ -308,6 +340,7 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 - [ ] Deploy AlertManager and Prometheus configs
 
 ### Phase 2: Testing (Week 2)
+
 - [ ] Test Slack notifications
 - [ ] Test PagerDuty integration
 - [ ] Test alert rules (P1, P2, P3)
@@ -316,6 +349,7 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 - [ ] Run full-scale drill
 
 ### Phase 3: Training (Week 3)
+
 - [ ] Train on-call engineers
 - [ ] Document runbooks
 - [ ] Share procedures with team
@@ -323,6 +357,7 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 - [ ] Configure Grafana dashboards
 
 ### Phase 4: Go Live (Week 4)
+
 - [ ] Deploy to production
 - [ ] Monitor for 1 week
 - [ ] Tune problematic alerts
@@ -332,6 +367,7 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 ## Success Criteria
 
 ### Technical
+
 - ✅ AlertManager deployed and healthy
 - ✅ Prometheus rules loaded and evaluating
 - ✅ PagerDuty integration working
@@ -340,6 +376,7 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 - ✅ On-call schedule configured
 
 ### Operational
+
 - ✅ P1 alerts acknowledged within 5 minutes
 - ✅ False positive rate < 10%
 - ✅ Team satisfaction with alerting system
@@ -347,6 +384,7 @@ See: `/infrastructure/alertmanager/DEPLOYMENT_GUIDE.md#troubleshooting`
 - ✅ Clear escalation paths
 
 ### Business
+
 - ✅ Improved service reliability
 - ✅ Faster incident response
 - ✅ Better customer experience

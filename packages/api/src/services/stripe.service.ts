@@ -17,7 +17,8 @@ export class StripeService {
     tierId: string,
     tierName: string,
     price: number,
-    billingPeriod: 'monthly' | 'annual'
+    billingPeriod: 'monthly' | 'annual',
+    quantity: number = 1
   ): Promise<{ sessionId: string; url: string | null }> {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -37,14 +38,14 @@ export class StripeService {
             currency: 'usd',
             product_data: {
               name: `PMP Study Pro - ${tierName}`,
-              description: `${tierName} tier (${billingPeriod} billing)`,
+              description: `${tierName} tier (${billingPeriod} billing)${quantity > 1 ? ` - ${quantity} seats` : ''}`,
             },
             unit_amount: Math.round(price * 100),
             recurring: {
               interval: billingPeriod === 'annual' ? 'year' : 'month',
             },
           },
-          quantity: 1,
+          quantity: quantity,
         },
       ],
       mode: 'subscription',
@@ -54,10 +55,13 @@ export class StripeService {
       metadata: {
         userId,
         tierId,
+        quantity: quantity.toString(),
       },
     });
 
-    logger.info(`Stripe Checkout Session created: ${session.id} for user ${userId}`);
+    logger.info(
+      `Stripe Checkout Session created: ${session.id} for user ${userId} (${quantity} seats)`
+    );
 
     return {
       sessionId: session.id,

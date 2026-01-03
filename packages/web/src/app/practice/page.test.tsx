@@ -26,7 +26,7 @@ vi.mock('next/navigation', () => ({
 
 vi.mock('@/hooks/useRequireAuth', () => ({
   useRequireAuth: vi.fn(() => ({
-    user: { tier: 'high-end' },
+    user: { tier: 'pro' },
     canAccess: true,
     isLoading: false,
   })),
@@ -147,7 +147,7 @@ describe('PracticePage', () => {
     expect(startButton).toBeInTheDocument();
   });
 
-  it('shows mock exam button for high-end tier', async () => {
+  it('shows mock exam button for pro tier', async () => {
     render(<PracticePage />);
 
     await waitFor(() => {
@@ -162,7 +162,7 @@ describe('PracticePage', () => {
       expect(screen.getByText('Start Mock Exam')).toBeInTheDocument();
     });
 
-    // Just verify the button exists and is clickable for high-end tier
+    // Just verify the button exists and is clickable for pro tier
     const mockButton = screen.getByText('Start Mock Exam');
     expect(mockButton).toBeInTheDocument();
   });

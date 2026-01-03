@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import bcrypt from 'bcrypt';
 import { accountDeletionService } from './account-deletion.service';
 import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
 
 // Mock Prisma
 vi.mock('../config/database', () => ({
@@ -118,9 +117,7 @@ describe('AccountDeletionService', () => {
 
   describe('cancelDeletion', () => {
     it('should cancel pending deletion', async () => {
-      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(
-        mockDeletionRequest
-      );
+      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(mockDeletionRequest);
       vi.mocked(prisma.accountDeletionRequest.update).mockResolvedValue({
         ...mockDeletionRequest,
         status: 'cancelled',
@@ -145,9 +142,7 @@ describe('AccountDeletionService', () => {
         gracePeriodEnds: new Date(Date.now() - 1000),
       };
 
-      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(
-        expiredRequest
-      );
+      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(expiredRequest);
 
       await expect(
         accountDeletionService.cancelDeletion(mockUserId, mockRequestId)
@@ -160,9 +155,7 @@ describe('AccountDeletionService', () => {
         status: 'processing',
       };
 
-      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(
-        processingRequest
-      );
+      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(processingRequest);
 
       await expect(
         accountDeletionService.cancelDeletion(mockUserId, mockRequestId)
@@ -172,9 +165,7 @@ describe('AccountDeletionService', () => {
 
   describe('getDeletionStatus', () => {
     it('should return deletion status', async () => {
-      vi.mocked(prisma.accountDeletionRequest.findFirst).mockResolvedValue(
-        mockDeletionRequest
-      );
+      vi.mocked(prisma.accountDeletionRequest.findFirst).mockResolvedValue(mockDeletionRequest);
 
       const result = await accountDeletionService.getDeletionStatus(mockUserId);
 
@@ -221,28 +212,17 @@ describe('AccountDeletionService', () => {
         gracePeriodEnds: new Date(Date.now() - 1000),
       };
 
-      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(
-        expiredRequest
-      );
-      vi.spyOn(
-        accountDeletionService as any,
-        'softDelete'
-      ).mockResolvedValue(undefined);
+      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(expiredRequest);
+      vi.spyOn(accountDeletionService as any, 'softDelete').mockResolvedValue(undefined);
       vi.mocked(prisma.accountDeletionRequest.update).mockResolvedValue(expiredRequest);
 
-      await accountDeletionService.adminProcessDeletion(
-        mockRequestId,
-        'admin-user',
-        false
-      );
+      await accountDeletionService.adminProcessDeletion(mockRequestId, 'admin-user', false);
 
       expect(accountDeletionService['softDelete']).toHaveBeenCalled();
     });
 
     it('should require force flag for active grace period', async () => {
-      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(
-        mockDeletionRequest
-      );
+      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(mockDeletionRequest);
 
       await expect(
         accountDeletionService.adminProcessDeletion(mockRequestId, 'admin-user', false)
@@ -250,20 +230,11 @@ describe('AccountDeletionService', () => {
     });
 
     it('should allow bypass with force flag', async () => {
-      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(
-        mockDeletionRequest
-      );
-      vi.spyOn(
-        accountDeletionService as any,
-        'softDelete'
-      ).mockResolvedValue(undefined);
+      vi.mocked(prisma.accountDeletionRequest.findUnique).mockResolvedValue(mockDeletionRequest);
+      vi.spyOn(accountDeletionService as any, 'softDelete').mockResolvedValue(undefined);
       vi.mocked(prisma.accountDeletionRequest.update).mockResolvedValue(mockDeletionRequest);
 
-      await accountDeletionService.adminProcessDeletion(
-        mockRequestId,
-        'admin-user',
-        true
-      );
+      await accountDeletionService.adminProcessDeletion(mockRequestId, 'admin-user', true);
 
       expect(accountDeletionService['softDelete']).toHaveBeenCalled();
     });
@@ -277,10 +248,7 @@ describe('AccountDeletionService', () => {
       ];
 
       vi.mocked(prisma.accountDeletionRequest.findMany).mockResolvedValue(expiredDeletions);
-      vi.spyOn(
-        accountDeletionService as any,
-        'softDelete'
-      ).mockResolvedValue(undefined);
+      vi.spyOn(accountDeletionService as any, 'softDelete').mockResolvedValue(undefined);
       vi.mocked(prisma.accountDeletionRequest.update).mockResolvedValue({});
 
       const result = await accountDeletionService.processPendingDeletions();
@@ -295,10 +263,9 @@ describe('AccountDeletionService', () => {
       ];
 
       vi.mocked(prisma.accountDeletionRequest.findMany).mockResolvedValue(expiredDeletions);
-      vi.spyOn(
-        accountDeletionService as any,
-        'softDelete'
-      ).mockRejectedValue(new Error('Database error'));
+      vi.spyOn(accountDeletionService as any, 'softDelete').mockRejectedValue(
+        new Error('Database error')
+      );
       vi.mocked(prisma.accountDeletionRequest.update).mockResolvedValue({});
 
       const result = await accountDeletionService.processPendingDeletions();

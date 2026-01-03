@@ -86,7 +86,7 @@ export default function FormulasPage() {
     [formulas, selectedCategory]
   );
 
-  const canUseCalculator = user?.tier === 'high-end' || user?.tier === 'corporate';
+  const canUseCalculator = user?.tier === 'pro' || user?.tier === 'corporate';
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;

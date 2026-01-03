@@ -57,6 +57,7 @@ const ContentSecurityPolicy = [
 
 const nextConfig = {
   reactStrictMode: true,
+  output: 'standalone',
   transpilePackages: ['@pmp/shared'],
   async redirects() {
     return [

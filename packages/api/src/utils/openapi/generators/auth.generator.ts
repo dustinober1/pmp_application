@@ -8,7 +8,8 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     get: {
       tags: ['Authentication'],
       summary: 'Get CSRF token',
-      description: 'Retrieve a CSRF token for form submissions. Used in double-submit cookie pattern.',
+      description:
+        'Retrieve a CSRF token for form submissions. Used in double-submit cookie pattern.',
       security: [],
       responses: {
         '200': {
@@ -61,7 +62,8 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
                   type: 'string',
                   minLength: 8,
                   maxLength: 64,
-                  description: 'Password (min 8 chars, must contain uppercase, lowercase, and number)',
+                  description:
+                    'Password (min 8 chars, must contain uppercase, lowercase, and number)',
                   example: 'Password123',
                 },
                 name: {
@@ -205,7 +207,8 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     post: {
       tags: ['Authentication'],
       summary: 'Refresh access token',
-      description: 'Obtain a new access token using the refresh token from cookies or request body.',
+      description:
+        'Obtain a new access token using the refresh token from cookies or request body.',
       security: [],
       requestBody: {
         content: {
@@ -283,7 +286,8 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
     post: {
       tags: ['Authentication'],
       summary: 'Request password reset',
-      description: 'Send a password reset email. Always returns 200 for security (user enumeration prevention).',
+      description:
+        'Send a password reset email. Always returns 200 for security (user enumeration prevention).',
       security: [],
       requestBody: {
         required: true,
@@ -314,7 +318,8 @@ export const authPaths: OpenAPIV3_1.PathsObject = {
                   success: { type: 'boolean', example: true },
                   message: {
                     type: 'string',
-                    example: 'If an account exists with this email, a password reset link has been sent.',
+                    example:
+                      'If an account exists with this email, a password reset link has been sent.',
                   },
                 },
               },

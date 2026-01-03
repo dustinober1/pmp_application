@@ -35,12 +35,14 @@ The PMP Study Application API uses **OpenAPI 3.1 specification** for comprehensi
 ### Development Environment
 
 1. Start the API server:
+
    ```bash
    cd packages/api
    npm run dev
    ```
 
 2. Open Swagger UI in your browser:
+
    ```
    http://localhost:4000/api-docs
    ```
@@ -108,6 +110,7 @@ npm run export:openapi
 ```
 
 This generates:
+
 - `openapi/openapi.json` - JSON specification
 - `openapi/openapi.yaml` - YAML specification
 
@@ -121,6 +124,7 @@ npm run generate:postman
 ```
 
 This generates:
+
 - `openapi/postman-collection.json` - Import into Postman
 
 ### Export All Documentation
@@ -180,13 +184,9 @@ const createItemSchema = z.object({
   description: z.string().optional(),
 });
 
-router.post(
-  '/items',
-  validateBody(createItemSchema),
-  async (req, res, next) => {
-    // Implementation
-  }
-);
+router.post('/items', validateBody(createItemSchema), async (req, res, next) => {
+  // Implementation
+});
 ```
 
 ### Step 2: Create OpenAPI Generator

@@ -1,48 +1,36 @@
 {
-    "name": "PMP Study App Dev Container",
-    "dockerComposeFile": [
-        "../docker-compose.yml",
-        "docker-compose.extend.yml"
-    ],
-    "service": "api",
-    "workspaceFolder": "/app",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "dbaeumer.vscode-eslint",
-                "esbenp.prettier-vscode",
-                "prisma.prisma",
-                "bradlc.vscode-tailwindcss",
-                "christian-kohler.npm-intellisense",
-                "ritwickdey.liveserver"
-            ],
-            "settings": {
-                "editor.formatOnSave": true,
-                "editor.defaultFormatter": "esbenp.prettier-vscode",
-                "eslint.validate": [
-                    "javascript",
-                    "typescript",
-                    "typescriptreact"
-                ]
-            }
-        }
+  "name": "PMP Study App Dev Container",
+  "dockerComposeFile": ["../docker-compose.yml", "docker-compose.extend.yml"],
+  "service": "api",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "prisma.prisma",
+        "bradlc.vscode-tailwindcss",
+        "christian-kohler.npm-intellisense",
+        "ritwickdey.liveserver"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "eslint.validate": ["javascript", "typescript", "typescriptreact"]
+      }
+    }
+  },
+  "forwardPorts": [3000, 3001, 5432, 6379],
+  "portsAttributes": {
+    "3000": {
+      "label": "Web Client",
+      "onAutoForward": "notify"
     },
-    "forwardPorts": [
-        3000,
-        3001,
-        5432,
-        6379
-    ],
-    "portsAttributes": {
-        "3000": {
-            "label": "Web Client",
-            "onAutoForward": "notify"
-        },
-        "3001": {
-            "label": "API Server",
-            "onAutoForward": "notify"
-        }
-    },
-    "postCreateCommand": "npm install && npx prisma generate",
-    "remoteUser": "node"
+    "3001": {
+      "label": "API Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "npm install && npx prisma generate",
+  "remoteUser": "node"
 }

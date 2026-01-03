@@ -28,7 +28,7 @@ vi.mock('next/navigation', () => ({
 
 vi.mock('@/hooks/useRequireAuth', () => ({
   useRequireAuth: vi.fn(() => ({
-    user: { tier: 'high-end' },
+    user: { tier: 'pro' },
     canAccess: true,
     isLoading: false,
   })),

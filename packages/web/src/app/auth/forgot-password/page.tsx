@@ -72,6 +72,7 @@ export default function ForgotPasswordPage() {
     } else if (status === 'success' && countdown === 0) {
       router.push('/auth/login');
     }
+    return undefined;
   }, [status, countdown, router]);
 
   if (status === 'success') {

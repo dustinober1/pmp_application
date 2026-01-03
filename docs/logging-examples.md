@@ -284,7 +284,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
   method: 'POST',
   headers: {
     'X-Trace-ID': traceId,
-    'Authorization': `Bearer ${apiKey}`,
+    Authorization: `Bearer ${apiKey}`,
   },
   body: JSON.stringify({ amount: 9999, currency: 'usd' }),
 });

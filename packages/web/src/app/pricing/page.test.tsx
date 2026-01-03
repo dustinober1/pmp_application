@@ -23,7 +23,7 @@ vi.mock('@pmp/shared', () => ({
       teamManagement: false,
       dedicatedSupport: false,
     },
-    'mid-level': {
+    pro: {
       studyGuidesAccess: 'full',
       flashcardsLimit: 1000,
       practiceQuestionsPerDomain: 100,
@@ -35,7 +35,7 @@ vi.mock('@pmp/shared', () => ({
       teamManagement: false,
       dedicatedSupport: false,
     },
-    'high-end': {
+    pro: {
       studyGuidesAccess: 'full',
       flashcardsLimit: 2000,
       practiceQuestionsPerDomain: 200,
@@ -136,14 +136,14 @@ describe('PricingPage', () => {
     render(<PricingPage />);
 
     const midLevelButton = screen.getByRole('link', { name: 'Upgrade to Mid-Level' });
-    expect(midLevelButton).toHaveAttribute('href', '/checkout?tier=mid-level');
+    expect(midLevelButton).toHaveAttribute('href', '/checkout?tier=pro');
   });
 
   it('renders Upgrade button for High-End tier', () => {
     render(<PricingPage />);
 
     const highEndButton = screen.getByRole('link', { name: 'Upgrade to High-End' });
-    expect(highEndButton).toHaveAttribute('href', '/checkout?tier=high-end');
+    expect(highEndButton).toHaveAttribute('href', '/checkout?tier=pro');
   });
 
   it('renders Start Team Plan button for Corporate tier', () => {
@@ -206,7 +206,7 @@ describe('PricingPage with Pro user', () => {
   beforeEach(() => {
     vi.doMock('../../contexts/AuthContext', () => ({
       useAuth: () => ({
-        user: { id: '1', tier: 'high-end' },
+        user: { id: '1', tier: 'pro' },
       }),
     }));
   });

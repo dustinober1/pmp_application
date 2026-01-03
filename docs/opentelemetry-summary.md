@@ -9,6 +9,7 @@ The PMP Study Application has been fully instrumented with OpenTelemetry distrib
 ### 1. API Instrumentation (`packages/api`)
 
 **Dependencies Added:**
+
 - @opentelemetry/api@1.9.0
 - @opentelemetry/sdk-node@0.54.0
 - @opentelemetry/auto-instrumentations-node@0.50.0
@@ -21,17 +22,20 @@ The PMP Study Application has been fully instrumented with OpenTelemetry distrib
 - @opentelemetry/semantic-conventions@1.27.0
 
 **Files Created:**
+
 - `/packages/api/src/config/opentelemetry.ts` - SDK configuration with OTLP exporter
 - `/packages/api/src/utils/tracing.ts` - Tracing utilities and helper functions
 - `/packages/api/src/services/stripe.service.traced.ts` - Example of fully instrumented service
 
 **Automatic Instrumentation:**
+
 - Express HTTP requests (all routes)
 - PostgreSQL queries (via Prisma/pg driver)
 - Redis operations (via ioredis)
 - HTTP/HTTPS outgoing requests
 
 **Manual Spans:**
+
 - User context propagation
 - Database query context
 - External API calls (Stripe)
@@ -41,6 +45,7 @@ The PMP Study Application has been fully instrumented with OpenTelemetry distrib
 ### 2. Web Instrumentation (`packages/web`)
 
 **Dependencies Added:**
+
 - @opentelemetry/api@1.9.0
 - @opentelemetry/sdk-trace-web@1.28.0
 - @opentelemetry/instrumentation-fetch@0.54.0
@@ -51,16 +56,19 @@ The PMP Study Application has been fully instrumented with OpenTelemetry distrib
 - @opentelemetry/semantic-conventions@1.27.0
 
 **Files Created:**
+
 - `/packages/web/src/lib/opentelemetry.ts` - Browser SDK configuration
 - `/packages/web/src/lib/opentelemetry-provider.tsx` - React provider component
 - `/packages/web/src/lib/opentelemetry-hooks.ts` - Custom React hooks
 
 **Automatic Instrumentation:**
+
 - Fetch API calls
 - XMLHttpRequest calls
 - User interactions (click, submit, change)
 
 **React Hooks:**
+
 - `useComponentTrace` - Track component lifecycle
 - `usePageTracking` - Track page views
 - `useAsyncTracer` - Trace async operations
@@ -72,18 +80,21 @@ The PMP Study Application has been fully instrumented with OpenTelemetry distrib
 ### 3. Infrastructure
 
 **Docker Services Added:**
+
 - `otel-collector` - OpenTelemetry Collector (ports 4317, 4318, 8888, 8889)
 - `jaeger` - Trace visualization (port 16686)
 - `prometheus` - Metrics storage (port 9090)
 - `grafana` - Dashboards and visualization (port 3002)
 
 **Configuration Files:**
+
 - `/config/otel-collector-config.yaml` - Collector configuration
 - `/config/prometheus.yml` - Prometheus scrape configuration
 - `/config/grafana/provisioning/datasources/datasources.yml` - Grafana datasources
 - `/config/grafana/provisioning/dashboards/dashboards.yml` - Grafana dashboard provisioning
 
 **Docker Compose Updates:**
+
 - Added tracing services to `docker-compose.yml`
 - Configured environment variables for API and Web
 - Set up service dependencies and health checks
@@ -92,6 +103,7 @@ The PMP Study Application has been fully instrumented with OpenTelemetry distrib
 ### 4. Documentation
 
 **Complete Documentation Set:**
+
 1. `/docs/OPENTELEMETRY.md` - Main documentation and overview
 2. `/docs/opentelemetry-quickstart.md` - 5-minute setup guide
 3. `/docs/opentelemetry-implementation-guide.md` - Complete implementation details
@@ -151,7 +163,7 @@ Browser Span (Web)
 ### 2. Smart Sampling
 
 - **Development:** 100% sampling for complete visibility
-- **Production:** 
+- **Production:**
   - Critical paths (Stripe, Auth): 100%
   - Health checks: 10%
   - Default: 30%
@@ -159,6 +171,7 @@ Browser Span (Web)
 ### 3. Context Enrichment
 
 All spans include relevant context:
+
 - User ID, email, tier (when authenticated)
 - HTTP method, route, status code
 - Database table, operation, statement
@@ -168,6 +181,7 @@ All spans include relevant context:
 ### 4. Error Tracking
 
 Errors are automatically captured with:
+
 - Error type and message
 - Stack trace
 - Relevant context
@@ -181,17 +195,17 @@ Errors are automatically captured with:
 import { withSpan, setUserContext, setDatabaseContext } from '../utils/tracing';
 
 async function createUser(userId: string, data: UserData) {
-  return withSpan('user.create', async (span) => {
+  return withSpan('user.create', async span => {
     setUserContext(span, { id: userId });
-    
-    const user = await withSpan('user.create.db', async (dbSpan) => {
+
+    const user = await withSpan('user.create.db', async dbSpan => {
       setDatabaseContext(dbSpan, {
         table: 'User',
         operation: 'create',
       });
       return prisma.user.create({ data });
     });
-    
+
     span.addEvent('user.created', { user_id: userId });
     return user;
   });
@@ -205,7 +219,7 @@ import { useApiTracer } from '@/lib/opentelemetry-hooks';
 
 function MyComponent() {
   const { traceApiCall } = useApiTracer();
-  
+
   const handleSubmit = async () => {
     await traceApiCall('/api/users', 'POST', async () => {
       return fetch('/api/users', {
@@ -214,7 +228,7 @@ function MyComponent() {
       });
     });
   };
-  
+
   return <button onClick={handleSubmit}>Submit</button>;
 }
 ```
@@ -231,6 +245,7 @@ function MyComponent() {
 ### Production (AWS X-Ray)
 
 See `/docs/opentelemetry-aws-xray.md` for complete setup:
+
 - X-Ray daemon deployment
 - IAM permissions
 - Sampling rules
@@ -246,12 +261,14 @@ See `/docs/opentelemetry-aws-xray.md` for complete setup:
 ## Production Deployment
 
 ### Prerequisites
+
 - AWS account with appropriate permissions
 - EKS or ECS cluster
 - X-Ray daemon deployed
 - IAM role configured
 
 ### Configuration
+
 - Switch exporter to AWS X-Ray
 - Adjust sampling rates
 - Set up CloudWatch dashboards
@@ -262,6 +279,7 @@ See `/docs/opentelemetry-aws-xray.md` for detailed instructions.
 ## Monitoring & Debugging
 
 ### Identify Issues
+
 1. Check Jaeger for slow traces
 2. Look for N+1 database queries
 3. Find missing indexes
@@ -269,6 +287,7 @@ See `/docs/opentelemetry-aws-xray.md` for detailed instructions.
 5. Spot memory leaks
 
 ### Optimize Performance
+
 1. Use traces to find bottlenecks
 2. Add database indexes
 3. Implement caching
@@ -276,6 +295,7 @@ See `/docs/opentelemetry-aws-xray.md` for detailed instructions.
 5. Optimize queries
 
 ### Common Problems
+
 - **No traces:** Check collector logs
 - **Missing context:** Verify attribute setting
 - **High latency:** Look for database queries or external API calls
@@ -284,16 +304,19 @@ See `/docs/opentelemetry-aws-xray.md` for detailed instructions.
 ## Next Steps
 
 ### Immediate
+
 1. Start tracing infrastructure: `docker-compose up -d otel-collector jaeger`
 2. Verify traces appear in Jaeger
 3. Explore existing traces
 
 ### Short-term
+
 1. Add manual spans to critical business logic
 2. Set up performance dashboards in Grafana
 3. Create alerts for high error rates
 
 ### Long-term
+
 1. Deploy to production with AWS X-Ray
 2. Implement sampling strategy
 3. Set up CloudWatch integration
@@ -302,12 +325,14 @@ See `/docs/opentelemetry-aws-xray.md` for detailed instructions.
 ## Maintenance
 
 ### Regular Tasks
+
 - Review slow traces weekly
 - Optimize bottlenecks
 - Update sampling rules
 - Check dashboards
 
 ### Optimization Cycle
+
 1. Identify slow endpoints in Jaeger
 2. Analyze trace to find bottleneck
 3. Implement fix
@@ -316,12 +341,14 @@ See `/docs/opentelemetry-aws-xray.md` for detailed instructions.
 ## Support
 
 ### Documentation
+
 - Quick start: `/docs/opentelemetry-quickstart.md`
 - Full guide: `/docs/opentelemetry-implementation-guide.md`
 - Performance: `/docs/opentelemetry-performance-analysis.md`
 - AWS setup: `/docs/opentelemetry-aws-xray.md`
 
 ### Troubleshooting
+
 1. Check logs: `docker-compose logs -f otel-collector`
 2. Verify environment variables
 3. Test with known endpoint (e.g., /api/health)

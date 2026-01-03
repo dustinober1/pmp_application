@@ -97,17 +97,18 @@ export class Logger {
    * Log at error level
    */
   error(message: string, error?: Error | any, metadata?: any): void {
-    const errorMeta = error instanceof Error
-      ? {
-          error: {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
-            code: (error as any).code,
-          },
-          ...metadata,
-        }
-      : { ...error, ...metadata };
+    const errorMeta =
+      error instanceof Error
+        ? {
+            error: {
+              name: error.name,
+              message: error.message,
+              stack: error.stack,
+              code: (error as any).code,
+            },
+            ...metadata,
+          }
+        : { ...error, ...metadata };
 
     this.winston.error(message, {
       context: this.buildContext(),

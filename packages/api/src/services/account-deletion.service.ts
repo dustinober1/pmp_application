@@ -4,7 +4,6 @@ import type { AccountDeletionRequest as AccountDeletionRequestType } from '@pmp/
 import prisma from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 import { PRIVACY_ERRORS } from '@pmp/shared';
-import { authService } from './auth.service';
 import { logger } from '../utils/logger';
 
 const GRACE_PERIOD_DAYS = 30;
@@ -30,10 +29,7 @@ export class AccountDeletionService {
       throw AppError.notFound('User not found', 'USER_NOT_FOUND');
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      deletionData.confirmPassword,
-      user.passwordHash
-    );
+    const isPasswordValid = await bcrypt.compare(deletionData.confirmPassword, user.passwordHash);
 
     if (!isPasswordValid) {
       throw AppError.unauthorized('Invalid password', 'INVALID_PASSWORD');
@@ -48,10 +44,7 @@ export class AccountDeletionService {
     });
 
     if (existingDeletion) {
-      throw AppError.conflict(
-        PRIVACY_ERRORS.PRIVACY_003.message,
-        PRIVACY_ERRORS.PRIVACY_003.code
-      );
+      throw AppError.conflict(PRIVACY_ERRORS.PRIVACY_003.message, PRIVACY_ERRORS.PRIVACY_003.code);
     }
 
     // Create deletion request
@@ -203,7 +196,7 @@ export class AccountDeletionService {
    * Process soft delete (anonymize data)
    */
   private async softDelete(userId: string, deletionRequestId: string): Promise<void> {
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async tx => {
       // Anonymize user data
       const anonymousId = `deleted-${uuidv4()}`;
       const anonymousEmail = `deleted-${anonymousId}@deleted.local`;
@@ -265,7 +258,7 @@ export class AccountDeletionService {
     // Note: Due to foreign key constraints, cascading deletes will handle most data
     // Payment transactions should be kept for legal requirements (anonymized)
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async tx => {
       // Anonymize payment transactions instead of deleting (legal requirement)
       await tx.paymentTransaction.updateMany({
         where: { userId },
@@ -328,7 +321,7 @@ export class AccountDeletionService {
     ]);
 
     return {
-      deletions: deletions.map((del) => ({
+      deletions: deletions.map(del => ({
         id: del.id,
         userId: del.userId,
         status: del.status as any,

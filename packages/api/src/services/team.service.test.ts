@@ -189,7 +189,7 @@ describe('TeamService', () => {
       const teamData = { name: 'Engineering Team', licenseCount: 10 };
       const mockSubscription = {
         userId: adminId,
-        tier: { name: 'high-end' },
+        tier: { name: 'pro' },
       };
 
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);

@@ -253,8 +253,8 @@ describe('AuthService', () => {
         createdAt: mockDate,
         updatedAt: mockDate,
         subscription: {
-          tierId: 'mid-level',
-          tier: { name: 'mid-level' },
+          tierId: 'pro',
+          tier: { name: 'pro' },
         },
       };
 
@@ -508,7 +508,7 @@ describe('AuthService', () => {
           id: 'user-id',
           email: 'test@example.com',
           subscription: {
-            tierId: 'mid-level',
+            tierId: 'pro',
           },
         },
       };
@@ -1080,7 +1080,7 @@ describe('AuthService', () => {
     it('should generate tokens with correct parameters', async () => {
       const mockUserData = {
         ...mockUser(),
-        subscription: { tierId: 'high-end' },
+        subscription: { tierId: 'pro' },
       };
 
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUserData);
@@ -1101,7 +1101,7 @@ describe('AuthService', () => {
         {
           userId: mockUserData.id,
           email: mockUserData.email,
-          tierId: 'high-end',
+          tierId: 'pro',
         },
         'test-jwt-secret-at-least-32-chars-long',
         { expiresIn: '15m' }

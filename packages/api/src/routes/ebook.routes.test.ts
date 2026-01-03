@@ -46,7 +46,7 @@ const mockPremiumChapter = {
   description: 'Strategic business management',
   orderIndex: 2,
   isPremium: true,
-  minTier: 'mid-level',
+  minTier: 'pro',
   sectionCount: 8,
 };
 
@@ -346,7 +346,7 @@ describe('GET /api/ebook/search', () => {
 
   it('should search with premium user tier', async () => {
     (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue({
-      tier: { name: 'mid-level' as TierName },
+      tier: { name: 'pro' as TierName },
     });
     (ebookService.searchContent as jest.Mock).mockResolvedValueOnce(
       mockSearchResultsWithPagination
@@ -355,7 +355,7 @@ describe('GET /api/ebook/search', () => {
     const response = await request(app).get('/api/ebook/search?q=stakeholder');
 
     expect(response.status).toBe(200);
-    expect(ebookService.searchContent).toHaveBeenCalledWith('stakeholder', 'mid-level', {
+    expect(ebookService.searchContent).toHaveBeenCalledWith('stakeholder', 'pro', {
       page: 1,
       limit: 20,
     });
@@ -734,9 +734,9 @@ describe('Search with different user tiers', () => {
     });
   });
 
-  it('should search with high-end tier for high-end users', async () => {
+  it('should search with pro tier for pro users', async () => {
     (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue({
-      tier: { name: 'high-end' as TierName },
+      tier: { name: 'pro' as TierName },
     });
     (ebookService.searchContent as jest.Mock).mockResolvedValueOnce(
       mockSearchResultsWithPagination
@@ -745,7 +745,7 @@ describe('Search with different user tiers', () => {
     const response = await request(app).get('/api/ebook/search?q=risk');
 
     expect(response.status).toBe(200);
-    expect(ebookService.searchContent).toHaveBeenCalledWith('risk', 'high-end', {
+    expect(ebookService.searchContent).toHaveBeenCalledWith('risk', 'pro', {
       page: 1,
       limit: 20,
     });
@@ -808,7 +808,7 @@ describe('Freemium Access Control - Section Content', () => {
           throw AppError.forbidden(
             'This content requires a premium subscription',
             'PREMIUM_CONTENT',
-            'Upgrade to mid-level tier or higher to access this content'
+            'Upgrade to pro tier or higher to access this content'
           );
         });
 
@@ -821,18 +821,18 @@ describe('Freemium Access Control - Section Content', () => {
         expect(response.body.error.code).toBe('PREMIUM_CONTENT');
         expect(response.body.error.message).toBe('This content requires a premium subscription');
         expect(response.body.error.suggestion).toBe(
-          'Upgrade to mid-level tier or higher to access this content'
+          'Upgrade to pro tier or higher to access this content'
         );
       }
     );
   });
 
-  describe('Premium User (mid-level subscription)', () => {
+  describe('Premium User (pro subscription)', () => {
     beforeEach(() => {
-      // Mock mid-level subscription
+      // Mock pro subscription
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue({
         userId: mockUserId,
-        tier: { name: 'mid-level' as TierName },
+        tier: { name: 'pro' as TierName },
       });
       // Mock ebook progress service to return a resolved promise
       (ebookProgressService.updateProgress as jest.Mock).mockResolvedValue(undefined);
@@ -862,7 +862,7 @@ describe('Freemium Access Control - Section Content', () => {
         expect(ebookService.getSectionBySlug).toHaveBeenCalledWith(
           chapterSlug,
           'test-section',
-          'mid-level'
+          'pro'
         );
       }
     );
@@ -870,10 +870,10 @@ describe('Freemium Access Control - Section Content', () => {
 
   describe('High-end User', () => {
     beforeEach(() => {
-      // Mock high-end subscription
+      // Mock pro subscription
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue({
         userId: mockUserId,
-        tier: { name: 'high-end' as TierName },
+        tier: { name: 'pro' as TierName },
       });
       // Mock ebook progress service to return a resolved promise
       (ebookProgressService.updateProgress as jest.Mock).mockResolvedValue(undefined);
@@ -903,7 +903,7 @@ describe('Freemium Access Control - Section Content', () => {
         expect(ebookService.getSectionBySlug).toHaveBeenCalledWith(
           chapterSlug,
           'test-section',
-          'high-end'
+          'pro'
         );
       }
     );
@@ -956,7 +956,7 @@ describe('Freemium Access Control - Section Content', () => {
           throw AppError.forbidden(
             'This content requires a premium subscription',
             'PREMIUM_CONTENT',
-            'Upgrade to mid-level tier or higher to access this content'
+            'Upgrade to pro tier or higher to access this content'
           );
         });
 
@@ -969,7 +969,7 @@ describe('Freemium Access Control - Section Content', () => {
         expect(response.body.error.code).toBe('PREMIUM_CONTENT');
         expect(response.body.error.message).toBe('This content requires a premium subscription');
         expect(response.body.error.suggestion).toBe(
-          'Upgrade to mid-level tier or higher to access this content'
+          'Upgrade to pro tier or higher to access this content'
         );
       }
     );

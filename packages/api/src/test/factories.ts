@@ -132,9 +132,7 @@ export function createPracticeSessionFactory(
 /**
  * Practice Question Factory
  */
-export function createQuestionFactory(
-  overrides: Partial<PracticeQuestion> = {}
-): PracticeQuestion {
+export function createQuestionFactory(overrides: Partial<PracticeQuestion> = {}): PracticeQuestion {
   return {
     id: overrides.id || 'question-123',
     domain: overrides.domain || 'PEOPLE',
@@ -158,9 +156,7 @@ export function createQuestionFactory(
 /**
  * Flashcard Deck Factory
  */
-export function createFlashcardDeckFactory(
-  overrides: Partial<FlashcardDeck> = {}
-): FlashcardDeck {
+export function createFlashcardDeckFactory(overrides: Partial<FlashcardDeck> = {}): FlashcardDeck {
   return {
     id: overrides.id || 'deck-123',
     userId: overrides.userId || 'user-123',

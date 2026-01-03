@@ -54,6 +54,7 @@ npx prisma studio
 ```
 
 **Expected Tables:**
+
 - `privacy_consent`
 - `data_export_requests`
 - `account_deletion_requests`
@@ -317,29 +318,34 @@ const inGracePeriod = await prisma.accountDeletionRequest.count({
 ```html
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Data Export Request Confirmation</h1>
-        <p>Your data export has been requested.</p>
-        <p><strong>Request ID:</strong> {{requestId}}</p>
-        <p><strong>Expires:</strong> {{expiresAt}}</p>
-        <p>We will notify you when your export is ready for download.</p>
-        <p>This link will expire in 7 days.</p>
+      <h1>Data Export Request Confirmation</h1>
+      <p>Your data export has been requested.</p>
+      <p><strong>Request ID:</strong> {{requestId}}</p>
+      <p><strong>Expires:</strong> {{expiresAt}}</p>
+      <p>We will notify you when your export is ready for download.</p>
+      <p>This link will expire in 7 days.</p>
     </div>
-</body>
+  </body>
 </html>
 ```
 
@@ -348,15 +354,15 @@ const inGracePeriod = await prisma.accountDeletionRequest.count({
 ```html
 <!DOCTYPE html>
 <html>
-<body>
+  <body>
     <div class="container">
-        <h1>Your Data Export is Ready</h1>
-        <p>Your personal data export is now available for download.</p>
-        <a href="{{downloadUrl}}" class="button">Download Export</a>
-        <p><strong>Expires:</strong> {{expiresAt}}</p>
-        <p>Please download your data before the link expires.</p>
+      <h1>Your Data Export is Ready</h1>
+      <p>Your personal data export is now available for download.</p>
+      <a href="{{downloadUrl}}" class="button">Download Export</a>
+      <p><strong>Expires:</strong> {{expiresAt}}</p>
+      <p>Please download your data before the link expires.</p>
     </div>
-</body>
+  </body>
 </html>
 ```
 
@@ -365,17 +371,17 @@ const inGracePeriod = await prisma.accountDeletionRequest.count({
 ```html
 <!DOCTYPE html>
 <html>
-<body>
+  <body>
     <div class="container">
-        <h1>Account Deletion Requested</h1>
-        <p>Your account deletion request has been received.</p>
-        <p><strong>Request ID:</strong> {{requestId}}</p>
-        <p><strong>Grace Period Ends:</strong> {{gracePeriodEnds}}</p>
-        <p>Your account will be permanently deleted after 30 days.</p>
-        <p>To cancel this request, <a href="{{cancelUrl}}">click here</a>.</p>
-        <p>If you did not request this deletion, please contact us immediately.</p>
+      <h1>Account Deletion Requested</h1>
+      <p>Your account deletion request has been received.</p>
+      <p><strong>Request ID:</strong> {{requestId}}</p>
+      <p><strong>Grace Period Ends:</strong> {{gracePeriodEnds}}</p>
+      <p>Your account will be permanently deleted after 30 days.</p>
+      <p>To cancel this request, <a href="{{cancelUrl}}">click here</a>.</p>
+      <p>If you did not request this deletion, please contact us immediately.</p>
     </div>
-</body>
+  </body>
 </html>
 ```
 
@@ -428,6 +434,7 @@ ADMIN_EMAILS=admin@example.com,privacy@company.com,*@admin.example.com
 **Issue:** Export status shows "failed"
 
 **Solution:**
+
 1. Check error message: `GET /api/privacy/data-export/:requestId`
 2. Verify database connection
 3. Check background job logs
@@ -438,6 +445,7 @@ ADMIN_EMAILS=admin@example.com,privacy@company.com,*@admin.example.com
 **Issue:** Deletion status stuck in "pending"
 
 **Solution:**
+
 1. Run cron job: `POST /api/admin/privacy/process-pending`
 2. Manually process: `POST /api/admin/privacy/deletions/process`
 3. Check grace period end date
@@ -447,6 +455,7 @@ ADMIN_EMAILS=admin@example.com,privacy@company.com,*@admin.example.com
 **Issue:** "Too many requests" error
 
 **Solution:**
+
 1. Wait for rate limit window to expire
 2. Admin can bypass: Use admin endpoints
 3. Adjust rate limit in code if needed
@@ -456,6 +465,7 @@ ADMIN_EMAILS=admin@example.com,privacy@company.com,*@admin.example.com
 **Issue:** "Admin access required" error
 
 **Solution:**
+
 1. Add email to `ADMIN_EMAILS` in `.env`
 2. Restart server
 3. Clear JWT and login again

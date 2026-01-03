@@ -19,6 +19,170 @@ interface SessionData {
   };
 }
 
+/**
+ * PMP/Project Management Acronyms dictionary
+ * Maps acronyms to their full expansions
+ */
+const ACRONYMS: Record<string, string> = {
+  // Project Management Core
+  WBS: 'Work Breakdown Structure',
+  PMBOK: 'Project Management Body of Knowledge',
+  PMP: 'Project Management Professional',
+  PMI: 'Project Management Institute',
+  RACI: 'Responsible, Accountable, Consulted, Informed',
+  SWOT: 'Strengths, Weaknesses, Opportunities, Threats',
+  PERT: 'Program Evaluation and Review Technique',
+  CPM: 'Critical Path Method',
+
+  // Earned Value Management
+  EVA: 'Earned Value Analysis',
+  EVT: 'Earned Value Technique',
+  CV: 'Cost Variance',
+  SV: 'Schedule Variance',
+  CPI: 'Cost Performance Index',
+  SPI: 'Schedule Performance Index',
+  BAC: 'Budget at Completion',
+  EAC: 'Estimate at Completion',
+  ETC: 'Estimate to Complete',
+  AC: 'Actual Cost',
+  PV: 'Planned Value',
+  EV: 'Earned Value',
+  EVM: 'Earned Value Management',
+  TCPI: 'To Complete Performance Index',
+
+  // Quality
+  QA: 'Quality Assurance',
+  QC: 'Quality Control',
+  COQ: 'Cost of Quality',
+
+  // Business/Strategy
+  MVP: 'Minimum Viable Product',
+  ROI: 'Return on Investment',
+  NPV: 'Net Present Value',
+  IRR: 'Internal Rate of Return',
+  KPI: 'Key Performance Indicator',
+  SMART: 'Specific, Measurable, Achievable, Relevant, Time-bound',
+  OKR: 'Objectives and Key Results',
+  CSF: 'Critical Success Factor',
+
+  // Change & Contracts
+  CR: 'Change Request',
+  CCB: 'Change Control Board',
+  SOW: 'Statement of Work',
+  SLA: 'Service Level Agreement',
+  OLA: 'Operational Level Agreement',
+  UNC: 'Underpinning Contract',
+
+  // Scheduling
+  PDM: 'Precedence Diagramming Method',
+  ADM: 'Arrow Diagramming Method',
+  AOA: 'Activity on Arrow',
+  AON: 'Activity on Node',
+  FF: 'Finish-to-Finish',
+  FS: 'Finish-to-Start',
+  SF: 'Start-to-Finish',
+  SS: 'Start-to-Start',
+  LEAD: 'Lead Time',
+  LAG: 'Lag Time',
+  CF: 'Critical Float',
+  LF: 'Late Finish',
+  LS: 'Late Start',
+  EF: 'Early Finish',
+  ES: 'Early Start',
+
+  // Organizational Structures
+  RAM: 'Responsibility Assignment Matrix',
+  RBS: 'Risk Breakdown Structure',
+  OBS: 'Organizational Breakdown Structure',
+  CBS: 'Cost Breakdown Structure',
+  PBS: 'Product Breakdown Structure',
+  BOM: 'Bill of Materials',
+
+  // Process Improvement
+  DMAIC: 'Define, Measure, Analyze, Improve, Control',
+  PDCA: 'Plan-Do-Check-Act',
+  MoSCoW: "Must have, Should have, Could have, Won't have",
+  LSS: 'Lean Six Sigma',
+  TOC: 'Theory of Constraints',
+  FMEA: 'Failure Mode and Effects Analysis',
+  RCCA: 'Root Cause and Corrective Action',
+  RCA: 'Root Cause Analysis',
+
+  // Agile/Software
+  CI: 'Continuous Integration',
+  CD: 'Continuous Deployment',
+  API: 'Application Programming Interface',
+  UI: 'User Interface',
+  UX: 'User Experience',
+  SRS: 'Software Requirements Specification',
+  FSD: 'Functional Specification Document',
+  HLD: 'High Level Design',
+  LLD: 'Low Level Design',
+
+  // Leadership
+  MBTI: 'Myers-Briggs Type Indicator',
+  MBO: 'Management by Objectives',
+  OODA: 'Observe, Orient, Decide, Act',
+  JTBD: 'Jobs to be Done',
+
+  // Executive Titles
+  CEO: 'Chief Executive Officer',
+  CFO: 'Chief Financial Officer',
+  COO: 'Chief Operating Officer',
+  CIO: 'Chief Information Officer',
+  CTO: 'Chief Technology Officer',
+  CPO: 'Chief Product Officer',
+
+  // Other
+  WIP: 'Work in Progress',
+  LOE: 'Level of Effort',
+  PC: 'Percent Complete',
+  HR: 'Human Resources',
+  IT: 'Information Technology',
+  OPEX: 'Operating Expenditure',
+  CAPEX: 'Capital Expenditure',
+  TBD: 'To Be Determined',
+  TBC: 'To Be Confirmed',
+  TTM: 'Time to Market',
+  FTA: 'Fault Tree Analysis',
+  ETA: 'Event Tree Analysis',
+};
+
+/**
+ * Format flashcard text:
+ * - Convert **bold** to rendered bold text
+ * - Expand known acronyms to their full form
+ */
+function formatFlashcardText(text: string): React.ReactNode {
+  // First, expand acronyms (case-insensitive)
+  const formatted = text.replace(/\b([A-Z]{2,})\b/g, match => {
+    const upperMatch = match.toUpperCase();
+    if (ACRONYMS[upperMatch]) {
+      return `${ACRONYMS[upperMatch]} (${upperMatch})`;
+    }
+    return match;
+  });
+
+  // Split by markdown bold syntax and render
+  const parts = formatted.split(/(\*\*.*?\*\*)/g);
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          // Remove the ** and render as bold
+          const content = part.slice(2, -2);
+          return (
+            <strong key={index} className="font-bold text-md-primary">
+              {content}
+            </strong>
+          );
+        }
+        return <span key={index}>{part}</span>;
+      })}
+    </>
+  );
+}
+
 export default function FlashcardSessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>();
   const router = useRouter();
@@ -271,7 +435,7 @@ export default function FlashcardSessionPage() {
                     Question
                   </span>
                   <h2 className="text-2xl md:text-4xl font-medium text-md-on-surface leading-tight">
-                    {currentCard.front}
+                    {formatFlashcardText(currentCard.front)}
                   </h2>
                   <div className="absolute bottom-6 text-md-on-surface-variant/50 text-sm font-medium">
                     Click or Space to flip • Swipe up/down to flip
@@ -284,7 +448,7 @@ export default function FlashcardSessionPage() {
                     Answer
                   </span>
                   <p className="text-xl md:text-2xl text-md-on-surface leading-relaxed font-medium">
-                    {currentCard.back}
+                    {formatFlashcardText(currentCard.back)}
                   </p>
                   <div className="absolute bottom-6 text-md-on-surface-variant/50 text-sm font-medium">
                     Swipe left for Again • Swipe right for Easy

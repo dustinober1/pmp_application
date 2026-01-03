@@ -74,7 +74,7 @@ model PasswordReset {
 
 model SubscriptionTier {
   id            String @id @default(uuid())
-  name          String @unique // 'free', 'mid-level', 'high-end', 'corporate'
+  name          String @unique // 'free', 'pro', 'corporate'
   displayName   String
   price         Float
   billingPeriod String // 'monthly', 'annual'
@@ -583,7 +583,7 @@ model DataExportRequest {
   // Export metadata
   requestedAt DateTime @default(now())
   completedAt DateTime?
-  expiresAt   DateTime @default(dbgenerated."now() + interval '7 days'")
+  expiresAt   DateTime @default(dbgenerated("now() + interval '7 days'"))
   downloadUrl String?
   fileSize    Int?     // in bytes
 
@@ -606,7 +606,7 @@ model AccountDeletionRequest {
 
   // Deletion timeline
   requestedAt     DateTime @default(now())
-  gracePeriodEnds DateTime @default(dbgenerated."now() + interval '30 days'")
+  gracePeriodEnds DateTime @default(dbgenerated("now() + interval '30 days'"))
   completedAt     DateTime?
   cancelledAt     DateTime?
 

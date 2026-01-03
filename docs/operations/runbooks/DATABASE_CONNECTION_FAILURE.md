@@ -1,15 +1,18 @@
 # Database Connection Failure - Runbook
 
 ## Alert Information
+
 - **Alert Name**: DatabaseConnectionFailure
 - **Severity**: P1 Critical
 - **Response Time**: Within 5 minutes
 - **Threshold**: Deadlocks > 10 OR Conflicts > 50
 
 ## Summary
+
 Database is experiencing connection failures, deadlocks, or conflicts. This prevents services from functioning and requires immediate investigation.
 
 ## Impact
+
 - All backend services unable to connect to database
 - Application completely non-functional
 - Potential data corruption if locks persist
@@ -18,6 +21,7 @@ Database is experiencing connection failures, deadlocks, or conflicts. This prev
 ## Initial Diagnosis (First 5 Minutes)
 
 ### 1. Acknowledge Alert
+
 ```bash
 # PagerDuty
 Acknowledge and add note: "Investigating database connection failures"
@@ -27,6 +31,7 @@ Acknowledge and add note: "Investigating database connection failures"
 ```
 
 ### 2. Check Database Status
+
 ```bash
 # Check PostgreSQL pod
 kubectl get pods -n production -l app=postgres
@@ -39,18 +44,21 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "SELECT version();"
 ```
 
 ### 3. Determine Database State
+
 - **Completely down**: All connections failing
 - **Degraded**: Some connections succeed
 - **Locked**: Connections accepted but queries blocked
 - **Exhausted**: Connection pool full
 
 ### 4. Check Dashboards
+
 - **Database Metrics**: https://grafana.pmpstudy.com/d/database-metrics
 - Look for: Connection spikes, lock counts, query duration
 
 ## Investigation Steps (First 15 Minutes)
 
 ### Check 1: Database Connection Count
+
 ```bash
 # Check current connections
 kubectl exec -it <postgres-pod> -n production -- psql -c "
@@ -74,6 +82,7 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "
 ```
 
 ### Check 2: Long-Running Queries
+
 ```bash
 # Find queries running longer than 5 minutes
 kubectl exec -it <postgres-pod> -n production -- psql -c "
@@ -98,6 +107,7 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "
 ```
 
 ### Check 3: Locks and Deadlocks
+
 ```bash
 # Check current locks
 kubectl exec -it <postgres-pod> -n production -- psql -c "
@@ -138,6 +148,7 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "
 ```
 
 ### Check 4: Database Resources
+
 ```bash
 # Check database size
 kubectl exec -it <postgres-pod> -n production -- psql -c "
@@ -163,6 +174,7 @@ kubectl exec -it <postgres-pod> -n production -- df -h /var/lib/postgresql/data
 ```
 
 ### Check 5: Error Logs
+
 ```bash
 # View PostgreSQL logs
 kubectl logs <postgres-pod> -n production --tail=1000 | grep -i error
@@ -178,6 +190,7 @@ kubectl logs <postgres-pod> -n production --tail=500
 ```
 
 ### Check 6: Network Issues
+
 ```bash
 # Test network from application pod
 kubectl exec -it <app-pod> -n production -- \
@@ -195,6 +208,7 @@ kubectl get networkpolicies -n production
 ```
 
 ### Check 7: Connection Pool Settings
+
 ```bash
 # Check application connection pool
 kubectl get deployment <service> -n production -o jsonpath='{.spec.template.spec.containers[0].env}' | \
@@ -209,6 +223,7 @@ kubectl get deployment <service> -n production -o jsonpath='{.spec.template.spec
 ## Resolution Strategies
 
 ### Strategy 1: Kill Long-Running Queries
+
 ```bash
 # List long-running queries
 kubectl exec -it <postgres-pod> -n production -- psql -c "
@@ -237,6 +252,7 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "
 ```
 
 ### Strategy 2: Kill Idle Transactions
+
 ```bash
 # Find idle in transaction
 kubectl exec -it <postgres-pod> -n production -- psql -c "
@@ -258,6 +274,7 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "
 ```
 
 ### Strategy 3: Restart PostgreSQL (Last Resort)
+
 ```bash
 # WARNING: This causes downtime!
 
@@ -275,6 +292,7 @@ kubectl scale deployment <service> --replicas=3 -n production
 ```
 
 ### Strategy 4: Increase Connection Limits
+
 ```bash
 # Edit ConfigMap to increase max_connections
 kubectl edit configmap postgres-config -n production
@@ -290,6 +308,7 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "
 ```
 
 ### Strategy 5: Fix Application Connection Pool
+
 ```bash
 # Edit deployment to adjust pool size
 kubectl edit deployment <service> -n production
@@ -308,6 +327,7 @@ kubectl rollout restart deployment <service> -n production
 ```
 
 ### Strategy 6: Resolve Locks
+
 ```bash
 # Identify blocking locks
 kubectl exec -it <postgres-pod> -n production -- psql -c "
@@ -342,6 +362,7 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "
 ```
 
 ### Strategy 7: Failover to Replica (If Available)
+
 ```bash
 # Check replica status
 kubectl exec -it <postgres-replica-pod> -n production -- psql -c "
@@ -362,6 +383,7 @@ kubectl edit service postgres -n production
 ## After Resolution (Next 30 Minutes)
 
 ### 1. Verify Database Health
+
 ```bash
 # Check connection count is normal
 kubectl exec -it <postgres-pod> -n production -- psql -c "
@@ -383,11 +405,13 @@ kubectl exec -it <postgres-pod> -n production -- psql -c "
 ```
 
 ### 2. Monitor Metrics
+
 - **Grafana Database Dashboard**: https://grafana.pmpstudy.com/d/database-metrics
 - Watch: Connection count, query duration, locks
 - **Duration**: 30 minutes
 
 ### 3. Check Application Logs
+
 ```bash
 # Verify application can connect
 kubectl logs <app-pod> -n production --tail=100 | grep -i database
@@ -397,6 +421,7 @@ kubectl logs <app-pod> -n production --tail=100 | grep -i error
 ```
 
 ### 4. Update Status
+
 ```bash
 # PagerDuty
 Resolve and add note: "Killed long-running queries, database connections normalized"
@@ -408,11 +433,13 @@ Resolve and add note: "Killed long-running queries, database connections normali
 ## Prevention & Follow-Up
 
 ### Immediate Prevention
+
 - [ ] Set up connection pool monitoring
 - [ ] Add slow query log
 - [ ] Create alert for long-running queries
 
 ### Short-Term Prevention (1-2 Days)
+
 - [ ] Optimize slow queries (use EXPLAIN ANALYZE)
 - [ ] Add indexes to frequently queried tables
 - [ ] Implement query timeout in application
@@ -420,6 +447,7 @@ Resolve and add note: "Killed long-running queries, database connections normali
 - [ ] Add database vacuum schedule
 
 ### Long-Term Prevention (Next Sprint)
+
 - [ ] Implement read replicas for query offloading
 - [ ] Add connection pooler (PgBouncer)
 - [ ] Implement automatic query termination
@@ -430,6 +458,7 @@ Resolve and add note: "Killed long-running queries, database connections normali
 ## Optimization Queries
 
 ### Find Slow Queries
+
 ```sql
 SELECT query,
        calls,
@@ -442,6 +471,7 @@ LIMIT 20;
 ```
 
 ### Find Missing Indexes
+
 ```sql
 SELECT schemaname,
        tablename,
@@ -455,6 +485,7 @@ LIMIT 20;
 ```
 
 ### Find Large Tables
+
 ```sql
 SELECT schemaname,
        tablename,
@@ -465,11 +496,13 @@ ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 ```
 
 ## Escalation
+
 - **If**: Database down > 10 minutes
 - **To**: Engineering Lead, CTO
 - **Reason**: Critical service, potential data loss
 
 ## Related Runbooks
+
 - [Database Down](./DATABASE_DOWN.md)
 - [High Memory Usage](./HIGH_MEMORY_USAGE.md)
 - [Slow Queries](./SLOW_QUERIES.md)

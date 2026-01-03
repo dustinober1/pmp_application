@@ -238,7 +238,8 @@ export function generateOpenAPISpec(): any {
         post: {
           tags: ['Webhooks'],
           summary: 'Stripe webhook handler',
-          description: 'Process Stripe webhook events (payment.success, subscription.cancelled, etc.)',
+          description:
+            'Process Stripe webhook events (payment.success, subscription.cancelled, etc.)',
           security: [],
           requestBody: {
             content: {

@@ -3,6 +3,7 @@
 ## 🚀 Quick Start
 
 ### 1. View Documentation (Development)
+
 ```bash
 cd packages/api
 npm run dev
@@ -10,6 +11,7 @@ npm run dev
 ```
 
 ### 2. Export OpenAPI Spec
+
 ```bash
 cd packages/api
 npm run export:openapi
@@ -17,6 +19,7 @@ npm run export:openapi
 ```
 
 ### 3. Generate Postman Collection
+
 ```bash
 cd packages/api
 npm run generate:postman
@@ -24,6 +27,7 @@ npm run generate:postman
 ```
 
 ### 4. Export Everything
+
 ```bash
 cd packages/api
 npm run docs:export
@@ -33,6 +37,7 @@ npm run docs:export
 ## 📚 Authentication
 
 ### Get JWT Token
+
 1. Go to `/api-docs`
 2. Find `POST /api/auth/login`
 3. Click "Try it out"
@@ -41,6 +46,7 @@ npm run docs:export
 6. Copy `data.user.id` as token
 
 ### Use Token in Swagger
+
 1. Click "Authorize" button (🔒)
 2. Enter: `Bearer <your-jwt-token>`
 3. Click "Authorize"
@@ -49,6 +55,7 @@ npm run docs:export
 ## 🧪 Testing Endpoints
 
 ### Example: Create User
+
 1. Find `POST /api/auth/register`
 2. Click "Try it out"
 3. Fill in body:
@@ -74,17 +81,20 @@ packages/api/openapi/
 ## 🔧 Common Tasks
 
 ### Add New Endpoint Documentation
+
 1. Create route handler
 2. Add to appropriate generator file in `src/utils/openapi/generators/`
 3. Import in `generate-spec.ts`
 4. Run `npm run export:openapi`
 
 ### Validate OpenAPI Spec
+
 ```bash
 npx -p @apidevtools/swagger-cli swagger-cli validate openapi/openapi.json
 ```
 
 ### View Spec Changes
+
 ```bash
 git diff openapi/openapi.json
 ```
@@ -92,16 +102,19 @@ git diff openapi/openapi.json
 ## 🐛 Troubleshooting
 
 ### Swagger UI Shows 404
+
 - Check `NODE_ENV` is not 'production'
 - Verify middleware is registered in `src/index.ts`
 
 ### Spec Out of Date
+
 ```bash
 npm run build
 npm run export:openapi
 ```
 
 ### Build Errors
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install

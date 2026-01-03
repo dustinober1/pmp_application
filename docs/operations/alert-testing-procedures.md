@@ -1,16 +1,19 @@
 # Alert Testing Procedures
 
 ## Overview
+
 This document outlines procedures for testing alerts to ensure the monitoring and alerting system is functioning correctly.
 
 ## Testing Schedule
 
 ### Regular Testing
+
 - **Weekly**: Test P3 alerts (low priority, non-disruptive)
 - **Monthly**: Test P2 alerts (scheduled maintenance window)
 - **Quarterly**: Full-scale drill including P1 alerts
 
 ### Trigger Events
+
 - After configuration changes
 - After deployment changes
 - After scaling events
@@ -20,6 +23,7 @@ This document outlines procedures for testing alerts to ensure the monitoring an
 ## Pre-Test Checklist
 
 Before testing alerts, verify:
+
 - [ ] Notify team in #ops-alerts channel
 - [ ] Check for ongoing incidents (reschedule if active)
 - [ ] Verify PagerDuty schedule is correct
@@ -32,9 +36,11 @@ Before testing alerts, verify:
 ### 1. Slack Notification Tests
 
 #### Test 1.1: Basic Slack Alert
+
 **Purpose**: Verify Slack webhook is working
 
 **Steps**:
+
 ```bash
 # 1. Trigger test alert manually
 curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
@@ -62,9 +68,11 @@ curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
 **Test Duration**: 2 minutes
 
 #### Test 1.2: Severity-Based Slack Alerts
+
 **Purpose**: Verify different severity levels appear with correct colors
 
 **Steps**:
+
 ```yaml
 # Create test alert in Prometheus:
 - alert: TestAlertCritical
@@ -90,6 +98,7 @@ curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
 ```
 
 **Expected Result**:
+
 - Critical: Red/danger color
 - High: Orange/warning color
 - Warning: Yellow/good color
@@ -99,9 +108,11 @@ curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
 ### 2. PagerDuty Integration Tests
 
 #### Test 2.1: PagerDuty Webhook Test
+
 **Purpose**: Verify AlertManager can reach PagerDuty
 
 **Steps**:
+
 ```bash
 # 1. Get integration key from PagerDuty
 export PAGERDUTY_KEY="YOUR_CRITICAL_KEY"
@@ -132,9 +143,11 @@ curl -X POST https://events.pagerduty.com/v2/enqueue \
 **Test Duration**: 2 minutes
 
 #### Test 2.2: AlertManager to PagerDuty Test
+
 **Purpose**: Verify AlertManager routes critical alerts to PagerDuty
 
 **Steps**:
+
 ```bash
 # 1. Create test alert that triggers PagerDuty
 # Add to prometheus alerts:
@@ -159,9 +172,11 @@ kubectl logs -l app=alertmanager -n monitoring --tail=50 | grep pagerduty
 **Test Duration**: 5 minutes
 
 #### Test 2.3: Escalation Test
+
 **Purpose**: Verify escalation policy works
 
 **Steps**:
+
 ```bash
 # 1. Create a P1 alert
 # 2. Do NOT acknowledge it
@@ -177,9 +192,11 @@ kubectl logs -l app=alertmanager -n monitoring --tail=50 | grep pagerduty
 ### 3. Alert Rule Tests
 
 #### Test 3.1: Service Down Alert (P1)
+
 **Purpose**: Test critical service down alert
 
 **Steps**:
+
 ```bash
 # 1. Scale down a service to 0 replicas
 kubectl scale deployment api-service --replicas=0 -n production
@@ -199,6 +216,7 @@ kubectl scale deployment api-service --replicas=3 -n production
 ```
 
 **Expected Result**:
+
 - Alert fires after 5 minutes
 - Notifications sent to PagerDuty and Slack
 - Alert resolves after service restored
@@ -208,9 +226,11 @@ kubectl scale deployment api-service --replicas=3 -n production
 **Risk**: Medium (service unavailable)
 
 #### Test 3.2: High Error Rate Alert (P2)
+
 **Purpose**: Test high error rate alert
 
 **Steps**:
+
 ```bash
 # 1. Inject errors into service (non-critical endpoint)
 # 2. Simulate 5% error rate:
@@ -224,6 +244,7 @@ kubectl scale deployment api-service --replicas=3 -n production
 ```
 
 **Expected Result**:
+
 - Alert fires after 5 minutes of >5% error rate
 - P2 notifications sent
 - Alert resolves after errors stop
@@ -233,9 +254,11 @@ kubectl scale deployment api-service --replicas=3 -n production
 **Risk**: Low (using test endpoint)
 
 #### Test 3.3: Elevated Error Rate Alert (P3)
+
 **Purpose**: Test warning-level alert
 
 **Steps**:
+
 ```bash
 # 1. Simulate 1% error rate
 # 2. Wait 15 minutes for alert
@@ -245,6 +268,7 @@ kubectl scale deployment api-service --replicas=3 -n production
 ```
 
 **Expected Result**:
+
 - Alert fires after 15 minutes
 - Only Slack notification
 - No PagerDuty page
@@ -256,9 +280,11 @@ kubectl scale deployment api-service --replicas=3 -n production
 ### 4. Infrastructure Alert Tests
 
 #### Test 4.1: High Memory Usage (P2)
+
 **Purpose**: Test resource alert
 
 **Steps**:
+
 ```bash
 # 1. Deploy memory stress test pod
 kubectl run memory-stress --image=polinux/stress \
@@ -284,9 +310,11 @@ kubectl delete pod memory-stress -n production
 **Risk**: Medium (resource exhaustion)
 
 #### Test 4.2: Low Disk Space (P2)
+
 **Purpose**: Test disk space alert
 
 **Steps**:
+
 ```bash
 # 1. Fill up disk on test node
 # 2. Monitor disk usage
@@ -309,9 +337,11 @@ df -h
 ### 5. Integration Tests
 
 #### Test 5.1: End-to-End Alert Flow
+
 **Purpose**: Test complete alert lifecycle
 
 **Steps**:
+
 ```bash
 # 1. Create test condition (e.g., scale down service)
 kubectl scale deployment test-service --replicas=0 -n production
@@ -343,9 +373,11 @@ kubectl scale deployment test-service --replicas=3 -n production
 **Test Duration**: 15 minutes
 
 #### Test 5.2: Alert Grouping Test
+
 **Purpose**: Verify multiple alerts are grouped correctly
 
 **Steps**:
+
 ```bash
 # 1. Cause issues in multiple services
 kubectl scale deployment service-a --replicas=0 -n production
@@ -369,9 +401,11 @@ kubectl scale deployment service-a service-b --replicas=3 -n production
 ### 6. Silence and Inhibition Tests
 
 #### Test 6.1: Alert Silence Test
+
 **Purpose**: Verify alert silencing works
 
 **Steps**:
+
 ```bash
 # 1. Create silence via AlertManager UI
 #    Go to https://alertmanager.pmpstudy.com
@@ -393,9 +427,11 @@ kubectl scale deployment service-a service-b --replicas=3 -n production
 **Test Duration**: 5 minutes
 
 #### Test 6.2: Inhibition Test
+
 **Purpose**: Verify alert inhibition rules work
 
 **Steps**:
+
 ```bash
 # 1. Trigger critical alert
 # 2. Trigger warning alert for same service
@@ -411,62 +447,76 @@ kubectl scale deployment service-a service-b --replicas=3 -n production
 ## Test Results Documentation
 
 ### Test Log Template
+
 ```markdown
 ## Alert Test - [Date]
 
 ### Test Category: [Slack/PagerDuty/Rules/etc]
 
 ### Test Performed By:
+
 - Name:
 - Role:
 - Date/Time:
 
 ### Test Description:
+
 [Brief description of what was tested]
 
 ### Steps Performed:
+
 1. [Step 1]
 2. [Step 2]
-...
+   ...
 
 ### Expected Results:
+
 [What should happen]
 
 ### Actual Results:
+
 [What actually happened]
 
 ### Pass/Fail:
+
 - [ ] PASS
 - [ ] FAIL
 
 ### Issues Found:
+
 [Any issues discovered]
 
 ### Follow-Up Actions:
+
 [What needs to be fixed or improved]
 
 ### Screenshots/Logs:
+
 [Attach relevant evidence]
 ```
 
 ## Monthly Test Schedule
 
 ### Week 1: Slack Tests
+
 - Monday: Basic webhook test
 - Wednesday: Severity color test
 - Friday: Button functionality test
 
 ### Week 2: PagerDuty Tests
+
 - Monday: Webhook test
 - Wednesday: AlertManager integration test
 - Friday: Escalation test (if scheduled)
 
 ### Week 3: Alert Rule Tests
+
 - Monday: P1 alert test (maintenance window)
 - Wednesday: P2 alert test
 - Friday: P3 alert test
 
 ### Week 4: Integration Tests
+
 - Monday: End-to-end flow test
 - Wednesday: Grouping test
 - Friday: Silence/inhibition test
@@ -476,12 +526,14 @@ kubectl scale deployment service-a service-b --replicas=3 -n production
 ### Scenario: Complete Service Outage
 
 **Setup**:
+
 1. Plan date/time (preferably early morning low-traffic)
 2. Notify all stakeholders
 3. Prepare rollback plan
 4. Have runbooks ready
 
 **Execution**:
+
 1. **Time 0:00**: Take down critical service
    - Scale deployment to 0
    - Stop database connections
@@ -510,6 +562,7 @@ kubectl scale deployment service-a service-b --replicas=3 -n production
    - Document lessons learned
 
 **Post-Drill**:
+
 1. Debrief meeting (same day)
 2. Write post-mortem
 3. Identify improvements
@@ -517,6 +570,7 @@ kubectl scale deployment service-a service-b --replicas=3 -n production
 5. Schedule fixes
 
 **Success Criteria**:
+
 - Alert fired within expected time
 - On-call responded within SLA
 - Resolution process followed runbook
@@ -528,6 +582,7 @@ kubectl scale deployment service-a service-b --replicas=3 -n production
 ### Issue: Slack Notifications Not Received
 
 **Diagnosis**:
+
 ```bash
 # Check AlertManager logs
 kubectl logs -l app=alertmanager -n monitoring --tail=100 | grep slack
@@ -540,6 +595,7 @@ kubectl get configmap alertmanager-config -n monitoring -o yaml
 ```
 
 **Common Fixes**:
+
 - Verify webhook URL is correct
 - Check Slack app permissions
 - Verify AlertManager config syntax
@@ -548,6 +604,7 @@ kubectl get configmap alertmanager-config -n monitoring -o yaml
 ### Issue: PagerDuty Incidents Not Created
 
 **Diagnosis**:
+
 ```bash
 # Check AlertManager logs
 kubectl logs -l app=alertmanager -n monitoring --tail=100 | grep pagerduty
@@ -560,6 +617,7 @@ kubectl get secret alertmanager-secrets -n production -o yaml
 ```
 
 **Common Fixes**:
+
 - Verify integration key is correct
 - Check PagerDuty service is active
 - Verify alert severity matches routing rules
@@ -568,6 +626,7 @@ kubectl get secret alertmanager-secrets -n production -o yaml
 ### Issue: Alerts Not Firing
 
 **Diagnosis**:
+
 ```bash
 # Check Prometheus is evaluating rules
 kubectl port-forward -n monitoring prometheus-k8s-0 9090:9090
@@ -581,6 +640,7 @@ promtool check rules /path/to/alerts.yml
 ```
 
 **Common Fixes**:
+
 - Fix syntax errors in alert expression
 - Verify metrics are being scraped
 - Check for/ duration is long enough
@@ -589,6 +649,7 @@ promtool check rules /path/to/alerts.yml
 ## Continuous Improvement
 
 ### Metrics to Track
+
 - **Alert Firing Accuracy**: % of alerts that are true issues
 - **False Positive Rate**: % of alerts that are noise
 - **Mean Time to Acknowledge**: Average time to acknowledge
@@ -596,6 +657,7 @@ promtool check rules /path/to/alerts.yml
 - **Escalation Rate**: % of alerts that escalate
 
 ### Quarterly Review
+
 1. Review all test results
 2. Identify problematic alerts
 3. Adjust thresholds/durations
@@ -604,6 +666,7 @@ promtool check rules /path/to/alerts.yml
 6. Add new alert rules as needed
 
 ### Alert Tuning Process
+
 1. **Monitor**: Track alert frequency and accuracy
 2. **Analyze**: Identify false positives/negatives
 3. **Adjust**: Modify thresholds or expressions
@@ -613,12 +676,14 @@ promtool check rules /path/to/alerts.yml
 ## Emergency Test Cancellation
 
 **Cancel Test If**:
+
 - Real incident occurs
 - System is unstable
 - Critical maintenance window conflicts
 - On-call engineer not available
 
 **Cancellation Process**:
+
 1. Stop all test procedures
 2. Roll back any changes made
 3. Verify system is healthy

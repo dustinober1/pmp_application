@@ -108,7 +108,7 @@ test.describe('Authentication Flow', () => {
       await expect(authPage.errorMessage).toBeVisible();
     });
 
-    test('should show error for non-existent user', async ({ page }) => {
+    test('should show error for non-existent user', async ({ _page }) => {
       await authPage.goto();
       await authPage.login('nonexistent@example.com', 'password123');
 
@@ -129,7 +129,7 @@ test.describe('Authentication Flow', () => {
   });
 
   test.describe('Email Verification', () => {
-    test('should send verification email on registration', async ({ page, apiHelper }) => {
+    test('should send verification email on registration', async ({ page, _apiHelper }) => {
       const timestamp = Date.now();
       const email = `verify-test-${timestamp}@example.com`;
 
@@ -145,7 +145,7 @@ test.describe('Authentication Flow', () => {
       await expect(page.locator('text=/check your email/i')).toBeVisible();
     });
 
-    test('should verify email with valid token', async ({ page, apiHelper }) => {
+    test('should verify email with valid token', async ({ _page, _apiHelper }) => {
       // This would require mocking the email service
       // or having a test endpoint that returns the verification token
       test.skip(true, 'Requires email service mock implementation');
@@ -163,7 +163,7 @@ test.describe('Authentication Flow', () => {
       await expect(page.locator('text=/check your email/i')).toBeVisible();
     });
 
-    test('should reset password with valid token', async ({ page, apiHelper }) => {
+    test('should reset password with valid token', async ({ page, _apiHelper }) => {
       // Mock password reset token
       const resetToken = 'mock-reset-token';
 
@@ -177,7 +177,7 @@ test.describe('Authentication Flow', () => {
       await expect(page).toHaveURL(/\/dashboard/);
     });
 
-    test('should show error with invalid token', async ({ page }) => {
+    test('should show error with invalid token', async ({ _page }) => {
       await authPage.resetPassword('invalid-token', 'NewPassword123!');
 
       // Should show error
@@ -186,7 +186,7 @@ test.describe('Authentication Flow', () => {
   });
 
   test.describe('Logout', () => {
-    test('should logout successfully', async ({ authenticatedPage }) => {
+    test('should logout successfully', async ({ _authenticatedPage }) => {
       // User is already logged in from fixture
       await authPage.logout();
 
@@ -198,7 +198,7 @@ test.describe('Authentication Flow', () => {
       await expect(authPage.page).toHaveURL(/\/auth\/login/);
     });
 
-    test('should clear session data on logout', async ({ authenticatedPage }) => {
+    test('should clear session data on logout', async ({ _authenticatedPage }) => {
       await authPage.logout();
 
       // Check localStorage is cleared
@@ -212,12 +212,7 @@ test.describe('Authentication Flow', () => {
 
   test.describe('Protected Routes', () => {
     test('should redirect unauthenticated users to login', async ({ page }) => {
-      const protectedRoutes = [
-        '/dashboard',
-        '/practice',
-        '/study',
-        '/flashcards',
-      ];
+      const protectedRoutes = ['/dashboard', '/practice', '/study', '/flashcards'];
 
       for (const route of protectedRoutes) {
         await page.goto(route);
@@ -260,7 +255,9 @@ test.describe('Authentication Flow', () => {
 
       // Get cookies
       const cookies = await context.cookies();
-      const hasRememberCookie = cookies.some(c => c.name === 'remember' || c.name === 'refreshToken');
+      const hasRememberCookie = cookies.some(
+        c => c.name === 'remember' || c.name === 'refreshToken'
+      );
 
       expect(hasRememberCookie).toBeTruthy();
     });

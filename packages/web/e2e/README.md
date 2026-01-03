@@ -322,7 +322,7 @@ test('should send verification email', async ({ page }) => {
 
 ```typescript
 test('should handle API response', async ({ page }) => {
-  await page.route('**/api/user', (route) => {
+  await page.route('**/api/user', route => {
     route.fulfill({
       status: 200,
       body: JSON.stringify({ name: 'Test User' }),
@@ -336,6 +336,7 @@ test('should handle API response', async ({ page }) => {
 ## CI/CD Integration
 
 Tests run automatically in GitHub Actions on:
+
 - Push to master/main/develop branches
 - Pull requests
 - Daily schedule (2 AM UTC)
@@ -427,6 +428,7 @@ await mockSendEmail(page, true);
 ### 6. Test Critical User Flows
 
 Focus on:
+
 - Happy paths (most common use cases)
 - Business-critical features
 - Edge cases that caused bugs before
@@ -527,6 +529,7 @@ Traces are automatically captured on retry and available in the test report.
 ## Support
 
 For issues or questions:
+
 - Check existing test files for examples
 - Review Playwright documentation
 - Open an issue on GitHub

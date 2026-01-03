@@ -20,6 +20,7 @@ The PMP Study Application API includes interactive Swagger UI documentation:
 - **Production**: Disabled for security
 
 **Features:**
+
 - Interactive API testing ("Try it out")
 - Authentication support (JWT Bearer tokens)
 - Request/response examples
@@ -36,6 +37,7 @@ Machine-readable API specifications are auto-generated and exported to:
 - `packages/api/openapi/openapi.yaml` - YAML format
 
 **Export specs:**
+
 ```bash
 cd packages/api
 npm run export:openapi
@@ -48,12 +50,14 @@ Auto-generated Postman collection for API testing:
 - `packages/api/openapi/postman-collection.json`
 
 **Generate collection:**
+
 ```bash
 cd packages/api
 npm run generate:postman
 ```
 
 **Export all documentation:**
+
 ```bash
 cd packages/api
 npm run docs:export
@@ -64,23 +68,27 @@ npm run docs:export
 ### Getting Started
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd pmp_application
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Setup environment variables**
+
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
    ```
 
 4. **Run development servers**
+
    ```bash
    # API server
    npm run dev:api
@@ -140,6 +148,7 @@ See [API Documentation Guide](./api-documentation.md) for adding API endpoints.
 ### Technology Stack
 
 **API:**
+
 - Node.js with Express
 - TypeScript
 - Prisma ORM with PostgreSQL
@@ -148,12 +157,14 @@ See [API Documentation Guide](./api-documentation.md) for adding API endpoints.
 - OpenTelemetry observability
 
 **Frontend:**
+
 - React with TypeScript
 - Vite build tool
 - TailwindCSS
 - React Router
 
 **Infrastructure:**
+
 - AWS (ECS, RDS, S3, CloudWatch)
 - Docker containers
 - GitHub Actions CI/CD
@@ -169,6 +180,7 @@ See [API Documentation Guide](./api-documentation.md) for adding API endpoints.
 ### Database Schema
 
 Prisma schema defines:
+
 - Users & authentication
 - Subscriptions & payments
 - Ebook content & progress

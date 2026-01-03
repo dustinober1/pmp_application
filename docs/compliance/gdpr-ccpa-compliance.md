@@ -44,20 +44,21 @@ This compliance program applies to:
 
 ### Personal Data
 
-| Data Category | Purpose | Legal Basis | Retention |
-|---------------|---------|-------------|-----------|
-| **Name** | User identification | Contract performance | Account lifetime + 7 years |
-| **Email** | Authentication, communications | Contract performance, consent | Account lifetime + 7 years |
-| **Password** | Authentication | Contract performance | Hashed, account lifetime |
-| **Payment Information** | Billing, subscription | Contract performance | 7 years (tax compliance) |
-| **Study Progress** | Service delivery | Contract performance | Account lifetime |
-| **Activity Logs** | Service improvement | Legitimate interest | 30 days |
-| **IP Address** | Security, analytics | Legitimate interest | 30 days |
-| **User Agent** | Service optimization | Legitimate interest | 30 days |
+| Data Category           | Purpose                        | Legal Basis                   | Retention                  |
+| ----------------------- | ------------------------------ | ----------------------------- | -------------------------- |
+| **Name**                | User identification            | Contract performance          | Account lifetime + 7 years |
+| **Email**               | Authentication, communications | Contract performance, consent | Account lifetime + 7 years |
+| **Password**            | Authentication                 | Contract performance          | Hashed, account lifetime   |
+| **Payment Information** | Billing, subscription          | Contract performance          | 7 years (tax compliance)   |
+| **Study Progress**      | Service delivery               | Contract performance          | Account lifetime           |
+| **Activity Logs**       | Service improvement            | Legitimate interest           | 30 days                    |
+| **IP Address**          | Security, analytics            | Legitimate interest           | 30 days                    |
+| **User Agent**          | Service optimization           | Legitimate interest           | 30 days                    |
 
 ### Sensitive Data
 
 **NOT COLLECTED:**
+
 - No biometric data
 - No health information
 - No racial or ethnic origin
@@ -107,12 +108,14 @@ This compliance program applies to:
 #### 1. Right to Access (Article 15)
 
 **Implementation:**
+
 - Endpoint: `GET /api/privacy/data-export/:requestId/download`
 - Response Time: Within 30 days
 - Format: Machine-readable JSON
 - Scope: All personal data
 
 **Example:**
+
 ```bash
 GET /api/privacy/data-export
 POST /api/privacy/data-export
@@ -122,6 +125,7 @@ GET /api/privacy/data-export/:requestId/download
 #### 2. Right to Rectification (Article 16)
 
 **Implementation:**
+
 - Endpoint: `PUT /api/auth/profile`
 - Response Time: Within 30 days
 - Scope: Inaccurate or incomplete personal data
@@ -131,6 +135,7 @@ GET /api/privacy/data-export/:requestId/download
 **Also known as:** "Right to be Forgotten"
 
 **Implementation:**
+
 - Endpoint: `POST /api/privacy/delete-account`
 - Grace Period: 30 days (cancellable)
 - Soft Delete: Anonymize data
@@ -138,6 +143,7 @@ GET /api/privacy/data-export/:requestId/download
 - Scope: All personal data
 
 **Exceptions:**
+
 - Legal obligation (tax records)
 - Contract performance (active subscription)
 - Legitimate interest (fraud prevention)
@@ -145,6 +151,7 @@ GET /api/privacy/data-export/:requestId/download
 #### 4. Right to Restrict Processing (Article 18)
 
 **Implementation:**
+
 - Consent withdrawal via `POST /api/privacy/consent/withdraw`
 - Stops non-essential processing
 - Essential services remain active
@@ -152,11 +159,13 @@ GET /api/privacy/data-export/:requestId/download
 #### 5. Right to Data Portability (Article 20)
 
 **Implementation:**
+
 - Endpoint: `GET /api/privacy/data-export/:requestId/download`
 - Format: Structured, machine-readable JSON
 - Scope: All data provided by user
 
 **Data Included:**
+
 - Profile information
 - Subscription history
 - Payment history (anonymized)
@@ -167,6 +176,7 @@ GET /api/privacy/data-export/:requestId/download
 #### 6. Right to Object (Article 21)
 
 **Implementation:**
+
 - Consent withdrawal: `POST /api/privacy/consent/withdraw`
 - Marketing opt-out
 - Analytics opt-out
@@ -180,6 +190,7 @@ GET /api/privacy/data-export/:requestId/download
 #### 1. Right to Know (1798.100, 1798.115)
 
 **Implementation:**
+
 - Endpoint: `GET /api/privacy/data-export`
 - Disclosure at collection: Privacy Policy
 - Response Time: Within 45 days
@@ -187,6 +198,7 @@ GET /api/privacy/data-export/:requestId/download
 #### 2. Right to Delete (1798.105)
 
 **Implementation:**
+
 - Endpoint: `POST /api/privacy/delete-account`
 - Response Time: Within 45 days
 - Verification required: Password confirmation
@@ -194,6 +206,7 @@ GET /api/privacy/data-export/:requestId/download
 #### 3. Right to Opt-Out (1798.120)
 
 **Implementation:**
+
 - Endpoint: `POST /api/privacy/consent/withdraw`
 - "Do Not Sell My Info" link in footer
 - Cookie consent banner
@@ -201,6 +214,7 @@ GET /api/privacy/data-export/:requestId/download
 #### 4. Right to Non-Discrimination (1798.125)
 
 **Guarantees:**
+
 - No denial of service for exercising rights
 - No price discrimination
 - No quality of service reduction
@@ -256,17 +270,17 @@ GET /api/privacy/data-export/:requestId/download
 
 ### Retention Schedule
 
-| Data Type | Active Use | Soft Delete | Hard Delete | Legal Basis |
-|-----------|------------|-------------|-------------|-------------|
-| **User Profile** | Account lifetime | N/A | 7 years after deletion | Tax compliance |
-| **Email** | Account lifetime | Immediate | 7 years | Tax compliance |
-| **Password Hash** | Account lifetime | Immediate | Immediate | Security |
-| **Payment Records** | 7 years | Never | 7 years | Tax law |
-| **Study Progress** | Account lifetime | 30 days | 7 years | Service quality |
-| **Activity Logs** | 30 days | N/A | 30 days | Service improvement |
-| **Consent Records** | Indefinite | Indefinite | 7 years | Compliance |
-| **Audit Logs** | Indefinite | Never | Never | Compliance |
-| **Export Files** | 7 days | N/A | 7 days | User request |
+| Data Type           | Active Use       | Soft Delete | Hard Delete            | Legal Basis         |
+| ------------------- | ---------------- | ----------- | ---------------------- | ------------------- |
+| **User Profile**    | Account lifetime | N/A         | 7 years after deletion | Tax compliance      |
+| **Email**           | Account lifetime | Immediate   | 7 years                | Tax compliance      |
+| **Password Hash**   | Account lifetime | Immediate   | Immediate              | Security            |
+| **Payment Records** | 7 years          | Never       | 7 years                | Tax law             |
+| **Study Progress**  | Account lifetime | 30 days     | 7 years                | Service quality     |
+| **Activity Logs**   | 30 days          | N/A         | 30 days                | Service improvement |
+| **Consent Records** | Indefinite       | Indefinite  | 7 years                | Compliance          |
+| **Audit Logs**      | Indefinite       | Never       | Never                  | Compliance          |
+| **Export Files**    | 7 days           | N/A         | 7 days                 | User request        |
 
 ### Automatic Deletion
 
@@ -282,12 +296,12 @@ GET /api/privacy/data-export/:requestId/download
 
 ### Data Processors (GDPR Article 28)
 
-| Service | Purpose | Data Shared | Safeguards | Location |
-|---------|---------|-------------|------------|----------|
-| **Stripe** | Payment processing | Email, payment info | PCI DSS compliant | USA |
-| **PostgreSQL** | Database hosting | All user data | SOC 2 compliant | Configurable |
-| **Cloud Provider** | Hosting | All application data | ISO 27001 | Configurable |
-| **Email Service** | Transactional emails | Email, name | GDPR compliant | EU/USA |
+| Service            | Purpose              | Data Shared          | Safeguards        | Location     |
+| ------------------ | -------------------- | -------------------- | ----------------- | ------------ |
+| **Stripe**         | Payment processing   | Email, payment info  | PCI DSS compliant | USA          |
+| **PostgreSQL**     | Database hosting     | All user data        | SOC 2 compliant   | Configurable |
+| **Cloud Provider** | Hosting              | All application data | ISO 27001         | Configurable |
+| **Email Service**  | Transactional emails | Email, name          | GDPR compliant    | EU/USA       |
 
 ### Data Processing Agreements (DPAs)
 
@@ -299,6 +313,7 @@ GET /api/privacy/data-export/:requestId/download
 ### Cookie Consent
 
 **Categories:**
+
 1. **Essential** (Required)
    - Authentication
    - Security
@@ -317,6 +332,7 @@ GET /api/privacy/data-export/:requestId/download
    - Promotional emails
 
 **Implementation:**
+
 - Cookie consent banner on first visit
 - Granular consent options
 - Consent management via `PUT /api/privacy/consent`
@@ -329,15 +345,18 @@ GET /api/privacy/data-export/:requestId/download
 ### GDPR Compliance
 
 **Mechanisms:**
+
 1. **Standard Contractual Clauses (SCCs)** for non-EEA transfers
 2. **Adequacy Decisions** for approved countries
 3. **Data localization** (optional)
 
 **Current Transfers:**
+
 - **Stripe Payments:** USA (SCCs + Privacy Shield framework)
 - **Cloud Hosting:** Configurable (EU/US/Asia)
 
 **Safeguards:**
+
 - SCCs adopted (European Commission Decision 2021/914)
 - Technical security measures
 - Organizational controls
@@ -356,11 +375,13 @@ GET /api/privacy/data-export/:requestId/download
 **Policy:** This service is not intended for children under 13.
 
 **Age Verification:**
+
 - No age verification performed
 - Terms of Service state age requirement
 - Parents/guardians must supervise minors
 
 **Data Collection from Minors (13-18):**
+
 - Requires parental consent
 - Limited data collection
 - No marketing to minors
@@ -374,13 +395,15 @@ GET /api/privacy/data-export/:requestId/download
 #### 1. Consent Management
 
 **API Endpoints:**
+
 ```typescript
-GET    /api/privacy/consent              // Get consent status
-PUT    /api/privacy/consent              // Update consent
-POST   /api/privacy/consent/withdraw     // Withdraw consent
+GET / api / privacy / consent; // Get consent status
+PUT / api / privacy / consent; // Update consent
+POST / api / privacy / consent / withdraw; // Withdraw consent
 ```
 
 **Database Schema:**
+
 ```prisma
 model PrivacyConsent {
   cookieConsent: Boolean
@@ -395,6 +418,7 @@ model PrivacyConsent {
 #### 2. Data Export (Right to Data Portability)
 
 **API Endpoints:**
+
 ```typescript
 POST   /api/privacy/data-export                    // Request export
 GET    /api/privacy/data-export                    // Get history
@@ -403,6 +427,7 @@ GET    /api/privacy/data-export/:requestId/download // Download
 ```
 
 **Export Format:**
+
 ```json
 {
   "profile": {...},
@@ -421,13 +446,15 @@ GET    /api/privacy/data-export/:requestId/download // Download
 #### 3. Account Deletion (Right to be Forgotten)
 
 **API Endpoints:**
+
 ```typescript
-POST   /api/privacy/delete-account           // Request deletion
-GET    /api/privacy/delete-account           // Get status
-POST   /api/privacy/delete-account/cancel    // Cancel deletion
+POST / api / privacy / delete -account; // Request deletion
+GET / api / privacy / delete -account; // Get status
+POST / api / privacy / delete -account / cancel; // Cancel deletion
 ```
 
 **Deletion Timeline:**
+
 1. **Request:** User confirms password
 2. **Grace Period:** 30 days (cancellable)
 3. **Soft Delete:** Anonymize immediately
@@ -436,6 +463,7 @@ POST   /api/privacy/delete-account/cancel    // Cancel deletion
 #### 4. Audit Logging
 
 **All Actions Logged:**
+
 - Data export requests
 - Account deletion requests
 - Consent given/withdrawn
@@ -445,13 +473,15 @@ POST   /api/privacy/delete-account/cancel    // Cancel deletion
 **Log Storage:** Indefinite (compliance requirement)
 
 **API Endpoint:**
+
 ```typescript
-GET    /api/admin/privacy/audit-logs    // Requires admin
+GET / api / admin / privacy / audit - logs; // Requires admin
 ```
 
 #### 5. Admin Dashboard
 
 **Features:**
+
 - Compliance statistics
 - Pending requests
 - Request processing
@@ -459,6 +489,7 @@ GET    /api/admin/privacy/audit-logs    // Requires admin
 - User compliance summaries
 
 **API Endpoints:**
+
 ```typescript
 GET    /api/admin/privacy/dashboard           // Overview
 GET    /api/admin/privacy/exports             // Export requests
@@ -479,6 +510,7 @@ POST   /api/admin/privacy/process-pending     // Cron endpoint
 #### 1. Detection
 
 **Automated Monitoring:**
+
 - Security Information and Event Management (SIEM)
 - Intrusion Detection System (IDS)
 - Anomaly detection
@@ -487,6 +519,7 @@ POST   /api/admin/privacy/process-pending     // Cron endpoint
 #### 2. Assessment
 
 **Within 24 hours:**
+
 - Determine scope of breach
 - Identify affected data
 - Assess risk to individuals
@@ -495,15 +528,18 @@ POST   /api/admin/privacy/process-pending     // Cron endpoint
 #### 3. Notification
 
 **GDPR Requirements (Article 33):**
+
 - **Supervisory Authority:** Within 72 hours
 - **Data Subjects:** Without undue delay if high risk
 - **Content:** Nature of breach, categories affected, consequences, mitigation measures
 
 **CCPA Requirements (1798.82):**
+
 - **Affected Individuals:** Without delay
 - **Attorney General:** If breach affects 500+ CA residents
 
 **Notification Channels:**
+
 - Email to affected individuals
 - Website notice
 - Press release (if large scale)
@@ -511,12 +547,14 @@ POST   /api/admin/privacy/process-pending     // Cron endpoint
 #### 4. Mitigation
 
 **Immediate Actions:**
+
 - Secure breach point
 - Reset compromised credentials
 - Enable additional monitoring
 - Engage forensic experts
 
 **Post-Incident:**
+
 - Root cause analysis
 - Process improvement
 - Employee retraining
@@ -525,6 +563,7 @@ POST   /api/admin/privacy/process-pending     // Cron endpoint
 ### Breach Response Team
 
 **Roles:**
+
 1. **Incident Commander** - Lead response
 2. **Legal Counsel** - GDPR/CCPA compliance
 3. **Security Engineer** - Technical mitigation
@@ -543,12 +582,14 @@ POST   /api/admin/privacy/process-pending     // Cron endpoint
 ### GDPR Representative
 
 **For EU Users:**
+
 - Email: eu-rep@pmpstudy.com
 - Address: [EU Representative Address]
 
 ### CCPA Contact
 
 **For California Residents:**
+
 - Email: privacy@pmpstudy.com
 - Phone: [Phone Number]
 - Address: [Company Address]
@@ -595,9 +636,9 @@ POST   /api/admin/privacy/process-pending     // Cron endpoint
 
 ## Document Version History
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | 2026-01-01 | Initial GDPR/CCPA compliance documentation | Compliance Team |
+| Version | Date       | Changes                                    | Author          |
+| ------- | ---------- | ------------------------------------------ | --------------- |
+| 1.0     | 2026-01-01 | Initial GDPR/CCPA compliance documentation | Compliance Team |
 
 ---
 

@@ -9,6 +9,9 @@ interface Tier {
   name: string;
   price: number;
   billingPeriod: 'monthly' | 'annual';
+  features?: {
+    teamManagement?: boolean;
+  };
 }
 
 function CheckoutForm() {
@@ -17,6 +20,7 @@ function CheckoutForm() {
   const tierId = searchParams.get('tier');
 
   const [tier, setTier] = useState<Tier | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -38,6 +42,10 @@ function CheckoutForm() {
           setError('Invalid tier selected');
         } else {
           setTier(selectedTier);
+          // Default to 5 seats for corporate
+          if (selectedTier.features?.teamManagement) {
+            setQuantity(5);
+          }
         }
       } catch (err) {
         console.error('Failed to fetch tier:', err);
@@ -49,6 +57,10 @@ function CheckoutForm() {
 
     fetchTier();
   }, [tierId]);
+
+  // Calculate total price
+  const totalPrice = tier ? tier.price * quantity : 0;
+  const isCorporate = tier?.features?.teamManagement;
 
   if (loading && !tier) {
     return (
@@ -88,9 +100,36 @@ function CheckoutForm() {
                 {tier?.billingPeriod}
               </span>
             </div>
-            <div className="flex justify-between items-center text-xl font-bold">
-              <span className="text-md-on-surface-variant">Total</span>
-              <span className="text-md-primary">${tier?.price.toFixed(2)}</span>
+
+            {/* Quantity selector for Corporate */}
+            {isCorporate && (
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-md-on-surface-variant">Seats</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-8 h-8 rounded-full bg-md-surface-variant flex items-center justify-center text-md-on-surface-variant hover:bg-md-outline"
+                    disabled={quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <span className="text-md-on-surface font-medium w-8 text-center">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(Math.min(100, quantity + 1))}
+                    className="w-8 h-8 rounded-full bg-md-surface-variant flex items-center justify-center text-md-on-surface-variant hover:bg-md-outline"
+                    disabled={quantity >= 100}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-between items-center text-xl font-bold border-t border-md-outline pt-2 mt-2">
+              <span className="text-md-on-surface-variant">
+                {isCorporate ? `Total (${quantity} seat${quantity > 1 ? 's' : ''})` : 'Total'}
+              </span>
+              <span className="text-md-primary">${totalPrice.toFixed(2)}</span>
             </div>
           </div>
 
@@ -115,7 +154,10 @@ function CheckoutForm() {
                   '/subscriptions/stripe/checkout',
                   {
                     method: 'POST',
-                    body: { tierId: tier?.id },
+                    body: {
+                      tierId: tier?.id,
+                      quantity: isCorporate ? quantity : undefined,
+                    },
                   }
                 );
                 if (response.data?.checkoutUrl) {

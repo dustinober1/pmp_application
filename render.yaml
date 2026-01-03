@@ -21,8 +21,29 @@ services:
       - key: JWT_REFRESH_SECRET
         generateValue: true
       - key: CORS_ORIGIN
-        value: https://pmp-study-app.onrender.com # Update this with your frontend URL
+        value: https://pmp-study-app.onrender.com
+      - key: STRIPE_SECRET_KEY
+        fromSecret: stripe-secret-key
+      - key: STRIPE_WEBHOOK_SECRET
+        fromSecret: stripe-webhook-secret
     healthCheckPath: /api/health
+
+  # Frontend Service
+  - type: web
+    name: pmp-web
+    env: docker
+    dockerContext: .
+    dockerfilePath: ./packages/web/Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: NEXT_PUBLIC_API_URL
+        value: https://pmp-api.onrender.com/api
+    healthCheckPath: /
 
 databases:
   # PostgreSQL Database
@@ -32,3 +53,8 @@ databases:
     plan: free
     region: oregon
     version: "15"
+
+secrets:
+  # Add these secrets in Render dashboard:
+  # - stripe-secret-key: Your Stripe secret key (sk_live_...)
+  # - stripe-webhook-secret: Your Stripe webhook secret (whsec_...)

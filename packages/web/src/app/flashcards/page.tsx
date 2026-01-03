@@ -8,6 +8,7 @@ import { apiRequest } from '@/lib/api';
 import { useToast } from '@/components/ToastProvider';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { FullPageSkeleton } from '@/components/FullPageSkeleton';
+import type { Domain } from '@/data/pmpExamContent';
 
 interface FlashcardStats {
   mastered: number;
@@ -21,13 +22,24 @@ export default function FlashcardsPage() {
   const { canAccess, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [stats, setStats] = useState<FlashcardStats | null>(null);
+  const [domains, setDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
-  const [starting, setStarting] = useState<'review' | 'all' | null>(null);
+  const [starting, setStarting] = useState<'review' | 'all' | 'focused' | null>(null);
+
+  // Selection state for focused mode
+  const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+  const [cardCount, setCardCount] = useState<number>(20);
+  const [showFilters, setShowFilters] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
       const statsRes = await apiRequest<{ stats: FlashcardStats }>('/flashcards/stats');
       setStats(statsRes.data?.stats ?? null);
+
+      // Fetch domains for selection
+      const domainsRes = await apiRequest<{ domains: Domain[] }>('/domains');
+      setDomains(domainsRes.data?.domains ?? []);
     } catch (error) {
       console.error('Failed to fetch flashcard data:', error);
       toast.error('Failed to load flashcards. Please try again.');
@@ -42,11 +54,36 @@ export default function FlashcardsPage() {
     }
   }, [canAccess, fetchData]);
 
-  const startSession = async (mode: 'review' | 'all') => {
+  const getFilteredDomainTasks = useCallback(() => {
+    if (!selectedDomainId) return [];
+    const domain = domains.find(d => d.id === selectedDomainId);
+    return domain?.tasks || [];
+  }, [domains, selectedDomainId]);
+
+  const startSession = async (mode: 'review' | 'all' | 'focused') => {
     try {
       setStarting(mode);
-      const options =
-        mode === 'review' ? { prioritizeReview: true, cardCount: 20 } : { cardCount: 20 };
+
+      let options: Record<string, unknown> = { cardCount };
+
+      if (mode === 'review') {
+        options = { ...options, prioritizeReview: true };
+      }
+
+      if (mode === 'focused') {
+        if (!selectedDomainId) {
+          toast.error('Please select a domain');
+          setStarting(null);
+          return;
+        }
+        options = {
+          ...options,
+          domainIds: [selectedDomainId],
+          taskIds: selectedTaskId ? [selectedTaskId] : undefined,
+          prioritizeReview: false,
+        };
+      }
+
       const response = await apiRequest<{ sessionId: string }>('/flashcards/sessions', {
         method: 'POST',
         body: options,
@@ -62,6 +99,17 @@ export default function FlashcardsPage() {
       setStarting(null);
     }
   };
+
+  const resetFilters = useCallback(() => {
+    setSelectedDomainId(null);
+    setSelectedTaskId(null);
+    setCardCount(20);
+    setShowFilters(false);
+  }, []);
+
+  const selectedDomain = domains.find(d => d.id === selectedDomainId);
+  const tasksForSelectedDomain = getFilteredDomainTasks();
+  const hasActiveFilters = selectedDomainId !== null || selectedTaskId !== null || cardCount !== 20;
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;
@@ -160,6 +208,36 @@ export default function FlashcardsPage() {
             </button>
           </div>
 
+          {/* Focus on Task */}
+          <div
+            className={`card group hover:shadow-lg transition-all duration-300 border ${hasActiveFilters ? 'border-md-tertiary/50 bg-md-tertiary-container/10' : 'border-transparent hover:border-md-tertiary/20'}`}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-md-tertiary-container text-md-on-tertiary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold mb-3 text-md-on-surface">Focus on Task</h2>
+            <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
+              {selectedDomain && selectedTaskId
+                ? `Studying: ${selectedDomain.name} - ${tasksForSelectedDomain.find(t => t.id === selectedTaskId)?.code}`
+                : selectedDomain
+                  ? `Domain selected: ${selectedDomain.name}`
+                  : 'Target specific domains and tasks for focused practice.'}
+            </p>
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`btn w-full justify-center ${hasActiveFilters ? 'btn-tertiary' : 'btn-outline'}`}
+            >
+              {showFilters ? 'Hide Options' : 'Select Focus'}
+            </button>
+          </div>
+
           {/* Create Custom */}
           <div className="card group hover:shadow-lg transition-all duration-300 border border-transparent hover:border-md-tertiary/20">
             <div className="w-14 h-14 rounded-2xl bg-md-tertiary-container text-md-on-tertiary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -181,6 +259,115 @@ export default function FlashcardsPage() {
             </Link>
           </div>
         </div>
+
+        {/* Filter Section */}
+        {showFilters && (
+          <div className="card mt-8 animate-slideUp bg-md-surface-container">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-bold text-md-on-surface">Session Options</h3>
+              {hasActiveFilters && (
+                <button onClick={resetFilters} className="text-sm text-md-primary hover:underline">
+                  Reset to Defaults
+                </button>
+              )}
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Domain Selection */}
+              <div>
+                <label
+                  htmlFor="domain-select"
+                  className="block text-sm font-medium text-md-on-surface-variant mb-2"
+                >
+                  Domain (optional)
+                </label>
+                <select
+                  id="domain-select"
+                  value={selectedDomainId || ''}
+                  onChange={e => {
+                    setSelectedDomainId(e.target.value || null);
+                    setSelectedTaskId(null); // Reset task when domain changes
+                  }}
+                  className="input w-full"
+                >
+                  <option value="">All Domains</option>
+                  {domains.map(domain => (
+                    <option key={domain.id} value={domain.id}>
+                      {domain.code} - {domain.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Task Selection */}
+              <div>
+                <label
+                  htmlFor="task-select"
+                  className="block text-sm font-medium text-md-on-surface-variant mb-2"
+                >
+                  Task (optional)
+                </label>
+                <select
+                  id="task-select"
+                  value={selectedTaskId || ''}
+                  onChange={e => setSelectedTaskId(e.target.value || null)}
+                  disabled={!selectedDomainId}
+                  className="input w-full disabled:opacity-50"
+                >
+                  <option value="">All Tasks in Domain</option>
+                  {tasksForSelectedDomain.map(task => (
+                    <option key={task.id} value={task.id}>
+                      {task.code} - {task.name.substring(0, 30)}...
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Card Count */}
+              <div>
+                <label
+                  htmlFor="card-count"
+                  className="block text-sm font-medium text-md-on-surface-variant mb-2"
+                >
+                  Number of Cards
+                </label>
+                <select
+                  id="card-count"
+                  value={cardCount}
+                  onChange={e => setCardCount(Number(e.target.value))}
+                  className="input w-full"
+                >
+                  <option value={10}>10 cards</option>
+                  <option value={20}>20 cards</option>
+                  <option value={30}>30 cards</option>
+                  <option value={50}>50 cards</option>
+                </select>
+              </div>
+
+              {/* Start Button */}
+              <div className="flex items-end">
+                <button
+                  onClick={() => startSession('focused')}
+                  disabled={starting !== null || !selectedDomainId}
+                  className="btn btn-tertiary w-full"
+                >
+                  {starting === 'focused' ? 'Starting...' : 'Start Focused Session'}
+                </button>
+              </div>
+            </div>
+
+            {/* Preview Info */}
+            {selectedDomainId && (
+              <div className="mt-4 p-3 bg-md-surface-container-low rounded-lg">
+                <p className="text-sm text-md-on-surface-variant">
+                  {selectedTaskId
+                    ? `This will show flashcards specifically for the "${selectedDomain?.name}" domain and task "${tasksForSelectedDomain.find(t => t.id === selectedTaskId)?.name}".`
+                    : `This will show flashcards for the "${selectedDomain?.name}" domain across all its tasks.`}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* How it works */}
         <div className="card mt-12 bg-md-surface-container-low border-none">

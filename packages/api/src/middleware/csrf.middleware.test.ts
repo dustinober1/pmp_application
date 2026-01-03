@@ -30,7 +30,7 @@ describe('CSRF Middleware', () => {
     it('should allow safe methods without CSRF check', () => {
       const safeMethods = ['GET', 'HEAD', 'OPTIONS'];
 
-      safeMethods.forEach((method) => {
+      safeMethods.forEach(method => {
         mockRequest.method = method;
         mockNext.mockClear();
 
@@ -62,7 +62,7 @@ describe('CSRF Middleware', () => {
         '/api/health',
       ];
 
-      exemptPaths.forEach((path) => {
+      exemptPaths.forEach(path => {
         mockRequest.method = 'POST';
         mockRequest.path = path.replace('/api', '');
         mockRequest.baseUrl = '/api';
@@ -141,7 +141,7 @@ describe('CSRF Middleware', () => {
     it('should require CSRF for all state-changing methods', () => {
       const stateChangingMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
 
-      stateChangingMethods.forEach((method) => {
+      stateChangingMethods.forEach(method => {
         mockRequest.method = method;
         mockRequest.path = '/api/users';
         mockRequest.baseUrl = '';

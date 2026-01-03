@@ -95,7 +95,7 @@ test.describe('Exam Simulation Flow', () => {
       expect(optionCount).toBeGreaterThan(1);
     });
 
-    test('should select answer option', async ({ page }) => {
+    test('should select answer option', async ({ _page }) => {
       // Select first option
       await examPage.selectOption(0);
 

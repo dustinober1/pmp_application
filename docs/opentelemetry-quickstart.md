@@ -15,6 +15,7 @@ docker-compose ps
 ```
 
 **Access Points:**
+
 - Jaeger UI: http://localhost:16686
 - Prometheus: http://localhost:9090
 - Grafana: http://localhost:3002 (admin/admin)
@@ -22,6 +23,7 @@ docker-compose ps
 ### 2. Configure Environment Variables
 
 **For API (`.env`):**
+
 ```bash
 # OpenTelemetry Configuration
 OTEL_SERVICE_NAME=pmp-api
@@ -30,6 +32,7 @@ OTEL_RESOURCE_ATTRIBUTES=service.name=pmp-api,deployment.environment=development
 ```
 
 **For Web (`.env.local`):**
+
 ```bash
 # Browser OpenTelemetry
 NEXT_PUBLIC_OTEL_SERVICE_NAME=pmp-web
@@ -51,6 +54,7 @@ docker-compose up web
 ### Option 1: Automatic (No Code Changes)
 
 Open your browser and navigate to:
+
 ```
 http://localhost:3000
 ```
@@ -60,12 +64,13 @@ Any API call will automatically generate a trace!
 ### Option 2: Manual Instrumentation
 
 **API:**
+
 ```typescript
 // packages/api/src/routes/health.routes.ts
 import { withSpan } from '../utils/tracing';
 
 router.get('/api/health', async (req, res) => {
-  return withSpan('health.check', async (span) => {
+  return withSpan('health.check', async span => {
     span.setAttributes({
       'health.status': 'ok',
       'health.timestamp': Date.now(),
@@ -77,6 +82,7 @@ router.get('/api/health', async (req, res) => {
 ```
 
 **Web:**
+
 ```typescript
 // packages/web/src/app/page.tsx
 'use client';
@@ -101,6 +107,7 @@ export default function HomePage() {
 ## View Your Trace
 
 1. **Open Jaeger:**
+
    ```
    http://localhost:16686
    ```
@@ -134,6 +141,7 @@ export default function HomePage() {
 ### Span Details
 
 **Attributes:**
+
 ```
 http.method: GET
 http.route: /api/health
@@ -143,6 +151,7 @@ health.status: ok
 ```
 
 **Events:**
+
 ```
 health.check.started
 health.check.completed
@@ -156,17 +165,17 @@ health.check.completed
 import { withSpan, setDatabaseContext } from '../utils/tracing';
 
 router.get('/api/users/:id', async (req, res) => {
-  return withSpan('users.getById', async (span) => {
+  return withSpan('users.getById', async span => {
     span.setAttribute('user.id', req.params.id);
 
-    const user = await withSpan('users.query', async (dbSpan) => {
+    const user = await withSpan('users.query', async dbSpan => {
       setDatabaseContext(dbSpan, {
         table: 'User',
         operation: 'findUnique',
       });
 
       return prisma.user.findUnique({
-        where: { id: req.params.id }
+        where: { id: req.params.id },
       });
     });
 
@@ -206,7 +215,7 @@ async function createStripeCheckout(userId: string) {
 import { withSpan, setUserContext, setBusinessContext } from '../utils/tracing';
 
 async function processPayment(userId: string, amount: number) {
-  return withSpan('payment.process', async (span) => {
+  return withSpan('payment.process', async span => {
     setBusinessContext(span, {
       feature: 'payment',
       action: 'process',
@@ -272,6 +281,7 @@ fetch('/api/health')
 ### No Traces Appearing
 
 **1. Check services are running:**
+
 ```bash
 docker-compose ps
 
@@ -279,6 +289,7 @@ docker-compose ps
 ```
 
 **2. Check environment variables:**
+
 ```bash
 # API
 docker-compose exec api env | grep OTEL
@@ -289,6 +300,7 @@ docker-compose exec api env | grep OTEL
 ```
 
 **3. Check collector logs:**
+
 ```bash
 docker-compose logs -f otel-collector
 
@@ -296,6 +308,7 @@ docker-compose logs -f otel-collector
 ```
 
 **4. Verify trace export:**
+
 ```bash
 # Send test request
 curl http://localhost:3001/api/health
@@ -311,6 +324,7 @@ curl http://localhost:3001/api/health
 **Problem:** User ID or other attributes not showing
 
 **Solution:** Ensure you're setting attributes:
+
 ```typescript
 const span = trace.getActiveSpan();
 if (span) {
@@ -321,12 +335,14 @@ if (span) {
 ### Browser Tracing Not Working
 
 **1. Check browser console for errors:**
+
 ```javascript
 // Should see:
 // [OpenTelemetry] Browser tracing initialized
 ```
 
 **2. Verify environment variables:**
+
 ```bash
 # Check .env.local
 cat packages/web/.env.local
@@ -337,6 +353,7 @@ cat packages/web/.env.local
 ```
 
 **3. Check CORS configuration:**
+
 ```yaml
 # config/otel-collector-config.yaml
 receivers:
@@ -345,7 +362,7 @@ receivers:
       http:
         cors:
           allowed_origins:
-            - http://localhost:3000  # Must match your frontend URL
+            - http://localhost:3000 # Must match your frontend URL
 ```
 
 ## Next Steps
@@ -353,6 +370,7 @@ receivers:
 ### 1. Add Custom Spans
 
 Start instrumenting critical paths:
+
 - Authentication flows
 - Payment processing
 - Search functionality
@@ -371,6 +389,7 @@ Start instrumenting critical paths:
 ### 3. Configure Alerts
 
 Set up alerts for:
+
 - P95 latency > 1s
 - Error rate > 5%
 - Trace spike detection
@@ -378,6 +397,7 @@ Set up alerts for:
 ### 4. Production Setup
 
 For AWS deployment:
+
 ```typescript
 // Use AWS X-Ray exporter
 import { AWSXRayExporter } from '@opentelemetry/exporter-aws-xray';

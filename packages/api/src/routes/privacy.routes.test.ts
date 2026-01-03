@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import request from 'supertest';
-import express, { Application } from 'express';
+import type { Application } from 'express';
+import express from 'express';
 import privacyRoutes from './privacy.routes';
 import { consentService, dataExportService, accountDeletionService } from '../services';
-import { authMiddleware } from '../middleware/auth.middleware';
 
 // Mock services
 vi.mock('../services', () => ({
@@ -84,9 +84,7 @@ describe('Privacy Routes', () => {
 
       vi.mocked(consentService.updateConsent).mockResolvedValue(mockConsent);
 
-      const response = await request(app)
-        .put('/api/privacy/consent')
-        .send(consentUpdate);
+      const response = await request(app).put('/api/privacy/consent').send(consentUpdate);
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -233,9 +231,7 @@ describe('Privacy Routes', () => {
 
       vi.mocked(dataExportService.downloadExport).mockResolvedValue(mockData);
 
-      const response = await request(app).get(
-        '/api/privacy/data-export/request-123/download'
-      );
+      const response = await request(app).get('/api/privacy/data-export/request-123/download');
 
       expect(response.status).toBe(200);
       expect(response.headers['content-type']).toBe('application/json');
@@ -257,12 +253,10 @@ describe('Privacy Routes', () => {
 
       vi.mocked(accountDeletionService.requestDeletion).mockResolvedValue(mockDeletion);
 
-      const response = await request(app)
-        .post('/api/privacy/delete-account')
-        .send({
-          confirmPassword: 'password123',
-          reason: 'Closing account',
-        });
+      const response = await request(app).post('/api/privacy/delete-account').send({
+        confirmPassword: 'password123',
+        reason: 'Closing account',
+      });
 
       expect(response.status).toBe(201);
       expect(response.body.success).toBe(true);

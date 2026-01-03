@@ -47,17 +47,20 @@ model User {
 ### User-Facing Endpoints
 
 #### Consent Management
+
 - `GET /api/privacy/consent` - Get current consent status
 - `PUT /api/privacy/consent` - Update consent
 - `POST /api/privacy/consent/withdraw` - Withdraw consent
 
 #### Data Export (GDPR Right to Data Portability)
+
 - `POST /api/privacy/data-export` - Request data export
 - `GET /api/privacy/data-export` - Get export history
 - `GET /api/privacy/data-export/:requestId` - Get export status
 - `GET /api/privacy/data-export/:requestId/download` - Download export
 
 #### Account Deletion (GDPR Right to be Forgotten)
+
 - `POST /api/privacy/delete-account` - Request account deletion
 - `GET /api/privacy/delete-account` - Get deletion status
 - `POST /api/privacy/delete-account/cancel` - Cancel deletion (grace period)
@@ -80,12 +83,14 @@ model User {
 ### 1. ConsentService
 
 **Features:**
+
 - Get user consent status
 - Create/update consent records
 - Withdraw consent
 - Check specific consent types
 
 **Key Methods:**
+
 - `getUserConsent(userId)`
 - `updateConsent(userId, data, metadata)`
 - `withdrawConsent(userId, reason, metadata)`
@@ -94,6 +99,7 @@ model User {
 ### 2. DataExportService
 
 **Features:**
+
 - Request comprehensive data export
 - Rate limiting (1 request per 24 hours)
 - Background processing
@@ -101,6 +107,7 @@ model User {
 - Email notifications (integration ready)
 
 **Export Includes:**
+
 - User profile
 - Subscription history
 - Payment transactions
@@ -110,6 +117,7 @@ model User {
 - Team memberships
 
 **Key Methods:**
+
 - `requestExport(userId, options, metadata)`
 - `getExportStatus(userId, requestId)`
 - `downloadExport(userId, requestId)`
@@ -119,6 +127,7 @@ model User {
 ### 3. AccountDeletionService
 
 **Features:**
+
 - Request account deletion with password confirmation
 - 30-day grace period (cancellable)
 - Soft delete (data anonymization)
@@ -126,6 +135,7 @@ model User {
 - Payment records anonymized (not deleted)
 
 **Deletion Timeline:**
+
 1. User requests deletion (password required)
 2. 30-day grace period starts (cancellable)
 3. Soft delete - data anonymized
@@ -133,6 +143,7 @@ model User {
 5. Hard delete - complete removal
 
 **Key Methods:**
+
 - `requestDeletion(userId, data, metadata)`
 - `cancelDeletion(userId, requestId, metadata)`
 - `getDeletionStatus(userId)`
@@ -143,12 +154,14 @@ model User {
 ### 4. AdminPrivacyService
 
 **Features:**
+
 - Compliance dashboard statistics
 - Export/deletion request management
 - Audit log querying
 - User compliance summaries
 
 **Key Methods:**
+
 - `getDashboard()`
 - `getExportStats()`
 - `getDeletionStats()`
@@ -161,6 +174,7 @@ model User {
 ## ✅ Validators Created
 
 **Zod Schemas:**
+
 - `consentUpdateSchema` - Consent updates
 - `consentWithdrawSchema` - Consent withdrawal
 - `dataExportRequestSchema` - Export requests
@@ -224,6 +238,7 @@ model User {
 ### 1. API Documentation (`/docs/api/privacy-api.md`)
 
 **Contents:**
+
 - Complete endpoint reference
 - Request/response examples
 - Error codes
@@ -239,6 +254,7 @@ model User {
 ### 2. Compliance Guide (`/docs/compliance/gdpr-ccpa-compliance.md`)
 
 **Contents:**
+
 - Legal compliance overview
 - Data collected and purposes
 - Legal basis for processing (GDPR Article 6)
@@ -256,6 +272,7 @@ model User {
 ### 3. Implementation Guide (`/docs/compliance/IMPLEMENTATION_GUIDE.md`)
 
 **Contents:**
+
 - Quick start instructions
 - Database setup
 - Testing procedures
@@ -272,6 +289,7 @@ model User {
 ### 4. README (`/docs/compliance/README.md`)
 
 **Contents:**
+
 - Implementation overview
 - Feature summary
 - File structure
@@ -307,26 +325,26 @@ model User {
 
 ### GDPR (EU General Data Protection Regulation)
 
-| Requirement | Implementation | Status |
-|-------------|----------------|--------|
-| Art. 15 - Right to Access | Data export endpoint | ✅ Complete |
-| Art. 16 - Right to Rectification | Profile updates | ✅ Existing |
-| Art. 17 - Right to Erasure | Account deletion | ✅ Complete |
-| Art. 18 - Right to Restrict | Consent withdrawal | ✅ Complete |
-| Art. 20 - Data Portability | JSON export format | ✅ Complete |
-| Art. 21 - Right to Object | Consent opt-out | ✅ Complete |
-| Art. 25 - Privacy by Design | Secure architecture | ✅ Complete |
-| Art. 30 - Records of Processing | Audit logs | ✅ Complete |
+| Requirement                      | Implementation       | Status      |
+| -------------------------------- | -------------------- | ----------- |
+| Art. 15 - Right to Access        | Data export endpoint | ✅ Complete |
+| Art. 16 - Right to Rectification | Profile updates      | ✅ Existing |
+| Art. 17 - Right to Erasure       | Account deletion     | ✅ Complete |
+| Art. 18 - Right to Restrict      | Consent withdrawal   | ✅ Complete |
+| Art. 20 - Data Portability       | JSON export format   | ✅ Complete |
+| Art. 21 - Right to Object        | Consent opt-out      | ✅ Complete |
+| Art. 25 - Privacy by Design      | Secure architecture  | ✅ Complete |
+| Art. 30 - Records of Processing  | Audit logs           | ✅ Complete |
 
 ### CCPA (California Consumer Privacy Act)
 
-| Requirement | Implementation | Status |
-|-------------|----------------|--------|
-| Right to Know | Data export | ✅ Complete |
-| Right to Delete | Account deletion | ✅ Complete |
-| Right to Opt-Out | Consent withdrawal | ✅ Complete |
+| Requirement                 | Implementation         | Status      |
+| --------------------------- | ---------------------- | ----------- |
+| Right to Know               | Data export            | ✅ Complete |
+| Right to Delete             | Account deletion       | ✅ Complete |
+| Right to Opt-Out            | Consent withdrawal     | ✅ Complete |
 | Right to Non-Discrimination | Equal access guarantee | ✅ Complete |
-| Data Disclosure | Clear documentation | ✅ Complete |
+| Data Disclosure             | Clear documentation    | ✅ Complete |
 
 ---
 
@@ -419,12 +437,14 @@ model User {
 ### Immediate Actions
 
 1. **Run Database Migration**
+
    ```bash
    cd packages/api
    npx prisma migrate dev --name add-gdpr-ccpa-tables
    ```
 
 2. **Configure Admin Emails**
+
    ```bash
    # Add to .env
    ADMIN_EMAILS=admin@yourcompany.com
@@ -457,11 +477,13 @@ model User {
 ## 📞 Support
 
 ### Documentation
+
 - API Reference: `/docs/api/privacy-api.md`
 - Compliance: `/docs/compliance/gdpr-ccpa-compliance.md`
 - Setup: `/docs/compliance/IMPLEMENTATION_GUIDE.md`
 
 ### Contact
+
 - **Email:** privacy@pmpstudy.com
 - **GitHub Issues:** https://github.com/your-repo/issues
 

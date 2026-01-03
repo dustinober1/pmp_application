@@ -33,6 +33,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const hydrate = async () => {
+    // Skip hydration during server-side rendering
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     try {
       const response = await apiRequest<{ user: UserProfile }>('/auth/me');
       const user = response.data?.user || null;

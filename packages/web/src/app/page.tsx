@@ -107,7 +107,7 @@ export default function HomePage() {
           <p className="text-md-on-surface-variant text-center mb-12 max-w-2xl mx-auto">
             Choose the plan that fits your study needs. Upgrade or downgrade anytime.
           </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {pricing.map((tier, index) => (
               <div
                 key={index}
@@ -118,7 +118,9 @@ export default function HomePage() {
                 <p className="text-3xl font-bold mt-4 text-md-on-surface">
                   {tier.price === 0 ? 'Free' : `$${tier.price}`}
                   {tier.price !== 0 && (
-                    <span className="text-sm font-normal text-md-on-surface-variant">/mo</span>
+                    <span className="text-sm font-normal text-md-on-surface-variant">
+                      /mo{tier.perSeat && ' per seat'}
+                    </span>
                   )}
                 </p>
                 <ul className="mt-6 space-y-3">
@@ -284,34 +286,24 @@ const pricing = [
     ],
   },
   {
-    name: 'Mid-Level',
-    price: '9.99',
-    features: [
-      'All Free features',
-      '1,000+ flashcards',
-      '3 full-length practice exams',
-      'More detailed feedback',
-      'Formula calculator',
-      'Advanced analytics',
-    ],
-  },
-  {
-    name: 'High-End',
-    price: '14.99',
+    name: 'Pro',
+    price: 9.99,
     popular: true,
     features: [
-      'All Mid-Level features',
+      'All Free features',
       '2,000+ flashcards',
       '6 full-length practice exams',
       'Detailed feedback per question',
+      'Formula calculator',
       'Personalized study plan',
     ],
   },
   {
-    name: 'Corporate',
-    price: '19.99',
+    name: 'Corporate Team',
+    price: 14.99,
+    perSeat: true,
     features: [
-      'All High-End features',
+      'All Pro features',
       'Unlimited flashcards',
       'Team management',
       'Company-wide analytics',

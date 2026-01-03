@@ -3,7 +3,8 @@
  */
 
 import request from 'supertest';
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 import {
   traceIdMiddleware,
   userIdMiddleware,
@@ -42,7 +43,7 @@ describe('Logging Middleware', () => {
       res.status(500).json({ error: 'Test error' });
     });
 
-    app.use((err: any, req: any, res: any, next: any) => {
+    app.use((err: any, req: any, res: any, _next: any) => {
       res.status(500).json({ error: err.message });
     });
   });
@@ -62,9 +63,7 @@ describe('Logging Middleware', () => {
 
     it('should use provided trace ID from header', async () => {
       const customTraceId = 'custom-trace-123';
-      const response = await request(app)
-        .get('/test')
-        .set('X-Trace-ID', customTraceId);
+      const response = await request(app).get('/test').set('X-Trace-ID', customTraceId);
 
       expect(response.status).toBe(200);
       expect(response.body.trace_id).toBe(customTraceId);

@@ -107,7 +107,10 @@ export function createSanitizationRules(
 /**
  * Check if a field should be sanitized
  */
-export function isSensitiveField(fieldName: string, fields: string[] = DEFAULT_SANITIZE_FIELDS): boolean {
+export function isSensitiveField(
+  fieldName: string,
+  fields: string[] = DEFAULT_SANITIZE_FIELDS
+): boolean {
   const lowerFieldName = fieldName.toLowerCase();
   return fields.some(field => lowerFieldName.includes(field.toLowerCase()));
 }
@@ -115,7 +118,11 @@ export function isSensitiveField(fieldName: string, fields: string[] = DEFAULT_S
 /**
  * Redact a value if it belongs to a sensitive field
  */
-export function redact(fieldName: string, value: any, fields: string[] = DEFAULT_SANITIZE_FIELDS): any {
+export function redact(
+  fieldName: string,
+  value: any,
+  fields: string[] = DEFAULT_SANITIZE_FIELDS
+): any {
   if (!isSensitiveField(fieldName, fields)) {
     return value;
   }

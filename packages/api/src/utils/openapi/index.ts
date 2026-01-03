@@ -3,10 +3,7 @@ import type { OpenAPIV3_1 } from 'openapi-types';
 /**
  * Convert a Zod schema to OpenAPI schema (stub for future use)
  */
-export function zodToOpenAPISchema(
-  zodSchema: any,
-  description?: string
-): OpenAPIV3_1.SchemaObject {
+export function zodToOpenAPISchema(zodSchema: any, description?: string): OpenAPIV3_1.SchemaObject {
   const jsonSchema: any = zodSchema;
 
   if (description) {
@@ -19,7 +16,10 @@ export function zodToOpenAPISchema(
 /**
  * Create a reference object
  */
-export function ref(component: 'schemas' | 'responses' | 'parameters', name: string): OpenAPIV3_1.ReferenceObject {
+export function ref(
+  component: 'schemas' | 'responses' | 'parameters',
+  name: string
+): OpenAPIV3_1.ReferenceObject {
   return {
     $ref: `#/components/${component}/${name}`,
   };

@@ -2,7 +2,6 @@ import { test, expect } from './fixtures/auth.fixture';
 import { PricingPage } from './pages/pricing.page';
 import { CheckoutPage } from './pages/checkout.page';
 import { DashboardPage } from './pages/dashboard.page';
-import { testUsers } from './fixtures/test-users.fixture';
 
 /**
  * Checkout and Payment Flow Tests
@@ -26,7 +25,7 @@ test.describe('Checkout and Payment Flow', () => {
   });
 
   test.describe('Pricing Page', () => {
-    test('should display all pricing tiers', async ({ page }) => {
+    test('should display all pricing tiers', async ({ _page }) => {
       await pricingPage.goto();
 
       // Verify all tiers are visible
@@ -36,7 +35,7 @@ test.describe('Checkout and Payment Flow', () => {
       expect(await pricingPage.isTierVisible('corporate')).toBeTruthy();
     });
 
-    test('should show monthly pricing by default', async ({ page }) => {
+    test('should show monthly pricing by default', async ({ _page }) => {
       await pricingPage.goto();
 
       const prices = await pricingPage.getAllPrices();
@@ -48,7 +47,7 @@ test.describe('Checkout and Payment Flow', () => {
       expect(prices.corporate).toContain('/mo');
     });
 
-    test('should switch to annual pricing', async ({ page }) => {
+    test('should switch to annual pricing', async ({ _page }) => {
       await pricingPage.goto();
       await pricingPage.selectAnnual();
 
@@ -60,7 +59,7 @@ test.describe('Checkout and Payment Flow', () => {
       expect(prices.corporate).toContain('/yr');
     });
 
-    test('should toggle between monthly and annual', async ({ page }) => {
+    test('should toggle between monthly and annual', async ({ _page }) => {
       await pricingPage.goto();
 
       // Get initial (monthly) prices
@@ -111,7 +110,7 @@ test.describe('Checkout and Payment Flow', () => {
   });
 
   test.describe('Payment Form', () => {
-    test('should display payment form', async ({ page }) => {
+    test('should display payment form', async ({ _page }) => {
       await checkoutPage.goto();
 
       // Verify form elements
@@ -169,7 +168,7 @@ test.describe('Checkout and Payment Flow', () => {
       await expect(page.locator('text=/invalid cvc/i')).toBeVisible();
     });
 
-    test('should show order summary', async ({ page }) => {
+    test('should show order summary', async ({ _page }) => {
       await checkoutPage.goto();
 
       // Order summary should be visible
@@ -185,7 +184,7 @@ test.describe('Checkout and Payment Flow', () => {
       await pricingPage.selectTier('high');
 
       // Mock Stripe success response
-      await authenticatedPage.route('**/api/create-payment-intent', (route) => {
+      await authenticatedPage.route('**/api/create-payment-intent', route => {
         route.fulfill({
           status: 200,
           body: JSON.stringify({
@@ -195,7 +194,7 @@ test.describe('Checkout and Payment Flow', () => {
       });
 
       // Mock webhook
-      await authenticatedPage.route('**/api/webhooks/stripe', (route) => {
+      await authenticatedPage.route('**/api/webhooks/stripe', route => {
         route.fulfill({
           status: 200,
           body: JSON.stringify({ success: true }),
@@ -222,7 +221,7 @@ test.describe('Checkout and Payment Flow', () => {
       await pricingPage.selectTier('mid');
 
       // Mock Stripe failure
-      await authenticatedPage.route('**/api/create-payment-intent', (route) => {
+      await authenticatedPage.route('**/api/create-payment-intent', route => {
         route.fulfill({
           status: 402,
           body: JSON.stringify({
@@ -249,7 +248,7 @@ test.describe('Checkout and Payment Flow', () => {
       await pricingPage.selectTier('high');
 
       // First attempt fails
-      await authenticatedPage.route('**/api/create-payment-intent', (route) => {
+      await authenticatedPage.route('**/api/create-payment-intent', route => {
         route.fulfill({
           status: 402,
           body: JSON.stringify({
@@ -268,7 +267,7 @@ test.describe('Checkout and Payment Flow', () => {
       await checkoutPage.waitForError();
 
       // Retry with different card
-      await authenticatedPage.route('**/api/create-payment-intent', (route) => {
+      await authenticatedPage.route('**/api/create-payment-intent', route => {
         route.fulfill({
           status: 200,
           body: JSON.stringify({
@@ -300,20 +299,22 @@ test.describe('Checkout and Payment Flow', () => {
       await expect(authenticatedPage.locator('[data-testid="order-date"]')).toBeVisible();
     });
 
-    test('should send confirmation email', async ({ authenticatedPage, apiHelper }) => {
+    test('should send confirmation email', async ({ _authenticatedPage, _apiHelper }) => {
       // This would verify email was sent
       test.skip(true, 'Requires email service verification');
     });
   });
 
   test.describe('Subscription Activation', () => {
-    test('should activate subscription after successful payment', async ({ authenticatedPage }) => {
+    test('should activate subscription after successful payment', async ({
+      _authenticatedPage,
+    }) => {
       // After successful payment
       await dashboardPage.goto();
 
       // Verify subscription tier is updated
       const tier = await dashboardPage.getSubscriptionTier();
-      expect(tier.toLowerCase()).toContain('high-end');
+      expect(tier.toLowerCase()).toContain('pro');
     });
 
     test('should show subscription details in dashboard', async ({ authenticatedPage }) => {

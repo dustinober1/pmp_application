@@ -92,7 +92,7 @@ describe('CreateFlashcardPage', () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { tier: 'high-end', emailVerified: true },
+      user: { tier: 'pro', emailVerified: true },
     });
     mockApiRequest.mockImplementation((endpoint: string) => {
       if (endpoint === '/domains') {
@@ -148,7 +148,7 @@ describe('CreateFlashcardPage', () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoading: false,
-      user: { tier: 'high-end', emailVerified: true },
+      user: { tier: 'pro', emailVerified: true },
     });
     mockApiRequest.mockResolvedValue({ success: true, data: { domains: mockDomains } });
 

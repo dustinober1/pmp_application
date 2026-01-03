@@ -1,11 +1,13 @@
 # Alert Tuning Guidelines
 
 ## Overview
+
 This guide provides best practices and procedures for tuning alerts to reduce false positives, improve detection accuracy, and maintain alert effectiveness over time.
 
 ## Alert Tuning Philosophy
 
 ### Golden Rules
+
 1. **Alert on symptoms, not causes**: Alert what users experience
 2. **Make alerts actionable**: Every alert should have a clear next step
 3. **Reduce noise**: Better to miss an alert than to ignore all alerts
@@ -13,6 +15,7 @@ This guide provides best practices and procedures for tuning alerts to reduce fa
 5. **Document changes**: Always explain why you tuned an alert
 
 ### Alert Quality Metrics
+
 - **Signal-to-Noise Ratio**: > 90% of alerts should be actionable
 - **False Positive Rate**: < 10% of alerts should be false alarms
 - **Detection Rate**: > 95% of real issues should trigger alerts
@@ -21,12 +24,14 @@ This guide provides best practices and procedures for tuning alerts to reduce fa
 ## When to Tune Alerts
 
 ### Tune Immediately If:
+
 - Alert fires constantly (always on)
 - Alert never fires even when issues occur
 - Alert has fired 10+ times in the past month and all were false
 - Team has learned to ignore the alert
 
 ### Review Quarterly:
+
 - All alert rules
 - Alert thresholds
 - Alert durations
@@ -35,7 +40,9 @@ This guide provides best practices and procedures for tuning alerts to reduce fa
 ## Alert Tuning Process
 
 ### Step 1: Collect Data
+
 Gather metrics on alert performance:
+
 ```bash
 # Query AlertManager for alert history
 # Count how many times each alert fired
@@ -49,7 +56,9 @@ amtool alert query alertmanager.url=http://alertmanager.monitoring.svc:9093
 ```
 
 ### Step 2: Identify Problematic Alerts
+
 Create a spreadsheet with:
+
 ```
 Alert Name | Fires/30d | True Positives | False Positives | Signal/Noise | Action Needed
 ServiceDown      45           40                5                89%           None
@@ -58,13 +67,17 @@ DiskSpace         8            8                0              100%           No
 ```
 
 ### Step 3: Analyze Root Cause
+
 For each alert needing tuning:
+
 - **Why is it firing too much?** Threshold too low? Duration too short?
 - **Why is it not firing?** Threshold too high? Expression wrong?
 - **Is the metric reliable?** Does it accurately represent the issue?
 
 ### Step 4: Design Fix
+
 Choose tuning strategy:
+
 1. **Adjust threshold**: Increase/decrease trigger value
 2. **Adjust duration**: Increase/decrease time before firing
 3. **Add conditions**: Use AND/OR logic
@@ -72,7 +85,9 @@ Choose tuning strategy:
 5. **Remove alert**: If not useful
 
 ### Step 5: Test in Staging
+
 Before deploying to production:
+
 ```bash
 # 1. Deploy new alert rule to staging
 kubectl apply -f alerts-staging.yml -n staging
@@ -85,6 +100,7 @@ kubectl apply -f alerts-staging.yml -n staging
 ```
 
 ### Step 6: Deploy to Production
+
 ```bash
 # Deploy during business hours (for monitoring)
 kubectl apply -f alerts-production.yml -n production
@@ -95,7 +111,9 @@ kubectl apply -f alerts-production.yml -n production
 ```
 
 ### Step 7: Document Changes
+
 Update the alert rule with comments:
+
 ```yaml
 - alert: HighCPUUsage
   # TUNED 2025-01-15: Increased threshold from 80% to 90%
@@ -110,27 +128,31 @@ Update the alert rule with comments:
 ## Specific Alert Tuning Strategies
 
 ### Strategy 1: Increase Threshold
+
 **Use When**: Alert fires too often, mostly false positives
 
 **Example**:
+
 ```yaml
 # BEFORE (Too sensitive)
 - alert: HighErrorRate
-  expr: error_rate > 0.001  # 0.1% error rate
+  expr: error_rate > 0.001 # 0.1% error rate
   for: 5m
 
 # AFTER (Tuned)
 - alert: HighErrorRate
-  expr: error_rate > 0.01   # 1% error rate
+  expr: error_rate > 0.01 # 1% error rate
   for: 10m
 ```
 
 **Trade-off**: May miss some real issues, but reduces noise
 
 ### Strategy 2: Increase Duration
+
 **Use When**: Alert fires for brief blips that self-correct
 
 **Example**:
+
 ```yaml
 # BEFORE (Too fast)
 - alert: HighLatency
@@ -146,9 +168,11 @@ Update the alert rule with comments:
 **Trade-off**: Slower detection, but filters temporary spikes
 
 ### Strategy 3: Add Conditions
+
 **Use When**: Alert fires for acceptable scenarios
 
 **Example**:
+
 ```yaml
 # BEFORE (Fires during backups)
 - alert: HighDatabaseCPU
@@ -166,9 +190,11 @@ Update the alert rule with comments:
 **Trade-off**: More complex, but more accurate
 
 ### Strategy 4: Use Composite Conditions
+
 **Use When**: Single metric is not enough
 
 **Example**:
+
 ```yaml
 # BEFORE (Error rate alone)
 - alert: ServiceDegraded
@@ -187,9 +213,11 @@ Update the alert rule with comments:
 **Trade-off**: More accurate, but harder to understand
 
 ### Strategy 5: Change Aggregation
+
 **Use When**: Alert triggers on individual instances unnecessarily
 
 **Example**:
+
 ```yaml
 # BEFORE (Per-pod alerts)
 - alert: HighMemoryPod
@@ -208,15 +236,18 @@ Update the alert rule with comments:
 ## Alert Category Tuning
 
 ### P1 Critical Alerts
+
 **Goal**: Zero false positives, fast detection
 
 **Tuning Principles**:
+
 - Keep thresholds high (only extreme conditions)
 - Short durations (detect quickly)
 - Simple expressions (easy to understand)
 - Test frequently
 
 **Example Tuning**:
+
 ```yaml
 # Good P1 alert
 - alert: ServiceDown
@@ -225,19 +256,22 @@ Update the alert rule with comments:
     /
     sum(rate(http_requests_total[5m])) by (service)
     > 0.05  # 5% error rate (high threshold)
-  for: 5m   # Quick detection
+  for: 5m # Quick detection
 ```
 
 ### P2 High Priority Alerts
+
 **Goal**: Low false positives, reasonable detection speed
 
 **Tuning Principles**:
+
 - Moderate thresholds
 - Medium durations (5-15 minutes)
 - May use composite conditions
 - Regular tuning needed
 
 **Example Tuning**:
+
 ```yaml
 # Good P2 alert
 - alert: HighLatency
@@ -245,33 +279,38 @@ Update the alert rule with comments:
     histogram_quantile(0.95,
       sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service)
     ) > 0.5  # 500ms (moderate threshold)
-  for: 10m   # Allow for temporary spikes
+  for: 10m # Allow for temporary spikes
 ```
 
 ### P3 Low Priority Alerts
+
 **Goal**: Catch trends, provide visibility
 
 **Tuning Principles**:
+
 - Lower thresholds (catch issues earlier)
 - Longer durations (filter noise)
 - Often use trend-based logic
 - Less urgent tuning
 
 **Example Tuning**:
+
 ```yaml
 # Good P3 alert
 - alert: GradualPerformanceDegradation
   expr: |
     avg_over_time(latency[1h]) > 1.5 * avg_over_time(latency[24h])
-  for: 30m   # Long duration for trend detection
+  for: 30m # Long duration for trend detection
 ```
 
 ## Common Tuning Scenarios
 
 ### Scenario 1: Alert Always Firing
+
 **Problem**: Alert never resolves, team ignores it
 
 **Diagnosis**:
+
 ```bash
 # Check if alert condition is always true
 # In Prometheus UI, query the alert expression
@@ -279,15 +318,18 @@ Update the alert rule with comments:
 ```
 
 **Solutions**:
+
 1. Increase threshold significantly
 2. Increase duration
 3. Add "unless" clause for known scenarios
 4. Split into multiple alerts with different severities
 
 ### Scenario 2: Alert Never Fires
+
 **Problem**: Real issues occur but alert doesn't trigger
 
 **Diagnosis**:
+
 ```bash
 # Check if expression is correct
 # Verify metric exists
@@ -296,28 +338,34 @@ Update the alert rule with comments:
 ```
 
 **Solutions**:
+
 1. Decrease threshold
 2. Decrease duration
 3. Fix expression or metric
 4. Add more specific labels
 
 ### Scenario 3: Alert Fires But No One Responds
+
 **Problem**: Alert fatigue, team learned to ignore
 
 **Diagnosis**:
+
 - Calculate false positive rate
 - Survey team: Why don't you respond?
 
 **Solutions**:
+
 1. Fix root cause (tune alert)
 2. Change severity (P1 → P2, or P2 → P3)
 3. Change routing (remove PagerDuty, Slack only)
 4. Remove alert entirely
 
 ### Scenario 4: Alert Is Too Noisy at Night
+
 **Problem**: Batch jobs cause alerts during off-hours
 
 **Solutions**:
+
 ```yaml
 # Solution 1: Add time-based exclusion
 - alert: HighCPU
@@ -352,6 +400,7 @@ avg(time_to_resolve)
 ```
 
 ### Create Monthly Report
+
 ```
 ## Alert Performance Report - January 2025
 
@@ -389,6 +438,7 @@ avg(time_to_resolve)
 ## A/B Testing Alert Rules
 
 ### Test Two Versions Simultaneously
+
 ```yaml
 # Version A (Current)
 - alert: HighErrorRate_A
@@ -400,22 +450,25 @@ avg(time_to_resolve)
 
 # Version B (Test)
 - alert: HighErrorRate_B
-  expr: error_rate > 0.015  # Higher threshold
-  for: 15m                  # Longer duration
+  expr: error_rate > 0.015 # Higher threshold
+  for: 15m # Longer duration
   labels:
     severity: high
     version: B
     # Mark as test so it doesn't page
-    test_only: "true"
+    test_only: 'true'
 ```
 
 ### Compare Results
+
 After 30 days, compare:
+
 - Which version fired less?
 - Which version caught real issues?
 - What was the false positive rate?
 
 ### Choose Winner
+
 - Keep better performing version
 - Remove other
 - Document decision
@@ -423,12 +476,15 @@ After 30 days, compare:
 ## Seasonal Adjustments
 
 ### Traffic Patterns
+
 Adjust alerts for known traffic changes:
+
 - **Holiday seasons**: May have lower traffic, lower thresholds
 - **Sale events**: Higher traffic, higher thresholds for latency
 - **Business hours**: Different patterns than off-hours
 
 ### Example
+
 ```yaml
 # Business hours alert
 - alert: HighLatency_BusinessHours
@@ -448,12 +504,14 @@ Adjust alerts for known traffic changes:
 ## Removing Alerts
 
 ### When to Remove an Alert
+
 - Hasn't fired a true positive in 6+ months
 - Underlying system no longer exists
 - Better alert exists that covers this case
 - Team agrees it's not useful
 
 ### Removal Process
+
 1. **Propose removal** in team meeting
 2. **Get consensus** from stakeholders
 3. **Disable for 30 days** (don't delete yet):
@@ -470,7 +528,9 @@ Adjust alerts for known traffic changes:
 ## Documentation
 
 ### Alert Rule Comments
+
 Always comment alert changes:
+
 ```yaml
 - alert: ServiceDown
   # CREATED: 2024-06-01 by alice@pmpstudy.com
@@ -486,13 +546,17 @@ Always comment alert changes:
 ```
 
 ### Runbook Updates
+
 When tuning alerts, update runbooks:
+
 - Document new thresholds
 - Update investigation steps
 - Add troubleshooting for new scenarios
 
 ### Change Log
+
 Maintain alert tuning log:
+
 ```
 ## Alert Change Log
 
@@ -514,6 +578,7 @@ Maintain alert tuning log:
 ## Review Checklist
 
 Before deploying tuned alert, verify:
+
 - [ ] Test in staging environment
 - [ ] Calculated impact (fewer fires, catch rate)
 - [ ] Documented reason for change
@@ -525,6 +590,7 @@ Before deploying tuned alert, verify:
 ## Emergency Rollback
 
 If tuned alert causes issues:
+
 ```bash
 # Immediate rollback to previous version
 kubectl apply -f alerts-previous-version.yml -n monitoring

@@ -10,11 +10,7 @@ import {
   adminProcessDeletionSchema,
   auditLogQuerySchema,
 } from '../validators/privacy.validator';
-import {
-  dataExportService,
-  accountDeletionService,
-  adminPrivacyService,
-} from '../services';
+import { dataExportService, accountDeletionService, adminPrivacyService } from '../services';
 
 const router = Router();
 
@@ -145,20 +141,17 @@ router.get(
  * GET /api/admin/privacy/users/:userId
  * Get user compliance summary
  */
-router.get(
-  '/users/:userId',
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const summary = await adminPrivacyService.getUserComplianceSummary(req.params.userId);
-      res.json({
-        success: true,
-        data: summary,
-      });
-    } catch (error) {
-      next(error);
-    }
+router.get('/users/:userId', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const summary = await adminPrivacyService.getUserComplianceSummary(req.params.userId);
+    res.json({
+      success: true,
+      data: summary,
+    });
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 /**
  * POST /api/admin/privacy/process-pending

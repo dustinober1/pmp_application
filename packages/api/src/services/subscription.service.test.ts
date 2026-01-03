@@ -51,10 +51,10 @@ describe('SubscriptionService', () => {
 
   const mockMidTier = {
     id: 'tier-mid-id',
-    name: 'mid-level',
+    name: 'pro',
     price: 29.99,
     billingPeriod: 'monthly',
-    features: DEFAULT_TIER_FEATURES['mid-level'],
+    features: DEFAULT_TIER_FEATURES['pro'],
     isActive: true,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -62,10 +62,10 @@ describe('SubscriptionService', () => {
 
   const mockHighTier = {
     id: 'tier-high-id',
-    name: 'high-end',
+    name: 'pro',
     price: 49.99,
     billingPeriod: 'monthly',
-    features: DEFAULT_TIER_FEATURES['high-end'],
+    features: DEFAULT_TIER_FEATURES['pro'],
     isActive: true,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -130,7 +130,7 @@ describe('SubscriptionService', () => {
         where: { id: 'tier-mid-id' },
       });
       expect(result).not.toBeNull();
-      expect(result?.name).toBe('mid-level');
+      expect(result?.name).toBe('pro');
       expect(result?.price).toBe(29.99);
     });
 
@@ -155,13 +155,13 @@ describe('SubscriptionService', () => {
     it('should return tier when found by name', async () => {
       (prisma.subscriptionTier.findUnique as jest.Mock).mockResolvedValue(mockHighTier);
 
-      const result = await subscriptionService.getTierByName('high-end');
+      const result = await subscriptionService.getTierByName('pro');
 
       expect(prisma.subscriptionTier.findUnique).toHaveBeenCalledWith({
-        where: { name: 'high-end' },
+        where: { name: 'pro' },
       });
       expect(result).not.toBeNull();
-      expect(result?.name).toBe('high-end');
+      expect(result?.name).toBe('pro');
     });
 
     it('should return null when tier not found', async () => {
@@ -173,7 +173,7 @@ describe('SubscriptionService', () => {
     });
 
     it('should work for all valid tier names', async () => {
-      const tierNames: TierName[] = ['free', 'mid-level', 'high-end', 'corporate'];
+      const tierNames: TierName[] = ['free', 'pro', 'pro', 'corporate'];
 
       for (const tierName of tierNames) {
         const mockTier = {
@@ -216,7 +216,7 @@ describe('SubscriptionService', () => {
       });
       expect(result).not.toBeNull();
       expect(result?.userId).toBe(userId);
-      expect(result?.tier.name).toBe('mid-level');
+      expect(result?.tier.name).toBe('pro');
       expect(result?.paypalSubscriptionId).toBe('paypal-123');
     });
 
@@ -753,7 +753,7 @@ describe('SubscriptionService', () => {
         tierId: mockHighTier.id,
         tier: {
           ...mockHighTier,
-          features: DEFAULT_TIER_FEATURES['high-end'],
+          features: DEFAULT_TIER_FEATURES['pro'],
         },
         status: 'active',
         startDate: new Date(),
@@ -797,7 +797,7 @@ describe('SubscriptionService', () => {
         tierId: mockMidTier.id,
         tier: {
           ...mockMidTier,
-          features: DEFAULT_TIER_FEATURES['mid-level'],
+          features: DEFAULT_TIER_FEATURES['pro'],
         },
         status: 'active',
         startDate: new Date(),
@@ -822,7 +822,7 @@ describe('SubscriptionService', () => {
         tierId: mockMidTier.id,
         tier: {
           ...mockMidTier,
-          features: DEFAULT_TIER_FEATURES['mid-level'],
+          features: DEFAULT_TIER_FEATURES['pro'],
         },
         status: 'active',
         startDate: new Date(),
@@ -852,7 +852,7 @@ describe('SubscriptionService', () => {
         tierId: mockHighTier.id,
         tier: {
           ...mockHighTier,
-          features: DEFAULT_TIER_FEATURES['high-end'],
+          features: DEFAULT_TIER_FEATURES['pro'],
         },
         status: 'cancelled',
         startDate: new Date(),
@@ -874,7 +874,7 @@ describe('SubscriptionService', () => {
         tierId: mockHighTier.id,
         tier: {
           ...mockHighTier,
-          features: DEFAULT_TIER_FEATURES['high-end'],
+          features: DEFAULT_TIER_FEATURES['pro'],
         },
         status: 'expired',
         startDate: new Date(),
@@ -896,7 +896,7 @@ describe('SubscriptionService', () => {
         tierId: mockHighTier.id,
         tier: {
           ...mockHighTier,
-          features: DEFAULT_TIER_FEATURES['high-end'],
+          features: DEFAULT_TIER_FEATURES['pro'],
         },
         status: 'grace_period',
         startDate: new Date(),
@@ -922,7 +922,7 @@ describe('SubscriptionService', () => {
         tierId: mockHighTier.id,
         tier: {
           ...mockHighTier,
-          features: DEFAULT_TIER_FEATURES['high-end'],
+          features: DEFAULT_TIER_FEATURES['pro'],
         },
         status: 'active',
         startDate: new Date(),
@@ -934,7 +934,7 @@ describe('SubscriptionService', () => {
 
       const result = await subscriptionService.getUsageLimits(userId);
 
-      expect(result).toEqual(DEFAULT_TIER_FEATURES['high-end']);
+      expect(result).toEqual(DEFAULT_TIER_FEATURES['pro']);
       expect(result.mockExams).toBe(true);
       expect(result.flashcardsLimit).toBe('unlimited');
     });
@@ -962,8 +962,8 @@ describe('SubscriptionService', () => {
     it('should return limits for all tier types', async () => {
       const tiers = [
         { tier: mockFreeTier, features: DEFAULT_TIER_FEATURES.free },
-        { tier: mockMidTier, features: DEFAULT_TIER_FEATURES['mid-level'] },
-        { tier: mockHighTier, features: DEFAULT_TIER_FEATURES['high-end'] },
+        { tier: mockMidTier, features: DEFAULT_TIER_FEATURES['pro'] },
+        { tier: mockHighTier, features: DEFAULT_TIER_FEATURES['pro'] },
         { tier: mockCorporateTier, features: DEFAULT_TIER_FEATURES.corporate },
       ];
 
@@ -1032,8 +1032,8 @@ describe('SubscriptionService', () => {
 
     it('should validate tier names', () => {
       fc.assert(
-        fc.property(fc.constantFrom('free', 'mid-level', 'high-end', 'corporate'), tierName => {
-          expect(['free', 'mid-level', 'high-end', 'corporate']).toContain(tierName);
+        fc.property(fc.constantFrom('free', 'pro', 'pro', 'corporate'), tierName => {
+          expect(['free', 'pro', 'pro', 'corporate']).toContain(tierName);
         })
       );
     });

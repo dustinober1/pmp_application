@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
             email: 'e2e-test@example.com',
             name: 'E2E Test User',
             emailVerified: true,
-            tier: 'high-end',
+            tier: 'pro',
           },
         },
       }),

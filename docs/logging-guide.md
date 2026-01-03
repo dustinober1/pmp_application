@@ -35,15 +35,11 @@ logger.info('Request received', {
 });
 
 // Error logging with context
-logger.error(
-  'Payment processing failed',
-  error,
-  {
-    payment_id: 'pay-123',
-    amount: 99.99,
-    currency: 'USD',
-  }
-);
+logger.error('Payment processing failed', error, {
+  payment_id: 'pay-123',
+  amount: 99.99,
+  currency: 'USD',
+});
 ```
 
 ### Trace ID Management
@@ -102,9 +98,9 @@ import { getLogger } from './logging';
 const logger = getLogger();
 
 // Change log level at runtime
-logger.setLevel('debug');  // Most verbose
-logger.setLevel('info');   // Normal operation
-logger.setLevel('error');  // Only errors
+logger.setLevel('debug'); // Most verbose
+logger.setLevel('info'); // Normal operation
+logger.setLevel('error'); // Only errors
 ```
 
 ## Middleware Integration
@@ -216,13 +212,13 @@ const logger = getLogger();
 // Password automatically redacted
 logger.info('User registration', {
   email: 'user@example.com',
-  password: 'secret123',  // Automatically becomes '*********'
+  password: 'secret123', // Automatically becomes '*********'
 });
 
 // API keys redacted
 logger.info('API request', {
   url: 'https://api.example.com',
-  apiKey: 'sk-1234567890',  // Automatically becomes '************'
+  apiKey: 'sk-1234567890', // Automatically becomes '************'
 });
 ```
 
@@ -243,10 +239,7 @@ logger.info('API request', {
 import { sanitize, createSanitizationRules } from './logging';
 
 // Custom sanitization rules
-const customRules = createSanitizationRules(
-  ['customField1', 'customField2'],
-  '[HIDDEN]'
-);
+const customRules = createSanitizationRules(['customField1', 'customField2'], '[HIDDEN]');
 
 const data = {
   customField1: 'sensitive-data',
@@ -319,13 +312,14 @@ fields @timestamp, message, metadata.duration
 import type { LoggerConfig } from './logging';
 
 const config: LoggerConfig = {
-  level: 'info',                    // Minimum log level
-  environment: 'production',        // Environment name
-  serviceName: 'pmp-api',          // Service identifier
-  enableCloudWatch: true,          // Enable CloudWatch transport
+  level: 'info', // Minimum log level
+  environment: 'production', // Environment name
+  serviceName: 'pmp-api', // Service identifier
+  enableCloudWatch: true, // Enable CloudWatch transport
   cloudWatchLogGroup: '/pmp-app/api', // CloudWatch log group
   cloudWatchLogStream: 'production-instance-1', // Log stream name
-  sanitizeFields: [                // Fields to redact
+  sanitizeFields: [
+    // Fields to redact
     'password',
     'secret',
     'token',
@@ -368,10 +362,10 @@ logger.info('User created');
 ### 2. Use Appropriate Log Levels
 
 ```typescript
-logger.debug('Cache lookup', { key: 'user-123' });  // Detailed debugging
-logger.info('User logged in');                      // Normal operation
+logger.debug('Cache lookup', { key: 'user-123' }); // Detailed debugging
+logger.info('User logged in'); // Normal operation
 logger.warn('High memory usage', { memory: '90%' }); // Potential issue
-logger.error('Database error', err);                // Critical failure
+logger.error('Database error', err); // Critical failure
 ```
 
 ### 3. Don't Log Sensitive Data
@@ -380,13 +374,13 @@ logger.error('Database error', err);                // Critical failure
 // Bad - password will be in logs
 logger.info('User login', {
   email: user.email,
-  password: user.password,  // DON'T DO THIS
+  password: user.password, // DON'T DO THIS
 });
 
 // Good - password automatically redacted
 logger.info('User login', {
   email: user.email,
-  password: user.password,  // Automatically redacted
+  password: user.password, // Automatically redacted
 });
 ```
 
@@ -427,6 +421,7 @@ await fetch('https://external-api.com', {
 ### Logs Not Appearing in CloudWatch
 
 1. **Check AWS Credentials**:
+
    ```bash
    echo $AWS_ACCESS_KEY_ID
    echo $AWS_SECRET_ACCESS_KEY
@@ -446,6 +441,7 @@ await fetch('https://external-api.com', {
 ### Trace ID Not Propagating
 
 1. **Check Middleware Order**:
+
    ```typescript
    // Correct order
    app.use(traceIdMiddleware);
@@ -461,8 +457,9 @@ await fetch('https://external-api.com', {
 ### Too Many Logs
 
 1. **Adjust Log Level**:
+
    ```typescript
-   logger.setLevel('warn');  // Only warnings and errors
+   logger.setLevel('warn'); // Only warnings and errors
    ```
 
 2. **Set Environment Variable**:
@@ -484,7 +481,7 @@ logger.error('Error occurred');
 ### New Code (Same Import, More Power)
 
 ```typescript
-import { logger } from './utils/logger';  // Still works!
+import { logger } from './utils/logger'; // Still works!
 
 // Or import directly from new module
 import { getLogger } from './logging';
@@ -522,9 +519,7 @@ afterEach(() => {
 });
 
 test('user endpoint', async () => {
-  const response = await request(app)
-    .get('/api/users')
-    .set('X-Trace-ID', 'test-trace-123');
+  const response = await request(app).get('/api/users').set('X-Trace-ID', 'test-trace-123');
 
   expect(response.status).toBe(200);
 });

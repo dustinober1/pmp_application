@@ -43,9 +43,7 @@ describe('Stripe Webhook Routes', () => {
     });
 
     it('should return 400 for invalid signature', async () => {
-      (stripeService.handleWebhook as jest.Mock).mockRejectedValue(
-        new Error('Invalid signature')
-      );
+      (stripeService.handleWebhook as jest.Mock).mockRejectedValue(new Error('Invalid signature'));
 
       const response = await request(app)
         .post('/webhook/stripe')
@@ -67,9 +65,7 @@ describe('Stripe Webhook Routes', () => {
     });
 
     it('should handle Stripe service errors gracefully', async () => {
-      (stripeService.handleWebhook as jest.Mock).mockRejectedValue(
-        new Error('Stripe API error')
-      );
+      (stripeService.handleWebhook as jest.Mock).mockRejectedValue(new Error('Stripe API error'));
 
       const response = await request(app)
         .post('/webhook/stripe')

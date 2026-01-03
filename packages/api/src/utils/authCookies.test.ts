@@ -49,7 +49,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should have 1 hour expiration', () => {
-      const jwt = require('jsonwebtoken');
+      const jwt = jest.requireMock('jsonwebtoken');
       generateAccessToken('user-123', 'test@example.com', 'free');
 
       expect(jwt.sign).toHaveBeenCalledWith(
@@ -68,7 +68,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should have 7 day expiration', () => {
-      const jwt = require('jsonwebtoken');
+      const jwt = jest.requireMock('jsonwebtoken');
       generateRefreshToken('user-123');
 
       expect(jwt.sign).toHaveBeenCalledWith(
@@ -90,7 +90,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should return null for invalid token', () => {
-      const jwt = require('jsonwebtoken');
+      const jwt = jest.requireMock('jsonwebtoken');
       jwt.verify.mockImplementationOnce(() => {
         throw new Error('Invalid token');
       });
@@ -101,7 +101,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should return null for malformed token', () => {
-      const jwt = require('jsonwebtoken');
+      const jwt = jest.requireMock('jsonwebtoken');
       jwt.verify.mockImplementationOnce(() => {
         throw new Error('jwt malformed');
       });
@@ -114,7 +114,7 @@ describe('Auth Cookies Utility', () => {
 
   describe('verifyRefreshToken', () => {
     it('should verify valid refresh token', () => {
-      const jwt = require('jsonwebtoken');
+      const jwt = jest.requireMock('jsonwebtoken');
       jwt.verify.mockReturnValueOnce({ userId: 'user-456' });
 
       const payload = verifyRefreshToken('valid-refresh-token');
@@ -123,7 +123,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should return null for invalid refresh token', () => {
-      const jwt = require('jsonwebtoken');
+      const jwt = jest.requireMock('jsonwebtoken');
       jwt.verify.mockImplementationOnce(() => {
         throw new Error('Invalid refresh token');
       });
@@ -134,7 +134,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should return null for expired refresh token', () => {
-      const jwt = require('jsonwebtoken');
+      const jwt = jest.requireMock('jsonwebtoken');
       jwt.verify.mockImplementationOnce(() => {
         throw new Error('Token expired');
       });
@@ -147,12 +147,7 @@ describe('Auth Cookies Utility', () => {
 
   describe('setAuthCookies', () => {
     it('should set both access and refresh cookies', () => {
-      setAuthCookies(
-        mockResponse as Response,
-        'access-token',
-        'refresh-token',
-        true
-      );
+      setAuthCookies(mockResponse as Response, 'access-token', 'refresh-token', true);
 
       expect(mockResponse.cookie).toHaveBeenCalledTimes(2);
       expect(mockResponse.cookie).toHaveBeenCalledWith(
@@ -167,12 +162,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should set secure cookies in production', () => {
-      setAuthCookies(
-        mockResponse as Response,
-        'access-token',
-        'refresh-token',
-        true
-      );
+      setAuthCookies(mockResponse as Response, 'access-token', 'refresh-token', true);
 
       expect(mockResponse.cookie).toHaveBeenCalledWith(
         'pmp_access_token',
@@ -184,12 +174,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should set non-secure cookies in development', () => {
-      setAuthCookies(
-        mockResponse as Response,
-        'access-token',
-        'refresh-token',
-        false
-      );
+      setAuthCookies(mockResponse as Response, 'access-token', 'refresh-token', false);
 
       expect(mockResponse.cookie).toHaveBeenCalledWith(
         'pmp_access_token',
@@ -201,12 +186,7 @@ describe('Auth Cookies Utility', () => {
     });
 
     it('should set proper cookie expiration', () => {
-      setAuthCookies(
-        mockResponse as Response,
-        'access-token',
-        'refresh-token',
-        true
-      );
+      setAuthCookies(mockResponse as Response, 'access-token', 'refresh-token', true);
 
       const accessCall = (mockResponse.cookie as jest.Mock).mock.calls[0];
       const refreshCall = (mockResponse.cookie as jest.Mock).mock.calls[1];

@@ -1,9 +1,11 @@
 # PagerDuty Integration Setup Guide
 
 ## Overview
+
 This guide covers setting up PagerDuty integration for PMP Study Application alerting.
 
 ## Prerequisites
+
 - PagerDuty account (Enterprise or Trial)
 - Admin access to PagerDuty
 - AWS/EKS cluster access
@@ -11,6 +13,7 @@ This guide covers setting up PagerDuty integration for PMP Study Application ale
 ## Step 1: Create PagerDuty Services
 
 ### Service 1: PMP Critical (P1 Alerts)
+
 1. Log into PagerDuty
 2. Go to **Service Directory** → **New Service**
 3. Configure:
@@ -21,6 +24,7 @@ This guide covers setting up PagerDuty integration for PMP Study Application ale
    - **Service Key**: Copy this (needed for AlertManager)
 
 ### Service 2: PMP High Priority (P2 Alerts)
+
 1. Create service named: **PMP Study - High Priority**
 2. Same configuration as above
 3. Copy Service Key
@@ -28,6 +32,7 @@ This guide covers setting up PagerDuty integration for PMP Study Application ale
 ## Step 2: Configure Escalation Policies
 
 ### Critical Escalation Policy
+
 1. Go to **Escalation Policies** → **New Escalation Policy**
 2. Name: **PMP Critical Escalation**
 3. Rules:
@@ -36,6 +41,7 @@ This guide covers setting up PagerDuty integration for PMP Study Application ale
    - **Level 3**: CTO (respond within 5 min, no escalation)
 
 ### High Priority Escalation Policy
+
 1. Name: **PMP High Priority Escalation**
 2. Rules:
    - **Level 1**: On-Call Engineer (respond within 15 min, escalate after 30 min)
@@ -44,6 +50,7 @@ This guide covers setting up PagerDuty integration for PMP Study Application ale
 ## Step 3: Set Up On-Call Schedules
 
 ### Primary On-Call Schedule
+
 1. Go to **Schedules** → **New Schedule**
 2. Name: **PMP Primary On-Call**
 3. Layers:
@@ -52,6 +59,7 @@ This guide covers setting up PagerDuty integration for PMP Study Application ale
    - **Rotation**: Weekly rotation among engineers
 
 ### Follow Schedule
+
 1. Name: **PMP Follow Sun**
 2. Timezone-based handoff:
    - US East: 8 AM - 8 PM EST
@@ -78,6 +86,7 @@ This guide covers setting up PagerDuty integration for PMP Study Application ale
 4. Copy the **Integration Key** (also called Service Key)
 
 You'll have two keys:
+
 - **Critical Service Key**: `CRITICAL_INTEGRATION_KEY`
 - **High Priority Service Key**: `HIGH_PRIORITY_INTEGRATION_KEY`
 
@@ -109,7 +118,9 @@ Update `alertmanager.yml` with these keys (already configured in template).
 ## Step 8: Configure Incident Workflows
 
 ### Auto-Generated Incident Notes
+
 When PagerDuty creates an incident, it automatically includes:
+
 - Alert summary
 - Severity level
 - Runbook link
@@ -117,7 +128,9 @@ When PagerDuty creates an incident, it automatically includes:
 - Firing alerts count
 
 ### Custom Incident Actions
+
 Configure in PagerDuty:
+
 1. **Acknowledge**: Acknowledge incident (stops escalation)
 2. **Resolve**: Mark incident as resolved
 3. **Snooze**: Temporarily delay notifications
@@ -126,6 +139,7 @@ Configure in PagerDuty:
 ## Step 9: Set Up Maintenance Windows
 
 ### Planned Maintenance
+
 1. Go to **Service** → **Maintenance Windows**
 2. Create maintenance windows for:
    - Deployments (typically 1-2 hours)
@@ -164,13 +178,16 @@ receivers:
 ## On-Call Rotation
 
 ### Weekly Rotation Example
+
 - Week 1: Engineer A
 - Week 2: Engineer B
 - Week 3: Engineer C
 - Week 4: Engineer D
 
 ### Override Scheduling
+
 For holidays or time off:
+
 1. Go to **Schedules** → **Overrides**
 2. Add temporary replacements
 3. Set date range
@@ -178,12 +195,14 @@ For holidays or time off:
 ### Handoff Procedure
 
 **At end of shift:**
+
 1. Review open incidents
 2. Update incident notes
 3. Transfer on-call via PagerDuty
 4. Send handoff email to team
 
 **At start of shift:**
+
 1. Acknowledge on-call status
 2. Review recent incidents
 3. Check system health dashboards
@@ -192,11 +211,13 @@ For holidays or time off:
 ## Pricing Considerations
 
 ### PagerDuty Plans
+
 - **Trial**: Free for 14 days
 - **Standard**: $21/user/month
 - **Enterprise**: Custom pricing
 
 ### Usage Tips
+
 - Start with trial to validate setup
 - One license per on-call engineer
 - Estimate users: Primary + backup = 2-3 licenses
@@ -204,16 +225,19 @@ For holidays or time off:
 ## Troubleshooting
 
 ### Alerts Not Reaching PagerDuty
+
 1. Check AlertManager logs: `kubectl logs -l app=alertmanager -n monitoring`
 2. Verify integration keys in secrets
 3. Test webhook: `curl -X POST https://events.pagerduty.com/v2/enqueue -d '{...}'`
 
 ### Escalation Not Working
+
 1. Verify escalation policy assigned to service
 2. Check on-call schedule has users assigned
 3. Test user notification rules
 
 ### Duplicate Incidents
+
 1. Check alert grouping settings
 2. Adjust grouping timeout in AlertManager
 3. Review deduplication rules

@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { dataExportService } from './data-export.service';
 import prisma from '../config/database';
-import { AppError } from '../middleware/error.middleware';
 
 // Mock Prisma
 vi.mock('../config/database', () => ({
@@ -130,18 +129,18 @@ describe('DataExportService', () => {
     it('should throw error for non-existent export', async () => {
       vi.mocked(prisma.dataExportRequest.findUnique).mockResolvedValue(null);
 
-      await expect(
-        dataExportService.getExportStatus(mockUserId, 'non-existent')
-      ).rejects.toThrow('Export not found or has expired');
+      await expect(dataExportService.getExportStatus(mockUserId, 'non-existent')).rejects.toThrow(
+        'Export not found or has expired'
+      );
     });
 
     it('should deny access to exports from other users', async () => {
       const otherUserExport = { ...mockExportRequest, userId: 'other-user' };
       vi.mocked(prisma.dataExportRequest.findUnique).mockResolvedValue(otherUserExport);
 
-      await expect(
-        dataExportService.getExportStatus(mockUserId, mockRequestId)
-      ).rejects.toThrow('Export not found or has expired');
+      await expect(dataExportService.getExportStatus(mockUserId, mockRequestId)).rejects.toThrow(
+        'Export not found or has expired'
+      );
     });
   });
 
@@ -187,9 +186,9 @@ describe('DataExportService', () => {
       const pendingExport = { ...mockExportRequest, status: 'pending' };
       vi.mocked(prisma.dataExportRequest.findUnique).mockResolvedValue(pendingExport);
 
-      await expect(
-        dataExportService.downloadExport(mockUserId, mockRequestId)
-      ).rejects.toThrow('Export is not ready');
+      await expect(dataExportService.downloadExport(mockUserId, mockRequestId)).rejects.toThrow(
+        'Export is not ready'
+      );
     });
 
     it('should throw error for expired export', async () => {
@@ -200,9 +199,9 @@ describe('DataExportService', () => {
       };
       vi.mocked(prisma.dataExportRequest.findUnique).mockResolvedValue(expiredExport);
 
-      await expect(
-        dataExportService.downloadExport(mockUserId, mockRequestId)
-      ).rejects.toThrow('Export has expired');
+      await expect(dataExportService.downloadExport(mockUserId, mockRequestId)).rejects.toThrow(
+        'Export has expired'
+      );
     });
   });
 

@@ -187,5 +187,7 @@ if (!fs.existsSync(outputDir)) {
 // Write collection
 fs.writeFileSync(collectionPath, JSON.stringify(postmanCollection, null, 2), 'utf-8');
 console.log(`✅ Postman collection exported to: ${collectionPath}`);
-console.log(`📊 Total requests: ${postmanCollection.item.reduce((acc, folder) => acc + folder.item.length, 0)}`);
+console.log(
+  `📊 Total requests: ${postmanCollection.item.reduce((acc, folder) => acc + folder.item.length, 0)}`
+);
 console.log(`📁 Total folders: ${postmanCollection.item.length}`);

@@ -42,18 +42,18 @@ describe('Subscription Routes Integration Tests', () => {
 
   const mockMidTier: SubscriptionTier = {
     id: '00000000-0000-0000-0000-000000000002',
-    name: 'mid-level',
+    name: 'pro',
     price: 29.99,
     billingPeriod: 'monthly',
-    features: DEFAULT_TIER_FEATURES['mid-level'],
+    features: DEFAULT_TIER_FEATURES['pro'],
   };
 
   const mockHighTier: SubscriptionTier = {
     id: '00000000-0000-0000-0000-000000000003',
-    name: 'high-end',
+    name: 'pro',
     price: 49.99,
     billingPeriod: 'monthly',
-    features: DEFAULT_TIER_FEATURES['high-end'],
+    features: DEFAULT_TIER_FEATURES['pro'],
   };
 
   const mockCorporateTier: SubscriptionTier = {
@@ -204,7 +204,7 @@ describe('Subscription Routes Integration Tests', () => {
 
   describe('GET /api/subscriptions/features', () => {
     it('should return user feature limits', async () => {
-      const mockFeatures = DEFAULT_TIER_FEATURES['high-end'];
+      const mockFeatures = DEFAULT_TIER_FEATURES['pro'];
       (subscriptionService.getUsageLimits as jest.Mock).mockResolvedValue(mockFeatures);
 
       const response = await request(app)
@@ -381,7 +381,7 @@ describe('Subscription Routes Integration Tests', () => {
       expect(response.body.error.code).toBe('INTERNAL_ERROR');
     });
 
-    it('should handle high-end tier with PayPal', async () => {
+    it('should handle pro tier with PayPal', async () => {
       (subscriptionService.getTierById as jest.Mock).mockResolvedValue(mockHighTier);
 
       const response = await request(app)
@@ -468,8 +468,8 @@ describe('Subscription Routes Integration Tests', () => {
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
     });
 
-    it('should return error when mid-level tier not found', async () => {
-      const mockTiers = [mockFreeTier]; // No mid-level tier
+    it('should return error when pro tier not found', async () => {
+      const mockTiers = [mockFreeTier]; // No pro tier
       (subscriptionService.getTiers as jest.Mock).mockResolvedValue(mockTiers);
 
       const response = await request(app)
@@ -942,7 +942,7 @@ describe('Subscription Routes Integration Tests', () => {
         createdAt: new Date(),
       });
 
-      // Initiate upgrade to mid-level
+      // Initiate upgrade to pro
       (subscriptionService.getTierById as jest.Mock).mockResolvedValue(mockMidTier);
 
       const createResponse = await request(app)
@@ -975,7 +975,7 @@ describe('Subscription Routes Integration Tests', () => {
         .send({ paypalOrderId })
         .expect(200);
 
-      expect(activateResponse.body.data.subscription.tier.name).toBe('mid-level');
+      expect(activateResponse.body.data.subscription.tier.name).toBe('pro');
     });
   });
 });

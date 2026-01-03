@@ -1,13 +1,16 @@
 # Disaster Recovery Plan (DRP)
 
 ## Overview
+
 This document outlines the procedures for recovering the PMP Study Application in the event of a major disaster affecting the production environment in `us-east-1`.
 
 ## Recovery Objectives
+
 - **Recovery Time Objective (RTO):** 4 Hours
 - **Recovery Point Objective (RPO):** 24 Hours (Daily Backups)
 
 ## Backup Strategy
+
 - **Database (RDS):** Automated daily snapshots with 30-day retention.
 - **Cache (Redis):** No persistence required; cache can be rebuilt.
 - **Infrastructure:** All infrastructure defined in Terraform (`infrastructure/terraform/`).
@@ -16,8 +19,10 @@ This document outlines the procedures for recovering the PMP Study Application i
 ## Disaster Scenarios & Recovery Procedures
 
 ### Scenario 1: Database Corruption or Accidental Deletion
+
 **Severity:** Critical
 **Response:**
+
 1.  **Identify the Incident:** Confirm database unavailability via monitoring alerts.
 2.  **Stop Application:** Scale down API pods to 0 to prevent erratic behavior.
     ```bash
@@ -35,8 +40,10 @@ This document outlines the procedures for recovering the PMP Study Application i
     ```
 
 ### Scenario 2: Region Failure (us-east-1 unavailable)
+
 **Severity:** Catastrophic
 **Response:**
+
 1.  **Declare Disaster:** CTO/VP Engineering declares disaster.
 2.  **Provision in Secondary Region (e.g., us-west-2):**
     - Update Terraform `provider` region to `us-west-2`.
@@ -48,10 +55,12 @@ This document outlines the procedures for recovering the PMP Study Application i
 5.  **Verify System:** Perform E2E tests on the new environment.
 
 ## Testing Schedule
+
 - **Backup Verification:** Monthly check of backup integrity.
 - **Game Day:** Bi-annual simulation of Scenario 1 (in a staging environment).
 
 ## Contacts
+
 - **Incident Commander:** [Name/Phone]
 - **Database Lead:** [Name/Phone]
 - **Infrastructure Lead:** [Name/Phone]

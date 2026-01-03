@@ -91,7 +91,7 @@ export default function PracticeSessionPage() {
     if (!sessionId) return;
 
     apiRequest<{ flagged: string[] }>(`/practice/sessions/${sessionId}/flagged`)
-      .then(res => setFlaggedQuestions(new Set(res.data.flagged)))
+      .then(res => setFlaggedQuestions(new Set(res.data?.flagged || [])))
       .catch(() => {
         // Silently fail if endpoint doesn't exist yet
         setFlaggedQuestions(new Set());

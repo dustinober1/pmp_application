@@ -30,7 +30,7 @@ describe('requireTier middleware', () => {
     it('should throw unauthorized error if user is not authenticated', async () => {
       mockRequest.user = undefined;
 
-      const middleware = requireTier('mid-level');
+      const middleware = requireTier('pro');
       await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
@@ -87,7 +87,7 @@ describe('requireTier middleware', () => {
       expect(mockNext).toHaveBeenCalledWith();
     });
 
-    it('should block access if user has free tier but requires mid-level', async () => {
+    it('should block access if user has free tier but requires pro', async () => {
       mockRequest.user = {
         userId: 'user-123',
         email: 'test@example.com',
@@ -105,7 +105,7 @@ describe('requireTier middleware', () => {
 
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
-      const middleware = requireTier('mid-level');
+      const middleware = requireTier('pro');
       await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
@@ -113,14 +113,14 @@ describe('requireTier middleware', () => {
           message: SUBSCRIPTION_ERRORS.SUB_003.message,
           code: SUBSCRIPTION_ERRORS.SUB_003.code,
           statusCode: 403,
-          suggestion: 'Upgrade to mid-level tier or higher to access this feature',
+          suggestion: 'Upgrade to pro tier or higher to access this feature',
         })
       );
     });
   });
 
-  describe('tier verification - mid-level tier', () => {
-    it('should allow access if user has mid-level tier and requires mid-level', async () => {
+  describe('tier verification - pro tier', () => {
+    it('should allow access if user has pro tier and requires pro', async () => {
       mockRequest.user = {
         userId: 'user-123',
         email: 'test@example.com',
@@ -132,19 +132,19 @@ describe('requireTier middleware', () => {
       const mockSubscription = {
         userId: 'user-123',
         tier: {
-          name: 'mid-level',
+          name: 'pro',
         },
       };
 
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
-      const middleware = requireTier('mid-level');
+      const middleware = requireTier('pro');
       await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
 
-    it('should allow access if user has mid-level tier and requires free', async () => {
+    it('should allow access if user has pro tier and requires free', async () => {
       mockRequest.user = {
         userId: 'user-123',
         email: 'test@example.com',
@@ -156,7 +156,7 @@ describe('requireTier middleware', () => {
       const mockSubscription = {
         userId: 'user-123',
         tier: {
-          name: 'mid-level',
+          name: 'pro',
         },
       };
 
@@ -168,7 +168,7 @@ describe('requireTier middleware', () => {
       expect(mockNext).toHaveBeenCalledWith();
     });
 
-    it('should block access if user has mid-level tier but requires high-end', async () => {
+    it('should block access if user has pro tier but requires pro', async () => {
       mockRequest.user = {
         userId: 'user-123',
         email: 'test@example.com',
@@ -180,13 +180,13 @@ describe('requireTier middleware', () => {
       const mockSubscription = {
         userId: 'user-123',
         tier: {
-          name: 'mid-level',
+          name: 'pro',
         },
       };
 
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
-      const middleware = requireTier('high-end');
+      const middleware = requireTier('pro');
       await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
@@ -194,14 +194,14 @@ describe('requireTier middleware', () => {
           message: SUBSCRIPTION_ERRORS.SUB_003.message,
           code: SUBSCRIPTION_ERRORS.SUB_003.code,
           statusCode: 403,
-          suggestion: 'Upgrade to high-end tier or higher to access this feature',
+          suggestion: 'Upgrade to pro tier or higher to access this feature',
         })
       );
     });
   });
 
-  describe('tier verification - high-end tier', () => {
-    it('should allow access if user has high-end tier and requires high-end', async () => {
+  describe('tier verification - pro tier', () => {
+    it('should allow access if user has pro tier and requires pro', async () => {
       mockRequest.user = {
         userId: 'user-123',
         email: 'test@example.com',
@@ -213,19 +213,19 @@ describe('requireTier middleware', () => {
       const mockSubscription = {
         userId: 'user-123',
         tier: {
-          name: 'high-end',
+          name: 'pro',
         },
       };
 
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
-      const middleware = requireTier('high-end');
+      const middleware = requireTier('pro');
       await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
 
-    it('should allow access if user has high-end tier and requires mid-level', async () => {
+    it('should allow access if user has pro tier and requires pro', async () => {
       mockRequest.user = {
         userId: 'user-123',
         email: 'test@example.com',
@@ -237,19 +237,19 @@ describe('requireTier middleware', () => {
       const mockSubscription = {
         userId: 'user-123',
         tier: {
-          name: 'high-end',
+          name: 'pro',
         },
       };
 
       (prisma.userSubscription.findUnique as jest.Mock).mockResolvedValue(mockSubscription);
 
-      const middleware = requireTier('mid-level');
+      const middleware = requireTier('pro');
       await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith();
     });
 
-    it('should block access if user has high-end tier but requires corporate', async () => {
+    it('should block access if user has pro tier but requires corporate', async () => {
       mockRequest.user = {
         userId: 'user-123',
         email: 'test@example.com',
@@ -261,7 +261,7 @@ describe('requireTier middleware', () => {
       const mockSubscription = {
         userId: 'user-123',
         tier: {
-          name: 'high-end',
+          name: 'pro',
         },
       };
 
@@ -345,7 +345,7 @@ describe('requireTier middleware', () => {
         new Error('Database connection failed')
       );
 
-      const middleware = requireTier('mid-level');
+      const middleware = requireTier('pro');
       await middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(

@@ -298,7 +298,8 @@ export const dashboardPaths: OpenAPIV3_1.PathsObject = {
     get: {
       tags: ['Dashboard'],
       summary: 'Get exam readiness score',
-      description: 'Calculate exam readiness based on practice performance and study progress. Requires Mid-Level tier.',
+      description:
+        'Calculate exam readiness based on practice performance and study progress. Requires Mid-Level tier.',
       security: [{ bearerAuth: [] }],
       responses: {
         '200': {

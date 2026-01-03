@@ -116,12 +116,12 @@ router.get(
 
 /**
  * GET /api/dashboard/readiness
- * Get exam readiness score (Mid-Level+ tier)
+ * Get exam readiness score (Pro+ tier)
  */
 router.get(
   '/readiness',
   authMiddleware,
-  requireTier('mid-level'),
+  requireTier('pro'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const readiness = await dashboardService.getReadinessScore(req.user!.userId);
@@ -138,12 +138,12 @@ router.get(
 
 /**
  * GET /api/dashboard/recommendations
- * Get personalized recommendations (High-End+ tier)
+ * Get personalized recommendations (Pro+ tier)
  */
 router.get(
   '/recommendations',
   authMiddleware,
-  requireTier('high-end'),
+  requireTier('pro'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const recommendations = await dashboardService.getRecommendations(req.user!.userId);

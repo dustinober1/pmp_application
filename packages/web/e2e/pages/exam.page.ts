@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 import { TestHelpers } from '../utils/test-helpers';
 
 /**
@@ -103,21 +103,21 @@ export class ExamPage {
    * Get current question text
    */
   async getQuestionText(): Promise<string> {
-    return await this.questionText.textContent() || '';
+    return (await this.questionText.textContent()) || '';
   }
 
   /**
    * Get current question number
    */
   async getQuestionNumber(): Promise<string> {
-    return await this.questionNumber.textContent() || '';
+    return (await this.questionNumber.textContent()) || '';
   }
 
   /**
    * Get timer text
    */
   async getTimer(): Promise<string> {
-    return await this.timer.textContent() || '';
+    return (await this.timer.textContent()) || '';
   }
 
   /**
@@ -141,6 +141,6 @@ export class ExamPage {
    */
   async getScore(): Promise<string> {
     const scoreElement = this.page.locator('[data-testid="score"], [data-testid="exam-score"]');
-    return await scoreElement.textContent() || '';
+    return (await scoreElement.textContent()) || '';
   }
 }

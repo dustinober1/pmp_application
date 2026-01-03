@@ -110,10 +110,7 @@ export function mockCreatePaymentIntent(
 /**
  * Mock Stripe webhook
  */
-export function mockStripeWebhook(
-  page: any,
-  eventType: 'payment_succeeded' | 'payment_failed'
-) {
+export function mockStripeWebhook(page: any, _eventType: 'payment_succeeded' | 'payment_failed') {
   return page.route('**/api/webhooks/stripe', (route: any) => {
     route.fulfill({
       status: 200,

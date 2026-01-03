@@ -9,6 +9,7 @@ This guide shows how to use OpenTelemetry traces to identify and fix performance
 ### Local Development
 
 1. **Jaeger UI:**
+
 ```bash
 # Start tracing infrastructure
 docker-compose up -d otel-collector jaeger
@@ -18,12 +19,14 @@ open http://localhost:16686
 ```
 
 2. **Search for Traces:**
+
 - Service: `pmp-api` or `pmp-web`
 - Operation: Select the endpoint you want to analyze
 - Lookback: Select time range (last hour, day, etc.)
 - Click "Find Traces"
 
 3. **Analyze a Trace:**
+
 - Click on a trace to see the waterfall view
 - Each span shows duration and timeline
 - Parent-child relationships show call flow
@@ -35,11 +38,13 @@ open http://localhost:16686
 #### Problem: N+1 Queries
 
 **Trace Characteristics:**
+
 - Many parallel database spans with similar duration
 - Total duration >> individual query duration
 - Pattern: 1 query followed by N similar queries
 
 **Example Trace:**
+
 ```
 GET /api/domains (500ms)
 ├── prisma.domain.findMany (50ms)
@@ -48,15 +53,16 @@ GET /api/domains (500ms)
 ```
 
 **Solution:**
+
 ```typescript
 // BEFORE - N+1 queries
 const domains = await prisma.domain.findMany();
 for (const domain of domains) {
   domain.flashcardCount = await prisma.flashcard.count({
-    where: { domainId: domain.id }
+    where: { domainId: domain.id },
   });
   domain.questionCount = await prisma.question.count({
-    where: { domainId: domain.id }
+    where: { domainId: domain.id },
   });
 }
 
@@ -76,11 +82,13 @@ const domains = await prisma.domain.findMany({
 #### Problem: Missing Index
 
 **Trace Characteristics:**
+
 - Single database query taking long time (100ms-1s)
 - Query complexity increases with data size
 - `db.statement` shows SELECT without index usage
 
 **Example Trace:**
+
 ```
 GET /api/search?q=process (800ms)
 └── prisma.question.findMany (750ms)  ← Should be <50ms
@@ -88,6 +96,7 @@ GET /api/search?q=process (800ms)
 ```
 
 **Solution:**
+
 ```sql
 -- Add index for search
 CREATE INDEX idx_question_content ON "Question"(content);
@@ -97,11 +106,13 @@ CREATE INDEX idx_question_content_gin ON "Question" USING gin(content gin_trgm_o
 #### Problem: Large Result Sets
 
 **Trace Characteristics:**
+
 - Database query returns thousands of rows
 - Serialization time increases
 - Memory usage spikes
 
 **Example Trace:**
+
 ```
 GET /api/flashcards (1200ms)
 ├── prisma.flashcard.findMany (800ms)
@@ -109,6 +120,7 @@ GET /api/flashcards (1200ms)
 ```
 
 **Solution:**
+
 ```typescript
 // Add pagination
 const flashcards = await prisma.flashcard.findMany({
@@ -123,11 +135,13 @@ const flashcards = await prisma.flashcard.findMany({
 #### Problem: Sequential API Calls
 
 **Trace Characteristics:**
+
 - Multiple sequential external API spans
 - Total duration = sum of all API calls
 - No parallelization
 
 **Example Trace:**
+
 ```
 POST /api/stripe/create-checkout (2000ms)
 ├── stripe.customers.create (400ms)
@@ -137,6 +151,7 @@ POST /api/stripe/create-checkout (2000ms)
 ```
 
 **Solution:**
+
 ```typescript
 // BEFORE - Sequential
 const customer = await stripe.customers.create(params);
@@ -156,11 +171,13 @@ const session = await stripe.checkout.sessions.create(sessionParams);
 #### Problem: No Caching
 
 **Trace Characteristics:**
+
 - Same external API called repeatedly
 - Each call takes similar time
 - No cache hit spans visible
 
 **Example Trace:**
+
 ```
 GET /api/dashboard (1500ms)
 ├── stripe.subscriptions.retrieve (500ms)
@@ -171,6 +188,7 @@ GET /api/dashboard (1500ms)
 ```
 
 **Solution:**
+
 ```typescript
 // Add Redis caching
 async function getSubscription(userId: string) {
@@ -200,11 +218,13 @@ async function getSubscription(userId: string) {
 #### Problem: Slow Serial Operations
 
 **Trace Characteristics:**
+
 - Sequential spans that could be parallel
 - Overall duration is sum of durations
 - No dependencies between operations
 
 **Example Trace:**
+
 ```
 GET /api/dashboard (800ms)
 ├── getFlashcards (200ms)
@@ -214,6 +234,7 @@ GET /api/dashboard (800ms)
 ```
 
 **Solution:**
+
 ```typescript
 // BEFORE - Sequential
 const flashcards = await getFlashcards(userId);
@@ -233,11 +254,13 @@ const [flashcards, questions, progress, subscription] = await Promise.all([
 #### Problem: Inefficient Data Processing
 
 **Trace Characteristics:**
+
 - Long processing spans
 - High CPU usage
 - Multiple iterations over data
 
 **Example Trace:**
+
 ```
 GET /api/practice/generate (2000ms)
 ├── prisma.question.findMany (100ms)
@@ -248,6 +271,7 @@ GET /api/practice/generate (2000ms)
 ```
 
 **Solution:**
+
 ```typescript
 // Push filtering to database
 const questions = await prisma.question.findMany({
@@ -274,6 +298,7 @@ const questions = await prisma.$queryRaw`
 ### Step 1: Identify Slow Endpoints
 
 **In Jaeger:**
+
 ```
 1. Select service: pmp-api
 2. Sort by: Longest Duration
@@ -281,6 +306,7 @@ const questions = await prisma.$queryRaw`
 ```
 
 **Example Findings:**
+
 - `GET /api/search` - P95: 2000ms (too slow)
 - `POST /api/practice/generate` - P95: 3000ms (too slow)
 - `GET /api/flashcards` - P95: 800ms (acceptable)
@@ -306,6 +332,7 @@ const questions = await prisma.$queryRaw`
 ### Step 3: Measure Before Optimization
 
 **Record metrics:**
+
 ```
 Endpoint: GET /api/search
 Current P95: 2000ms
@@ -325,6 +352,7 @@ ON "Question" USING gin(content gin_trgm_ops);
 ### Step 5: Verify Improvement
 
 **Compare traces:**
+
 ```
 Before: GET /api/search (2000ms)
 After:  GET /api/search (150ms)  ← 13x faster!
@@ -335,12 +363,14 @@ After:  GET /api/search (150ms)  ← 13x faster!
 ### 1. Database Connection Pool Exhaustion
 
 **Trace:**
+
 ```
 Many requests waiting for database connection
 Spans show "acquiring connection" taking 100ms+
 ```
 
 **Solution:**
+
 ```typescript
 // Increase connection pool
 const prisma = new PrismaClient({
@@ -355,6 +385,7 @@ const prisma = new PrismaClient({
 ```
 
 **Connection String:**
+
 ```
 DATABASE_URL="postgresql://user:pass@localhost:5432/db?schema=public&connection_limit=20&pool_timeout=20"
 ```
@@ -362,6 +393,7 @@ DATABASE_URL="postgresql://user:pass@localhost:5432/db?schema=public&connection_
 ### 2. Memory Leaks
 
 **Trace:**
+
 ```
 Increasing memory usage over time
 GC pauses visible in traces
@@ -369,19 +401,21 @@ Event loop delays
 ```
 
 **Solution:**
+
 ```typescript
 // Ensure spans are ended
 const span = createSpan('operation');
 try {
   // Do work
 } finally {
-  span.end();  // Always end span!
+  span.end(); // Always end span!
 }
 ```
 
 **Better - use withSpan:**
+
 ```typescript
-withSpan('operation', async (span) => {
+withSpan('operation', async span => {
   // Auto-cleanup
 });
 ```
@@ -389,6 +423,7 @@ withSpan('operation', async (span) => {
 ### 3. Slow Middleware
 
 **Trace:**
+
 ```
 /auth middleware (500ms)  ← Too slow!
 └── validateToken (450ms)
@@ -396,6 +431,7 @@ withSpan('operation', async (span) => {
 ```
 
 **Solution:**
+
 ```typescript
 // Add caching to auth validation
 async function validateToken(token: string) {
@@ -414,36 +450,37 @@ async function validateToken(token: string) {
 
 ### Response Time Targets (P95)
 
-| Endpoint Type | Target | Action Required |
-|--------------|--------|-----------------|
-| Static data GET | < 100ms | Optimize if > 200ms |
-| Search GET | < 500ms | Optimize if > 1000ms |
-| Create POST | < 300ms | Optimize if > 600ms |
-| Webhook POST | < 200ms | Optimize if > 400ms |
-| Dashboard GET | < 800ms | Optimize if > 1500ms |
+| Endpoint Type   | Target  | Action Required      |
+| --------------- | ------- | -------------------- |
+| Static data GET | < 100ms | Optimize if > 200ms  |
+| Search GET      | < 500ms | Optimize if > 1000ms |
+| Create POST     | < 300ms | Optimize if > 600ms  |
+| Webhook POST    | < 200ms | Optimize if > 400ms  |
+| Dashboard GET   | < 800ms | Optimize if > 1500ms |
 
 ### Database Query Targets
 
-| Query Type | Target | Action Required |
-|-----------|--------|-----------------|
-| Primary key lookup | < 10ms | Check index if > 20ms |
-| Single record find | < 50ms | Optimize if > 100ms |
-| List with pagination | < 100ms | Optimize if > 200ms |
-| Full-text search | < 500ms | Optimize if > 1000ms |
+| Query Type           | Target  | Action Required       |
+| -------------------- | ------- | --------------------- |
+| Primary key lookup   | < 10ms  | Check index if > 20ms |
+| Single record find   | < 50ms  | Optimize if > 100ms   |
+| List with pagination | < 100ms | Optimize if > 200ms   |
+| Full-text search     | < 500ms | Optimize if > 1000ms  |
 
 ### External API Targets
 
-| API Type | Target | Action Required |
-|----------|--------|-----------------|
-| Stripe API call | < 500ms | Add cache if > 1000ms |
-| PayPal API call | < 600ms | Add cache if > 1200ms |
-| Email sending | < 2000ms | Queue if > 3000ms |
+| API Type        | Target   | Action Required       |
+| --------------- | -------- | --------------------- |
+| Stripe API call | < 500ms  | Add cache if > 1000ms |
+| PayPal API call | < 600ms  | Add cache if > 1200ms |
+| Email sending   | < 2000ms | Queue if > 3000ms     |
 
 ## Alerting
 
 ### Jaeger Alerts
 
 Create alerts for:
+
 1. **High Error Rate:** > 5% of traces contain errors
 2. **Slow P95:** Response time > 2x target
 3. **Trace Spike:** Sudden increase in trace count
@@ -458,8 +495,8 @@ Create alerts for:
   labels:
     severity: warning
   annotations:
-    summary: "High API response time (P95 > 1s)"
-    description: "P95 response time is {{ $value }}s"
+    summary: 'High API response time (P95 > 1s)'
+    description: 'P95 response time is {{ $value }}s'
 ```
 
 ## Continuous Optimization
@@ -467,6 +504,7 @@ Create alerts for:
 ### Weekly Performance Review
 
 1. **Check slowest traces:**
+
    ```
    Jaeger → Service: pmp-api → Sort by Duration → Last 7 days
    ```
@@ -482,6 +520,7 @@ Create alerts for:
 ### Monthly Performance Report
 
 Track metrics over time:
+
 ```
 Date        | P50  | P95  | P99  | Error Rate | Throughput
 ------------|------|------|------|------------|------------
@@ -526,6 +565,7 @@ k6 run --out json=results.json scripts/load-test.js
 ## Summary
 
 Key takeaways:
+
 1. **Always trace** before optimizing
 2. **Find the bottleneck** using traces
 3. **Fix the actual problem**, not symptoms
@@ -533,6 +573,7 @@ Key takeaways:
 5. **Monitor continuously** for regressions
 
 By systematically analyzing traces, you can:
+
 - Identify performance issues quickly
 - Make data-driven optimization decisions
 - Verify improvements objectively

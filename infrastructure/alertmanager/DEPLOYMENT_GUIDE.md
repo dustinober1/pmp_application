@@ -1,11 +1,13 @@
 # Alerting System Deployment Guide
 
 ## Overview
+
 This guide covers deploying the complete alerting system for the PMP Study Application, including AlertManager, Prometheus alerts, PagerDuty, and Slack integration.
 
 ## Prerequisites
 
 ### Required Tools
+
 - kubectl configured for production cluster
 - helm 3.x installed
 - AWS CLI (if using EKS)
@@ -13,12 +15,14 @@ This guide covers deploying the complete alerting system for the PMP Study Appli
 - Slack workspace with admin permissions
 
 ### Required Access
+
 - Kubernetes cluster admin access
 - AWS EKS access (if using EKS)
 - PagerDuty admin access
 - Slack workspace admin
 
 ### Pre-Deployment Checklist
+
 - [ ] Prometheus/Grafana already installed (kube-prometheus-stack)
 - [ ] Monitoring namespace exists
 - [ ] PagerDuty services created (see pagerduty-setup.md)
@@ -32,19 +36,24 @@ This guide covers deploying the complete alerting system for the PMP Study Appli
 ### Step 1: Prepare Secrets
 
 #### 1.1 Create Slack Webhook
+
 Follow the Slack setup guide: `/infrastructure/alertmanager/slack-setup.md`
 
 Obtain webhook URL: `https://hooks.slack.com/services/T00/B00/XXX`
 
 #### 1.2 Get PagerDuty Integration Keys
+
 Follow the PagerDuty setup guide: `/infrastructure/alertmanager/pagerduty-setup.md`
 
 You'll need two keys:
+
 - Critical service key
 - High priority service key
 
 #### 1.3 Configure SMTP (Optional - for email digests)
+
 If sending email notifications:
+
 ```bash
 export SMTP_PASSWORD="your-app-password"
 
@@ -55,6 +64,7 @@ export SMTP_PASSWORD="your-app-password"
 #### 1.4 Create Kubernetes Secrets
 
 **Development/Testing:**
+
 ```bash
 kubectl create namespace monitoring
 
@@ -67,6 +77,7 @@ kubectl create secret generic alertmanager-secrets \
 ```
 
 **Production:**
+
 ```bash
 # Use sealed secrets or external secret manager for production
 # Example using AWS Secrets Manager:
@@ -103,6 +114,7 @@ kubectl logs -l app=alertmanager -n monitoring
 ```
 
 Expected output:
+
 ```
 NAME                            READY   STATUS    RESTARTS   AGE
 alertmanager-7c9b8f8f-x4k2p     2/2     Running   0          30s
@@ -148,6 +160,7 @@ alerting:
 ### Step 6: Verify Integration
 
 #### 6.1 Check AlertManager Health
+
 ```bash
 # Port-forward to local
 kubectl port-forward -n monitoring deployment/alertmanager 9093:9093
@@ -160,6 +173,7 @@ kubectl port-forward -n monitoring deployment/alertmanager 9093:9093
 ```
 
 #### 6.2 Check Prometheus → AlertManager Communication
+
 ```bash
 # In Prometheus UI: http://localhost:9090
 # Go to: Status → Runtime & Build Information
@@ -167,6 +181,7 @@ kubectl port-forward -n monitoring deployment/alertmanager 9093:9093
 ```
 
 #### 6.3 Test Slack Notification
+
 ```bash
 # Trigger test alert
 curl -X POST $SLACK_WEBHOOK_URL \
@@ -184,6 +199,7 @@ curl -X POST $SLACK_WEBHOOK_URL \
 ```
 
 #### 6.4 Test PagerDuty Integration
+
 ```bash
 # Send test event to PagerDuty
 export PAGERDUTY_KEY="your-critical-key"
@@ -225,6 +241,7 @@ kubectl get certificate alertmanager-tls -n monitoring
 ## Verification Checklist
 
 ### Configuration Verification
+
 - [ ] AlertManager pods are Running (2 replicas for HA)
 - [ ] AlertManager configuration is loaded (check /status page)
 - [ ] Prometheus alert rules are loaded (check /rules page)
@@ -232,12 +249,14 @@ kubectl get certificate alertmanager-tls -n monitoring
 - [ ] Secrets are correctly mounted (check pods)
 
 ### Integration Verification
+
 - [ ] Slack webhook is accessible from cluster
 - [ ] PagerDuty API is accessible from cluster
 - [ ] Test notification sent to Slack successfully
 - [ ] Test incident created in PagerDuty successfully
 
 ### Alert Verification
+
 - [ ] Critical alert (P1) would trigger PagerDuty
 - [ ] High priority alert (P2) would trigger PagerDuty
 - [ ] Warning alert (P3) would only go to Slack
@@ -247,6 +266,7 @@ kubectl get certificate alertmanager-tls -n monitoring
 ## Testing the System
 
 ### Test 1: Simulate P1 Alert
+
 ```bash
 # Scale down a service to trigger ServiceDown alert
 kubectl scale deployment api-service --replicas=0 -n production
@@ -272,12 +292,14 @@ kubectl scale deployment api-service --replicas=3 -n production
 ```
 
 ### Test 2: Simulate P2 Alert
+
 ```bash
 # Simulate high error rate (use test endpoint)
 # Follow alert testing procedures in: /docs/operations/alert-testing-procedures.md
 ```
 
 ### Test 3: Test Alert Grouping
+
 ```bash
 # Trigger multiple alerts simultaneously
 # Verify they are grouped in single PagerDuty incident
@@ -287,6 +309,7 @@ kubectl scale deployment api-service --replicas=3 -n production
 ## Maintenance
 
 ### Updating Alert Rules
+
 ```bash
 # Edit alert rule ConfigMap
 kubectl edit configmap prometheus-alerts -n monitoring
@@ -301,6 +324,7 @@ kubectl port-forward -n monitoring prometheus-k8s-0 9090:9090
 ```
 
 ### Updating AlertManager Configuration
+
 ```bash
 # Edit AlertManager ConfigMap
 kubectl edit configmap alertmanager-config -n monitoring
@@ -314,6 +338,7 @@ kubectl port-forward -n monitoring deployment/alertmanager 9093:9093
 ```
 
 ### Updating Secrets
+
 ```bash
 # Delete and recreate secret
 kubectl delete secret alertmanager-secrets -n monitoring
@@ -330,6 +355,7 @@ kubectl rollout restart deployment alertmanager -n monitoring
 ## Monitoring the Alerting System
 
 ### Key Metrics to Monitor
+
 ```promql
 # AlertManager health
 up{job="alertmanager"}
@@ -345,7 +371,9 @@ prometheus_notifications_queue_length
 ```
 
 ### Grafana Dashboards
+
 Import dashboards for:
+
 - AlertManager health
 - Prometheus alert stats
 - Notification performance
@@ -355,6 +383,7 @@ Import dashboards for:
 ### Issue: Alerts Not Firing
 
 **Check 1**: Are rules loaded?
+
 ```bash
 kubectl port-forward -n monitoring prometheus-k8s-0 9090:9090
 # Visit: http://localhost:9090/rules
@@ -362,6 +391,7 @@ kubectl port-forward -n monitoring prometheus-k8s-0 9090:9090
 ```
 
 **Check 2**: Are metrics being scraped?
+
 ```bash
 # In Prometheus UI, run query:
 up{job="your-service"}
@@ -370,6 +400,7 @@ up{job="your-service"}
 ```
 
 **Check 3**: Is expression correct?
+
 ```bash
 # Copy alert expression to Prometheus graph
 # Test manually
@@ -379,12 +410,14 @@ up{job="your-service"}
 ### Issue: Alerts Firing But No Notifications
 
 **Check 1**: AlertManager logs
+
 ```bash
 kubectl logs -l app=alertmanager -n monitoring --tail=100
 # Look for errors sending notifications
 ```
 
 **Check 2**: Secrets are mounted
+
 ```bash
 kubectl describe pod alertmanager-xxx -n monitoring
 # Look for secret volumes
@@ -392,6 +425,7 @@ kubectl describe pod alertmanager-xxx -n monitoring
 ```
 
 **Check 3**: Network connectivity
+
 ```bash
 # Test from pod
 kubectl exec -it alertmanager-xxx -n monitoring -- sh
@@ -415,12 +449,15 @@ pagerduty_configs:
 ## Scaling Considerations
 
 ### High Availability
+
 - **AlertManager**: 2+ replicas (already configured)
 - **Prometheus**: 2 replicas with Thanos for long-term storage
 - **Silences**: Stored in persistent storage
 
 ### Load Handling
+
 For large number of alerts:
+
 ```yaml
 # Increase AlertManager resources
 resources:
@@ -435,6 +472,7 @@ resources:
 ## Backup and Disaster Recovery
 
 ### Backup Configuration
+
 ```bash
 # Backup ConfigMaps
 kubectl get configmap alertmanager-config -n monitoring -o yaml > backup-alertmanager-config.yaml
@@ -446,6 +484,7 @@ kubectl get secret alertmanager-secrets -n monitoring -o yaml > backup-alertmana
 ```
 
 ### Restore from Backup
+
 ```bash
 # Restore ConfigMaps
 kubectl apply -f backup-alertmanager-config.yaml
@@ -462,6 +501,7 @@ kubectl rollout restart deployment prometheus -n monitoring
 ## Security Best Practices
 
 ### Network Policies
+
 ```yaml
 # Restrict AlertManager egress to only necessary endpoints
 apiVersion: networking.k8s.io/v1
@@ -489,6 +529,7 @@ spec:
 ```
 
 ### RBAC
+
 ```yaml
 # Restrict who can view AlertManager
 apiVersion: rbac.authorization.k8s.io/v1
@@ -497,26 +538,30 @@ metadata:
   name: alertmanager-viewer
   namespace: monitoring
 rules:
-- apiGroups: [""]
-  resources: ["pods", "pods/log"]
-  verbs: ["get", "list"]
+  - apiGroups: ['']
+    resources: ['pods', 'pods/log']
+    verbs: ['get', 'list']
 ```
 
 ## Post-Deployment
 
 ### Team Training
+
 1. **On-call engineers**: PagerDuty training
 2. **All engineers**: Slack notification training
 3. **Stakeholders**: Status page subscription
 
 ### Documentation Updates
+
 1. Update runbooks with actual links
 2. Publish on-call schedule
 3. Share alert tuning guide
 4. Document escalation paths
 
 ### Success Metrics
+
 Track for first 30 days:
+
 - Mean time to acknowledge alerts
 - False positive rate
 - Alert count by severity
@@ -525,6 +570,7 @@ Track for first 30 days:
 ## Rollback Procedure
 
 If deployment causes issues:
+
 ```bash
 # Rollback to previous ConfigMap
 kubectl apply -f backup-alertmanager-config.yaml

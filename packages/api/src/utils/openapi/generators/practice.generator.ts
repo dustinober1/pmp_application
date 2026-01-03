@@ -297,7 +297,8 @@ export const practicePaths: OpenAPIV3_1.PathsObject = {
     post: {
       tags: ['Practice'],
       summary: 'Start mock exam',
-      description: 'Start a full PMP mock exam (180 questions, 230 minutes). Requires High-End tier.',
+      description:
+        'Start a full PMP mock exam (180 questions, 230 minutes). Requires High-End tier.',
       security: [{ bearerAuth: [] }],
       responses: {
         '201': {

@@ -43,15 +43,10 @@ const swaggerOptions = {
       return aPath.localeCompare(bPath);
     },
     tagsSorter: 'alpha' as const,
-    requestInterceptor: (request: any) => {
-      // Automatically include CSRF token if present in cookies
-      if (typeof window !== 'undefined' && document.cookie) {
-        const csrfMatch = document.cookie.match(/_csrf=([^;]+)/);
-        if (csrfMatch) {
-          request.headers['X-CSRF-Token'] = csrfMatch[1];
-        }
-      }
-      return request;
+    requestInterceptor: (_request: any) => {
+      // CSRF token injection handled server-side via cookies
+      // No client-side interception needed
+      return _request;
     },
   },
   customSiteTitle: 'PMP Study API Documentation',
@@ -71,7 +66,7 @@ const swaggerOptions = {
 export function serveSwaggerDocs() {
   if (env.NODE_ENV === 'production') {
     logger.warn('Swagger UI is disabled in production');
-    return (_req: any, res: any, next: any) => {
+    return (_req: any, res: any, _next: any) => {
       res.status(404).json({
         success: false,
         error: {
@@ -83,10 +78,7 @@ export function serveSwaggerDocs() {
   }
 
   logger.info('Swagger UI enabled at /api-docs');
-  return [
-    swaggerUi.serve,
-    swaggerUi.setup(openAPISpec, swaggerOptions),
-  ];
+  return [swaggerUi.serve, swaggerUi.setup(openAPISpec, swaggerOptions)];
 }
 
 /**

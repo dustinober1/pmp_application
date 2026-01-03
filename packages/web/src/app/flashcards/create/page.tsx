@@ -101,7 +101,7 @@ export default function CreateFlashcardPage() {
   }
 
   // Tier check (optional UI enforcement)
-  const canCreate = user?.tier === 'high-end' || user?.tier === 'corporate';
+  const canCreate = user?.tier === 'pro' || user?.tier === 'corporate';
 
   return (
     <div className="min-h-screen">

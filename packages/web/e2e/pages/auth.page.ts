@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 import { TestHelpers } from '../utils/test-helpers';
 
 /**
@@ -129,7 +129,7 @@ export class AuthPage {
    * Get error message text
    */
   async getErrorMessage(): Promise<string> {
-    return await this.errorMessage.textContent() || '';
+    return (await this.errorMessage.textContent()) || '';
   }
 
   /**

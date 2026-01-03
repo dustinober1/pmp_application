@@ -30,10 +30,7 @@ export class DataExportService {
     });
 
     if (pendingExport) {
-      throw AppError.conflict(
-        PRIVACY_ERRORS.PRIVACY_001.message,
-        PRIVACY_ERRORS.PRIVACY_001.code
-      );
+      throw AppError.conflict(PRIVACY_ERRORS.PRIVACY_001.message, PRIVACY_ERRORS.PRIVACY_001.code);
     }
 
     // Rate limiting check
@@ -138,7 +135,7 @@ export class DataExportService {
       take: 10,
     });
 
-    return exports.map((exp) => ({
+    return exports.map(exp => ({
       id: exp.id,
       userId: exp.userId,
       status: exp.status as any,
@@ -247,7 +244,7 @@ export class DataExportService {
         where: { userId },
         orderBy: { createdAt: 'desc' },
       });
-      paymentHistory = transactions.map((t) => ({
+      paymentHistory = transactions.map(t => ({
         id: t.id,
         amount: t.amount,
         currency: t.currency,
@@ -277,7 +274,7 @@ export class DataExportService {
         orderBy: { createdAt: 'desc' },
         take: 100,
       });
-      recentActivity = activities.map((a) => ({
+      recentActivity = activities.map(a => ({
         type: a.activityType,
         targetId: a.targetId,
         createdAt: a.createdAt,
@@ -316,14 +313,14 @@ export class DataExportService {
       },
       flashcardReviews: flashcardReviewsCount,
       questionAttempts: questionAttemptsCount,
-      practiceSessions: practiceSessions.map((s) => ({
+      practiceSessions: practiceSessions.map(s => ({
         id: s.id,
         totalQuestions: s.totalQuestions,
         correctAnswers: s.correctAnswers,
         completedAt: s.completedAt || undefined,
       })),
       recentActivity,
-      teamMemberships: teamMemberships.map((m) => ({
+      teamMemberships: teamMemberships.map(m => ({
         teamName: m.team.name,
         role: m.role,
         joinedAt: m.joinedAt,
@@ -395,7 +392,7 @@ export class DataExportService {
     ]);
 
     return {
-      exports: exports.map((exp) => ({
+      exports: exports.map(exp => ({
         id: exp.id,
         userId: exp.userId,
         status: exp.status as any,
@@ -415,10 +412,7 @@ export class DataExportService {
   /**
    * Admin: Manually process export
    */
-  async adminProcessExport(
-    exportRequestId: string,
-    adminUserId: string
-  ): Promise<void> {
+  async adminProcessExport(exportRequestId: string, adminUserId: string): Promise<void> {
     const exportRequest = await prisma.dataExportRequest.findUnique({
       where: { id: exportRequestId },
     });

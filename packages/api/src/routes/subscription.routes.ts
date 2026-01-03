@@ -12,6 +12,7 @@ const router = Router();
 // Validation schemas
 const createSubscriptionSchema = z.object({
   tierId: z.string().uuid('Invalid tier ID'),
+  quantity: z.number().int().min(1).optional().default(1),
 });
 
 // const activateSubscriptionSchema = z.object({
@@ -146,7 +147,8 @@ router.post(
         tier.id,
         tier.name,
         tier.price,
-        tier.billingPeriod
+        tier.billingPeriod,
+        req.body.quantity || 1
       );
 
       res.json({

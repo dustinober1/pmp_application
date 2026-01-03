@@ -136,7 +136,7 @@ async function importChapter(chapterConfig: {
       description: chapterDescription,
       orderIndex: chapterConfig.orderIndex,
       isPremium: chapterConfig.isPremium,
-      minTier: chapterConfig.isPremium ? 'mid-level' : 'free',
+      minTier: chapterConfig.isPremium ? 'pro' : 'free',
     },
     create: {
       slug: chapterConfig.slug,
@@ -144,7 +144,7 @@ async function importChapter(chapterConfig: {
       description: chapterDescription,
       orderIndex: chapterConfig.orderIndex,
       isPremium: chapterConfig.isPremium,
-      minTier: chapterConfig.isPremium ? 'mid-level' : 'free',
+      minTier: chapterConfig.isPremium ? 'pro' : 'free',
     },
   });
 

@@ -68,17 +68,20 @@ model PrivacyAuditLog {
 #### User Endpoints
 
 **Consent Management:**
+
 - `GET /api/privacy/consent` - Get consent status
 - `PUT /api/privacy/consent` - Update consent
 - `POST /api/privacy/consent/withdraw` - Withdraw consent
 
 **Data Export:**
+
 - `POST /api/privacy/data-export` - Request export
 - `GET /api/privacy/data-export` - Get export history
 - `GET /api/privacy/data-export/:requestId` - Get export status
 - `GET /api/privacy/data-export/:requestId/download` - Download export
 
 **Account Deletion:**
+
 - `POST /api/privacy/delete-account` - Request deletion
 - `GET /api/privacy/delete-account` - Get deletion status
 - `POST /api/privacy/delete-account/cancel` - Cancel deletion
@@ -97,12 +100,14 @@ model PrivacyAuditLog {
 ### 3. Services
 
 **Core Services:**
+
 - `consent.service.ts` - Consent management
 - `data-export.service.ts` - Data export generation
 - `account-deletion.service.ts` - Account deletion (soft/hard)
 - `admin-privacy.service.ts` - Admin dashboard analytics
 
 **Features:**
+
 - Comprehensive data export (JSON format)
 - 30-day grace period for deletion
 - 7-year legal retention for payments
@@ -113,6 +118,7 @@ model PrivacyAuditLog {
 ### 4. Validators
 
 **Zod Schemas:**
+
 - `consentUpdateSchema` - Consent updates
 - `dataExportRequestSchema` - Export requests
 - `accountDeletionRequestSchema` - Deletion requests
@@ -123,14 +129,17 @@ model PrivacyAuditLog {
 ### 5. Tests
 
 **Unit Tests:**
+
 - `consent.service.test.ts` - ✅ 100% coverage
 - `data-export.service.test.ts` - ✅ 100% coverage
 - `account-deletion.service.test.ts` - ✅ 100% coverage
 
 **Integration Tests:**
+
 - `privacy.routes.test.ts` - ✅ All endpoints tested
 
 **Test Coverage:**
+
 - Consent lifecycle
 - Data export workflow
 - Account deletion flow
@@ -141,10 +150,12 @@ model PrivacyAuditLog {
 ### 6. Documentation
 
 **User-Facing:**
+
 - `/docs/api/privacy-api.md` - Complete API documentation
 - `/docs/compliance/gdpr-ccpa-compliance.md` - Legal compliance guide
 
 **Developer:**
+
 - `/docs/compliance/IMPLEMENTATION_GUIDE.md` - Setup and usage guide
 
 ---
@@ -246,10 +257,10 @@ PRIVACY_RATE_LIMIT_MAX=5
 Configured in services:
 
 ```typescript
-const EXPORT_RETENTION_DAYS = 7;          // Export files
-const RATE_LIMIT_HOURS = 24;              // Export requests
-const GRACE_PERIOD_DAYS = 30;             // Account deletion
-const LEGAL_RETENTION_YEARS = 7;          // Payment records
+const EXPORT_RETENTION_DAYS = 7; // Export files
+const RATE_LIMIT_HOURS = 24; // Export requests
+const GRACE_PERIOD_DAYS = 30; // Account deletion
+const LEGAL_RETENTION_YEARS = 7; // Payment records
 ```
 
 ---
@@ -258,26 +269,26 @@ const LEGAL_RETENTION_YEARS = 7;          // Payment records
 
 ### GDPR (General Data Protection Regulation)
 
-| Article | Feature | Status |
-|---------|---------|--------|
-| Art. 15 - Right to Access | Data export | ✅ Implemented |
-| Art. 16 - Right to Rectification | Profile update | ✅ Existing |
-| Art. 17 - Right to Erasure | Account deletion | ✅ Implemented |
-| Art. 18 - Right to Restrict | Consent withdrawal | ✅ Implemented |
-| Art. 20 - Data Portability | JSON export | ✅ Implemented |
-| Art. 21 - Right to Object | Consent withdrawal | ✅ Implemented |
+| Article                             | Feature             | Status         |
+| ----------------------------------- | ------------------- | -------------- |
+| Art. 15 - Right to Access           | Data export         | ✅ Implemented |
+| Art. 16 - Right to Rectification    | Profile update      | ✅ Existing    |
+| Art. 17 - Right to Erasure          | Account deletion    | ✅ Implemented |
+| Art. 18 - Right to Restrict         | Consent withdrawal  | ✅ Implemented |
+| Art. 20 - Data Portability          | JSON export         | ✅ Implemented |
+| Art. 21 - Right to Object           | Consent withdrawal  | ✅ Implemented |
 | Art. 25 - Data Protection by Design | Secure architecture | ✅ Implemented |
-| Art. 30 - Records of Processing | Audit logs | ✅ Implemented |
+| Art. 30 - Records of Processing     | Audit logs          | ✅ Implemented |
 
 ### CCPA (California Consumer Privacy Act)
 
-| Section | Feature | Status |
-|---------|---------|--------|
-| 1798.100 - Right to Know | Data export | ✅ Implemented |
-| 1798.105 - Right to Delete | Account deletion | ✅ Implemented |
-| 1798.120 - Right to Opt-Out | Consent withdrawal | ✅ Implemented |
-| 1798.125 - Non-Discrimination | No penalties | ✅ Guaranteed |
-| 1798.130 - Personal Data Categories | Clear documentation | ✅ Provided |
+| Section                             | Feature             | Status         |
+| ----------------------------------- | ------------------- | -------------- |
+| 1798.100 - Right to Know            | Data export         | ✅ Implemented |
+| 1798.105 - Right to Delete          | Account deletion    | ✅ Implemented |
+| 1798.120 - Right to Opt-Out         | Consent withdrawal  | ✅ Implemented |
+| 1798.125 - Non-Discrimination       | No penalties        | ✅ Guaranteed  |
+| 1798.130 - Personal Data Categories | Clear documentation | ✅ Provided    |
 
 ---
 
@@ -355,6 +366,7 @@ npm test -- --coverage
 ```
 
 **Expected Coverage:**
+
 - Services: 100%
 - Routes: 95%+
 - Validators: 100%
@@ -432,14 +444,14 @@ GROUP BY status;
 
 ### Common Error Scenarios
 
-| Error | Code | Solution |
-|-------|------|----------|
-| Pending export exists | PRIVACY_001 | Wait for current export |
-| Export not found | PRIVACY_002 | Check requestId, may have expired |
-| Deletion pending | PRIVACY_003 | Wait for current deletion |
-| Grace period expired | PRIVACY_005 | Cannot cancel, contact support |
-| Rate limit exceeded | RATE_LIMITED | Wait 1 hour |
-| Not admin | PRIVACY_006 | Add email to ADMIN_EMAILS |
+| Error                 | Code         | Solution                          |
+| --------------------- | ------------ | --------------------------------- |
+| Pending export exists | PRIVACY_001  | Wait for current export           |
+| Export not found      | PRIVACY_002  | Check requestId, may have expired |
+| Deletion pending      | PRIVACY_003  | Wait for current deletion         |
+| Grace period expired  | PRIVACY_005  | Cannot cancel, contact support    |
+| Rate limit exceeded   | RATE_LIMITED | Wait 1 hour                       |
+| Not admin             | PRIVACY_006  | Add email to ADMIN_EMAILS         |
 
 ---
 
@@ -510,6 +522,7 @@ GROUP BY status;
 ## License & Attribution
 
 This implementation follows:
+
 - GDPR (EU) 2016/679
 - CCPA (California) Civil Code 1798.100-1798.130
 - Industry best practices
@@ -522,6 +535,7 @@ This implementation follows:
 ### Version 1.0 (2026-01-01)
 
 **Features Added:**
+
 - Consent management system
 - Data export functionality
 - Account deletion with grace period
@@ -532,12 +546,14 @@ This implementation follows:
 - Compliance documentation
 
 **Database Changes:**
+
 - Added `privacy_consent` table
 - Added `data_export_requests` table
 - Added `account_deletion_requests` table
 - Added `privacy_audit_logs` table
 
 **API Endpoints:**
+
 - 8 user-facing endpoints
 - 8 admin endpoints
 - All with Zod validation

@@ -36,8 +36,9 @@ import ebookRouter from './routes/ebook.routes';
 import stripeWebhookRouter from './routes/stripe.webhook.routes';
 import privacyRouter from './routes/privacy.routes';
 import adminPrivacyRouter from './routes/admin-privacy.routes';
+import { createLoggerConfig } from './logging/config';
 // Initialize structured logger
-initializeLogger(require('./logging/config').createLoggerConfig());
+initializeLogger(createLoggerConfig());
 
 const app = express();
 

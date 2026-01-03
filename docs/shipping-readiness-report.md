@@ -20,6 +20,7 @@ This comprehensive pre-launch audit reveals a well-architected application with 
 ### 🔴 CRITICAL Issues (3)
 
 #### C1.1: Missing Email Delivery System
+
 **Location:** `packages/api/src/services/auth.service.ts`, `team.service.ts`  
 **Impact:** Users cannot verify accounts, reset passwords, or receive team invitations  
 **Finding:**
@@ -35,6 +36,7 @@ This comprehensive pre-launch audit reveals a well-architected application with 
 \`\`\`
 
 **Action Required:**
+
 - Implement email service (SendGrid, AWS SES, or Postmark)
 - Create email templates for verification, password reset, and invitations
 - Add retry logic and failure handling
@@ -45,6 +47,7 @@ This comprehensive pre-launch audit reveals a well-architected application with 
 ---
 
 #### C1.2: Incomplete Stripe Integration - Missing Metadata
+
 **Location:** `packages/api/src/services/stripe.service.ts:155`  
 **Impact:** Billing period not properly tracked, affects subscription management  
 **Finding:**
@@ -53,6 +56,7 @@ billingPeriod: 'monthly', // Hardcoded - should come from metadata
 \`\`\`
 
 **Action Required:**
+
 - Add `billingPeriod` to Stripe checkout session metadata
 - Update webhook handlers to use actual billing period
 - Update `PaymentTransaction` creation logic
@@ -62,17 +66,19 @@ billingPeriod: 'monthly', // Hardcoded - should come from metadata
 ---
 
 #### C1.3: Critical Route Ordering Bug - Domain Progress Endpoint
+
 **Location:** `packages/api/src/routes/domain.routes.ts`  
 **Impact:** `/api/domains/progress` endpoint unreachable due to route ordering  
-**Finding:** 
+**Finding:**
 \`\`\`typescript
 // Line 392-393: domain.routes.test.ts
 // NOTE: Due to route ordering in domain.routes.ts, /progress is defined AFTER /:id
-// This causes /progress to be matched as /:id with id="progress", 
+// This causes /progress to be matched as /:id with id="progress",
 // resulting in validation errors
 \`\`\`
 
 **Action Required:**
+
 - Move `/progress` route definition BEFORE `/:id` route
 - Re-run integration tests to verify fix
 - Check for similar ordering issues in other route files
@@ -84,6 +90,7 @@ billingPeriod: 'monthly', // Hardcoded - should come from metadata
 ### 🟠 HIGH Priority Issues (4)
 
 #### H1.1: Missing Formula Relations in Content Service
+
 **Location:** `packages/api/src/services/content.service.ts:148`  
 \`\`\`typescript
 relatedFormulas: [], // TODO: Add formula relations
@@ -92,16 +99,19 @@ relatedFormulas: [], // TODO: Add formula relations
 **Effort:** 4-6 hours
 
 #### H1.2: No Accessibility Testing Performed
+
 **Impact:** WCAG compliance unknown, potential ADA violations  
 **Action:** Run axe-core audit, test keyboard navigation, screen reader compatibility  
 **Effort:** 1 day
 
 #### H1.3: Missing Error Boundaries in React Components
+
 **Location:** Frontend components lack error boundary wrappers  
 **Impact:** Single component crash could break entire app  
 **Effort:** 4 hours
 
 #### H1.4: Incomplete Offline Functionality
+
 **Location:** `packages/web/public/sw.js` - Service worker exists but sync logic incomplete  
 **Impact:** Offline mode advertised but not fully functional  
 **Effort:** 1 day
@@ -111,10 +121,12 @@ relatedFormulas: [], // TODO: Add formula relations
 ### 🟡 MEDIUM Priority Issues (2)
 
 #### M1.1: Sync Service Needs Verification
+
 **Location:** `packages/web/src/lib/sync.ts:109-110`  
 **Note:** Flashcard submission flow needs verification against API contract
 
 #### M1.2: No Bundle Size Analysis
+
 **Impact:** Performance baseline unknown, no monitoring for bundle bloat
 
 ---
@@ -134,8 +146,10 @@ relatedFormulas: [], // TODO: Add formula relations
 ### 🟠 HIGH Priority Issues (2)
 
 #### H2.1: No Performance Budgets Defined
+
 **Impact:** Cannot monitor performance regressions  
 **Action Required:**
+
 - Set Core Web Vitals targets (LCP < 2.5s, FID < 100ms, CLS < 0.1)
 - Configure Lighthouse CI
 - Add performance tests to CI/CD
@@ -143,8 +157,10 @@ relatedFormulas: [], // TODO: Add formula relations
 **Estimated Effort:** 4 hours
 
 #### H2.2: Database Query Optimization Not Validated
+
 **Impact:** Potential N+1 queries, missing indexes  
 **Action Required:**
+
 - Run EXPLAIN ANALYZE on critical queries
 - Add database indexes for frequently queried fields
 - Implement query result caching with Redis
@@ -156,6 +172,7 @@ relatedFormulas: [], // TODO: Add formula relations
 ### 🟡 MEDIUM Priority Issues (1)
 
 #### M2.1: Asset Optimization Not Verified
+
 **Action:** Verify image compression, lazy loading, font subsetting
 
 ---
@@ -174,11 +191,13 @@ relatedFormulas: [], // TODO: Add formula relations
 ### 🔴 CRITICAL Issues (2)
 
 #### C3.1: Missing Privacy Policy and Terms of Service Pages
+
 **Location:** `/packages/web/src/app/privacy/page.tsx`, `/packages/web/src/app/terms/page.tsx`  
 **Impact:** **LEGAL COMPLIANCE VIOLATION** - Required for GDPR, CCPA, and Stripe/PayPal compliance  
 **Finding:** Both files return 404 errors
 
 **Action Required:**
+
 - Create comprehensive Privacy Policy covering:
   - Data collection and usage
   - Cookie policy
@@ -196,6 +215,7 @@ relatedFormulas: [], // TODO: Add formula relations
 ---
 
 #### C3.2: Stripe Webhook Secret Potentially Empty
+
 **Location:** `packages/api/src/services/stripe.service.ts:75`  
 \`\`\`typescript
 event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRET || '');
@@ -210,12 +230,14 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟠 HIGH Priority Issues (2)
 
 #### H3.1: CSRF Token Not Validated in Tests
+
 **Impact:** Cannot confirm CSRF protection is working end-to-end  
 **Action:** Add E2E tests validating CSRF token rejection
 
 **Effort:** 2 hours
 
 #### H3.2: No Security Headers Testing
+
 **Action:** Validate Content-Security-Policy, HSTS, X-Frame-Options in production config
 
 **Effort:** 2 hours
@@ -242,8 +264,10 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🔴 CRITICAL Issues (1)
 
 #### C4.1: Critical User Flows Not Fully Tested End-to-End
+
 **Impact:** Payment flow, subscription lifecycle, multi-device sync not validated  
 **Action Required:**
+
 - Create E2E test for complete purchase flow (checkout → webhook → subscription activation)
 - Test subscription cancellation and renewal
 - Validate offline sync when returning online
@@ -255,13 +279,16 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟠 HIGH Priority Issues (3)
 
 #### H4.1: Test Coverage Unknown
+
 **Finding:** No coverage reports in CI/CD output  
 **Action:** Run `npm test -- --coverage` and establish minimum thresholds (80% recommended)
 
 #### H4.2: Stripe Webhook Testing Incomplete
+
 **Action:** Use Stripe CLI to test webhook delivery and idempotency
 
 #### H4.3: Load Testing Not Performed
+
 **Impact:** Cannot validate system behavior under load  
 **Action:** Run k6 or Artillery tests simulating 100+ concurrent users
 
@@ -270,9 +297,11 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟡 MEDIUM Priority Issues (2)
 
 #### M4.1: Integration Tests for Third-Party Services Missing
+
 **Action:** Mock Stripe/PayPal in integration tests to validate error handling
 
 #### M4.2: No Visual Regression Testing
+
 **Action:** Consider Percy or Chromatic for UI consistency
 
 ---
@@ -292,6 +321,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟡 MEDIUM Priority Issues (1)
 
 #### M5.1: API Documentation Incomplete
+
 **Action:** Generate OpenAPI/Swagger documentation from route definitions
 
 ---
@@ -317,8 +347,10 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟠 HIGH Priority Issues (2)
 
 #### H6.1: Production Environment Variables Not Validated
+
 **Impact:** Deployment could fail due to missing secrets  
 **Action Required:**
+
 - Create deployment checklist validating all required env vars
 - Document secret rotation procedures
 - Test with production-like .env file
@@ -326,6 +358,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 **Estimated Effort:** 4 hours
 
 #### H6.2: Database Migration Strategy Not Documented
+
 **Impact:** Schema changes could cause downtime  
 **Action:** Document zero-downtime migration procedures, rollback steps
 
@@ -336,6 +369,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟡 MEDIUM Priority Issue (1)
 
 #### M6.1: No Staging Environment Mentioned
+
 **Action:** Deploy to staging environment before production
 
 ---
@@ -343,6 +377,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟢 LOW Priority Issue (1)
 
 #### L6.1: No Auto-Scaling Configuration Documented
+
 **Action:** Document EKS auto-scaling policies and testing procedures
 
 ---
@@ -366,6 +401,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟠 HIGH Priority Issue (1)
 
 #### H7.1: Accessibility Audit Required
+
 **Action:** Run axe DevTools, test with NVDA/JAWS screen readers, validate keyboard navigation
 
 **Estimated Effort:** 1 day
@@ -375,6 +411,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟡 MEDIUM Priority Issue (1)
 
 #### M7.1: Error Messages Need User Testing
+
 **Action:** Validate error messages are actionable and non-technical
 
 ---
@@ -393,9 +430,11 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🔴 CRITICAL Issues (2)
 
 #### C8.1: Privacy Policy Missing (See C3.1)
+
 **Impact:** Cannot legally process user data under GDPR/CCPA
 
 #### C8.2: Terms of Service Missing (See C3.1)
+
 **Impact:** No legal agreement with users, Stripe compliance requirement not met
 
 ---
@@ -403,6 +442,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### 🟠 HIGH Priority Issue (1)
 
 #### H8.1: Cookie Consent Banner Missing
+
 **Impact:** GDPR compliance violation  
 **Action:** Implement cookie consent with granular controls
 
@@ -457,13 +497,13 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 
 ### HIGH RISK Areas
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|------------|
-| Legal compliance failure | High | Severe | **Block launch** until Privacy/Terms created |
-| Payment processing errors | Medium | Severe | Stripe webhook testing + monitoring |
-| Email delivery failure | High | High | Use established provider (SendGrid/SES) |
-| Accessibility lawsuits | Medium | High | Conduct audit, fix critical issues |
-| Performance at scale | Medium | High | Load testing + monitoring |
+| Risk                      | Probability | Impact | Mitigation                                   |
+| ------------------------- | ----------- | ------ | -------------------------------------------- |
+| Legal compliance failure  | High        | Severe | **Block launch** until Privacy/Terms created |
+| Payment processing errors | Medium      | Severe | Stripe webhook testing + monitoring          |
+| Email delivery failure    | High        | High   | Use established provider (SendGrid/SES)      |
+| Accessibility lawsuits    | Medium      | High   | Conduct audit, fix critical issues           |
+| Performance at scale      | Medium      | High   | Load testing + monitoring                    |
 
 ---
 
@@ -479,24 +519,28 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ## Recommended Launch Sequence
 
 ### Phase 1: Legal Compliance (Day 1-2)
+
 1. Draft and review Privacy Policy
-2. Draft and review Terms of Service  
+2. Draft and review Terms of Service
 3. Implement cookie consent banner
 4. Legal team review and approval
 
 ### Phase 2: Critical Code Fixes (Day 2-3)
+
 5. Implement email service with templates
 6. Fix Stripe billing metadata
 7. Fix domain route ordering bug
 8. Remove webhook secret fallback
 
 ### Phase 3: Testing & Validation (Day 3-4)
+
 9. E2E payment flow testing
 10. Production environment validation
 11. Accessibility audit (parallel)
 12. Load testing (parallel)
 
 ### Phase 4: Final Checks (Day 4-5)
+
 13. Security headers validation
 14. Performance budgets baseline
 15. Staging deployment test
@@ -509,6 +553,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### Current Status: 🔴 **NO-GO**
 
 **Rationale:**
+
 - **8 critical blockers** prevent safe production deployment
 - **2 legal compliance issues** create severe liability risk
 - **Missing email system** breaks core user workflows
@@ -517,6 +562,7 @@ event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRE
 ### Path to 🟢 **GO**
 
 **Required Actions:**
+
 1. Resolve all 8 critical blockers (3-5 days estimated)
 2. Fix at least 8 of 12 high-priority issues (focus on security, testing, accessibility)
 3. Deploy to staging environment and validate
@@ -545,23 +591,30 @@ Despite the blockers, this application demonstrates **exceptional engineering qu
 ## Appendix: Testing Commands
 
 \`\`\`bash
+
 # Run all tests with coverage
+
 npm test -- --coverage
 
 # E2E tests
+
 cd packages/web && npx playwright test
 
 # Security audit
+
 npm audit
 npm audit --audit-level=moderate
 
 # Bundle analysis
+
 cd packages/web && npm run build -- --analyze
 
 # Load testing (after launch)
+
 k6 run load-test.js
 
 # Accessibility audit
+
 npx axe-cli https://your-staging-url.com
 \`\`\`
 

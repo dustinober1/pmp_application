@@ -2,13 +2,15 @@
  * Express middleware for request logging and trace ID management
  */
 
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { getLogger, generateTraceId, Logger } from './logger';
 
 /**
  * Extend Express Request to include trace ID and start time
  */
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       trace_id?: string;
@@ -21,11 +23,7 @@ declare global {
 /**
  * Middleware to add trace ID to every request
  */
-export function traceIdMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
+export function traceIdMiddleware(req: Request, res: Response, next: NextFunction): void {
   // Extract trace ID from header or generate new one
   const traceId = generateTraceId(req.headers['x-trace-id'] as string);
 
@@ -44,11 +42,7 @@ export function traceIdMiddleware(
 /**
  * Middleware to add user ID to request context
  */
-export function userIdMiddleware(
-  req: Request,
-  _res: Response,
-  next: NextFunction
-): void {
+export function userIdMiddleware(req: Request, _res: Response, next: NextFunction): void {
   // Extract user ID from request if authenticated
   const userId = (req as any).user?.id || (req as any).userId;
 
@@ -63,11 +57,7 @@ export function userIdMiddleware(
 /**
  * Middleware to log all HTTP requests
  */
-export function requestLoggingMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
+export function requestLoggingMiddleware(req: Request, res: Response, next: NextFunction): void {
   const logger = getLogger();
   const startTime = Date.now();
   req.start_time = startTime;
@@ -134,19 +124,15 @@ export function errorLoggingMiddleware(
   const logger = getLogger();
   const duration = req.start_time ? Date.now() - req.start_time : 0;
 
-  logger.error(
-    `Unhandled error: ${err.message}`,
-    err,
-    {
-      method: req.method,
-      path: req.path,
-      status: res.statusCode || 500,
-      duration,
-      ip: req.ip,
-      trace_id: req.trace_id,
-      user_id: req.user_id,
-    }
-  );
+  logger.error(`Unhandled error: ${err.message}`, err, {
+    method: req.method,
+    path: req.path,
+    status: res.statusCode || 500,
+    duration,
+    ip: req.ip,
+    trace_id: req.trace_id,
+    user_id: req.user_id,
+  });
 
   next(err);
 }
@@ -155,21 +141,13 @@ export function errorLoggingMiddleware(
  * Combined middleware with all logging features
  */
 export function loggingMiddleware() {
-  return [
-    traceIdMiddleware,
-    userIdMiddleware,
-    requestLoggingMiddleware,
-  ] as const;
+  return [traceIdMiddleware, userIdMiddleware, requestLoggingMiddleware] as const;
 }
 
 /**
  * Middleware to clear context after request completes
  */
-export function contextCleanupMiddleware(
-  _req: Request,
-  res: Response,
-  next: NextFunction
-): void {
+export function contextCleanupMiddleware(_req: Request, res: Response, next: NextFunction): void {
   res.on('finish', () => {
     Logger.clearContext();
   });

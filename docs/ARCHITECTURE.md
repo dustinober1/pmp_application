@@ -1,6 +1,7 @@
 # System Architecture
 
 ## C4 Context Diagram
+
 ```mermaid
 C4Context
   title System Context diagram for PMP Study Application
@@ -16,6 +17,7 @@ C4Context
 ```
 
 ## Container Diagram
+
 ```mermaid
 C4Container
   title Container diagram for PMP Study Application
@@ -36,6 +38,7 @@ C4Container
 ```
 
 ## Infrastructure Diagram (AWS)
+
 - **VPC:** 10.0.0.0/16
   - **Public Subnets:** Load Balancers, NAT Gateways.
   - **Private Subnets:** EKS Nodes, RDS, Redis.

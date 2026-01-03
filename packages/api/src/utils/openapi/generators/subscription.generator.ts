@@ -107,7 +107,8 @@ export const subscriptionPaths: OpenAPIV3_1.PathsObject = {
     get: {
       tags: ['Subscriptions'],
       summary: 'Get user feature limits',
-      description: "Retrieve the authenticated user's feature limits based on their subscription tier.",
+      description:
+        "Retrieve the authenticated user's feature limits based on their subscription tier.",
       security: [{ bearerAuth: [] }],
       responses: {
         '200': {
@@ -146,7 +147,8 @@ export const subscriptionPaths: OpenAPIV3_1.PathsObject = {
     post: {
       tags: ['Subscriptions'],
       summary: 'Create subscription',
-      description: 'Create a new subscription. For free tiers, activates immediately. For paid tiers, use /stripe/checkout instead.',
+      description:
+        'Create a new subscription. For free tiers, activates immediately. For paid tiers, use /stripe/checkout instead.',
       security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
@@ -265,7 +267,8 @@ export const subscriptionPaths: OpenAPIV3_1.PathsObject = {
     post: {
       tags: ['Subscriptions'],
       summary: 'Create Stripe billing portal session',
-      description: 'Create a session for the Stripe Customer Portal (manage subscription, payment methods).',
+      description:
+        'Create a session for the Stripe Customer Portal (manage subscription, payment methods).',
       security: [{ bearerAuth: [] }],
       responses: {
         '200': {
@@ -312,7 +315,8 @@ export const subscriptionPaths: OpenAPIV3_1.PathsObject = {
                   success: { type: 'boolean', example: true },
                   message: {
                     type: 'string',
-                    example: 'Subscription cancelled. Access will continue until the end of your billing period.',
+                    example:
+                      'Subscription cancelled. Access will continue until the end of your billing period.',
                   },
                 },
               },

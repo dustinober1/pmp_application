@@ -1,27 +1,11 @@
-import {
-  NodeSDK,
-  NodeSDKConfiguration,
-} from '@opentelemetry/sdk-node';
-import {
-  OTLPTraceExporter,
-} from '@opentelemetry/exporter-trace-otlp-grpc';
-import {
-  OTLPMetricExporter,
-} from '@opentelemetry/exporter-metrics-otlp-proto';
-import {
-  getResource,
-  processDetector,
-  envDetector,
-} from '@opentelemetry/resources';
-import {
-  SemanticResourceAttributes,
-} from '@opentelemetry/semantic-conventions';
-import {
-  InstrumentationOption,
-} from '@opentelemetry/instrumentation';
-import {
-  getNodeAutoInstrumentations,
-} from '@opentelemetry/auto-instrumentations-node';
+// OpenTelemetry Configuration for PMP API
+// Uses @opentelemetry/sdk-node v0.54+
+
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 
 // Service configuration
 const SERVICE_NAME = process.env.OTEL_SERVICE_NAME || 'pmp-api';
@@ -29,30 +13,26 @@ const SERVICE_VERSION = process.env.npm_package_version || '1.0.0';
 const DEPLOYMENT_ENVIRONMENT = process.env.NODE_ENV || 'development';
 
 // Exporter configuration
-const OTEL_EXPORTER_OTLP_ENDPOINT = process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://localhost:4317';
-const OTEL_EXPORTER_OTLP_HEADERS = process.env.OTEL_EXPORTER_OTLP_HEADERS;
+const OTEL_EXPORTER_OTLP_ENDPOINT =
+  process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://localhost:4318/v1';
 
 // Parse headers from environment variable
 let headers: Record<string, string> = {};
-if (OTEL_EXPORTER_OTLP_HEADERS) {
+const otelHeaders = process.env.OTEL_EXPORTER_OTLP_HEADERS;
+if (otelHeaders) {
   try {
-    headers = JSON.parse(OTEL_EXPORTER_OTLP_HEADERS);
+    headers = JSON.parse(otelHeaders);
   } catch (error) {
     console.warn('Failed to parse OTEL_EXPORTER_OTLP_HEADERS:', error);
   }
 }
 
 // Configure resource attributes
-const resource = getResource({
-  detectors: [processDetector, envDetector],
-})
-  .merge(
-    getResource({
-      [SemanticResourceAttributes.SERVICE_NAME]: SERVICE_NAME,
-      [SemanticResourceAttributes.SERVICE_VERSION]: SERVICE_VERSION,
-      [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: DEPLOYMENT_ENVIRONMENT,
-    })
-  );
+const resource = new Resource({
+  [SemanticResourceAttributes.SERVICE_NAME]: SERVICE_NAME,
+  [SemanticResourceAttributes.SERVICE_VERSION]: SERVICE_VERSION,
+  [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: DEPLOYMENT_ENVIRONMENT,
+});
 
 // Configure trace exporter
 const traceExporter = new OTLPTraceExporter({
@@ -60,66 +40,21 @@ const traceExporter = new OTLPTraceExporter({
   headers,
 });
 
-// Configure metrics exporter
-const metricsExporter = new OTLPMetricExporter({
-  url: OTEL_EXPORTER_OTLP_ENDPOINT,
-  headers,
-});
-
 // Configure instrumentations
-const instrumentations: InstrumentationOption[] = getNodeAutoInstrumentations({
-  // Disable instrumentations we don't need
-  '@opentelemetry/instrumentation-fs': {
-    enabled: false,
-  },
-  '@opentelemetry/instrumentation-dns': {
-    enabled: false,
-  },
-  '@opentelemetry/instrumentation-net': {
-    enabled: false,
-  },
-});
+const instrumentations = [
+  getNodeAutoInstrumentations({
+    '@opentelemetry/instrumentation-fs': { enabled: false },
+    '@opentelemetry/instrumentation-dns': { enabled: false },
+    '@opentelemetry/instrumentation-net': { enabled: false },
+  }),
+];
 
-// Configure SDK
-const sdkConfig: NodeSDKConfiguration = {
+// Initialize SDK with minimal configuration for v0.54+
+const sdk = new NodeSDK({
   resource,
   traceExporter,
-  metricReader: undefined, // Using Prometheus for metrics
   instrumentations,
-  serviceName: SERVICE_NAME,
-  // Sampling configuration
-  sampler: {
-    shouldSample: (context, traceId, spanName, spanKind, attributes, links) => {
-      // Sample 100% of requests in development
-      if (DEPLOYMENT_ENVIRONMENT === 'development') {
-        return true;
-      }
-
-      // Sample based on route importance
-      const route = attributes?.[SemanticResourceAttributes.HTTP_ROUTE] as string || '';
-
-      // Critical paths - 100% sampling
-      if (route.includes('/api/stripe') ||
-          route.includes('/api/subscriptions') ||
-          route.includes('/api/auth')) {
-        return true;
-      }
-
-      // Health checks - 10% sampling
-      if (route.includes('/api/health')) {
-        return Math.random() < 0.1;
-      }
-
-      // Default - 30% sampling
-      return Math.random() < 0.3;
-    },
-  },
-  // Add additional span processors for local development
-  spanProcessors: [],
-};
-
-// Initialize SDK
-const sdk = new NodeSDK(sdkConfig);
+});
 
 // Export SDK for initialization
 export { sdk };

@@ -13,6 +13,7 @@ This guide provides step-by-step instructions to set up and configure comprehens
 ---
 
 ## Table of Contents
+
 1. [Quick Start](#quick-start)
 2. [GitHub Actions Security Workflows](#github-actions-security-workflows)
 3. [Local Security Tools](#local-security-tools)
@@ -48,97 +49,119 @@ cat docs/security-reports/security-report-*.md
 All security workflows have been created in `.github/workflows/`:
 
 ### 1. SAST Workflow (`security-sast.yml`)
+
 **Triggers:**
+
 - Push to main/master
 - Pull requests
 - Daily at 2 AM UTC
 - Manual workflow dispatch
 
 **Tools:**
+
 - Semgrep (custom rules for Express/Next.js)
 - CodeQL (GitHub's deep semantic analysis)
 
 **What it does:**
+
 - Scans TypeScript/JavaScript for vulnerabilities
 - Detects SQL injection, XSS, hardcoded secrets
 - Fails build on High/Critical findings
 - Uploads results to GitHub Security tab
 
 **View Results:**
+
 1. Go to repository → Security tab
 2. Click "Code scanning alerts"
 3. Review and remediate findings
 
 ### 2. Dependency Scanning (`security-dependencies.yml`)
+
 **Triggers:**
+
 - Push to main/master
 - Pull requests
 - Daily at 3 AM UTC
 - Manual workflow dispatch
 
 **Tools:**
+
 - npm audit (built-in Node.js vulnerability scanner)
 - Snyk (optional, requires token)
 - Dependabot (auto-creates PRs for updates)
 
 **What it does:**
+
 - Scans all dependencies for vulnerabilities
 - Checks license compliance
 - Auto-merges minor/patch updates via Dependabot
 - Fails on High/Critical vulnerabilities
 
 **Enable Snyk (Optional):**
+
 1. Sign up at https://snyk.io/
 2. Get API token
 3. Add to GitHub Secrets: `SNYK_TOKEN`
 4. Workflow will automatically use Snyk
 
 ### 3. Container Scanning (`security-containers.yml`)
+
 **Triggers:**
+
 - Push to main/master (when Dockerfiles change)
 - Pull requests
 - Daily at 4 AM UTC
 - Manual workflow dispatch
 
 **Tools:**
+
 - Trivy (comprehensive image scanner)
 - Hadolint (Dockerfile linter)
 
 **What it does:**
+
 - Scans Docker images for vulnerabilities
 - Checks Dockerfile best practices
 - Fails deployment if High/Critical found
 - Generates SARIF reports
 
 ### 4. Infrastructure Scanning (`security-infrastructure.yml`)
+
 **Triggers:**
+
 - Push to main/master (when Terraform changes)
 - Pull requests
 - Daily at 5 AM UTC
 - Manual workflow dispatch
 
 **Tools:**
+
 - tfsec (Terraform security scanner)
 - Checkov (IaC security analysis)
 - AWS Security Hub integration
 
 **What it does:**
+
 - Scans Terraform for misconfigurations
 - Checks AWS IAM policies
 - Validates encryption settings
 - Reviews network security rules
 
 ### 5. Secrets Detection (`security-secrets.yml`)
+
 **Triggers:**
+
 - All commits/branches
 - Pull requests
 - Manual workflow dispatch
 
 **Tools:**
+
 - Gitleaks (git history scanner)
 - TruffleHog (advanced secret detection)
 
 **What it does:**
+
 - Scans entire git history for secrets
 - Detects API keys, passwords, tokens
 - Blocks commits with exposed secrets
@@ -229,20 +252,24 @@ git commit -m "test"  # Will scan for secrets before allowing commit
 Add these secrets to your GitHub repository (Settings → Secrets and variables → Actions):
 
 ### For Basic Security Workflows:
+
 - `GITHUB_TOKEN` (automatically provided by GitHub Actions)
 
 ### For Snyk (Optional but Recommended):
+
 1. Go to https://snyk.io/
 2. Create account
 3. Get API token from account settings
 4. Add to GitHub Secrets: `SNYK_TOKEN`
 
 ### For AWS Infrastructure Scanning (Optional):
+
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_REGION` (e.g., `us-east-1`)
 
 ### For Gitleaks License (Optional):
+
 - `GITLEAKS_LICENSE` (enables additional features)
 
 ---
@@ -252,6 +279,7 @@ Add these secrets to your GitHub repository (Settings → Secrets and variables 
 ### Automated Scans (CI/CD)
 
 All security scans run automatically in GitHub Actions:
+
 - **On every commit/PR:** SAST, secrets detection
 - **Daily:** Dependency scanning, container scanning, infrastructure scanning
 - **Manual:** Click "Run workflow" button in Actions tab
@@ -275,6 +303,7 @@ trivy image pmp-api:latest --output trivy-report.txt
 ### Schedule Regular Scans
 
 **Recommended Schedule:**
+
 - **Developers:** Run local scan before pushing code
 - **CI/CD:** Automatic on every commit (already configured)
 - **Weekly:** Review GitHub Security tab for new findings
@@ -288,11 +317,13 @@ trivy image pmp-api:latest --output trivy-report.txt
 ### GitHub Security Tab
 
 Monitor security findings at:
+
 ```
 https://github.com/[owner]/[repo]/security
 ```
 
 **Key Sections:**
+
 1. **Code scanning** - SAST results (Semgrep, CodeQL)
 2. **Dependabot alerts** - Dependency vulnerabilities
 3. **Secret scanning** - Exposed secrets
@@ -314,11 +345,13 @@ aws securityhub get-findings
 ### Alert Configuration
 
 **GitHub Notifications:**
+
 1. Go to Settings → Notifications
 2. Enable "Security alerts" for repositories
 3. Configure email/Slack notifications
 
 **AWS CloudWatch Alarms:**
+
 ```bash
 # Create alarm for GuardDuty findings
 aws cloudwatch put-metric-alarm \
@@ -333,8 +366,10 @@ aws cloudwatch put-metric-alarm \
 ```
 
 **Slack Integration (Optional):**
+
 1. Create Incoming Webhook in Slack
 2. Add to GitHub Actions workflow:
+
 ```yaml
 - name: Notify Slack
   uses: 8398a7/action-slack@v3
@@ -351,6 +386,7 @@ aws cloudwatch put-metric-alarm \
 ### Issue: npm audit fails but no vulnerabilities
 
 **Solution:**
+
 ```bash
 # Clear npm cache
 npm cache clean --force
@@ -368,6 +404,7 @@ npm audit
 ### Issue: Semgrep not finding issues
 
 **Solution:**
+
 ```bash
 # Verify Semgrep installation
 semgrep --version
@@ -385,6 +422,7 @@ semgrep scan --config .semgrep/config.yml --verbose
 ### Issue: Trivy scan times out
 
 **Solution:**
+
 ```bash
 # Use lighter scan (skip DB update)
 trivy image pmp-api:latest --skip-db-update
@@ -399,6 +437,7 @@ trivy image pmp-api:latest --timeout 15m
 ### Issue: GitHub Actions workflows not running
 
 **Check:**
+
 1. Go to Actions tab in GitHub
 2. Click on workflow (e.g., "Security - SAST")
 3. Check if "Workflow run" is enabled
@@ -407,6 +446,7 @@ trivy image pmp-api:latest --timeout 15m
 ### Issue: False positives in security scans
 
 **Solution:**
+
 ```yaml
 # For Semgrep: Add ignore rules in .semgrep/config.yml
 rules:
@@ -479,18 +519,21 @@ paths-ignore:
 ## Additional Resources
 
 ### Documentation
+
 - [Security Baseline](./security-baseline.md)
 - [Incident Response Runbook](./runbooks/security-incident-response.md)
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [CWE Mitigations](https://cwe.mitre.org/)
 
 ### Tools Documentation
+
 - [Semgrep Docs](https://semgrep.dev/docs/)
 - [Trivy Docs](https://aquasecurity.github.io/trivy/)
 - [CodeQL Docs](https://codeql.github.com/docs/)
 - [Snyk Docs](https://docs.snyk.io/)
 
 ### Training
+
 - [OWASP Security Knowledge Framework](https://owasp.org/www-project-security-knowledge-framework/)
 - [SANS Security Awareness](https://www.sans.org/security-awareness-training/)
 - [PortSwigger Web Security Academy](https://portswigger.net/web-security)
@@ -500,11 +543,13 @@ paths-ignore:
 ## Support
 
 ### Internal Support
+
 - **Security Team:** security@example.com
 - **Engineering Slack:** #security
 - **Emergency On-Call:** PagerDuty
 
 ### External Support
+
 - **GitHub Support:** https://support.github.com/
 - **AWS Support:** https://aws.amazon.com/support/
 - **Snyk Support:** https://support.snyk.io/

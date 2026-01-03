@@ -29,27 +29,18 @@ export function createConsoleTransport(isDevelopment: boolean): winston.transpor
             return output;
           })
         )
-      : winston.format.combine(
-          winston.format.timestamp(),
-          winston.format.json()
-        ),
+      : winston.format.combine(winston.format.timestamp(), winston.format.json()),
   });
 }
 
 /**
  * Create file transport for persistent logging
  */
-export function createFileTransport(
-  filename: string,
-  level: string = 'info'
-): winston.transport {
+export function createFileTransport(filename: string, level: string = 'info'): winston.transport {
   return new winston.transports.File({
     filename,
     level,
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json()
-    ),
+    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     maxsize: 10 * 1024 * 1024, // 10MB
     maxFiles: 5,
     tailable: true,
@@ -59,9 +50,7 @@ export function createFileTransport(
 /**
  * Create CloudWatch transport for production logging
  */
-export function createCloudWatchTransport(
-  config: LoggerConfig
-): winston.transport | null {
+export function createCloudWatchTransport(config: LoggerConfig): winston.transport | null {
   if (!config.enableCloudWatch) {
     return null;
   }
@@ -76,10 +65,7 @@ export function createCloudWatchTransport(
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
       },
     },
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json()
-    ),
+    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     messageFormatter: ({ level, message, metadata }) => {
       const logData: any = {
         timestamp: new Date().toISOString(),
@@ -102,9 +88,7 @@ export function createCloudWatchTransport(
 /**
  * Create all transports based on environment
  */
-export function createTransports(
-  config: LoggerConfig
-): winston.transport[] {
+export function createTransports(config: LoggerConfig): winston.transport[] {
   const transports: winston.transport[] = [];
   const isDevelopment = config.environment === 'development';
 
@@ -112,15 +96,11 @@ export function createTransports(
   transports.push(createConsoleTransport(isDevelopment));
 
   // File transport for error logs
-  transports.push(
-    createFileTransport('logs/error.log', 'error')
-  );
+  transports.push(createFileTransport('logs/error.log', 'error'));
 
   // File transport for combined logs in production
   if (!isDevelopment) {
-    transports.push(
-      createFileTransport('logs/combined.log', 'info')
-    );
+    transports.push(createFileTransport('logs/combined.log', 'info'));
   }
 
   // CloudWatch transport in production

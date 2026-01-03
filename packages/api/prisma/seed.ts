@@ -17,47 +17,41 @@ const subscriptionTiers = [
     features: DEFAULT_TIER_FEATURES.free,
   },
   {
-    name: 'mid-level' as TierName,
-    displayName: 'Mid-Level',
+    name: 'pro' as TierName,
+    displayName: 'Pro',
     price: 9.99,
     billingPeriod: 'monthly',
-    features: DEFAULT_TIER_FEATURES['mid-level'],
-  },
-  {
-    name: 'high-end' as TierName,
-    displayName: 'High-End',
-    price: 14.99,
-    billingPeriod: 'monthly',
-    features: DEFAULT_TIER_FEATURES['high-end'],
+    features: DEFAULT_TIER_FEATURES.pro,
   },
   {
     name: 'corporate' as TierName,
     displayName: 'Corporate',
-    price: 19.99,
+    price: 14.99,
     billingPeriod: 'monthly',
     features: DEFAULT_TIER_FEATURES.corporate,
   },
 ];
 
+// Official 2026 PMP Examination Content Outline - Domains
 const domains = [
   {
     code: 'PEOPLE',
     name: 'People',
-    description: 'Managing, leading, and empowering team members and stakeholders.',
+    description: 'Leadership, team dynamics, and stakeholder engagement.',
     weightPercentage: 33,
     orderIndex: 1,
   },
   {
     code: 'PROCESS',
     name: 'Process',
-    description: 'Reinforcing the technical aspects of managing a project.',
+    description: 'Technical project management, planning, and execution.',
     weightPercentage: 41,
     orderIndex: 2,
   },
   {
-    code: 'BUSINESS',
+    code: 'BUSINESS_ENVIRONMENT',
     name: 'Business Environment',
-    description: 'Connecting projects with organizational strategy.',
+    description: 'Strategy, compliance, and organizational context.',
     weightPercentage: 26,
     orderIndex: 3,
   },
@@ -113,15 +107,15 @@ function determineDomain(front: string, back: string): string {
     text.includes('governance') ||
     text.includes('brooks')
   ) {
-    return 'BUSINESS';
+    return 'BUSINESS_ENVIRONMENT';
   }
 
-  // Default to PROCESS for everything else (Scope, Schedule, Cost, Quality, Risk, Procurement, Integration, Agile events/artifacts)
+  // Default to PROCESS for everything else
   return 'PROCESS';
 }
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  console.log('🌱 Seeding database with 2026 PMP Examination Content Outline...');
 
   // Seed subscription tiers
   console.log('  📦 Creating subscription tiers...');
@@ -208,7 +202,7 @@ async function main() {
       create: domain,
     });
     domainMap.set(domain.code, d.id);
-    console.log(`    ✅ ${domain.name} domain`);
+    console.log(`    ✅ ${domain.name} domain (${domain.weightPercentage}%)`);
   }
 
   // Seed 2026 PMP ECO Tasks
@@ -216,27 +210,41 @@ async function main() {
   const taskMap = new Map<string, string>(); // code -> taskId
 
   const eco2026Tasks = [
-    // DOMAIN I: PEOPLE (33%) - 9 Tasks
+    // ==================== DOMAIN I: PEOPLE (33%) - 8 Tasks ====================
     {
       domainCode: 'PEOPLE',
       code: 'I.1',
-      name: 'Develop a Common Vision',
-      description:
-        'Break down situations to identify the root cause of a misunderstanding of the vision; Help ensure a shared vision with key stakeholders; Promote the shared vision; Keep the vision current.',
+      name: 'Develop a common vision',
+      description: 'Create a shared understanding of project objectives and desired outcomes.',
       enablers: [
-        'Break down situations to identify the root cause of a misunderstanding of the vision',
         'Help ensure a shared vision with key stakeholders',
         'Promote the shared vision',
         'Keep the vision current',
+        'Break down situations to identify the root cause of a misunderstanding of the vision',
       ],
       orderIndex: 1,
     },
     {
       domainCode: 'PEOPLE',
       code: 'I.2',
-      name: 'Lead the Project Team',
+      name: 'Manage conflicts',
       description:
-        "Establish expectations at the team level; Empower the team; Solve problems; Represent the voice of the team; Support the team's varied experiences, skills, and perspectives; Determine an appropriate leadership style; Establish clear roles and responsibilities within the team.",
+        'Identify, analyze, and resolve conflicts within the team and with external stakeholders.',
+      enablers: [
+        'Identify conflict sources',
+        'Analyze the context for the conflict',
+        'Implement an agreed-on resolution strategy',
+        'Communicate conflict management principles with the team and external stakeholders',
+        'Establish an environment that fosters adherence to common ground rules',
+        'Manage and rectify ground rule violations',
+      ],
+      orderIndex: 2,
+    },
+    {
+      domainCode: 'PEOPLE',
+      code: 'I.3',
+      name: 'Lead the project team',
+      description: 'Provide direction, guidance, and motivation to the project team.',
       enablers: [
         'Establish expectations at the team level',
         'Empower the team',
@@ -246,28 +254,19 @@ async function main() {
         'Determine an appropriate leadership style',
         'Establish clear roles and responsibilities within the team',
       ],
-      orderIndex: 2,
-    },
-    {
-      domainCode: 'PEOPLE',
-      code: 'I.3',
-      name: 'Support the Team',
-      description: 'Organize and act on mentoring opportunities.',
-      enablers: ['Organize and act on mentoring opportunities'],
       orderIndex: 3,
     },
     {
       domainCode: 'PEOPLE',
       code: 'I.4',
-      name: 'Engage Stakeholders',
-      description:
-        'Identify stakeholders; Analyze stakeholders; Categorize stakeholders; Analyze and tailor communication to stakeholder needs; Execute the stakeholder engagement plan; Build trust and influence stakeholders to accomplish project objectives.',
+      name: 'Engage stakeholders',
+      description: 'Identify and manage stakeholder relationships to ensure project success.',
       enablers: [
         'Identify stakeholders',
         'Analyze stakeholders',
-        'Categorize stakeholders',
         'Analyze and tailor communication to stakeholder needs',
         'Execute the stakeholder engagement plan',
+        'Optimize alignment among stakeholder needs, expectations, and project objectives',
         'Build trust and influence stakeholders to accomplish project objectives',
       ],
       orderIndex: 4,
@@ -275,64 +274,47 @@ async function main() {
     {
       domainCode: 'PEOPLE',
       code: 'I.5',
-      name: 'Manage Stakeholder Expectations',
+      name: 'Align stakeholder expectations',
       description:
-        'Identify stakeholder expectations; Identify internal and external customer expectations; Facilitate discussions to align expectations; Align and maintain outcomes to internal and external customer expectations; Monitor internal and external customer satisfaction/expectations and respond as needed.',
+        'Facilitate discussions to align stakeholder expectations with project realities.',
       enablers: [
+        'Categorize stakeholders',
         'Identify stakeholder expectations',
-        'Identify internal and external customer expectations',
         'Facilitate discussions to align expectations',
-        'Align and maintain outcomes to internal and external customer expectations',
-        'Monitor internal and external customer satisfaction/expectations and respond as needed',
+        'Organize and act on mentoring opportunities',
       ],
       orderIndex: 5,
     },
     {
       domainCode: 'PEOPLE',
       code: 'I.6',
-      name: 'Align Stakeholder Expectations',
-      description:
-        'Optimize alignment among stakeholder needs, expectations, and project objectives.',
+      name: 'Manage stakeholder expectations',
+      description: 'Align and maintain outcomes to internal and external customer expectations.',
       enablers: [
-        'Optimize alignment among stakeholder needs, expectations, and project objectives',
+        'Identify internal and external customer expectations',
+        'Align and maintain outcomes to internal and external customer expectations',
+        'Monitor internal and external customer satisfaction/expectations and respond as needed',
       ],
       orderIndex: 6,
     },
     {
       domainCode: 'PEOPLE',
       code: 'I.7',
-      name: 'Manage Conflicts',
+      name: 'Help ensure knowledge transfer',
       description:
-        'Identify conflict sources; Analyze the context for the conflict; Implement an agreed-on resolution strategy; Communicate conflict management principles with the team and external stakeholders; Establish an environment that fosters adherence to common ground rules; Manage and rectify ground rule violations.',
+        'Identify knowledge critical to the project and foster an environment for knowledge transfer.',
       enablers: [
-        'Identify conflict sources',
-        'Analyze the context for the conflict',
-        'Implement an agreed-on resolution strategy',
-        'Communicate conflict management principles with the team and external stakeholders',
-        'Establish an environment that fosters adherence to common ground rules',
-        'Manage and rectify ground rule violations',
+        'Identify knowledge critical to the project',
+        'Gather knowledge',
+        'Foster an environment for knowledge transfer',
       ],
       orderIndex: 7,
     },
     {
       domainCode: 'PEOPLE',
       code: 'I.8',
-      name: 'Help Ensure Knowledge Transfer',
-      description:
-        'Identify knowledge critical to the project; Gather knowledge; Foster an environment for knowledge transfer.',
-      enablers: [
-        'Identify knowledge critical to the project',
-        'Gather knowledge',
-        'Foster an environment for knowledge transfer',
-      ],
-      orderIndex: 8,
-    },
-    {
-      domainCode: 'PEOPLE',
-      code: 'I.9',
-      name: 'Plan and Manage Communication',
-      description:
-        'Define a communication strategy; Promote transparency and collaboration; Establish a feedback loop; Understand reporting requirements; Create reports aligned with sponsors and stakeholder expectations; Support reporting and governance processes.',
+      name: 'Plan and manage communication',
+      description: 'Define communication strategy and establish feedback loops.',
       enablers: [
         'Define a communication strategy',
         'Promote transparency and collaboration',
@@ -341,298 +323,238 @@ async function main() {
         'Create reports aligned with sponsors and stakeholder expectations',
         'Support reporting and governance processes',
       ],
-      orderIndex: 9,
+      orderIndex: 8,
     },
-    // DOMAIN II: PROCESS (41%) - 11 Tasks
+
+    // ==================== DOMAIN II: PROCESS (41%) - 10 Tasks ====================
     {
       domainCode: 'PROCESS',
       code: 'II.1',
-      name: 'Develop an Integrated Project Management Plan and Plan Delivery',
-      description:
-        'Assess project needs, complexity, and magnitude; Determine critical information requirements (e.g., sustainability); Create an integrated project management plan; Maintain the integrated project management plan.',
+      name: 'Develop an integrated project management plan and plan delivery',
+      description: 'Create and maintain an integrated project management plan.',
       enablers: [
         'Assess project needs, complexity, and magnitude',
+        'Recommend a development approach (predictive, adaptive/agile, or hybrid)',
         'Determine critical information requirements (e.g., sustainability)',
-        'Create an integrated project management plan',
-        'Maintain the integrated project management plan',
+        'Recommend a project execution strategy',
+        'Create and maintain an integrated project management plan',
+        'Estimate work effort and resource requirements',
+        'Assess plans for dependencies, gaps, and continued business value',
+        'Collect and analyze data to make informed project decisions',
+      ],
+      orderIndex: 9,
+    },
+    {
+      domainCode: 'PROCESS',
+      code: 'II.2',
+      name: 'Develop and manage project scope',
+      description: 'Define scope, obtain stakeholder agreement, and break down scope.',
+      enablers: [
+        'Define scope',
+        'Obtain stakeholder agreement on project scope',
+        'Break down scope',
       ],
       orderIndex: 10,
     },
     {
       domainCode: 'PROCESS',
-      code: 'II.2',
-      name: 'Recommend a Project Management Development Approach',
-      description:
-        'Recommend a project management development approach (i.e., predictive, adaptive/agile, or hybrid management); Recommend a project execution strategy.',
+      code: 'II.3',
+      name: 'Help ensure value-based delivery',
+      description: 'Identify value components and prioritize work based on value.',
       enablers: [
-        'Recommend a project management development approach (i.e., predictive, adaptive/agile, or hybrid management)',
-        'Recommend a project execution strategy',
+        'Identify value components with key stakeholders',
+        'Prioritize work based on value and stakeholder feedback',
+        'Assess opportunities to deliver value incrementally',
+        'Examine the business value throughout the project',
+        'Verify a measurement system is in place to track benefits',
+        'Evaluate delivery options to demonstrate value',
       ],
       orderIndex: 11,
     },
     {
       domainCode: 'PROCESS',
-      code: 'II.3',
-      name: 'Develop and Manage Project Scope',
-      description:
-        'Collect and analyze data to make informed project decisions; Define scope; Obtain stakeholder agreement on project scope; Break down scope.',
+      code: 'II.4',
+      name: 'Plan and manage resources',
+      description: 'Define and plan resources based on requirements and optimize resource needs.',
       enablers: [
-        'Collect and analyze data to make informed project decisions',
-        'Define scope',
-        'Obtain stakeholder agreement on project scope',
-        'Break down scope',
+        'Define and plan resources based on requirements',
+        'Manage and optimize resource needs and availability',
       ],
       orderIndex: 12,
     },
     {
       domainCode: 'PROCESS',
-      code: 'II.4',
-      name: 'Help Ensure Value-Based Delivery',
-      description:
-        'Identify value components with key stakeholders; Evaluate delivery options to demonstrate value; Prioritize work based on value and stakeholder feedback; Assess opportunities to deliver value incrementally; Examine the business value throughout the project; Verify a measurement system is in place to track benefits.',
+      code: 'II.5',
+      name: 'Plan and manage procurement',
+      description: 'Plan and execute procurement management plan and manage suppliers/contracts.',
       enablers: [
-        'Identify value components with key stakeholders',
-        'Evaluate delivery options to demonstrate value',
-        'Prioritize work based on value and stakeholder feedback',
-        'Assess opportunities to deliver value incrementally',
-        'Examine the business value throughout the project',
-        'Verify a measurement system is in place to track benefits',
+        'Plan and execute a procurement management plan',
+        'Select preferred contract types and manage suppliers/contracts',
+        'Evaluate vendor performance and verify objectives are met',
+        'Participate in agreement negotiations and determine strategy',
+        'Develop a delivery solution',
       ],
       orderIndex: 13,
     },
     {
       domainCode: 'PROCESS',
-      code: 'II.5',
-      name: 'Plan and Manage Resources',
-      description:
-        'Estimate work effort and resource requirements; Define and plan resources based on requirements; Manage and optimize resource needs and availability; Coordinate with other projects and operations.',
+      code: 'II.6',
+      name: 'Plan and manage finance',
+      description: 'Analyze project financial needs and monitor financial variations.',
       enablers: [
-        'Estimate work effort and resource requirements',
-        'Define and plan resources based on requirements',
-        'Manage and optimize resource needs and availability',
-        'Coordinate with other projects and operations',
+        'Analyze project financial needs',
+        'Quantify risk and contingency financial allocations',
+        'Plan spend tracking and financial reporting',
+        'Anticipate future finance challenges',
+        'Monitor financial variations and manage financial reserves',
       ],
       orderIndex: 14,
     },
     {
       domainCode: 'PROCESS',
-      code: 'II.6',
-      name: 'Plan and Manage Procurement',
+      code: 'II.7',
+      name: 'Plan and optimize quality of products/deliverables',
       description:
-        'Plan procurement; Execute a procurement management plan; Select preferred contract types; Participate in agreement negotiations; Determine a negotiation strategy; Manage suppliers and contracts; Plan and manage the procurement strategy; Develop a delivery solution; Evaluate vendor performance; Verify objectives of the procurement agreement are met.',
+        'Gather requirements, execute quality management plan, and ensure regulatory compliance.',
       enablers: [
-        'Plan procurement',
-        'Execute a procurement management plan',
-        'Select preferred contract types',
-        'Participate in agreement negotiations',
-        'Determine a negotiation strategy',
-        'Manage suppliers and contracts',
-        'Plan and manage the procurement strategy',
-        'Develop a delivery solution',
-        'Evaluate vendor performance',
-        'Verify objectives of the procurement agreement are met',
+        'Gather requirements and plan quality processes/tools',
+        'Execute a quality management plan and ensure regulatory compliance',
+        'Manage cost of quality (CoQ) and sustainability',
+        'Conduct ongoing quality reviews and implement continuous improvement',
       ],
       orderIndex: 15,
     },
     {
       domainCode: 'PROCESS',
-      code: 'II.7',
-      name: 'Plan and Manage Finance',
-      description:
-        'Analyze project financial needs; Plan financial reporting; Anticipate future finance challenges; Monitor financial variations and work with the governance process; Manage financial reserves; Quantify risk and contingency financial allocations; Plan spend tracking throughout the project life cycle.',
+      code: 'II.8',
+      name: 'Plan and manage schedule',
+      description: 'Prepare and baseline a schedule based on the development approach.',
       enablers: [
-        'Analyze project financial needs',
-        'Plan financial reporting',
-        'Anticipate future finance challenges',
-        'Monitor financial variations and work with the governance process',
-        'Manage financial reserves',
-        'Quantify risk and contingency financial allocations',
-        'Plan spend tracking throughout the project life cycle',
+        'Prepare and baseline a schedule based on the development approach',
+        'Coordinate with other projects and operations',
+        'Estimate project tasks (milestones, dependencies, story points)',
+        'Utilize benchmarks and historical data',
+        'Execute a schedule management plan and analyze variation',
       ],
       orderIndex: 16,
     },
     {
       domainCode: 'PROCESS',
-      code: 'II.8',
-      name: 'Plan and Optimize Quality of Products/Deliverables',
-      description:
-        'Gather quality requirements for project deliverables; Plan quality processes and tools; Execute a quality management plan; Help ensure regulatory compliance; Manage cost of quality (CoQ) and sustainability; Conduct ongoing quality reviews; Implement continuous improvement.',
+      code: 'II.9',
+      name: 'Evaluate project status',
+      description: 'Develop project metrics and assess current progress.',
       enablers: [
-        'Gather quality requirements for project deliverables',
-        'Plan quality processes and tools',
-        'Execute a quality management plan',
-        'Help ensure regulatory compliance',
-        'Manage cost of quality (CoQ) and sustainability',
-        'Conduct ongoing quality reviews',
-        'Implement continuous improvement',
+        'Develop project metrics, analysis, and reconciliation',
+        'Identify, tailor, and manage project artifacts (accessibility, effectiveness)',
+        'Assess current progress and communicate project status',
       ],
       orderIndex: 17,
     },
     {
       domainCode: 'PROCESS',
-      code: 'II.9',
-      name: 'Plan and Manage Schedule',
-      description:
-        'Prepare a schedule based on the selected development approach; Estimate project tasks (milestones, dependencies, story points); Utilize benchmarks and historical data; Create a project schedule; Baseline a project schedule; Execute a schedule management plan; Analyze schedule variation.',
+      code: 'II.10',
+      name: 'Manage project closure',
+      description: 'Obtain stakeholder approval and conclude activities.',
       enablers: [
-        'Prepare a schedule based on the selected development approach',
-        'Estimate project tasks (milestones, dependencies, story points)',
-        'Utilize benchmarks and historical data',
-        'Create a project schedule',
-        'Baseline a project schedule',
-        'Execute a schedule management plan',
-        'Analyze schedule variation',
+        'Obtain stakeholder approval and determine closure criteria',
+        'Validate readiness for transition (e.g., to operations or next phase)',
+        'Conclude activities (lessons learned, retrospectives, financials, resources)',
       ],
       orderIndex: 18,
     },
+
+    // ==================== DOMAIN III: BUSINESS ENVIRONMENT (26%) - 8 Tasks ====================
     {
-      domainCode: 'PROCESS',
-      code: 'II.10',
-      name: 'Evaluate Project Status',
-      description:
-        'Assess consolidated project plans for dependencies, gaps, and continued business value; Develop project metrics, analysis, and reconciliation; Identify and tailor needed artifacts; Help ensure artifacts are created, reviewed, updated, and documented; Help ensure accessibility of artifacts; Assess current progress; Measure, analyze, and update project metrics; Communicate project status; Continually assess the effectiveness of artifact management.',
+      domainCode: 'BUSINESS_ENVIRONMENT',
+      code: 'III.1',
+      name: 'Define and establish project governance',
+      description: 'Establish structure, rules, reporting, ethics, and policies using OPAs.',
       enablers: [
-        'Assess consolidated project plans for dependencies, gaps, and continued business value',
-        'Develop project metrics, analysis, and reconciliation',
-        'Identify and tailor needed artifacts',
-        'Help ensure artifacts are created, reviewed, updated, and documented',
-        'Help ensure accessibility of artifacts',
-        'Assess current progress',
-        'Measure, analyze, and update project metrics',
-        'Communicate project status',
-        'Continually assess the effectiveness of artifact management',
+        'Establish structure, rules, reporting, ethics, and policies using OPAs',
+        'Define success metrics and governance escalation paths/thresholds',
       ],
       orderIndex: 19,
     },
     {
-      domainCode: 'PROCESS',
-      code: 'II.11',
-      name: 'Manage Project Closure',
-      description:
-        'Obtain project stakeholder approval of project completion; Determine criteria to successfully close the project or phase; Validate readiness for transition (e.g., to operations team or next phase); Conclude activities to close the project or phase (e.g., final lessons learned, retrospectives, procurement, financials, resources).',
+      domainCode: 'BUSINESS_ENVIRONMENT',
+      code: 'III.2',
+      name: 'Plan and manage project compliance',
+      description: 'Confirm requirements and measure the extent of compliance.',
       enablers: [
-        'Obtain project stakeholder approval of project completion',
-        'Determine criteria to successfully close the project or phase',
-        'Validate readiness for transition (e.g., to operations team or next phase)',
-        'Conclude activities to close the project or phase (e.g., final lessons learned, retrospectives, procurement, financials, resources)',
+        'Confirm requirements (security, health/safety, sustainability, regulatory)',
+        'Classify compliance categories and determine threats',
+        'Analyze consequences of noncompliance and address needs',
+        'Measure the extent of compliance',
       ],
       orderIndex: 20,
     },
-    // DOMAIN III: BUSINESS ENVIRONMENT (26%) - 8 Tasks
     {
-      domainCode: 'BUSINESS',
-      code: 'III.1',
-      name: 'Define and Establish Project Governance',
-      description:
-        'Describe and establish the structure, rules, procedures, reporting, ethics, and policies through the use of organizational process assets (OPAs); Outline governance escalation paths and thresholds; Define success metrics.',
+      domainCode: 'BUSINESS_ENVIRONMENT',
+      code: 'III.3',
+      name: 'Manage and control changes',
+      description: 'Execute the change control process and implement approved changes.',
       enablers: [
-        'Describe and establish the structure, rules, procedures, reporting, ethics, and policies through the use of organizational process assets (OPAs)',
-        'Outline governance escalation paths and thresholds',
-        'Define success metrics',
+        'Execute the change control process and communicate status',
+        'Implement approved changes and update documentation',
       ],
       orderIndex: 21,
     },
     {
-      domainCode: 'BUSINESS',
-      code: 'III.2',
-      name: 'Plan and Manage Project Compliance',
-      description:
-        'Confirm project compliance requirements (e.g., security, health and safety, sustainability, regulatory compliance); Classify compliance categories; Determine potential threats to compliance; Use methods to support compliance; Analyze the consequences of noncompliance; Determine the necessary approach and action(s) to address compliance needs; Measure the extent to which the project is in compliance.',
+      domainCode: 'BUSINESS_ENVIRONMENT',
+      code: 'III.4',
+      name: 'Remove impediments and manage issues',
+      description: 'Evaluate, prioritize, and remove impediments/obstacles/blockers.',
       enablers: [
-        'Confirm project compliance requirements (e.g., security, health and safety, sustainability, regulatory compliance)',
-        'Classify compliance categories',
-        'Determine potential threats to compliance',
-        'Use methods to support compliance',
-        'Analyze the consequences of noncompliance',
-        'Determine the necessary approach and action(s) to address compliance needs',
-        'Measure the extent to which the project is in compliance',
+        'Evaluate, prioritize, and remove impediments/obstacles/blockers',
+        'Recognize when a risk becomes an issue and collaborate on resolution',
       ],
       orderIndex: 22,
     },
     {
-      domainCode: 'BUSINESS',
-      code: 'III.3',
-      name: 'Manage and Control Changes',
-      description:
-        'Execute the change control process; Communicate the status of proposed changes; Implement approved changes to the project; Update project documentation to reflect changes.',
+      domainCode: 'BUSINESS_ENVIRONMENT',
+      code: 'III.5',
+      name: 'Plan and manage risk',
+      description: 'Identify, analyze, monitor, and control risks.',
       enablers: [
-        'Execute the change control process',
-        'Communicate the status of proposed changes',
-        'Implement approved changes to the project',
-        'Update project documentation to reflect changes',
+        'Identify, analyze, monitor, and control risks',
+        'Develop and execute a risk management plan (including sustainability risks)',
+        'Maintain a risk register and communicate risk impacts',
       ],
       orderIndex: 23,
     },
     {
-      domainCode: 'BUSINESS',
-      code: 'III.4',
-      name: 'Remove Impediments and Manage Issues',
-      description:
-        'Evaluate the impact of impediments; Recognize when a risk becomes an issue; Prioritize and highlight impediments; Determine and apply an intervention strategy to remove/minimize impediments; Reassess continually to help ensure impediments, obstacles, and blockers for the team are being addressed; Collaborate with relevant stakeholders on an approach to resolve the issues.',
+      domainCode: 'BUSINESS_ENVIRONMENT',
+      code: 'III.6',
+      name: 'Continuous improvement',
+      description: 'Utilize lessons learned and update organizational process assets.',
       enablers: [
-        'Evaluate the impact of impediments',
-        'Recognize when a risk becomes an issue',
-        'Prioritize and highlight impediments',
-        'Determine and apply an intervention strategy to remove/minimize impediments',
-        'Reassess continually to help ensure impediments, obstacles, and blockers for the team are being addressed',
-        'Collaborate with relevant stakeholders on an approach to resolve the issues',
+        'Utilize lessons learned and ensure improvement processes are updated',
+        'Update organizational process assets (OPAs)',
       ],
       orderIndex: 24,
     },
     {
-      domainCode: 'BUSINESS',
-      code: 'III.5',
-      name: 'Plan and Manage Risk',
+      domainCode: 'BUSINESS_ENVIRONMENT',
+      code: 'III.7',
+      name: 'Support organizational change',
       description:
-        'Identify risks; Analyze risks; Monitor and control risks; Develop a risk management plan; Maintain a risk register (e.g., poor IT security); Execute a risk management plan (e.g., risk response for security and managing sustainability risks); Communicate the status of a risk impact on the project.',
+        'Assess organizational culture and evaluate the mutual impact between organizational change and the project.',
       enablers: [
-        'Identify risks',
-        'Analyze risks',
-        'Monitor and control risks',
-        'Develop a risk management plan',
-        'Maintain a risk register (e.g., poor IT security)',
-        'Execute a risk management plan (e.g., risk response for security and managing sustainability risks)',
-        'Communicate the status of a risk impact on the project',
+        'Assess organizational culture',
+        'Evaluate the mutual impact between organizational change and the project',
       ],
       orderIndex: 25,
     },
     {
-      domainCode: 'BUSINESS',
-      code: 'III.6',
-      name: 'Continuous Improvement',
-      description:
-        'Utilize lessons learned; Help ensure continuous improvement processes are updated; Update organizational process assets (OPAs).',
+      domainCode: 'BUSINESS_ENVIRONMENT',
+      code: 'III.8',
+      name: 'Evaluate external business environment changes',
+      description: 'Survey changes and assess impact on project scope/backlog.',
       enablers: [
-        'Utilize lessons learned',
-        'Help ensure continuous improvement processes are updated',
-        'Update organizational process assets (OPAs)',
+        'Survey changes (regulations, technology, geopolitical, market)',
+        'Assess and prioritize impact on project scope/backlog',
       ],
       orderIndex: 26,
-    },
-    {
-      domainCode: 'BUSINESS',
-      code: 'III.7',
-      name: 'Support Organizational Change',
-      description:
-        'Assess organizational culture; Evaluate the impact of organizational change on the project and determine required actions.',
-      enablers: [
-        'Assess organizational culture',
-        'Evaluate the impact of organizational change on the project and determine required actions',
-      ],
-      orderIndex: 27,
-    },
-    {
-      domainCode: 'BUSINESS',
-      code: 'III.8',
-      name: 'Evaluate External Business Environment Changes',
-      description:
-        'Survey changes to the external business environment (e.g., regulations, technology, geopolitical, market); Assess and prioritize the impact on project scope/backlog based on changes in the external business environment; Continually review the external business environment for impacts on project scope/backlog.',
-      enablers: [
-        'Survey changes to the external business environment (e.g., regulations, technology, geopolitical, market)',
-        'Assess and prioritize the impact on project scope/backlog based on changes in the external business environment',
-        'Continually review the external business environment for impacts on project scope/backlog',
-      ],
-      orderIndex: 28,
     },
   ];
 
@@ -665,9 +587,10 @@ async function main() {
   // Seed Flashcards from CSV
   console.log('  🃏 Seeding flashcards from CSV...');
   try {
-    const csvPath = path.join(__dirname, '../../../flashcards/01_introduction.csv');
-    if (fs.existsSync(csvPath)) {
-      const fileContent = fs.readFileSync(csvPath, 'utf-8');
+    // Import Introduction flashcards
+    const introCsvPath = path.join(__dirname, '../../../flashcards/01_introduction.csv');
+    if (fs.existsSync(introCsvPath)) {
+      const fileContent = fs.readFileSync(introCsvPath, 'utf-8');
       const lines = fileContent.split('\n').filter(line => line.trim() !== '');
 
       let count = 0;
@@ -683,7 +606,7 @@ async function main() {
         let taskId: string | undefined;
         if (domainCode === 'PEOPLE') taskId = taskMap.get('I.1');
         else if (domainCode === 'PROCESS') taskId = taskMap.get('II.1');
-        else if (domainCode === 'BUSINESS') taskId = taskMap.get('III.1');
+        else if (domainCode === 'BUSINESS_ENVIRONMENT') taskId = taskMap.get('III.1');
 
         if (domainId && taskId) {
           // Check if card exists to avoid duplicates (simple check by front text)
@@ -705,15 +628,60 @@ async function main() {
           }
         }
       }
-      console.log(`    ✅ Imported ${count} flashcards`);
+      console.log(`    ✅ Imported ${count} introduction flashcards`);
     } else {
-      console.warn(`    ⚠️ CSV file not found at ${csvPath}`);
+      console.warn(`    ⚠️ CSV file not found at ${introCsvPath}`);
+    }
+
+    // Import Business Task 1 (Governance) flashcards
+    const businessTask1CsvPath = path.join(
+      __dirname,
+      '../../../flashcards/02_business_task1_governance.csv'
+    );
+    if (fs.existsSync(businessTask1CsvPath)) {
+      const fileContent = fs.readFileSync(businessTask1CsvPath, 'utf-8');
+      const lines = fileContent.split('\n').filter(line => line.trim() !== '');
+
+      const businessDomainId = domainMap.get('BUSINESS_ENVIRONMENT');
+      const businessTask1Id = taskMap.get('III.1');
+
+      if (businessDomainId && businessTask1Id) {
+        let count = 0;
+        for (const line of lines) {
+          const [front, back] = parseCSVLine(line);
+          if (!front || !back) continue;
+
+          // Check if card exists to avoid duplicates
+          const existing = await prisma.flashcard.findFirst({
+            where: { front: front, domainId: businessDomainId },
+          });
+
+          if (!existing) {
+            await prisma.flashcard.create({
+              data: {
+                front,
+                back,
+                domainId: businessDomainId,
+                taskId: businessTask1Id,
+                isCustom: false,
+              },
+            });
+            count++;
+          }
+        }
+        console.log(`    ✅ Imported ${count} Business Task 1 (Governance) flashcards`);
+      }
+    } else {
+      console.warn(`    ⚠️ CSV file not found at ${businessTask1CsvPath}`);
     }
   } catch (error) {
     console.error('    ❌ Error importing flashcards:', error);
   }
 
   console.log('✅ Seed completed successfully!');
+  console.log(
+    `📊 Summary: 3 domains, ${eco2026Tasks.length} tasks (People: 8, Process: 10, Business Environment: 8)`
+  );
 }
 
 main()

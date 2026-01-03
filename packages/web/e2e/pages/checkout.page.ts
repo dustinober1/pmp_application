@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 import { TestHelpers } from '../utils/test-helpers';
 
 /**
@@ -87,7 +87,7 @@ export class CheckoutPage {
    * Get total amount
    */
   async getTotalAmount(): Promise<string> {
-    return await this.totalAmount.textContent() || '';
+    return (await this.totalAmount.textContent()) || '';
   }
 
   /**

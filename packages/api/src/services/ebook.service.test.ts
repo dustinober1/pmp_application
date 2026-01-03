@@ -58,7 +58,7 @@ describe('EbookService - Tier-Based Access Control', () => {
     it('should return all chapters with metadata', async () => {
       const chapters = [
         mockChapter({ slug: '01-introduction', isPremium: false, minTier: 'free' }),
-        mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' }),
+        mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' }),
       ];
 
       (prisma.ebookChapter.findMany as jest.Mock).mockResolvedValue([
@@ -78,7 +78,7 @@ describe('EbookService - Tier-Based Access Control', () => {
       if (result[1]) {
         expect(result[1].slug).toBe('02-planning');
         expect(result[1].isPremium).toBe(true);
-        expect(result[1].minTier).toBe('mid-level');
+        expect(result[1].minTier).toBe('pro');
         expect(result[1].sectionCount).toBe(10);
       }
     });
@@ -167,7 +167,7 @@ describe('EbookService - Tier-Based Access Control', () => {
     );
 
     test.each(freeChapterSlugs)(
-      'should allow access to free chapter %s for mid-level user',
+      'should allow access to free chapter %s for pro user',
       async chapterSlug => {
         const chapter = mockChapter({ slug: chapterSlug, isPremium: false, minTier: 'free' });
 
@@ -179,7 +179,7 @@ describe('EbookService - Tier-Based Access Control', () => {
           mockSection({ chapterId: 'chapter-1', slug: 'section-1' })
         );
 
-        const result = await ebookService.getSectionBySlug(chapterSlug, 'section-1', 'mid-level');
+        const result = await ebookService.getSectionBySlug(chapterSlug, 'section-1', 'pro');
 
         expect(result.slug).toBe('section-1');
         expect(result.content).toBeDefined();
@@ -189,7 +189,7 @@ describe('EbookService - Tier-Based Access Control', () => {
 
   describe('getSectionBySlug - Premium Chapters (tier-based access)', () => {
     it('should deny access to premium chapter for free user', async () => {
-      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' });
+      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock).mockResolvedValueOnce(chapter);
 
@@ -202,7 +202,7 @@ describe('EbookService - Tier-Based Access Control', () => {
     });
 
     it('should deny access to premium chapter for anonymous user', async () => {
-      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' });
+      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock).mockResolvedValueOnce(chapter);
 
@@ -214,8 +214,8 @@ describe('EbookService - Tier-Based Access Control', () => {
       });
     });
 
-    it('should allow access to mid-level premium chapter for mid-level user', async () => {
-      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' });
+    it('should allow access to pro premium chapter for pro user', async () => {
+      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock)
         .mockResolvedValueOnce(chapter)
@@ -225,14 +225,14 @@ describe('EbookService - Tier-Based Access Control', () => {
         mockSection({ chapterId: 'chapter-1', slug: 'section-1' })
       );
 
-      const result = await ebookService.getSectionBySlug('02-planning', 'section-1', 'mid-level');
+      const result = await ebookService.getSectionBySlug('02-planning', 'section-1', 'pro');
 
       expect(result.slug).toBe('section-1');
       expect(result.content).toBeDefined();
     });
 
-    it('should allow access to mid-level premium chapter for high-end user', async () => {
-      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' });
+    it('should allow access to pro premium chapter for pro user', async () => {
+      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock)
         .mockResolvedValueOnce(chapter)
@@ -242,14 +242,14 @@ describe('EbookService - Tier-Based Access Control', () => {
         mockSection({ chapterId: 'chapter-1', slug: 'section-1' })
       );
 
-      const result = await ebookService.getSectionBySlug('02-planning', 'section-1', 'high-end');
+      const result = await ebookService.getSectionBySlug('02-planning', 'section-1', 'pro');
 
       expect(result.slug).toBe('section-1');
       expect(result.content).toBeDefined();
     });
 
-    it('should allow access to mid-level premium chapter for corporate user', async () => {
-      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' });
+    it('should allow access to pro premium chapter for corporate user', async () => {
+      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock)
         .mockResolvedValueOnce(chapter)
@@ -265,21 +265,21 @@ describe('EbookService - Tier-Based Access Control', () => {
       expect(result.content).toBeDefined();
     });
 
-    it('should deny access to high-end premium chapter for mid-level user', async () => {
-      const chapter = mockChapter({ slug: '03-advanced', isPremium: true, minTier: 'high-end' });
+    it('should deny access to pro premium chapter for pro user', async () => {
+      const chapter = mockChapter({ slug: '03-advanced', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock).mockResolvedValueOnce(chapter);
 
       await expect(
-        ebookService.getSectionBySlug('03-advanced', 'section-1', 'mid-level')
+        ebookService.getSectionBySlug('03-advanced', 'section-1', 'pro')
       ).rejects.toMatchObject({
         statusCode: 403,
         code: 'PREMIUM_CONTENT',
       });
     });
 
-    it('should allow access to high-end premium chapter for high-end user', async () => {
-      const chapter = mockChapter({ slug: '03-advanced', isPremium: true, minTier: 'high-end' });
+    it('should allow access to pro premium chapter for pro user', async () => {
+      const chapter = mockChapter({ slug: '03-advanced', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock)
         .mockResolvedValueOnce(chapter)
@@ -289,14 +289,14 @@ describe('EbookService - Tier-Based Access Control', () => {
         mockSection({ chapterId: 'chapter-1', slug: 'section-1' })
       );
 
-      const result = await ebookService.getSectionBySlug('03-advanced', 'section-1', 'high-end');
+      const result = await ebookService.getSectionBySlug('03-advanced', 'section-1', 'pro');
 
       expect(result.slug).toBe('section-1');
       expect(result.content).toBeDefined();
     });
 
-    it('should allow access to high-end premium chapter for corporate user', async () => {
-      const chapter = mockChapter({ slug: '03-advanced', isPremium: true, minTier: 'high-end' });
+    it('should allow access to pro premium chapter for corporate user', async () => {
+      const chapter = mockChapter({ slug: '03-advanced', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock)
         .mockResolvedValueOnce(chapter)
@@ -396,8 +396,8 @@ describe('EbookService - Tier-Based Access Control', () => {
   describe('searchContent - Tier-based filtering', () => {
     const mockChapters = [
       mockChapter({ slug: '01-introduction', isPremium: false, minTier: 'free' }),
-      mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' }),
-      mockChapter({ slug: '03-advanced', isPremium: true, minTier: 'high-end' }),
+      mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' }),
+      mockChapter({ slug: '03-advanced', isPremium: true, minTier: 'pro' }),
     ];
 
     it('should return only free content for anonymous user', async () => {
@@ -417,7 +417,7 @@ describe('EbookService - Tier-Based Access Control', () => {
       expect(searchResult.results[0]?.chapterSlug).toBe('01-introduction');
     });
 
-    it('should return free + mid-level content for mid-level user', async () => {
+    it('should return free + pro content for pro user', async () => {
       (prisma.ebookChapter.findMany as jest.Mock).mockResolvedValue(mockChapters);
 
       (prisma.ebookSection.findMany as jest.Mock).mockResolvedValue([
@@ -433,7 +433,7 @@ describe('EbookService - Tier-Based Access Control', () => {
         },
       ]);
 
-      const searchResult = await ebookService.searchContent('project', 'mid-level');
+      const searchResult = await ebookService.searchContent('project', 'pro');
 
       expect(searchResult.results).toHaveLength(2);
       const chapterSlugs = searchResult.results.map(r => r.chapterSlug);
@@ -566,7 +566,7 @@ describe('EbookService - Tier-Based Access Control', () => {
 
   describe('Tier hierarchy edge cases', () => {
     it('should handle null userTier as free tier', async () => {
-      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' });
+      const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' });
 
       (prisma.ebookChapter.findUnique as jest.Mock).mockResolvedValueOnce(chapter);
 
@@ -579,11 +579,11 @@ describe('EbookService - Tier-Based Access Control', () => {
     });
 
     it('should handle all tier levels correctly', async () => {
-      const tierLevels: Array<TierName> = ['free', 'mid-level', 'high-end', 'corporate'];
+      const tierLevels: Array<TierName> = ['free', 'pro', 'pro', 'corporate'];
 
       for (const tier of tierLevels) {
         jest.clearAllMocks();
-        const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'mid-level' });
+        const chapter = mockChapter({ slug: '02-planning', isPremium: true, minTier: 'pro' });
 
         (prisma.ebookChapter.findUnique as jest.Mock).mockResolvedValueOnce(chapter);
 

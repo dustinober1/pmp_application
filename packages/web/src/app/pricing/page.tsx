@@ -18,7 +18,7 @@ export default function PricingPage() {
       priceDisplay: 'Free',
       description: 'Perfect for starting your PMP journey.',
       features: DEFAULT_TIER_FEATURES['free'],
-      buttonText: user ? 'Current Plan' : 'Get Started',
+      buttonText: user?.tier === 'free' ? 'Current Plan' : 'Get Started',
       buttonHref: user ? '/dashboard' : '/auth/register',
       highlight: false,
       // Custom feature descriptions for display
@@ -29,30 +29,14 @@ export default function PricingPage() {
       },
     },
     {
-      id: 'mid-level',
-      name: 'Mid-Level',
+      id: 'pro',
+      name: 'Pro',
       price: billingPeriod === 'monthly' ? 9.99 : 99.9,
       annualPrice: 99.9,
-      description: 'Great for dedicated PMP candidates.',
-      features: DEFAULT_TIER_FEATURES['mid-level'],
-      buttonText: user?.tier === 'mid-level' ? 'Current Plan' : 'Upgrade to Mid-Level',
-      buttonHref: '/checkout?tier=mid-level',
-      highlight: false,
-      featureDisplay: {
-        flashcards: '1000+ Flashcards',
-        practiceExams: '3 Full-length Practice Exams',
-        feedback: 'More Detailed Feedback',
-      },
-    },
-    {
-      id: 'high-end',
-      name: 'High-End',
-      price: billingPeriod === 'monthly' ? 14.99 : 149.9,
-      annualPrice: 149.9,
       description: 'Comprehensive preparation for exam success.',
-      features: DEFAULT_TIER_FEATURES['high-end'],
-      buttonText: user?.tier === 'high-end' ? 'Current Plan' : 'Upgrade to High-End',
-      buttonHref: '/checkout?tier=high-end',
+      features: DEFAULT_TIER_FEATURES['pro'],
+      buttonText: user?.tier === 'pro' ? 'Current Plan' : 'Upgrade to Pro',
+      buttonHref: '/checkout?tier=pro',
       highlight: true,
       popular: true,
       featureDisplay: {
@@ -64,8 +48,8 @@ export default function PricingPage() {
     {
       id: 'corporate',
       name: 'Corporate Team',
-      price: billingPeriod === 'monthly' ? 19.99 : 199.9,
-      annualPrice: 199.9,
+      price: billingPeriod === 'monthly' ? 14.99 : 149.9,
+      annualPrice: 149.9,
       perSeat: true,
       description: 'Manage your entire team with advanced analytics.',
       features: DEFAULT_TIER_FEATURES['corporate'],
@@ -120,7 +104,7 @@ export default function PricingPage() {
           </div>
         </div>
 
-        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
+        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-3">
           {tiers.map(tier => (
             <div
               key={tier.id}

@@ -49,11 +49,15 @@ type TestFixtures = {
   testUser: TestUser;
 };
 
-export const test = base.extend<TestFixtures>({
+/* eslint-disable no-empty-pattern */
+/* eslint-disable react-hooks/rules-of-hooks */
+export const test = base.extend<TestFixtures & { page?: unknown }>({
   testUser: async ({}, use) => {
     // Default to standard user
     await use(testUsers.standard);
   },
 });
+/* eslint-enable react-hooks/rules-of-hooks */
+/* eslint-enable no-empty-pattern */
 
 export { expect } from '@playwright/test';

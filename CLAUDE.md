@@ -129,8 +129,9 @@ src/app/
   ├── dashboard/         # User dashboard with progress analytics
   ├── study/             # Study guides by PMI domain
   ├── flashcards/        # Spaced repetition flashcard system
+  │   ├── page.tsx       # Overview with stats and session options
   │   ├── session/[sessionId]/  # Active study session with swipe gestures
-  │   └── create/        # Custom flashcard creation
+  │   └── create/        # Custom flashcard creation (Pro tier)
   ├── practice/          # Practice questions with mock exams
   │   ├── session/[sessionId]/  # Question session
   │   └── mock/session/[sessionId]/  # 180-question mock exam
@@ -145,15 +146,28 @@ src/components/
   ├── ThemeProvider.tsx  # Dark/light theme management
   ├── I18nProvider.tsx   # English/Spanish i18n (i18next)
   ├── Footer.tsx         # Footer with Product, Company, Legal sections
-  └── SanitizedMarkdown.tsx  # XSS-safe markdown rendering
+  ├── SanitizedMarkdown.tsx  # XSS-safe markdown rendering
+  └── FullPageSkeleton.tsx  # Loading skeleton
 
 src/contexts/
   └── AuthContext.tsx    # Authentication state, login/logout
 
+src/hooks/
+  └── useRequireAuth.tsx # Route protection hook
+
 src/lib/
   ├── api.ts             # API client with error handling, toast notifications
   └── sync.ts            # Service worker for offline support
+
+src/data/
+  └── pmpExamContent.ts  # Static PMI domain/task definitions
 ```
+
+**Flashcard Session Features:**
+
+- **Random 20 cards** - Default "Study Session" option
+- **Prioritize due cards** - "Review Due Cards" for spaced repetition
+- **Focused sessions** - Filter by domain and/or task with configurable card count (10/20/30/50)
 
 **Key Frontend Patterns:**
 
@@ -185,10 +199,9 @@ src/lib/
 
 **Subscription Tiers:**
 
-- `free` - limited study guides, 50 flashcards, 25 questions/domain
-- `mid-level` - full study guides, unlimited flashcards, 100 questions/domain
-- `high-end` - everything + mock exams + formula calculator + custom flashcards
-- `corporate` - everything + team management + advanced analytics
+- `free` - limited study guides, 500 flashcards, 25 questions/domain
+- `pro` - full study guides, 2000 flashcards, 200 questions/domain, mock exams, formula calculator, personalized study plans, custom flashcards
+- `corporate` - everything in Pro + team management, advanced analytics, dedicated support ($14.99/seat)
 
 ## Critical Implementation Notes
 
@@ -249,7 +262,7 @@ router.post('/', requireAuth, requireFeature('customFlashcards'), async (req, re
 **Frontend:**
 
 ```typescript
-const canAccessFeature = user?.tier === 'high-end' || user?.tier === 'corporate';
+const canAccessFeature = user?.tier === 'pro' || user?.tier === 'corporate';
 {!canAccessFeature && (
   <div className="bg-yellow-900/20 border border-yellow-500/50 rounded-lg p-4">
     <p>This feature requires a Pro subscription.</p>
@@ -264,6 +277,29 @@ const canAccessFeature = user?.tier === 'high-end' || user?.tier === 'corporate'
 - **Use `useCallback` for event handlers** - Prevents unnecessary re-renders in child components
 - **Add null safety with optional chaining** - `selectedDomainData.tasks?.length ?? 0`
 - **Use empty array fallback for maps** - `(selectedDomainData.tasks || []).map()`
+- **Use `number[]` instead of `Set<string>` for IDs** - More React-friendly serialization
+
+### Flashcard Text Formatting
+
+Flashcard content supports special formatting via `formatFlashcardText()`:
+
+- **Bold text**: `**text**` renders as bold with primary color styling
+- **Acronym expansion**: Known acronyms are automatically expanded (e.g., "WBS" → "Work Breakdown Structure (WBS)")
+
+The formatter is in `packages/web/src/app/flashcards/session/[sessionId]/page.tsx` and handles the PMP acronym dictionary (80+ terms).
+
+### Seeding New Flashcards
+
+Use the existing seed files as templates:
+
+- `packages/api/prisma/seed-business-task2.ts` - Business Task 2 (Plan and Manage Compliance)
+- `packages/api/prisma/seed-business-task3.ts` - Business Task 3 (Manage and Control Changes)
+
+Get correct domain/task IDs from the API:
+
+```bash
+curl http://localhost:3001/api/domains | jq '.data.domains[] | select(.code == "BUSINESS_ENVIRONMENT") | {id, tasks: .tasks[] | select(.code == "III.2") | {id, code, name}}'
+```
 
 ### Error Handling
 

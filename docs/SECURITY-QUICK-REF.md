@@ -26,12 +26,14 @@ gitleaks detect --source . --report-format json
 ## 📋 Security Checklist
 
 ### Before Committing Code
+
 - [ ] Run `./.github/scripts/run-security-scans.sh`
 - [ ] Fix any Critical/High findings
 - [ ] No hardcoded secrets
 - [ ] All dependencies up to date
 
 ### Before Pushing to GitHub
+
 - [ ] All tests pass
 - [ ] No security failures
 - [ ] Code reviewed by peer
@@ -42,6 +44,7 @@ gitleaks detect --source . --report-format json
 ## 🎯 Security Score: 100/100 ✅
 
 **Current Status:** Grade A - Excellent
+
 - **Vulnerabilities:** 0 High/Critical
 - **Dependencies:** All secure
 - **Containers:** Hardened
@@ -53,6 +56,7 @@ gitleaks detect --source . --report-format json
 ## 📁 Key Files & Locations
 
 ### GitHub Actions Workflows
+
 - `.github/workflows/security-sast.yml` - Static code analysis
 - `.github/workflows/security-dependencies.yml` - Dependency scanning
 - `.github/workflows/security-containers.yml` - Container security
@@ -60,11 +64,13 @@ gitleaks detect --source . --report-format json
 - `.github/workflows/security-secrets.yml` - Secrets detection
 
 ### Security Scripts
+
 - `.github/scripts/run-security-scans.sh` - Full security scan
 - `.github/scripts/pre-commit-secrets.sh` - Pre-commit hook
 - `.github/scripts/setup-git-secrets.sh` - Git secrets setup
 
 ### Documentation
+
 - `docs/security-baseline.md` - Complete security requirements
 - `docs/security-setup-guide.md` - Setup instructions
 - `docs/runbooks/security-incident-response.md` - Incident procedures
@@ -84,21 +90,25 @@ gitleaks detect --source . --report-format json
 ## 🚨 Incident Response
 
 ### SEV-1 (Critical)
+
 - **Response:** 15 minutes
 - **Escalation:** CTO, Exec Team
 - **Example:** Active data breach, production down
 
 ### SEV-2 (High)
+
 - **Response:** 1 hour
 - **Escalation:** Engineering Lead, CTO
 - **Example:** Critical vulnerability with no exploit
 
 ### SEV-3 (Medium)
+
 - **Response:** 4 hours
 - **Escalation:** Engineering Lead
 - **Example:** Potential security issue
 
 ### SEV-4 (Low)
+
 - **Response:** 1 business day
 - **Escalation:** None
 - **Example:** Minor security finding
@@ -107,33 +117,36 @@ gitleaks detect --source . --report-format json
 
 ## 🛡️ Security Tools
 
-| Tool | Purpose | Status |
-|------|---------|--------|
-| **Semgrep** | SAST | ✅ Active |
-| **CodeQL** | Deep code analysis | ✅ Active |
-| **npm audit** | Dependency scanning | ✅ Active |
-| **Snyk** | Enhanced dependencies | Optional |
-| **Trivy** | Container scanning | ✅ Active |
-| **tfsec** | Terraform security | ✅ Active |
-| **Checkov** | IaC analysis | ✅ Active |
-| **Gitleaks** | Secrets detection | ✅ Active |
+| Tool          | Purpose               | Status    |
+| ------------- | --------------------- | --------- |
+| **Semgrep**   | SAST                  | ✅ Active |
+| **CodeQL**    | Deep code analysis    | ✅ Active |
+| **npm audit** | Dependency scanning   | ✅ Active |
+| **Snyk**      | Enhanced dependencies | Optional  |
+| **Trivy**     | Container scanning    | ✅ Active |
+| **tfsec**     | Terraform security    | ✅ Active |
+| **Checkov**   | IaC analysis          | ✅ Active |
+| **Gitleaks**  | Secrets detection     | ✅ Active |
 
 ---
 
 ## 📊 Monitoring
 
 ### GitHub Security Tab
+
 ```
 https://github.com/[owner]/[repo]/security
 ```
 
 **Sections:**
+
 - Code scanning (SAST results)
 - Dependabot alerts (Dependencies)
 - Secret scanning (Exposed secrets)
 - Security advisories (Known CVEs)
 
 ### AWS Security Hub (Optional)
+
 ```bash
 aws securityhub get-findings
 ```
@@ -142,13 +155,13 @@ aws securityhub get-findings
 
 ## 🔄 Scanning Schedule
 
-| Scan Type | Frequency | Trigger |
-|-----------|-----------|---------|
-| **SAST** | Every commit + daily 2AM | Push to GitHub |
-| **Dependencies** | Every commit + daily 3AM | Push to GitHub |
-| **Containers** | Dockerfile changes + daily 4AM | Push to GitHub |
-| **Infrastructure** | Terraform changes + daily 5AM | Push to GitHub |
-| **Secrets** | Every commit | All commits |
+| Scan Type          | Frequency                      | Trigger        |
+| ------------------ | ------------------------------ | -------------- |
+| **SAST**           | Every commit + daily 2AM       | Push to GitHub |
+| **Dependencies**   | Every commit + daily 3AM       | Push to GitHub |
+| **Containers**     | Dockerfile changes + daily 4AM | Push to GitHub |
+| **Infrastructure** | Terraform changes + daily 5AM  | Push to GitHub |
+| **Secrets**        | Every commit                   | All commits    |
 
 ---
 
@@ -163,11 +176,11 @@ aws securityhub get-findings
 
 ## 📞 Support
 
-| Role | Contact |
-|------|---------|
-| **Security Team** | security@example.com |
-| **Engineering Slack** | #security |
-| **Emergency On-Call** | PagerDuty |
+| Role                  | Contact              |
+| --------------------- | -------------------- |
+| **Security Team**     | security@example.com |
+| **Engineering Slack** | #security            |
+| **Emergency On-Call** | PagerDuty            |
 
 ---
 

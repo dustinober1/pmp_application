@@ -44,12 +44,15 @@ export const SanitizedMarkdown: React.FC<SanitizedMarkdownProps> = ({
           h2: ({ ...props }) => <h2 {...props} className="text-xl font-bold mt-5 mb-3" />,
           h3: ({ ...props }) => <h3 {...props} className="text-lg font-semibold mt-4 mb-2" />,
           // Style code blocks
-          code: ({ inline, ...props }) =>
-            inline ? (
+          code: props => {
+            // Check if it's inline code by looking at className (inline code won't have language- class)
+            const isInline = !props.className?.includes('language-');
+            return isInline ? (
               <code {...props} className="bg-gray-800 px-1 py-0.5 rounded text-sm" />
             ) : (
               <code {...props} className="block bg-gray-800 p-4 rounded-lg overflow-x-auto" />
-            ),
+            );
+          },
           // Style blockquotes
           blockquote: ({ ...props }) => (
             <blockquote {...props} className="border-l-4 border-gray-600 pl-4 italic" />

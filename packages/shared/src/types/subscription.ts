@@ -2,7 +2,7 @@
  * Subscription and tier related types
  */
 
-export type TierName = 'free' | 'mid-level' | 'high-end' | 'corporate';
+export type TierName = 'free' | 'pro' | 'corporate';
 export type BillingPeriod = 'monthly' | 'annual';
 export type SubscriptionStatus = 'active' | 'cancelled' | 'expired' | 'grace_period';
 
@@ -57,9 +57,8 @@ export interface PayPalWebhookEvent {
 // Tier hierarchy for comparison
 export const TIER_HIERARCHY: Record<TierName, number> = {
   free: 0,
-  'mid-level': 1,
-  'high-end': 2,
-  corporate: 3,
+  pro: 1,
+  corporate: 2,
 };
 
 // Default tier configurations
@@ -76,19 +75,7 @@ export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
     teamManagement: false,
     dedicatedSupport: false,
   },
-  'mid-level': {
-    studyGuidesAccess: 'full',
-    flashcardsLimit: 1000,
-    practiceQuestionsPerDomain: 100,
-    customFlashcards: false,
-    mockExams: true,
-    formulaCalculator: true,
-    advancedAnalytics: true,
-    personalizedStudyPlan: false,
-    teamManagement: false,
-    dedicatedSupport: false,
-  },
-  'high-end': {
+  pro: {
     studyGuidesAccess: 'full',
     flashcardsLimit: 2000,
     practiceQuestionsPerDomain: 200,

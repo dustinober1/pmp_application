@@ -164,6 +164,7 @@ Request a comprehensive export of all user data (GDPR Right to Data Portability)
 ```
 
 **Export Status Values:**
+
 - `pending`: Request queued
 - `processing`: Export being generated
 - `completed`: Export ready for download
@@ -213,6 +214,7 @@ Get the status of a specific export request.
 **Authentication:** Required
 
 **Parameters:**
+
 - `requestId`: Export request ID
 
 **Response:**
@@ -247,6 +249,7 @@ Download the completed data export file.
 **Authentication:** Required
 
 **Parameters:**
+
 - `requestId`: Export request ID
 
 **Response:**
@@ -363,6 +366,7 @@ Request permanent deletion of account and all associated data (GDPR Right to be 
 ```
 
 **Deletion Process:**
+
 1. **Request Period**: Account marked for deletion
 2. **Grace Period (30 days)**: User can cancel the deletion
 3. **Soft Delete**: Data anonymized (email, name randomized)
@@ -398,6 +402,7 @@ Check if there's a pending account deletion request.
 ```
 
 **Status Values:**
+
 - `pending`: In grace period, can be cancelled
 - `processing`: Grace period ended, being processed
 - `completed`: Account has been deleted
@@ -495,6 +500,7 @@ Get all data export requests with filtering.
 **Authentication:** Required (Admin)
 
 **Query Parameters:**
+
 - `status`: Filter by status (pending, processing, completed, failed)
 - `userId`: Filter by user ID
 - `limit`: Number of results (default: 20, max: 100)
@@ -550,6 +556,7 @@ Get all account deletion requests with filtering.
 **Authentication:** Required (Admin)
 
 **Query Parameters:**
+
 - `status`: Filter by status (pending, processing, completed, cancelled)
 - `userId`: Filter by user ID
 - `limit`: Number of results (default: 20, max: 100)
@@ -587,6 +594,7 @@ Manually process a deletion request, optionally bypassing grace period.
 ```
 
 **Parameters:**
+
 - `force`: Set to `true` to bypass grace period
 
 **Response:**
@@ -609,6 +617,7 @@ Retrieve privacy audit logs with filtering.
 **Authentication:** Required (Admin)
 
 **Query Parameters:**
+
 - `actionType`: Filter by action type
 - `entityType`: Filter by entity type
 - `userId`: Filter by user ID
@@ -701,15 +710,15 @@ Process all pending deletion requests whose grace period has ended.
 
 ## Error Codes
 
-| Code | Message |
-|------|---------|
-| `PRIVACY_001` | Export request already exists. Please wait for current request to complete. |
-| `PRIVACY_002` | Export not found or has expired. |
-| `PRIVACY_003` | Deletion request already exists. |
-| `PRIVACY_004` | Invalid deletion request. |
-| `PRIVACY_005` | Grace period has expired. Cannot cancel deletion. |
-| `PRIVACY_006` | Admin access required. |
-| `RATE_LIMITED` | Too many privacy requests, please try again later. |
+| Code           | Message                                                                     |
+| -------------- | --------------------------------------------------------------------------- |
+| `PRIVACY_001`  | Export request already exists. Please wait for current request to complete. |
+| `PRIVACY_002`  | Export not found or has expired.                                            |
+| `PRIVACY_003`  | Deletion request already exists.                                            |
+| `PRIVACY_004`  | Invalid deletion request.                                                   |
+| `PRIVACY_005`  | Grace period has expired. Cannot cancel deletion.                           |
+| `PRIVACY_006`  | Admin access required.                                                      |
+| `RATE_LIMITED` | Too many privacy requests, please try again later.                          |
 
 ---
 
@@ -725,15 +734,15 @@ Rate limits are enforced per user and reset at the beginning of each window.
 
 ## Data Retention
 
-| Data Type | Retention Period | Anonymization |
-|-----------|------------------|---------------|
-| User Profile | 30 days + 7 years | Soft delete → Hard delete |
-| Payment Records | 7 years | Anonymized |
-| Study Progress | 30 days | Deleted |
-| Activity Logs | 30 days | Deleted |
-| Consent Records | Permanent (if active) | Withdrawn on request |
-| Audit Logs | Permanent | Never deleted |
-| Export Files | 7 days | Auto-deleted |
+| Data Type       | Retention Period      | Anonymization             |
+| --------------- | --------------------- | ------------------------- |
+| User Profile    | 30 days + 7 years     | Soft delete → Hard delete |
+| Payment Records | 7 years               | Anonymized                |
+| Study Progress  | 30 days               | Deleted                   |
+| Activity Logs   | 30 days               | Deleted                   |
+| Consent Records | Permanent (if active) | Withdrawn on request      |
+| Audit Logs      | Permanent             | Never deleted             |
+| Export Files    | 7 days                | Auto-deleted              |
 
 ---
 
@@ -752,6 +761,7 @@ Rate limits are enforced per user and reset at the beginning of each window.
 ## Compliance Features
 
 ### GDPR Compliance
+
 - ✅ Right to Access (Data Export)
 - ✅ Right to Rectification (Profile update)
 - ✅ Right to Erasure (Account Deletion)
@@ -762,6 +772,7 @@ Rate limits are enforced per user and reset at the beginning of each window.
 - ✅ Audit Trail for All Actions
 
 ### CCPA Compliance
+
 - ✅ Right to Know (Data Export)
 - ✅ Right to Delete (Account Deletion)
 - ✅ Right to Opt-Out (Consent Withdrawal)
@@ -776,6 +787,7 @@ Rate limits are enforced per user and reset at the beginning of each window.
 ### Complete Account Deletion Flow
 
 1. **User requests deletion**
+
    ```bash
    POST /api/privacy/delete-account
    {
@@ -790,6 +802,7 @@ Rate limits are enforced per user and reset at the beginning of each window.
    - Cancellation link
 
 3. **User can cancel during grace period**
+
    ```bash
    POST /api/privacy/delete-account/cancel
    {
@@ -809,6 +822,7 @@ Rate limits are enforced per user and reset at the beginning of each window.
 ### Data Export Flow
 
 1. **User requests export**
+
    ```bash
    POST /api/privacy/data-export
    {
@@ -821,11 +835,13 @@ Rate limits are enforced per user and reset at the beginning of each window.
    - Status: `pending` → `processing` → `completed`
 
 3. **User checks status**
+
    ```bash
    GET /api/privacy/data-export/:requestId
    ```
 
 4. **Download when ready**
+
    ```bash
    GET /api/privacy/data-export/:requestId/download
    ```
@@ -837,6 +853,7 @@ Rate limits are enforced per user and reset at the beginning of each window.
 ## Support
 
 For privacy-related questions or concerns:
+
 - Email: privacy@pmpstudy.com
 - Documentation: /docs/privacy
 - GDPR Policy: /legal/gdpr

@@ -1,13 +1,5 @@
-import {
-  trace,
-  context,
-  Span,
-  SpanStatusCode,
-  SpanKind,
-} from '@opentelemetry/api';
-import {
-  SemanticAttributeNames,
-} from '@opentelemetry/semantic-conventions';
+import type { Span, SpanKind } from '@opentelemetry/api';
+import { trace, context, SpanStatusCode } from '@opentelemetry/api';
 
 /**
  * Tracing utilities for manual span creation and management
@@ -16,10 +8,13 @@ import {
 /**
  * Create a custom span for business logic
  */
-export function createSpan(name: string, options?: {
-  attributes?: Record<string, string | number | boolean | undefined>;
-  kind?: SpanKind;
-}): Span {
+export function createSpan(
+  name: string,
+  options?: {
+    attributes?: Record<string, string | number | boolean | undefined>;
+    kind?: SpanKind;
+  }
+): Span {
   const tracer = trace.getTracer('@pmp/api');
 
   return tracer.startSpan(name, {
@@ -41,7 +36,7 @@ export async function withSpan<T>(
 ): Promise<T> {
   const tracer = trace.getTracer('@pmp/api');
 
-  return tracer.startActiveSpan(name, options, async (span) => {
+  return tracer.startActiveSpan(name, options, async span => {
     try {
       const result = await fn(span);
       span.setStatus({ code: SpanStatusCode.OK });
@@ -66,11 +61,14 @@ export async function withSpan<T>(
 /**
  * Add user context to current span
  */
-export function setUserContext(span: Span, user: {
-  id: string;
-  email?: string;
-  tier?: string;
-}) {
+export function setUserContext(
+  span: Span,
+  user: {
+    id: string;
+    email?: string;
+    tier?: string;
+  }
+) {
   span.setAttributes({
     'user.id': user.id,
     'user.email': user.email,
@@ -81,11 +79,14 @@ export function setUserContext(span: Span, user: {
 /**
  * Add database query context to span
  */
-export function setDatabaseContext(span: Span, query: {
-  table: string;
-  operation: string;
-  statement?: string;
-}) {
+export function setDatabaseContext(
+  span: Span,
+  query: {
+    table: string;
+    operation: string;
+    statement?: string;
+  }
+) {
   span.setAttributes({
     'db.system': 'postgresql',
     'db.name': process.env.DB_NAME || 'pmp_db',
@@ -98,11 +99,14 @@ export function setDatabaseContext(span: Span, query: {
 /**
  * Add HTTP context to span
  */
-export function setHttpContext(span: Span, request: {
-  method: string;
-  url: string;
-  statusCode?: number;
-}) {
+export function setHttpContext(
+  span: Span,
+  request: {
+    method: string;
+    url: string;
+    statusCode?: number;
+  }
+) {
   span.setAttributes({
     'http.method': request.method,
     'http.url': request.url,
@@ -113,11 +117,14 @@ export function setHttpContext(span: Span, request: {
 /**
  * Add external API call context to span
  */
-export function setExternalApiContext(span: Span, api: {
-  name: string;
-  method: string;
-  url?: string;
-}) {
+export function setExternalApiContext(
+  span: Span,
+  api: {
+    name: string;
+    method: string;
+    url?: string;
+  }
+) {
   span.setAttributes({
     'http.method': api.method,
     'http.url': api.url,
@@ -128,12 +135,15 @@ export function setExternalApiContext(span: Span, api: {
 /**
  * Add business logic context to span
  */
-export function setBusinessContext(span: Span, context: {
-  feature?: string;
-  action?: string;
-  domain?: string;
-  [key: string]: string | number | boolean | undefined;
-}) {
+export function setBusinessContext(
+  span: Span,
+  context: {
+    feature?: string;
+    action?: string;
+    domain?: string;
+    [key: string]: string | number | boolean | undefined;
+  }
+) {
   span.setAttributes(context);
 }
 
@@ -147,7 +157,10 @@ export function getCurrentSpan(): Span | undefined {
 /**
  * Add event to current span
  */
-export function addEvent(name: string, attributes?: Record<string, string | number | boolean | undefined>) {
+export function addEvent(
+  name: string,
+  attributes?: Record<string, string | number | boolean | undefined>
+) {
   const span = getCurrentSpan();
   if (span) {
     span.addEvent(name, attributes);
@@ -157,7 +170,10 @@ export function addEvent(name: string, attributes?: Record<string, string | numb
 /**
  * Record error in current span
  */
-export function recordError(error: Error, attributes?: Record<string, string | number | boolean | undefined>) {
+export function recordError(
+  error: Error,
+  attributes?: Record<string, string | number | boolean | undefined>
+) {
   const span = getCurrentSpan();
   if (span) {
     span.recordException(error);

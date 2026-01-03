@@ -6,10 +6,30 @@ import { apiRequest } from '@/lib/api';
 import { useToast } from '@/components/ToastProvider';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { FullPageSkeleton } from '@/components/FullPageSkeleton';
-import type { Domain, Task } from '@/data/pmpExamContent';
+import type { Domain, Enabler } from '@/data/pmpExamContent';
 import { PMP_EXAM_CONTENT } from '@/data/pmpExamContent';
 
-type ViewMode = 'tasks' | 'enablers';
+/**
+ * Normalize enablers to consistent format
+ * Handles both API format (string[]) and static data format (Enabler[])
+ */
+function normalizeEnablers(enablers: string[] | Enabler[] | undefined): Enabler[] {
+  if (!enablers || enablers.length === 0) return [];
+
+  // Check if first element is a string (API format)
+  if (typeof enablers[0] === 'string') {
+    // Convert from string[] to Enabler[] format
+    return [
+      {
+        category: 'Other Information' as const,
+        items: enablers as string[],
+      },
+    ];
+  }
+
+  // Already in Enabler[] format (static data)
+  return enablers as Enabler[];
+}
 
 export default function StudyPage() {
   const { canAccess, isLoading: authLoading } = useRequireAuth();
@@ -17,18 +37,52 @@ export default function StudyPage() {
   const [domains, setDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [viewMode, setViewMode] = useState<ViewMode>('tasks');
+  const [selectedDomainData, setSelectedDomainData] = useState<Domain | null>(null);
+  const [loadingDomainDetails, setLoadingDomainDetails] = useState(false);
+  const [expandedTasks, setExpandedTasks] = useState<Set<string>>(new Set());
 
-  const toggleSelectedDomain = useCallback((domainId: string) => {
-    setSelectedDomain(prev => {
-      const newSelection = prev === domainId ? null : domainId;
-      // Reset task selection when domain changes
-      if (newSelection !== prev) {
-        setSelectedTask(null);
-        setViewMode('tasks');
+  const toggleSelectedDomain = useCallback(
+    async (domainId: string) => {
+      const isDeselecting = selectedDomain === domainId;
+
+      setSelectedDomain(prev => {
+        const newSelection = prev === domainId ? null : domainId;
+        // Reset expanded tasks and domain data when domain changes
+        if (newSelection !== prev) {
+          setExpandedTasks(new Set());
+          setSelectedDomainData(null);
+        }
+        return newSelection;
+      });
+
+      // Fetch full domain data with tasks if selecting (not deselecting)
+      if (!isDeselecting) {
+        setLoadingDomainDetails(true);
+        try {
+          const response = await apiRequest<{ domain: Domain }>(`/domains/${domainId}`);
+          setSelectedDomainData(response.data?.domain ?? null);
+        } catch (error) {
+          console.error('Failed to fetch domain details:', error);
+          // Fallback to static data
+          const staticDomain = PMP_EXAM_CONTENT.find(d => d.id === domainId);
+          setSelectedDomainData(staticDomain ?? null);
+        } finally {
+          setLoadingDomainDetails(false);
+        }
       }
-      return newSelection;
+    },
+    [selectedDomain]
+  );
+
+  const toggleTaskExpanded = useCallback((taskId: string) => {
+    setExpandedTasks(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(taskId)) {
+        newSet.delete(taskId);
+      } else {
+        newSet.add(taskId);
+      }
+      return newSet;
     });
   }, []);
 
@@ -52,9 +106,6 @@ export default function StudyPage() {
     }
   }, [canAccess, fetchDomains]);
 
-  // Find selected domain object
-  const selectedDomainData = domains.find(d => d.id === selectedDomain);
-
   if (authLoading || loading) {
     return <FullPageSkeleton />;
   }
@@ -63,7 +114,6 @@ export default function StudyPage() {
     PEOPLE: 'from-blue-500 to-indigo-600',
     PROCESS: 'from-emerald-500 to-teal-600',
     BUSINESS_ENVIRONMENT: 'from-orange-500 to-amber-600',
-    BUSINESS: 'from-orange-500 to-amber-600',
   };
 
   return (
@@ -113,6 +163,20 @@ export default function StudyPage() {
           ))}
         </div>
 
+        {/* Loading state for domain details */}
+        {selectedDomain && loadingDomainDetails && (
+          <div className="card animate-slideUp">
+            <div className="flex items-center justify-center py-12">
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 border-2 border-[var(--primary)] border-t-transparent rounded-full animate-spin"></div>
+                <span className="text-sm text-[var(--foreground-muted)]">
+                  Loading tasks and enablers...
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Expanded Domain with Tabs */}
         {selectedDomain && selectedDomainData && (
           <div className="card animate-slideUp">
@@ -132,90 +196,49 @@ export default function StudyPage() {
               </div>
             </div>
 
-            {/* Tabs */}
-            <div className="border-b border-[var(--border)] mb-6">
-              <nav className="flex gap-4" aria-label="Tabs">
-                <button
-                  type="button"
-                  className={`pb-3 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    viewMode === 'tasks'
-                      ? 'border-[var(--primary)] text-[var(--primary)]'
-                      : 'border-transparent text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
-                  }`}
-                  onClick={() => setViewMode('tasks')}
-                  aria-selected={viewMode === 'tasks'}
-                  role="tab"
-                >
-                  Tasks
-                </button>
-                <button
-                  type="button"
-                  className={`pb-3 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    viewMode === 'enablers'
-                      ? 'border-[var(--primary)] text-[var(--primary)]'
-                      : 'border-transparent text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
-                  }`}
-                  onClick={() => setViewMode('enablers')}
-                  aria-selected={viewMode === 'enablers'}
-                  role="tab"
-                  disabled={!selectedTask}
-                >
-                  Enablers
-                  {selectedTask && (
-                    <span className="ml-2 text-xs opacity-75">({selectedTask.code})</span>
-                  )}
-                </button>
-              </nav>
-            </div>
+            {/* Tasks with Inline Enablers */}
+            <div className="space-y-3">
+              {(selectedDomainData.tasks || []).map(task => {
+                const isExpanded = expandedTasks.has(task.id);
+                const normalizedEnablers = normalizeEnablers(task.enablers);
+                const totalEnablerItems = normalizedEnablers.reduce(
+                  (sum, e) => sum + e.items.length,
+                  0
+                );
 
-            {/* Tab Content */}
-            {viewMode === 'tasks' && (
-              <div className="space-y-3" role="tabpanel">
-                {(selectedDomainData.tasks || []).map(task => (
-                  <button
-                    type="button"
+                return (
+                  <div
                     key={task.id}
-                    className={`w-full text-left p-4 rounded-lg border transition-all ${
-                      selectedTask?.id === task.id
+                    className={`border rounded-lg overflow-hidden transition-all ${
+                      isExpanded
                         ? 'border-[var(--primary)] bg-[var(--secondary)]'
-                        : 'border-[var(--border)] hover:border-[var(--primary)] hover:bg-[var(--secondary)]'
+                        : 'border-[var(--border)] hover:border-[var(--primary)]'
                     }`}
-                    onClick={() => setSelectedTask(task)}
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="badge badge-primary">{task.code}</span>
-                          <h3 className="font-semibold">{task.name}</h3>
+                    {/* Task Header - Always Visible */}
+                    <button
+                      type="button"
+                      className="w-full text-left p-4"
+                      onClick={() => toggleTaskExpanded(task.id)}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="badge badge-primary">{task.code}</span>
+                            <h3 className="font-semibold">{task.name}</h3>
+                          </div>
+                          <p className="text-sm text-[var(--foreground-muted)]">
+                            {task.description}
+                          </p>
+                          <div className="flex items-center gap-4 mt-3 text-xs text-[var(--foreground-muted)]">
+                            <span>{normalizedEnablers.length} Enabler Categories</span>
+                            <span>•</span>
+                            <span>{totalEnablerItems} Total Items</span>
+                          </div>
                         </div>
-                        <p className="text-sm text-[var(--foreground-muted)] mb-3">
-                          {task.description}
-                        </p>
-                        <div className="flex items-center gap-4 text-xs text-[var(--foreground-muted)]">
-                          <span>{task.enablers?.length || 0} Enabler Categories</span>
-                          <span>•</span>
-                          <span>
-                            {task.enablers?.reduce((sum, e) => sum + (e.items?.length || 0), 0) ||
-                              0}{' '}
-                            Total Items
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          className="px-3 py-1.5 text-sm bg-[var(--primary)] text-white rounded-lg hover:opacity-90 transition-opacity"
-                          onClick={e => {
-                            e.stopPropagation();
-                            setSelectedTask(task);
-                            setViewMode('enablers');
-                          }}
-                        >
-                          View Enablers
-                        </button>
                         <svg
-                          className={`w-5 h-5 text-[var(--foreground-muted)] transition-transform ${
-                            selectedTask?.id === task.id ? 'rotate-90' : ''
+                          className={`w-5 h-5 text-[var(--foreground-muted)] transition-transform flex-shrink-0 mt-1 ${
+                            isExpanded ? 'rotate-90' : ''
                           }`}
                           fill="none"
                           stroke="currentColor"
@@ -229,100 +252,61 @@ export default function StudyPage() {
                           />
                         </svg>
                       </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+                    </button>
 
-            {viewMode === 'enablers' && selectedTask && (
-              <div className="space-y-6" role="tabpanel">
-                {/* Task Header */}
-                <div className="pb-4 border-b border-[var(--border)]">
-                  <button
-                    type="button"
-                    className="text-sm text-[var(--primary)] hover:underline mb-3"
-                    onClick={() => setViewMode('tasks')}
-                  >
-                    ← Back to Tasks
-                  </button>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="badge badge-primary">{selectedTask.code}</span>
-                    <h3 className="text-xl font-bold">{selectedTask.name}</h3>
-                  </div>
-                  <p className="text-sm text-[var(--foreground-muted)]">
-                    {selectedTask.description}
-                  </p>
-                </div>
-
-                {/* Enablers by Category */}
-                {selectedTask.enablers?.length > 0 ? (
-                  selectedTask.enablers.map((enabler, idx) => (
-                    <div
-                      key={idx}
-                      className="border border-[var(--border)] rounded-lg overflow-hidden mb-4"
-                    >
-                      <div className="px-4 py-3 bg-[var(--secondary)]">
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-3 h-3 rounded-full ${
-                              enabler.category === 'Key Knowledge and Skills'
-                                ? 'bg-blue-500'
-                                : enabler.category === 'Tools and Methods'
-                                  ? 'bg-emerald-500'
-                                  : 'bg-amber-500'
-                            }`}
-                          />
-                          <h4 className="font-semibold text-left">{enabler.category}</h4>
-                          <span className="badge badge-secondary text-xs">
-                            {enabler.items.length} items
-                          </span>
+                    {/* Inline Enablers - Shown when expanded */}
+                    {isExpanded && task.enablers && task.enablers.length > 0 && (
+                      <div className="border-t border-[var(--border)] p-4 bg-[var(--background)]">
+                        <div className="space-y-4">
+                          {normalizedEnablers.map((enabler, idx) => (
+                            <div
+                              key={idx}
+                              className="border border-[var(--border)] rounded-lg overflow-hidden"
+                            >
+                              <div className="px-4 py-3 bg-[var(--secondary)]">
+                                <div className="flex items-center gap-3">
+                                  <div
+                                    className={`w-3 h-3 rounded-full ${
+                                      enabler.category === 'Key Knowledge and Skills'
+                                        ? 'bg-blue-500'
+                                        : enabler.category === 'Tools and Methods'
+                                          ? 'bg-emerald-500'
+                                          : 'bg-amber-500'
+                                    }`}
+                                  />
+                                  <h4 className="font-semibold text-left">{enabler.category}</h4>
+                                  <span className="badge badge-secondary text-xs">
+                                    {enabler.items.length} items
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="px-4 py-3">
+                                <ul className="space-y-2">
+                                  {enabler.items.map((item, itemIdx) => (
+                                    <li key={itemIdx} className="flex items-start gap-3 text-sm">
+                                      <span
+                                        className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                                          enabler.category === 'Key Knowledge and Skills'
+                                            ? 'bg-blue-500'
+                                            : enabler.category === 'Tools and Methods'
+                                              ? 'bg-emerald-500'
+                                              : 'bg-amber-500'
+                                        }`}
+                                      />
+                                      <span className="flex-1">{item}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
-                      <div className="px-4 py-3 bg-[var(--background)]">
-                        <ul className="space-y-2">
-                          {enabler.items.map((item, itemIdx) => (
-                            <li key={itemIdx} className="flex items-start gap-3 text-sm">
-                              <span
-                                className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                                  enabler.category === 'Key Knowledge and Skills'
-                                    ? 'bg-blue-500'
-                                    : enabler.category === 'Tools and Methods'
-                                      ? 'bg-emerald-500'
-                                      : 'bg-amber-500'
-                                }`}
-                              />
-                              <span className="flex-1">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-[var(--foreground-muted)]">
-                      No enablers available for this task.
-                    </p>
+                    )}
                   </div>
-                )}
-              </div>
-            )}
-
-            {viewMode === 'enablers' && !selectedTask && (
-              <div className="text-center py-12">
-                <p className="text-[var(--foreground-muted)]">
-                  Select a task from the Tasks tab to view its enablers.
-                </p>
-                <button
-                  type="button"
-                  className="mt-4 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:opacity-90"
-                  onClick={() => setViewMode('tasks')}
-                >
-                  Go to Tasks
-                </button>
-              </div>
-            )}
+                );
+              })}
+            </div>
           </div>
         )}
 

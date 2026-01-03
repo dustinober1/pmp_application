@@ -3,6 +3,7 @@
  * Target: 85%+ coverage
  */
 
+import http from 'http';
 import { metricsRegistry, recordHttpRequest, recordDbQuery, startMetricsServer } from './metrics';
 
 // Mock prom-client
@@ -130,7 +131,7 @@ describe('Metrics Utility', () => {
   describe('startMetricsServer', () => {
     it('should start metrics server on specified port', () => {
       const listenSpy = jest.fn().mockImplementation((port, callback) => callback?.());
-      const createServerSpy = jest.spyOn(require('http'), 'createServer').mockImplementation(() => ({
+      const createServerSpy = jest.spyOn(http, 'createServer').mockImplementation(() => ({
         listen: listenSpy,
       }));
 
@@ -147,7 +148,7 @@ describe('Metrics Utility', () => {
 
     it('should log metrics server start', () => {
       const listenSpy = jest.fn().mockImplementation((port, callback) => callback?.());
-      jest.spyOn(require('http'), 'createServer').mockImplementation(() => ({
+      jest.spyOn(http, 'createServer').mockImplementation(() => ({
         listen: listenSpy,
       }));
 
@@ -165,7 +166,7 @@ describe('Metrics Utility', () => {
       const listenSpy = jest.fn().mockImplementation(() => {
         throw new Error('Port in use');
       });
-      jest.spyOn(require('http'), 'createServer').mockImplementation(() => ({
+      jest.spyOn(http, 'createServer').mockImplementation(() => ({
         listen: listenSpy,
       }));
 

@@ -49,8 +49,9 @@ describe('StripeService', () => {
     jest.clearAllMocks();
     stripeService = new StripeService();
 
-    // Get mock Stripe instance
-    const Stripe = require('stripe').default;
+    // Get mock Stripe instance from the mock
+    const StripeModule = jest.requireMock('stripe');
+    const Stripe = StripeModule.default || StripeModule;
     mockStripe = new Stripe('');
   });
 
@@ -149,18 +150,10 @@ describe('StripeService', () => {
     });
 
     it('should handle Stripe API errors', async () => {
-      mockStripe.checkout.sessions.create.mockRejectedValue(
-        new Error('Stripe API error')
-      );
+      mockStripe.checkout.sessions.create.mockRejectedValue(new Error('Stripe API error'));
 
       await expect(
-        stripeService.createCheckoutSession(
-          'user-123',
-          'tier-123',
-          'Premium',
-          29.99,
-          'monthly'
-        )
+        stripeService.createCheckoutSession('user-123', 'tier-123', 'Premium', 29.99, 'monthly')
       ).rejects.toThrow('Stripe API error');
     });
 
@@ -209,9 +202,7 @@ describe('StripeService', () => {
       };
 
       mockStripe.webhooks.constructEvent.mockReturnValue(mockEvent);
-      (subscriptionService.createSubscription as jest.Mock).mockResolvedValue(
-        undefined
-      );
+      (subscriptionService.createSubscription as jest.Mock).mockResolvedValue(undefined);
 
       await stripeService.handleWebhook('body', 'signature');
 
@@ -241,9 +232,7 @@ describe('StripeService', () => {
 
       mockStripe.webhooks.constructEvent.mockReturnValue(mockEvent);
       mockStripe.subscriptions.retrieve.mockResolvedValue(mockSubscription);
-      (subscriptionService.renewSubscription as jest.Mock).mockResolvedValue(
-        undefined
-      );
+      (subscriptionService.renewSubscription as jest.Mock).mockResolvedValue(undefined);
 
       await stripeService.handleWebhook('body', 'signature');
 
@@ -264,9 +253,7 @@ describe('StripeService', () => {
       };
 
       mockStripe.webhooks.constructEvent.mockReturnValue(mockEvent);
-      (subscriptionService.cancelSubscription as jest.Mock).mockResolvedValue(
-        undefined
-      );
+      (subscriptionService.cancelSubscription as jest.Mock).mockResolvedValue(undefined);
 
       await stripeService.handleWebhook('body', 'signature');
 
@@ -298,9 +285,7 @@ describe('StripeService', () => {
       };
 
       mockStripe.webhooks.constructEvent.mockReturnValue(mockEvent);
-      (subscriptionService.updateSubscription as jest.Mock).mockResolvedValue(
-        undefined
-      );
+      (subscriptionService.updateSubscription as jest.Mock).mockResolvedValue(undefined);
 
       await stripeService.handleWebhook('body', 'signature');
 
@@ -312,9 +297,9 @@ describe('StripeService', () => {
         throw new Error('Invalid signature');
       });
 
-      await expect(
-        stripeService.handleWebhook('body', 'invalid-signature')
-      ).rejects.toThrow('Invalid signature');
+      await expect(stripeService.handleWebhook('body', 'invalid-signature')).rejects.toThrow(
+        'Invalid signature'
+      );
     });
 
     it('should handle unknown event types gracefully', async () => {
@@ -325,9 +310,7 @@ describe('StripeService', () => {
 
       mockStripe.webhooks.constructEvent.mockReturnValue(mockEvent);
 
-      await expect(
-        stripeService.handleWebhook('body', 'signature')
-      ).resolves.not.toThrow();
+      await expect(stripeService.handleWebhook('body', 'signature')).resolves.not.toThrow();
     });
   });
 
@@ -338,18 +321,10 @@ describe('StripeService', () => {
         email: 'test@example.com',
       });
 
-      mockStripe.checkout.sessions.create.mockRejectedValue(
-        new Error('ETIMEDOUT')
-      );
+      mockStripe.checkout.sessions.create.mockRejectedValue(new Error('ETIMEDOUT'));
 
       await expect(
-        stripeService.createCheckoutSession(
-          'user-123',
-          'tier-123',
-          'Premium',
-          29.99,
-          'monthly'
-        )
+        stripeService.createCheckoutSession('user-123', 'tier-123', 'Premium', 29.99, 'monthly')
       ).rejects.toThrow('ETIMEDOUT');
     });
 
@@ -372,9 +347,9 @@ describe('StripeService', () => {
         new Error('Database error')
       );
 
-      await expect(
-        stripeService.handleWebhook('body', 'signature')
-      ).rejects.toThrow('Database error');
+      await expect(stripeService.handleWebhook('body', 'signature')).rejects.toThrow(
+        'Database error'
+      );
     });
   });
 });

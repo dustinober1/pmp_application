@@ -17,8 +17,15 @@ export class ContentService {
     const domains = await prisma.domain.findMany({
       orderBy: { orderIndex: 'asc' },
       include: {
-        _count: {
-          select: { tasks: true },
+        tasks: {
+          orderBy: { orderIndex: 'asc' },
+          select: {
+            id: true,
+            code: true,
+            name: true,
+            description: true,
+            orderIndex: true,
+          },
         },
       },
     });
@@ -30,6 +37,15 @@ export class ContentService {
       description: domain.description,
       weightPercentage: domain.weightPercentage,
       orderIndex: domain.orderIndex,
+      tasks: domain.tasks.map(task => ({
+        id: task.id,
+        domainId: domain.id,
+        code: task.code,
+        name: task.name,
+        description: task.description,
+        enablers: [], // Not included in list view for performance
+        orderIndex: task.orderIndex,
+      })),
     }));
   }
 
