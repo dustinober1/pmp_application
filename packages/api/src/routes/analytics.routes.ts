@@ -76,16 +76,17 @@ router.get(
 
       // Check if user is requesting their own data or is an admin
       if (req.user?.userId !== userId && !req.isAdmin) {
-        return res.status(403).json({
+        res.status(403).json({
           success: false,
           error: {
             code: "FORBIDDEN",
             message: "You can only access your own analytics",
           },
         });
+        return;
       }
 
-      const data = await analyticsService.getUserLearningAnalytics(userId);
+      const data = await analyticsService.getUserLearningAnalytics(userId!);
 
       res.json({
         success: true,
@@ -109,7 +110,7 @@ router.get(
     try {
       const { domainId } = req.params;
 
-      const data = await analyticsService.getDomainLearningAnalytics(domainId);
+      const data = await analyticsService.getDomainLearningAnalytics(domainId!);
 
       res.json({
         success: true,
@@ -171,16 +172,17 @@ router.get(
 
       // Check if user is requesting their own data or is an admin
       if (req.user?.userId !== userId && !req.isAdmin) {
-        return res.status(403).json({
+        res.status(403).json({
           success: false,
           error: {
             code: "FORBIDDEN",
             message: "You can only access your own analytics",
           },
         });
+        return;
       }
 
-      const data = await analyticsService.getUserFlashcardAnalytics(userId);
+      const data = await analyticsService.getUserFlashcardAnalytics(userId!);
 
       res.json({
         success: true,
@@ -244,16 +246,17 @@ router.get(
 
       // Check if user is requesting their own data or is an admin
       if (req.user?.userId !== userId && !req.isAdmin) {
-        return res.status(403).json({
+        res.status(403).json({
           success: false,
           error: {
             code: "FORBIDDEN",
             message: "You can only access your own analytics",
           },
         });
+        return;
       }
 
-      const data = await analyticsService.getUserQuestionAnalytics(userId);
+      const data = await analyticsService.getUserQuestionAnalytics(userId!);
 
       res.json({
         success: true,

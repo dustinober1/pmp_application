@@ -6,7 +6,6 @@
  */
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 interface AnalyticsData {
   learning: {
@@ -145,7 +144,6 @@ type TimeRange = "24h" | "7d" | "30d" | "90d" | "all";
 type TabType = "overview" | "learning" | "flashcards" | "questions" | "system";
 
 export default function AdminAnalyticsPage() {
-  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [timeRange, setTimeRange] = useState<TimeRange>("30d");
   const [data, setData] = useState<AnalyticsData | null>(null);
@@ -171,7 +169,8 @@ export default function AdminAnalyticsPage() {
         const userData = await res.json();
         // In production, check if user has admin role
         // For now, we'll check if email contains "admin"
-        const isAdminUser = userData.data?.user?.email?.includes("admin") || false;
+        const isAdminUser =
+          userData.data?.user?.email?.includes("admin") || false;
         setIsAdmin(isAdminUser);
       }
     } catch (err) {
@@ -186,7 +185,9 @@ export default function AdminAnalyticsPage() {
     setError(null);
 
     try {
-      const res = await fetch(`/api/analytics/dashboard?timeRange=${timeRange}`);
+      const res = await fetch(
+        `/api/analytics/dashboard?timeRange=${timeRange}`,
+      );
 
       if (!res.ok) {
         if (res.status === 403) {
@@ -222,7 +223,9 @@ export default function AdminAnalyticsPage() {
         <div className="text-center">
           <div className="mb-4 text-6xl">🔒</div>
           <h1 className="mb-2 text-2xl font-bold">Access Denied</h1>
-          <p className="text-gray-400">Admin access required to view this page</p>
+          <p className="text-gray-400">
+            Admin access required to view this page
+          </p>
         </div>
       </div>
     );
@@ -269,7 +272,8 @@ export default function AdminAnalyticsPage() {
           <div>
             <h1 className="mb-2 text-3xl font-bold">Analytics Dashboard</h1>
             <p className="text-gray-400">
-              Monitor student learning, flashcard performance, and system metrics
+              Monitor student learning, flashcard performance, and system
+              metrics
             </p>
           </div>
           <select
@@ -343,7 +347,9 @@ export default function AdminAnalyticsPage() {
         <div className="rounded-lg bg-gray-800 p-6">
           {activeTab === "overview" && <OverviewTab data={data} />}
           {activeTab === "learning" && <LearningTab data={data.learning} />}
-          {activeTab === "flashcards" && <FlashcardsTab data={data.flashcards} />}
+          {activeTab === "flashcards" && (
+            <FlashcardsTab data={data.flashcards} />
+          )}
           {activeTab === "questions" && <QuestionsTab data={data.questions} />}
           {activeTab === "system" && <SystemTab data={data.system} />}
         </div>
@@ -388,11 +394,10 @@ function OverviewTab({ data }: { data: AnalyticsData }) {
         <h3 className="mb-4 text-xl font-bold">Subscription Distribution</h3>
         <div className="grid gap-4 md:grid-cols-3">
           {data.system.subscriptions.tierDistribution.map((tier) => (
-            <div
-              key={tier.tierName}
-              className="rounded-lg bg-gray-800 p-4"
-            >
-              <div className="mb-2 text-sm text-gray-400">{tier.displayName}</div>
+            <div key={tier.tierName} className="rounded-lg bg-gray-800 p-4">
+              <div className="mb-2 text-sm text-gray-400">
+                {tier.displayName}
+              </div>
               <div className="text-2xl font-bold">{tier.count}</div>
             </div>
           ))}
@@ -459,10 +464,14 @@ function LearningTab({ data }: { data: AnalyticsData["learning"] }) {
                     <td className="px-4 py-3">
                       <div>
                         <div className="font-semibold">{user.name}</div>
-                        <div className="text-sm text-gray-400">{user.email}</div>
+                        <div className="text-sm text-gray-400">
+                          {user.email}
+                        </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3">{user.incompleteProgressCount}</td>
+                    <td className="px-4 py-3">
+                      {user.incompleteProgressCount}
+                    </td>
                     <td className="px-4 py-3">{user.activityCount}</td>
                   </tr>
                 ))}
@@ -507,7 +516,9 @@ function FlashcardsTab({ data }: { data: AnalyticsData["flashcards"] }) {
           {data.ratingDistribution.map((item) => (
             <div key={item.rating}>
               <div className="mb-1 flex justify-between text-sm">
-                <span className="capitalize">{item.rating.replace("_", " ")}</span>
+                <span className="capitalize">
+                  {item.rating.replace("_", " ")}
+                </span>
                 <span>{item.count}</span>
               </div>
               <div className="h-3 rounded-full bg-gray-800">
@@ -586,10 +597,7 @@ function QuestionsTab({ data }: { data: AnalyticsData["questions"] }) {
         <h3 className="mb-4 text-xl font-bold">Most Difficult Questions</h3>
         <div className="space-y-4">
           {data.difficultQuestions.slice(0, 10).map((q) => (
-            <div
-              key={q.id}
-              className="rounded-lg bg-gray-800 p-4"
-            >
+            <div key={q.id} className="rounded-lg bg-gray-800 p-4">
               <div className="mb-2 flex items-start justify-between">
                 <div className="flex-1">
                   <div className="mb-1 text-sm text-gray-400">
@@ -679,7 +687,9 @@ function SystemTab({ data }: { data: AnalyticsData["system"] }) {
           </div>
           <div>
             <div className="text-sm text-gray-400">Questions</div>
-            <div className="text-2xl font-bold">{data.storage.totalQuestions}</div>
+            <div className="text-2xl font-bold">
+              {data.storage.totalQuestions}
+            </div>
           </div>
           <div>
             <div className="text-sm text-gray-400">Study Guides</div>
@@ -697,14 +707,16 @@ function SystemTab({ data }: { data: AnalyticsData["system"] }) {
           {data.endpointUsage.slice(0, 10).map((endpoint) => (
             <div key={endpoint.endpoint}>
               <div className="mb-1 flex justify-between text-sm">
-                <span className="font-mono text-gray-400">{endpoint.endpoint}</span>
+                <span className="font-mono text-gray-400">
+                  {endpoint.endpoint}
+                </span>
                 <span>{endpoint.requestCount}</span>
               </div>
               <div className="h-2 rounded-full bg-gray-800">
                 <div
                   className="h-full rounded-full bg-primary"
                   style={{
-                    width: `${(endpoint.requestCount / data.endpointUsage[0].requestCount) * 100}%`,
+                    width: `${(endpoint.requestCount / (data.endpointUsage[0]?.requestCount || 1)) * 100}%`,
                   }}
                 />
               </div>

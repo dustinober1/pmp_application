@@ -7,8 +7,8 @@
  * - System Performance Metrics
  */
 
-import { prisma } from "@/config/database";
-import { AppError } from "@/middleware/error.middleware";
+import prisma from "../config/database";
+import { AppError } from "../middleware/error.middleware";
 
 type TimeRange = "24h" | "7d" | "30d" | "90d" | "all";
 
@@ -43,7 +43,7 @@ export class AnalyticsService {
 
     // Get study progress by domain
     const domainProgress = await prisma.studyProgress.groupBy({
-      by: ["section"],
+      by: ["sectionId"],
       where: {
         completed: true,
         completedAt: dateFilter,
@@ -135,11 +135,11 @@ export class AnalyticsService {
         avgStudyTimeMs: avgStudyTimeResult._avg.durationMs || 0,
       },
       domainProgress: domainProgress.map((dp) => ({
-        sectionId: dp.section as unknown as string,
+        sectionId: dp.sectionId,
         completionCount: dp._count,
       })),
       activityTrends: this.groupByDate(activityTrends, "createdAt"),
-      topPerformers: topPerformers.map((u) => ({
+      topPerformers: topPerformers.map((u: { id: string; name: string | null; email: string; createdAt: Date; _count: { studyProgress: number; flashcardReviews: number; questionAttempts: number } }) => ({
         id: u.id,
         name: u.name,
         email: u.email,
@@ -148,7 +148,7 @@ export class AnalyticsService {
         flashcardReviewsCount: u._count.flashcardReviews,
         questionAttemptsCount: u._count.questionAttempts,
       })),
-      strugglingUsers: strugglingUsers.map((u) => ({
+      strugglingUsers: strugglingUsers.map((u: { id: string; name: string | null; email: string; createdAt: Date; _count: { studyProgress: number; studyActivities: number } }) => ({
         id: u.id,
         name: u.name,
         email: u.email,
@@ -300,11 +300,11 @@ export class AnalyticsService {
 
     // Calculate completion rates for each task
     const taskAnalytics = await Promise.all(
-      domain.tasks.map(async (task) => {
+      domain.tasks.map(async (task: { id: string; code: string; name: string; studyGuide: { sections: Array<{ progress: Array<{ completed: boolean }> }> } | null }) => {
         const totalSections = task.studyGuide?.sections.length || 0;
         const completedSections =
-          task.studyGuide?.sections.filter((s) =>
-            s.progress.every((p) => p.completed),
+          task.studyGuide?.sections.filter((s: { progress: Array<{ completed: boolean }> }) =>
+            s.progress.every((p: { completed: boolean }) => p.completed),
           ).length || 0;
 
         const completionRate =
@@ -324,8 +324,8 @@ export class AnalyticsService {
     // Get average completion rate across all tasks
     const avgCompletionRate =
       taskAnalytics.length > 0
-        ? taskAnalytics.reduce((sum, t) => sum + t.completionRate, 0) /
-          taskAnalytics.length
+        ? taskAnalytics.reduce((sum: number, t: { completionRate: number }) => sum + t.completionRate, 0) /
+        taskAnalytics.length
         : 0;
 
     return {
@@ -352,7 +352,7 @@ export class AnalyticsService {
     domainId?: string;
     taskId?: string;
   }) {
-    const { timeRange = "30d", domainId, taskId } = options;
+    const { timeRange = "30d" } = options;
     const dateFilter = this.getDateFilter(timeRange);
 
     // Get session statistics
@@ -398,7 +398,7 @@ export class AnalyticsService {
     });
 
     const difficultCardsDetails = await Promise.all(
-      difficultCards.map(async (dc) => {
+      difficultCards.map(async (dc: { cardId: string; _count: { rating: number } }) => {
         const card = await prisma.flashcard.findUnique({
           where: { id: dc.cardId },
           include: {
@@ -463,10 +463,10 @@ export class AnalyticsService {
         avgAccuracyRate:
           sessionStats._avg.totalCards && sessionStats._avg.totalCards > 0
             ? ((sessionStats._avg.knowIt || 0) / sessionStats._avg.totalCards) *
-              100
+            100
             : 0,
       },
-      ratingDistribution: ratingDistribution.map((rd) => ({
+      ratingDistribution: ratingDistribution.map((rd: { rating: string | null; _count: number }) => ({
         rating: rd.rating || "unanswered",
         count: rd._count,
       })),
@@ -509,20 +509,20 @@ export class AnalyticsService {
     // Calculate SM-2 metrics
     const sm2Metrics = {
       avgEaseFactor:
-        reviews.reduce((sum, r) => sum + r.easeFactor, 0) / reviews.length,
+        reviews.reduce((sum: number, r: { easeFactor: number }) => sum + r.easeFactor, 0) / reviews.length,
       avgInterval:
-        reviews.reduce((sum, r) => sum + r.interval, 0) / reviews.length,
+        reviews.reduce((sum: number, r: { interval: number }) => sum + r.interval, 0) / reviews.length,
       avgRepetitions:
-        reviews.reduce((sum, r) => sum + r.repetitions, 0) / reviews.length,
+        reviews.reduce((sum: number, r: { repetitions: number }) => sum + r.repetitions, 0) / reviews.length,
       totalCards: reviews.length,
-      cardsDue: reviews.filter((r) => r.nextReviewDate <= new Date()).length,
+      cardsDue: reviews.filter((r: { nextReviewDate: Date }) => r.nextReviewDate <= new Date()).length,
       cardsOverdue: reviews.filter(
-        (r) => r.nextReviewDate < new Date(),
+        (r: { nextReviewDate: Date }) => r.nextReviewDate < new Date(),
       ).length,
     };
 
     // Group by domain
-    const domainPerformance = this.groupByDomain(reviews, (r) => ({
+    const domainPerformance = this.groupByDomain(reviews, (r: { easeFactor: number; interval: number; repetitions: number }) => ({
       totalCards: 1,
       avgEaseFactor: r.easeFactor,
       avgInterval: r.interval,
@@ -538,7 +538,7 @@ export class AnalyticsService {
       take: 10,
     });
 
-    const sessionPerformance = recentSessions.map((s) => ({
+    const sessionPerformance = recentSessions.map((s: { id: string; startedAt: Date; totalCards: number; knowIt: number; learning: number; dontKnow: number; totalTimeMs: number }) => ({
       sessionId: s.id,
       startedAt: s.startedAt,
       totalCards: s.totalCards,
@@ -554,10 +554,10 @@ export class AnalyticsService {
       domainPerformance,
       sessionPerformance,
       nextReviews: reviews
-        .filter((r) => r.nextReviewDate > new Date())
-        .sort((a, b) => a.nextReviewDate.getTime() - b.nextReviewDate.getTime())
+        .filter((r: { nextReviewDate: Date }) => r.nextReviewDate > new Date())
+        .sort((a: { nextReviewDate: Date }, b: { nextReviewDate: Date }) => a.nextReviewDate.getTime() - b.nextReviewDate.getTime())
         .slice(0, 10)
-        .map((r) => ({
+        .map((r: { cardId: string; nextReviewDate: Date; card: { domain: { name: string }; task: { name: string } } }) => ({
           cardId: r.cardId,
           nextReviewDate: r.nextReviewDate,
           domain: r.card.domain.name,
@@ -613,9 +613,9 @@ export class AnalyticsService {
     });
 
     const correctCount =
-      accuracyBreakdown.find((ab) => ab.isCorrect)?._count.true || 0;
+      accuracyBreakdown.find((ab: { isCorrect: boolean }) => ab.isCorrect)?._count || 0;
     const incorrectCount =
-      accuracyBreakdown.find((ab) => !ab.isCorrect)?._count.false || 0;
+      accuracyBreakdown.find((ab: { isCorrect: boolean }) => !ab.isCorrect)?._count || 0;
     const totalCount = correctCount + incorrectCount;
     const accuracyRate = totalCount > 0 ? (correctCount / totalCount) * 100 : 0;
 
@@ -640,9 +640,9 @@ export class AnalyticsService {
       },
     });
 
-    const questionAccuracy = difficultQuestions
+    difficultQuestions
       .map((q) => {
-        const correctAttempts = q.attempts.filter((a) => a.isCorrect).length;
+        const correctAttempts = q.attempts.filter((a: { isCorrect: boolean }) => a.isCorrect).length;
         const totalAttempts = q.attempts.length;
         return {
           id: q.id,
@@ -656,17 +656,17 @@ export class AnalyticsService {
             totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0,
           avgTimeSpentMs:
             totalAttempts > 0
-              ? q.attempts.reduce((sum, a) => sum + a.timeSpentMs, 0) /
-                totalAttempts
+              ? q.attempts.reduce((sum: number, a: { timeSpentMs: number }) => sum + a.timeSpentMs, 0) /
+              totalAttempts
               : 0,
         };
       })
-      .sort((a, b) => a.accuracyRate - b.accuracyRate)
+      .sort((a: { accuracyRate: number }, b: { accuracyRate: number }) => a.accuracyRate - b.accuracyRate)
       .slice(0, 20);
 
     // Get question difficulty distribution
     const difficultyDistribution = await prisma.questionAttempt.groupBy({
-      by: ["question"],
+      by: ["questionId"],
       where: {
         attemptedAt: dateFilter,
       },
@@ -675,7 +675,7 @@ export class AnalyticsService {
 
     // Get performance by methodology
     const methodologyPerformance = await prisma.questionAttempt.groupBy({
-      by: ["question"],
+      by: ["questionId"],
       where: {
         attemptedAt: dateFilter,
         question: {
@@ -739,7 +739,7 @@ export class AnalyticsService {
     });
 
     const flaggedQuestionsDetails = await Promise.all(
-      flaggedQuestions.map(async (fq) => {
+      flaggedQuestions.map(async (fq: { questionId: string; _count: { flagged: number } }) => {
         const question = await prisma.practiceQuestion.findUnique({
           where: { id: fq.questionId },
           include: {
@@ -790,12 +790,12 @@ export class AnalyticsService {
     });
 
     // Calculate overall stats
-    const correctAttempts = attempts.filter((a) => a.isCorrect).length;
+    const correctAttempts = attempts.filter((a: { isCorrect: boolean }) => a.isCorrect).length;
     const totalAttempts = attempts.length;
     const accuracyRate = totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0;
     const avgTimeSpentMs =
       totalAttempts > 0
-        ? attempts.reduce((sum, a) => sum + a.timeSpentMs, 0) / totalAttempts
+        ? attempts.reduce((sum: number, a: { timeSpentMs: number }) => sum + a.timeSpentMs, 0) / totalAttempts
         : 0;
 
     // Group by domain
@@ -855,7 +855,7 @@ export class AnalyticsService {
       .map(([domain, data]) => ({
         domain,
         accuracyRate:
-          (data.correctAttempts / data.totalAttempts) * 100,
+          ((data.correctAttempts ?? 0) / (data.totalAttempts || 1)) * 100,
         totalAttempts: data.totalAttempts,
       }))
       .filter((d) => d.accuracyRate < 70)
@@ -899,7 +899,7 @@ export class AnalyticsService {
 
       // Activity stats
       activityCount: await prisma.studyActivity.count({
-        where: dateFilter,
+        where: { createdAt: dateFilter },
       }),
       activityRate: await this.getPerHourRate("studyActivity", dateFilter),
 
@@ -919,7 +919,7 @@ export class AnalyticsService {
     // API endpoint usage (derived from activity types)
     const endpointUsage = await prisma.studyActivity.groupBy({
       by: ["activityType"],
-      where: dateFilter,
+      where: { createdAt: dateFilter },
       _count: true,
       orderBy: {
         _count: {
@@ -965,7 +965,7 @@ export class AnalyticsService {
 
     // Response time metrics (from activity durationMs)
     const responseTimeMetrics = await prisma.studyActivity.aggregate({
-      where: dateFilter,
+      where: { createdAt: dateFilter },
       _avg: {
         durationMs: true,
       },
@@ -984,9 +984,9 @@ export class AnalyticsService {
         requestCount: eu._count,
       })),
       performance: {
-        avgResponseTimeMs: responseTimeMetrics._avg.durationMs || 0,
-        minResponseTimeMs: responseTimeMetrics._min.durationMs || 0,
-        maxResponseTimeMs: responseTimeMetrics._max.durationMs || 0,
+        avgResponseTimeMs: responseTimeMetrics._avg?.durationMs || 0,
+        minResponseTimeMs: responseTimeMetrics._min?.durationMs || 0,
+        maxResponseTimeMs: responseTimeMetrics._max?.durationMs || 0,
         errorRate: errorRate.rate,
         errorCount: errorRate.count,
       },
@@ -1023,10 +1023,12 @@ export class AnalyticsService {
     return items.reduce((acc, item) => {
       const date = new Date(item[dateField] as unknown as Date);
       const dateKey = date.toISOString().split("T")[0];
-      if (!acc[dateKey]) {
-        acc[dateKey] = [];
+      if (dateKey) {
+        if (!acc[dateKey]) {
+          acc[dateKey] = [];
+        }
+        acc[dateKey]!.push(item);
       }
-      acc[dateKey].push(item);
       return acc;
     }, {} as Record<string, T[]>);
   }
@@ -1048,8 +1050,9 @@ export class AnalyticsService {
         };
       }
       const metrics = mapper(item);
-      acc[domainName].totalAttempts += metrics.totalAttempts || 0;
-      acc[domainName].correctAttempts += metrics.correctAttempts || 0;
+      const domainEntry = acc[domainName] as { totalAttempts: number; correctAttempts: number; avgTimeSpentMs: number };
+      domainEntry.totalAttempts += metrics.totalAttempts || 0;
+      domainEntry.correctAttempts += metrics.correctAttempts || 0;
       return acc;
     }, {} as Record<string, Record<string, number>>);
   }
@@ -1136,8 +1139,8 @@ export class AnalyticsService {
     const questionAccuracy =
       data.questionAttempts.length > 0
         ? (data.questionAttempts.filter((a) => a.isCorrect).length /
-            data.questionAttempts.length) *
-          40
+          data.questionAttempts.length) *
+        40
         : 0;
 
     const overallScore = studyProgressScore + flashcardScore + questionAccuracy;
@@ -1243,7 +1246,7 @@ export class AnalyticsService {
     const previousDate = {
       gte: new Date(
         new Date(dateFilter.gte).getTime() -
-          (new Date().getTime() - new Date(dateFilter.gte).getTime()),
+        (new Date().getTime() - new Date(dateFilter.gte).getTime()),
       ),
       lt: dateFilter.gte,
     };
