@@ -8,15 +8,17 @@
   ],
   "scripts": {
     "build": "npm run build:shared && npm run build:api && npm run build:web",
-    "build:api": "NODE_OPTIONS=--max-old-space-size=192 npm run build -w @pmp/api",
-    "build:web": "NODE_OPTIONS=--max-old-space-size=320 npm run build -w @pmp/web",
-    "build:shared": "NODE_OPTIONS=--max-old-space-size=192 npm run build -w @pmp/shared",
+    "build:api": "npm run build -w @pmp/api",
+    "build:web": "npm run build -w @pmp/web",
+    "build:web-svelte": "npm run build -w @pmp/web-svelte",
+    "build:shared": "npm run build -w @pmp/shared",
     "start": "npm run start -w @pmp/web",
     "start:api": "npm run start -w @pmp/api",
     "start:web": "npm run start -w @pmp/web",
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
     "dev:api": "npm run dev -w @pmp/api",
     "dev:web": "npm run dev -w @pmp/web",
+    "dev:web-svelte": "npm run dev -w @pmp/web-svelte",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
@@ -24,6 +26,7 @@
     "test": "npm run test --workspaces --if-present",
     "test:api": "npm run test -w @pmp/api",
     "test:web": "npm run test -w @pmp/web",
+    "analyze": "npm run analyze -w @pmp/web",
     "db:generate": "npm run db:generate -w @pmp/api",
     "db:migrate": "npm run db:migrate -w @pmp/api",
     "db:push": "npm run db:push -w @pmp/api",
@@ -61,6 +64,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.958.0"
+    "@aws-sdk/client-cloudwatch-logs": "^3.958.0",
+    "@fastify/rate-limit": "^10.3.0"
   }
 }
