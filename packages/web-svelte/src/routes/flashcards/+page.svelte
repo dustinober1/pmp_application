@@ -15,6 +15,7 @@
     type FlashcardStats
   } from "$lib/utils/flashcardsData";
   import { getCardProgressStats } from "$lib/utils/cardProgressStorage";
+  import { goto } from '$app/navigation';
 
   // Domain filter options
   interface DomainFilter {
@@ -257,7 +258,20 @@
         <ECOBadge variant="compact" />
       </div>
 
-      <h1 class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-8">Flashcards</h1>
+      <h1 class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-6">Flashcards</h1>
+
+      <!-- Study Mode Button -->
+      <a
+        href="/flashcards/study"
+        class="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-[1.02] mb-8"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Start Study Mode</span>
+        <span class="text-sm opacity-90 font-normal">{dueTodayCount > 0 ? `(${dueTodayCount} due)` : '(spaced repetition)'}</span>
+      </a>
 
       <!-- Stats -->
       {#if statsData}
