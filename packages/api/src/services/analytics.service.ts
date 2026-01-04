@@ -799,7 +799,7 @@ export class AnalyticsService {
         : 0;
 
     // Group by domain
-    const domainPerformance = this.groupByDomain(attempts, (a) => ({
+    const domainPerformance = this.groupByDomain(attempts, (a: any) => ({
       totalAttempts: 1,
       correctAttempts: a.isCorrect ? 1 : 0,
       avgTimeSpentMs: a.timeSpentMs,
