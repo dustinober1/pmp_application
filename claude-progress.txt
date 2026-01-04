@@ -2,13 +2,13 @@
 # ===============================
 # Project: ~/Projects/pmp_application
 # Started: 2026-01-04T13:30:02.293Z
-# Last Updated: 2026-01-04T13:37:01.170Z
+# Last Updated: 2026-01-04T13:50:42.835Z
 # Status: in_progress
 
 ## Summary
 - Total Features: 17
-- Completed: 1
-- In Progress: 1
+- Completed: 2
+- In Progress: 0
 - Pending: 15
 - Failed: 0
 
@@ -41,7 +41,7 @@ The goal is a 100% static site that can be deployed to GitHub Pages with no data
 
 ## Feature Status
 ✅ [COMPLETED] feature-1: Remove auth, middleware, billing, and team features
-🔄 [IN_PROGRESS] feature-2: Make Next export work with basePath configuration
+✅ [COMPLETED] feature-2: Make Next export work with basePath configuration
 ⏳ [PENDING] feature-3: Move data into public/ and add typed loaders
 ⏳ [PENDING] feature-4: Create local storage data model + utilities
 ⏳ [PENDING] feature-5: Rewrite all routes (landing, study, flashcards, practice, dashboard, donate)
@@ -58,10 +58,14 @@ The goal is a 100% static site that can be deployed to GitHub Pages with no data
 ⏳ [PENDING] feature-16: Create donation page instead of checkout
 ⏳ [PENDING] feature-17: All pages must work without API/backend
 
-## Progress Log (last 6 entries)
+## Progress Log (last 10 entries)
 [2026-01-04T13:30:02.293Z] Orchestration initialized with 17 features
 [2026-01-04T13:30:11.069Z] Started worker for feature-1: Remove auth, middleware, billing, and team features
 [2026-01-04T13:34:41.812Z] 🔔 Worker completed: feature-1 - use mark_complete to update status
 [2026-01-04T13:34:42.325Z] 🔔 Worker completed: feature-1 - use mark_complete to update status
 [2026-01-04T13:36:33.911Z] ✅ Completed: feature-1 - Remove auth, middleware, billing, and team features
 [2026-01-04T13:37:01.170Z] Started worker for feature-2: Make Next export work with basePath configuration
+[2026-01-04T13:47:14.736Z] Sent message to feature-2: Please respond with your current status. What step are you on?
+[2026-01-04T13:49:11.957Z] 🔔 Worker completed: feature-2 - use mark_complete to update status
+[2026-01-04T13:49:12.455Z] 🔔 Worker completed: feature-2 - use mark_complete to update status
+[2026-01-04T13:50:42.835Z] ✅ Completed: feature-2 - Make Next export work with basePath configuration
