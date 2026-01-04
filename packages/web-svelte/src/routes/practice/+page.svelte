@@ -107,6 +107,17 @@
 	<div class="min-h-screen bg-gray-50">
 
 		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+			<!-- ECO Notice with Sustainability -->
+			<div class="mb-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-xl border border-green-200 dark:border-green-800">
+				<div class="flex items-center justify-center gap-2 mb-2">
+					<span class="text-2xl">🌱</span>
+					<span class="font-semibold text-green-900 dark:text-green-100">July 2026 ECO Update</span>
+				</div>
+				<p class="text-sm text-green-700 dark:text-green-300 text-center">
+					Practice questions now include <strong>Sustainability & ESG scenarios</strong> alongside AI in project management topics.
+				</p>
+			</div>
+
 			<div class="mb-8">
 				<h1 class="text-2xl font-bold text-gray-900">Practice Questions</h1>
 				<p class="text-gray-600">

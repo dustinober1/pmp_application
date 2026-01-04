@@ -247,6 +247,60 @@
 							</div>
 						</div>
 					</div>
+
+					<!-- Sustainability/ESG Section -->
+					<div class="mt-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
+						<div class="flex items-center justify-center gap-2 mb-4">
+							<span class="text-2xl">🌱</span>
+							<h3 class="text-lg font-semibold text-green-900">Sustainability & ESG Considerations</h3>
+						</div>
+						<p class="text-sm text-green-800 mb-4 text-center">
+							New for July 2026 ECO - Environmental, Social, and Governance factors in project management
+						</p>
+						<div class="grid sm:grid-cols-3 gap-4">
+							<div class="bg-white rounded-lg p-4 border border-green-200">
+								<div class="flex items-center gap-2 mb-2">
+									<span class="text-xl">🌍</span>
+									<h4 class="font-semibold text-green-900 text-sm">Environmental</h4>
+								</div>
+								<ul class="text-xs text-green-800 space-y-1">
+									<li>• Carbon footprint management</li>
+									<li>• Resource efficiency</li>
+									<li>• Climate risk assessment</li>
+									<li>• Sustainable procurement</li>
+								</ul>
+							</div>
+							<div class="bg-white rounded-lg p-4 border border-green-200">
+								<div class="flex items-center gap-2 mb-2">
+									<span class="text-xl">👥</span>
+									<h4 class="font-semibold text-green-900 text-sm">Social</h4>
+								</div>
+								<ul class="text-xs text-green-800 space-y-1">
+									<li>• Stakeholder inclusivity</li>
+									<li>• Community impact</li>
+									<li>• Labor practices</li>
+									<li>• Health & safety</li>
+								</ul>
+							</div>
+							<div class="bg-white rounded-lg p-4 border border-green-200">
+								<div class="flex items-center gap-2 mb-2">
+									<span class="text-xl">⚖️</span>
+									<h4 class="font-semibold text-green-900 text-sm">Governance</h4>
+								</div>
+								<ul class="text-xs text-green-800 space-y-1">
+									<li>• Ethical leadership</li>
+									<li>• Compliance & reporting</li>
+									<li>• Transparency</li>
+									<li>• Risk management</li>
+								</ul>
+							</div>
+						</div>
+						<div class="mt-4 p-3 bg-green-100 rounded-lg border border-green-300">
+							<p class="text-xs text-green-900 font-medium">
+								💡 <strong>Exam Tip:</strong> ESG considerations are integrated across all three domains. Look for scenarios where sustainable practices impact project decisions, stakeholder engagement, and business value.
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
