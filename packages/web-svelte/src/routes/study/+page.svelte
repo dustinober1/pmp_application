@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { contentApi, flashcardApi, practiceApi } from '$lib/utils/api';
+	import { getDomain } from '$lib/utils/studyData';
+	import { flashcardApi, practiceApi } from '$lib/utils/api';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
@@ -56,11 +57,12 @@
 			selectedDomainData = null;
 
 			try {
-				const response = await contentApi.getDomain(domainId);
-				selectedDomainData = response.data?.domain || null;
+				// Use static data loader
+				const domain = await getDomain(domainId);
+				selectedDomainData = domain;
 			} catch (err) {
 				console.error('Failed to fetch domain details:', err);
-				// Fallback to static data
+				// Fallback to static data from initial load
 				const staticDomain = domains.find((d) => d.id === domainId);
 				selectedDomainData = staticDomain || null;
 			} finally {

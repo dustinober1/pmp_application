@@ -1,20 +1,17 @@
 import type { Load } from "@sveltejs/kit";
-import { contentApi } from "$lib/utils/api";
+import { getTaskById, getStudyGuide } from "$lib/utils/studyData";
 
 export const load: Load = async ({ params }) => {
   const taskId = params.taskId;
 
   try {
-    // Fetch all tasks to find the specific one
-    const tasksResponse = await contentApi.getTasks("all");
-    const task =
-      tasksResponse.data?.tasks?.find((t) => t.id === taskId) || null;
+    // Fetch the specific task
+    const task = await getTaskById(taskId);
 
     // Fetch study guide
     let studyGuide = null;
     try {
-      const guideResponse = await contentApi.getStudyGuide(taskId);
-      studyGuide = guideResponse.data?.studyGuide || null;
+      studyGuide = await getStudyGuide(taskId);
     } catch (err) {
       console.warn("Study guide not found:", err);
     }

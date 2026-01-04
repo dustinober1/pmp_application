@@ -1,11 +1,11 @@
 import type { Load } from "@sveltejs/kit";
-import { contentApi } from "$lib/utils/api";
+import { loadDomains } from "$lib/utils/studyData";
 
-export const load: Load = async ({ fetch }) => {
+export const load: Load = async () => {
   try {
-    const response = await contentApi.getDomains();
+    const domains = await loadDomains();
     return {
-      domains: response.data?.domains || [],
+      domains,
       error: null,
     };
   } catch (error) {
