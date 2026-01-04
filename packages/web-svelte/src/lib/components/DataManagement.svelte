@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { downloadProgressBackup, importProgress } from "$lib/utils/dataPortability";
 	import { domainProgressStore, recentActivityStore } from "$lib/stores/dashboard";
-	import { STORAGE_KEYS } from "$lib/constants/storageKeys";
 
 	// Dashboard store keys
 	const DASHBOARD_DOMAIN_PROGRESS = "pmp_domain_progress_2026";
@@ -10,105 +10,24 @@
 	let importMessage = $state("");
 	let importMessageType = $state<"success" | "error" | "">("");
 
-	// Gather all localStorage data for export
-	function gatherAllData(): Record<string, any> {
-		const data: Record<string, any> = {};
-
-		// Helper to safely get item
-		const getItem = (key: string) => {
-			try {
-				const item = localStorage.getItem(key);
-				return item ? JSON.parse(item) : null;
-			} catch {
-				return null;
-			}
-		};
-
-		// Domain progress from dashboard store
-		data[DASHBOARD_DOMAIN_PROGRESS] = getItem(DASHBOARD_DOMAIN_PROGRESS);
-
-		// Recent activity from dashboard store
-		data[DASHBOARD_RECENT_ACTIVITY] = getItem(DASHBOARD_RECENT_ACTIVITY);
-
-		// Study tracking data
-		data[STORAGE_KEYS.TOTAL_STUDY_TIME] = getItem(STORAGE_KEYS.TOTAL_STUDY_TIME);
-		data[STORAGE_KEYS.STUDY_STREAK] = getItem(STORAGE_KEYS.STUDY_STREAK);
-		data[STORAGE_KEYS.LAST_STUDY_DATE] = getItem(STORAGE_KEYS.LAST_STUDY_DATE);
-		data[STORAGE_KEYS.STUDY_SESSIONS] = getItem(STORAGE_KEYS.STUDY_SESSIONS);
-
-		// Flashcard progress
-		data[STORAGE_KEYS.FLASHCARDS_MASTERED] = getItem(STORAGE_KEYS.FLASHCARDS_MASTERED);
-		data[STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT] = getItem(STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT);
-		data[STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS] = getItem(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS);
-
-		// Mock exam scores
-		data[STORAGE_KEYS.MOCK_EXAM_SCORES] = getItem(STORAGE_KEYS.MOCK_EXAM_SCORES);
-
-		// User name
-		data["pmp_user_name"] = getItem("pmp_user_name");
-
-		// Add timestamp
-		data.exportTimestamp = new Date().toISOString();
-		data.exportVersion = "1.0";
-
-		return data;
-	}
-
 	// Export progress to JSON file
 	function exportProgress() {
-		try {
-			const data = gatherAllData();
-			const jsonString = JSON.stringify(data, null, 2);
-			const blob = new Blob([jsonString], { type: "application/json" });
-			const url = URL.createObjectURL(blob);
-			const link = document.createElement("a");
-			link.href = url;
-			link.download = `pmp_progress_backup_${new Date().toISOString().split("T")[0]}.json`;
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			URL.revokeObjectURL(url);
-		} catch (error) {
-			console.error("Export failed:", error);
-		}
+		downloadProgressBackup();
 	}
 
 	// Handle file selection for import
-	function handleFileSelect(event: Event) {
+	async function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
 		const file = input.files?.[0];
 		if (file) {
-			importProgress(file);
-			// Reset input
-			input.value = "";
-		}
-	}
+			const result = await importProgress(file);
 
-	// Import progress from JSON file
-	function importProgress(file: File) {
-		const reader = new FileReader();
-		reader.onload = (e) => {
-			try {
-				const content = e.target?.result as string;
-				const data = JSON.parse(content);
+			// Show feedback message
+			importMessage = result.message;
+			importMessageType = result.success ? "success" : "error";
 
-				// Validate the data structure
-				if (!data.exportVersion) {
-					throw new Error("Invalid backup file format");
-				}
-
-				// Restore data to localStorage
-				Object.keys(data).forEach((key) => {
-					if (key !== "exportTimestamp" && key !== "exportVersion") {
-						try {
-							localStorage.setItem(key, JSON.stringify(data[key]));
-						} catch (error) {
-							console.error(`Failed to restore ${key}:`, error);
-						}
-					}
-				});
-
-				// Refresh stores to trigger UI updates
+			// If successful, refresh stores to trigger UI updates
+			if (result.success) {
 				const domainProgressData = localStorage.getItem(DASHBOARD_DOMAIN_PROGRESS);
 				if (domainProgressData) {
 					domainProgressStore.set(JSON.parse(domainProgressData));
@@ -118,28 +37,17 @@
 				if (recentActivityData) {
 					recentActivityStore.set(JSON.parse(recentActivityData));
 				}
-
-				// Show success message
-				importMessage = "Progress imported successfully!";
-				importMessageType = "success";
-
-				// Clear message after 3 seconds
-				setTimeout(() => {
-					importMessage = "";
-					importMessageType = "";
-				}, 3000);
-			} catch (error) {
-				console.error("Import failed:", error);
-				importMessage = "Failed to import progress. Please check the file format.";
-				importMessageType = "error";
-
-				setTimeout(() => {
-					importMessage = "";
-					importMessageType = "";
-				}, 5000);
 			}
-		};
-		reader.readAsText(file);
+
+			// Clear message after 3 seconds (5 seconds for errors)
+			setTimeout(() => {
+				importMessage = "";
+				importMessageType = "";
+			}, result.success ? 3000 : 5000);
+
+			// Reset input
+			input.value = "";
+		}
 	}
 </script>
 
