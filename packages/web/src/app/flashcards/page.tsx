@@ -1,61 +1,72 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { apiRequest } from "@/lib/api";
-import { useToast } from "@/components/ToastProvider";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
-import { FullPageSkeleton } from "@/components/FullPageSkeleton";
+import { getFlashcardStats as loadAllFlashcardStats } from "@/lib/flashcards";
+import { getFlashcardStats, getDueCards } from "@/lib/stats";
+import { getJson, setJson } from "@/lib/storage";
+import { createInitialProgress } from "@/lib/spaced";
+import type { FlashcardProgress } from "@/lib/spaced";
 import type { Domain } from "@/data/pmpExamContent";
+import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
 
-interface FlashcardStats {
-  mastered: number;
-  learning: number;
-  dueForReview: number;
-  totalCards: number;
-}
+const STORAGE_KEY_PROGRESS = "flashcard_progress";
+const STORAGE_KEY_STREAK = "flashcard_streak";
 
 export default function FlashcardsPage() {
-  const router = useRouter();
-  const { isLoading: authLoading } = useRequireAuth();
-  const toast = useToast();
-  const [stats, setStats] = useState<FlashcardStats | null>(null);
-  const [domains, setDomains] = useState<Domain[]>([]);
+  const [stats, setStats] = useState<ReturnType<typeof getFlashcardStats> | null>(null);
+  const [allStats, setAllStats] = useState<ReturnType<typeof loadAllFlashcardStats> | null>(null);
+  const [domains] = useState<Domain[]>(PMP_EXAM_CONTENT);
   const [loading, setLoading] = useState(true);
-  const [starting, setStarting] = useState<"review" | "all" | "focused" | null>(
-    null,
-  );
 
   // Selection state for focused mode
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
-  const [cardCount, setCardCount] = useState<number>(20);
   const [showFilters, setShowFilters] = useState(false);
 
-  const fetchData = useCallback(async () => {
-    try {
-      const statsRes = await apiRequest<{ stats: FlashcardStats }>(
-        "/flashcards/stats",
-      );
-      setStats(statsRes.data?.stats ?? null);
-
-      // Fetch domains for selection
-      const domainsRes = await apiRequest<{ domains: Domain[] }>("/domains");
-      setDomains(domainsRes.data?.domains ?? []);
-    } catch (error) {
-      console.error("Failed to fetch flashcard data:", error);
-      toast.error("Failed to load flashcards. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }, [toast]);
-
+  // Initialize flashcard progress on first load
   useEffect(() => {
-    // In static mode, always fetch data (no auth check)
-    fetchData();
-  }, [fetchData]);
+    const initializeData = async () => {
+      try {
+        // Load all flashcards
+        const { loadFlashcards } = await import("@/lib/flashcards");
+        const allCards = await loadFlashcards();
+
+        // Get or initialize progress
+        let progress = getJson<Record<string, FlashcardProgress>>(
+          STORAGE_KEY_PROGRESS,
+          {}
+        );
+
+        // Initialize progress for any new cards
+        let hasNewCards = false;
+        for (const card of allCards) {
+          if (!(card.id in progress)) {
+            progress[card.id] = createInitialProgress();
+            hasNewCards = true;
+          }
+        }
+
+        if (hasNewCards) {
+          setJson(STORAGE_KEY_PROGRESS, progress);
+        }
+
+        // Calculate stats
+        const progressStats = getFlashcardStats(progress);
+        const allStatsValue = loadAllFlashcardStats(allCards);
+
+        setStats(progressStats);
+        setAllStats(allStatsValue);
+      } catch (error) {
+        console.error("Failed to load flashcard data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeData();
+  }, []);
 
   const getFilteredDomainTasks = useCallback(() => {
     if (!selectedDomainId) return [];
@@ -63,67 +74,30 @@ export default function FlashcardsPage() {
     return domain?.tasks || [];
   }, [domains, selectedDomainId]);
 
-  const startSession = async (mode: "review" | "all" | "focused") => {
-    try {
-      setStarting(mode);
-
-      let options: Record<string, unknown> = { cardCount };
-
-      if (mode === "review") {
-        options = { ...options, prioritizeReview: true };
-      }
-
-      if (mode === "focused") {
-        if (!selectedDomainId) {
-          toast.error("Please select a domain");
-          setStarting(null);
-          return;
-        }
-        options = {
-          ...options,
-          domainIds: [selectedDomainId],
-          taskIds: selectedTaskId ? [selectedTaskId] : undefined,
-          prioritizeReview: false,
-        };
-      }
-
-      const response = await apiRequest<{ sessionId: string }>(
-        "/flashcards/sessions",
-        {
-          method: "POST",
-          body: options,
-        },
-      );
-      const sessionId = response.data?.sessionId;
-      if (sessionId) {
-        router.push(`/flashcards/session/${sessionId}`);
-      }
-    } catch (error) {
-      console.error("Failed to start session:", error);
-      toast.error("Failed to start session. Please try again.");
-    } finally {
-      setStarting(null);
-    }
-  };
-
   const resetFilters = useCallback(() => {
     setSelectedDomainId(null);
     setSelectedTaskId(null);
-    setCardCount(20);
     setShowFilters(false);
   }, []);
 
   const selectedDomain = domains.find((d) => d.id === selectedDomainId);
   const tasksForSelectedDomain = getFilteredDomainTasks();
   const hasActiveFilters =
-    selectedDomainId !== null || selectedTaskId !== null || cardCount !== 20;
+    selectedDomainId !== null || selectedTaskId !== null;
 
-  if (authLoading || loading) {
-    return <FullPageSkeleton />;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-md-primary mx-auto mb-4"></div>
+          <p className="text-md-on-surface-variant">Loading flashcards...</p>
+        </div>
+      </div>
+    );
   }
 
-  // CRITICAL-007: Use dueForReview from stats instead of capped array length
-  const dueCardsCount = stats?.dueForReview || 0;
+  const dueCardsCount = stats?.dueTodayCount || 0;
+  const totalCards = allStats?.totalCards || 0;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -206,13 +180,12 @@ export default function FlashcardsPage() {
                 ? `You have ${dueCardsCount} cards due for review. Keep your streak going!`
                 : "No cards due right now. Start a session to review any available cards!"}
             </p>
-            <button
-              onClick={() => startSession("review")}
-              disabled={starting !== null}
-              className="btn btn-primary w-full"
+            <Link
+              href="/flashcards/play?mode=review"
+              className="btn btn-primary w-full text-center"
             >
-              {starting === "review" ? "Starting..." : "Start Review"}
-            </button>
+              Start Review
+            </Link>
           </div>
 
           {/* Study All Cards */}
@@ -238,13 +211,12 @@ export default function FlashcardsPage() {
             <p className="text-md-on-surface-variant mb-6 min-h-[3rem]">
               Start a new study session with a mix of new and review cards.
             </p>
-            <button
-              onClick={() => startSession("all")}
-              disabled={starting !== null}
-              className="btn btn-secondary w-full"
+            <Link
+              href="/flashcards/play?mode=all"
+              className="btn btn-secondary w-full text-center"
             >
-              {starting === "all" ? "Starting..." : "Start Session"}
-            </button>
+              Start Session
+            </Link>
           </div>
 
           {/* Focus on Task */}
@@ -384,38 +356,18 @@ export default function FlashcardsPage() {
                 </select>
               </div>
 
-              {/* Card Count */}
-              <div>
-                <label
-                  htmlFor="card-count"
-                  className="block text-sm font-medium text-md-on-surface-variant mb-2"
-                >
-                  Number of Cards
-                </label>
-                <select
-                  id="card-count"
-                  value={cardCount}
-                  onChange={(e) => setCardCount(Number(e.target.value))}
-                  className="input w-full"
-                >
-                  <option value={10}>10 cards</option>
-                  <option value={20}>20 cards</option>
-                  <option value={30}>30 cards</option>
-                  <option value={50}>50 cards</option>
-                </select>
-              </div>
-
               {/* Start Button */}
               <div className="flex items-end">
-                <button
-                  onClick={() => startSession("focused")}
-                  disabled={starting !== null || !selectedDomainId}
-                  className="btn btn-tertiary w-full"
+                <Link
+                  href={
+                    selectedDomainId
+                      ? `/flashcards/play?mode=focused&domain=${encodeURIComponent(selectedDomainId)}${selectedTaskId ? `&task=${encodeURIComponent(selectedTaskId)}` : ""}`
+                      : "#"
+                  }
+                  className={`btn btn-tertiary w-full text-center ${!selectedDomainId ? "opacity-50 pointer-events-none" : ""}`}
                 >
-                  {starting === "focused"
-                    ? "Starting..."
-                    : "Start Focused Session"}
-                </button>
+                  Start Focused Session
+                </Link>
               </div>
             </div>
 
