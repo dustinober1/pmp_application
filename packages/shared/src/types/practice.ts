@@ -90,7 +90,7 @@ export interface MockExam {
   id: string;
   userId: string;
   questions: PracticeQuestion[];
-  timeLimit: number; // 230 minutes for PMP
+  timeLimit: number; // 240 minutes for PMP
   startedAt: Date;
   completedAt: Date | null;
   submittedAt: Date | null;
@@ -105,7 +105,7 @@ export interface MockExamResult extends PracticeSessionResult {
 
 // PMP Exam Constants
 export const PMP_EXAM = {
-  TIME_LIMIT_MINUTES: 230,
-  TOTAL_QUESTIONS: 180,
+  TIME_LIMIT_MINUTES: 240,
+  TOTAL_QUESTIONS: 185,
   PASSING_SCORE_PERCENTAGE: 61, // Approximate
 } as const;

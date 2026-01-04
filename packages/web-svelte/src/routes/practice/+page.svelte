@@ -68,7 +68,7 @@
 		try {
 			const response = await practiceApi.startSession({
 				// Mock exam parameters
-				questionCount: 180,
+				questionCount: 185,
 				domainIds: []
 			});
 			const sessionId = response.data?.sessionId;
@@ -232,7 +232,7 @@
 						</div>
 						<h2 class="text-lg font-semibold">Full Mock Exams</h2>
 						<p class="text-sm text-gray-600 mt-2">
-							Simulate the real PMP exam with 180 questions and a 3h 50min time limit.
+							Simulate the real PMP exam with 185 questions and a 4-hour time limit.
 						</p>
 
 						{#if canTakeMockExam}
