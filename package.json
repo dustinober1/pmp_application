@@ -2,6 +2,7 @@
   "name": "pmp-study-application",
   "version": "1.0.0",
   "description": "Comprehensive PMP Study Application for the 2026 PMP exam",
+  "license": "MIT",
   "private": true,
   "workspaces": [
     "packages/web",

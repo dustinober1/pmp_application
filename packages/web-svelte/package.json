@@ -1,42 +1,43 @@
 {
-	"name": "@pmp/web-svelte",
-	"private": true,
-	"version": "1.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"test": "vitest",
-		"test:coverage": "vitest --coverage",
-		"test:ui": "vitest --ui",
-		"test:run": "vitest run"
-	},
-	"dependencies": {
-		"@pmp/shared": "1.0.0",
-		"isomorphic-dompurify": "^2.35.0",
-		"marked": "^17.0.1"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^7.0.0",
-		"@sveltejs/kit": "^2.49.1",
-		"@sveltejs/vite-plugin-svelte": "^6.2.1",
-		"@testing-library/jest-dom": "^6.9.1",
-		"@testing-library/svelte": "^5.3.1",
-		"@vitest/coverage-v8": "^4.0.16",
-		"@vitest/ui": "^4.0.16",
-		"autoprefixer": "^10.4.23",
-		"happy-dom": "^20.0.11",
-		"jsdom": "^27.4.0",
-		"postcss": "^8.5.6",
-		"svelte": "^5.45.6",
-		"svelte-check": "^4.3.4",
-		"tailwindcss": "^3.4.19",
-		"typescript": "^5.9.3",
-		"vite": "^7.2.6",
-		"vitest": "^4.0.16"
-	}
+  "name": "@pmp/web-svelte",
+  "license": "MIT",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
+  },
+  "dependencies": {
+    "@pmp/shared": "1.0.0",
+    "isomorphic-dompurify": "^2.35.0",
+    "marked": "^17.0.1"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^7.0.0",
+    "@sveltejs/kit": "^2.49.1",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/svelte": "^5.3.1",
+    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/ui": "^4.0.16",
+    "autoprefixer": "^10.4.23",
+    "happy-dom": "^20.0.11",
+    "jsdom": "^27.4.0",
+    "postcss": "^8.5.6",
+    "svelte": "^5.45.6",
+    "svelte-check": "^4.3.4",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.6",
+    "vitest": "^4.0.16"
+  }
 }

@@ -2,6 +2,7 @@
   "name": "@pmp/web",
   "version": "1.0.0",
   "description": "PMP Study Application Web Frontend",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",
