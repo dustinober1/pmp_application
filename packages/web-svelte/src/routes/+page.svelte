@@ -36,7 +36,7 @@
 		</div>
 
 		<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-			<h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
+			<h2 class="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
 				2026 PMP Exam Content Outline
 			</h2>
 			<p class="text-gray-600 dark:text-gray-400 mb-6">
@@ -64,7 +64,7 @@
 
 			<!-- 2026 Key Themes Grid -->
 			<div class="mb-8">
-				<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">2026 Key Themes</h3>
+				<h3 class="text-2xl md:text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">2026 Key Themes</h3>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<!-- AI Integration -->
 					<div class="group p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-600/10 dark:from-emerald-400/10 dark:to-teal-500/10 backdrop-blur-md border border-emerald-200/50 dark:border-emerald-700/50 shadow-lg hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105 cursor-default">
