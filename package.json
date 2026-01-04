@@ -8,9 +8,9 @@
   ],
   "scripts": {
     "build": "npm run build:shared && npm run build:api && npm run build:web",
-    "build:api": "npm run build -w @pmp/api",
-    "build:web": "npm run build -w @pmp/web",
-    "build:shared": "npm run build -w @pmp/shared",
+    "build:api": "NODE_OPTIONS=--max-old-space-size=192 npm run build -w @pmp/api",
+    "build:web": "NODE_OPTIONS=--max-old-space-size=320 npm run build -w @pmp/web",
+    "build:shared": "NODE_OPTIONS=--max-old-space-size=192 npm run build -w @pmp/shared",
     "start": "npm run start -w @pmp/web",
     "start:api": "npm run start -w @pmp/api",
     "start:web": "npm run start -w @pmp/web",

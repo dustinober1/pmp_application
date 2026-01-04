@@ -11,8 +11,6 @@
     ],
     "skipLibCheck": true,
     "noEmit": false,
-    "incremental": true,
-    "tsBuildInfoFile": "./.tsbuildinfo",
     "declaration": true,
     "sourceMap": false,
     "removeComments": true
@@ -22,6 +20,10 @@
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ]
 }

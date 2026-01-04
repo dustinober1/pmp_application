@@ -13,8 +13,6 @@
     "noEmit": false,
     "noImplicitAny": false,
     "strict": false,
-    "incremental": true,
-    "tsBuildInfoFile": "./.tsbuildinfo",
     "sourceMap": false,
     "removeComments": true
   },
