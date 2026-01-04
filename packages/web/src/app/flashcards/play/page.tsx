@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { loadFlashcards, filterFlashcards, type FlashcardCard } from "@/lib/flashcards";
+import { loadFlashcards, type FlashcardCard } from "@/lib/flashcards";
 import { getJson, setJson, updateJson } from "@/lib/storage";
 import {
   createInitialProgress,

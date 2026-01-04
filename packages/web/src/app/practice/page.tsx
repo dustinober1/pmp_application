@@ -1,352 +1,249 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { apiRequest } from "@/lib/api";
-import { useToast } from "@/components/ToastProvider";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
-import { FullPageSkeleton } from "@/components/FullPageSkeleton";
+import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
+import { getJson, createEmptyPracticeHistory, type PracticeHistory } from "@/lib/stats";
+import { getQuestionStats, type QuestionStats } from "@/lib/questions";
 
-interface PracticeStats {
-  totalSessions: number;
-  totalQuestions: number;
-  averageScore: number;
-  bestScore: number;
-  weakDomains: string[];
-}
-
-interface Domain {
-  id: string;
-  name: string;
-  code: string;
-}
-
-interface MockExam {
-  id: number;
-  name: string;
-  description: string;
-  totalQuestions: number;
-  domainBreakdown: Array<{
-    domainId: string;
-    domainName: string;
-    count: number;
-    percentage: number;
-  }>;
-}
+const STORAGE_KEY_HISTORY = "practice_history";
 
 export default function PracticePage() {
-  const router = useRouter();
-  const { user, isLoading: authLoading } = useRequireAuth();
-  const toast = useToast();
-  const [stats, setStats] = useState<PracticeStats | null>(null);
-  const [domains, setDomains] = useState<Domain[]>([]);
-  const [mockExams, setMockExams] = useState<MockExam[]>([]);
-  const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
-  const [questionCount, setQuestionCount] = useState(20);
+  const [stats, setStats] = useState<QuestionStats | null>(null);
+  const [selectedDomain, setSelectedDomain] = useState<string>("");
+  const [selectedTask, setSelectedTask] = useState<string>("");
+  const [questionCount, setQuestionCount] = useState(10);
   const [loading, setLoading] = useState(true);
-  const [starting, setStarting] = useState(false);
 
-  const fetchData = useCallback(async () => {
+  // Load stats from localStorage
+  useEffect(() => {
     try {
-      const [statsRes, domainsRes, mockExamsRes] = await Promise.all([
-        apiRequest<{ stats: PracticeStats }>("/practice/stats"),
-        apiRequest<{ domains: Domain[] }>("/domains"),
-        apiRequest<{ exams: MockExam[]; count: number }>(
-          "/practice/mock-exams",
-        ).catch(() => ({ data: { exams: [], count: 0 } })),
-      ]);
-      setStats(statsRes.data?.stats ?? null);
-      setDomains(domainsRes.data?.domains ?? []);
-      setMockExams(mockExamsRes.data?.exams ?? []);
+      const history = getJson<PracticeHistory>(STORAGE_KEY_HISTORY, createEmptyPracticeHistory());
+      // Get basic stats from history
+      const totalAttempts = history.attempts.length;
+      const avgScore =
+        totalAttempts > 0
+          ? Math.round(
+              history.attempts.reduce((sum, a) => sum + a.scorePercent, 0) / totalAttempts
+            )
+          : 0;
+      const bestScore =
+        totalAttempts > 0 ? Math.max(...history.attempts.map((a) => a.scorePercent)) : 0;
+
+      setStats({
+        totalQuestions: history.attempts.reduce((sum, a) => sum + a.questionCount, 0),
+        domains: PMP_EXAM_CONTENT.domains.length,
+        tasks: PMP_EXAM_CONTENT.domains.reduce(
+          (sum, d) => sum + d.tasks.length,
+          0
+        ),
+        questionsByDomain: {},
+      } as QuestionStats);
     } catch (error) {
-      console.error("Failed to fetch data:", error);
-      toast.error("Failed to load practice data. Please try again.");
+      console.error("Failed to load practice stats:", error);
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, []);
 
-  useEffect(() => {
-    // In static mode, always fetch data (no auth check)
-    fetchData();
-  }, [fetchData]);
+  // Get available domains and tasks
+  const domains = useMemo(() => {
+    return PMP_EXAM_CONTENT.domains.map((d) => ({
+      id: d.id,
+      name: d.name,
+      code: d.code,
+    }));
+  }, []);
 
-  const startSession = async () => {
-    setStarting(true);
-    try {
-      const response = await apiRequest<{ sessionId: string }>(
-        "/practice/sessions",
-        {
-          method: "POST",
-          body: {
-            domainIds: selectedDomains.length > 0 ? selectedDomains : undefined,
-            questionCount,
-          },
-        },
-      );
-      const sessionId = response.data?.sessionId;
-      if (sessionId) {
-        router.push(`/practice/session/${sessionId}`);
-      }
-    } catch (error) {
-      console.error("Failed to start session:", error);
-      toast.error("Failed to start practice session. Please try again.");
-    } finally {
-      setStarting(false);
-    }
+  const selectedDomainObj = useMemo(() => {
+    return PMP_EXAM_CONTENT.domains.find((d) => d.code === selectedDomain);
+  }, [selectedDomain]);
+
+  const tasks = useMemo(() => {
+    if (!selectedDomainObj) return [];
+    return selectedDomainObj.tasks.map((t) => ({
+      id: t.id,
+      name: t.name,
+    }));
+  }, [selectedDomainObj]);
+
+  // Build the URL for the practice session
+  const buildPlayUrl = () => {
+    const params = new URLSearchParams();
+    params.set("count", questionCount.toString());
+    if (selectedDomain) params.set("domain", selectedDomain);
+    if (selectedTask) params.set("task", selectedTask);
+    return `/practice/play?${params.toString()}`;
   };
 
-  const startMockExam = async (examId: number) => {
-    setStarting(true);
-    try {
-      const response = await apiRequest<{ sessionId: string }>(
-        "/practice/mock-exams",
-        {
-          method: "POST",
-          body: { examId },
-        },
-      );
-      const sessionId = response.data?.sessionId;
-      if (sessionId) {
-        router.push(`/practice/mock/session/${sessionId}`);
-      }
-    } catch (error) {
-      console.error("Failed to start mock exam:", error);
-      toast.error("Failed to start mock exam. Please try again.");
-    } finally {
-      setStarting(false);
-    }
+  const startQuiz = () => {
+    window.location.href = buildPlayUrl();
   };
 
-  const toggleDomain = (domainId: string) => {
-    setSelectedDomains((prev) =>
-      prev.includes(domainId)
-        ? prev.filter((id) => id !== domainId)
-        : [...prev, domainId],
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-gray-600">Loading...</div>
+        </div>
+      </>
     );
-  };
-
-  if (authLoading || loading) {
-    return <FullPageSkeleton />;
   }
 
-  const canTakeMockExam = user?.tier === "pro" || user?.tier === "corporate";
-
   return (
-    <div className="min-h-screen">
+    <>
       <Navbar />
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold">Practice Questions</h1>
-          <p className="text-[var(--foreground-muted)]">
-            Test your knowledge with realistic PMP exam questions.
-          </p>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="card text-center">
-            <p className="text-3xl font-bold">{stats?.totalSessions || 0}</p>
-            <p className="text-sm text-[var(--foreground-muted)]">Sessions</p>
-          </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold">{stats?.totalQuestions || 0}</p>
-            <p className="text-sm text-[var(--foreground-muted)]">
-              Questions Answered
+      <main className="min-h-screen bg-gray-50 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900">Practice Questions</h1>
+            <p className="mt-2 text-gray-600">
+              Test your knowledge with realistic PMP exam questions
             </p>
           </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-[var(--primary)]">
-              {stats?.averageScore || 0}%
-            </p>
-            <p className="text-sm text-[var(--foreground-muted)]">
-              Average Score
-            </p>
-          </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-[var(--success)]">
-              {stats?.bestScore || 0}%
-            </p>
-            <p className="text-sm text-[var(--foreground-muted)]">Best Score</p>
-          </div>
-        </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Practice Configuration */}
-          <div className="lg:col-span-2">
-            <div className="card">
-              <h2 className="font-semibold mb-4">Configure Practice Session</h2>
-
-              {/* Domain Selection */}
-              <fieldset className="mb-6">
-                <legend className="block text-sm font-medium mb-2">
-                  Select Domains (optional)
-                </legend>
-                <div className="flex flex-wrap gap-2">
-                  {domains.map((domain) => (
-                    <button
-                      key={domain.id}
-                      onClick={() => toggleDomain(domain.id)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                        selectedDomains.includes(domain.id)
-                          ? "bg-[var(--primary)] text-white"
-                          : "bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)]"
-                      }`}
-                    >
-                      {domain.name}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-xs text-[var(--foreground-muted)] mt-2">
-                  Leave empty to include all domains
-                </p>
-              </fieldset>
-
-              {/* Question Count */}
-              <fieldset className="mb-6">
-                <legend className="block text-sm font-medium mb-2">
-                  Number of Questions
-                </legend>
-                <div className="flex gap-2">
-                  {[10, 20, 30, 50].map((count) => (
-                    <button
-                      key={count}
-                      onClick={() => setQuestionCount(count)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                        questionCount === count
-                          ? "bg-[var(--primary)] text-white"
-                          : "bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)]"
-                      }`}
-                    >
-                      {count}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-
-              <button
-                onClick={startSession}
-                disabled={starting}
-                className="btn btn-primary w-full"
-              >
-                {starting ? "Starting..." : "Start Practice Session"}
-              </button>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="text-sm text-gray-500 mb-1">Total Questions</div>
+              <div className="text-3xl font-bold text-gray-900">
+                {stats?.totalQuestions || 0}
+              </div>
             </div>
-
-            {/* Weak Areas */}
-            {stats?.weakDomains && stats.weakDomains.length > 0 && (
-              <div className="card mt-6">
-                <h2 className="font-semibold mb-4">Focus Areas</h2>
-                <p className="text-sm text-[var(--foreground-muted)] mb-4">
-                  Based on your practice history, focus on these areas:
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {stats.weakDomains.map((domain, i) => (
-                    <span key={i} className="badge badge-warning">
-                      {domain}
-                    </span>
-                  ))}
-                </div>
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="text-sm text-gray-500 mb-1">Domains</div>
+              <div className="text-3xl font-bold text-gray-900">
+                {stats?.domains || 0}
               </div>
-            )}
+            </div>
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="text-sm text-gray-500 mb-1">Tasks</div>
+              <div className="text-3xl font-bold text-gray-900">{stats?.tasks || 0}</div>
+            </div>
           </div>
 
-          {/* Quick Actions */}
-          <div className="space-y-6">
-            {/* Mock Exam Card */}
-            <div className="card">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center mb-4">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+          {/* Quiz Configuration */}
+          <div className="bg-white rounded-lg shadow p-6 mb-8">
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+              Start a New Quiz
+            </h2>
+
+            <div className="space-y-6">
+              {/* Domain Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Domain (Optional)
+                </label>
+                <select
+                  value={selectedDomain}
+                  onChange={(e) => {
+                    setSelectedDomain(e.target.value);
+                    setSelectedTask("");
+                  }}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                  <option value="">All Domains</option>
+                  {domains.map((domain) => (
+                    <option key={domain.id} value={domain.code}>
+                      {domain.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <h2 className="text-lg font-semibold">Full Mock Exams</h2>
-              <p className="text-sm text-[var(--foreground-muted)] mt-2">
-                Simulate the real PMP exam with 180 questions and a 3h 50min
-                time limit.
-              </p>
-              {canTakeMockExam ? (
-                <div className="mt-4 space-y-2">
-                  {mockExams.length > 0 ? (
-                    mockExams.map((exam) => (
-                      <div
-                        key={exam.id}
-                        className="border border-[var(--border)] rounded-lg p-3"
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-medium text-sm">{exam.name}</h3>
-                          <span className="text-xs text-[var(--foreground-muted)]">
-                            {exam.totalQuestions} questions
-                          </span>
-                        </div>
-                        <div className="flex flex-wrap gap-1 mb-3">
-                          {exam.domainBreakdown.map((domain) => (
-                            <span
-                              key={domain.domainId}
-                              className="text-xs px-2 py-1 rounded-full bg-[var(--secondary)] text-[var(--secondary-foreground)]"
-                              title={`${domain.domainName}: ${domain.count} questions`}
-                            >
-                              {domain.domainName.split(" ")[0]}{" "}
-                              {domain.percentage}%
-                            </span>
-                          ))}
-                        </div>
-                        <button
-                          onClick={() => startMockExam(exam.id)}
-                          disabled={starting}
-                          className="btn btn-primary w-full text-sm"
-                        >
-                          {starting ? "Starting..." : `Start ${exam.name}`}
-                        </button>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-[var(--foreground-muted)] text-center py-4">
-                      No mock exams available
-                    </p>
-                  )}
-                </div>
-              ) : (
-                <div className="mt-4">
-                  <p className="text-xs text-[var(--foreground-muted)] mb-2">
-                    Available for Pro and Corporate tiers
-                  </p>
-                  <Link href="/pricing" className="btn btn-secondary w-full">
-                    Upgrade to Access
-                  </Link>
+
+              {/* Task Selection */}
+              {selectedDomain && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Task (Optional)
+                  </label>
+                  <select
+                    value={selectedTask}
+                    onChange={(e) => setSelectedTask(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">All Tasks</option>
+                    {tasks.map((task) => (
+                      <option key={task.id} value={task.name}>
+                        {task.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               )}
-            </div>
 
-            {/* Flagged Questions */}
-            <div className="card">
-              <h2 className="font-semibold mb-2">Flagged Questions</h2>
-              <p className="text-sm text-[var(--foreground-muted)]">
-                Review questions you have flagged for later.
-              </p>
+              {/* Question Count */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Number of Questions
+                </label>
+                <select
+                  value={questionCount}
+                  onChange={(e) => setQuestionCount(parseInt(e.target.value))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value={5}>5 Questions</option>
+                  <option value={10}>10 Questions</option>
+                  <option value={20}>20 Questions</option>
+                  <option value={50}>50 Questions</option>
+                </select>
+              </div>
+
+              {/* Start Button */}
+              <div className="flex gap-4">
+                <button
+                  onClick={startQuiz}
+                  className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Start Quiz
+                </button>
+                <Link
+                  href="/dashboard"
+                  className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  View Dashboard
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Start Options */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Quick Start Options
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Link
+                href="/practice/play?count=10"
+                className="px-4 py-3 bg-blue-50 border border-blue-200 text-blue-700 font-medium rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center"
+              >
+                10 Random Questions
+              </Link>
+              <Link
+                href="/practice/play?count=20"
+                className="px-4 py-3 bg-blue-50 border border-blue-200 text-blue-700 font-medium rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center"
+              >
+                20 Random Questions
+              </Link>
+              <Link
+                href="/practice/play?mode=mock"
+                className="px-4 py-3 bg-purple-50 border border-purple-200 text-purple-700 font-medium rounded-lg hover:bg-purple-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-center"
+              >
+                Mock Exam (50 Questions)
+              </Link>
               <Link
                 href="/practice/flagged"
-                className="btn btn-secondary w-full mt-4"
+                className="px-4 py-3 bg-yellow-50 border border-yellow-200 text-yellow-700 font-medium rounded-lg hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 text-center"
               >
-                View Flagged
+                Flagged Questions
               </Link>
             </div>
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }

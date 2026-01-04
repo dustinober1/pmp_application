@@ -1,11 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useMemo, useState } from "react";
 import { Navbar } from "@/components/Navbar";
-import { apiRequest } from "@/lib/api";
-import { useToast } from "@/components/ToastProvider";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
-import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 
 interface Formula {
   id: string;
@@ -16,89 +12,135 @@ interface Formula {
   whenToUse: string;
 }
 
-interface CalcResult {
-  result: number;
-  steps: Array<{
-    stepNumber: number;
-    description: string;
-    expression: string;
-    value: number;
-  }>;
-  interpretation: string;
-}
+// Static list of essential PMP formulas
+const STATIC_FORMULAS: Formula[] = [
+  // Earned Value Management
+  {
+    id: "ev",
+    name: "Earned Value",
+    category: "EVM",
+    expression: "EV = % Complete × BAC",
+    description: "The value of work actually completed to date.",
+    whenToUse: "When measuring progress and forecasting project performance.",
+  },
+  {
+    id: "cv",
+    name: "Cost Variance",
+    category: "EVM",
+    expression: "CV = EV - AC",
+    description: "The difference between earned value and actual cost. Positive = under budget.",
+    whenToUse: "When analyzing cost performance on a project.",
+  },
+  {
+    id: "sv",
+    name: "Schedule Variance",
+    category: "EVM",
+    expression: "SV = EV - PV",
+    description: "The difference between earned value and planned value. Positive = ahead of schedule.",
+    whenToUse: "When analyzing schedule performance on a project.",
+  },
+  {
+    id: "cpi",
+    name: "Cost Performance Index",
+    category: "EVM",
+    expression: "CPI = EV / AC",
+    description: "Ratio of earned value to actual cost. >1 means under budget.",
+    whenToUse: "When forecasting if the project will complete within budget.",
+  },
+  {
+    id: "spi",
+    name: "Schedule Performance Index",
+    category: "EVM",
+    expression: "SPI = EV / PV",
+    description: "Ratio of earned value to planned value. >1 means ahead of schedule.",
+    whenToUse: "When forecasting if the project will complete on time.",
+  },
+  {
+    id: "eac",
+    name: "Estimate at Completion",
+    category: "EVM",
+    expression: "EAC = BAC / CPI",
+    description: "Expected total cost of the project at completion.",
+    whenToUse: "When forecasting the final project cost based on current performance.",
+  },
+  {
+    id: "etc",
+    name: "Estimate to Complete",
+    category: "EVM",
+    expression: "ETC = EAC - AC",
+    description: "Expected cost to complete all remaining work.",
+    whenToUse: "When determining how much more money is needed to finish the project.",
+  },
+  {
+    id: "vac",
+    name: "Variance at Completion",
+    category: "EVM",
+    expression: "VAC = BAC - EAC",
+    description: "Expected cost variance at project completion.",
+    whenToUse: "When forecasting the final budget variance.",
+  },
+  // Communication
+  {
+    id: "channels",
+    name: "Communication Channels",
+    category: "Communication",
+    expression: "Channels = N × (N - 1) / 2",
+    description: "Number of potential communication paths among N stakeholders.",
+    whenToUse: "When planning communication requirements and identifying complexity.",
+  },
+  // Procurement
+  {
+    id: "ptp",
+    name: "Point of Total Assumption",
+    category: "Procurement",
+    expression: "PTA = (Ceiling Price - Target Price) / Buyer Share + Target Cost",
+    description: "The cost at which the seller assumes all cost overruns.",
+    whenToUse: "When analyzing fixed price incentive fee contracts.",
+  },
+  // Scheduling
+  {
+    id: "float",
+    name: "Float (Slack)",
+    category: "Scheduling",
+    expression: "Float = LS - ES = LF - EF",
+    description: "Amount of time an activity can be delayed without delaying the project.",
+    whenToUse: "When analyzing schedule flexibility and critical path.",
+  },
+  // Quality
+  {
+    id: "ev_pv",
+    name: "Expected Value (Decision Tree)",
+    category: "Quality",
+    expression: "EMV = Probability × Impact",
+    description: "Expected Monetary Value for decision analysis.",
+    whenToUse: "When quantifying risk impacts and making decisions under uncertainty.",
+  },
+  // Agile
+  {
+    id: "velocity",
+    name: "Velocity",
+    category: "Agile",
+    expression: "Velocity = Total Story Points Completed",
+    description: "Amount of work a team completes in a single iteration.",
+    whenToUse: "When forecasting future iteration capacity in Agile projects.",
+  },
+];
 
 export default function FormulasPage() {
-  const { user, isLoading: authLoading } = useRequireAuth();
-  const toast = useToast();
-  const [formulas, setFormulas] = useState<Formula[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
-  const [inputs, setInputs] = useState<Record<string, string>>({});
-  const [result, setResult] = useState<CalcResult | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [calculating, setCalculating] = useState(false);
-
-  const fetchFormulas = useCallback(async () => {
-    try {
-      const response = await apiRequest<{ formulas: Formula[] }>("/formulas");
-      setFormulas(response.data?.formulas ?? []);
-    } catch (error) {
-      console.error("Failed to fetch formulas:", error);
-      toast.error("Failed to load formulas. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }, [toast]);
-
-  useEffect(() => {
-    // In static mode, always fetch formulas (no auth check)
-    fetchFormulas();
-  }, [fetchFormulas]);
-
-  const calculate = async () => {
-    if (!selectedFormula) return;
-
-    setCalculating(true);
-    setResult(null);
-
-    try {
-      const numericInputs: Record<string, number> = {};
-      for (const [key, value] of Object.entries(inputs)) {
-        numericInputs[key] = parseFloat(value) || 0;
-      }
-
-      const response = await apiRequest<{ result: CalcResult }>(
-        `/formulas/${selectedFormula.id}/calculate`,
-        { method: "POST", body: { inputs: numericInputs } },
-      );
-      setResult(response.data?.result ?? null);
-    } catch (error) {
-      console.error("Calculation failed:", error);
-      toast.error(
-        "Calculation failed. Please check your inputs and try again.",
-      );
-    } finally {
-      setCalculating(false);
-    }
-  };
 
   const categories = useMemo(
-    () => ["all", ...Array.from(new Set(formulas.map((f) => f.category)))],
-    [formulas],
+    () => ["all", ...Array.from(new Set(STATIC_FORMULAS.map((f) => f.category)))],
+    [],
   );
   const filteredFormulas = useMemo(
     () =>
       selectedCategory === "all"
-        ? formulas
-        : formulas.filter((f) => f.category === selectedCategory),
-    [formulas, selectedCategory],
+        ? STATIC_FORMULAS
+        : STATIC_FORMULAS.filter((f) => f.category === selectedCategory),
+    [selectedCategory],
   );
-
-  const canUseCalculator = user?.tier === "pro" || user?.tier === "corporate";
-
-  if (authLoading || loading) {
-    return <FullPageSkeleton />;
-  }
 
   return (
     <div className="min-h-screen">
@@ -108,7 +150,7 @@ export default function FormulasPage() {
         <div className="mb-8">
           <h1 className="text-2xl font-bold">Formula Reference</h1>
           <p className="text-[var(--foreground-muted)]">
-            Essential PMP formulas with interactive calculator.
+            Essential PMP formulas for exam preparation.
           </p>
         </div>
 
@@ -142,11 +184,7 @@ export default function FormulasPage() {
                       ? "ring-2 ring-[var(--primary)]"
                       : "hover:border-[var(--primary)]"
                   }`}
-                  onClick={() => {
-                    setSelectedFormula(formula);
-                    setInputs({});
-                    setResult(null);
-                  }}
+                  onClick={() => setSelectedFormula(formula)}
                   aria-pressed={selectedFormula?.id === formula.id}
                 >
                   <div className="flex items-start justify-between">
@@ -171,20 +209,12 @@ export default function FormulasPage() {
             </div>
           </div>
 
-          {/* Calculator Panel */}
+          {/* Formula Detail */}
           <div>
             <div className="card sticky top-24">
-              <h2 className="font-semibold mb-4">Calculator</h2>
+              <h2 className="font-semibold mb-4">Formula Detail</h2>
 
-              {!canUseCalculator ? (
-                <div className="text-center py-8">
-                  <p className="text-[var(--foreground-muted)] mb-4">
-                    Interactive calculator is available for High-End and
-                    Corporate tiers.
-                  </p>
-                  <button className="btn btn-primary">Upgrade Now</button>
-                </div>
-              ) : selectedFormula ? (
+              {selectedFormula ? (
                 <div>
                   <p className="text-sm font-medium mb-2">
                     {selectedFormula.name}
@@ -193,75 +223,26 @@ export default function FormulasPage() {
                     {selectedFormula.expression}
                   </p>
 
-                  {/* Dynamic inputs based on formula expression */}
-                  <div className="space-y-3 mb-4">
-                    {getVariablesFromExpression(selectedFormula.expression).map(
-                      (variable) => {
-                        const inputId = `variable-${variable.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
-                        return (
-                          <div key={variable}>
-                            <label
-                              htmlFor={inputId}
-                              className="block text-sm font-medium mb-1"
-                            >
-                              {variable}
-                            </label>
-                            <input
-                              id={inputId}
-                              type="number"
-                              value={inputs[variable] || ""}
-                              onChange={(e) =>
-                                setInputs((prev) => ({
-                                  ...prev,
-                                  [variable]: e.target.value,
-                                }))
-                              }
-                              className="input"
-                              placeholder={`Enter ${variable}`}
-                            />
-                          </div>
-                        );
-                      },
-                    )}
-                  </div>
-
-                  <button
-                    onClick={calculate}
-                    disabled={calculating}
-                    className="btn btn-primary w-full"
-                  >
-                    {calculating ? "Calculating..." : "Calculate"}
-                  </button>
-
-                  {/* Result */}
-                  {result && (
-                    <div className="mt-4 p-4 bg-[var(--secondary)] rounded-lg">
-                      <p className="text-sm font-medium text-[var(--foreground-muted)]">
-                        Result
-                      </p>
-                      <p className="text-2xl font-bold text-[var(--primary)]">
-                        {result.result.toFixed(2)}
-                      </p>
-                      <p className="text-sm mt-2">{result.interpretation}</p>
-
-                      {result.steps?.length > 0 && (
-                        <div className="mt-4 pt-4 border-t border-[var(--border)]">
-                          <p className="text-xs font-medium text-[var(--foreground-muted)] mb-2">
-                            Steps
-                          </p>
-                          {result.steps.map((step, i) => (
-                            <p key={i} className="text-xs font-mono">
-                              {step.expression} = {step.value}
-                            </p>
-                          ))}
-                        </div>
-                      )}
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-xs font-medium text-[var(--foreground-muted)]">Category</p>
+                      <span className="badge badge-primary capitalize">
+                        {selectedFormula.category.replace("_", " ")}
+                      </span>
                     </div>
-                  )}
+                    <div>
+                      <p className="text-xs font-medium text-[var(--foreground-muted)]">Description</p>
+                      <p className="text-sm mt-1">{selectedFormula.description}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-[var(--foreground-muted)]">When to Use</p>
+                      <p className="text-sm mt-1">{selectedFormula.whenToUse}</p>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <p className="text-sm text-[var(--foreground-muted)] text-center py-8">
-                  Select a formula to use the calculator
+                  Select a formula to view details
                 </p>
               )}
             </div>
@@ -270,14 +251,4 @@ export default function FormulasPage() {
       </main>
     </div>
   );
-}
-
-// Helper to extract variables from formula expression
-function getVariablesFromExpression(expression: string): string[] {
-  const parts = expression.split("=");
-  if (parts.length < 2) return [];
-
-  const rightSide = parts[1] || "";
-  const variables = rightSide.match(/[A-Z]+/g) || [];
-  return [...new Set(variables)];
 }

@@ -3,87 +3,148 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { apiRequest } from "@/lib/api";
-import { useToast } from "@/components/ToastProvider";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
-import { FullPageSkeleton } from "@/components/FullPageSkeleton";
+import { getJson } from "@/lib/storage";
+import {
+  getFlashcardStats,
+  getPracticeStats,
+  createEmptyPracticeHistory,
+  createEmptyStreak,
+  type FlashcardStats,
+  type PracticeStats,
+  type Streak,
+  type PracticeHistory,
+} from "@/lib/stats";
+import {
+  createInitialProgress,
+  type FlashcardProgress,
+} from "@/lib/spaced";
 import { formatDate } from "@/lib/dateUtils";
 import { truncateAtWordBoundary } from "@/lib/stringUtils";
 
-/**
- * CRITICAL-003: Safe helper to extract first name from user name
- * Handles null, undefined, empty strings, and single-word names
- */
-const getFirstName = (name: string | null | undefined): string => {
-  if (!name || name.trim() === "") return "there";
-  const parts = name.trim().split(" ");
-  return parts[0] || "there";
-};
+const STORAGE_KEY_PROGRESS = "flashcard_progress";
+const STORAGE_KEY_HISTORY = "practice_history";
+const STORAGE_KEY_STREAK = "streak";
 
-interface DashboardData {
-  streak: {
-    currentStreak: number;
-    longestStreak: number;
-    lastStudyDate: string | null;
-  };
-  overallProgress: number;
-  domainProgress: Array<{
-    domainId: string;
-    domainName: string;
-    domainCode: string;
-    progress: number;
-    questionsAnswered: number;
-    accuracy: number;
-  }>;
-  recentActivity: Array<{
-    id: string;
-    type: string;
-    description: string;
-    timestamp: string;
-  }>;
-  upcomingReviews: Array<{
-    cardId: string;
-    cardFront: string;
-    taskName: string;
-    dueDate: string;
-  }>;
-  weakAreas: Array<{
-    taskId: string;
-    taskName: string;
-    domainName: string;
-    accuracy: number;
-    recommendation: string;
-  }>;
+interface RecentActivity {
+  id: string;
+  type: string;
+  description: string;
+  timestamp: string;
 }
 
 export default function DashboardPage() {
-  const { user, isLoading: authLoading } = useRequireAuth();
-  const toast = useToast();
-  const [data, setData] = useState<DashboardData | null>(null);
+  const [flashcardStats, setFlashcardStats] = useState<FlashcardStats | null>(null);
+  const [practiceStats, setPracticeStats] = useState<PracticeStats | null>(null);
+  const [streak, setStreak] = useState<Streak | null>(null);
+  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchDashboard = useCallback(async () => {
+  const loadDashboardData = useCallback(() => {
     try {
-      const response = await apiRequest<{ dashboard: DashboardData }>(
-        "/dashboard",
+      // Load flashcard progress
+      const flashcardProgress = getJson<Record<string, FlashcardProgress>>(
+        STORAGE_KEY_PROGRESS,
+        {}
       );
-      setData(response.data?.dashboard ?? null);
+
+      // Initialize progress for any new cards
+      for (const cardId of Object.keys(flashcardProgress)) {
+        if (!(cardId in flashcardProgress)) {
+          flashcardProgress[cardId] = createInitialProgress();
+        }
+      }
+
+      const fcStats = getFlashcardStats(flashcardProgress);
+      setFlashcardStats(fcStats);
+
+      // Load practice history
+      const history = getJson<PracticeHistory>(
+        STORAGE_KEY_HISTORY,
+        createEmptyPracticeHistory()
+      );
+      const prStats = getPracticeStats(history);
+      setPracticeStats(prStats);
+
+      // Load streak
+      const streakData = getJson<Streak>(STORAGE_KEY_STREAK, createEmptyStreak());
+      setStreak(streakData);
+
+      // Build recent activity from practice history and flashcard progress
+      const activities: RecentActivity[] = [];
+
+      // Add practice attempts
+      for (const attempt of history.attempts.slice(-5).reverse()) {
+        activities.push({
+          id: attempt.id,
+          type: "practice",
+          description: `Completed practice quiz: ${attempt.scorePercent}% (${attempt.correctCount}/${attempt.questionCount} correct)`,
+          timestamp: attempt.timestampISO,
+        });
+      }
+
+      // Add flashcard reviews (most recently reviewed cards)
+      const cardEntries = Object.entries(flashcardProgress);
+      cardEntries.sort(
+        (a, b) =>
+          new Date(b[1].lastReviewedISO).getTime() -
+          new Date(a[1].lastReviewedISO).getTime()
+      );
+
+      for (const [cardId, progress] of cardEntries.slice(0, 5)) {
+        if (progress.repetitions > 0) {
+          activities.push({
+            id: cardId,
+            type: "flashcard",
+            description: `Reviewed flashcard: Rated "${progress.lastRating}"`,
+            timestamp: progress.lastReviewedISO,
+          });
+        }
+      }
+
+      // Sort by timestamp descending
+      activities.sort(
+        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      );
+
+      setRecentActivity(activities.slice(0, 5));
     } catch (error) {
-      console.error("Failed to fetch dashboard:", error);
-      toast.error("Failed to load dashboard. Please try again.");
+      console.error("Failed to load dashboard data:", error);
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, []);
 
   useEffect(() => {
-    // In static mode, always fetch dashboard (no auth check)
-    fetchDashboard();
-  }, [fetchDashboard]);
+    loadDashboardData();
+  }, [loadDashboardData]);
 
-  if (authLoading || loading) {
-    return <FullPageSkeleton />;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-md-primary mx-auto mb-4"></div>
+          <p className="text-md-on-surface-variant">Loading dashboard...</p>
+        </div>
+      </div>
+    );
   }
+
+  // Calculate weak areas based on practice stats
+  const weakAreas = practiceStats && practiceStats.avgScore < 70
+    ? [{ taskId: "practice", taskName: "Practice Questions", domainName: "All", accuracy: practiceStats.avgScore, recommendation: "Keep practicing!" }]
+    : [];
+
+  // Domain progress - simplified for static mode
+  const domainProgress = flashcardStats ? [
+    {
+      domainId: "flashcards",
+      domainName: "Flashcard Mastery",
+      domainCode: "FC",
+      progress: flashcardStats.masteryPercentage,
+      questionsAnswered: flashcardStats.totalSeen,
+      accuracy: flashcardStats.masteryPercentage,
+    },
+  ] : [];
 
   return (
     <div className="min-h-screen">
@@ -93,7 +154,7 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold">
-            Welcome back, {getFirstName(user?.name)}!{" "}
+            Welcome to PMP Study Pro!{" "}
             <span aria-hidden="true">👋</span>
           </h1>
           <p className="text-[var(--foreground-muted)]">
@@ -108,24 +169,24 @@ export default function DashboardPage() {
               Current Streak
             </p>
             <p className="text-3xl font-bold mt-1">
-              {data?.streak?.currentStreak || 0}{" "}
+              {streak?.current || 0}{" "}
               <span aria-hidden="true">🔥</span>
             </p>
             <p className="text-xs text-[var(--foreground-muted)] mt-1">
-              Best: {data?.streak?.longestStreak || 0} days
+              Best: {streak?.longest || 0} days
             </p>
           </div>
           <div className="card">
             <p className="text-sm text-[var(--foreground-muted)]">
-              Overall Progress
+              Flashcard Mastery
             </p>
             <p className="text-3xl font-bold mt-1">
-              {data?.overallProgress || 0}%
+              {flashcardStats?.masteryPercentage || 0}%
             </p>
             <div className="progress mt-2">
               <div
                 className="progress-bar"
-                style={{ width: `${data?.overallProgress || 0}%` }}
+                style={{ width: `${flashcardStats?.masteryPercentage || 0}%` }}
               ></div>
             </div>
           </div>
@@ -134,22 +195,22 @@ export default function DashboardPage() {
               Cards to Review
             </p>
             <p className="text-3xl font-bold mt-1">
-              {data?.upcomingReviews?.length || 0}
+              {flashcardStats?.dueTodayCount || 0}
             </p>
             <Link
-              href="/flashcards/review"
+              href="/flashcards/play?mode=review"
               className="text-xs text-[var(--primary)] mt-1 hover:underline"
             >
               Start review →
             </Link>
           </div>
           <div className="card">
-            <p className="text-sm text-[var(--foreground-muted)]">Weak Areas</p>
+            <p className="text-sm text-[var(--foreground-muted)]">Practice Avg</p>
             <p className="text-3xl font-bold mt-1">
-              {data?.weakAreas?.length || 0}
+              {practiceStats?.avgScore || 0}%
             </p>
             <p className="text-xs text-[var(--foreground-muted)] mt-1">
-              Topics needing focus
+              Best: {practiceStats?.bestScore || 0}%
             </p>
           </div>
         </div>
@@ -158,9 +219,9 @@ export default function DashboardPage() {
           {/* Domain Progress */}
           <div className="lg:col-span-2">
             <div className="card">
-              <h2 className="font-semibold mb-4">Domain Progress</h2>
+              <h2 className="font-semibold mb-4">Learning Progress</h2>
               <div className="space-y-4">
-                {data?.domainProgress?.map((domain) => (
+                {domainProgress.map((domain) => (
                   <div key={domain.domainId}>
                     <div className="flex justify-between items-center mb-1">
                       <span className="text-sm font-medium">
@@ -177,26 +238,30 @@ export default function DashboardPage() {
                       ></div>
                     </div>
                     <p className="text-xs text-[var(--foreground-muted)] mt-1">
-                      {domain.questionsAnswered} questions • {domain.accuracy}%
-                      accuracy
+                      {domain.questionsAnswered} cards reviewed • {domain.accuracy}%
+                      mastered
                     </p>
                   </div>
                 ))}
+                {domainProgress.length === 0 && (
+                  <p className="text-sm text-[var(--foreground-muted)]">
+                    Start studying to see your progress!
+                  </p>
+                )}
               </div>
             </div>
 
             {/* Weak Areas */}
-            {data?.weakAreas && data.weakAreas.length > 0 && (
+            {weakAreas && weakAreas.length > 0 && (
               <div className="card mt-6">
                 <h2 className="font-semibold mb-4">Areas to Improve</h2>
                 <div className="space-y-3">
-                  {data.weakAreas.map((area) => (
+                  {weakAreas.map((area, i) => (
                     <div
-                      key={area.taskId}
+                      key={i}
                       className="flex items-center justify-between p-3 bg-[var(--secondary)] rounded-lg"
                     >
                       <div>
-                        {/* MEDIUM-001: Smart text truncation for task names */}
                         <p
                           className="font-medium text-sm"
                           title={area.taskName}
@@ -241,7 +306,7 @@ export default function DashboardPage() {
                       d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
                     />
                   </svg>
-                  Continue Studying
+                  Study Content
                 </Link>
                 <Link
                   href="/flashcards"
@@ -260,7 +325,7 @@ export default function DashboardPage() {
                       d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
                     />
                   </svg>
-                  Review Flashcards
+                  Flashcards
                 </Link>
                 <Link
                   href="/practice"
@@ -281,24 +346,8 @@ export default function DashboardPage() {
                   </svg>
                   Practice Questions
                 </Link>
-
-                <button
-                  onClick={async () => {
-                    try {
-                      const response = await apiRequest<{ url: string }>(
-                        "/subscriptions/stripe/portal",
-                        { method: "POST" },
-                      );
-                      if (response.data?.url) {
-                        window.location.href = response.data.url;
-                      }
-                    } catch (err) {
-                      console.error("Failed to open billing portal:", err);
-                      toast.error(
-                        "Could not open billing portal. Please try again.",
-                      );
-                    }
-                  }}
+                <Link
+                  href="/donate"
                   className="btn btn-secondary w-full justify-start gap-2 text-md-on-surface-variant hover:text-md-primary"
                 >
                   <svg
@@ -311,11 +360,11 @@ export default function DashboardPage() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                     />
                   </svg>
-                  Manage Subscription
-                </button>
+                  Support Us
+                </Link>
               </div>
             </div>
 
@@ -323,14 +372,13 @@ export default function DashboardPage() {
             <div className="card">
               <h2 className="font-semibold mb-4">Recent Activity</h2>
               <div className="space-y-3">
-                {data?.recentActivity?.slice(0, 5).map((activity) => (
+                {recentActivity.slice(0, 5).map((activity) => (
                   <div
                     key={activity.id}
                     className="flex items-start gap-3 text-sm"
                   >
                     <div className="w-2 h-2 rounded-full bg-[var(--primary)] mt-2"></div>
                     <div>
-                      {/* MEDIUM-001: Smart text truncation for activity descriptions */}
                       <p title={activity.description}>
                         {truncateAtWordBoundary(activity.description, 80)}
                       </p>
@@ -340,8 +388,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                 ))}
-                {(!data?.recentActivity ||
-                  data.recentActivity.length === 0) && (
+                {recentActivity.length === 0 && (
                   <p className="text-sm text-[var(--foreground-muted)]">
                     No recent activity yet. Start studying!
                   </p>

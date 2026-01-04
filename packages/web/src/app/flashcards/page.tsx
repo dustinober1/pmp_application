@@ -3,8 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { getFlashcardStats as loadAllFlashcardStats } from "@/lib/flashcards";
-import { getFlashcardStats, getDueCards } from "@/lib/stats";
+import { getFlashcardStats } from "@/lib/stats";
 import { getJson, setJson } from "@/lib/storage";
 import { createInitialProgress } from "@/lib/spaced";
 import type { FlashcardProgress } from "@/lib/spaced";
@@ -12,11 +11,9 @@ import type { Domain } from "@/data/pmpExamContent";
 import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
 
 const STORAGE_KEY_PROGRESS = "flashcard_progress";
-const STORAGE_KEY_STREAK = "flashcard_streak";
 
 export default function FlashcardsPage() {
   const [stats, setStats] = useState<ReturnType<typeof getFlashcardStats> | null>(null);
-  const [allStats, setAllStats] = useState<ReturnType<typeof loadAllFlashcardStats> | null>(null);
   const [domains] = useState<Domain[]>(PMP_EXAM_CONTENT);
   const [loading, setLoading] = useState(true);
 
@@ -54,10 +51,7 @@ export default function FlashcardsPage() {
 
         // Calculate stats
         const progressStats = getFlashcardStats(progress);
-        const allStatsValue = loadAllFlashcardStats(allCards);
-
         setStats(progressStats);
-        setAllStats(allStatsValue);
       } catch (error) {
         console.error("Failed to load flashcard data:", error);
       } finally {
@@ -97,7 +91,6 @@ export default function FlashcardsPage() {
   }
 
   const dueCardsCount = stats?.dueTodayCount || 0;
-  const totalCards = allStats?.totalCards || 0;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -121,7 +114,7 @@ export default function FlashcardsPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div className="card text-center hover:scale-105 transition-transform duration-300">
             <p className="text-4xl font-bold text-md-primary mb-2">
-              {stats?.mastered || 0}
+              {stats?.masteredCount || 0}
             </p>
             <p className="text-sm font-medium text-md-on-surface-variant">
               Mastered
@@ -129,7 +122,7 @@ export default function FlashcardsPage() {
           </div>
           <div className="card text-center hover:scale-105 transition-transform duration-300">
             <p className="text-4xl font-bold text-md-tertiary mb-2">
-              {stats?.learning || 0}
+              {stats?.learningCount || 0}
             </p>
             <p className="text-sm font-medium text-md-on-surface-variant">
               Learning
@@ -145,7 +138,7 @@ export default function FlashcardsPage() {
           </div>
           <div className="card text-center hover:scale-105 transition-transform duration-300">
             <p className="text-4xl font-bold text-md-on-surface mb-2">
-              {stats?.totalCards || 0}
+              {stats?.totalSeen || 0}
             </p>
             <p className="text-sm font-medium text-md-on-surface-variant">
               Total Cards
