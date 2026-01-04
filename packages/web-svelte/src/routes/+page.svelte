@@ -5,6 +5,18 @@
 
 <div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
 	<div class="max-w-3xl w-full text-center space-y-8">
+		<!-- Privacy & Progress Warning -->
+		<div class="bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 p-5 rounded-2xl border-2 border-amber-400 dark:border-amber-600 shadow-lg">
+			<div class="flex items-center justify-center gap-2 mb-2">
+				<span class="text-3xl">⚠️</span>
+				<span class="font-bold text-amber-900 dark:text-amber-100 text-lg">IMPORTANT</span>
+			</div>
+			<p class="text-amber-900 dark:text-amber-100 font-medium text-sm leading-relaxed">
+				This is a free, open-source static site. Your progress is stored locally in your browser's cache.
+				If you clear your browser cache or site data, all your tracking and progress will be permanently lost.
+			</p>
+		</div>
+
 		<div class="space-y-4">
 			<h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
 				PMP Study Pro
@@ -111,17 +123,6 @@
 				<h3 class="font-semibold text-gray-900 dark:text-white mb-1">Practice</h3>
 				<p class="text-sm text-gray-500 dark:text-gray-400">Test your knowledge with quizzes.</p>
 			</div>
-		</div>
-
-		<!-- Data Privacy Notice -->
-		<div class="mt-8 p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800 text-center">
-			<div class="flex items-center justify-center gap-2 mb-2">
-				<span class="text-xl">🔒</span>
-				<span class="font-semibold text-amber-900 dark:text-amber-100">Privacy Notice</span>
-			</div>
-			<p class="text-sm text-amber-800 dark:text-amber-200">
-				This site uses local storage to save your progress. No data is sent to any server - everything stays on your device.
-			</p>
 		</div>
 	</div>
 </div>
