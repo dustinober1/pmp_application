@@ -27,6 +27,7 @@ export default defineConfig({
 		alias: {
 			'$lib': path.resolve(__dirname, './src/lib'),
 			'$lib/components': path.resolve(__dirname, './src/lib/components'),
+			'$app/paths': path.resolve(__dirname, './src/test/mocks/app-paths.ts'),
 			'@pmp/shared': path.resolve(__dirname, '../shared/src')
 		}
 	}
