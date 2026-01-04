@@ -128,6 +128,7 @@ let cachedTestbank: TestbankData | null = null;
 
 /**
  * Load and parse testbank.json
+ * Uses fetch which works in both server and client contexts in SvelteKit
  */
 export async function loadTestbank(): Promise<TestbankData> {
   if (cachedTestbank) {
@@ -135,11 +136,14 @@ export async function loadTestbank(): Promise<TestbankData> {
   }
 
   try {
-    // Import testbank.json from the data directory
-    const testbank = (await import('$data/testbank.json')) as {
-      default: TestbankData;
-    };
-    cachedTestbank = testbank.default;
+    // Use fetch with absolute path for SvelteKit static files
+    // In SvelteKit, fetch in server context can fetch static files
+    const response = await fetch('/data/testbank.json');
+    if (!response.ok) {
+      throw new Error(`Failed to load testbank.json: ${response.statusText}`);
+    }
+    const data = (await response.json()) as TestbankData;
+    cachedTestbank = data;
     return cachedTestbank;
   } catch (error) {
     console.error('Failed to load testbank.json:', error);

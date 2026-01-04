@@ -1,20 +1,35 @@
 import type { Load } from "@sveltejs/kit";
-import { practiceApi, contentApi } from "$lib/utils/api";
+import { getPracticeStats, getDomains, type PracticeStats, type Domain } from "$lib/utils/practiceData";
 
-export const load: Load = async ({ fetch }) => {
+interface PracticePageStats extends PracticeStats {
+  totalSessions: number;
+  bestScore: number;
+  weakDomains: string[];
+}
+
+export const load: Load = async () => {
   try {
-    const [statsRes, domainsRes, mockExamsRes] = await Promise.all([
-      practiceApi.getStats(),
-      contentApi.getDomains(),
-      practiceApi
-        .startMockExam()
-        .catch(() => ({ data: { exams: [], count: 0 } })),
+    const [testbankStats, domains] = await Promise.all([
+      getPracticeStats(),
+      getDomains(),
     ]);
 
+    // Create stats object with testbank data plus default user progress values
+    // User-specific stats (sessions, bestScore, weakDomains) would typically come from user progress storage
+    const stats: PracticePageStats = {
+      ...testbankStats,
+      totalSessions: 0,
+      bestScore: 0,
+      weakDomains: [],
+    };
+
+    // Mock exams are not currently implemented - return empty array
+    const mockExams: any[] = [];
+
     return {
-      stats: statsRes.data?.stats || null,
-      domains: domainsRes.data?.domains || [],
-      mockExams: mockExamsRes.data?.exams || [],
+      stats,
+      domains,
+      mockExams,
       error: null,
     };
   } catch (error) {
