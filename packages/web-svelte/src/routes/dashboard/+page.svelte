@@ -25,6 +25,26 @@
 		return parts[0] || "there";
 	}
 
+	// Get welcome subtitle based on overall progress
+	function getWelcomeSubtitle(progress: number | undefined): string {
+		if (progress === undefined || progress === 0) {
+			return "Ready to begin your PMP journey? Your path to certification starts here.";
+		}
+		if (progress < 25) {
+			return "Great start! Keep building your foundation across the domains.";
+		}
+		if (progress < 50) {
+			return "You're making progress! Stay consistent and keep pushing forward.";
+		}
+		if (progress < 75) {
+			return "Excellent work! You're more than halfway to your goal.";
+		}
+		if (progress < 100) {
+			return "Almost there! Final push to PMP mastery.";
+		}
+		return "Congratulations! You've mastered the material. Keep practicing!";
+	}
+
 	// Format date helper
 	function formatDate(timestamp: Date | string): string {
 		const date = typeof timestamp === "string" ? new Date(timestamp) : timestamp;
@@ -78,11 +98,11 @@
 
 			<!-- Header -->
 			<div class="mb-8">
-				<h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+				<h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
 					Welcome back, {getFirstName(userName)}! 👋
 				</h1>
-				<p class="text-gray-600 dark:text-gray-300">
-					Here's your study progress at a glance.
+				<p class="text-lg text-gray-700 dark:text-gray-300 mt-2">
+					{getWelcomeSubtitle($overallProgress)}
 				</p>
 			</div>
 
