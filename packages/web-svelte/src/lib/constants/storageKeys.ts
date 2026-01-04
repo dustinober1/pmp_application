@@ -14,10 +14,14 @@ export const STORAGE_KEYS = {
 	FLASHCARDS_MASTERED: 'pmp_flashcards_mastered',
 	FLASHCARDS_MASTERED_COUNT: 'pmp_flashcards_mastered_count',
 	FLASHCARDS_RECENT_REVIEWS: 'pmp_flashcards_recent_reviews',
+	FLASHCARDS_CARD_PROGRESS: 'pmp_flashcards_card_progress',
 
 	// Mock exams
 	MOCK_EXAMS: 'pmp_mock_exams',
 	MOCK_EXAM_SCORES: 'pmp_mock_exam_scores',
+
+	// Practice sessions
+	PRACTICE_SESSIONS: 'pmp_practice_sessions',
 
 	// Internationalization
 	LOCALE: 'pmp_locale'

@@ -8,7 +8,7 @@
     getRecentReviews,
     type FlashcardReview
   } from "$lib/utils/flashcardStorage";
-  import { getFlashcards, getFlashcardStats, type PaginatedFlashcards, type FlashcardStats } from "$lib/utils/flashcardsData";
+  import { getFlashcards, getFlashcardStats, type Flashcard, type FlashcardStats } from "$lib/utils/flashcardsData";
 
   // Local storage state
   let localMasteredCount = $state(0);
@@ -17,23 +17,69 @@
 
   // Data loading state
   let loading = $state(true);
-  let flashcardsData: PaginatedFlashcards | null = $state(null);
+  let allFlashcards: Flashcard[] = $state([]);
+  let filteredFlashcards: Flashcard[] = $state([]);
   let statsData: FlashcardStats | null = $state(null);
   let error = $state(null);
 
-  // Get URL params
-  const urlParams = new URLSearchParams(window.location.search);
-  let offset = $state(Number(urlParams.get("offset")) || 0);
-  let limit = $state(Number(urlParams.get("limit")) || 20);
+  // Search state
+  let searchQuery = $state('');
+  let searchInput = $state('');
+
+  // Pagination state
+  let offset = $state(0);
+  let limit = $state(20);
+  let displayFlashcards = $derived<Flashcard[]>(
+    filteredFlashcards.slice(offset, offset + limit)
+  );
+  let hasMore = $derived(offset + limit < filteredFlashcards.length);
+
+  // Search function
+  function searchFlashcards(query: string) {
+    searchQuery = query;
+    const q = query.toLowerCase().trim();
+
+    if (!q) {
+      filteredFlashcards = allFlashcards;
+    } else {
+      filteredFlashcards = allFlashcards.filter(card =>
+        card.front.toLowerCase().includes(q) ||
+        card.back.toLowerCase().includes(q) ||
+        card.category.toLowerCase().includes(q) ||
+        card.domain.toLowerCase().includes(q) ||
+        card.task.toLowerCase().includes(q)
+      );
+    }
+    // Reset offset when search changes
+    offset = 0;
+  }
+
+  // Debounced search
+  let searchTimeout: ReturnType<typeof setTimeout> | undefined;
+  function handleSearchInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    searchInput = target.value;
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      searchFlashcards(searchInput);
+    }, 300);
+  }
+
+  function clearSearch() {
+    searchInput = '';
+    searchQuery = '';
+    filteredFlashcards = allFlashcards;
+    offset = 0;
+  }
 
   function loadPrevious() {
     const newOffset = Math.max(0, offset - limit);
-    window.location.search = `?offset=${newOffset}&limit=${limit}`;
+    offset = newOffset;
   }
 
   function loadNext() {
     const newOffset = offset + limit;
-    window.location.search = `?offset=${newOffset}&limit=${limit}`;
+    offset = newOffset;
   }
 
   // Format date helper
@@ -86,11 +132,12 @@
 
     // Load flashcards data from JSON files
     try {
-      const [flashcardsResult, statsResult] = await Promise.all([
-        getFlashcards({ limit, offset }),
+      const [allCardsResult, statsResult] = await Promise.all([
+        getFlashcards({ limit: 10000, offset: 0 }),
         getFlashcardStats()
       ]);
-      flashcardsData = flashcardsResult;
+      allFlashcards = allCardsResult.items;
+      filteredFlashcards = allFlashcards;
       statsData = statsResult;
     } catch (err) {
       console.error('Failed to load flashcards:', err);
@@ -151,7 +198,7 @@
               Recent Reviews ({recentReviews.length})
             </h2>
             <button
-              on:click={() => showRecentReviews = !showRecentReviews}
+              onclick={() => showRecentReviews = !showRecentReviews}
               class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:scale-105 hover:shadow-md hover:shadow-indigo-500/20 transition-all duration-300"
             >
               {showRecentReviews ? 'Hide' : 'Show'}
@@ -185,45 +232,103 @@
       {/if}
 
       <!-- Flashcards List -->
-      {#if flashcardsData}
+      {#if allFlashcards.length > 0}
         <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
-          <div class="px-6 py-4 border-b border-gray-200/50 dark:border-gray-700/50">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-              Your Flashcards ({flashcardsData.total} total)
-            </h2>
+          <!-- Search Header -->
+          <div class="px-6 py-4 border-b border-gray-200/50 dark:border-gray-700/50 space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                Your Flashcards
+              </h2>
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                {searchQuery
+                  ? `${filteredFlashcards.length} of ${allFlashcards.length} found`
+                  : `${allFlashcards.length} total`
+                }
+              </span>
+            </div>
+
+            <!-- Search Input -->
+            <div class="relative">
+              <input
+                type="text"
+                value={searchInput}
+                oninput={handleSearchInput}
+                placeholder="Search flashcards by text, category, domain, or task..."
+                class="w-full px-4 py-3 pl-11 pr-11 border border-gray-300 dark:border-gray-600 rounded-xl text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-300"
+              />
+              <!-- Search Icon -->
+              <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <!-- Clear Button -->
+              {#if searchInput}
+                <button
+                  onclick={clearSearch}
+                  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+                  aria-label="Clear search"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              {/if}
+            </div>
           </div>
 
           <div class="divide-y divide-gray-200/50 dark:divide-gray-700/50">
-            {#each flashcardsData.items as flashcard}
+            {#each displayFlashcards as flashcard}
               <div class="group px-6 py-4 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors duration-300 cursor-default">
-                <p class="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:translate-x-1 transition-transform duration-300">{flashcard.front}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{flashcard.back}</p>
+                <div class="flex items-start gap-3">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:translate-x-1 transition-transform duration-300">{flashcard.front}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{flashcard.back}</p>
+                    <div class="flex items-center gap-2 mt-2">
+                      <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-md bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700/50">
+                        {flashcard.category}
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        {flashcard.domain} / {flashcard.task}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             {:else}
-              <div class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                No flashcards found
+              <div class="px-6 py-12 text-center">
+                {#if searchQuery}
+                  <p class="text-gray-500 dark:text-gray-400 mb-2">No flashcards match your search</p>
+                  <button
+                    onclick={clearSearch}
+                    class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:underline"
+                  >
+                    Clear search to see all flashcards
+                  </button>
+                {:else}
+                  <p class="text-gray-500 dark:text-gray-400">No flashcards available</p>
+                {/if}
               </div>
             {/each}
           </div>
 
           <!-- Pagination -->
-          {#if flashcardsData.total > flashcardsData.limit}
+          {#if filteredFlashcards.length > limit}
             <div class="px-6 py-4 border-t border-gray-200/50 dark:border-gray-700/50 flex items-center justify-between">
               <button
-                on:click={loadPrevious}
-                disabled={flashcardsData.offset === 0}
+                onclick={loadPrevious}
+                disabled={offset === 0}
                 class="group px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md hover:shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:shadow-none transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
               >
                 Previous
               </button>
 
               <span class="text-sm text-gray-700 dark:text-gray-300">
-                Showing {flashcardsData.offset + 1} to {Math.min(flashcardsData.offset + flashcardsData.limit, flashcardsData.total)} of {flashcardsData.total}
+                Showing {offset + 1} to {Math.min(offset + limit, filteredFlashcards.length)} of {filteredFlashcards.length}
               </span>
 
               <button
-                on:click={loadNext}
-                disabled={!flashcardsData.hasMore}
+                onclick={loadNext}
+                disabled={!hasMore}
                 class="group px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md hover:shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:shadow-none transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
               >
                 Next
