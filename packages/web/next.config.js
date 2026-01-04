@@ -54,9 +54,8 @@ const ContentSecurityPolicy = [
 
 const nextConfig = {
   reactStrictMode: true,
-  // standalone output requires special handling on Render
-  // using default output for better compatibility
-  // output: "standalone",
+  // Standalone output reduces memory footprint for 512MB RAM limit
+  output: "standalone",
   trailingSlash: true,
   transpilePackages: ["@pmp/shared"],
   async redirects() {

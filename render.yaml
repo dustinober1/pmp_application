@@ -45,8 +45,8 @@ services:
     runtime: node
     plan: standard
     region: oregon
-    buildCommand: npm install && npm run build:shared && npm run build:web
-    startCommand: cd packages/web && npm start
+    buildCommand: npm install && npm run build:shared && npm run build:web && cp -r packages/web/public packages/web/.next/standalone/packages/web/ && cp -r packages/web/.next/static packages/web/.next/standalone/packages/web/.next/
+    startCommand: cd packages/web/.next/standalone/packages/web && node server.js
     envVars:
       - key: NODE_ENV
         value: production
