@@ -8,7 +8,26 @@
     getRecentReviews,
     type FlashcardReview
   } from "$lib/utils/flashcardStorage";
-  import { getFlashcards, getFlashcardStats, type Flashcard, type FlashcardStats } from "$lib/utils/flashcardsData";
+  import {
+    getFlashcardsByDomain,
+    getFlashcardStats,
+    type Flashcard,
+    type FlashcardStats
+  } from "$lib/utils/flashcardsData";
+
+  // Domain filter options
+  interface DomainFilter {
+    id: string;
+    label: string;
+    color: string;
+  }
+
+  const DOMAIN_FILTERS: DomainFilter[] = [
+    { id: 'all', label: 'All', color: 'gray' },
+    { id: 'people', label: 'People', color: 'blue' },
+    { id: 'process', label: 'Process', color: 'green' },
+    { id: 'business', label: 'Business Environment', color: 'purple' }
+  ];
 
   // Local storage state
   let localMasteredCount = $state(0);
@@ -22,6 +41,9 @@
   let statsData: FlashcardStats | null = $state(null);
   let error = $state(null);
 
+  // Domain filter state
+  let selectedDomain = $state<string>('all');
+
   // Search state
   let searchQuery = $state('');
   let searchInput = $state('');
@@ -34,15 +56,70 @@
   );
   let hasMore = $derived(offset + limit < filteredFlashcards.length);
 
+  // Get chip color classes
+  function getChipClasses(filterId: string): string {
+    const isSelected = selectedDomain === filterId;
+    const baseClasses = "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ";
+
+    if (filterId === 'all') {
+      return isSelected
+        ? baseClasses + "bg-gray-600 text-white shadow-lg shadow-gray-500/30 scale-105"
+        : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105";
+    }
+    if (filterId === 'people') {
+      return isSelected
+        ? baseClasses + "bg-blue-600 text-white shadow-lg shadow-blue-500/30 scale-105"
+        : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:scale-105";
+    }
+    if (filterId === 'process') {
+      return isSelected
+        ? baseClasses + "bg-green-600 text-white shadow-lg shadow-green-500/30 scale-105"
+        : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-green-700 dark:text-green-300 border border-green-300 dark:border-green-600 hover:bg-green-50 dark:hover:bg-green-900/30 hover:scale-105";
+    }
+    // business
+    return isSelected
+      ? baseClasses + "bg-purple-600 text-white shadow-lg shadow-purple-500/30 scale-105"
+      : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:scale-105";
+  }
+
+  // Apply domain filter
+  function applyDomainFilter() {
+    if (selectedDomain === 'all') {
+      filteredFlashcards = allFlashcards;
+    } else {
+      filteredFlashcards = allFlashcards.filter(card => card.domainId === selectedDomain);
+    }
+    // Re-apply search if there's an active search
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase().trim();
+      filteredFlashcards = filteredFlashcards.filter(card =>
+        card.front.toLowerCase().includes(q) ||
+        card.back.toLowerCase().includes(q) ||
+        card.category.toLowerCase().includes(q) ||
+        card.domain.toLowerCase().includes(q) ||
+        card.task.toLowerCase().includes(q)
+      );
+    }
+    // Reset offset when filter changes
+    offset = 0;
+  }
+
   // Search function
   function searchFlashcards(query: string) {
     searchQuery = query;
     const q = query.toLowerCase().trim();
 
+    let baseFlashcards = allFlashcards;
+
+    // Apply domain filter first
+    if (selectedDomain !== 'all') {
+      baseFlashcards = baseFlashcards.filter(card => card.domainId === selectedDomain);
+    }
+
     if (!q) {
-      filteredFlashcards = allFlashcards;
+      filteredFlashcards = baseFlashcards;
     } else {
-      filteredFlashcards = allFlashcards.filter(card =>
+      filteredFlashcards = baseFlashcards.filter(card =>
         card.front.toLowerCase().includes(q) ||
         card.back.toLowerCase().includes(q) ||
         card.category.toLowerCase().includes(q) ||
@@ -68,7 +145,7 @@
   function clearSearch() {
     searchInput = '';
     searchQuery = '';
-    filteredFlashcards = allFlashcards;
+    applyDomainFilter();
     offset = 0;
   }
 
@@ -132,18 +209,28 @@
 
     // Load flashcards data from JSON files
     try {
-      const [allCardsResult, statsResult] = await Promise.all([
-        getFlashcards({ limit: 10000, offset: 0 }),
-        getFlashcardStats()
-      ]);
-      allFlashcards = allCardsResult.items;
-      filteredFlashcards = allFlashcards;
+      const statsResult = await getFlashcardStats();
       statsData = statsResult;
+
+      // Load all flashcards by domain to get everything
+      const peopleCards = await getFlashcardsByDomain('people');
+      const processCards = await getFlashcardsByDomain('process');
+      const businessCards = await getFlashcardsByDomain('business');
+
+      allFlashcards = [...peopleCards, ...processCards, ...businessCards];
+      filteredFlashcards = allFlashcards;
     } catch (err) {
       console.error('Failed to load flashcards:', err);
       error = err instanceof Error ? err.message : 'Failed to load flashcards';
     } finally {
       loading = false;
+    }
+  });
+
+  // Watch for domain filter changes
+  $effect(() => {
+    if (allFlashcards.length > 0) {
+      applyDomainFilter();
     }
   });
 </script>
@@ -189,6 +276,24 @@
           </div>
         </div>
       {/if}
+
+      <!-- Domain Filter Chips -->
+      <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-4 mb-8 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
+        <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Filter by Domain</h2>
+        <div class="flex flex-wrap gap-3">
+          {#each DOMAIN_FILTERS as filter}
+            <button
+              onclick={() => selectedDomain = filter.id}
+              class={getChipClasses(filter.id)}
+            >
+              {filter.label}
+            </button>
+          {/each}
+        </div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-3">
+          Showing {filteredFlashcards.length} {selectedDomain === 'all' ? 'total' : DOMAIN_FILTERS.find(f => f.id === selectedDomain)?.label} flashcards
+        </p>
+      </div>
 
       <!-- Recent Reviews -->
       {#if recentReviews && recentReviews.length > 0}
@@ -238,12 +343,14 @@
           <div class="px-6 py-4 border-b border-gray-200/50 dark:border-gray-700/50 space-y-4">
             <div class="flex items-center justify-between">
               <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                Your Flashcards
+                {selectedDomain === 'all' ? 'All Flashcards' : DOMAIN_FILTERS.find(f => f.id === selectedDomain)?.label + ' Flashcards'}
               </h2>
               <span class="text-sm text-gray-500 dark:text-gray-400">
                 {searchQuery
                   ? `${filteredFlashcards.length} of ${allFlashcards.length} found`
-                  : `${allFlashcards.length} total`
+                  : selectedDomain === 'all'
+                    ? `${allFlashcards.length} total`
+                    : `${filteredFlashcards.length} in this domain`
                 }
               </span>
             </div>
