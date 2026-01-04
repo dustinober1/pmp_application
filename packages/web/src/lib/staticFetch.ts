@@ -47,7 +47,7 @@ export async function fetchStaticData<T>(path: string): Promise<T> {
 
   if (!response.ok) {
     throw new Error(
-      `Failed to fetch static data from ${url}: ${response.status} ${response.statusText}`
+      `Failed to fetch static data from ${url}: ${response.status} ${response.statusText}`,
     );
   }
 
@@ -60,7 +60,7 @@ export async function fetchStaticData<T>(path: string): Promise<T> {
     return data;
   } catch (error) {
     throw new Error(
-      `Failed to parse JSON from ${url}: ${error instanceof Error ? error.message : String(error)}`
+      `Failed to parse JSON from ${url}: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
 }

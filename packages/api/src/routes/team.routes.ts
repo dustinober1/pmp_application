@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { teamService } from "../services/team.service";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { requireTier } from "../middleware/tier.middleware";
@@ -264,13 +264,11 @@ export async function teamRoutes(app: FastifyInstance) {
         (request as any).user.userId,
         request.body as any,
       );
-      reply
-        .status(201)
-        .send({
-          success: true,
-          data: { goal },
-          message: "Goal created successfully",
-        });
+      reply.status(201).send({
+        success: true,
+        data: { goal },
+        message: "Goal created successfully",
+      });
     },
   );
 

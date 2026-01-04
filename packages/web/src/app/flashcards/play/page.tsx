@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { loadFlashcards, type FlashcardCard } from "@/lib/flashcards";
-import { getJson, setJson, updateJson } from "@/lib/storage";
+import { getJson, setJson } from "@/lib/storage";
 import {
   createInitialProgress,
   updateProgress,
@@ -13,7 +13,7 @@ import {
   type FlashcardProgress,
   type CardRating,
 } from "@/lib/spaced";
-import { PMP_EXAM_CONTENT, type Domain, type Task } from "@/data/pmpExamContent";
+import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
 
 const STORAGE_KEY_PROGRESS = "flashcard_progress";
 
@@ -25,7 +25,9 @@ function FlashcardsPlayContent() {
   const taskParam = searchParams.get("task");
 
   const [cards, setCards] = useState<FlashcardCard[]>([]);
-  const [progress, setProgress] = useState<Record<string, FlashcardProgress>>({});
+  const [progress, setProgress] = useState<Record<string, FlashcardProgress>>(
+    {},
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
@@ -44,9 +46,9 @@ function FlashcardsPlayContent() {
         let filteredCards: FlashcardCard[] = [];
 
         // Get or initialize progress
-        let savedProgress = getJson<Record<string, FlashcardProgress>>(
+        const savedProgress = getJson<Record<string, FlashcardProgress>>(
           STORAGE_KEY_PROGRESS,
-          {}
+          {},
         );
 
         // Initialize progress for any new cards
@@ -69,7 +71,9 @@ function FlashcardsPlayContent() {
             if (taskParam) {
               const task = domain.tasks.find((t) => t.id === taskParam);
               if (task) {
-                filteredCards = filteredCards.filter((c) => c.task === task.name);
+                filteredCards = filteredCards.filter(
+                  (c) => c.task === task.name,
+                );
               }
             }
           }
@@ -108,7 +112,8 @@ function FlashcardsPlayContent() {
       if (!currentCard) return;
 
       // Update progress in state
-      const currentProgress = progress[currentCard.id] || createInitialProgress();
+      const currentProgress =
+        progress[currentCard.id] || createInitialProgress();
       const newProgress = updateProgress(currentProgress, rating);
 
       const updatedProgress = {
@@ -133,7 +138,7 @@ function FlashcardsPlayContent() {
         setSessionComplete(true);
       }
     },
-    [currentCard, progress, currentIndex, cards.length]
+    [currentCard, progress, currentIndex, cards.length],
   );
 
   const handleSkip = useCallback(() => {
@@ -189,16 +194,14 @@ function FlashcardsPlayContent() {
               Session Complete!
             </h1>
             <p className="text-lg text-md-on-surface-variant mb-8">
-              You reviewed {sessionStats.reviewed} of {sessionStats.total} cards.
+              You reviewed {sessionStats.reviewed} of {sessionStats.total}{" "}
+              cards.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/flashcards" className="btn btn-primary">
                 Back to Flashcards
               </Link>
-              <button
-                onClick={() => router.back()}
-                className="btn btn-outline"
-              >
+              <button onClick={() => router.back()} className="btn btn-outline">
                 Start Another Session
               </button>
             </div>
@@ -223,8 +226,13 @@ function FlashcardsPlayContent() {
         {/* Progress bar */}
         <div className="mb-6">
           <div className="flex justify-between text-sm text-md-on-surface-variant mb-2">
-            <span>Card {currentIndex + 1} of {cards.length}</span>
-            <span>{Math.round((sessionStats.reviewed / cards.length) * 100)}% complete</span>
+            <span>
+              Card {currentIndex + 1} of {cards.length}
+            </span>
+            <span>
+              {Math.round((sessionStats.reviewed / cards.length) * 100)}%
+              complete
+            </span>
           </div>
           <div className="h-2 bg-md-surface-container rounded-full overflow-hidden">
             <div
@@ -245,6 +253,9 @@ function FlashcardsPlayContent() {
         <div
           className="card relative min-h-[400px] cursor-pointer perspective-1000 mb-6"
           onClick={handleFlip}
+          onKeyDown={(e) => e.key === "Enter" && handleFlip()}
+          role="button"
+          tabIndex={0}
         >
           <div
             className={`relative w-full h-full transition-transform duration-500 ${
@@ -337,10 +348,7 @@ function FlashcardsPlayContent() {
         {/* Skip button */}
         {!isFlipped && (
           <div className="flex justify-center mt-6">
-            <button
-              onClick={handleSkip}
-              className="btn btn-outline"
-            >
+            <button onClick={handleSkip} className="btn btn-outline">
               Skip Card
             </button>
           </div>
@@ -352,14 +360,16 @@ function FlashcardsPlayContent() {
 
 export default function FlashcardsPlayPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-md-primary mx-auto mb-4"></div>
-          <p className="text-md-on-surface-variant">Loading...</p>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-md-primary mx-auto mb-4"></div>
+            <p className="text-md-on-surface-variant">Loading...</p>
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <FlashcardsPlayContent />
     </Suspense>
   );

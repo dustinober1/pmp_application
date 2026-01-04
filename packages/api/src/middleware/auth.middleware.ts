@@ -1,4 +1,4 @@
-import { FastifyRequest, FastifyReply } from "fastify";
+import type { FastifyRequest, FastifyReply } from "fastify";
 import jwt from "jsonwebtoken";
 import type { JwtPayload } from "@pmp/shared";
 import { AUTH_ERRORS } from "@pmp/shared";

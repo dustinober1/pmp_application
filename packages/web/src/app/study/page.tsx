@@ -4,8 +4,7 @@ import dynamic from "next/dynamic";
 import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { useToast } from "@/components/ToastProvider";
-import type { Domain, Enabler, Task } from "@/data/pmpExamContent";
+import type { Enabler } from "@/data/pmpExamContent";
 import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
 
 const Footer = dynamic(
@@ -37,25 +36,21 @@ function normalizeEnablers(
 }
 
 export default function StudyPage() {
-  const toast = useToast();
   // Use static data directly - no API calls
   const domains = useMemo(() => PMP_EXAM_CONTENT, []);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
   const [expandedTask, setExpandedTask] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Record<string, TabType>>({});
 
-  const toggleSelectedDomain = useCallback(
-    async (domainId: string) => {
-      setSelectedDomain((prev) => {
-        const newSelection = prev === domainId ? null : domainId;
-        if (newSelection !== prev) {
-          setExpandedTask(null);
-        }
-        return newSelection;
-      });
-    },
-    [],
-  );
+  const toggleSelectedDomain = useCallback(async (domainId: string) => {
+    setSelectedDomain((prev) => {
+      const newSelection = prev === domainId ? null : domainId;
+      if (newSelection !== prev) {
+        setExpandedTask(null);
+      }
+      return newSelection;
+    });
+  }, []);
 
   const toggleTaskExpanded = useCallback((taskId: string) => {
     setExpandedTask((prev) => (prev === taskId ? null : taskId));
@@ -256,12 +251,11 @@ export default function StudyPage() {
                 const isExpanded = expandedTask === task.id;
                 const currentTab = activeTab[task.id] || "study";
                 const normalizedEnablers = normalizeEnablers(task.enablers);
-                const colors =
-                  domainColors[selectedDomainData.code] || {
-                    gradient: "from-gray-500 to-gray-600",
-                    bg: "bg-gray-500/10",
-                    text: "text-gray-600",
-                  };
+                const colors = domainColors[selectedDomainData.code] || {
+                  gradient: "from-gray-500 to-gray-600",
+                  bg: "bg-gray-500/10",
+                  text: "text-gray-600",
+                };
 
                 return (
                   <div

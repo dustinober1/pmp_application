@@ -30,14 +30,14 @@ export class ContentService {
       },
     });
 
-    return domains.map((domain: typeof domains[0]) => ({
+    return domains.map((domain: (typeof domains)[0]) => ({
       id: domain.id,
       name: domain.name,
       code: domain.code,
       description: domain.description,
       weightPercentage: domain.weightPercentage,
       orderIndex: domain.orderIndex,
-      tasks: domain.tasks.map((task: typeof domain.tasks[0]) => ({
+      tasks: domain.tasks.map((task: (typeof domain.tasks)[0]) => ({
         id: task.id,
         domainId: domain.id,
         code: task.code,
@@ -67,7 +67,7 @@ export class ContentService {
       description: domain.description,
       weightPercentage: domain.weightPercentage,
       orderIndex: domain.orderIndex,
-      tasks: domain.tasks.map((task: typeof domain.tasks[0]) => ({
+      tasks: domain.tasks.map((task: (typeof domain.tasks)[0]) => ({
         id: task.id,
         domainId: task.domainId,
         code: task.code,
@@ -89,7 +89,7 @@ export class ContentService {
       include: { domain: true },
     });
 
-    return tasks.map((task: typeof tasks[0]) => ({
+    return tasks.map((task: (typeof tasks)[0]) => ({
       id: task.id,
       domainId: task.domainId,
       code: task.code,
@@ -154,7 +154,7 @@ export class ContentService {
       id: guide.id,
       taskId: guide.taskId,
       title: guide.title,
-      sections: guide.sections.map((section: typeof guide.sections[0]) => ({
+      sections: guide.sections.map((section: (typeof guide.sections)[0]) => ({
         id: section.id,
         studyGuideId: section.studyGuideId,
         title: section.title,
@@ -162,8 +162,8 @@ export class ContentService {
         orderIndex: section.orderIndex,
       })),
       relatedFormulas: [], // TODO: Add formula relations
-      relatedFlashcardIds: flashcards.map((f: typeof flashcards[0]) => f.id),
-      relatedQuestionIds: questions.map((q: typeof questions[0]) => q.id),
+      relatedFlashcardIds: flashcards.map((f: (typeof flashcards)[0]) => f.id),
+      relatedQuestionIds: questions.map((q: (typeof questions)[0]) => q.id),
       createdAt: guide.createdAt,
       updatedAt: guide.updatedAt,
     };
@@ -233,32 +233,38 @@ export class ContentService {
       },
     });
 
-    const domainProgress: DomainProgress[] = domains.map((domain: typeof domains[0]) => {
-      let totalDomainSections = 0;
-      let completedDomainSections = 0;
+    const domainProgress: DomainProgress[] = domains.map(
+      (domain: (typeof domains)[0]) => {
+        let totalDomainSections = 0;
+        let completedDomainSections = 0;
 
-      domain.tasks.forEach((task: typeof domain.tasks[0]) => {
-        if (task.studyGuide) {
-          totalDomainSections += task.studyGuide.sections.length;
-          task.studyGuide.sections.forEach((section: typeof task.studyGuide.sections[0]) => {
-            if (completedProgress.some((p) => p.sectionId === section.id)) {
-              completedDomainSections++;
-            }
-          });
-        }
-      });
+        domain.tasks.forEach((task: (typeof domain.tasks)[0]) => {
+          if (task.studyGuide) {
+            totalDomainSections += task.studyGuide.sections.length;
+            task.studyGuide.sections.forEach(
+              (section: (typeof task.studyGuide.sections)[0]) => {
+                if (completedProgress.some((p) => p.sectionId === section.id)) {
+                  completedDomainSections++;
+                }
+              },
+            );
+          }
+        });
 
-      return {
-        domainId: domain.id,
-        domainName: domain.name,
-        totalSections: totalDomainSections,
-        completedSections: completedDomainSections,
-        progress:
-          totalDomainSections > 0
-            ? Math.round((completedDomainSections / totalDomainSections) * 100)
-            : 0,
-      };
-    });
+        return {
+          domainId: domain.id,
+          domainName: domain.name,
+          totalSections: totalDomainSections,
+          completedSections: completedDomainSections,
+          progress:
+            totalDomainSections > 0
+              ? Math.round(
+                  (completedDomainSections / totalDomainSections) * 100,
+                )
+              : 0,
+        };
+      },
+    );
 
     return {
       userId,
@@ -297,7 +303,7 @@ export class ContentService {
       take: Math.floor(limit / 3),
     });
 
-    sections.forEach((section: typeof sections[0]) => {
+    sections.forEach((section: (typeof sections)[0]) => {
       results.push({
         type: "study_guide",
         id: section.studyGuide.id,
@@ -320,7 +326,7 @@ export class ContentService {
       take: Math.floor(limit / 3),
     });
 
-    flashcards.forEach((card: typeof flashcards[0]) => {
+    flashcards.forEach((card: (typeof flashcards)[0]) => {
       results.push({
         type: "flashcard",
         id: card.id,
@@ -343,7 +349,7 @@ export class ContentService {
       take: Math.floor(limit / 3),
     });
 
-    questions.forEach((question: typeof questions[0]) => {
+    questions.forEach((question: (typeof questions)[0]) => {
       results.push({
         type: "question",
         id: question.id,

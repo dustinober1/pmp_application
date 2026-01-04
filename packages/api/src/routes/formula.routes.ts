@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import type { FormulaCategory } from "@pmp/shared";
 import { formulaService } from "../services/formula.service";
 import { authMiddleware } from "../middleware/auth.middleware";

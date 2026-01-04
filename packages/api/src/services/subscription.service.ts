@@ -19,13 +19,21 @@ export class SubscriptionService {
       orderBy: { price: "asc" },
     });
 
-    return tiers.map((tier: { id: string; name: string; price: number; billingPeriod: string; features: any }) => ({
-      id: tier.id,
-      name: tier.name as TierName,
-      price: tier.price,
-      billingPeriod: tier.billingPeriod as "monthly" | "annual",
-      features: tier.features as unknown as TierFeatures,
-    }));
+    return tiers.map(
+      (tier: {
+        id: string;
+        name: string;
+        price: number;
+        billingPeriod: string;
+        features: any;
+      }) => ({
+        id: tier.id,
+        name: tier.name as TierName,
+        price: tier.price,
+        billingPeriod: tier.billingPeriod as "monthly" | "annual",
+        features: tier.features as unknown as TierFeatures,
+      }),
+    );
   }
 
   /**

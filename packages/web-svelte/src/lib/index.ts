@@ -7,10 +7,10 @@ export * from "./api";
 export * from "./load";
 
 // Stores
-export { toast, toastStore } from './stores/toast';
+export { toast, toastStore } from "./stores/toast";
 
 // Actions
-export { focusTrap } from './actions/focusTrap';
+export { focusTrap } from "./actions/focusTrap";
 
 // Components
 export { default as LoadingState } from "./components/LoadingState.svelte";

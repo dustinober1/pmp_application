@@ -52,7 +52,7 @@ export class FormulaService {
       orderBy: { name: "asc" },
     });
 
-    return formulas.map((f: typeof formulas[0]) => ({
+    return formulas.map((f: (typeof formulas)[0]) => ({
       id: f.id,
       name: f.name,
       category: f.category as FormulaCategory,
@@ -91,7 +91,7 @@ export class FormulaService {
       description: formula.description,
       whenToUse: formula.whenToUse,
       variables: formula.variables.map(
-        (v: typeof formula.variables[0]): VariableResponse => ({
+        (v: (typeof formula.variables)[0]): VariableResponse => ({
           symbol: v.symbol,
           name: v.name,
           description: v.description,
@@ -116,7 +116,7 @@ export class FormulaService {
       take: limit,
     });
 
-    return relations.map((r: typeof relations[0]) => r.questionId);
+    return relations.map((r: (typeof relations)[0]) => r.questionId);
   }
 
   /**
@@ -462,7 +462,10 @@ export class FormulaService {
 
     // Replace variables with values
     for (const [key, value] of Object.entries(inputs)) {
-      expr = expr.replace(new RegExp(`\\b${key}\\b`, "gi"), String(value as number));
+      expr = expr.replace(
+        new RegExp(`\\b${key}\\b`, "gi"),
+        String(value as number),
+      );
     }
 
     steps.push({

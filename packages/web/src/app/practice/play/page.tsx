@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import {
@@ -10,7 +10,7 @@ import {
   calculateQuizScore,
   type Question,
 } from "@/lib/questions";
-import { getJson, setJson, updateJson } from "@/lib/storage";
+import { getJson, setJson } from "@/lib/storage";
 import {
   createEmptyPracticeHistory,
   createEmptyStreak,
@@ -24,7 +24,6 @@ const STORAGE_KEY_HISTORY = "practice_history";
 const STORAGE_KEY_STREAK = "streak";
 
 function PracticePlayContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const domainParam = searchParams.get("domain");
   const taskParam = searchParams.get("task");
@@ -37,7 +36,9 @@ function PracticePlayContent() {
     Array<{ questionId: string; selectedIndex: number | null }>
   >([]);
   const [showResults, setShowResults] = useState(false);
-  const [quizResult, setQuizResult] = useState<ReturnType<typeof calculateQuizScore> | null>(null);
+  const [quizResult, setQuizResult] = useState<ReturnType<
+    typeof calculateQuizScore
+  > | null>(null);
   const [showRemediation, setShowRemediation] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -56,12 +57,15 @@ function PracticePlayContent() {
         const selectedQuestions = pickRandomQuestions(
           allQuestions,
           questionCount,
-          Object.keys(filters).length > 0 ? filters : undefined
+          Object.keys(filters).length > 0 ? filters : undefined,
         );
 
         setQuestions(selectedQuestions);
         setSelectedAnswers(
-          selectedQuestions.map((q) => ({ questionId: q.id, selectedIndex: null }))
+          selectedQuestions.map((q) => ({
+            questionId: q.id,
+            selectedIndex: null,
+          })),
         );
       } catch (error) {
         console.error("Failed to load questions:", error);
@@ -76,14 +80,17 @@ function PracticePlayContent() {
   const currentQuestion = questions[currentIndex];
   const currentAnswer = selectedAnswers[currentIndex];
 
-  const handleSelectAnswer = useCallback((answerIndex: number) => {
-    const newAnswers = [...selectedAnswers];
-    newAnswers[currentIndex] = {
-      questionId: currentQuestion.id,
-      selectedIndex: answerIndex,
-    };
-    setSelectedAnswers(newAnswers);
-  }, [currentIndex, selectedAnswers, currentQuestion]);
+  const handleSelectAnswer = useCallback(
+    (answerIndex: number) => {
+      const newAnswers = [...selectedAnswers];
+      newAnswers[currentIndex] = {
+        questionId: currentQuestion?.id || "",
+        selectedIndex: answerIndex,
+      };
+      setSelectedAnswers(newAnswers);
+    },
+    [currentIndex, selectedAnswers, currentQuestion],
+  );
 
   const handleNext = useCallback(() => {
     if (currentIndex < questions.length - 1) {
@@ -97,7 +104,7 @@ function PracticePlayContent() {
       // Save to localStorage
       const history = getJson<PracticeHistory>(
         STORAGE_KEY_HISTORY,
-        createEmptyPracticeHistory()
+        createEmptyPracticeHistory(),
       );
       const updatedHistory = addPracticeAttempt(history, {
         timestampISO: new Date().toISOString(),
@@ -110,8 +117,14 @@ function PracticePlayContent() {
       setJson(STORAGE_KEY_HISTORY, updatedHistory);
 
       // Update streak
-      const currentStreak = getJson<Streak>(STORAGE_KEY_STREAK, createEmptyStreak());
-      const updatedStreak = updateStreak(currentStreak, new Date().toISOString());
+      const currentStreak = getJson<Streak>(
+        STORAGE_KEY_STREAK,
+        createEmptyStreak(),
+      );
+      const updatedStreak = updateStreak(
+        currentStreak,
+        new Date().toISOString(),
+      );
       setJson(STORAGE_KEY_STREAK, updatedStreak);
     }
   }, [currentIndex, questions, selectedAnswers, domainParam, taskParam]);
@@ -215,15 +228,19 @@ function PracticePlayContent() {
 
           {showRemediation && (
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-md-on-surface">Answer Review</h2>
+              <h2 className="text-xl font-bold text-md-on-surface">
+                Answer Review
+              </h2>
               {questions.map((question, index) => {
                 const answer = quizResult.answers[index];
-                const isCorrect = answer.isCorrect;
+                const isCorrect = answer?.isCorrect ?? false;
 
                 return (
                   <div key={question.id} className="card">
                     <div className="flex items-start gap-3 mb-3">
-                      <span className={`badge ${isCorrect ? "badge-success" : "badge-error"}`}>
+                      <span
+                        className={`badge ${isCorrect ? "badge-success" : "badge-error"}`}
+                      >
                         {isCorrect ? "Correct" : "Incorrect"}
                       </span>
                       <span className="text-sm text-md-on-surface-variant">
@@ -235,16 +252,19 @@ function PracticePlayContent() {
                     {/* Answers */}
                     <div className="space-y-2 mb-4">
                       {question.answers.map((ans, ansIndex) => {
-                        const isSelected = answer.selectedIndex === ansIndex;
+                        const isSelected = answer?.selectedIndex === ansIndex;
                         const isCorrectAnswer = ans.isCorrect;
 
                         let className = "p-3 rounded-lg border ";
                         if (isCorrectAnswer) {
-                          className += "border-md-success bg-md-success-container text-md-on-success-container";
+                          className +=
+                            "border-md-success bg-md-success-container text-md-on-success-container";
                         } else if (isSelected && !isCorrectAnswer) {
-                          className += "border-md-error bg-md-error-container text-md-on-error-container";
+                          className +=
+                            "border-md-error bg-md-error-container text-md-on-error-container";
                         } else {
-                          className += "border-md-outline bg-md-surface-container-low";
+                          className +=
+                            "border-md-outline bg-md-surface-container-low";
                         }
 
                         return (
@@ -266,15 +286,20 @@ function PracticePlayContent() {
 
                     {/* Remediation */}
                     <div className="border-t border-md-outline pt-4">
-                      <h3 className="font-medium text-sm text-md-primary mb-2">Remediation</h3>
+                      <h3 className="font-medium text-sm text-md-primary mb-2">
+                        Remediation
+                      </h3>
                       <p className="text-sm text-md-on-surface-variant mb-2">
-                        <strong>Core Logic:</strong> {question.remediation.coreLogic}
+                        <strong>Core Logic:</strong>{" "}
+                        {question.remediation.coreLogic}
                       </p>
                       <p className="text-sm text-md-on-surface-variant mb-2">
-                        <strong>PMI Mindset:</strong> {question.remediation.pmiMindset}
+                        <strong>PMI Mindset:</strong>{" "}
+                        {question.remediation.pmiMindset}
                       </p>
                       <p className="text-sm text-md-on-surface-variant mb-2">
-                        <strong>The Trap:</strong> {question.remediation.theTrap}
+                        <strong>The Trap:</strong>{" "}
+                        {question.remediation.theTrap}
                       </p>
                       {question.remediation.sourceLink && (
                         <a
@@ -308,74 +333,95 @@ function PracticePlayContent() {
         {/* Progress bar */}
         <div className="mb-6">
           <div className="flex justify-between text-sm text-md-on-surface-variant mb-2">
-            <span>Question {currentIndex + 1} of {questions.length}</span>
-            <span>{Math.round((currentIndex / questions.length) * 100)}% complete</span>
+            <span>
+              Question {currentIndex + 1} of {questions.length}
+            </span>
+            <span>
+              {Math.round((currentIndex / questions.length) * 100)}% complete
+            </span>
           </div>
           <div className="h-2 bg-md-surface-container rounded-full overflow-hidden">
             <div
               className="h-full bg-md-primary transition-all duration-300"
-              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+              style={{
+                width: `${((currentIndex + 1) / questions.length) * 100}%`,
+              }}
             ></div>
           </div>
         </div>
 
         {/* Domain/Task badges */}
-        {(currentQuestion.domain || currentQuestion.task) && (
-          <div className="mb-4 flex flex-wrap gap-2">
-            {currentQuestion.domain && (
-              <span className="badge badge-primary">{currentQuestion.domain}</span>
-            )}
-            {currentQuestion.task && (
-              <span className="badge badge-secondary">{currentQuestion.task}</span>
-            )}
-          </div>
-        )}
+        {currentQuestion &&
+          (currentQuestion.domain || currentQuestion.task) && (
+            <div className="mb-4 flex flex-wrap gap-2">
+              {currentQuestion.domain && (
+                <span className="badge badge-primary">
+                  {currentQuestion.domain}
+                </span>
+              )}
+              {currentQuestion.task && (
+                <span className="badge badge-secondary">
+                  {currentQuestion.task}
+                </span>
+              )}
+            </div>
+          )}
 
         {/* Question */}
-        <div className="card mb-6">
-          <p className="text-lg text-md-on-surface mb-6">{currentQuestion.questionText}</p>
+        {currentQuestion ? (
+          <>
+            <div className="card mb-6">
+              <p className="text-lg text-md-on-surface mb-6">
+                {currentQuestion.questionText}
+              </p>
 
-          {/* Answer options */}
-          <div className="space-y-3">
-            {currentQuestion.answers.map((answer, index) => {
-              const isSelected = currentAnswer?.selectedIndex === index;
-              return (
-                <button
-                  key={index}
-                  onClick={() => handleSelectAnswer(index)}
-                  className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                    isSelected
-                      ? "border-md-primary bg-md-primary-container text-md-on-primary-container"
-                      : "border-md-outline bg-md-surface-container-low hover:border-md-primary/50"
-                  }`}
-                >
-                  <span className="font-medium mr-2">
-                    {String.fromCharCode(65 + index)}.
-                  </span>
-                  {answer.text}
-                </button>
-              );
-            })}
+              {/* Answer options */}
+              <div className="space-y-3">
+                {currentQuestion.answers.map((answer, index) => {
+                  const isSelected = currentAnswer?.selectedIndex === index;
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleSelectAnswer(index)}
+                      className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
+                        isSelected
+                          ? "border-md-primary bg-md-primary-container text-md-on-primary-container"
+                          : "border-md-outline bg-md-surface-container-low hover:border-md-primary/50"
+                      }`}
+                    >
+                      <span className="font-medium mr-2">
+                        {String.fromCharCode(65 + index)}.
+                      </span>
+                      {answer.text}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="flex justify-between">
+              <button
+                onClick={handlePrevious}
+                disabled={currentIndex === 0}
+                className="btn btn-outline"
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={currentAnswer?.selectedIndex === null}
+                className="btn btn-primary"
+              >
+                {currentIndex === questions.length - 1 ? "Finish Quiz" : "Next"}
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-md-on-surface-variant">No question available.</p>
           </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-between">
-          <button
-            onClick={handlePrevious}
-            disabled={currentIndex === 0}
-            className="btn btn-outline"
-          >
-            Previous
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={currentAnswer?.selectedIndex === null}
-            className="btn btn-primary"
-          >
-            {currentIndex === questions.length - 1 ? "Finish Quiz" : "Next"}
-          </button>
-        </div>
+        )}
       </main>
     </div>
   );
@@ -383,14 +429,16 @@ function PracticePlayContent() {
 
 export default function PracticePlayPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-md-primary mx-auto mb-4"></div>
-          <p className="text-md-on-surface-variant">Loading...</p>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-md-primary mx-auto mb-4"></div>
+            <p className="text-md-on-surface-variant">Loading...</p>
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <PracticePlayContent />
     </Suspense>
   );

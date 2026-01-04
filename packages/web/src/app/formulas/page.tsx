@@ -28,7 +28,8 @@ const STATIC_FORMULAS: Formula[] = [
     name: "Cost Variance",
     category: "EVM",
     expression: "CV = EV - AC",
-    description: "The difference between earned value and actual cost. Positive = under budget.",
+    description:
+      "The difference between earned value and actual cost. Positive = under budget.",
     whenToUse: "When analyzing cost performance on a project.",
   },
   {
@@ -36,7 +37,8 @@ const STATIC_FORMULAS: Formula[] = [
     name: "Schedule Variance",
     category: "EVM",
     expression: "SV = EV - PV",
-    description: "The difference between earned value and planned value. Positive = ahead of schedule.",
+    description:
+      "The difference between earned value and planned value. Positive = ahead of schedule.",
     whenToUse: "When analyzing schedule performance on a project.",
   },
   {
@@ -52,7 +54,8 @@ const STATIC_FORMULAS: Formula[] = [
     name: "Schedule Performance Index",
     category: "EVM",
     expression: "SPI = EV / PV",
-    description: "Ratio of earned value to planned value. >1 means ahead of schedule.",
+    description:
+      "Ratio of earned value to planned value. >1 means ahead of schedule.",
     whenToUse: "When forecasting if the project will complete on time.",
   },
   {
@@ -61,7 +64,8 @@ const STATIC_FORMULAS: Formula[] = [
     category: "EVM",
     expression: "EAC = BAC / CPI",
     description: "Expected total cost of the project at completion.",
-    whenToUse: "When forecasting the final project cost based on current performance.",
+    whenToUse:
+      "When forecasting the final project cost based on current performance.",
   },
   {
     id: "etc",
@@ -69,7 +73,8 @@ const STATIC_FORMULAS: Formula[] = [
     category: "EVM",
     expression: "ETC = EAC - AC",
     description: "Expected cost to complete all remaining work.",
-    whenToUse: "When determining how much more money is needed to finish the project.",
+    whenToUse:
+      "When determining how much more money is needed to finish the project.",
   },
   {
     id: "vac",
@@ -85,15 +90,18 @@ const STATIC_FORMULAS: Formula[] = [
     name: "Communication Channels",
     category: "Communication",
     expression: "Channels = N × (N - 1) / 2",
-    description: "Number of potential communication paths among N stakeholders.",
-    whenToUse: "When planning communication requirements and identifying complexity.",
+    description:
+      "Number of potential communication paths among N stakeholders.",
+    whenToUse:
+      "When planning communication requirements and identifying complexity.",
   },
   // Procurement
   {
     id: "ptp",
     name: "Point of Total Assumption",
     category: "Procurement",
-    expression: "PTA = (Ceiling Price - Target Price) / Buyer Share + Target Cost",
+    expression:
+      "PTA = (Ceiling Price - Target Price) / Buyer Share + Target Cost",
     description: "The cost at which the seller assumes all cost overruns.",
     whenToUse: "When analyzing fixed price incentive fee contracts.",
   },
@@ -103,7 +111,8 @@ const STATIC_FORMULAS: Formula[] = [
     name: "Float (Slack)",
     category: "Scheduling",
     expression: "Float = LS - ES = LF - EF",
-    description: "Amount of time an activity can be delayed without delaying the project.",
+    description:
+      "Amount of time an activity can be delayed without delaying the project.",
     whenToUse: "When analyzing schedule flexibility and critical path.",
   },
   // Quality
@@ -113,7 +122,8 @@ const STATIC_FORMULAS: Formula[] = [
     category: "Quality",
     expression: "EMV = Probability × Impact",
     description: "Expected Monetary Value for decision analysis.",
-    whenToUse: "When quantifying risk impacts and making decisions under uncertainty.",
+    whenToUse:
+      "When quantifying risk impacts and making decisions under uncertainty.",
   },
   // Agile
   {
@@ -131,7 +141,10 @@ export default function FormulasPage() {
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
 
   const categories = useMemo(
-    () => ["all", ...Array.from(new Set(STATIC_FORMULAS.map((f) => f.category)))],
+    () => [
+      "all",
+      ...Array.from(new Set(STATIC_FORMULAS.map((f) => f.category))),
+    ],
     [],
   );
   const filteredFormulas = useMemo(
@@ -225,18 +238,28 @@ export default function FormulasPage() {
 
                   <div className="space-y-3">
                     <div>
-                      <p className="text-xs font-medium text-[var(--foreground-muted)]">Category</p>
+                      <p className="text-xs font-medium text-[var(--foreground-muted)]">
+                        Category
+                      </p>
                       <span className="badge badge-primary capitalize">
                         {selectedFormula.category.replace("_", " ")}
                       </span>
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-[var(--foreground-muted)]">Description</p>
-                      <p className="text-sm mt-1">{selectedFormula.description}</p>
+                      <p className="text-xs font-medium text-[var(--foreground-muted)]">
+                        Description
+                      </p>
+                      <p className="text-sm mt-1">
+                        {selectedFormula.description}
+                      </p>
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-[var(--foreground-muted)]">When to Use</p>
-                      <p className="text-sm mt-1">{selectedFormula.whenToUse}</p>
+                      <p className="text-xs font-medium text-[var(--foreground-muted)]">
+                        When to Use
+                      </p>
+                      <p className="text-sm mt-1">
+                        {selectedFormula.whenToUse}
+                      </p>
                     </div>
                   </div>
                 </div>

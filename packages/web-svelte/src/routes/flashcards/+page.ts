@@ -10,16 +10,19 @@ export const load: Load = async ({ fetch, url }) => {
   // Load user and flashcards in parallel
   const [userResult, flashcardsResult, statsResult] = await Promise.all([
     loadApi(() => authApi.me(fetch)),
-    loadPaginated((o, l) =>
-      flashcardApi.getFlashcards({ limit: l }, fetch).then((resp) => ({
-        data: {
-          items: resp.data?.flashcards || [],
-          total: resp.data?.total || 0,
-          offset: o,
-          limit: l,
-        },
-      }))
-    , offset, limit),
+    loadPaginated(
+      (o, l) =>
+        flashcardApi.getFlashcards({ limit: l }, fetch).then((resp) => ({
+          data: {
+            items: resp.data?.flashcards || [],
+            total: resp.data?.total || 0,
+            offset: o,
+            limit: l,
+          },
+        })),
+      offset,
+      limit,
+    ),
     loadApi(() => flashcardApi.getStats(fetch)),
   ]);
 

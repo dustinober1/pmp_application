@@ -9,7 +9,8 @@
  * Usage: npx ts-node prisma/seed-mock-exams.ts
  */
 
-import { PrismaClient, Domain } from "@prisma/client";
+import type { Domain } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import * as fs from "fs";
 import * as path from "path";
 

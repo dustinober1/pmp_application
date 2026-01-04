@@ -4,8 +4,9 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
-import { getJson, createEmptyPracticeHistory, type PracticeHistory } from "@/lib/stats";
-import { getQuestionStats, type QuestionStats } from "@/lib/questions";
+import { createEmptyPracticeHistory, type PracticeHistory } from "@/lib/stats";
+import { getJson } from "@/lib/storage";
+import { type QuestionStats } from "@/lib/questions";
 
 const STORAGE_KEY_HISTORY = "practice_history";
 
@@ -19,25 +20,18 @@ export default function PracticePage() {
   // Load stats from localStorage
   useEffect(() => {
     try {
-      const history = getJson<PracticeHistory>(STORAGE_KEY_HISTORY, createEmptyPracticeHistory());
-      // Get basic stats from history
-      const totalAttempts = history.attempts.length;
-      const avgScore =
-        totalAttempts > 0
-          ? Math.round(
-              history.attempts.reduce((sum, a) => sum + a.scorePercent, 0) / totalAttempts
-            )
-          : 0;
-      const bestScore =
-        totalAttempts > 0 ? Math.max(...history.attempts.map((a) => a.scorePercent)) : 0;
+      const history = getJson<PracticeHistory>(
+        STORAGE_KEY_HISTORY,
+        createEmptyPracticeHistory(),
+      );
 
       setStats({
-        totalQuestions: history.attempts.reduce((sum, a) => sum + a.questionCount, 0),
-        domains: PMP_EXAM_CONTENT.domains.length,
-        tasks: PMP_EXAM_CONTENT.domains.reduce(
-          (sum, d) => sum + d.tasks.length,
-          0
+        totalQuestions: history.attempts.reduce(
+          (sum, a) => sum + a.questionCount,
+          0,
         ),
+        domains: PMP_EXAM_CONTENT.length,
+        tasks: PMP_EXAM_CONTENT.reduce((sum, d) => sum + d.tasks.length, 0),
         questionsByDomain: {},
       } as QuestionStats);
     } catch (error) {
@@ -49,7 +43,7 @@ export default function PracticePage() {
 
   // Get available domains and tasks
   const domains = useMemo(() => {
-    return PMP_EXAM_CONTENT.domains.map((d) => ({
+    return PMP_EXAM_CONTENT.map((d) => ({
       id: d.id,
       name: d.name,
       code: d.code,
@@ -57,7 +51,7 @@ export default function PracticePage() {
   }, []);
 
   const selectedDomainObj = useMemo(() => {
-    return PMP_EXAM_CONTENT.domains.find((d) => d.code === selectedDomain);
+    return PMP_EXAM_CONTENT.find((d) => d.code === selectedDomain);
   }, [selectedDomain]);
 
   const tasks = useMemo(() => {
@@ -99,7 +93,9 @@ export default function PracticePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Practice Questions</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Practice Questions
+            </h1>
             <p className="mt-2 text-gray-600">
               Test your knowledge with realistic PMP exam questions
             </p>
@@ -121,7 +117,9 @@ export default function PracticePage() {
             </div>
             <div className="bg-white rounded-lg shadow p-6">
               <div className="text-sm text-gray-500 mb-1">Tasks</div>
-              <div className="text-3xl font-bold text-gray-900">{stats?.tasks || 0}</div>
+              <div className="text-3xl font-bold text-gray-900">
+                {stats?.tasks || 0}
+              </div>
             </div>
           </div>
 
@@ -134,10 +132,14 @@ export default function PracticePage() {
             <div className="space-y-6">
               {/* Domain Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="domain-select"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Domain (Optional)
                 </label>
                 <select
+                  id="domain-select"
                   value={selectedDomain}
                   onChange={(e) => {
                     setSelectedDomain(e.target.value);
@@ -157,10 +159,14 @@ export default function PracticePage() {
               {/* Task Selection */}
               {selectedDomain && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="task-select"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Task (Optional)
                   </label>
                   <select
+                    id="task-select"
                     value={selectedTask}
                     onChange={(e) => setSelectedTask(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -177,10 +183,14 @@ export default function PracticePage() {
 
               {/* Question Count */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="question-count"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Number of Questions
                 </label>
                 <select
+                  id="question-count"
                   value={questionCount}
                   onChange={(e) => setQuestionCount(parseInt(e.target.value))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

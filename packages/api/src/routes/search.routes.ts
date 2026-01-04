@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { contentService } from "../services/content.service";
 import { optionalAuthMiddleware } from "../middleware/auth.middleware";
 

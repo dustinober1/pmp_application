@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { ebookService } from "../services/ebook.service";
 import { ebookProgressService } from "../services/ebook-progress.service";
 import {
@@ -44,15 +44,13 @@ export async function ebookRoutes(app: FastifyInstance) {
     async (request, reply) => {
       const { slug } = request.params as any;
       if (!slug) {
-        reply
-          .status(400)
-          .send({
-            success: false,
-            error: {
-              code: "INVALID_PARAMS",
-              message: "Chapter slug is required",
-            },
-          });
+        reply.status(400).send({
+          success: false,
+          error: {
+            code: "INVALID_PARAMS",
+            message: "Chapter slug is required",
+          },
+        });
         return;
       }
       const chapter = await ebookService.getChapterBySlug(slug);
@@ -66,15 +64,13 @@ export async function ebookRoutes(app: FastifyInstance) {
     async (request, reply) => {
       const { chapterSlug, sectionSlug } = request.params as any;
       if (!chapterSlug || !sectionSlug) {
-        reply
-          .status(400)
-          .send({
-            success: false,
-            error: {
-              code: "INVALID_PARAMS",
-              message: "Chapter and section slugs are required",
-            },
-          });
+        reply.status(400).send({
+          success: false,
+          error: {
+            code: "INVALID_PARAMS",
+            message: "Chapter and section slugs are required",
+          },
+        });
         return;
       }
       const userId = (request as any).user?.userId;
@@ -163,15 +159,13 @@ export async function ebookRoutes(app: FastifyInstance) {
     async (request, reply) => {
       const { chapterSlug } = request.params as any;
       if (!chapterSlug) {
-        reply
-          .status(400)
-          .send({
-            success: false,
-            error: {
-              code: "INVALID_PARAMS",
-              message: "Chapter slug is required",
-            },
-          });
+        reply.status(400).send({
+          success: false,
+          error: {
+            code: "INVALID_PARAMS",
+            message: "Chapter slug is required",
+          },
+        });
         return;
       }
       const progress = await ebookProgressService.getChapterProgress(

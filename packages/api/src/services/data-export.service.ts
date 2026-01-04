@@ -149,7 +149,7 @@ export class DataExportService {
       take: 10,
     });
 
-    return exports.map((exp: typeof exports[0]) => ({
+    return exports.map((exp: (typeof exports)[0]) => ({
       id: exp.id,
       userId: exp.userId,
       status: exp.status as any,
@@ -259,7 +259,7 @@ export class DataExportService {
         where: { userId },
         orderBy: { createdAt: "desc" },
       });
-      paymentHistory = transactions.map((t: typeof transactions[0]) => ({
+      paymentHistory = transactions.map((t: (typeof transactions)[0]) => ({
         id: t.id,
         amount: t.amount,
         currency: t.currency,
@@ -289,7 +289,7 @@ export class DataExportService {
         orderBy: { createdAt: "desc" },
         take: 100,
       });
-      recentActivity = activities.map((a: typeof activities[0]) => ({
+      recentActivity = activities.map((a: (typeof activities)[0]) => ({
         type: a.activityType,
         targetId: a.targetId,
         createdAt: a.createdAt,
@@ -314,11 +314,11 @@ export class DataExportService {
       },
       subscription: user.subscription
         ? {
-          tier: user.subscription.tier.name,
-          status: user.subscription.status,
-          startDate: user.subscription.startDate,
-          endDate: user.subscription.endDate,
-        }
+            tier: user.subscription.tier.name,
+            status: user.subscription.status,
+            startDate: user.subscription.startDate,
+            endDate: user.subscription.endDate,
+          }
         : undefined,
       paymentHistory,
       studyProgress: {
@@ -328,18 +328,22 @@ export class DataExportService {
       },
       flashcardReviews: flashcardReviewsCount,
       questionAttempts: questionAttemptsCount,
-      practiceSessions: practiceSessions.map((s: typeof practiceSessions[0]) => ({
-        id: s.id,
-        totalQuestions: s.totalQuestions,
-        correctAnswers: s.correctAnswers,
-        completedAt: s.completedAt || undefined,
-      })),
+      practiceSessions: practiceSessions.map(
+        (s: (typeof practiceSessions)[0]) => ({
+          id: s.id,
+          totalQuestions: s.totalQuestions,
+          correctAnswers: s.correctAnswers,
+          completedAt: s.completedAt || undefined,
+        }),
+      ),
       recentActivity,
-      teamMemberships: teamMemberships.map((m: typeof teamMemberships[0]) => ({
-        teamName: m.team.name,
-        role: m.role,
-        joinedAt: m.joinedAt,
-      })),
+      teamMemberships: teamMemberships.map(
+        (m: (typeof teamMemberships)[0]) => ({
+          teamName: m.team.name,
+          role: m.role,
+          joinedAt: m.joinedAt,
+        }),
+      ),
       exportGeneratedAt: new Date(),
       exportVersion: "1.0",
     };
@@ -413,7 +417,7 @@ export class DataExportService {
     ]);
 
     return {
-      exports: exports.map((exp: typeof exports[0]) => ({
+      exports: exports.map((exp: (typeof exports)[0]) => ({
         id: exp.id,
         userId: exp.userId,
         status: exp.status as any,

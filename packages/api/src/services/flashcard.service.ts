@@ -30,7 +30,7 @@ export class FlashcardService {
       orderBy: { createdAt: "asc" },
     });
 
-    return flashcards.map((card: typeof flashcards[0]) => ({
+    return flashcards.map((card: (typeof flashcards)[0]) => ({
       id: card.id,
       domainId: card.domainId,
       taskId: card.taskId,
@@ -62,7 +62,7 @@ export class FlashcardService {
       orderBy: { nextReviewDate: "asc" },
     });
 
-    return dueReviews.map((review: typeof dueReviews[0]) => ({
+    return dueReviews.map((review: (typeof dueReviews)[0]) => ({
       id: review.card.id,
       domainId: review.card.domainId,
       taskId: review.card.taskId,
@@ -103,7 +103,7 @@ export class FlashcardService {
           where: {
             ...where,
             NOT: {
-              id: { in: dueCards.map((c: typeof dueCards[0]) => c.id) },
+              id: { in: dueCards.map((c: (typeof dueCards)[0]) => c.id) },
             },
           },
           take: (options.cardCount || 20) - dueCards.length,
@@ -128,7 +128,7 @@ export class FlashcardService {
         take: options.cardCount || 20,
         orderBy: { createdAt: "asc" },
       });
-      cards = rawCards.map((c: typeof rawCards[0]) => ({
+      cards = rawCards.map((c: (typeof rawCards)[0]) => ({
         id: c.id,
         domainId: c.domainId,
         taskId: c.taskId,
@@ -150,7 +150,7 @@ export class FlashcardService {
 
     // Add cards to session
     await prisma.flashcardSessionCard.createMany({
-      data: cards.map((card: typeof cards[0]) => ({
+      data: cards.map((card: (typeof cards)[0]) => ({
         sessionId: session.id,
         cardId: card.id,
       })),
@@ -190,7 +190,7 @@ export class FlashcardService {
 
     return {
       sessionId: session.id,
-      cards: session.cards.map((sc: typeof session.cards[0]) => ({
+      cards: session.cards.map((sc: (typeof session.cards)[0]) => ({
         id: sc.card.id,
         domainId: sc.card.domainId,
         taskId: sc.card.taskId,
@@ -279,7 +279,7 @@ export class FlashcardService {
     let dontKnow = 0;
     let totalTimeMs = 0;
 
-    session.cards.forEach((card: typeof session.cards[0]) => {
+    session.cards.forEach((card: (typeof session.cards)[0]) => {
       if (card.rating === "know_it") {
         knowIt++;
       } else if (card.rating === "learning") {
@@ -443,7 +443,7 @@ export class FlashcardService {
     let learning = 0;
     let dueForReview = 0;
 
-    reviews.forEach((review: typeof reviews[0]) => {
+    reviews.forEach((review: (typeof reviews)[0]) => {
       if (review.repetitions >= 3 && review.easeFactor >= 2.5) {
         mastered++;
       } else {

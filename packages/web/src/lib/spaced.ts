@@ -84,7 +84,7 @@ function calculateDueDate(box: number): Date {
  */
 export function updateProgress(
   currentProgress: FlashcardProgress,
-  rating: CardRating
+  rating: CardRating,
 ): FlashcardProgress {
   const now = new Date();
   let newBox = currentProgress.box;
@@ -111,7 +111,7 @@ export function updateProgress(
   const dueDate = calculateDueDate(newBox);
 
   return {
-    intervalDays: BOX_INTERVALS[newBox],
+    intervalDays: BOX_INTERVALS[newBox] || 1,
     box: newBox,
     repetitions: currentProgress.repetitions + 1,
     dueDateISO: dueDate.toISOString(),
@@ -139,7 +139,7 @@ export function isCardDue(progress: FlashcardProgress): boolean {
  * @returns Array of card IDs that are due
  */
 export function getDueCards(
-  cards: Record<string, FlashcardProgress>
+  cards: Record<string, FlashcardProgress>,
 ): string[] {
   return Object.entries(cards)
     .filter(([_, progress]) => isCardDue(progress))
@@ -150,7 +150,7 @@ export function getDueCards(
  * Gets the number of cards due in each box.
  */
 export function getDueCardsByBox(
-  cards: Record<string, FlashcardProgress>
+  cards: Record<string, FlashcardProgress>,
 ): Record<number, number> {
   const counts: Record<number, number> = {
     1: 0,
@@ -174,16 +174,14 @@ export function getDueCardsByBox(
  * Cards in box 4 or 5 are considered "mastered".
  */
 export function calculateMasteryPercentage(
-  cards: Record<string, FlashcardProgress>
+  cards: Record<string, FlashcardProgress>,
 ): number {
   const totalCards = Object.keys(cards).length;
   if (totalCards === 0) {
     return 0;
   }
 
-  const masteredCards = Object.values(cards).filter(
-    (p) => p.box >= 4
-  ).length;
+  const masteredCards = Object.values(cards).filter((p) => p.box >= 4).length;
 
   return Math.round((masteredCards / totalCards) * 100);
 }

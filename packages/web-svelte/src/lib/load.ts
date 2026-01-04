@@ -49,14 +49,20 @@ export async function loadApi<T>(
 /**
  * Throws an SvelteKit redirect error
  */
-export function throwRedirect(status: NumericRange<300, 399>, location: string): never {
+export function throwRedirect(
+  status: NumericRange<300, 399>,
+  location: string,
+): never {
   throw redirect(status, location);
 }
 
 /**
  * Throws an SvelteKit HTTP error
  */
-export function throwLoadError(status: NumericRange<400, 599>, message: string): never {
+export function throwLoadError(
+  status: NumericRange<400, 599>,
+  message: string,
+): never {
   throw kitError(status, message);
 }
 
@@ -122,7 +128,10 @@ export interface PaginatedData<T> {
 }
 
 export async function loadPaginated<T>(
-  fetchPaginated: (offset: number, limit: number) => Promise<{
+  fetchPaginated: (
+    offset: number,
+    limit: number,
+  ) => Promise<{
     data?: { items?: T[]; total?: number; offset?: number; limit?: number };
   }>,
   offset: number = 0,
@@ -145,7 +154,12 @@ export async function loadPaginated<T>(
       };
     }
 
-    const { items = [], total = 0, offset: respOffset = offset, limit: respLimit = limit } = response.data;
+    const {
+      items = [],
+      total = 0,
+      offset: respOffset = offset,
+      limit: respLimit = limit,
+    } = response.data;
 
     return {
       data: {

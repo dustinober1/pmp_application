@@ -340,7 +340,7 @@ export class AccountDeletionService {
     ]);
 
     return {
-      deletions: deletions.map((del: typeof deletions[0]) => ({
+      deletions: deletions.map((del: (typeof deletions)[0]) => ({
         id: del.id,
         userId: del.userId,
         status: del.status as any,

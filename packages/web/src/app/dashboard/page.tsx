@@ -14,10 +14,7 @@ import {
   type Streak,
   type PracticeHistory,
 } from "@/lib/stats";
-import {
-  createInitialProgress,
-  type FlashcardProgress,
-} from "@/lib/spaced";
+import { createInitialProgress, type FlashcardProgress } from "@/lib/spaced";
 import { formatDate } from "@/lib/dateUtils";
 import { truncateAtWordBoundary } from "@/lib/stringUtils";
 
@@ -33,8 +30,12 @@ interface RecentActivity {
 }
 
 export default function DashboardPage() {
-  const [flashcardStats, setFlashcardStats] = useState<FlashcardStats | null>(null);
-  const [practiceStats, setPracticeStats] = useState<PracticeStats | null>(null);
+  const [flashcardStats, setFlashcardStats] = useState<FlashcardStats | null>(
+    null,
+  );
+  const [practiceStats, setPracticeStats] = useState<PracticeStats | null>(
+    null,
+  );
   const [streak, setStreak] = useState<Streak | null>(null);
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,7 +45,7 @@ export default function DashboardPage() {
       // Load flashcard progress
       const flashcardProgress = getJson<Record<string, FlashcardProgress>>(
         STORAGE_KEY_PROGRESS,
-        {}
+        {},
       );
 
       // Initialize progress for any new cards
@@ -60,13 +61,16 @@ export default function DashboardPage() {
       // Load practice history
       const history = getJson<PracticeHistory>(
         STORAGE_KEY_HISTORY,
-        createEmptyPracticeHistory()
+        createEmptyPracticeHistory(),
       );
       const prStats = getPracticeStats(history);
       setPracticeStats(prStats);
 
       // Load streak
-      const streakData = getJson<Streak>(STORAGE_KEY_STREAK, createEmptyStreak());
+      const streakData = getJson<Streak>(
+        STORAGE_KEY_STREAK,
+        createEmptyStreak(),
+      );
       setStreak(streakData);
 
       // Build recent activity from practice history and flashcard progress
@@ -87,7 +91,7 @@ export default function DashboardPage() {
       cardEntries.sort(
         (a, b) =>
           new Date(b[1].lastReviewedISO).getTime() -
-          new Date(a[1].lastReviewedISO).getTime()
+          new Date(a[1].lastReviewedISO).getTime(),
       );
 
       for (const [cardId, progress] of cardEntries.slice(0, 5)) {
@@ -103,7 +107,8 @@ export default function DashboardPage() {
 
       // Sort by timestamp descending
       activities.sort(
-        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
       );
 
       setRecentActivity(activities.slice(0, 5));
@@ -130,21 +135,32 @@ export default function DashboardPage() {
   }
 
   // Calculate weak areas based on practice stats
-  const weakAreas = practiceStats && practiceStats.avgScore < 70
-    ? [{ taskId: "practice", taskName: "Practice Questions", domainName: "All", accuracy: practiceStats.avgScore, recommendation: "Keep practicing!" }]
-    : [];
+  const weakAreas =
+    practiceStats && practiceStats.avgScore < 70
+      ? [
+          {
+            taskId: "practice",
+            taskName: "Practice Questions",
+            domainName: "All",
+            accuracy: practiceStats.avgScore,
+            recommendation: "Keep practicing!",
+          },
+        ]
+      : [];
 
   // Domain progress - simplified for static mode
-  const domainProgress = flashcardStats ? [
-    {
-      domainId: "flashcards",
-      domainName: "Flashcard Mastery",
-      domainCode: "FC",
-      progress: flashcardStats.masteryPercentage,
-      questionsAnswered: flashcardStats.totalSeen,
-      accuracy: flashcardStats.masteryPercentage,
-    },
-  ] : [];
+  const domainProgress = flashcardStats
+    ? [
+        {
+          domainId: "flashcards",
+          domainName: "Flashcard Mastery",
+          domainCode: "FC",
+          progress: flashcardStats.masteryPercentage,
+          questionsAnswered: flashcardStats.totalSeen,
+          accuracy: flashcardStats.masteryPercentage,
+        },
+      ]
+    : [];
 
   return (
     <div className="min-h-screen">
@@ -154,8 +170,7 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold">
-            Welcome to PMP Study Pro!{" "}
-            <span aria-hidden="true">👋</span>
+            Welcome to PMP Study Pro! <span aria-hidden="true">👋</span>
           </h1>
           <p className="text-[var(--foreground-muted)]">
             Here&apos;s your study progress at a glance.
@@ -169,8 +184,7 @@ export default function DashboardPage() {
               Current Streak
             </p>
             <p className="text-3xl font-bold mt-1">
-              {streak?.current || 0}{" "}
-              <span aria-hidden="true">🔥</span>
+              {streak?.current || 0} <span aria-hidden="true">🔥</span>
             </p>
             <p className="text-xs text-[var(--foreground-muted)] mt-1">
               Best: {streak?.longest || 0} days
@@ -205,7 +219,9 @@ export default function DashboardPage() {
             </Link>
           </div>
           <div className="card">
-            <p className="text-sm text-[var(--foreground-muted)]">Practice Avg</p>
+            <p className="text-sm text-[var(--foreground-muted)]">
+              Practice Avg
+            </p>
             <p className="text-3xl font-bold mt-1">
               {practiceStats?.avgScore || 0}%
             </p>
@@ -238,8 +254,8 @@ export default function DashboardPage() {
                       ></div>
                     </div>
                     <p className="text-xs text-[var(--foreground-muted)] mt-1">
-                      {domain.questionsAnswered} cards reviewed • {domain.accuracy}%
-                      mastered
+                      {domain.questionsAnswered} cards reviewed •{" "}
+                      {domain.accuracy}% mastered
                     </p>
                   </div>
                 ))}

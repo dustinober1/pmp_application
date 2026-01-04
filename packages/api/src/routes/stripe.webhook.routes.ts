@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { stripeService } from "../services/stripe.service";
 import { logger } from "../utils/logger";
 

@@ -13,7 +13,9 @@ import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
 const STORAGE_KEY_PROGRESS = "flashcard_progress";
 
 export default function FlashcardsPage() {
-  const [stats, setStats] = useState<ReturnType<typeof getFlashcardStats> | null>(null);
+  const [stats, setStats] = useState<ReturnType<
+    typeof getFlashcardStats
+  > | null>(null);
   const [domains] = useState<Domain[]>(PMP_EXAM_CONTENT);
   const [loading, setLoading] = useState(true);
 
@@ -31,9 +33,9 @@ export default function FlashcardsPage() {
         const allCards = await loadFlashcards();
 
         // Get or initialize progress
-        let progress = getJson<Record<string, FlashcardProgress>>(
+        const progress = getJson<Record<string, FlashcardProgress>>(
           STORAGE_KEY_PROGRESS,
-          {}
+          {},
         );
 
         // Initialize progress for any new cards
@@ -76,8 +78,7 @@ export default function FlashcardsPage() {
 
   const selectedDomain = domains.find((d) => d.id === selectedDomainId);
   const tasksForSelectedDomain = getFilteredDomainTasks();
-  const hasActiveFilters =
-    selectedDomainId !== null || selectedTaskId !== null;
+  const hasActiveFilters = selectedDomainId !== null || selectedTaskId !== null;
 
   if (loading) {
     return (

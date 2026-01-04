@@ -60,12 +60,16 @@ export class AdminPrivacyService {
 
     const averageProcessingTime =
       completedExportsWithTime.length > 0
-        ? completedExportsWithTime.reduce((acc: number, exp: typeof completedExportsWithTime[0]) => {
-          const time = exp.completedAt!.getTime() - exp.requestedAt.getTime();
-          return acc + time;
-        }, 0) /
-        completedExportsWithTime.length /
-        (1000 * 60)
+        ? completedExportsWithTime.reduce(
+            (acc: number, exp: (typeof completedExportsWithTime)[0]) => {
+              const time =
+                exp.completedAt!.getTime() - exp.requestedAt.getTime();
+              return acc + time;
+            },
+            0,
+          ) /
+          completedExportsWithTime.length /
+          (1000 * 60)
         : 0;
 
     return {
@@ -119,7 +123,7 @@ export class AdminPrivacyService {
       take: limit,
     });
 
-    return logs.map((log: typeof logs[0]) => ({
+    return logs.map((log: (typeof logs)[0]) => ({
       id: log.id,
       actionType: log.actionType as any,
       entityType: log.entityType as any,
@@ -154,7 +158,7 @@ export class AdminPrivacyService {
       },
     });
 
-    return exports.map((exp: typeof exports[0]) => ({
+    return exports.map((exp: (typeof exports)[0]) => ({
       id: exp.id,
       userId: exp.userId,
       user: exp.user,
@@ -183,7 +187,7 @@ export class AdminPrivacyService {
       },
     });
 
-    return deletions.map((del: typeof deletions[0]) => ({
+    return deletions.map((del: (typeof deletions)[0]) => ({
       id: del.id,
       userId: del.userId,
       user: del.user,
@@ -227,7 +231,7 @@ export class AdminPrivacyService {
     ]);
 
     return {
-      logs: logs.map((log: typeof logs[0]) => ({
+      logs: logs.map((log: (typeof logs)[0]) => ({
         id: log.id,
         actionType: log.actionType as any,
         entityType: log.entityType as any,
@@ -272,7 +276,7 @@ export class AdminPrivacyService {
       consent: consent || null,
       exports: exportCount,
       deletions: deletionCount,
-      recentActivity: recentActivity.map((log: typeof recentActivity[0]) => ({
+      recentActivity: recentActivity.map((log: (typeof recentActivity)[0]) => ({
         id: log.id,
         actionType: log.actionType as any,
         entityType: log.entityType as any,

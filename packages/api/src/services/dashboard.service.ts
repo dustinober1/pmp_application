@@ -87,9 +87,9 @@ export class DashboardService {
     const totalProgress =
       domainProgress.length > 0
         ? Math.round(
-          domainProgress.reduce((sum, d) => sum + d.progress, 0) /
-          domainProgress.length,
-        )
+            domainProgress.reduce((sum, d) => sum + d.progress, 0) /
+              domainProgress.length,
+          )
         : 0;
 
     return {
@@ -203,11 +203,10 @@ export class DashboardService {
       { correct: number; total: number }
     >();
     practiceAttempts.forEach((a) => {
-      const current =
-        domainPracticeStats.get(a.question.domainId) || {
-          correct: 0,
-          total: 0,
-        };
+      const current = domainPracticeStats.get(a.question.domainId) || {
+        correct: 0,
+        total: 0,
+      };
       current.total++;
       if (a.isCorrect) {
         current.correct++;
@@ -234,8 +233,10 @@ export class DashboardService {
         totalSections > 0
           ? Math.round((completedCount / totalSections) * 100)
           : 0;
-      const practiceStats =
-        domainPracticeStats.get(domain.id) || { correct: 0, total: 0 };
+      const practiceStats = domainPracticeStats.get(domain.id) || {
+        correct: 0,
+        total: 0,
+      };
       const accuracy =
         practiceStats.total > 0
           ? Math.round((practiceStats.correct / practiceStats.total) * 100)
@@ -326,14 +327,13 @@ export class DashboardService {
     >();
 
     attempts.forEach((a) => {
-      const current =
-        taskStats.get(a.question.taskId) || {
-          correct: 0,
-          total: 0,
-          taskName: a.question.task.name,
-          domainName: a.question.domain.name,
-          taskId: a.question.taskId,
-        };
+      const current = taskStats.get(a.question.taskId) || {
+        correct: 0,
+        total: 0,
+        taskName: a.question.task.name,
+        domainName: a.question.domain.name,
+        taskId: a.question.taskId,
+      };
       current.total++;
       if (a.isCorrect) {
         current.correct++;
@@ -376,7 +376,7 @@ export class DashboardService {
     if (domainProgress.length > 0) {
       contentScore = Math.round(
         domainProgress.reduce((sum, d) => sum + d.progress, 0) /
-        domainProgress.length,
+          domainProgress.length,
       );
     }
 
@@ -473,9 +473,7 @@ export class DashboardService {
     const totalAttempts = attempts.length;
     const correctCount = attempts.filter((a) => a.isCorrect).length;
     const averageAccuracy =
-      totalAttempts > 0
-        ? Math.round((correctCount / totalAttempts) * 100)
-        : 0;
+      totalAttempts > 0 ? Math.round((correctCount / totalAttempts) * 100) : 0;
 
     return { averageAccuracy, totalAttempts };
   }
@@ -488,9 +486,9 @@ export class DashboardService {
     });
 
     const totalCards = reviews.length;
-    const mastered = reviews
-      .filter((r) => r.repetitions >= 3 && r.easeFactor >= 2.5)
-      .length;
+    const mastered = reviews.filter(
+      (r) => r.repetitions >= 3 && r.easeFactor >= 2.5,
+    ).length;
     const masteredPercentage =
       totalCards > 0 ? Math.round((mastered / totalCards) * 100) : 0;
 

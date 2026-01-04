@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { practiceService } from "../services/practice.service";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { requireFeature } from "../middleware/tier.middleware";

@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { authMiddleware } from "../middleware/auth.middleware";
 import {
   consentService,
@@ -118,14 +118,12 @@ export async function privacyRoutes(app: FastifyInstance) {
         request.body as any,
         metadata,
       );
-      reply
-        .status(201)
-        .send({
-          success: true,
-          data: { exportRequest },
-          message:
-            "Data export requested. You will receive an email when it is ready.",
-        });
+      reply.status(201).send({
+        success: true,
+        data: { exportRequest },
+        message:
+          "Data export requested. You will receive an email when it is ready.",
+      });
     },
   );
 
@@ -187,14 +185,12 @@ export async function privacyRoutes(app: FastifyInstance) {
         request.body as any,
         metadata,
       );
-      reply
-        .status(201)
-        .send({
-          success: true,
-          data: { deletionRequest },
-          message:
-            "Account deletion requested. Your account will be deleted after 30 days. You will receive a confirmation email.",
-        });
+      reply.status(201).send({
+        success: true,
+        data: { deletionRequest },
+        message:
+          "Account deletion requested. Your account will be deleted after 30 days. You will receive a confirmation email.",
+      });
     },
   );
 

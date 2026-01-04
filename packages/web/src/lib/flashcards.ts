@@ -65,7 +65,9 @@ type FlashcardsFile = FlashcardsSection[];
  * Returns a flattened array of flashcards with full metadata.
  */
 export async function loadFlashcards(): Promise<FlashcardCard[]> {
-  const sections = await fetchStaticData<FlashcardsFile>("/data/flashcards.json");
+  const sections = await fetchStaticData<FlashcardsFile>(
+    "/data/flashcards.json",
+  );
 
   const cards: FlashcardCard[] = [];
 
@@ -108,7 +110,7 @@ export async function loadFlashcards(): Promise<FlashcardCard[]> {
  */
 export function filterFlashcards(
   cards: FlashcardCard[],
-  filters: FlashcardFilters
+  filters: FlashcardFilters,
 ): FlashcardCard[] {
   return cards.filter((card) => {
     if (filters.domain && card.domain !== filters.domain) {
@@ -137,10 +139,10 @@ export function getFlashcardDomains(cards: FlashcardCard[]): string[] {
  */
 export function getFlashcardTasksByDomain(
   cards: FlashcardCard[],
-  domain: string
+  domain: string,
 ): string[] {
   const tasks = new Set(
-    cards.filter((card) => card.domain === domain).map((card) => card.task)
+    cards.filter((card) => card.domain === domain).map((card) => card.task),
   );
   return Array.from(tasks).sort();
 }

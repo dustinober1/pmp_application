@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { AnalyticsService } from "../services/analytics.service";
 import { authMiddleware } from "../middleware/auth.middleware";

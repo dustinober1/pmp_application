@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { dashboardService } from "../services/dashboard.service";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { requireTier } from "../middleware/tier.middleware";

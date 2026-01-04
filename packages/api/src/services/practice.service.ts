@@ -172,7 +172,7 @@ export class PracticeService {
         taskId: q.taskId,
         questionText: q.questionText,
         options: q.options.map(
-          (o: typeof q.options[0]): QuestionOption => ({
+          (o: (typeof q.options)[0]): QuestionOption => ({
             id: o.id,
             questionId: o.questionId,
             text: o.text,
@@ -180,7 +180,7 @@ export class PracticeService {
           }),
         ),
         correctOptionId: isAnswered
-          ? q.options.find((o: typeof q.options[0]) => o.isCorrect)?.id || ""
+          ? q.options.find((o: (typeof q.options)[0]) => o.isCorrect)?.id || ""
           : "",
         difficulty: q.difficulty as Difficulty,
         explanation: isAnswered ? q.explanation : "",
@@ -326,9 +326,9 @@ export class PracticeService {
     const timeRemainingMs =
       session.isMockExam && session.timeLimit
         ? Math.max(
-          0,
-          session.timeLimit - (Date.now() - session.startedAt.getTime()),
-        )
+            0,
+            session.timeLimit - (Date.now() - session.startedAt.getTime()),
+          )
         : undefined;
 
     const mappedQuestions: PracticeQuestion[] = session.questions.map((sq) => {
@@ -341,7 +341,7 @@ export class PracticeService {
         taskId: q.taskId,
         questionText: q.questionText,
         options: q.options.map(
-          (o: typeof q.options[0]): QuestionOption => ({
+          (o: (typeof q.options)[0]): QuestionOption => ({
             id: o.id,
             questionId: o.questionId,
             text: o.text,
@@ -349,7 +349,7 @@ export class PracticeService {
           }),
         ),
         correctOptionId: isAnswered
-          ? q.options.find((o: typeof q.options[0]) => o.isCorrect)?.id || ""
+          ? q.options.find((o: (typeof q.options)[0]) => o.isCorrect)?.id || ""
           : "",
         difficulty: q.difficulty as Difficulty,
         explanation: isAnswered ? q.explanation : "",
@@ -437,7 +437,7 @@ export class PracticeService {
     }
 
     const correctOption = question.options.find(
-      (o: typeof question.options[0]) => o.isCorrect,
+      (o: (typeof question.options)[0]) => o.isCorrect,
     );
     const isCorrect = correctOption?.id === selectedOptionId;
     const correctOptionId = correctOption?.id || "";
@@ -520,7 +520,7 @@ export class PracticeService {
       { correct: number; total: number; name: string }
     >();
 
-    attempts.forEach((attempt: typeof attempts[0]) => {
+    attempts.forEach((attempt: (typeof attempts)[0]) => {
       const domainId = attempt.question.domainId;
       const domainName = attempt.question.domain.name;
       const current = domainMap.get(domainId) || {
@@ -666,7 +666,7 @@ export class PracticeService {
       taskId: f.question.taskId,
       questionText: f.question.questionText,
       options: f.question.options.map(
-        (o: typeof f.question.options[0]): QuestionOption => ({
+        (o: (typeof f.question.options)[0]): QuestionOption => ({
           id: o.id,
           questionId: o.questionId,
           text: o.text,
@@ -712,7 +712,7 @@ export class PracticeService {
     );
 
     // Calculate scores from sessions
-    const scores = sessions.map((s: typeof sessions[0]) => {
+    const scores = sessions.map((s: (typeof sessions)[0]) => {
       const total = s.totalQuestions;
       const correct = s.correctAnswers;
       return total > 0 ? Math.round((correct / total) * 100) : 0;
@@ -720,7 +720,9 @@ export class PracticeService {
 
     const averageScore =
       scores.length > 0
-        ? Math.round(scores.reduce((a: number, b: number) => a + b, 0) / scores.length)
+        ? Math.round(
+            scores.reduce((a: number, b: number) => a + b, 0) / scores.length,
+          )
         : 0;
     const bestScore = scores.length > 0 ? Math.max(...scores) : 0;
 
@@ -731,7 +733,7 @@ export class PracticeService {
     });
 
     const domainStats = new Map<string, { correct: number; total: number }>();
-    attempts.forEach((a: typeof attempts[0]) => {
+    attempts.forEach((a: (typeof attempts)[0]) => {
       const current = domainStats.get(a.question.domainId) || {
         correct: 0,
         total: 0,

@@ -84,7 +84,7 @@ export async function loadQuestions(): Promise<Question[]> {
  */
 export function filterQuestions(
   questions: Question[],
-  filters: QuestionFilters
+  filters: QuestionFilters,
 ): Question[] {
   return questions.filter((q) => {
     if (filters.domain && q.domain !== filters.domain) {
@@ -109,10 +109,10 @@ export function filterQuestions(
 export function pickRandomQuestions(
   questions: Question[],
   count: number,
-  filters?: QuestionFilters
+  filters?: QuestionFilters,
 ): Question[] {
   // Apply filters if provided
-  let pool = filters ? filterQuestions(questions, filters) : [...questions];
+  const pool = filters ? filterQuestions(questions, filters) : [...questions];
 
   // If we don't have enough questions, return all of them
   if (pool.length <= count) {
@@ -123,7 +123,9 @@ export function pickRandomQuestions(
   const shuffled = [...pool];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    const temp: Question = shuffled[i]!;
+    shuffled[i] = shuffled[j]!;
+    shuffled[j] = temp;
   }
 
   return shuffled.slice(0, count);
@@ -142,10 +144,10 @@ export function getQuestionDomains(questions: Question[]): string[] {
  */
 export function getQuestionTasksByDomain(
   questions: Question[],
-  domain: string
+  domain: string,
 ): string[] {
   const tasks = new Set(
-    questions.filter((q) => q.domain === domain).map((q) => q.task)
+    questions.filter((q) => q.domain === domain).map((q) => q.task),
   );
   return Array.from(tasks).sort();
 }
@@ -192,7 +194,7 @@ export interface QuizResult {
 
 export function calculateQuizScore(
   questions: Question[],
-  answers: Array<{ questionId: string; selectedIndex: number | null }>
+  answers: Array<{ questionId: string; selectedIndex: number | null }>,
 ): QuizResult {
   let correctCount = 0;
   let incorrectCount = 0;

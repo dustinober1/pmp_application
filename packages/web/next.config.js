@@ -40,8 +40,8 @@ const nextConfig = {
 
   // Enable modern JavaScript optimizations
   modularizeImports: {
-    'lucide-react': {
-      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+    "lucide-react": {
+      transform: "lucide-react/dist/esm/icons/{{kebabCase member}}",
     },
   },
   // NOTE: redirects() and headers() are removed because they cannot be used

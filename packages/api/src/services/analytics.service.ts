@@ -134,28 +134,48 @@ export class AnalyticsService {
         engagementRate: totalUsers > 0 ? (activeUsers / totalUsers) * 100 : 0,
         avgStudyTimeMs: avgStudyTimeResult._avg.durationMs || 0,
       },
-      domainProgress: domainProgress.map((dp: typeof domainProgress[0]) => ({
+      domainProgress: domainProgress.map((dp: (typeof domainProgress)[0]) => ({
         sectionId: dp.sectionId,
         completionCount: dp._count,
       })),
       activityTrends: this.groupByDate(activityTrends, "createdAt"),
-      topPerformers: topPerformers.map((u: { id: string; name: string | null; email: string; createdAt: Date; _count: { studyProgress: number; flashcardReviews: number; questionAttempts: number } }) => ({
-        id: u.id,
-        name: u.name,
-        email: u.email,
-        memberSince: u.createdAt,
-        studyProgressCount: u._count.studyProgress,
-        flashcardReviewsCount: u._count.flashcardReviews,
-        questionAttemptsCount: u._count.questionAttempts,
-      })),
-      strugglingUsers: strugglingUsers.map((u: { id: string; name: string | null; email: string; createdAt: Date; _count: { studyProgress: number; studyActivities: number } }) => ({
-        id: u.id,
-        name: u.name,
-        email: u.email,
-        memberSince: u.createdAt,
-        incompleteProgressCount: u._count.studyProgress,
-        activityCount: u._count.studyActivities,
-      })),
+      topPerformers: topPerformers.map(
+        (u: {
+          id: string;
+          name: string | null;
+          email: string;
+          createdAt: Date;
+          _count: {
+            studyProgress: number;
+            flashcardReviews: number;
+            questionAttempts: number;
+          };
+        }) => ({
+          id: u.id,
+          name: u.name,
+          email: u.email,
+          memberSince: u.createdAt,
+          studyProgressCount: u._count.studyProgress,
+          flashcardReviewsCount: u._count.flashcardReviews,
+          questionAttemptsCount: u._count.questionAttempts,
+        }),
+      ),
+      strugglingUsers: strugglingUsers.map(
+        (u: {
+          id: string;
+          name: string | null;
+          email: string;
+          createdAt: Date;
+          _count: { studyProgress: number; studyActivities: number };
+        }) => ({
+          id: u.id,
+          name: u.name,
+          email: u.email,
+          memberSince: u.createdAt,
+          incompleteProgressCount: u._count.studyProgress,
+          activityCount: u._count.studyActivities,
+        }),
+      ),
     };
   }
 
@@ -231,7 +251,9 @@ export class AnalyticsService {
     );
 
     // Study activity breakdown
-    const activityBreakdown = this.calculateActivityBreakdown(user.studyActivities);
+    const activityBreakdown = this.calculateActivityBreakdown(
+      user.studyActivities,
+    );
 
     // Calculate overall exam readiness score
     const examReadiness = this.calculateExamReadiness({
@@ -300,32 +322,45 @@ export class AnalyticsService {
 
     // Calculate completion rates for each task
     const taskAnalytics = await Promise.all(
-      domain.tasks.map(async (task: { id: string; code: string; name: string; studyGuide: { sections: Array<{ progress: Array<{ completed: boolean }> }> } | null }) => {
-        const totalSections = task.studyGuide?.sections.length || 0;
-        const completedSections =
-          task.studyGuide?.sections.filter((s: { progress: Array<{ completed: boolean }> }) =>
-            s.progress.every((p: { completed: boolean }) => p.completed),
-          ).length || 0;
+      domain.tasks.map(
+        async (task: {
+          id: string;
+          code: string;
+          name: string;
+          studyGuide: {
+            sections: Array<{ progress: Array<{ completed: boolean }> }>;
+          } | null;
+        }) => {
+          const totalSections = task.studyGuide?.sections.length || 0;
+          const completedSections =
+            task.studyGuide?.sections.filter(
+              (s: { progress: Array<{ completed: boolean }> }) =>
+                s.progress.every((p: { completed: boolean }) => p.completed),
+            ).length || 0;
 
-        const completionRate =
-          totalSections > 0 ? (completedSections / totalSections) * 100 : 0;
+          const completionRate =
+            totalSections > 0 ? (completedSections / totalSections) * 100 : 0;
 
-        return {
-          taskId: task.id,
-          taskCode: task.code,
-          taskName: task.name,
-          totalSections,
-          completedSections,
-          completionRate,
-        };
-      }),
+          return {
+            taskId: task.id,
+            taskCode: task.code,
+            taskName: task.name,
+            totalSections,
+            completedSections,
+            completionRate,
+          };
+        },
+      ),
     );
 
     // Get average completion rate across all tasks
     const avgCompletionRate =
       taskAnalytics.length > 0
-        ? taskAnalytics.reduce((sum: number, t: { completionRate: number }) => sum + t.completionRate, 0) /
-        taskAnalytics.length
+        ? taskAnalytics.reduce(
+            (sum: number, t: { completionRate: number }) =>
+              sum + t.completionRate,
+            0,
+          ) / taskAnalytics.length
         : 0;
 
     return {
@@ -398,19 +433,21 @@ export class AnalyticsService {
     });
 
     const difficultCardsDetails = await Promise.all(
-      difficultCards.map(async (dc: { cardId: string; _count: { rating: number } }) => {
-        const card = await prisma.flashcard.findUnique({
-          where: { id: dc.cardId },
-          include: {
-            domain: true,
-            task: true,
-          },
-        });
-        return {
-          ...card,
-          dontKnowCount: dc._count.rating,
-        };
-      }),
+      difficultCards.map(
+        async (dc: { cardId: string; _count: { rating: number } }) => {
+          const card = await prisma.flashcard.findUnique({
+            where: { id: dc.cardId },
+            include: {
+              domain: true,
+              task: true,
+            },
+          });
+          return {
+            ...card,
+            dontKnowCount: dc._count.rating,
+          };
+        },
+      ),
     );
 
     // Get SM-2 algorithm performance metrics
@@ -463,13 +500,15 @@ export class AnalyticsService {
         avgAccuracyRate:
           sessionStats._avg.totalCards && sessionStats._avg.totalCards > 0
             ? ((sessionStats._avg.knowIt || 0) / sessionStats._avg.totalCards) *
-            100
+              100
             : 0,
       },
-      ratingDistribution: ratingDistribution.map((rd: { rating: string | null; _count: number }) => ({
-        rating: rd.rating || "unanswered",
-        count: rd._count,
-      })),
+      ratingDistribution: ratingDistribution.map(
+        (rd: { rating: string | null; _count: number }) => ({
+          rating: rd.rating || "unanswered",
+          count: rd._count,
+        }),
+      ),
       difficultCards: difficultCardsDetails,
       sm2Metrics: {
         avgEaseFactor: sm2Metrics._avg.easeFactor || 2.5,
@@ -509,25 +548,39 @@ export class AnalyticsService {
     // Calculate SM-2 metrics
     const sm2Metrics = {
       avgEaseFactor:
-        reviews.reduce((sum: number, r: { easeFactor: number }) => sum + r.easeFactor, 0) / reviews.length,
+        reviews.reduce(
+          (sum: number, r: { easeFactor: number }) => sum + r.easeFactor,
+          0,
+        ) / reviews.length,
       avgInterval:
-        reviews.reduce((sum: number, r: { interval: number }) => sum + r.interval, 0) / reviews.length,
+        reviews.reduce(
+          (sum: number, r: { interval: number }) => sum + r.interval,
+          0,
+        ) / reviews.length,
       avgRepetitions:
-        reviews.reduce((sum: number, r: { repetitions: number }) => sum + r.repetitions, 0) / reviews.length,
+        reviews.reduce(
+          (sum: number, r: { repetitions: number }) => sum + r.repetitions,
+          0,
+        ) / reviews.length,
       totalCards: reviews.length,
-      cardsDue: reviews.filter((r: { nextReviewDate: Date }) => r.nextReviewDate <= new Date()).length,
+      cardsDue: reviews.filter(
+        (r: { nextReviewDate: Date }) => r.nextReviewDate <= new Date(),
+      ).length,
       cardsOverdue: reviews.filter(
         (r: { nextReviewDate: Date }) => r.nextReviewDate < new Date(),
       ).length,
     };
 
     // Group by domain
-    const domainPerformance = this.groupByDomain(reviews, (r: { easeFactor: number; interval: number; repetitions: number }) => ({
-      totalCards: 1,
-      avgEaseFactor: r.easeFactor,
-      avgInterval: r.interval,
-      avgRepetitions: r.repetitions,
-    }));
+    const domainPerformance = this.groupByDomain(
+      reviews,
+      (r: { easeFactor: number; interval: number; repetitions: number }) => ({
+        totalCards: 1,
+        avgEaseFactor: r.easeFactor,
+        avgInterval: r.interval,
+        avgRepetitions: r.repetitions,
+      }),
+    );
 
     // Get recent session performance
     const recentSessions = await prisma.flashcardSession.findMany({
@@ -538,16 +591,26 @@ export class AnalyticsService {
       take: 10,
     });
 
-    const sessionPerformance = recentSessions.map((s: { id: string; startedAt: Date; totalCards: number; knowIt: number; learning: number; dontKnow: number; totalTimeMs: number }) => ({
-      sessionId: s.id,
-      startedAt: s.startedAt,
-      totalCards: s.totalCards,
-      knowIt: s.knowIt,
-      learning: s.learning,
-      dontKnow: s.dontKnow,
-      accuracyRate: s.totalCards > 0 ? (s.knowIt / s.totalCards) * 100 : 0,
-      durationMs: s.totalTimeMs,
-    }));
+    const sessionPerformance = recentSessions.map(
+      (s: {
+        id: string;
+        startedAt: Date;
+        totalCards: number;
+        knowIt: number;
+        learning: number;
+        dontKnow: number;
+        totalTimeMs: number;
+      }) => ({
+        sessionId: s.id,
+        startedAt: s.startedAt,
+        totalCards: s.totalCards,
+        knowIt: s.knowIt,
+        learning: s.learning,
+        dontKnow: s.dontKnow,
+        accuracyRate: s.totalCards > 0 ? (s.knowIt / s.totalCards) * 100 : 0,
+        durationMs: s.totalTimeMs,
+      }),
+    );
 
     return {
       sm2Metrics,
@@ -555,14 +618,23 @@ export class AnalyticsService {
       sessionPerformance,
       nextReviews: reviews
         .filter((r: { nextReviewDate: Date }) => r.nextReviewDate > new Date())
-        .sort((a: { nextReviewDate: Date }, b: { nextReviewDate: Date }) => a.nextReviewDate.getTime() - b.nextReviewDate.getTime())
+        .sort(
+          (a: { nextReviewDate: Date }, b: { nextReviewDate: Date }) =>
+            a.nextReviewDate.getTime() - b.nextReviewDate.getTime(),
+        )
         .slice(0, 10)
-        .map((r: { cardId: string; nextReviewDate: Date; card: { domain: { name: string }; task: { name: string } } }) => ({
-          cardId: r.cardId,
-          nextReviewDate: r.nextReviewDate,
-          domain: r.card.domain.name,
-          task: r.card.task.name,
-        })),
+        .map(
+          (r: {
+            cardId: string;
+            nextReviewDate: Date;
+            card: { domain: { name: string }; task: { name: string } };
+          }) => ({
+            cardId: r.cardId,
+            nextReviewDate: r.nextReviewDate,
+            domain: r.card.domain.name,
+            task: r.card.task.name,
+          }),
+        ),
     };
   }
 
@@ -613,9 +685,11 @@ export class AnalyticsService {
     });
 
     const correctCount =
-      accuracyBreakdown.find((ab: { isCorrect: boolean }) => ab.isCorrect)?._count || 0;
+      accuracyBreakdown.find((ab: { isCorrect: boolean }) => ab.isCorrect)
+        ?._count || 0;
     const incorrectCount =
-      accuracyBreakdown.find((ab: { isCorrect: boolean }) => !ab.isCorrect)?._count || 0;
+      accuracyBreakdown.find((ab: { isCorrect: boolean }) => !ab.isCorrect)
+        ?._count || 0;
     const totalCount = correctCount + incorrectCount;
     const accuracyRate = totalCount > 0 ? (correctCount / totalCount) * 100 : 0;
 
@@ -642,7 +716,9 @@ export class AnalyticsService {
 
     difficultQuestions
       .map((q) => {
-        const correctAttempts = q.attempts.filter((a: { isCorrect: boolean }) => a.isCorrect).length;
+        const correctAttempts = q.attempts.filter(
+          (a: { isCorrect: boolean }) => a.isCorrect,
+        ).length;
         const totalAttempts = q.attempts.length;
         return {
           id: q.id,
@@ -656,12 +732,17 @@ export class AnalyticsService {
             totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0,
           avgTimeSpentMs:
             totalAttempts > 0
-              ? q.attempts.reduce((sum: number, a: any) => sum + a.timeSpentMs, 0) /
-              totalAttempts
+              ? q.attempts.reduce(
+                  (sum: number, a: any) => sum + a.timeSpentMs,
+                  0,
+                ) / totalAttempts
               : 0,
         };
       })
-      .sort((a: { accuracyRate: number }, b: { accuracyRate: number }) => a.accuracyRate - b.accuracyRate)
+      .sort(
+        (a: { accuracyRate: number }, b: { accuracyRate: number }) =>
+          a.accuracyRate - b.accuracyRate,
+      )
       .slice(0, 20);
 
     // Get question difficulty distribution
@@ -706,19 +787,21 @@ export class AnalyticsService {
       },
     });
 
-    const mockExamPerformance = mockExamSessions.map((s: typeof mockExamSessions[0]) => {
-      const domainAccuracy = this.calculateDomainAccuracyFromSession(s);
-      return {
-        sessionId: s.id,
-        startedAt: s.startedAt,
-        completedAt: s.completedAt,
-        totalQuestions: s.totalQuestions,
-        correctAnswers: s.correctAnswers,
-        accuracyRate: (s.correctAnswers / s.totalQuestions) * 100,
-        totalTimeMs: s.totalTimeMs,
-        domainAccuracy,
-      };
-    });
+    const mockExamPerformance = mockExamSessions.map(
+      (s: (typeof mockExamSessions)[0]) => {
+        const domainAccuracy = this.calculateDomainAccuracyFromSession(s);
+        return {
+          sessionId: s.id,
+          startedAt: s.startedAt,
+          completedAt: s.completedAt,
+          totalQuestions: s.totalQuestions,
+          correctAnswers: s.correctAnswers,
+          accuracyRate: (s.correctAnswers / s.totalQuestions) * 100,
+          totalTimeMs: s.totalTimeMs,
+          domainAccuracy,
+        };
+      },
+    );
 
     // Get flagged questions analysis
     const flaggedQuestions = await prisma.questionAttempt.groupBy({
@@ -739,19 +822,21 @@ export class AnalyticsService {
     });
 
     const flaggedQuestionsDetails = await Promise.all(
-      flaggedQuestions.map(async (fq: { questionId: string; _count: { flagged: number } }) => {
-        const question = await prisma.practiceQuestion.findUnique({
-          where: { id: fq.questionId },
-          include: {
-            domain: true,
-            task: true,
-          },
-        });
-        return {
-          ...question,
-          flagCount: fq._count.flagged,
-        };
-      }),
+      flaggedQuestions.map(
+        async (fq: { questionId: string; _count: { flagged: number } }) => {
+          const question = await prisma.practiceQuestion.findUnique({
+            where: { id: fq.questionId },
+            include: {
+              domain: true,
+              task: true,
+            },
+          });
+          return {
+            ...question,
+            flagCount: fq._count.flagged,
+          };
+        },
+      ),
     );
 
     return {
@@ -792,10 +877,14 @@ export class AnalyticsService {
     // Calculate overall stats
     const correctAttempts = attempts.filter((a: any) => a.isCorrect).length;
     const totalAttempts = attempts.length;
-    const accuracyRate = totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0;
+    const accuracyRate =
+      totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0;
     const avgTimeSpentMs =
       totalAttempts > 0
-        ? attempts.reduce((sum: number, a: { timeSpentMs: number }) => sum + a.timeSpentMs, 0) / totalAttempts
+        ? attempts.reduce(
+            (sum: number, a: { timeSpentMs: number }) => sum + a.timeSpentMs,
+            0,
+          ) / totalAttempts
         : 0;
 
     // Group by domain
@@ -824,7 +913,11 @@ export class AnalyticsService {
       },
       {} as Record<
         string,
-        { totalAttempts: number; correctAttempts: number; avgTimeSpentMs: number }
+        {
+          totalAttempts: number;
+          correctAttempts: number;
+          avgTimeSpentMs: number;
+        }
       >,
     );
 
@@ -882,9 +975,7 @@ export class AnalyticsService {
   /**
    * Get system performance analytics
    */
-  async getSystemPerformanceMetrics(options: {
-    timeRange?: TimeRange;
-  }) {
+  async getSystemPerformanceMetrics(options: { timeRange?: TimeRange }) {
     const { timeRange = "24h" } = options;
     const dateFilter = this.getDateFilter(timeRange);
 
@@ -892,10 +983,7 @@ export class AnalyticsService {
     const dbMetrics = {
       // User table stats
       userCount: await prisma.user.count(),
-      userCountChange: await this.getPeriodChange(
-        "user",
-        dateFilter,
-      ),
+      userCountChange: await this.getPeriodChange("user", dateFilter),
 
       // Activity stats
       activityCount: await prisma.studyActivity.count({
@@ -1020,106 +1108,143 @@ export class AnalyticsService {
   }
 
   private groupByDate<T>(items: T[], dateField: keyof T) {
-    return items.reduce((acc, item) => {
-      const date = new Date(item[dateField] as unknown as Date);
-      const dateKey = date.toISOString().split("T")[0];
-      if (dateKey) {
-        if (!acc[dateKey]) {
-          acc[dateKey] = [];
+    return items.reduce(
+      (acc, item) => {
+        const date = new Date(item[dateField] as unknown as Date);
+        const dateKey = date.toISOString().split("T")[0];
+        if (dateKey) {
+          if (!acc[dateKey]) {
+            acc[dateKey] = [];
+          }
+          acc[dateKey]!.push(item);
         }
-        acc[dateKey]!.push(item);
-      }
-      return acc;
-    }, {} as Record<string, T[]>);
+        return acc;
+      },
+      {} as Record<string, T[]>,
+    );
   }
 
   private groupByDomain<T>(
-    items: Array<T & { question?: { domain?: { name: string } }; card?: { domain?: { name: string } } }>,
+    items: Array<
+      T & {
+        question?: { domain?: { name: string } };
+        card?: { domain?: { name: string } };
+      }
+    >,
     mapper: (item: T) => Record<string, number>,
   ) {
-    return items.reduce((acc, item) => {
-      const domainName =
-        (item as any).question?.domain?.name ||
-        (item as any).card?.domain?.name ||
-        "unknown";
-      if (!acc[domainName]) {
-        acc[domainName] = {
-          totalAttempts: 0,
-          correctAttempts: 0,
-          avgTimeSpentMs: 0,
+    return items.reduce(
+      (acc, item) => {
+        const domainName =
+          (item as any).question?.domain?.name ||
+          (item as any).card?.domain?.name ||
+          "unknown";
+        if (!acc[domainName]) {
+          acc[domainName] = {
+            totalAttempts: 0,
+            correctAttempts: 0,
+            avgTimeSpentMs: 0,
+          };
+        }
+        const metrics = mapper(item);
+        const domainEntry = acc[domainName] as {
+          totalAttempts: number;
+          correctAttempts: number;
+          avgTimeSpentMs: number;
         };
-      }
-      const metrics = mapper(item);
-      const domainEntry = acc[domainName] as { totalAttempts: number; correctAttempts: number; avgTimeSpentMs: number };
-      domainEntry.totalAttempts += metrics.totalAttempts || 0;
-      domainEntry.correctAttempts += metrics.correctAttempts || 0;
-      return acc;
-    }, {} as Record<string, Record<string, number>>);
+        domainEntry.totalAttempts += metrics.totalAttempts || 0;
+        domainEntry.correctAttempts += metrics.correctAttempts || 0;
+        return acc;
+      },
+      {} as Record<string, Record<string, number>>,
+    );
   }
 
   private calculateDomainProgress(studyProgress: any[]) {
-    return studyProgress.reduce((acc, progress) => {
-      const domainName =
-        progress.section?.studyGuide?.task?.domain?.name || "unknown";
-      if (!acc[domainName]) {
-        acc[domainName] = { total: 0, completed: 0 };
-      }
-      acc[domainName].total++;
-      if (progress.completed) {
-        acc[domainName].completed++;
-      }
-      return acc;
-    }, {} as Record<string, { total: number; completed: number }>);
+    return studyProgress.reduce(
+      (acc, progress) => {
+        const domainName =
+          progress.section?.studyGuide?.task?.domain?.name || "unknown";
+        if (!acc[domainName]) {
+          acc[domainName] = { total: 0, completed: 0 };
+        }
+        acc[domainName].total++;
+        if (progress.completed) {
+          acc[domainName].completed++;
+        }
+        return acc;
+      },
+      {} as Record<string, { total: number; completed: number }>,
+    );
   }
 
   private calculateFlashcardPerformance(reviews: any[]) {
-    return reviews.reduce((acc, review) => {
-      const domainName = review.card?.domain?.name || "unknown";
-      if (!acc[domainName]) {
-        acc[domainName] = {
-          totalCards: 0,
-          avgEaseFactor: 0,
-          avgInterval: 0,
-        };
-      }
-      acc[domainName].totalCards++;
-      acc[domainName].avgEaseFactor += review.easeFactor;
-      acc[domainName].avgInterval += review.interval;
-      return acc;
-    }, {} as Record<string, { totalCards: number; avgEaseFactor: number; avgInterval: number }>);
+    return reviews.reduce(
+      (acc, review) => {
+        const domainName = review.card?.domain?.name || "unknown";
+        if (!acc[domainName]) {
+          acc[domainName] = {
+            totalCards: 0,
+            avgEaseFactor: 0,
+            avgInterval: 0,
+          };
+        }
+        acc[domainName].totalCards++;
+        acc[domainName].avgEaseFactor += review.easeFactor;
+        acc[domainName].avgInterval += review.interval;
+        return acc;
+      },
+      {} as Record<
+        string,
+        { totalCards: number; avgEaseFactor: number; avgInterval: number }
+      >,
+    );
   }
 
   private calculateQuestionPerformance(attempts: any[]) {
-    return attempts.reduce((acc, attempt) => {
-      const domainName = attempt.question?.domain?.name || "unknown";
-      if (!acc[domainName]) {
-        acc[domainName] = {
-          totalAttempts: 0,
-          correctAttempts: 0,
-          avgTimeSpentMs: 0,
-        };
-      }
-      acc[domainName].totalAttempts++;
-      if (attempt.isCorrect) {
-        acc[domainName].correctAttempts++;
-      }
-      acc[domainName].avgTimeSpentMs += attempt.timeSpentMs;
-      return acc;
-    }, {} as Record<string, { totalAttempts: number; correctAttempts: number; avgTimeSpentMs: number }>);
+    return attempts.reduce(
+      (acc, attempt) => {
+        const domainName = attempt.question?.domain?.name || "unknown";
+        if (!acc[domainName]) {
+          acc[domainName] = {
+            totalAttempts: 0,
+            correctAttempts: 0,
+            avgTimeSpentMs: 0,
+          };
+        }
+        acc[domainName].totalAttempts++;
+        if (attempt.isCorrect) {
+          acc[domainName].correctAttempts++;
+        }
+        acc[domainName].avgTimeSpentMs += attempt.timeSpentMs;
+        return acc;
+      },
+      {} as Record<
+        string,
+        {
+          totalAttempts: number;
+          correctAttempts: number;
+          avgTimeSpentMs: number;
+        }
+      >,
+    );
   }
 
   private calculateActivityBreakdown(activities: any[]) {
-    return activities.reduce((acc, activity) => {
-      if (!acc[activity.activityType]) {
-        acc[activity.activityType] = {
-          count: 0,
-          totalDurationMs: 0,
-        };
-      }
-      acc[activity.activityType].count++;
-      acc[activity.activityType].totalDurationMs += activity.durationMs;
-      return acc;
-    }, {} as Record<string, { count: number; totalDurationMs: number }>);
+    return activities.reduce(
+      (acc, activity) => {
+        if (!acc[activity.activityType]) {
+          acc[activity.activityType] = {
+            count: 0,
+            totalDurationMs: 0,
+          };
+        }
+        acc[activity.activityType].count++;
+        acc[activity.activityType].totalDurationMs += activity.durationMs;
+        return acc;
+      },
+      {} as Record<string, { count: number; totalDurationMs: number }>,
+    );
   }
 
   private calculateExamReadiness(data: {
@@ -1134,13 +1259,13 @@ export class AnalyticsService {
       30;
 
     const flashcardScore =
-      Math.min(data.flashcardReviews.length, 500) / 500 * 30;
+      (Math.min(data.flashcardReviews.length, 500) / 500) * 30;
 
     const questionAccuracy =
       data.questionAttempts.length > 0
         ? (data.questionAttempts.filter((a) => a.isCorrect).length /
-          data.questionAttempts.length) *
-        40
+            data.questionAttempts.length) *
+          40
         : 0;
 
     const overallScore = studyProgressScore + flashcardScore + questionAccuracy;
@@ -1161,8 +1286,14 @@ export class AnalyticsService {
 
   private identifyWeakAreas(data: {
     domainProgress: Record<string, { total: number; completed: number }>;
-    flashcardPerformance: Record<string, { totalCards: number; avgEaseFactor: number; avgInterval: number }>;
-    questionPerformance: Record<string, { totalAttempts: number; correctAttempts: number; avgTimeSpentMs: number }>;
+    flashcardPerformance: Record<
+      string,
+      { totalCards: number; avgEaseFactor: number; avgInterval: number }
+    >;
+    questionPerformance: Record<
+      string,
+      { totalAttempts: number; correctAttempts: number; avgTimeSpentMs: number }
+    >;
   }) {
     const weakAreas: string[] = [];
 
@@ -1185,14 +1316,22 @@ export class AnalyticsService {
 
   private generateRecommendations(data: {
     domainProgress: Record<string, { total: number; completed: number }>;
-    flashcardPerformance: Record<string, { totalCards: number; avgEaseFactor: number; avgInterval: number }>;
-    questionPerformance: Record<string, { totalAttempts: number; correctAttempts: number; avgTimeSpentMs: number }>;
+    flashcardPerformance: Record<
+      string,
+      { totalCards: number; avgEaseFactor: number; avgInterval: number }
+    >;
+    questionPerformance: Record<
+      string,
+      { totalAttempts: number; correctAttempts: number; avgTimeSpentMs: number }
+    >;
     weakAreas: string[];
   }) {
     const recommendations: string[] = [];
 
     if (data.weakAreas.length === 0) {
-      recommendations.push("Great progress! Continue with your current study plan.");
+      recommendations.push(
+        "Great progress! Continue with your current study plan.",
+      );
     } else {
       recommendations.push(
         `Focus on weak areas: ${data.weakAreas.slice(0, 3).join(", ")}`,
@@ -1246,7 +1385,7 @@ export class AnalyticsService {
     const previousDate = {
       gte: new Date(
         new Date(dateFilter.gte).getTime() -
-        (new Date().getTime() - new Date(dateFilter.gte).getTime()),
+          (new Date().getTime() - new Date(dateFilter.gte).getTime()),
       ),
       lt: dateFilter.gte,
     };
@@ -1291,7 +1430,8 @@ export class AnalyticsService {
 
     return {
       count: estimatedErrorCount,
-      rate: totalActivities > 0 ? (estimatedErrorCount / totalActivities) * 100 : 0,
+      rate:
+        totalActivities > 0 ? (estimatedErrorCount / totalActivities) * 100 : 0,
     };
   }
 

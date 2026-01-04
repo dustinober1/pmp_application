@@ -88,8 +88,8 @@ export default function DonatePage() {
                     GitHub Sponsors
                   </h3>
                   <p className="text-sm text-md-on-surface-variant">
-                    Support ongoing development through GitHub Sponsors.
-                    Choose from various tiers with different perks.
+                    Support ongoing development through GitHub Sponsors. Choose
+                    from various tiers with different perks.
                   </p>
                 </div>
               </div>
@@ -118,8 +118,8 @@ export default function DonatePage() {
                     Buy Me a Coffee
                   </h3>
                   <p className="text-sm text-md-on-surface-variant">
-                    A simple way to show your support with a one-time
-                    donation. Every coffee helps!
+                    A simple way to show your support with a one-time donation.
+                    Every coffee helps!
                   </p>
                 </div>
               </div>
@@ -288,10 +288,7 @@ export default function DonatePage() {
             platform for thousands of PMP candidates.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              href="/"
-              className="btn btn-outline text-lg px-8 py-3"
-            >
+            <Link href="/" className="btn btn-outline text-lg px-8 py-3">
               Back to Study
             </Link>
           </div>

@@ -57,7 +57,7 @@ export function setJson<T>(key: string, value: T): void {
 export function updateJson<T>(
   key: string,
   fallback: T,
-  updater: (prev: T) => T
+  updater: (prev: T) => T,
 ): T {
   const current = getJson(key, fallback);
   const updated = updater(current);

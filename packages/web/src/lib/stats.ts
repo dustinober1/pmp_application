@@ -5,7 +5,7 @@
  * for display in dashboards and progress tracking.
  */
 
-import { FlashcardProgress } from "./spaced";
+import type { FlashcardProgress } from "./spaced";
 
 /**
  * Practice attempt record stored in localStorage
@@ -69,11 +69,15 @@ export interface PracticeStats {
  * @returns Derived flashcard stats
  */
 export function getFlashcardStats(
-  progress: Record<string, FlashcardProgress>
+  progress: Record<string, FlashcardProgress>,
 ): FlashcardStats {
   const cards = Object.values(progress);
   const now = new Date();
-  const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const todayEnd = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1,
+  );
 
   let dueTodayCount = 0;
   let masteredCount = 0; // Box 4 or 5
@@ -155,11 +159,11 @@ export function getPracticeStats(history: PracticeHistory): PracticeStats {
 
   const totalQuestionsAnswered = attempts.reduce(
     (sum, a) => sum + a.questionCount,
-    0
+    0,
   );
   const totalCorrectAnswers = attempts.reduce(
     (sum, a) => sum + a.correctCount,
-    0
+    0,
   );
 
   return {
@@ -185,10 +189,7 @@ export function getPracticeStats(history: PracticeHistory): PracticeStats {
  * @param nowISO - Current timestamp in ISO format
  * @returns Updated streak data
  */
-export function updateStreak(
-  currentStreak: Streak,
-  nowISO: string
-): Streak {
+export function updateStreak(currentStreak: Streak, nowISO: string): Streak {
   const now = new Date(nowISO);
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const yesterday = new Date(today);
@@ -198,7 +199,11 @@ export function updateStreak(
     ? new Date(currentStreak.lastActiveISO)
     : null;
   const lastActiveDay = lastActive
-    ? new Date(lastActive.getFullYear(), lastActive.getMonth(), lastActive.getDate())
+    ? new Date(
+        lastActive.getFullYear(),
+        lastActive.getMonth(),
+        lastActive.getDate(),
+      )
     : null;
 
   // No previous activity
@@ -258,7 +263,7 @@ export function createEmptyStreak(): Streak {
  */
 export function addPracticeAttempt(
   history: PracticeHistory,
-  attempt: Omit<PracticeAttempt, "id">
+  attempt: Omit<PracticeAttempt, "id">,
 ): PracticeHistory {
   const newAttempt: PracticeAttempt = {
     ...attempt,
