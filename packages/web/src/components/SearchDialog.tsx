@@ -4,21 +4,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import type { SearchResult } from "@pmp/shared";
 import { useToast } from "@/components/ToastProvider";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import { apiRequest } from "../lib/api";
+import { loadFlashcards } from "@/lib/flashcards";
+import { loadQuestions } from "@/lib/questions";
 
 interface SearchDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
+// Define search result types for static search
+interface StaticSearchResult {
+  id: string;
+  type: "flashcard" | "question" | "study_guide" | "formula";
+  title: string;
+  excerpt: string;
+  taskId?: string;
+  domainId?: string;
+}
+
 const SearchDialogComponent = ({ open, setOpen }: SearchDialogProps) => {
   const pathname = usePathname();
   const toast = useToast();
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<StaticSearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -28,7 +38,7 @@ const SearchDialogComponent = ({ open, setOpen }: SearchDialogProps) => {
 
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  // Debounced search
+  // Debounced client-side search
   useEffect(() => {
     if (!open) {
       setResults([]);
@@ -49,11 +59,10 @@ const SearchDialogComponent = ({ open, setOpen }: SearchDialogProps) => {
 
       setLoading(true);
       try {
-        const response = await apiRequest<{ results: SearchResult[] }>(
-          `/search?q=${encodeURIComponent(trimmedQuery)}&limit=10`,
-        );
-        if (response.data && isActive) {
-          setResults(response.data.results);
+        // Perform client-side search across static data
+        const searchResults = await performSearch(trimmedQuery);
+        if (isActive) {
+          setResults(searchResults);
         }
       } catch (error) {
         if (isActive) {
@@ -141,15 +150,71 @@ const SearchDialogComponent = ({ open, setOpen }: SearchDialogProps) => {
             />
           </div>
 
-          {verifyResults(results, loading, query)}
+          {renderResults(results, loading, query)}
         </div>
       </div>
     </div>
   );
 };
 
-function verifyResults(
-  results: SearchResult[],
+// Perform client-side search across static data
+async function performSearch(query: string): Promise<StaticSearchResult[]> {
+  const searchResults: StaticSearchResult[] = [];
+  const lowerQuery = query.toLowerCase();
+
+  try {
+    // Search flashcards
+    const flashcards = await loadFlashcards();
+    for (const card of flashcards) {
+      if (
+        card.front.toLowerCase().includes(lowerQuery) ||
+        card.back.toLowerCase().includes(lowerQuery) ||
+        card.domain.toLowerCase().includes(lowerQuery) ||
+        card.task.toLowerCase().includes(lowerQuery)
+      ) {
+        searchResults.push({
+          id: card.id,
+          type: "flashcard",
+          title: `${card.domain} - ${card.task}`,
+          excerpt:
+            card.front.substring(0, 100) +
+            (card.front.length > 100 ? "..." : ""),
+        });
+      }
+    }
+
+    // Search questions
+    const questions = await loadQuestions();
+    for (const question of questions) {
+      if (
+        question.questionText.toLowerCase().includes(lowerQuery) ||
+        question.answers.some((answer) =>
+          answer.text.toLowerCase().includes(lowerQuery),
+        ) ||
+        question.domain?.toLowerCase().includes(lowerQuery) ||
+        question.task?.toLowerCase().includes(lowerQuery)
+      ) {
+        searchResults.push({
+          id: question.id,
+          type: "question",
+          title: `${question.domain} - ${question.task}`,
+          excerpt:
+            question.questionText.substring(0, 100) +
+            (question.questionText.length > 100 ? "..." : ""),
+        });
+      }
+    }
+
+    // Limit results to 10
+    return searchResults.slice(0, 10);
+  } catch (error) {
+    console.error("Error during search:", error);
+    return [];
+  }
+}
+
+function renderResults(
+  results: StaticSearchResult[],
   loading: boolean,
   query: string,
 ) {
@@ -175,6 +240,15 @@ function verifyResults(
             <Link
               href={getResultLink(result)}
               className="group flex select-none items-center px-4 py-2 hover:bg-gray-800 hover:text-white"
+              onClick={() => {
+                // Close the dialog when clicking a result
+                const backdrop = document.querySelector(
+                  '[aria-label="Close search"]',
+                ) as HTMLElement;
+                if (backdrop) {
+                  backdrop.click();
+                }
+              }}
             >
               <span className="flex-none text-xl mr-3" aria-hidden="true">
                 {getResultIcon(result.type)}
@@ -213,7 +287,7 @@ function verifyResults(
   );
 }
 
-function getResultIcon(type: SearchResult["type"]) {
+function getResultIcon(type: StaticSearchResult["type"]) {
   switch (type) {
     case "study_guide":
       return "📚";
@@ -228,7 +302,7 @@ function getResultIcon(type: SearchResult["type"]) {
   }
 }
 
-function getResultLink(result: SearchResult) {
+function getResultLink(result: StaticSearchResult) {
   switch (result.type) {
     case "study_guide":
       // If it's a section, we might want to link to the section
