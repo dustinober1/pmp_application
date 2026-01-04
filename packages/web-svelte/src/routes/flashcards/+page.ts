@@ -1,6 +1,9 @@
 import type { Load } from "@sveltejs/kit";
 import { getFlashcards, getFlashcardStats } from "$lib/utils/flashcardsData";
 
+// Disable SSR for this page since we need to fetch static JSON files
+export const ssr = false;
+
 export const load: Load = async ({ url }) => {
   // Get pagination params from URL
   const offset = Number(url.searchParams.get("offset")) || 0;

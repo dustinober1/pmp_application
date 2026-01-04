@@ -2,8 +2,6 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { authStore } from '$lib/stores/auth';
-	import { practiceApi } from '$lib/utils/api';
 	import { getRollingAverage, getAllScores, type MockExamScore } from '$lib/utils/mockExamStorage';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
@@ -22,15 +20,6 @@
 	// LocalStorage data
 	let rollingAverage = 0;
 	let mockExamHistory: MockExamScore[] = [];
-
-	// Auth state
-	let user = null;
-	let canAccess = false;
-
-	authStore.subscribe((auth) => {
-		user = auth.user;
-		canAccess = auth.isAuthenticated;
-	});
 
 	onMount(() => {
 		// Use data from load function if available
@@ -101,18 +90,14 @@
 		}
 	}
 
-	$: canTakeMockExam = user?.tier === 'pro' || user?.tier === 'corporate';
+	// Mock exams available for all users
+	let canTakeMockExam = true;
 </script>
 
 {#if loading}
 	<LoadingState message="Loading practice..." />
 {:else if error && !stats}
 	<ErrorState title="Practice Error" message={error} />
-{:else if !canAccess}
-	<ErrorState
-		title="Authentication Required"
-		message="Please log in to access practice questions."
-	/>
 {:else}
 	<div class="min-h-screen bg-gray-50">
 
@@ -333,18 +318,8 @@
 								{/if}
 							</div>
 						{:else}
-							<div class="mt-4">
-								<p class="text-xs text-gray-600 mb-2">
-									Available for Pro and Corporate tiers
-								</p>
-								<a
-									href="{base}/pricing"
-									class="block w-full px-4 py-2 bg-gray-100 text-gray-700 text-center rounded-lg hover:bg-gray-200 transition"
-								>
-									Upgrade to Access
-								</a>
-							</div>
-						{/if}
+						<p class="text-sm text-gray-600 text-center py-4">No mock exams available</p>
+					{/if}
 					</div>
 
 					<!-- Flagged Questions -->
