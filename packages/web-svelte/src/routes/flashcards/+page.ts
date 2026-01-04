@@ -1,64 +1,14 @@
 import type { Load } from "@sveltejs/kit";
-import { getFlashcards, getFlashcardStats } from "$lib/utils/flashcardsData";
 
-// Disable SSR for this page since we need to fetch static JSON files
+// Disable SSR - load data on client side where fetch to static files works
 export const ssr = false;
 
-export const load: Load = async ({ url }) => {
-  // Get pagination params from URL
-  const offset = Number(url.searchParams.get("offset")) || 0;
-  const limit = Number(url.searchParams.get("limit")) || 20;
-  const domainId = url.searchParams.get("domain") || undefined;
-  const taskId = url.searchParams.get("task") || undefined;
-
-  // Load flashcards from local JSON data
-  let flashcardsResult;
-  let statsResult;
-
-  try {
-    const rawFlashcardsResult = await getFlashcards({ limit, domainId, taskId });
-
-    // Map to expected format
-    const items = rawFlashcardsResult.items.map(card => ({
-      id: card.id,
-      domainId: card.domainId,
-      taskId: card.taskId,
-      front: card.front,
-      back: card.back,
-    }));
-
-    flashcardsResult = {
-      items,
-      total: rawFlashcardsResult.total,
-      offset,
-      limit,
-      hasMore: offset + limit < rawFlashcardsResult.total,
-    };
-
-    statsResult = await getFlashcardStats();
-  } catch (error) {
-    console.error('Failed to load flashcards:', error);
-    flashcardsResult = {
-      items: [],
-      total: 0,
-      offset,
-      limit,
-      hasMore: false,
-    };
-    statsResult = {
-      totalFlashcards: 0,
-      totalDomains: 0,
-      totalTasks: 0,
-      domainBreakdown: [],
-    };
-  }
-
+export const load: Load = async () => {
+  // Return empty data - actual loading happens in the component via onMount
+  // This is necessary because fetch() to local static files doesn't work during build/prerender
   return {
-    flashcards: flashcardsResult,
-    stats: {
-      totalCards: statsResult.totalFlashcards,
-      dueToday: 0, // Calculate from spaced repetition data when available
-      mastered: 0, // This would come from user progress data
-    },
+    flashcards: null,
+    stats: null,
+    error: null,
   };
 };

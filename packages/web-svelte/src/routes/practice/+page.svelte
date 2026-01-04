@@ -4,44 +4,48 @@
 	import { base } from '$app/paths';
 	import { getRollingAverage, getAllScores, type MockExamScore } from '$lib/utils/mockExamStorage';
 	import { practiceApi } from '$lib/utils/api';
+	import { getPracticeStats, getDomains, type PracticeStats, type Domain } from '$lib/utils/practiceData';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
-	export let data;
-
-	let loading = true;
-	let stats = null;
-	let domains = [];
+	let loading = $state(true);
+	let stats: PracticeStats | null = $state(null);
+	let domains: Domain[] = $state([]);
 	let mockExams = [];
-	let error = null;
-	let selectedDomains = [];
-	let questionCount = 20;
-	let starting = false;
+	let error = $state(null);
+	let selectedDomains = $state<string[]>([]);
+	let questionCount = $state(20);
+	let starting = $state(false);
 
 	// LocalStorage data
-	let rollingAverage = 0;
-	let mockExamHistory: MockExamScore[] = [];
+	let rollingAverage = $state(0);
+	let mockExamHistory: MockExamScore[] = $state([]);
 
-	onMount(() => {
-		// Use data from load function if available
-		if (data.stats) {
-			stats = data.stats;
-		}
-		if (data.domains) {
-			domains = data.domains;
-		}
-		if (data.mockExams) {
-			mockExams = data.mockExams;
-		}
-		if (data.error) {
-			error = data.error;
-		}
-
+	onMount(async () => {
 		// Load localStorage data
 		rollingAverage = getRollingAverage(5);
 		mockExamHistory = getAllScores();
 
-		loading = false;
+		// Load data from JSON files (client-side)
+		try {
+			const [statsResult, domainsResult] = await Promise.all([
+				getPracticeStats(),
+				getDomains()
+			]);
+			stats = {
+				...statsResult,
+				totalSessions: 0,
+				bestScore: 0,
+				weakDomains: [],
+			};
+			domains = domainsResult;
+			mockExams = [];
+		} catch (err) {
+			console.error('Failed to load practice data:', err);
+			error = err instanceof Error ? err.message : 'Failed to load practice data';
+		} finally {
+			loading = false;
+		}
 	});
 
 	async function startSession() {
@@ -90,9 +94,6 @@
 			selectedDomains = [...selectedDomains, domainId];
 		}
 	}
-
-	// Mock exams available for all users
-	let canTakeMockExam = true;
 </script>
 
 {#if loading}
@@ -279,8 +280,7 @@
 							Simulate the real PMP exam with 185 questions and a 4-hour time limit.
 						</p>
 
-						{#if canTakeMockExam}
-							<div class="mt-4 space-y-2">
+						<div class="mt-4 space-y-2">
 								{#if mockExams.length > 0}
 									{#each mockExams as exam}
 										<div
@@ -318,9 +318,6 @@
 									<p class="text-sm text-gray-600 dark:text-gray-400 text-center py-4">No mock exams available</p>
 								{/if}
 							</div>
-						{:else}
-						<p class="text-sm text-gray-600 dark:text-gray-400 text-center py-4">No mock exams available</p>
-					{/if}
 					</div>
 
 					<!-- Flagged Questions -->
