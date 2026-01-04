@@ -103,7 +103,7 @@ export class PracticeService {
         userId,
         totalQuestions: shuffledQuestions.length,
         questions: {
-          create: shuffledQuestions.map((q, index) => ({
+          create: shuffledQuestions.map((q: any, index) => ({
             questionId: q.id,
             orderIndex: index,
           })),

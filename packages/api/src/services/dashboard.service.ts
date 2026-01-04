@@ -148,9 +148,8 @@ export class DashboardService {
       }
     }
 
-    const sortedDates = Array.from(activityDates).sort(
-      (a: number, b: number) => b - a,
-    );
+    const sortedDates = Array.from(activityDates) as number[];
+    sortedDates.sort((a: number, b: number) => b - a);
     for (let i = 0; i < sortedDates.length; i++) {
       if (i === 0 || sortedDates[i] === sortedDates[i - 1]! - 86400000) {
         tempStreak++;

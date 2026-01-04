@@ -656,7 +656,7 @@ export class AnalyticsService {
             totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0,
           avgTimeSpentMs:
             totalAttempts > 0
-              ? q.attempts.reduce((sum: number, a: { timeSpentMs: number }) => sum + a.timeSpentMs, 0) /
+              ? q.attempts.reduce((sum: number, a: any) => sum + a.timeSpentMs, 0) /
               totalAttempts
               : 0,
         };
@@ -790,7 +790,7 @@ export class AnalyticsService {
     });
 
     // Calculate overall stats
-    const correctAttempts = attempts.filter((a: { isCorrect: boolean }) => a.isCorrect).length;
+    const correctAttempts = attempts.filter((a: any) => a.isCorrect).length;
     const totalAttempts = attempts.length;
     const accuracyRate = totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0;
     const avgTimeSpentMs =
