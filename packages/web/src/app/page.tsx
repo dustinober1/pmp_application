@@ -46,16 +46,16 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
-                href="/auth/register"
+                href="/dashboard"
                 className="btn btn-primary text-lg px-8 py-3"
               >
-                Start Free Trial
+                Get Started
               </Link>
               <Link
-                href="/auth/login"
+                href="/study"
                 className="btn btn-outline text-lg px-8 py-3"
               >
-                Sign In
+                Browse Study Guides
               </Link>
             </div>
           </div>
@@ -118,67 +118,87 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Open Source Section - replaces pricing */}
       <section className="py-20 bg-md-surface-container-low">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-4 text-md-on-surface">
-            Simple, Transparent Pricing
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-4 text-md-on-surface">
+            100% Free and Open Source
           </h2>
-          <p className="text-md-on-surface-variant text-center mb-12 max-w-2xl mx-auto">
-            Choose the plan that fits your study needs. Upgrade or downgrade
-            anytime.
+          <p className="text-md-on-surface-variant mb-8 max-w-2xl mx-auto">
+            All study materials, practice questions, and flashcards are completely free.
+            No subscriptions, no hidden fees. Track your progress locally with
+            localStorage - your data stays on your device.
           </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {pricing.map((tier, index) => (
-              <div
-                key={index}
-                className={`card relative ${tier.popular ? "ring-2 ring-md-primary md:-translate-y-4 shadow-lg" : ""}`}
-              >
-                {tier.popular && (
-                  <span className="badge badge-primary mb-4">Most Popular</span>
-                )}
-                <h3 className="text-xl font-bold text-md-on-surface">
-                  {tier.name}
-                </h3>
-                <p className="text-3xl font-bold mt-4 text-md-on-surface">
-                  {tier.price === 0 ? "Free" : `$${tier.price}`}
-                  {tier.price !== 0 && (
-                    <span className="text-sm font-normal text-md-on-surface-variant">
-                      /mo{tier.perSeat && " per seat"}
-                    </span>
-                  )}
-                </p>
-                <ul className="mt-6 space-y-3">
-                  {tier.features.map((feature, i) => (
-                    <li
-                      key={i}
-                      className="flex items-center gap-2 text-sm text-md-on-surface-variant"
-                    >
-                      <svg
-                        className="w-5 h-5 text-md-primary"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/auth/register"
-                  className={`btn w-full mt-6 ${tier.popular ? "btn-primary" : "btn-secondary"}`}
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="card p-6">
+              <div className="w-12 h-12 rounded-xl bg-md-primary-container text-md-on-primary-container flex items-center justify-center mb-4 mx-auto">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  Get Started
-                </Link>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
               </div>
-            ))}
+              <h3 className="text-lg font-semibold mb-2 text-md-on-surface">
+                Comprehensive Content
+              </h3>
+              <p className="text-sm text-md-on-surface-variant">
+                1,800+ flashcards and 1,200+ practice questions covering all PMP domains
+              </p>
+            </div>
+            <div className="card p-6">
+              <div className="w-12 h-12 rounded-xl bg-md-primary-container text-md-on-primary-container flex items-center justify-center mb-4 mx-auto">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold mb-2 text-md-on-surface">
+                Private & Secure
+              </h3>
+              <p className="text-sm text-md-on-surface-variant">
+                Your progress is stored locally in your browser. No account required.
+              </p>
+            </div>
+            <div className="card p-6">
+              <div className="w-12 h-12 rounded-xl bg-md-primary-container text-md-on-primary-container flex items-center justify-center mb-4 mx-auto">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold mb-2 text-md-on-surface">
+                Works Offline
+              </h3>
+              <p className="text-sm text-md-on-surface-variant">
+                Once loaded, all materials work offline. Study anywhere, anytime.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -195,10 +215,10 @@ export default function HomePage() {
             with us.
           </p>
           <Link
-            href="/auth/register"
+            href="/dashboard"
             className="btn btn-primary text-lg px-8 py-3"
           >
-            Start Your Free Trial Today
+            Start Studying Now
           </Link>
         </div>
       </section>
@@ -336,42 +356,4 @@ const stats = [
   { value: "1,200+", label: "Practice Questions" },
   { value: "1,800+", label: "Flashcards" },
   { value: "SM-2", label: "Spaced Repetition" },
-];
-
-const pricing = [
-  {
-    name: "Free Starter",
-    price: 0,
-    features: [
-      "500+ flashcards",
-      "1 full-length practice exam",
-      "Basic feedback",
-      "Progress tracking",
-    ],
-  },
-  {
-    name: "Pro",
-    price: 9.99,
-    popular: true,
-    features: [
-      "All Free features",
-      "2,000+ flashcards",
-      "6 full-length practice exams",
-      "Detailed feedback per question",
-      "Formula calculator",
-      "Personalized study plan",
-    ],
-  },
-  {
-    name: "Corporate Team",
-    price: 14.99,
-    perSeat: true,
-    features: [
-      "All Pro features",
-      "Unlimited flashcards",
-      "Team management",
-      "Company-wide analytics",
-      "Dedicated support",
-    ],
-  },
 ];

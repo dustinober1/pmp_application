@@ -6,23 +6,15 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState, memo } from "react";
 import { useTranslation } from "react-i18next";
 import { setStoredTheme } from "@/components/ThemeProvider";
-import { useAuth } from "@/contexts/AuthContext";
 import {
   SUPPORTED_LOCALES,
   setLocale,
   type SupportedLocale,
 } from "@/i18n/i18n";
 
-const SearchDialog = dynamic(() => import("./SearchDialog"), {
-  ssr: false,
-});
-
 const NavbarComponent = () => {
-  const { user, isAuthenticated, logout } = useAuth();
   const { t, i18n } = useTranslation();
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
   // HIGH-006: Helper function to check if a path is active
@@ -38,20 +30,6 @@ const NavbarComponent = () => {
   useEffect(() => {
     setDarkMode(document.documentElement.classList.contains("dark"));
   }, []);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-
-    const onShortcut = (event: KeyboardEvent) => {
-      if (event.key === "k" && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault();
-        setSearchOpen((prev) => !prev);
-      }
-    };
-
-    window.addEventListener("keydown", onShortcut);
-    return () => window.removeEventListener("keydown", onShortcut);
-  }, [isAuthenticated]);
 
   const toggleDarkMode = useCallback(() => {
     setDarkMode((prev) => {
@@ -96,85 +74,61 @@ const NavbarComponent = () => {
             </div>
 
             {/* Desktop Navigation */}
-            {isAuthenticated && (
-              <div className="hidden md:flex items-center gap-6">
-                <Link
-                  href="/dashboard"
-                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive("/dashboard")
-                      ? "text-[var(--primary)] after:opacity-100"
-                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
-                  }`}
-                >
-                  {t("Dashboard")}
-                </Link>
-                <Link
-                  href="/study"
-                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive("/study")
-                      ? "text-[var(--primary)] after:opacity-100"
-                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
-                  }`}
-                >
-                  {t("Study")}
-                </Link>
-                <Link
-                  href="/flashcards"
-                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive("/flashcards")
-                      ? "text-[var(--primary)] after:opacity-100"
-                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
-                  }`}
-                >
-                  {t("Flashcards")}
-                </Link>
-                <Link
-                  href="/practice"
-                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive("/practice")
-                      ? "text-[var(--primary)] after:opacity-100"
-                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
-                  }`}
-                >
-                  {t("Practice")}
-                </Link>
-                <Link
-                  href="/formulas"
-                  className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
-                    isActive("/formulas")
-                      ? "text-[var(--primary)] after:opacity-100"
-                      : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
-                  }`}
-                >
-                  {t("Formulas")}
-                </Link>
-              </div>
-            )}
+            <div className="hidden md:flex items-center gap-6">
+              <Link
+                href="/dashboard"
+                className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                  isActive("/dashboard")
+                    ? "text-[var(--primary)] after:opacity-100"
+                    : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
+                }`}
+              >
+                {t("Dashboard")}
+              </Link>
+              <Link
+                href="/study"
+                className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                  isActive("/study")
+                    ? "text-[var(--primary)] after:opacity-100"
+                    : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
+                }`}
+              >
+                {t("Study")}
+              </Link>
+              <Link
+                href="/flashcards"
+                className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                  isActive("/flashcards")
+                    ? "text-[var(--primary)] after:opacity-100"
+                    : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
+                }`}
+              >
+                {t("Flashcards")}
+              </Link>
+              <Link
+                href="/practice"
+                className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                  isActive("/practice")
+                    ? "text-[var(--primary)] after:opacity-100"
+                    : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
+                }`}
+              >
+                {t("Practice")}
+              </Link>
+              <Link
+                href="/formulas"
+                className={`transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity ${
+                  isActive("/formulas")
+                    ? "text-[var(--primary)] after:opacity-100"
+                    : "text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0"
+                }`}
+              >
+                {t("Formulas")}
+              </Link>
+            </div>
 
             {/* User Menu */}
             <div className="flex items-center gap-4">
-              {isAuthenticated && (
-                <button
-                  type="button"
-                  onClick={() => setSearchOpen(true)}
-                  className="p-2 text-gray-400 hover:text-white transition-colors"
-                  aria-label={t("Search")}
-                >
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              )}
-
               {SUPPORTED_LOCALES.length > 1 ? (
                 <button
                   type="button"
@@ -222,146 +176,10 @@ const NavbarComponent = () => {
                   </svg>
                 )}
               </button>
-
-              {isAuthenticated ? (
-                <div className="flex items-center gap-3">
-                  <div className="hidden sm:block text-sm">
-                    <p className="font-medium">{user?.name}</p>
-                    <p className="text-[var(--foreground-muted)] text-xs capitalize">
-                      {user?.tier} Tier
-                    </p>
-                  </div>
-                  <button
-                    onClick={logout}
-                    className="btn btn-secondary text-sm"
-                  >
-                    {t("Logout")}
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Link
-                    href="/auth/login"
-                    className="btn btn-secondary text-sm"
-                  >
-                    {t("Login")}
-                  </Link>
-                  <Link
-                    href="/auth/register"
-                    className="btn btn-primary text-sm"
-                  >
-                    {t("Get Started")}
-                  </Link>
-                </div>
-              )}
-
-              {/* Mobile menu button */}
-              {isAuthenticated && (
-                <button
-                  type="button"
-                  onClick={() => setMobileMenuOpen((prev) => !prev)}
-                  className="md:hidden p-2 text-[var(--foreground-muted)]"
-                  aria-label={
-                    mobileMenuOpen
-                      ? "Close navigation menu"
-                      : "Open navigation menu"
-                  }
-                  aria-expanded={mobileMenuOpen}
-                  aria-controls="mobile-navigation"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    {mobileMenuOpen ? (
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    ) : (
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 6h16M4 12h16M4 18h16"
-                      />
-                    )}
-                  </svg>
-                </button>
-              )}
             </div>
           </div>
-
-          {/* Mobile Navigation */}
-          {isAuthenticated && mobileMenuOpen && (
-            <div
-              id="mobile-navigation"
-              className="md:hidden py-4 border-t border-[var(--border)]"
-              aria-label="Mobile navigation"
-            >
-              <div className="flex flex-col gap-2">
-                <Link
-                  href="/dashboard"
-                  className={`px-4 py-2 rounded-lg transition ${
-                    isActive("/dashboard")
-                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
-                      : "hover:bg-[var(--secondary)]"
-                  }`}
-                >
-                  {t("Dashboard")}
-                </Link>
-                <Link
-                  href="/study"
-                  className={`px-4 py-2 rounded-lg transition ${
-                    isActive("/study")
-                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
-                      : "hover:bg-[var(--secondary)]"
-                  }`}
-                >
-                  {t("Study")}
-                </Link>
-                <Link
-                  href="/flashcards"
-                  className={`px-4 py-2 rounded-lg transition ${
-                    isActive("/flashcards")
-                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
-                      : "hover:bg-[var(--secondary)]"
-                  }`}
-                >
-                  {t("Flashcards")}
-                </Link>
-                <Link
-                  href="/practice"
-                  className={`px-4 py-2 rounded-lg transition ${
-                    isActive("/practice")
-                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
-                      : "hover:bg-[var(--secondary)]"
-                  }`}
-                >
-                  {t("Practice")}
-                </Link>
-                <Link
-                  href="/formulas"
-                  className={`px-4 py-2 rounded-lg transition ${
-                    isActive("/formulas")
-                      ? "bg-[var(--primary)]/20 text-[var(--primary)] font-medium"
-                      : "hover:bg-[var(--secondary)]"
-                  }`}
-                >
-                  {t("Formulas")}
-                </Link>
-              </div>
-            </div>
-          )}
         </div>
       </nav>
-      {searchOpen ? (
-        <SearchDialog open={searchOpen} setOpen={setSearchOpen} />
-      ) : null}
     </>
   );
 };
