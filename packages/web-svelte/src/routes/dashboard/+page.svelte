@@ -5,6 +5,7 @@
 	import { dashboardApi } from "$lib/utils/api";
 	import LoadingState from "$lib/components/LoadingState.svelte";
 	import ErrorState from "$lib/components/ErrorState.svelte";
+	import ECOBadge from "$lib/components/ECOBadge.svelte";
 	import type { DashboardData } from "@pmp/shared";
 	import type { UserProfile } from "@pmp/shared";
 
@@ -94,6 +95,11 @@
 	<div class="min-h-screen bg-gray-50">
 
 		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+			<!-- ECO Badge -->
+			<div class="mb-6">
+				<ECOBadge variant="compact" />
+			</div>
+
 			<!-- Header -->
 			<div class="mb-8">
 				<h1 class="text-2xl font-bold text-gray-900">

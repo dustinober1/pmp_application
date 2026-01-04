@@ -3,6 +3,7 @@
 
   import LoadingState from "$lib/components/LoadingState.svelte";
   import ErrorState from "$lib/components/ErrorState.svelte";
+  import ECOBadge from "$lib/components/ECOBadge.svelte";
 
   function loadPrevious() {
     const offset = Math.max(0, (data.flashcards?.offset || 0) - (data.flashcards?.limit || 20));
@@ -25,6 +26,11 @@
 {:else}
   <div class="min-h-screen bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- ECO Badge -->
+      <div class="mb-6">
+        <ECOBadge variant="compact" />
+      </div>
+
       <h1 class="text-3xl font-bold text-gray-900 mb-8">Flashcards</h1>
 
       <!-- Stats -->

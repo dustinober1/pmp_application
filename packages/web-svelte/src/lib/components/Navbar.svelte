@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { locale, t } from '$lib/stores/i18n';
 	import { base } from '$app/paths';
+	import ECOBadge from '$lib/components/ECOBadge.svelte';
 
 	let mobileMenuOpen = $state(false);
 	let darkMode = $state(false);
@@ -48,6 +49,11 @@
 			</div>
 
 			<!-- Desktop Navigation -->
+			<div class="hidden md:flex items-center gap-4">
+				<!-- ECO Badge -->
+				<ECOBadge variant="navbar" />
+			</div>
+
 			<div class="hidden md:flex items-center gap-6">
 				<a
 					href="{base}/dashboard"
