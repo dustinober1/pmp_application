@@ -171,7 +171,41 @@
   let currentCard = $derived(storeState?.currentCard ?? null);
   let isFlipped = $derived(storeState?.isFlipped ?? false);
   let isComplete = $derived(storeState?.isComplete ?? false);
+
+  // Show keyboard shortcuts help
+  let showShortcuts = $state(false);
+
+  // Global keyboard shortcuts for navigation
+  function handleKeydown(event: KeyboardEvent) {
+    // Don't handle if typing in an input
+    if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+      return;
+    }
+
+    // Only handle during active study session
+    if (!studyStarted || isComplete) return;
+
+    switch (event.key) {
+      case 'ArrowRight':
+        // Skip to next card
+        event.preventDefault();
+        studyMode.nextCard();
+        break;
+      case 'Escape':
+        // End session early
+        event.preventDefault();
+        endSession();
+        break;
+      case '?':
+        // Toggle shortcuts help
+        event.preventDefault();
+        showShortcuts = !showShortcuts;
+        break;
+    }
+  }
 </script>
+
+<svelte:window onkeydown={handleKeydown} />
 
 {#if loading}
   <div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
@@ -270,6 +304,85 @@
       <!-- Study Session -->
       {#if studyStarted}
         <div class="flex flex-col items-center gap-8">
+          <!-- Keyboard shortcuts hint -->
+          {#if !isComplete}
+            <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+              <button
+                onclick={() => showShortcuts = !showShortcuts}
+                class="flex items-center gap-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Press ? for shortcuts</span>
+              </button>
+            </div>
+          {/if}
+
+          <!-- Shortcuts modal -->
+          {#if showShortcuts}
+            <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick={() => showShortcuts = false}>
+              <div
+                class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 max-w-md w-full"
+                onclick={(e) => e.stopPropagation()}
+              >
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">Keyboard Shortcuts</h3>
+                  <button
+                    onclick={() => showShortcuts = false}
+                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300">Flip card</span>
+                    <kbd class="px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm font-mono">Space</kbd>
+                  </div>
+
+                  <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300">Rate: Again</span>
+                    <kbd class="px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm font-mono">1</kbd>
+                  </div>
+
+                  <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300">Rate: Hard</span>
+                    <kbd class="px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm font-mono">2</kbd>
+                  </div>
+
+                  <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300">Rate: Good</span>
+                    <kbd class="px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm font-mono">3</kbd>
+                  </div>
+
+                  <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300">Rate: Easy</span>
+                    <kbd class="px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm font-mono">4</kbd>
+                  </div>
+
+                  <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300">Skip card</span>
+                    <kbd class="px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm font-mono">→</kbd>
+                  </div>
+
+                  <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300">End session</span>
+                    <kbd class="px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm font-mono">Esc</kbd>
+                  </div>
+
+                  <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300">Close this help</span>
+                    <kbd class="px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm font-mono">?</kbd>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {/if}
+
           <FlashcardStudyCard
             card={currentCard}
             isFlipped={isFlipped}

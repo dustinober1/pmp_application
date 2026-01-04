@@ -52,7 +52,7 @@
             <p class="card-text">{card.front}</p>
           </div>
           <div class="card-hint">
-            <span class="text-sm text-gray-400">Click or press Space to flip</span>
+            <span class="text-sm text-gray-400">Click card or press Space to flip • Press ? for more shortcuts</span>
           </div>
         </div>
 
@@ -61,6 +61,9 @@
           <div class="flashcard-content">
             <span class="card-label">Answer</span>
             <p class="card-text">{card.back}</p>
+          </div>
+          <div class="card-hint">
+            <span class="text-sm text-gray-400">Press 1-4 to rate your recall</span>
           </div>
         </div>
       </div>
