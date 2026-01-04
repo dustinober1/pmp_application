@@ -210,7 +210,7 @@ export class AccountDeletionService {
     userId: string,
     deletionRequestId: string,
   ): Promise<void> {
-    await prisma.$transaction(async (tx: Parameters<Parameters<typeof prisma.$transaction>[0]>[0]) => {
+    await prisma.$transaction(async (tx) => {
       // Anonymize user data
       const anonymousId = `deleted-${uuidv4()}`;
       const anonymousEmail = `deleted-${anonymousId}@deleted.local`;
@@ -277,7 +277,7 @@ export class AccountDeletionService {
     // Note: Due to foreign key constraints, cascading deletes will handle most data
     // Payment transactions should be kept for legal requirements (anonymized)
 
-    await prisma.$transaction(async (tx: Parameters<Parameters<typeof prisma.$transaction>[0]>[0]) => {
+    await prisma.$transaction(async (tx) => {
       // Anonymize payment transactions instead of deleting (legal requirement)
       await tx.paymentTransaction.updateMany({
         where: { userId },

@@ -172,7 +172,7 @@ export class PracticeService {
         taskId: q.taskId,
         questionText: q.questionText,
         options: q.options.map(
-          (o: { id: string; questionId: string; text: string; isCorrect: boolean }): QuestionOption => ({
+          (o: typeof q.options[0]): QuestionOption => ({
             id: o.id,
             questionId: o.questionId,
             text: o.text,
@@ -180,7 +180,7 @@ export class PracticeService {
           }),
         ),
         correctOptionId: isAnswered
-          ? q.options.find((o: { id: string; questionId: string; text: string; isCorrect: boolean }) => o.isCorrect)?.id || ""
+          ? q.options.find((o: typeof q.options[0]) => o.isCorrect)?.id || ""
           : "",
         difficulty: q.difficulty as Difficulty,
         explanation: isAnswered ? q.explanation : "",
@@ -247,7 +247,7 @@ export class PracticeService {
         if (tempStreak > longestStreak) {
           longestStreak = tempStreak;
         }
-        // Only count towards current streak if we're at the end
+        // Only count towards current streak if we're at end
         if (sq === answeredQuestions[answeredQuestions.length - 1]) {
           currentStreak = tempStreak;
         }
@@ -308,7 +308,7 @@ export class PracticeService {
               include: { options: true },
             },
           },
-          orderBy: { question: { createdAt: "asc" } }, // Or some specific order
+          orderBy: { question: { createdAt: "asc" } },
         },
       },
     });
@@ -341,18 +341,15 @@ export class PracticeService {
         taskId: q.taskId,
         questionText: q.questionText,
         options: q.options.map(
-          (o: { id: string; questionId: string; text: string; isCorrect: boolean }): QuestionOption => ({
+          (o: typeof q.options[0]): QuestionOption => ({
             id: o.id,
             questionId: o.questionId,
             text: o.text,
-            isCorrect: isAnswered ? o.isCorrect : false, // Reveal if answered? Or generally keep hidden until end?
-            // For practice mode, usually reveal immediately. For exam, hide.
-            // We'll stick to hiding unless we fetch answer specifically or pass a "showAnswers" flag.
-            // Current submitAnswer returns key info. Here we default to hidden for security/integrity.
+            isCorrect: isAnswered ? o.isCorrect : false,
           }),
         ),
         correctOptionId: isAnswered
-          ? q.options.find((o: { id: string; questionId: string; text: string; isCorrect: boolean }) => o.isCorrect)?.id || ""
+          ? q.options.find((o: typeof q.options[0]) => o.isCorrect)?.id || ""
           : "",
         difficulty: q.difficulty as Difficulty,
         explanation: isAnswered ? q.explanation : "",
@@ -439,10 +436,13 @@ export class PracticeService {
       throw AppError.notFound("Question not found");
     }
 
-    const correctOption = question.options.find((o: { id: string; questionId: string; text: string; isCorrect: boolean }) => o.isCorrect);
+    const correctOption = question.options.find(
+      (o: typeof question.options[0]) => o.isCorrect,
+    );
     const isCorrect = correctOption?.id === selectedOptionId;
+    const correctOptionId = correctOption?.id || "";
 
-    // Record the attempt
+    // Record attempt
     await prisma.questionAttempt.create({
       data: {
         userId,
@@ -455,9 +455,8 @@ export class PracticeService {
     });
 
     // Update session question state
-    // We need to find the specific PracticeSessionQuestion record.
-    // Ensure we find the one belonging to this session.
-    // Since unique constraint on (sessionId, questionId) isn't explicit in generic findUnique, use findFirst or updateMany
+    // We need to find specific PracticeSessionQuestion record.
+    // Ensure we find one belonging to this session.
     await prisma.practiceSessionQuestion.updateMany({
       where: { sessionId, questionId },
       data: {
@@ -470,7 +469,7 @@ export class PracticeService {
 
     return {
       isCorrect,
-      correctOptionId: correctOption?.id || "",
+      correctOptionId,
       explanation: question.explanation,
       timeSpentMs,
     };
@@ -510,7 +509,8 @@ export class PracticeService {
         ? Math.round((correctCount / totalQuestions) * 100)
         : 0;
     const totalTimeMs = attempts.reduce(
-      (sum: number, a: { timeSpentMs: number | null }) => sum + (a.timeSpentMs || 0),
+      (sum: number, a: { timeSpentMs: number | null }) =>
+        sum + (a.timeSpentMs || 0),
       0,
     );
 
@@ -520,7 +520,7 @@ export class PracticeService {
       { correct: number; total: number; name: string }
     >();
 
-    attempts.forEach((attempt: { question: { domainId: string; domain: { name: string } }; isCorrect: boolean }) => {
+    attempts.forEach((attempt: typeof attempts[0]) => {
       const domainId = attempt.question.domainId;
       const domainName = attempt.question.domain.name;
       const current = domainMap.get(domainId) || {
@@ -666,7 +666,7 @@ export class PracticeService {
       taskId: f.question.taskId,
       questionText: f.question.questionText,
       options: f.question.options.map(
-        (o: { id: string; questionId: string; text: string; isCorrect: boolean }): QuestionOption => ({
+        (o: typeof f.question.options[0]): QuestionOption => ({
           id: o.id,
           questionId: o.questionId,
           text: o.text,
@@ -712,7 +712,7 @@ export class PracticeService {
     );
 
     // Calculate scores from sessions
-    const scores = sessions.map((s) => {
+    const scores = sessions.map((s: typeof sessions[0]) => {
       const total = s.totalQuestions;
       const correct = s.correctAnswers;
       return total > 0 ? Math.round((correct / total) * 100) : 0;
@@ -731,7 +731,7 @@ export class PracticeService {
     });
 
     const domainStats = new Map<string, { correct: number; total: number }>();
-    attempts.forEach((a: { question: { domainId: string }; isCorrect: boolean }) => {
+    attempts.forEach((a: typeof attempts[0]) => {
       const current = domainStats.get(a.question.domainId) || {
         correct: 0,
         total: 0,

@@ -356,7 +356,7 @@ export class TeamService {
 
     // Calculate member stats
     const memberStats: MemberStatsResponse[] = await Promise.all(
-      team.members.map(async (member) => {
+      team.members.map(async (member: typeof team.members[0]) => {
         const [progress, lastActivity] = await Promise.all([
           this.getMemberStudyProgress(member.userId),
           this.getLastActivity(member.userId),
@@ -379,7 +379,7 @@ export class TeamService {
     const avgProgress =
       activeMembers.length > 0
         ? Math.round(
-          activeMembers.reduce((sum, m) => sum + m.progress, 0) /
+          activeMembers.reduce((sum: number, m: MemberStatsResponse) => sum + m.progress, 0) /
           activeMembers.length,
         )
         : 0;
@@ -556,7 +556,7 @@ export class TeamService {
 
     // Calculate progress for each goal
     const goalsWithProgress = await Promise.all(
-      team.goals.map(async (goal) => {
+      team.goals.map(async (goal: typeof team.goals[0]) => {
         const progress = await this.calculateGoalProgress(
           team.id,
           goal.type,
@@ -738,7 +738,7 @@ export class TeamService {
     const avgProgress =
       memberDetails.length > 0
         ? Math.round(
-          memberDetails.reduce((sum, m) => sum + m.progress, 0) /
+          memberDetails.reduce((sum: number, m: typeof memberDetails[0]) => sum + m.progress, 0) /
           memberDetails.length,
         )
         : 0;
@@ -818,10 +818,10 @@ export class TeamService {
           select: { userId: true },
         });
         const progresses = await Promise.all(
-          members.map((m) => this.getMemberStudyProgress(m.userId)),
+          members.map((m: typeof members[0]) => this.getMemberStudyProgress(m.userId)),
         );
         return Math.round(
-          progresses.reduce((sum, p) => sum + p, 0) / memberCount,
+          progresses.reduce((sum: number, p: number) => sum + p, 0) / memberCount,
         );
       }
       case "accuracy": {
@@ -831,12 +831,12 @@ export class TeamService {
           select: { userId: true },
         });
         const stats = await Promise.all(
-          members.map((m) => this.getMemberPracticeStats(m.userId)),
+          members.map((m: typeof members[0]) => this.getMemberPracticeStats(m.userId)),
         );
-        const validStats = stats.filter((s) => s.total > 0);
+        const validStats = stats.filter((s: typeof stats[0]) => s.total > 0);
         return validStats.length > 0
           ? Math.round(
-            validStats.reduce((sum, s) => sum + s.accuracy, 0) /
+            validStats.reduce((sum: number, s: typeof stats[0]) => sum + s.accuracy, 0) /
             validStats.length,
           )
           : 0;
@@ -848,10 +848,10 @@ export class TeamService {
           select: { userId: true },
         });
         const stats = await Promise.all(
-          members.map((m) => this.getMemberStudyStats(m.userId)),
+          members.map((m: typeof members[0]) => this.getMemberStudyStats(m.userId)),
         );
         return Math.round(
-          stats.reduce((sum, s) => sum + s.totalMinutes, 0) / 60,
+          stats.reduce((sum: number, s: typeof stats[0]) => sum + s.totalMinutes, 0) / 60,
         );
       }
       default:

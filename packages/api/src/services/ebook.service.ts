@@ -105,7 +105,7 @@ export class EbookService {
       },
     });
 
-    return chapters.map((chapter) => ({
+    return chapters.map((chapter: typeof chapters[0]) => ({
       id: chapter.id,
       slug: chapter.slug,
       title: chapter.title,
@@ -241,17 +241,17 @@ export class EbookService {
       navigation: {
         prevSection: prevSection
           ? {
-              slug: prevSection.slug,
-              title: prevSection.title,
-              chapterSlug: chapterSlug,
-            }
+            slug: prevSection.slug,
+            title: prevSection.title,
+            chapterSlug: chapterSlug,
+          }
           : null,
         nextSection: nextSection
           ? {
-              slug: nextSection.slug,
-              title: nextSection.title,
-              chapterSlug: chapterSlug,
-            }
+            slug: nextSection.slug,
+            title: nextSection.title,
+            chapterSlug: chapterSlug,
+          }
           : null,
       },
     };
@@ -334,7 +334,7 @@ export class EbookService {
 
     // Calculate relevance scores and format results
     const allResults: SearchResult[] = sections
-      .map((section) => {
+      .map((section: typeof sections[0]) => {
         const titleLower = section.title.toLowerCase();
         const contentLower = section.content.toLowerCase();
 
@@ -378,7 +378,7 @@ export class EbookService {
           relevanceScore,
         };
       })
-      .sort((a, b) => b.relevanceScore - a.relevanceScore);
+      .sort((a: SearchResult, b: SearchResult) => b.relevanceScore - a.relevanceScore);
 
     // Calculate pagination
     const total = allResults.length;

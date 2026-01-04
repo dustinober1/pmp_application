@@ -134,7 +134,7 @@ export class AnalyticsService {
         engagementRate: totalUsers > 0 ? (activeUsers / totalUsers) * 100 : 0,
         avgStudyTimeMs: avgStudyTimeResult._avg.durationMs || 0,
       },
-      domainProgress: domainProgress.map((dp) => ({
+      domainProgress: domainProgress.map((dp: typeof domainProgress[0]) => ({
         sectionId: dp.sectionId,
         completionCount: dp._count,
       })),
@@ -706,7 +706,7 @@ export class AnalyticsService {
       },
     });
 
-    const mockExamPerformance = mockExamSessions.map((s) => {
+    const mockExamPerformance = mockExamSessions.map((s: typeof mockExamSessions[0]) => {
       const domainAccuracy = this.calculateDomainAccuracyFromSession(s);
       return {
         sessionId: s.id,

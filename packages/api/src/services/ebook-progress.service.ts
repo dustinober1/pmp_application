@@ -171,7 +171,7 @@ export class EbookProgressService {
 
     const totalSections = sections.length;
     const completedSectionIds = progress?.completedSections ?? [];
-    const completedSectionsInChapter = sections.filter((s) =>
+    const completedSectionsInChapter = sections.filter((s: typeof sections[0]) =>
       completedSectionIds.includes(s.id),
     );
 
