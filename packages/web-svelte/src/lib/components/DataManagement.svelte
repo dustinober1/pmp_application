@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { downloadProgressBackup, importProgress } from "$lib/utils/dataPortability";
+	import { downloadProgressBackup, importProgressFromFile } from "$lib/utils/dataPortability";
 	import { domainProgressStore, recentActivityStore } from "$lib/stores/dashboard";
 
 	// Dashboard store keys
@@ -20,7 +20,7 @@
 		const input = event.target as HTMLInputElement;
 		const file = input.files?.[0];
 		if (file) {
-			const result = await importProgress(file);
+			const result = await importProgressFromFile(file);
 
 			// Show feedback message
 			importMessage = result.message;
