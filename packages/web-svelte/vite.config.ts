@@ -8,5 +8,19 @@ export default defineConfig({
 		alias: {
 			'@pmp/shared': path.resolve(__dirname, '../shared/src')
 		}
+	},
+	build: {
+		// Optimize chunk size warning threshold
+		chunkSizeWarningLimit: 1000,
+		// Enable CSS code splitting
+		cssCodeSplit: true,
+		// Minify output with terser
+		minify: 'terser',
+		terserOptions: {
+			compress: {
+				drop_console: true,
+				drop_debugger: true
+			}
+		}
 	}
 });
