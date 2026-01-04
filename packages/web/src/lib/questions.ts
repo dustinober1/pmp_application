@@ -98,13 +98,139 @@ export function filterQuestions(
 }
 
 /**
+ * Fisher-Yates shuffle algorithm for randomizing array order
+ */
+function fisherYatesShuffle<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = shuffled[i]!;
+    shuffled[i] = shuffled[j]!;
+    shuffled[j] = temp;
+  }
+  return shuffled;
+}
+
+/**
+ * Randomizes answer options for a single question and updates the correct answer index
+ */
+function randomizeQuestionAnswers(question: Question): Question {
+  if (!question.answers || question.answers.length !== 4) {
+    return question;
+  }
+
+  // Create array of indices [0, 1, 2, 3]
+  const indices: number[] = [0, 1, 2, 3];
+  // Shuffle the indices to randomize answer positions
+  const shuffledIndices = fisherYatesShuffle(indices);
+
+  // Shuffle answers according to the shuffled indices with type safety
+  const shuffledAnswers: QuestionAnswer[] = shuffledIndices.map((index) => {
+    return question.answers[index];
+  });
+
+  // Find the new position of the correct answer
+  const originalCorrectIndex = question.correctAnswerIndex;
+  const newCorrectIndex = shuffledIndices.indexOf(originalCorrectIndex);
+
+  return {
+    ...question,
+    answers: shuffledAnswers,
+    correctAnswerIndex: newCorrectIndex,
+  };
+}
+
+/**
+ * Ensures even distribution of correct answers across all options (A, B, C, D)
+ * Uses a round-robin approach to distribute answers evenly
+ */
+function ensureEvenAnswerDistribution(questions: Question[]): Question[] {
+  const targetDistribution = questions.length / 4;
+  const distribution = [0, 0, 0, 0]; // Track actual distribution
+  const result: Question[] = [];
+
+  // First pass: try to achieve even distribution
+  for (const question of questions) {
+    // Find the option with current lowest count
+    const minCount = Math.min(...distribution);
+    const targetIndices = distribution
+      .map((count, index) => (count === minCount ? index : -1))
+      .filter((index) => index !== -1);
+
+    // If we have options that need more correct answers, target one of them
+    let targetIndex: number;
+    if (targetIndices.length > 0) {
+      const randomIndex = Math.floor(Math.random() * targetIndices.length);
+      targetIndex = targetIndices[randomIndex]!;
+    } else {
+      targetIndex = Math.floor(Math.random() * 4);
+    }
+
+    // Randomize answers and adjust to put correct answer at target position
+    const randomized = randomizeQuestionAnswers(question);
+
+    // If correct answer isn't at target position, swap it there
+    if (randomized.correctAnswerIndex !== targetIndex) {
+      const correctAnswerIndex = randomized.correctAnswerIndex;
+      const temp = randomized.answers[targetIndex];
+      randomized.answers[targetIndex] = randomized.answers[correctAnswerIndex];
+      randomized.answers[correctAnswerIndex] = temp;
+      randomized.correctAnswerIndex = targetIndex;
+    }
+
+    distribution[targetIndex]++;
+    result.push(randomized);
+  }
+
+  // Second pass: if distribution isn't perfectly even, adjust remaining questions
+  const maxDiff = Math.max(...distribution) - Math.min(...distribution);
+  if (maxDiff > 1) {
+    // Simple adjustment: shuffle questions where correct answer is over-represented
+    const overrepresented = distribution
+      .map((count, index) => ({ count, index }))
+      .filter((item) => item.count > targetDistribution + 0.5)
+      .map((item) => item.index);
+
+    const underrepresented = distribution
+      .map((count, index) => ({ count, index }))
+      .filter((item) => item.count < targetDistribution - 0.5)
+      .map((item) => item.index);
+
+    // Make adjustments for the difference
+    for (
+      let i = 0;
+      i < Math.min(overrepresented.length, underrepresented.length);
+      i++
+    ) {
+      const fromIndex = overrepresented[i]!;
+      const toIndex = underrepresented[i]!;
+
+      // Find a question with correct answer at overrepresented position
+      const questionToAdjust = result.find(
+        (q) => q.correctAnswerIndex === fromIndex,
+      );
+      if (questionToAdjust) {
+        const temp = questionToAdjust.answers[toIndex];
+        questionToAdjust.answers[toIndex] = questionToAdjust.answers[fromIndex];
+        questionToAdjust.answers[fromIndex] = temp;
+        questionToAdjust.correctAnswerIndex = toIndex;
+        distribution[fromIndex]--;
+        distribution[toIndex]++;
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
  * Randomly selects N questions from the pool.
  * Uses a seeded random approach for consistency if needed.
  *
  * @param questions - The full question pool
  * @param count - Number of questions to select
  * @param filters - Optional filters to apply before selection
- * @returns Array of randomly selected questions
+ * @returns Array of randomly selected questions with randomized answer keys
  */
 export function pickRandomQuestions(
   questions: Question[],
@@ -116,19 +242,15 @@ export function pickRandomQuestions(
 
   // If we don't have enough questions, return all of them
   if (pool.length <= count) {
-    return pool;
+    return ensureEvenAnswerDistribution(pool);
   }
 
   // Fisher-Yates shuffle for random selection
-  const shuffled = [...pool];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp: Question = shuffled[i]!;
-    shuffled[i] = shuffled[j]!;
-    shuffled[j] = temp;
-  }
+  const shuffled = fisherYatesShuffle(pool);
+  const selected = shuffled.slice(0, count);
 
-  return shuffled.slice(0, count);
+  // Apply answer randomization with even distribution
+  return ensureEvenAnswerDistribution(selected);
 }
 
 /**
