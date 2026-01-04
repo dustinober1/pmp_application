@@ -4,7 +4,7 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
-	<div class="max-w-3xl w-full text-center space-y-8">
+	<div class="max-w-3xl w-full text-center space-y-12">
 		<!-- Privacy & Progress Warning -->
 		<div class="group bg-gradient-to-r from-amber-100/90 to-orange-100/90 dark:from-amber-900/40 dark:to-orange-900/40 backdrop-blur-sm p-5 rounded-2xl border-2 border-amber-400/70 dark:border-amber-600/70 shadow-lg hover:shadow-xl hover:shadow-amber-500/20 transition-all duration-300">
 			<div class="flex items-center justify-center gap-2 mb-2">
@@ -27,7 +27,7 @@
 		</div>
 
 		<!-- July 2026 ECO Notice Banner -->
-		<div class="group mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-800 backdrop-blur-sm hover:shadow-blue-500/20 transition-all duration-300 hover:scale-[1.02]">
+		<div class="group mb-10 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-800 backdrop-blur-sm hover:shadow-blue-500/20 transition-all duration-300 hover:scale-[1.02]">
 			<div class="flex items-center justify-center gap-2">
 				<span class="text-2xl group-hover:scale-110 transition-transform duration-300">🎯</span>
 				<span class="font-semibold text-blue-900 dark:text-blue-100">Updated for July 2026 ECO</span>
@@ -35,16 +35,16 @@
 			<p class="text-sm text-blue-700 dark:text-blue-300 mt-1">New domain percentages, AI & Sustainability themes, 60/40 methodology focus</p>
 		</div>
 
-		<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-			<h2 class="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+		<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-10 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
+			<h2 class="text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
 				2026 PMP Exam Content Outline
 			</h2>
-			<p class="text-gray-600 dark:text-gray-400 mb-6">
+			<p class="text-gray-600 dark:text-gray-400 mb-10 text-lg">
 				Access practice questions, flashcards, and study guides without any subscription or login required.
 			</p>
 
 			<!-- Domain Percentages with Glassmorphism -->
-			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
 				<div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 dark:from-indigo-400/10 dark:to-indigo-500/10 backdrop-blur-md border border-indigo-200/50 dark:border-indigo-700/50 shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-105 cursor-default">
 					<div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2 group-hover:scale-110 transition-transform duration-300">33%</div>
 					<div class="font-semibold text-gray-800 dark:text-gray-200 mb-2">People</div>
@@ -63,9 +63,9 @@
 			</div>
 
 			<!-- 2026 Key Themes Grid -->
-			<div class="mb-8">
-				<h3 class="text-2xl md:text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">2026 Key Themes</h3>
-				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+			<div class="mt-12 mb-10">
+				<h3 class="text-2xl md:text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">2026 Key Themes</h3>
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 					<!-- AI Integration -->
 					<div class="group p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-600/10 dark:from-emerald-400/10 dark:to-teal-500/10 backdrop-blur-md border border-emerald-200/50 dark:border-emerald-700/50 shadow-lg hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105 cursor-default">
 						<div class="flex items-center gap-3 mb-2">
@@ -103,8 +103,8 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="flex flex-col sm:flex-row gap-4 justify-center">
+
+			<div class="flex flex-col sm:flex-row gap-4 justify-center mt-12">
 				<a
 					href="{base}/dashboard"
 					class="group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-indigo-500/40 hover:scale-105 transition-all duration-300"
@@ -122,7 +122,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
 			<div class="group p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl hover:shadow-indigo-500/20 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
 				<div class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">📚</div>
 				<h3 class="font-semibold text-gray-900 dark:text-white mb-1">Study Guide</h3>
