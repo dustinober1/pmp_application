@@ -12,7 +12,7 @@ import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 
 export default function FlaggedQuestionsPage() {
   const router = useRouter();
-  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const { isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
 
   const [questions, setQuestions] = useState<PracticeQuestion[]>([]);
@@ -35,10 +35,9 @@ export default function FlaggedQuestionsPage() {
   }, [toast]);
 
   useEffect(() => {
-    if (canAccess) {
-      loadFlaggedQuestions();
-    }
-  }, [canAccess, loadFlaggedQuestions]);
+    // In static mode, always load flagged questions (no auth check)
+    loadFlaggedQuestions();
+  }, [loadFlaggedQuestions]);
 
   const handleUnflag = async (questionId: string, e: React.MouseEvent) => {
     e.stopPropagation();

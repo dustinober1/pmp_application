@@ -51,10 +51,7 @@ export default function HomePage() {
               >
                 Get Started
               </Link>
-              <Link
-                href="/study"
-                className="btn btn-outline text-lg px-8 py-3"
-              >
+              <Link href="/study" className="btn btn-outline text-lg px-8 py-3">
                 Browse Study Guides
               </Link>
             </div>
@@ -125,9 +122,9 @@ export default function HomePage() {
             100% Free and Open Source
           </h2>
           <p className="text-md-on-surface-variant mb-8 max-w-2xl mx-auto">
-            All study materials, practice questions, and flashcards are completely free.
-            No subscriptions, no hidden fees. Track your progress locally with
-            localStorage - your data stays on your device.
+            All study materials, practice questions, and flashcards are
+            completely free. No subscriptions, no hidden fees. Track your
+            progress locally with localStorage - your data stays on your device.
           </p>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="card p-6">
@@ -150,7 +147,8 @@ export default function HomePage() {
                 Comprehensive Content
               </h3>
               <p className="text-sm text-md-on-surface-variant">
-                1,800+ flashcards and 1,200+ practice questions covering all PMP domains
+                1,800+ flashcards and 1,200+ practice questions covering all PMP
+                domains
               </p>
             </div>
             <div className="card p-6">
@@ -173,7 +171,8 @@ export default function HomePage() {
                 Private & Secure
               </h3>
               <p className="text-sm text-md-on-surface-variant">
-                Your progress is stored locally in your browser. No account required.
+                Your progress is stored locally in your browser. No account
+                required.
               </p>
             </div>
             <div className="card p-6">
@@ -196,7 +195,8 @@ export default function HomePage() {
                 Works Offline
               </h3>
               <p className="text-sm text-md-on-surface-variant">
-                Once loaded, all materials work offline. Study anywhere, anytime.
+                Once loaded, all materials work offline. Study anywhere,
+                anytime.
               </p>
             </div>
           </div>
@@ -214,10 +214,7 @@ export default function HomePage() {
             Join thousands of successful PMP-certified professionals who studied
             with us.
           </p>
-          <Link
-            href="/dashboard"
-            className="btn btn-primary text-lg px-8 py-3"
-          >
+          <Link href="/dashboard" className="btn btn-primary text-lg px-8 py-3">
             Start Studying Now
           </Link>
         </div>

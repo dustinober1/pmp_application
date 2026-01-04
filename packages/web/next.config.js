@@ -1,72 +1,27 @@
 /** @type {import('next').NextConfig} */
-const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
-let apiOrigin = "http://localhost:3001";
-try {
-  apiOrigin = new URL(apiUrl).origin;
-} catch {
-  // Ignore invalid URL at build-time; default localhost origin above.
-}
-
-const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-const plausibleSrc =
-  process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || "https://plausible.io/js/script.js";
-let plausibleOrigin = null;
-try {
-  plausibleOrigin = plausibleDomain ? new URL(plausibleSrc).origin : null;
-} catch {
-  plausibleOrigin = null;
-}
-
-const isDev = process.env.NODE_ENV !== "production";
-const scriptSrc = [
-  "script-src 'self'",
-  ...(isDev ? ["'unsafe-eval'"] : []),
-  "'unsafe-inline'",
-  ...(plausibleOrigin ? [plausibleOrigin] : []),
-  "https://js.stripe.com",
-].join(" ");
-
-const connectSrc = [
-  "connect-src 'self'",
-  apiOrigin,
-  ...(plausibleOrigin ? [plausibleOrigin] : []),
-  "https://api.stripe.com",
-].join(" ");
-
-const frameSrc = [
-  "frame-src 'self'",
-  "https://js.stripe.com",
-  "https://hooks.stripe.com",
-].join(" ");
-
-const ContentSecurityPolicy = [
-  "default-src 'self'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'none'",
-  "img-src 'self' data: blob: https://*.stripe.com",
-  "font-src 'self' data: fonts.gstatic.com",
-  scriptSrc,
-  "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
-  connectSrc,
-  frameSrc,
-].join("; ");
+// Base path for GitHub Pages deployment (e.g., "/pmp_application")
+// Empty for local development and standard hosting
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const nextConfig = {
   reactStrictMode: true,
-  // Standalone output reduces memory footprint
-  output: "standalone",
+  // Static export for GitHub Pages
+  output: "export",
   trailingSlash: true,
+  // Base path for GitHub Pages (empty for local dev)
+  basePath: basePath,
+  // Asset prefix must match basePath for GitHub Pages
+  assetPrefix: basePath,
+
   transpilePackages: ["@pmp/shared"],
 
   // Enable SWC minification (faster than Terser)
   swcMinify: true,
 
-  // Optimize images
+  // Disable image optimization for static export
+  // GitHub Pages cannot use Next.js Image Optimization API
   images: {
-    formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    unoptimized: true,
   },
 
   // Enable compression
@@ -89,45 +44,9 @@ const nextConfig = {
       transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
     },
   },
-  async redirects() {
-    return [
-      { source: "/login", destination: "/auth/login", permanent: false },
-      { source: "/register", destination: "/auth/register", permanent: false },
-      {
-        source: "/forgot-password",
-        destination: "/auth/forgot-password",
-        permanent: false,
-      },
-      {
-        source: "/reset-password",
-        destination: "/auth/reset-password",
-        permanent: false,
-      },
-      {
-        source: "/verify-email",
-        destination: "/auth/verify-email",
-        permanent: false,
-      },
-    ];
-  },
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          { key: "Content-Security-Policy", value: ContentSecurityPolicy },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "DENY" },
-          {
-            key: "Permissions-Policy",
-            value:
-              "camera=(), microphone=(), geolocation=(), interest-cohort=()",
-          },
-        ],
-      },
-    ];
-  },
+  // NOTE: redirects() and headers() are removed because they cannot be used
+  // with static export mode. GitHub Pages cannot apply server-side redirects or headers.
+  // Client-side redirects should be handled in the application code.
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -135,15 +54,18 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
 
+// PWA is disabled for static export mode
+// GitHub Pages does not support service workers for static exports
+// Uncomment below if you want to re-enable PWA for non-static deployments
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const withPWA = require("next-pwa")({
-  dest: "public",
-  disable: process.env.NODE_ENV === "development",
-  register: true,
-  skipWaiting: true,
-  fallbacks: {
-    document: "/offline",
-  },
-});
+// const withPWA = require("next-pwa")({
+//   dest: "public",
+//   disable: process.env.NODE_ENV === "development",
+//   register: true,
+//   skipWaiting: true,
+//   fallbacks: {
+//     document: "/offline",
+//   },
+// });
 
-module.exports = withBundleAnalyzer(withPWA(nextConfig));
+module.exports = withBundleAnalyzer(nextConfig);

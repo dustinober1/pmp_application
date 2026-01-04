@@ -1,7 +1,8 @@
 // Static site API stub - All API calls removed for GitHub Pages deployment
 // This file is kept for backward compatibility but all functions throw errors
 
-const API_REMOVED_ERROR = "API removed: This is now a static site. Data is loaded from public/data/ directory.";
+const API_REMOVED_ERROR =
+  "API removed: This is now a static site. Data is loaded from public/data/ directory.";
 
 interface ApiOptions {
   method?: "GET" | "POST" | "PATCH" | "DELETE";
@@ -63,23 +64,33 @@ export const subscriptionApi = {
 
 // Domain/Content API - data now loaded from public/data/
 export const contentApi = {
-  getDomains: () => {
+  getDomains: (): Promise<ApiResponse<{ domains: unknown[] }>> => {
     throw new Error(API_REMOVED_ERROR + " Use /data/domains.json instead.");
   },
-  getDomain: (_id: string) => {
+  getDomain: (_id: string): Promise<ApiResponse<{ domain: unknown }>> => {
     throw new Error(API_REMOVED_ERROR + " Use /data/domains.json instead.");
   },
-  getTasks: (_domainId: string) => {
+  getTasks: (_domainId: string): Promise<ApiResponse<{ tasks: unknown[] }>> => {
     throw new Error(API_REMOVED_ERROR + " Use /data/domains.json instead.");
   },
-  getStudyGuide: (_taskId: string) => {
-    throw new Error(API_REMOVED_ERROR + " Use /data/study-guides.json instead.");
+  getStudyGuide: (
+    _taskId: string,
+  ): Promise<ApiResponse<{ studyGuide: unknown }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use /data/study-guides.json instead.",
+    );
   },
-  markSectionComplete: (_sectionId: string) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for progress tracking.");
+  markSectionComplete: (
+    _sectionId: string,
+  ): Promise<ApiResponse<{ success: boolean }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for progress tracking.",
+    );
   },
-  getProgress: () => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for progress tracking.");
+  getProgress: (): Promise<ApiResponse<{ progress: unknown }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for progress tracking.",
+    );
   },
 };
 
@@ -89,40 +100,58 @@ export const flashcardApi = {
     domainId?: string;
     taskId?: string;
     limit?: number;
-  }) => {
+  }): Promise<
+    ApiResponse<{ flashcards: unknown[]; domains: unknown[]; tasks: unknown[] }>
+  > => {
     throw new Error(API_REMOVED_ERROR + " Use /data/flashcards.json instead.");
   },
-  getDueForReview: (_limit?: number) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for progress tracking.");
+  getDueForReview: (
+    _limit?: number,
+  ): Promise<ApiResponse<{ flashcards: unknown[] }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for progress tracking.",
+    );
   },
-  getStats: () => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for progress tracking.");
+  getStats: (): Promise<ApiResponse<{ stats: unknown }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for progress tracking.",
+    );
   },
   startSession: (_options: {
     domainIds?: string[];
     taskIds?: string[];
     cardCount?: number;
-  }) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for progress tracking.");
+  }): Promise<ApiResponse<{ sessionId: string }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for progress tracking.",
+    );
   },
   recordResponse: (
     _sessionId: string,
     _cardId: string,
     _rating: string,
     _timeSpentMs: number,
-  ) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for progress tracking.");
+  ): Promise<ApiResponse<{ success: boolean }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for progress tracking.",
+    );
   },
-  completeSession: (_sessionId: string) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for progress tracking.");
+  completeSession: (
+    _sessionId: string,
+  ): Promise<ApiResponse<{ score: number }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for progress tracking.",
+    );
   },
   createCustom: (_data: {
     domainId: string;
     taskId: string;
     front: string;
     back: string;
-  }) => {
-    throw new Error(API_REMOVED_ERROR + " Custom flashcards not supported in static mode.");
+  }): Promise<ApiResponse<{ flashcard: unknown }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Custom flashcards not supported in static mode.",
+    );
   },
 };
 
@@ -133,97 +162,145 @@ export const practiceApi = {
     taskIds?: string[];
     questionCount?: number;
     prioritizeFlagged?: boolean;
-  }) => {
+  }): Promise<ApiResponse<{ sessionId: string }>> => {
     throw new Error(API_REMOVED_ERROR + " Use /data/questions.json instead.");
   },
-  getSession: (_sessionId: string) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for session tracking.");
+  getSession: (_sessionId: string): Promise<ApiResponse<unknown>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for session tracking.",
+    );
   },
   getSessionQuestions: (
     _sessionId: string,
     _offset?: number,
     _limit?: number,
-  ) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for session tracking.");
+  ): Promise<ApiResponse<{ questions: unknown[] }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for session tracking.",
+    );
   },
-  getSessionStreak: (_sessionId: string) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for session tracking.");
+  getSessionStreak: (_sessionId: string): Promise<ApiResponse<unknown>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for session tracking.",
+    );
   },
   submitAnswer: (_params: {
     sessionId: string;
     questionId: string;
     selectedOptionId: string;
     timeSpentMs: number;
-  }) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for session tracking.");
+  }): Promise<ApiResponse<{ correct: boolean }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for session tracking.",
+    );
   },
-  completeSession: (_sessionId: string) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for session tracking.");
+  completeSession: (
+    _sessionId: string,
+  ): Promise<ApiResponse<{ score: number }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for session tracking.",
+    );
   },
-  startMockExam: () => {
+  startMockExam: (): Promise<ApiResponse<{ sessionId: string }>> => {
     throw new Error(API_REMOVED_ERROR + " Use /data/questions.json instead.");
   },
-  getFlagged: () => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for flagged questions.");
+  getFlagged: (): Promise<ApiResponse<{ questions: unknown[] }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for flagged questions.",
+    );
   },
-  flagQuestion: (_questionId: string) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for flagged questions.");
+  flagQuestion: (
+    _questionId: string,
+  ): Promise<ApiResponse<{ success: boolean }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for flagged questions.",
+    );
   },
-  unflagQuestion: (_questionId: string) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for flagged questions.");
+  unflagQuestion: (
+    _questionId: string,
+  ): Promise<ApiResponse<{ success: boolean }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for flagged questions.",
+    );
   },
-  getStats: () => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for stats tracking.");
+  getStats: (): Promise<ApiResponse<{ stats: unknown }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for stats tracking.",
+    );
   },
 };
 
 // Dashboard API - all data now from localStorage
 export const dashboardApi = {
-  getDashboard: () => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for dashboard data.");
+  getDashboard: (): Promise<ApiResponse<{ dashboard: unknown }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for dashboard data.",
+    );
   },
-  getStreak: () => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for streak tracking.");
+  getStreak: (): Promise<ApiResponse<{ streak: number }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for streak tracking.",
+    );
   },
-  getProgress: () => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for progress tracking.");
+  getProgress: (): Promise<ApiResponse<{ progress: unknown }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for progress tracking.",
+    );
   },
-  getActivity: (_limit?: number) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for activity tracking.");
+  getActivity: (
+    _limit?: number,
+  ): Promise<ApiResponse<{ activity: unknown[] }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for activity tracking.",
+    );
   },
-  getReviews: (_limit?: number) => {
-    throw new Error(API_REMOVED_ERROR + " Use localStorage for review tracking.");
+  getReviews: (
+    _limit?: number,
+  ): Promise<ApiResponse<{ reviews: unknown[] }>> => {
+    throw new Error(
+      API_REMOVED_ERROR + " Use localStorage for review tracking.",
+    );
   },
-  getWeakAreas: () => {
+  getWeakAreas: (): Promise<ApiResponse<{ weakAreas: unknown[] }>> => {
     throw new Error(API_REMOVED_ERROR + " Use localStorage for analytics.");
   },
-  getReadiness: () => {
+  getReadiness: (): Promise<ApiResponse<{ readiness: number }>> => {
     throw new Error(API_REMOVED_ERROR + " Use localStorage for analytics.");
   },
-  getRecommendations: () => {
+  getRecommendations: (): Promise<
+    ApiResponse<{ recommendations: unknown[] }>
+  > => {
     throw new Error(API_REMOVED_ERROR + " Use localStorage for analytics.");
   },
 };
 
 // Formula API - calculations now done client-side
 export const formulaApi = {
-  getFormulas: (_category?: string) => {
+  getFormulas: (
+    _category?: string,
+  ): Promise<ApiResponse<{ formulas: unknown[] }>> => {
     throw new Error(API_REMOVED_ERROR + " Use /data/formulas.json instead.");
   },
-  getFormula: (_id: string) => {
+  getFormula: (_id: string): Promise<ApiResponse<{ formula: unknown }>> => {
     throw new Error(API_REMOVED_ERROR + " Use /data/formulas.json instead.");
   },
-  calculate: (_formulaId: string, _inputs: Record<string, number>) => {
+  calculate: (
+    _formulaId: string,
+    _inputs: Record<string, number>,
+  ): Promise<ApiResponse<{ result: number }>> => {
     throw new Error(API_REMOVED_ERROR + " Calculations now done client-side.");
   },
-  getVariables: () => {
+  getVariables: (): Promise<ApiResponse<{ variables: unknown[] }>> => {
     throw new Error(API_REMOVED_ERROR + " Use /data/formulas.json instead.");
   },
 };
 
 // Search API - search now done client-side
 export const searchApi = {
-  search: (_query: string, _limit?: number) => {
+  search: (
+    _query: string,
+    _limit?: number,
+  ): Promise<ApiResponse<{ results: unknown[] }>> => {
     throw new Error(API_REMOVED_ERROR + " Search now done client-side.");
   },
 };

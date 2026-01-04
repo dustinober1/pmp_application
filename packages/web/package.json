@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:export": "next build",
     "analyze": "ANALYZE=true next build",
-    "start": "cd .next/standalone/packages/web && node server.js",
+    "start": "next start",
     "start:dev": "next start",
+    "serve:static": "npx serve out",
     "lint": "next lint",
     "test": "vitest",
     "test:coverage": "vitest --coverage",

@@ -1,0 +1,67 @@
+# Claude Orchestrator Progress Log
+# ===============================
+# Project: ~/Projects/pmp_application
+# Started: 2026-01-04T13:30:02.293Z
+# Last Updated: 2026-01-04T13:37:01.170Z
+# Status: in_progress
+
+## Summary
+- Total Features: 17
+- Completed: 1
+- In Progress: 1
+- Pending: 15
+- Failed: 0
+
+## Task Description
+Convert PMP Study Pro to 100% static site for GitHub Pages deployment. 
+
+The plan consists of 9 phases from static_plan.md:
+
+1. Remove auth, middleware, billing, and team features
+2. Make Next export work with basePath configuration
+3. Move data into public/ and add typed loaders
+4. Create local storage data model + utilities
+5. Rewrite all routes (landing, study, flashcards, practice, dashboard, donate)
+6. Remove backend packages and unused dependencies
+7. QA checklist validation
+8. GitHub Pages deployment workflow
+9. Update documentation
+
+Key requirements from static_plan.md:
+- Remove ALL auth, subscriptions, checkout, team features
+- Export with 'output: "export"' in next.config.js
+- Move flashcards data (data/flashcards-combined.json) to public/data/flashcards.json
+- Move questions data (packages/api/prisma/seed-data/testbank.json) to public/data/questions.json
+- Create local-only flashcards/play and practice/play routes
+- Create localStorage-based progress tracking with spaced repetition
+- Create donation page instead of checkout
+- All pages must work without API/backend
+
+The goal is a 100% static site that can be deployed to GitHub Pages with no database or API requirements.
+
+## Feature Status
+✅ [COMPLETED] feature-1: Remove auth, middleware, billing, and team features
+🔄 [IN_PROGRESS] feature-2: Make Next export work with basePath configuration
+⏳ [PENDING] feature-3: Move data into public/ and add typed loaders
+⏳ [PENDING] feature-4: Create local storage data model + utilities
+⏳ [PENDING] feature-5: Rewrite all routes (landing, study, flashcards, practice, dashboard, donate)
+⏳ [PENDING] feature-6: Remove backend packages and unused dependencies
+⏳ [PENDING] feature-7: QA checklist validation
+⏳ [PENDING] feature-8: GitHub Pages deployment workflow
+⏳ [PENDING] feature-9: Update documentation
+⏳ [PENDING] feature-10: Remove ALL auth, subscriptions, checkout, team features
+⏳ [PENDING] feature-11: Export with 'output: "export"' in next.config.js
+⏳ [PENDING] feature-12: Move flashcards data (data/flashcards-combined.json) to public/data/flashcards.json
+⏳ [PENDING] feature-13: Move questions data (packages/api/prisma/seed-data/testbank.json) to public/data/questions.json
+⏳ [PENDING] feature-14: Create local-only flashcards/play and practice/play routes
+⏳ [PENDING] feature-15: Create localStorage-based progress tracking with spaced repetition
+⏳ [PENDING] feature-16: Create donation page instead of checkout
+⏳ [PENDING] feature-17: All pages must work without API/backend
+
+## Progress Log (last 6 entries)
+[2026-01-04T13:30:02.293Z] Orchestration initialized with 17 features
+[2026-01-04T13:30:11.069Z] Started worker for feature-1: Remove auth, middleware, billing, and team features
+[2026-01-04T13:34:41.812Z] 🔔 Worker completed: feature-1 - use mark_complete to update status
+[2026-01-04T13:34:42.325Z] 🔔 Worker completed: feature-1 - use mark_complete to update status
+[2026-01-04T13:36:33.911Z] ✅ Completed: feature-1 - Remove auth, middleware, billing, and team features
+[2026-01-04T13:37:01.170Z] Started worker for feature-2: Make Next export work with basePath configuration

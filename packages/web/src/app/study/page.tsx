@@ -41,7 +41,7 @@ function normalizeEnablers(
 
 export default function StudyPage() {
   const router = useRouter();
-  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const { isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [domains, setDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
@@ -165,10 +165,9 @@ export default function StudyPage() {
   }, [toast]);
 
   useEffect(() => {
-    if (canAccess) {
-      fetchDomains();
-    }
-  }, [canAccess, fetchDomains]);
+    // In static mode, always fetch domains (no auth check)
+    fetchDomains();
+  }, [fetchDomains]);
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;

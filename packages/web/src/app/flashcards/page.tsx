@@ -19,7 +19,7 @@ interface FlashcardStats {
 
 export default function FlashcardsPage() {
   const router = useRouter();
-  const { canAccess, isLoading: authLoading } = useRequireAuth();
+  const { isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [stats, setStats] = useState<FlashcardStats | null>(null);
   const [domains, setDomains] = useState<Domain[]>([]);
@@ -53,10 +53,9 @@ export default function FlashcardsPage() {
   }, [toast]);
 
   useEffect(() => {
-    if (canAccess) {
-      fetchData();
-    }
-  }, [canAccess, fetchData]);
+    // In static mode, always fetch data (no auth check)
+    fetchData();
+  }, [fetchData]);
 
   const getFilteredDomainTasks = useCallback(() => {
     if (!selectedDomainId) return [];

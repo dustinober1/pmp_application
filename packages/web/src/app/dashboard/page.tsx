@@ -57,7 +57,7 @@ interface DashboardData {
 }
 
 export default function DashboardPage() {
-  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const { user, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -77,10 +77,9 @@ export default function DashboardPage() {
   }, [toast]);
 
   useEffect(() => {
-    if (canAccess) {
-      fetchDashboard();
-    }
-  }, [canAccess, fetchDashboard]);
+    // In static mode, always fetch dashboard (no auth check)
+    fetchDashboard();
+  }, [fetchDashboard]);
 
   if (authLoading || loading) {
     return <FullPageSkeleton />;

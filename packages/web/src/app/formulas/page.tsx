@@ -28,7 +28,7 @@ interface CalcResult {
 }
 
 export default function FormulasPage() {
-  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const { user, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [formulas, setFormulas] = useState<Formula[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -51,10 +51,9 @@ export default function FormulasPage() {
   }, [toast]);
 
   useEffect(() => {
-    if (canAccess) {
-      fetchFormulas();
-    }
-  }, [canAccess, fetchFormulas]);
+    // In static mode, always fetch formulas (no auth check)
+    fetchFormulas();
+  }, [fetchFormulas]);
 
   const calculate = async () => {
     if (!selectedFormula) return;

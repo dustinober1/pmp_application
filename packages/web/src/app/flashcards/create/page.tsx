@@ -12,7 +12,7 @@ import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 
 export default function CreateFlashcardPage() {
   const router = useRouter();
-  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const { user, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
 
   const [domains, setDomains] = useState<Domain[]>([]);
@@ -42,10 +42,9 @@ export default function CreateFlashcardPage() {
       }
     }
 
-    if (canAccess) {
-      void fetchDomains();
-    }
-  }, [canAccess, toast]);
+    // In static mode, always fetch (no auth check)
+    void fetchDomains();
+  }, [toast]);
 
   // Load tasks when domain changes
   useEffect(() => {

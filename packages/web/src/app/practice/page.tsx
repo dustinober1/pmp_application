@@ -38,7 +38,7 @@ interface MockExam {
 
 export default function PracticePage() {
   const router = useRouter();
-  const { user, canAccess, isLoading: authLoading } = useRequireAuth();
+  const { user, isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
   const [stats, setStats] = useState<PracticeStats | null>(null);
   const [domains, setDomains] = useState<Domain[]>([]);
@@ -69,10 +69,9 @@ export default function PracticePage() {
   }, [toast]);
 
   useEffect(() => {
-    if (canAccess) {
-      fetchData();
-    }
-  }, [canAccess, fetchData]);
+    // In static mode, always fetch data (no auth check)
+    fetchData();
+  }, [fetchData]);
 
   const startSession = async () => {
     setStarting(true);
