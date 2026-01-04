@@ -1,0 +1,733 @@
+{
+  "generatedAt": "2025-01-04",
+  "totalFormulas": 20,
+  "categories": {
+    "earned_value": 8,
+    "scheduling": 3,
+    "cost": 3,
+    "communication": 3,
+    "probability": 2,
+    "procurement": 1
+  },
+  "formulas": [
+    {
+      "id": "cv",
+      "name": "Cost Variance",
+      "category": "earned_value",
+      "expression": "CV = EV - AC",
+      "variables": [
+        {
+          "id": "ev",
+          "formulaId": "cv",
+          "symbol": "EV",
+          "name": "Earned Value",
+          "description": "The value of work completed",
+          "unit": "$"
+        },
+        {
+          "id": "ac",
+          "formulaId": "cv",
+          "symbol": "AC",
+          "name": "Actual Cost",
+          "description": "The actual cost incurred for the work",
+          "unit": "$"
+        }
+      ],
+      "description": "Cost Variance measures the difference between the earned value and the actual cost. A positive value indicates under budget, negative indicates over budget.",
+      "whenToUse": "Use to track cost performance and determine if the project is over or under budget at any point.",
+      "example": {
+        "scenario": "Your project has EV = $50,000 and AC = $55,000. Calculate CV.",
+        "inputs": {
+          "EV": 50000,
+          "AC": 55000
+        },
+        "solution": "CV = EV - AC = $50,000 - $55,000 = -$5,000",
+        "result": -5000
+      }
+    },
+    {
+      "id": "sv",
+      "name": "Schedule Variance",
+      "category": "earned_value",
+      "expression": "SV = EV - PV",
+      "variables": [
+        {
+          "id": "ev",
+          "formulaId": "sv",
+          "symbol": "EV",
+          "name": "Earned Value",
+          "description": "The value of work completed",
+          "unit": "$"
+        },
+        {
+          "id": "pv",
+          "formulaId": "sv",
+          "symbol": "PV",
+          "name": "Planned Value",
+          "description": "The authorized budget for the scheduled work",
+          "unit": "$"
+        }
+      ],
+      "description": "Schedule Variance measures the difference between earned value and planned value. A positive value indicates ahead of schedule, negative indicates behind schedule.",
+      "whenToUse": "Use to track schedule performance and determine if the project is ahead or behind schedule.",
+      "example": {
+        "scenario": "Your project has EV = $50,000 and PV = $60,000. Calculate SV.",
+        "inputs": {
+          "EV": 50000,
+          "PV": 60000
+        },
+        "solution": "SV = EV - PV = $50,000 - $60,000 = -$10,000",
+        "result": -10000
+      }
+    },
+    {
+      "id": "cpi",
+      "name": "Cost Performance Index",
+      "category": "earned_value",
+      "expression": "CPI = EV / AC",
+      "variables": [
+        {
+          "id": "ev",
+          "formulaId": "cpi",
+          "symbol": "EV",
+          "name": "Earned Value",
+          "description": "The value of work completed",
+          "unit": "$"
+        },
+        {
+          "id": "ac",
+          "formulaId": "cpi",
+          "symbol": "AC",
+          "name": "Actual Cost",
+          "description": "The actual cost incurred for the work",
+          "unit": "$"
+        }
+      ],
+      "description": "Cost Performance Index measures cost efficiency. CPI > 1 means under budget, CPI < 1 means over budget, CPI = 1 means on budget.",
+      "whenToUse": "Use to evaluate cost efficiency and forecast project performance.",
+      "example": {
+        "scenario": "Your project has EV = $50,000 and AC = $55,000. Calculate CPI.",
+        "inputs": {
+          "EV": 50000,
+          "AC": 55000
+        },
+        "solution": "CPI = EV / AC = $50,000 / $55,000 = 0.91",
+        "result": 0.9090909090909091
+      }
+    },
+    {
+      "id": "spi",
+      "name": "Schedule Performance Index",
+      "category": "earned_value",
+      "expression": "SPI = EV / PV",
+      "variables": [
+        {
+          "id": "ev",
+          "formulaId": "spi",
+          "symbol": "EV",
+          "name": "Earned Value",
+          "description": "The value of work completed",
+          "unit": "$"
+        },
+        {
+          "id": "pv",
+          "formulaId": "spi",
+          "symbol": "PV",
+          "name": "Planned Value",
+          "description": "The authorized budget for the scheduled work",
+          "unit": "$"
+        }
+      ],
+      "description": "Schedule Performance Index measures schedule efficiency. SPI > 1 means ahead of schedule, SPI < 1 means behind schedule, SPI = 1 means on schedule.",
+      "whenToUse": "Use to evaluate schedule efficiency and forecast project completion.",
+      "example": {
+        "scenario": "Your project has EV = $50,000 and PV = $60,000. Calculate SPI.",
+        "inputs": {
+          "EV": 50000,
+          "PV": 60000
+        },
+        "solution": "SPI = EV / PV = $50,000 / $60,000 = 0.83",
+        "result": 0.8333333333333334
+      }
+    },
+    {
+      "id": "eac_bac_cpi",
+      "name": "Estimate at Completion (BAC/CPI)",
+      "category": "earned_value",
+      "expression": "EAC = BAC / CPI",
+      "variables": [
+        {
+          "id": "bac",
+          "formulaId": "eac_bac_cpi",
+          "symbol": "BAC",
+          "name": "Budget at Completion",
+          "description": "Total authorized budget for the project",
+          "unit": "$"
+        },
+        {
+          "id": "cpi",
+          "formulaId": "eac_bac_cpi",
+          "symbol": "CPI",
+          "name": "Cost Performance Index",
+          "description": "The current cost performance index",
+          "unit": ""
+        }
+      ],
+      "description": "Estimate at Completion when current cost performance is expected to continue. Assumes the CPI trend continues for the rest of the project.",
+      "whenToUse": "Use when the cost performance to date is expected to continue for the remainder of the project.",
+      "example": {
+        "scenario": "Project BAC = $100,000 and current CPI = 0.91. Calculate EAC.",
+        "inputs": {
+          "BAC": 100000,
+          "CPI": 0.91
+        },
+        "solution": "EAC = BAC / CPI = $100,000 / 0.91 = $109,890",
+        "result": 109890.10989010989
+      }
+    },
+    {
+      "id": "etc_eac_ac",
+      "name": "Estimate to Complete (EAC - AC)",
+      "category": "earned_value",
+      "expression": "ETC = EAC - AC",
+      "variables": [
+        {
+          "id": "eac",
+          "formulaId": "etc_eac_ac",
+          "symbol": "EAC",
+          "name": "Estimate at Completion",
+          "description": "Expected total cost at project completion",
+          "unit": "$"
+        },
+        {
+          "id": "ac",
+          "formulaId": "etc_eac_ac",
+          "symbol": "AC",
+          "name": "Actual Cost",
+          "description": "The actual cost incurred to date",
+          "unit": "$"
+        }
+      ],
+      "description": "Estimate to Complete calculates the expected cost to finish all remaining work. It's the difference between EAC and AC.",
+      "whenToUse": "Use to determine how much more money is needed to complete the project.",
+      "example": {
+        "scenario": "Project EAC = $109,890 and AC = $55,000. Calculate ETC.",
+        "inputs": {
+          "EAC": 109890,
+          "AC": 55000
+        },
+        "solution": "ETC = EAC - AC = $109,890 - $55,000 = $54,890",
+        "result": 54890
+      }
+    },
+    {
+      "id": "vac",
+      "name": "Variance at Completion",
+      "category": "earned_value",
+      "expression": "VAC = BAC - EAC",
+      "variables": [
+        {
+          "id": "bac",
+          "formulaId": "vac",
+          "symbol": "BAC",
+          "name": "Budget at Completion",
+          "description": "Total authorized budget for the project",
+          "unit": "$"
+        },
+        {
+          "id": "eac",
+          "formulaId": "vac",
+          "symbol": "EAC",
+          "name": "Estimate at Completion",
+          "description": "Expected total cost at project completion",
+          "unit": "$"
+        }
+      ],
+      "description": "Variance at Completion predicts the budget surplus or deficit at project end. Positive VAC means under budget, negative means over budget.",
+      "whenToUse": "Use to forecast the final budget variance at project completion.",
+      "example": {
+        "scenario": "Project BAC = $100,000 and EAC = $109,890. Calculate VAC.",
+        "inputs": {
+          "BAC": 100000,
+          "EAC": 109890
+        },
+        "solution": "VAC = BAC - EAC = $100,000 - $109,890 = -$9,890",
+        "result": -9890
+      }
+    },
+    {
+      "id": "tcpi",
+      "name": "To-Complete Performance Index",
+      "category": "earned_value",
+      "expression": "TCPI = (BAC - EV) / (BAC - AC)",
+      "variables": [
+        {
+          "id": "bac",
+          "formulaId": "tcpi",
+          "symbol": "BAC",
+          "name": "Budget at Completion",
+          "description": "Total authorized budget for the project",
+          "unit": "$"
+        },
+        {
+          "id": "ev",
+          "formulaId": "tcpi",
+          "symbol": "EV",
+          "name": "Earned Value",
+          "description": "The value of work completed",
+          "unit": "$"
+        },
+        {
+          "id": "ac",
+          "formulaId": "tcpi",
+          "symbol": "AC",
+          "name": "Actual Cost",
+          "description": "The actual cost incurred to date",
+          "unit": "$"
+        }
+      ],
+      "description": "To-Complete Performance Index indicates the efficiency needed to complete the project on budget. TCPI > 1 means harder work needed; TCPI < 1 means easier.",
+      "whenToUse": "Use to determine the required cost performance for the remaining work to meet the budget.",
+      "example": {
+        "scenario": "Project BAC = $100,000, EV = $50,000, AC = $55,000. Calculate TCPI.",
+        "inputs": {
+          "BAC": 100000,
+          "EV": 50000,
+          "AC": 55000
+        },
+        "solution": "TCPI = (BAC - EV) / (BAC - AC) = ($100,000 - $50,000) / ($100,000 - $55,000) = 1.11",
+        "result": 1.1111111111111112
+      }
+    },
+    {
+      "id": "pv_fv",
+      "name": "Present Value",
+      "category": "cost",
+      "expression": "PV = FV / (1 + r)^n",
+      "variables": [
+        {
+          "id": "fv",
+          "formulaId": "pv_fv",
+          "symbol": "FV",
+          "name": "Future Value",
+          "description": "The amount of money in the future",
+          "unit": "$"
+        },
+        {
+          "id": "r",
+          "formulaId": "pv_fv",
+          "symbol": "r",
+          "name": "Interest Rate",
+          "description": "The discount or interest rate (as decimal)",
+          "unit": "decimal"
+        },
+        {
+          "id": "n",
+          "formulaId": "pv_fv",
+          "symbol": "n",
+          "name": "Number of Periods",
+          "description": "The number of time periods",
+          "unit": "periods"
+        }
+      ],
+      "description": "Present Value calculates the current worth of a future sum of money, discounted at a specific rate. Used for comparing costs/benefits over time.",
+      "whenToUse": "Use to evaluate the time value of money and compare cash flows at different points in time.",
+      "example": {
+        "scenario": "You will receive $10,000 in 3 years. If the discount rate is 5%, what is the present value?",
+        "inputs": {
+          "FV": 10000,
+          "r": 0.05,
+          "n": 3
+        },
+        "solution": "PV = $10,000 / (1 + 0.05)^3 = $10,000 / 1.1576 = $8,638",
+        "result": 8638.375983173755
+      }
+    },
+    {
+      "id": "npv",
+      "name": "Net Present Value",
+      "category": "cost",
+      "expression": "NPV = Σ(CF_t / (1 + r)^t) - Initial Investment",
+      "variables": [
+        {
+          "id": "cashFlows",
+          "formulaId": "npv",
+          "symbol": "CF",
+          "name": "Cash Flows",
+          "description": "Series of cash inflows for each period (comma-separated)",
+          "unit": "$"
+        },
+        {
+          "id": "r",
+          "formulaId": "npv",
+          "symbol": "r",
+          "name": "Discount Rate",
+          "description": "The discount rate (as decimal)",
+          "unit": "decimal"
+        },
+        {
+          "id": "initialInvestment",
+          "formulaId": "npv",
+          "symbol": "I₀",
+          "name": "Initial Investment",
+          "description": "The initial investment amount",
+          "unit": "$"
+        }
+      ],
+      "description": "Net Present Value calculates the present value of all future cash flows minus the initial investment. Positive NPV means profitable investment.",
+      "whenToUse": "Use to evaluate project profitability and compare investment opportunities.",
+      "example": {
+        "scenario": "Project requires $50,000 investment. Returns $20,000, $25,000, $30,000 over 3 years. Discount rate 8%.",
+        "inputs": {
+          "cashFlows": "20000,25000,30000",
+          "r": 0.08,
+          "initialInvestment": 50000
+        },
+        "solution": "NPV = ($20,000/1.08 + $25,000/1.166 + $30,000/1.26) - $50,000 = $10,758",
+        "result": 10758.404903437477
+      }
+    },
+    {
+      "id": "irr",
+      "name": "Internal Rate of Return",
+      "category": "cost",
+      "expression": "IRR = r where NPV = 0",
+      "variables": [
+        {
+          "id": "cashFlows",
+          "formulaId": "irr",
+          "symbol": "CF",
+          "name": "Cash Flows",
+          "description": "All cash flows including initial investment as negative (comma-separated)",
+          "unit": "$"
+        }
+      ],
+      "description": "Internal Rate of Return is the discount rate that makes NPV equal zero. Higher IRR indicates more attractive investment.",
+      "whenToUse": "Use to compare the profitability of different projects or investments.",
+      "example": {
+        "scenario": "Initial investment -$50,000, returns $20,000, $25,000, $30,000 over 3 years.",
+        "inputs": {
+          "cashFlows": "-50000,20000,25000,30000"
+        },
+        "solution": "IRR ≈ 18.2% (solved iteratively)",
+        "result": 0.182
+      }
+    },
+    {
+      "id": "activity_duration",
+      "name": "Activity Duration (PERT)",
+      "category": "scheduling",
+      "expression": "Duration = (P + 4M + O) / 6",
+      "variables": [
+        {
+          "id": "p",
+          "formulaId": "activity_duration",
+          "symbol": "P",
+          "name": "Pessimistic",
+          "description": "Worst-case scenario estimate",
+          "unit": "days"
+        },
+        {
+          "id": "m",
+          "formulaId": "activity_duration",
+          "symbol": "M",
+          "name": "Most Likely",
+          "description": "Most realistic estimate",
+          "unit": "days"
+        },
+        {
+          "id": "o",
+          "formulaId": "activity_duration",
+          "symbol": "O",
+          "name": "Optimistic",
+          "description": "Best-case scenario estimate",
+          "unit": "days"
+        }
+      ],
+      "description": "PERT (Program Evaluation and Review Technique) estimates activity duration using weighted average of optimistic, most likely, and pessimistic estimates.",
+      "whenToUse": "Use when there's uncertainty in activity duration estimates to get a weighted average.",
+      "example": {
+        "scenario": "Optimistic = 5 days, Most Likely = 10 days, Pessimistic = 20 days. Calculate expected duration.",
+        "inputs": {
+          "O": 5,
+          "M": 10,
+          "P": 20
+        },
+        "solution": "Duration = (20 + 4×10 + 5) / 6 = 65 / 6 = 10.83 days",
+        "result": 10.833333333333334
+      }
+    },
+    {
+      "id": "activity_variance",
+      "name": "Activity Variance (PERT)",
+      "category": "scheduling",
+      "expression": "Variance = ((P - O) / 6)²",
+      "variables": [
+        {
+          "id": "p",
+          "formulaId": "activity_variance",
+          "symbol": "P",
+          "name": "Pessimistic",
+          "description": "Worst-case scenario estimate",
+          "unit": "days"
+        },
+        {
+          "id": "o",
+          "formulaId": "activity_variance",
+          "symbol": "O",
+          "name": "Optimistic",
+          "description": "Best-case scenario estimate",
+          "unit": "days"
+        }
+      ],
+      "description": "PERT Variance measures the uncertainty or spread in activity duration estimates. Used in critical path probability analysis.",
+      "whenToUse": "Use to calculate the standard deviation of project duration and assess probability of completion.",
+      "example": {
+        "scenario": "Optimistic = 5 days, Pessimistic = 20 days. Calculate variance.",
+        "inputs": {
+          "O": 5,
+          "P": 20
+        },
+        "solution": "Variance = ((20 - 5) / 6)² = (2.5)² = 6.25",
+        "result": 6.25
+      }
+    },
+    {
+      "id": "float",
+      "name": "Float / Slack",
+      "category": "scheduling",
+      "expression": "Float = LS - ES = LF - EF",
+      "variables": [
+        {
+          "id": "ls",
+          "formulaId": "float",
+          "symbol": "LS",
+          "name": "Late Start",
+          "description": "Latest time an activity can start without delaying project",
+          "unit": "days"
+        },
+        {
+          "id": "es",
+          "formulaId": "float",
+          "symbol": "ES",
+          "name": "Early Start",
+          "description": "Earliest time an activity can start",
+          "unit": "days"
+        },
+        {
+          "id": "lf",
+          "formulaId": "float",
+          "symbol": "LF",
+          "name": "Late Finish",
+          "description": "Latest time an activity can finish without delaying project",
+          "unit": "days"
+        },
+        {
+          "id": "ef",
+          "formulaId": "float",
+          "symbol": "EF",
+          "name": "Early Finish",
+          "description": "Earliest time an activity can finish",
+          "unit": "days"
+        }
+      ],
+      "description": "Float (or Slack) is the amount of time an activity can be delayed without delaying the project. Critical path activities have zero float.",
+      "whenToUse": "Use to identify flexible activities and manage schedule risks.",
+      "example": {
+        "scenario": "Activity has ES = 5, LS = 8, EF = 12, LF = 15. Calculate float.",
+        "inputs": {
+          "LS": 8,
+          "ES": 5,
+          "LF": 15,
+          "EF": 12
+        },
+        "solution": "Float = LS - ES = 8 - 5 = 3 days (or LF - EF = 15 - 12 = 3 days)",
+        "result": 3
+      }
+    },
+    {
+      "id": "communication_channels",
+      "name": "Communication Channels",
+      "category": "communication",
+      "expression": "Channels = n(n-1) / 2",
+      "variables": [
+        {
+          "id": "n",
+          "formulaId": "communication_channels",
+          "symbol": "n",
+          "name": "Stakeholders",
+          "description": "Number of stakeholders or team members",
+          "unit": "people"
+        }
+      ],
+      "description": "Communication Channels calculates the number of potential two-way communication paths among stakeholders. Adding stakeholders dramatically increases channels.",
+      "whenToUse": "Use to plan communication requirements and assess the complexity of stakeholder interactions.",
+      "example": {
+        "scenario": "A project team has 10 stakeholders. How many communication channels exist?",
+        "inputs": {
+          "n": 10
+        },
+        "solution": "Channels = 10(10-1) / 2 = 10×9 / 2 = 45 channels",
+        "result": 45
+      }
+    },
+    {
+      "id": "expectation_ept",
+      "name": "Expected Monetary Value (EMV)",
+      "category": "probability",
+      "expression": "EMV = Probability × Impact",
+      "variables": [
+        {
+          "id": "probability",
+          "formulaId": "expectation_ept",
+          "symbol": "P",
+          "name": "Probability",
+          "description": "Likelihood of the event occurring (0-1)",
+          "unit": "decimal"
+        },
+        {
+          "id": "impact",
+          "formulaId": "expectation_ept",
+          "symbol": "I",
+          "name": "Impact",
+          "description": "Financial impact of the event",
+          "unit": "$"
+        }
+      ],
+      "description": "Expected Monetary Value calculates the average outcome when considering the probability and impact of risks or opportunities.",
+      "whenToUse": "Use for quantitative risk analysis to prioritize risks and calculate contingency reserves.",
+      "example": {
+        "scenario": "There's a 30% chance of equipment failure costing $50,000. Calculate EMV.",
+        "inputs": {
+          "probability": 0.3,
+          "impact": 50000
+        },
+        "solution": "EMV = 0.30 × $50,000 = $15,000",
+        "result": 15000
+      }
+    },
+    {
+      "id": "sigma",
+      "name": "Standard Deviation",
+      "category": "probability",
+      "expression": "σ = (P - O) / 6",
+      "variables": [
+        {
+          "id": "p",
+          "formulaId": "sigma",
+          "symbol": "P",
+          "name": "Pessimistic",
+          "description": "Worst-case scenario estimate",
+          "unit": "days"
+        },
+        {
+          "id": "o",
+          "formulaId": "sigma",
+          "symbol": "O",
+          "name": "Optimistic",
+          "description": "Best-case scenario estimate",
+          "unit": "days"
+        }
+      ],
+      "description": "Standard Deviation measures the uncertainty range in estimates. Used to calculate confidence intervals for project completion.",
+      "whenToUse": "Use to estimate the range of possible outcomes and assess risk in project estimates.",
+      "example": {
+        "scenario": "Optimistic = 5 days, Pessimistic = 20 days. Calculate standard deviation.",
+        "inputs": {
+          "O": 5,
+          "P": 20
+        },
+        "solution": "σ = (20 - 5) / 6 = 2.5 days",
+        "result": 2.5
+      }
+    },
+    {
+      "id": "point_of_total_assumption",
+      "name": "Point of Total Assumption",
+      "category": "procurement",
+      "expression": "PTA = ((Ceiling Price - Target Price) / Buyer Share Ratio) + Target Cost",
+      "variables": [
+        {
+          "id": "ceilingPrice",
+          "formulaId": "point_of_total_assumption",
+          "symbol": "CP",
+          "name": "Ceiling Price",
+          "description": "Maximum price the buyer will pay",
+          "unit": "$"
+        },
+        {
+          "id": "targetPrice",
+          "formulaId": "point_of_total_assumption",
+          "symbol": "TP",
+          "name": "Target Price",
+          "description": "Agreed target price for the contract",
+          "unit": "$"
+        },
+        {
+          "id": "buyerShareRatio",
+          "formulaId": "point_of_total_assumption",
+          "symbol": "BSR",
+          "name": "Buyer Share Ratio",
+          "description": "Portion of cost overruns the buyer pays (as decimal)",
+          "unit": "decimal"
+        },
+        {
+          "id": "targetCost",
+          "formulaId": "point_of_total_assumption",
+          "symbol": "TC",
+          "name": "Target Cost",
+          "description": "Estimated target cost of the project",
+          "unit": "$"
+        }
+      ],
+      "description": "Point of Total Assumption is the cost at which the seller assumes all additional costs in a Fixed Price Incentive Fee contract. Above this point, profit decreases.",
+      "whenToUse": "Use in FPIF contracts to determine when the seller bears all cost overruns.",
+      "example": {
+        "scenario": "FPIF contract: Target Cost = $100,000, Target Price = $120,000, Ceiling Price = $135,000, Buyer Share = 80%.",
+        "inputs": {
+          "ceilingPrice": 135000,
+          "targetPrice": 120000,
+          "buyerShareRatio": 0.8,
+          "targetCost": 100000
+        },
+        "solution": "PTA = (($135,000 - $120,000) / 0.80) + $100,000 = $18,750 + $100,000 = $118,750",
+        "result": 118750
+      }
+    },
+    {
+      "id": "expected_value_defects",
+      "name": "Expected Value of Perfect Information (EVPI)",
+      "category": "probability",
+      "expression": "EVPI = EVwPI - EVwoPI",
+      "variables": [
+        {
+          "id": "evwpi",
+          "formulaId": "expected_value_defects",
+          "symbol": "EVwPI",
+          "name": "Expected Value WITH Perfect Information",
+          "description": "Expected value when making decisions with perfect information",
+          "unit": "$"
+        },
+        {
+          "id": "evwopi",
+          "formulaId": "expected_value_defects",
+          "symbol": "EVwoPI",
+          "name": "Expected Value WITHOUT Perfect Information",
+          "description": "Expected value when making decisions without perfect information",
+          "unit": "$"
+        }
+      ],
+      "description": "Expected Value of Perfect Information calculates the maximum amount you should pay for additional information to improve decision making.",
+      "whenToUse": "Use to determine if additional research or information is worth the cost.",
+      "example": {
+        "scenario": "EV without perfect information = $50,000, EV with perfect information = $65,000. Calculate EVPI.",
+        "inputs": {
+          "EVwPI": 65000,
+          "EVwoPI": 50000
+        },
+        "solution": "EVPI = $65,000 - $50,000 = $15,000",
+        "result": 15000
+      }
+    }
+  ]
+}
