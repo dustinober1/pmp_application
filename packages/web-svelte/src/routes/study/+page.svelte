@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { authStore } from '$lib/stores/auth';
 	import { contentApi, flashcardApi, practiceApi } from '$lib/utils/api';
-	import Navbar from '$lib/components/Navbar.svelte';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
@@ -36,13 +34,6 @@
 			minutes: 240
 		}
 	};
-
-	// Auth state
-	let canAccess = false;
-
-	authStore.subscribe((auth) => {
-		canAccess = auth.isAuthenticated;
-	});
 
 	onMount(() => {
 		// Use data from load function if available
@@ -168,14 +159,8 @@
 	<LoadingState message="Loading study content..." />
 {:else if error && domains.length === 0}
 	<ErrorState title="Study Error" message={error} />
-{:else if !canAccess}
-	<ErrorState
-		title="Authentication Required"
-		message="Please log in to access study materials."
-	/>
 {:else}
 	<div class="min-h-screen flex flex-col bg-gray-50">
-		<Navbar />
 
 		<!-- Hero Section -->
 		<section class="relative overflow-hidden py-12 sm:py-16 bg-white">

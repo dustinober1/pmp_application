@@ -3,7 +3,6 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import { authStore } from '$lib/stores/auth';
 	import { createStudySessionTracker } from '$lib/utils/studySession';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
@@ -16,13 +15,6 @@
 	let studyGuide = null;
 	let activeSection = '';
 	let error = null;
-
-	// Auth state
-	let canAccess = false;
-
-	authStore.subscribe((auth) => {
-		canAccess = auth.isAuthenticated;
-	});
 
 	onMount(() => {
 		// Use data from load function if available
@@ -41,7 +33,7 @@
 		loading = false;
 
 		// Start tracking study session when page loads
-		if (task && canAccess) {
+		if (task) {
 			const tracker = createStudySessionTracker(task.id);
 			tracker.startSession();
 
@@ -94,11 +86,6 @@
 			Back to Study Guide
 		</button>
 	</div>
-{:else if !canAccess}
-	<ErrorState
-		title="Authentication Required"
-		message="Please log in to access study materials."
-	/>
 {:else}
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 		<!-- Header -->
