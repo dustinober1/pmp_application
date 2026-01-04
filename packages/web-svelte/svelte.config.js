@@ -9,6 +9,11 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
+    // Base path for GitHub Pages deployment
+    // Change this if deploying to a different URL
+    paths: {
+      base: "/pmp_application",
+    },
     // Using static adapter for GitHub Pages deployment
     // See https://svelte.dev/docs/kit/adapters for more information about adapters.
     adapter: adapter({

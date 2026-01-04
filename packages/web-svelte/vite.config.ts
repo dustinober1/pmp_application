@@ -4,6 +4,9 @@ import path from "path";
 
 export default defineConfig({
   plugins: [sveltekit()],
+  // Set base path for GitHub Pages deployment
+  // Change this if deploying to a different URL
+  base: "/pmp_application/",
   resolve: {
     alias: {
       "@pmp/shared": path.resolve(__dirname, "../shared/src"),
