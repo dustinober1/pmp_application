@@ -66,7 +66,7 @@
 {#if loading}
 	<LoadingState message="Loading dashboard..." />
 {:else}
-	<div class="min-h-screen bg-gray-50">
+	<div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
 		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 			<!-- Cache Warning Banner -->
 			<CacheWarningBanner variant="full" />
@@ -78,10 +78,10 @@
 
 			<!-- Header -->
 			<div class="mb-8">
-				<h1 class="text-2xl font-bold text-gray-900">
+				<h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
 					Welcome back, {getFirstName(userName)}! 👋
 				</h1>
-				<p class="text-gray-600">
+				<p class="text-gray-600 dark:text-gray-300">
 					Here's your study progress at a glance.
 				</p>
 			</div>
@@ -92,10 +92,10 @@
 			</div>
 
 			<!-- Overall Progress -->
-			<div class="bg-white rounded-lg shadow p-6 mb-8">
+			<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
 				<div class="flex items-center justify-between mb-4">
-					<h2 class="text-lg font-semibold text-gray-900">Overall Progress</h2>
-					<span class="text-sm text-gray-600">Based on 2026 ECO</span>
+					<h2 class="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Overall Progress</h2>
+					<span class="text-sm text-gray-600 dark:text-gray-400">Based on 2026 ECO</span>
 				</div>
 				<div class="flex items-center gap-6">
 					{#if $overallProgress !== undefined}
@@ -108,15 +108,15 @@
 						/>
 					{/if}
 					<div class="flex-1">
-						<p class="text-sm text-gray-600 mb-3">
+						<p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
 							Your progress across all three domains of the 2026 PMP Exam Content Outline.
 						</p>
 						<div class="grid grid-cols-3 gap-4">
 							{#each domains2026 as domain}
-								<div class="text-center p-3 bg-gray-50 rounded-lg">
-									<p class="text-xs font-medium text-gray-600 mb-1">{domain.domainName}</p>
-									<p class="text-lg font-bold text-indigo-600">{domain.weighting}%</p>
-									<p class="text-[10px] text-gray-500">{domain.description}</p>
+								<div class="group text-center p-3 bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 dark:from-indigo-400/10 dark:to-indigo-500/10 backdrop-blur-md rounded-lg border border-indigo-200/50 dark:border-indigo-700/50 hover:scale-105 transition-all duration-300 cursor-default">
+									<p class="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{domain.domainName}</p>
+									<p class="text-lg font-bold text-indigo-600 dark:text-indigo-400">{domain.weighting}%</p>
+									<p class="text-[10px] text-gray-600 dark:text-gray-400">{domain.description}</p>
 								</div>
 							{/each}
 						</div>
@@ -127,21 +127,26 @@
 			<div class="grid lg:grid-cols-3 gap-6">
 				<!-- Domain Progress -->
 				<div class="lg:col-span-2 space-y-6">
-					<div class="bg-white rounded-lg shadow p-6">
-						<h2 class="text-lg font-semibold mb-2">2026 Domain Progress</h2>
-						<p class="text-sm text-gray-600 mb-4">
+					<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
+						<h2 class="text-lg font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">2026 Domain Progress</h2>
+						<p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
 							Track your mastery across the three domains of the updated PMP ECO.
 						</p>
 						<div class="grid md:grid-cols-3 gap-6">
 							{#each $domainProgressStore.domains as domain}
 								{@const domainInfo = domains2026.find((d) => d.domainId === domain.domainId)}
-								<div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+								{@const gradientClass = domain.domainId === "people"
+									? "from-purple-500/10 to-purple-600/10 dark:from-purple-400/10 dark:to-purple-500/10 border-purple-200/50 dark:border-purple-700/50 hover:shadow-purple-500/25"
+									: domain.domainId === "process"
+										? "from-indigo-500/10 to-indigo-600/10 dark:from-indigo-400/10 dark:to-indigo-500/10 border-indigo-200/50 dark:border-indigo-700/50 hover:shadow-indigo-500/25"
+										: "from-pink-500/10 to-pink-600/10 dark:from-pink-400/10 dark:to-pink-500/10 border-pink-200/50 dark:border-pink-700/50 hover:shadow-pink-500/25"}
+								<div class="group bg-gradient-to-br {gradientClass} backdrop-blur-md border rounded-lg p-4 shadow-lg transition-all duration-300 hover:scale-105 cursor-default">
 									<div class="flex justify-between items-center mb-3">
 										<div>
-											<h3 class="font-medium text-gray-900">{domain.domainName}</h3>
-											<p class="text-xs text-gray-500">{domainInfo?.description || ""}</p>
+											<h3 class="font-medium text-gray-900 dark:text-gray-100">{domain.domainName}</h3>
+											<p class="text-xs text-gray-500 dark:text-gray-400">{domainInfo?.description || ""}</p>
 										</div>
-										<span class="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800">
+										<span class="inline-flex items-center rounded-full bg-indigo-100 dark:bg-indigo-900/50 px-2.5 py-0.5 text-xs font-medium text-indigo-800 dark:text-indigo-300">
 											{domainInfo?.weighting || 0}%
 										</span>
 									</div>
@@ -171,18 +176,18 @@
 
 									<div class="space-y-2 text-sm">
 										<div class="flex justify-between">
-											<span class="text-gray-600">Study Guide:</span>
-											<span class="font-medium">{domain.studyGuideProgress || 0}%</span>
+											<span class="text-gray-600 dark:text-gray-400">Study Guide:</span>
+											<span class="font-medium text-gray-900 dark:text-gray-100">{domain.studyGuideProgress || 0}%</span>
 										</div>
 										<div class="flex justify-between">
-											<span class="text-gray-600">Flashcards:</span>
-											<span class="font-medium"
+											<span class="text-gray-600 dark:text-gray-400">Flashcards:</span>
+											<span class="font-medium text-gray-900 dark:text-gray-100"
 												>{domain.flashcardsMastered || 0} / {domain.flashcardsTotal || 0}</span
 											>
 										</div>
 										<div class="flex justify-between">
-											<span class="text-gray-600">Accuracy:</span>
-											<span class="font-medium">{domain.practiceAccuracy || 0}%</span>
+											<span class="text-gray-600 dark:text-gray-400">Accuracy:</span>
+											<span class="font-medium text-gray-900 dark:text-gray-100">{domain.practiceAccuracy || 0}%</span>
 										</div>
 									</div>
 								</div>
@@ -196,16 +201,16 @@
 					<!-- Data Management -->
 					<DataManagement />
 
-					<div class="bg-white rounded-lg shadow p-6">
-						<h2 class="font-semibold mb-4">Quick Actions</h2>
+					<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
+						<h2 class="font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Quick Actions</h2>
 						<div class="space-y-2">
 							<a
 								href="{base}/study"
-								class="block w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-left"
+								class="group block w-full px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/40 transition-all duration-300 text-left"
 							>
 								<div class="flex items-center gap-2">
 									<svg
-										class="w-5 h-5"
+										class="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
 										fill="none"
 										stroke="currentColor"
 										viewBox="0 0 24 24"
@@ -223,11 +228,11 @@
 
 							<a
 								href="{base}/flashcards"
-								class="block w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-left"
+								class="group block w-full px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 rounded-lg hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/50 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 text-left"
 							>
 								<div class="flex items-center gap-2">
 									<svg
-										class="w-5 h-5"
+										class="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
 										fill="none"
 										stroke="currentColor"
 										viewBox="0 0 24 24"
@@ -245,11 +250,11 @@
 
 							<a
 								href="{base}/practice"
-								class="block w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-left"
+								class="group block w-full px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 rounded-lg hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/50 hover:scale-105 hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300 text-left"
 							>
 								<div class="flex items-center gap-2">
 									<svg
-										class="w-5 h-5"
+										class="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
 										fill="none"
 										stroke="currentColor"
 										viewBox="0 0 24 24"
@@ -268,30 +273,30 @@
 					</div>
 
 					<!-- Recent Activity -->
-					<div class="bg-white rounded-lg shadow p-6">
-						<h2 class="font-semibold mb-4">Recent Activity</h2>
+					<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
+						<h2 class="font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Recent Activity</h2>
 						<div class="space-y-3">
 							{#if $recentActivityStore.activities && $recentActivityStore.activities.length > 0}
 								{#each $recentActivityStore.activities.slice(0, 5) as activity}
-									<div class="flex items-start gap-3 text-sm">
+									<div class="group flex items-start gap-3 text-sm p-2 rounded-lg hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-all duration-200 cursor-default">
 										<div
-											class="w-2 h-2 rounded-full bg-indigo-600 mt-2"
+											class="w-2 h-2 rounded-full bg-indigo-600 mt-2 group-hover:scale-125 transition-transform duration-300"
 										></div>
 										<div>
-											<p title={activity.targetName}>
+											<p title={activity.targetName} class="text-gray-900 dark:text-gray-100">
 												{truncateAtWordBoundary(
 													activity.targetName,
 													80,
 												)}
 											</p>
-											<p class="text-xs text-gray-600">
+											<p class="text-xs text-gray-600 dark:text-gray-400">
 												{formatDate(activity.timestamp)}
 											</p>
 										</div>
 									</div>
 								{/each}
 							{:else}
-								<p class="text-sm text-gray-600">
+								<p class="text-sm text-gray-600 dark:text-gray-400">
 									No recent activity yet. Start studying!
 								</p>
 							{/if}
