@@ -1,8 +1,5 @@
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
-import rateLimit from "express-rate-limit";
+import { FastifyInstance } from "fastify";
 import { authService } from "../services/auth.service";
-import { validateBody } from "../middleware/validation.middleware";
 import { authMiddleware } from "../middleware/auth.middleware";
 import {
   registerSchema,
@@ -19,253 +16,177 @@ import {
   setAuthCookies,
   setCsrfCookie,
 } from "../utils/authCookies";
-import { AppError } from "../middleware/error.middleware";
 import { AUTH_ERRORS } from "@pmp/shared";
 import { env } from "../config/env";
 
-const router = Router();
+export async function authRoutes(app: FastifyInstance) {
+  const authRateLimiter = {
+    windowMs: 15 * 60 * 1000,
+    max: env.NODE_ENV === "production" ? 20 : 100,
+  };
 
-const authRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: env.NODE_ENV === "production" ? 20 : 100, // Higher limit in development
-  skip: () => env.NODE_ENV === "test",
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    error: {
-      code: "RATE_LIMITED",
-      message: "Too many authentication attempts, please try again later",
+  app.get("/csrf", async (_request, reply) => {
+    const csrfToken = generateCsrfToken();
+    setCsrfCookie(reply, csrfToken);
+    reply.send({ success: true, data: { csrfToken } });
+  });
+
+  app.post(
+    "/register",
+    {
+      config: { rateLimit: authRateLimiter },
+      schema: { body: registerSchema },
     },
-  },
-});
-
-/**
- * GET /api/auth/csrf
- * Issue/refresh CSRF token cookie (double-submit pattern)
- */
-router.get("/csrf", (_req: Request, res: Response) => {
-  const csrfToken = generateCsrfToken();
-  setCsrfCookie(res, csrfToken);
-  res.json({ success: true, data: { csrfToken } });
-});
-
-/**
- * POST /api/auth/register
- * Register a new user
- */
-router.post(
-  "/register",
-  authRateLimiter,
-  validateBody(registerSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const result = await authService.register(req.body);
+    async (request, reply) => {
+      const result = await authService.register(request.body as any);
       const csrfToken = generateCsrfToken();
-      setAuthCookies(res, result.tokens);
-      setCsrfCookie(res, csrfToken);
-      res.status(201).json({
+      setAuthCookies(reply, result.tokens);
+      setCsrfCookie(reply, csrfToken);
+      reply.status(201).send({
         success: true,
         data: { user: result.user, expiresIn: result.tokens.expiresIn },
         message: "Registration successful. Please verify your email.",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/auth/login
- * Login with email and password
- */
-router.post(
-  "/login",
-  authRateLimiter,
-  validateBody(loginSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const result = await authService.login(req.body);
+  app.post(
+    "/login",
+    {
+      config: { rateLimit: authRateLimiter },
+      schema: { body: loginSchema },
+    },
+    async (request, reply) => {
+      const result = await authService.login(request.body as any);
       const csrfToken = generateCsrfToken();
-      setAuthCookies(res, result.tokens);
-      setCsrfCookie(res, csrfToken);
-      res.json({
+      setAuthCookies(reply, result.tokens);
+      setCsrfCookie(reply, csrfToken);
+      reply.send({
         success: true,
         data: { user: result.user, expiresIn: result.tokens.expiresIn },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/auth/refresh
- * Refresh access token using refresh token
- */
-router.post(
-  "/refresh",
-  authRateLimiter,
-  validateBody(refreshTokenSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const cookieRefreshToken = (
-        req as Request & { cookies?: Record<string, string> }
-      ).cookies?.[REFRESH_TOKEN_COOKIE];
-      const refreshToken = cookieRefreshToken || req.body.refreshToken;
+  app.post(
+    "/refresh",
+    {
+      config: { rateLimit: authRateLimiter },
+      schema: { body: refreshTokenSchema },
+    },
+    async (request, reply) => {
+      const cookies = request.cookies as Record<string, string>;
+      const cookieRefreshToken = cookies?.[REFRESH_TOKEN_COOKIE];
+      const refreshToken =
+        cookieRefreshToken || (request.body as any).refreshToken;
 
       if (!refreshToken) {
-        throw AppError.unauthorized(
-          AUTH_ERRORS.AUTH_005.message,
-          AUTH_ERRORS.AUTH_005.code,
-        );
+        reply.status(401).send({
+          error: {
+            code: AUTH_ERRORS.AUTH_005.code,
+            message: AUTH_ERRORS.AUTH_005.message,
+          },
+        });
+        return;
       }
 
       const tokens = await authService.refreshToken(refreshToken);
       const csrfToken = generateCsrfToken();
-      setAuthCookies(res, tokens);
-      setCsrfCookie(res, csrfToken);
-      res.json({
+      setAuthCookies(reply, tokens);
+      setCsrfCookie(reply, csrfToken);
+      reply.send({
         success: true,
         data: { expiresIn: tokens.expiresIn },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/auth/logout
- * Logout - invalidate refresh token
- */
-router.post(
-  "/logout",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const cookieRefreshToken = (
-        req as Request & { cookies?: Record<string, string> }
-      ).cookies?.[REFRESH_TOKEN_COOKIE];
-      const refreshToken = cookieRefreshToken || req.body.refreshToken;
-      await authService.logout(req.user!.userId, refreshToken);
-      clearAuthCookies(res);
-      res.json({
+  app.post(
+    "/logout",
+    { preHandler: [authMiddleware] },
+    async (request, reply) => {
+      const cookies = request.cookies as Record<string, string>;
+      const cookieRefreshToken = cookies?.[REFRESH_TOKEN_COOKIE];
+      const refreshToken =
+        cookieRefreshToken || (request.body as any).refreshToken;
+      await authService.logout((request as any).user.userId, refreshToken);
+      clearAuthCookies(reply);
+      reply.send({
         success: true,
         message: "Logged out successfully",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/auth/forgot-password
- * Request password reset
- */
-router.post(
-  "/forgot-password",
-  authRateLimiter,
-  validateBody(forgotPasswordSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await authService.requestPasswordReset(req.body.email);
-      res.json({
+  app.post(
+    "/forgot-password",
+    {
+      config: { rateLimit: authRateLimiter },
+      schema: { body: forgotPasswordSchema },
+    },
+    async (request, reply) => {
+      await authService.requestPasswordReset((request.body as any).email);
+      reply.send({
         success: true,
         message:
           "If an account exists with this email, a password reset link has been sent.",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/auth/reset-password
- * Reset password using token
- */
-router.post(
-  "/reset-password",
-  authRateLimiter,
-  validateBody(resetPasswordSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await authService.resetPassword(req.body.token, req.body.newPassword);
-      res.json({
+  app.post(
+    "/reset-password",
+    {
+      config: { rateLimit: authRateLimiter },
+      schema: { body: resetPasswordSchema },
+    },
+    async (request, reply) => {
+      await authService.resetPassword(
+        (request.body as any).token,
+        (request.body as any).newPassword,
+      );
+      reply.send({
         success: true,
         message:
           "Password reset successful. You can now login with your new password.",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/auth/verify-email
- * Verify email address
- */
-router.post(
-  "/verify-email",
-  validateBody(verifyEmailSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await authService.verifyEmail(req.body.token);
-      res.json({
+  app.post(
+    "/verify-email",
+    { schema: { body: verifyEmailSchema } },
+    async (request, reply) => {
+      await authService.verifyEmail((request.body as any).token);
+      reply.send({
         success: true,
         message: "Email verified successfully.",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/auth/resend-verification
- * Rotate email verification token for the current user
- */
-router.post(
-  "/resend-verification",
-  authRateLimiter,
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const token = await authService.resendVerification(req.user!.userId);
-
-      res.json({
+  app.post(
+    "/resend-verification",
+    { config: { rateLimit: authRateLimiter }, preHandler: [authMiddleware] },
+    async (request, reply) => {
+      const token = await authService.resendVerification(
+        (request as any).user.userId,
+      );
+      reply.send({
         success: true,
         data: env.NODE_ENV !== "production" && token ? { token } : {},
         message: token
           ? "Verification email sent. Please check your inbox."
           : "Email is already verified.",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/auth/me
- * Get current user profile
- */
-router.get(
-  "/me",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = await authService.getUserById(req.user!.userId);
-      res.json({
-        success: true,
-        data: { user },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+  app.get("/me", { preHandler: [authMiddleware] }, async (request, reply) => {
+    const user = await authService.getUserById((request as any).user.userId);
+    reply.send({
+      success: true,
+      data: { user },
+    });
+  });
+}

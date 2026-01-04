@@ -1,19 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
-import { useEffect, useState } from "react";
-import SearchDialog from "./SearchDialog";
-import { setStoredTheme } from "@/components/ThemeProvider";
+import { useCallback, useEffect, useMemo, useState, memo } from "react";
 import { useTranslation } from "react-i18next";
+import { setStoredTheme } from "@/components/ThemeProvider";
+import { useAuth } from "@/contexts/AuthContext";
 import {
-  setLocale,
   SUPPORTED_LOCALES,
+  setLocale,
   type SupportedLocale,
 } from "@/i18n/i18n";
 
-export function Navbar() {
+const SearchDialog = dynamic(() => import("./SearchDialog"), {
+  ssr: false,
+});
+
+const NavbarComponent = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const { t, i18n } = useTranslation();
   const pathname = usePathname();
@@ -22,25 +26,52 @@ export function Navbar() {
   const [darkMode, setDarkMode] = useState(false);
 
   // HIGH-006: Helper function to check if a path is active
-  const isActive = (path: string): boolean => {
-    if (path === "/") return pathname === "/";
-    // For nested routes, check if pathname starts with the path
-    return pathname === path || pathname?.startsWith(`${path}/`);
-  };
+  const isActive = useCallback(
+    (path: string): boolean => {
+      if (path === "/") return pathname === "/";
+      // For nested routes, check if pathname starts with the path
+      return pathname === path || pathname?.startsWith(`${path}/`);
+    },
+    [pathname],
+  );
 
   useEffect(() => {
     setDarkMode(document.documentElement.classList.contains("dark"));
   }, []);
 
-  const toggleDarkMode = () => {
-    const next = !darkMode;
-    setDarkMode(next);
-    setStoredTheme(next ? "dark" : "light");
-  };
+  useEffect(() => {
+    if (!isAuthenticated) return;
 
-  const currentLocale = (i18n.language?.split("-")[0] ||
-    "en") as SupportedLocale;
-  const nextLocale = currentLocale === "es" ? "en" : "es";
+    const onShortcut = (event: KeyboardEvent) => {
+      if (event.key === "k" && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", onShortcut);
+    return () => window.removeEventListener("keydown", onShortcut);
+  }, [isAuthenticated]);
+
+  const toggleDarkMode = useCallback(() => {
+    setDarkMode((prev) => {
+      const next = !prev;
+      setStoredTheme(next ? "dark" : "light");
+      return next;
+    });
+  }, []);
+
+  const currentLocale = useMemo(
+    () => (i18n.language?.split("-")[0] || "en") as SupportedLocale,
+    [i18n.language],
+  );
+  const nextLocale = useMemo(
+    () => (currentLocale === "es" ? "en" : "es"),
+    [currentLocale],
+  );
+  const handleLocaleToggle = useCallback(() => {
+    void setLocale(nextLocale);
+  }, [nextLocale]);
 
   return (
     <>
@@ -147,7 +178,7 @@ export function Navbar() {
               {SUPPORTED_LOCALES.length > 1 ? (
                 <button
                   type="button"
-                  onClick={() => setLocale(nextLocale)}
+                  onClick={handleLocaleToggle}
                   className="p-2 text-gray-400 hover:text-white transition-colors text-xs font-semibold"
                   aria-label="Change language"
                   title={nextLocale.toUpperCase()}
@@ -228,7 +259,7 @@ export function Navbar() {
               {isAuthenticated && (
                 <button
                   type="button"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  onClick={() => setMobileMenuOpen((prev) => !prev)}
                   className="md:hidden p-2 text-[var(--foreground-muted)]"
                   aria-label={
                     mobileMenuOpen
@@ -328,7 +359,12 @@ export function Navbar() {
           )}
         </div>
       </nav>
-      <SearchDialog open={searchOpen} setOpen={setSearchOpen} />
+      {searchOpen ? (
+        <SearchDialog open={searchOpen} setOpen={setSearchOpen} />
+      ) : null}
     </>
   );
-}
+};
+
+export const Navbar = memo(NavbarComponent);
+Navbar.displayName = "Navbar";

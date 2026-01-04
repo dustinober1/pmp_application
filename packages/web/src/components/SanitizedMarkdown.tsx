@@ -9,7 +9,7 @@
 
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 
@@ -22,7 +22,7 @@ interface SanitizedMarkdownProps {
  * Sanitized Markdown component with XSS protection
  * - rehype-sanitize removes dangerous HTML/JS after markdown parsing
  */
-export const SanitizedMarkdown: React.FC<SanitizedMarkdownProps> = ({
+const SanitizedMarkdownComponent: React.FC<SanitizedMarkdownProps> = ({
   content,
   className = "",
 }) => {
@@ -83,5 +83,11 @@ export const SanitizedMarkdown: React.FC<SanitizedMarkdownProps> = ({
     </div>
   );
 };
+
+export const SanitizedMarkdown = memo(
+  SanitizedMarkdownComponent,
+  (prev, next) =>
+    prev.content === next.content && prev.className === next.className,
+);
 
 export default SanitizedMarkdown;

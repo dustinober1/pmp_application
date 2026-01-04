@@ -1,158 +1,107 @@
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import { ebookService } from "../services/ebook.service";
 import { ebookProgressService } from "../services/ebook-progress.service";
 import {
   authMiddleware,
   optionalAuthMiddleware,
 } from "../middleware/auth.middleware";
-import { validateBody } from "../middleware/validation.middleware";
 import prisma from "../config/database";
 import type { TierName } from "@pmp/shared";
-import { z } from "zod";
 
-const router = Router();
-
-// Validators
-const updateProgressSchema = z.object({
-  chapterSlug: z.string().min(1, "Chapter slug is required"),
-  sectionSlug: z.string().min(1, "Section slug is required"),
-});
-
-/**
- * GET /api/ebook
- * Get all chapters (accessible to all users, premium indicator shown)
- */
-router.get(
-  "/",
-  optionalAuthMiddleware,
-  async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-      const chapters = await ebookService.getAllChapters();
-
-      res.json({
-        success: true,
-        data: { chapters, count: chapters.length },
-      });
-    } catch (error) {
-      next(error);
-    }
+const updateProgressSchema = {
+  type: "object",
+  properties: {
+    chapterSlug: { type: "string", minLength: 1 },
+    sectionSlug: { type: "string", minLength: 1 },
   },
-);
+  required: ["chapterSlug", "sectionSlug"],
+};
 
-/**
- * GET /api/ebook/chapters/:slug
- * Get chapter details with all sections (metadata only, no content)
- */
-router.get(
-  "/chapters/:slug",
-  optionalAuthMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { slug } = req.params;
+async function getUserTier(
+  userId: string | undefined,
+): Promise<TierName | null> {
+  if (!userId) return null;
+  const subscription = await prisma.userSubscription.findUnique({
+    where: { userId },
+    include: { tier: true },
+  });
+  return (subscription?.tier?.name as TierName) || "free";
+}
+
+export async function ebookRoutes(app: FastifyInstance) {
+  app.get(
+    "/",
+    { preHandler: [optionalAuthMiddleware as any] },
+    async (_request, reply) => {
+      const chapters = await ebookService.getAllChapters();
+      reply.send({ success: true, data: { chapters, count: chapters.length } });
+    },
+  );
+
+  app.get(
+    "/chapters/:slug",
+    { preHandler: [optionalAuthMiddleware as any] },
+    async (request, reply) => {
+      const { slug } = request.params as any;
       if (!slug) {
-        res.status(400).json({
-          success: false,
-          error: {
-            code: "INVALID_PARAMS",
-            message: "Chapter slug is required",
-          },
-        });
+        reply
+          .status(400)
+          .send({
+            success: false,
+            error: {
+              code: "INVALID_PARAMS",
+              message: "Chapter slug is required",
+            },
+          });
         return;
       }
       const chapter = await ebookService.getChapterBySlug(slug);
+      reply.send({ success: true, data: { chapter } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { chapter },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/ebook/chapters/:chapterSlug/sections/:sectionSlug
- * Get a single section's full content with access control
- */
-router.get(
-  "/chapters/:chapterSlug/sections/:sectionSlug",
-  optionalAuthMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { chapterSlug, sectionSlug } = req.params;
+  app.get(
+    "/chapters/:chapterSlug/sections/:sectionSlug",
+    { preHandler: [optionalAuthMiddleware as any] },
+    async (request, reply) => {
+      const { chapterSlug, sectionSlug } = request.params as any;
       if (!chapterSlug || !sectionSlug) {
-        res.status(400).json({
-          success: false,
-          error: {
-            code: "INVALID_PARAMS",
-            message: "Chapter and section slugs are required",
-          },
-        });
+        reply
+          .status(400)
+          .send({
+            success: false,
+            error: {
+              code: "INVALID_PARAMS",
+              message: "Chapter and section slugs are required",
+            },
+          });
         return;
       }
-
-      // Get user's tier from subscription
-      let userTier: TierName | null = null;
-      if (req.user?.userId) {
-        const subscription = await prisma.userSubscription.findUnique({
-          where: { userId: req.user.userId },
-          include: { tier: true },
-        });
-        userTier = (subscription?.tier?.name as TierName) || "free";
-      }
-
+      const userId = (request as any).user?.userId;
+      const userTier = await getUserTier(userId);
       const section = await ebookService.getSectionBySlug(
         chapterSlug,
         sectionSlug,
         userTier,
       );
-
-      // Track progress for authenticated users
-      if (req.user?.userId) {
-        // Don't await - fire and forget for better performance
+      if (userId) {
         ebookProgressService
-          .updateProgress(req.user.userId, chapterSlug, sectionSlug)
-          .catch((error) => {
-            console.error("Failed to update ebook progress:", error);
-          });
+          .updateProgress(userId, chapterSlug, sectionSlug)
+          .catch(console.error);
       }
+      reply.send({ success: true, data: { section } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { section },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/ebook/search
- * Search across ebook content
- * Query params: q (search query), page (pagination), limit (results per page)
- */
-router.get(
-  "/search",
-  optionalAuthMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { q, page, limit } = req.query;
-
-      // Get user's tier from subscription
-      let userTier: TierName | null = null;
-      if (req.user?.userId) {
-        const subscription = await prisma.userSubscription.findUnique({
-          where: { userId: req.user.userId },
-          include: { tier: true },
-        });
-        userTier = (subscription?.tier?.name as TierName) || "free";
-      }
-
-      if (typeof q !== "string") {
-        res.json({
+  app.get(
+    "/search",
+    { preHandler: [optionalAuthMiddleware as any] },
+    async (request, reply) => {
+      const { q, page, limit } = request.query as any;
+      const userId = (request as any).user?.userId;
+      const userTier = await getUserTier(userId);
+      if (!q) {
+        reply.send({
           success: true,
           data: {
             results: [],
@@ -168,168 +117,94 @@ router.get(
         });
         return;
       }
-
-      // Parse pagination parameters
-      const pageNum = page ? parseInt(page as string, 10) : 1;
-      const limitNum = limit ? parseInt(limit as string, 10) : 20;
-
-      // Validate pagination parameters
+      const pageNum = page ? parseInt(page, 10) : 1;
+      const limitNum = limit ? parseInt(limit, 10) : 20;
       const validatedPage = Math.max(1, pageNum);
-      const validatedLimit = Math.max(1, Math.min(100, limitNum)); // Max 100 results per page
-
+      const validatedLimit = Math.max(1, Math.min(100, limitNum));
       const searchResults = await ebookService.searchContent(q, userTier, {
         page: validatedPage,
         limit: validatedLimit,
       });
+      reply.send({ success: true, data: searchResults });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: searchResults,
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * POST /api/ebook/progress
- * Update reading progress
- * Body: { chapterSlug, sectionSlug }
- * Creates UserEbookProgress if not exists
- * Updates lastChapterId, lastSectionId
- * Adds sectionId to completedSections array
- */
-router.post(
-  "/progress",
-  authMiddleware,
-  validateBody(updateProgressSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { chapterSlug, sectionSlug } = req.body;
+  app.post(
+    "/progress",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { body: updateProgressSchema },
+    },
+    async (request, reply) => {
+      const { chapterSlug, sectionSlug } = request.body as any;
       const progress = await ebookProgressService.updateProgress(
-        req.user!.userId,
+        (request as any).user.userId,
         chapterSlug,
         sectionSlug,
       );
+      reply.send({ success: true, data: { progress } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { progress },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+  app.get(
+    "/progress",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const progress = await ebookProgressService.getProgress(
+        (request as any).user.userId,
+      );
+      reply.send({ success: true, data: { progress } });
+    },
+  );
 
-/**
- * GET /api/ebook/progress
- * Get current user's progress
- * Returns lastChapterId, lastSectionId, completedSections array
- * Calculates overall progress percentage
- */
-router.get(
-  "/progress",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const progress = await ebookProgressService.getProgress(req.user!.userId);
-
-      res.json({
-        success: true,
-        data: { progress },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/ebook/progress/chapter/:chapterSlug
- * Get progress for specific chapter
- * Returns which sections are completed
- * Shows chapter progress percentage
- */
-router.get(
-  "/progress/chapter/:chapterSlug",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { chapterSlug } = req.params;
+  app.get(
+    "/progress/chapter/:chapterSlug",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const { chapterSlug } = request.params as any;
       if (!chapterSlug) {
-        res.status(400).json({
-          success: false,
-          error: {
-            code: "INVALID_PARAMS",
-            message: "Chapter slug is required",
-          },
-        });
+        reply
+          .status(400)
+          .send({
+            success: false,
+            error: {
+              code: "INVALID_PARAMS",
+              message: "Chapter slug is required",
+            },
+          });
         return;
       }
       const progress = await ebookProgressService.getChapterProgress(
-        req.user!.userId,
+        (request as any).user.userId,
         chapterSlug,
       );
+      reply.send({ success: true, data: { progress } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { progress },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * POST /api/ebook/progress/complete
- * Mark a section as completed
- * Body: { chapterSlug, sectionSlug }
- */
-router.post(
-  "/progress/complete",
-  authMiddleware,
-  validateBody(updateProgressSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { chapterSlug, sectionSlug } = req.body;
+  app.post(
+    "/progress/complete",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { body: updateProgressSchema },
+    },
+    async (request, reply) => {
+      const { chapterSlug, sectionSlug } = request.body as any;
       await ebookProgressService.markSectionComplete(
-        req.user!.userId,
+        (request as any).user.userId,
         chapterSlug,
         sectionSlug,
       );
+      reply.send({ success: true, message: "Section marked as complete" });
+    },
+  );
 
-      res.json({
-        success: true,
-        message: "Section marked as complete",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * POST /api/ebook/progress/reset
- * Reset all progress for current user
- */
-router.post(
-  "/progress/reset",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await ebookProgressService.resetProgress(req.user!.userId);
-
-      res.json({
-        success: true,
-        message: "Progress reset successfully",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+  app.post(
+    "/progress/reset",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      await ebookProgressService.resetProgress((request as any).user.userId);
+      reply.send({ success: true, message: "Progress reset successfully" });
+    },
+  );
+}

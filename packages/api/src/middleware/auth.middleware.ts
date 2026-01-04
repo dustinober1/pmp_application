@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
+import { FastifyRequest, FastifyReply } from "fastify";
 import jwt from "jsonwebtoken";
 import type { JwtPayload } from "@pmp/shared";
 import { AUTH_ERRORS } from "@pmp/shared";
@@ -7,28 +7,17 @@ import { AppError } from "./error.middleware";
 import prisma from "../config/database";
 import { ACCESS_TOKEN_COOKIE } from "../utils/authCookies";
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Express {
-    interface Request {
-      user?: JwtPayload;
-    }
-  }
-}
-
 export async function authMiddleware(
-  req: Request,
-  _res: Response,
-  next: NextFunction,
+  request: FastifyRequest,
+  _reply: FastifyReply,
 ): Promise<void> {
   try {
-    const authHeader = req.headers.authorization;
+    const authHeader = request.headers.authorization;
     const bearerToken =
       typeof authHeader === "string" && authHeader.startsWith("Bearer ")
         ? authHeader.substring(7)
         : null;
-    const cookieToken = (req as Request & { cookies?: Record<string, string> })
-      .cookies?.[ACCESS_TOKEN_COOKIE];
+    const cookieToken = request.cookies?.[ACCESS_TOKEN_COOKIE];
 
     const token = bearerToken || cookieToken;
 
@@ -42,7 +31,6 @@ export async function authMiddleware(
     try {
       const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
 
-      // Verify user still exists
       const user = await prisma.user.findUnique({
         where: { id: decoded.userId },
         select: {
@@ -60,7 +48,6 @@ export async function authMiddleware(
         );
       }
 
-      // Check if account is locked
       if (user.lockedUntil && user.lockedUntil > new Date()) {
         throw AppError.forbidden(
           AUTH_ERRORS.AUTH_004.message,
@@ -69,16 +56,14 @@ export async function authMiddleware(
         );
       }
 
-      // Enforce email verification for non-auth routes
-      if (!user.emailVerified && !req.baseUrl.startsWith("/api/auth")) {
+      if (!user.emailVerified && !request.url.startsWith("/api/auth")) {
         throw AppError.forbidden(
           AUTH_ERRORS.AUTH_006.message,
           AUTH_ERRORS.AUTH_006.code,
         );
       }
 
-      req.user = decoded;
-      next();
+      (request as any).user = decoded;
     } catch (jwtError) {
       if (jwtError instanceof AppError) throw jwtError;
       if (
@@ -93,37 +78,32 @@ export async function authMiddleware(
       );
     }
   } catch (error) {
-    next(error);
+    throw error;
   }
 }
 
 export function optionalAuthMiddleware(
-  req: Request,
-  _res: Response,
-  next: NextFunction,
+  request: FastifyRequest,
+  _reply: FastifyReply,
 ): void {
-  const authHeader = req.headers.authorization;
+  const authHeader = request.headers.authorization;
 
   const bearerToken =
     typeof authHeader === "string" && authHeader.startsWith("Bearer ")
       ? authHeader.substring(7)
       : null;
-  const cookieToken = (req as Request & { cookies?: Record<string, string> })
-    .cookies?.[ACCESS_TOKEN_COOKIE];
+  const cookieToken = request.cookies?.[ACCESS_TOKEN_COOKIE];
 
   const token = bearerToken || cookieToken;
 
   if (!token) {
-    next();
     return;
   }
 
   try {
     const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
-    req.user = decoded;
+    (request as any).user = decoded;
   } catch {
     // Token invalid, but optional auth - continue without user
   }
-
-  next();
 }

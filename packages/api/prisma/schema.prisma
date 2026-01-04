@@ -237,6 +237,8 @@ model FlashcardReview {
   card Flashcard @relation(fields: [cardId], references: [id], onDelete: Cascade)
 
   @@unique([userId, cardId])
+  @@index([userId, nextReviewDate])
+  @@index([cardId])
   @@map("flashcard_reviews")
 }
 
@@ -352,6 +354,8 @@ model PracticeSessionQuestion {
   question PracticeQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@index([sessionId, orderIndex])
+  @@index([sessionId, questionId])
+  @@index([sessionId])
   @@map("practice_session_questions")
 }
 
@@ -410,8 +414,9 @@ model StudyActivity {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId, activityType, createdAt])
+  @@index([activityType, createdAt])
   @@index([userId, createdAt])
-  @@index([activityType])
   @@map("study_activities")
 }
 

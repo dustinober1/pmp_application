@@ -1,13 +1,26 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import { apiRequest } from "@/lib/api";
+import { useEffect, useState } from "react";
 import type { Task, StudyGuide } from "@pmp/shared";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 import { useToast } from "@/components/ToastProvider";
-import { SanitizedMarkdown } from "@/components/SanitizedMarkdown";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { apiRequest } from "@/lib/api";
+
+const SanitizedMarkdown = dynamic(
+  () =>
+    import("@/components/SanitizedMarkdown").then(
+      (mod) => mod.SanitizedMarkdown,
+    ),
+  {
+    loading: () => (
+      <div className="h-24 animate-pulse rounded-lg bg-gray-800/60" />
+    ),
+    ssr: false,
+  },
+);
 
 export default function StudyGuidePage() {
   const { taskId } = useParams();
@@ -20,11 +33,11 @@ export default function StudyGuidePage() {
   const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
+    let isMounted = true;
     async function fetchData() {
       if (!taskId) return;
       try {
         setLoading(true);
-        // Fetch task details
         const tasksResponse = await apiRequest<{ tasks: Task[] }>(
           "/domains/tasks",
         );
@@ -32,7 +45,7 @@ export default function StudyGuidePage() {
           (t) => t.id === taskId,
         );
 
-        if (foundTask) {
+        if (foundTask && isMounted) {
           setTask(foundTask);
         }
 
@@ -41,7 +54,7 @@ export default function StudyGuidePage() {
           const guideResponse = await apiRequest<{ studyGuide: StudyGuide }>(
             `/domains/tasks/${taskId}/study-guide`,
           );
-          if (guideResponse.data) {
+          if (guideResponse.data && isMounted) {
             setGuide(guideResponse.data.studyGuide);
             if (guideResponse.data.studyGuide.sections.length > 0) {
               const firstSection = guideResponse.data.studyGuide.sections[0];
@@ -51,19 +64,29 @@ export default function StudyGuidePage() {
             }
           }
         } catch (err) {
-          console.warn("Study guide not found", err);
+          if (isMounted) {
+            console.warn("Study guide not found", err);
+          }
         }
       } catch (error) {
-        console.error("Failed to fetch data", error);
-        toast.error("Failed to load study guide. Please try again.");
+        if (isMounted) {
+          console.error("Failed to fetch data", error);
+          toast.error("Failed to load study guide. Please try again.");
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     if (canAccess) {
       void fetchData();
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [canAccess, taskId, toast]);
 
   if (authLoading || loading) {

@@ -1,5 +1,7 @@
 "use client";
 
+import { memo, useMemo } from "react";
+
 interface StreakCounterProps {
   currentStreak: number;
   longestStreak: number;
@@ -7,14 +9,17 @@ interface StreakCounterProps {
   correctCount: number;
 }
 
-export function StreakCounter({
+const StreakCounterComponent = ({
   currentStreak,
   longestStreak,
   totalAnswered,
   correctCount,
-}: StreakCounterProps) {
-  const accuracy =
-    totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
+}: StreakCounterProps) => {
+  const accuracy = useMemo(
+    () =>
+      totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0,
+    [correctCount, totalAnswered],
+  );
 
   return (
     <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
@@ -87,4 +92,6 @@ export function StreakCounter({
       </div>
     </div>
   );
-}
+};
+
+export const StreakCounter = memo(StreakCounterComponent);

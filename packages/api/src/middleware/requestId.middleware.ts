@@ -1,8 +1,7 @@
-import type { Request, Response, NextFunction } from "express";
+import { FastifyRequest, FastifyReply } from "fastify";
 import { v4 as uuidv4 } from "uuid";
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       requestId: string;
@@ -10,11 +9,16 @@ declare global {
   }
 }
 
-export function requestIdMiddleware(
-  req: Request,
-  _res: Response,
-  next: NextFunction,
-): void {
-  req.requestId = (req.headers["x-request-id"] as string) || uuidv4();
-  next();
+declare module "fastify" {
+  interface FastifyRequest {
+    requestId: string;
+  }
+}
+
+export async function requestIdMiddleware(
+  request: FastifyRequest,
+  _reply: FastifyReply,
+): Promise<void> {
+  const requestId = (request.headers["x-request-id"] as string) || uuidv4();
+  request.requestId = requestId;
 }

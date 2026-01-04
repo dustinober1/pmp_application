@@ -1,14 +1,36 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
-import { useRouter, useParams } from "next/navigation";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
-import { useToast } from "@/components/ToastProvider";
-import { FullPageSkeleton } from "@/components/FullPageSkeleton";
-import { practiceApi } from "@/lib/api";
-import { QuestionNavigator } from "@/components/QuestionNavigator";
-import { StreakCounter } from "@/components/StreakCounter";
+import dynamic from "next/dynamic";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { LoadingOverlay } from "@/components/QuestionSkeleton";
+import { FullPageSkeleton } from "@/components/FullPageSkeleton";
+import { useToast } from "@/components/ToastProvider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { practiceApi } from "@/lib/api";
+
+const QuestionNavigator = dynamic(
+  () =>
+    import("@/components/QuestionNavigator").then(
+      (mod) => mod.QuestionNavigator,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 h-[260px] animate-pulse" />
+    ),
+  },
+);
+
+const StreakCounter = dynamic(
+  () => import("@/components/StreakCounter").then((mod) => mod.StreakCounter),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 h-[200px] animate-pulse" />
+    ),
+  },
+);
 
 interface PracticeQuestion {
   id: string;
@@ -206,11 +228,11 @@ export default function PracticeSessionPage() {
     }
   };
 
-  const handleJumpToQuestion = (index: number) => {
+  const handleJumpToQuestion = useCallback((index: number) => {
     setCurrentIndex(index);
     setSelectedOptionId(null);
     setShowExplanation(false);
-  };
+  }, []);
 
   const handleFlag = async () => {
     const question = questions[currentIndex];

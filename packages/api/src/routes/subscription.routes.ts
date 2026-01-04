@@ -1,110 +1,79 @@
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import { subscriptionService } from "../services/subscription.service";
 import { stripeService } from "../services/stripe.service";
 import { authMiddleware } from "../middleware/auth.middleware";
-import { validateBody } from "../middleware/validation.middleware";
-import { z } from "zod";
 
-const router = Router();
-
-// Validation schemas
-const createSubscriptionSchema = z.object({
-  tierId: z.string().uuid("Invalid tier ID"),
-  quantity: z.number().int().min(1).optional().default(1),
-});
-
-/**
- * GET /api/subscriptions/tiers
- * Get all available subscription tiers
- */
-router.get(
-  "/tiers",
-  async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-      const tiers = await subscriptionService.getTiers();
-      res.json({
-        success: true,
-        data: { tiers },
-      });
-    } catch (error) {
-      next(error);
-    }
+const createSubscriptionSchema = {
+  type: "object",
+  properties: {
+    tierId: { type: "string", format: "uuid" },
+    quantity: { type: "integer", minimum: 1 },
   },
-);
+  required: ["tierId"],
+};
 
-/**
- * GET /api/subscriptions/current
- * Get current user's subscription
- */
-router.get(
-  "/current",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+export async function subscriptionRoutes(app: FastifyInstance) {
+  app.get("/tiers", async (_request, reply) => {
+    const tiers = await subscriptionService.getTiers();
+    reply.send({
+      success: true,
+      data: { tiers },
+    });
+  });
+
+  app.get(
+    "/current",
+    { preHandler: [authMiddleware] },
+    async (request, reply) => {
       const subscription = await subscriptionService.getUserSubscription(
-        req.user!.userId,
+        (request as any).user.userId,
       );
-      res.json({
+      reply.send({
         success: true,
         data: { subscription },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/subscriptions/features
- * Get current user's feature limits
- */
-router.get(
-  "/features",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/features",
+    { preHandler: [authMiddleware] },
+    async (request, reply) => {
       const features = await subscriptionService.getUsageLimits(
-        req.user!.userId,
+        (request as any).user.userId,
       );
-      res.json({
+      reply.send({
         success: true,
         data: { features },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/subscriptions/create
- * Create a subscription (for free tier or to initiate upgrade)
- * For paid tiers, we now use the Stripe checkout flow (/stripe/checkout)
- */
-router.post(
-  "/create",
-  authMiddleware,
-  validateBody(createSubscriptionSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const tier = await subscriptionService.getTierById(req.body.tierId);
+  app.post(
+    "/create",
+    {
+      preHandler: [authMiddleware],
+      schema: { body: createSubscriptionSchema },
+    },
+    async (request, reply) => {
+      const tier = await subscriptionService.getTierById(
+        (request.body as any).tierId,
+      );
 
       if (!tier) {
-        res.status(400).json({
+        reply.status(400).send({
           success: false,
           error: { code: "SUB_002", message: "Invalid tier ID" },
         });
         return;
       }
 
-      // For free tier, activate immediately
       if (tier.price === 0) {
         const subscription = await subscriptionService.createSubscription(
-          req.user!.userId,
-          req.body.tierId,
+          (request as any).user.userId,
+          (request.body as any).tierId,
         );
-        res.status(201).json({
+        reply.status(201).send({
           success: true,
           data: { subscription },
           message: "Subscription activated",
@@ -112,31 +81,26 @@ router.post(
         return;
       }
 
-      // Paid tiers must use Stripe Checkout
-      res.status(400).json({
+      reply.status(400).send({
         success: false,
         message: "Please use /stripe/checkout for paid subscriptions",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/subscriptions/stripe/checkout
- * Create a Stripe Checkout session
- */
-router.post(
-  "/stripe/checkout",
-  authMiddleware,
-  validateBody(createSubscriptionSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const tier = await subscriptionService.getTierById(req.body.tierId);
+  app.post(
+    "/stripe/checkout",
+    {
+      preHandler: [authMiddleware],
+      schema: { body: createSubscriptionSchema },
+    },
+    async (request, reply) => {
+      const tier = await subscriptionService.getTierById(
+        (request.body as any).tierId,
+      );
 
       if (!tier) {
-        res.status(400).json({
+        reply.status(400).send({
           success: false,
           error: { code: "SUB_002", message: "Invalid tier ID" },
         });
@@ -144,7 +108,7 @@ router.post(
       }
 
       if (tier.price === 0) {
-        res.status(400).json({
+        reply.status(400).send({
           success: false,
           message: "Free tier does not require checkout",
         });
@@ -152,88 +116,59 @@ router.post(
       }
 
       const { sessionId, url } = await stripeService.createCheckoutSession(
-        req.user!.userId,
+        (request as any).user.userId,
         tier.id,
         tier.name,
         tier.price,
         tier.billingPeriod,
-        req.body.quantity || 1,
+        (request.body as any).quantity || 1,
       );
 
-      res.json({
+      reply.send({
         success: true,
         data: {
           sessionId,
           checkoutUrl: url,
         },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/subscriptions/cancel
- * Cancel current subscription
- */
-router.post(
-  "/cancel",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await subscriptionService.cancelSubscription(req.user!.userId);
-      res.json({
+  app.post(
+    "/cancel",
+    { preHandler: [authMiddleware] },
+    async (request, reply) => {
+      await subscriptionService.cancelSubscription(
+        (request as any).user.userId,
+      );
+      reply.send({
         success: true,
         message:
           "Subscription cancelled. Access will continue until the end of your billing period.",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/subscriptions/check-expiry
- * Trigger expiry check (Cron job endpoint)
- */
-router.post(
-  "/check-expiry",
-  async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-      const result = await subscriptionService.checkSubscriptionExpiry();
-      res.json({
-        success: true,
-        data: result,
-        message: `Processed ${result.processed} subscriptions. ${result.expired} expired.`,
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+  app.post("/check-expiry", async (_request, reply) => {
+    const result = await subscriptionService.checkSubscriptionExpiry();
+    reply.send({
+      success: true,
+      data: result,
+      message: `Processed ${result.processed} subscriptions. ${result.expired} expired.`,
+    });
+  });
 
-/**
- * POST /api/subscriptions/stripe/portal
- * Create a Stripe Customer Portal session
- */
-router.post(
-  "/stripe/portal",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/stripe/portal",
+    { preHandler: [authMiddleware] },
+    async (request, reply) => {
       const { url } = await stripeService.createBillingPortalSession(
-        req.user!.userId,
+        (request as any).user.userId,
       );
-      res.json({
+      reply.send({
         success: true,
         data: { url },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+    },
+  );
+}

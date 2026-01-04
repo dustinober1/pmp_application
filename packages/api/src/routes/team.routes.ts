@@ -1,455 +1,340 @@
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import { teamService } from "../services/team.service";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { requireTier } from "../middleware/tier.middleware";
-import {
-  validateBody,
-  validateParams,
-} from "../middleware/validation.middleware";
-import { z } from "zod";
 
-const router = Router();
+const teamIdSchema = {
+  type: "object",
+  properties: {
+    id: { type: "string", format: "uuid" },
+  },
+  required: ["id"],
+};
 
-// Validation schemas
-const createTeamSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(100),
-  licenseCount: z.number().min(5).max(1000).optional().default(10),
-});
+const createTeamSchema = {
+  type: "object",
+  properties: {
+    name: { type: "string", minLength: 2, maxLength: 100 },
+    licenseCount: { type: "integer", minimum: 5, maximum: 1000 },
+  },
+  required: ["name"],
+};
 
-const teamIdSchema = z.object({
-  id: z.string().uuid("Invalid team ID"),
-});
+const inviteMemberSchema = {
+  type: "object",
+  properties: {
+    email: { type: "string", format: "email" },
+  },
+  required: ["email"],
+};
 
-const inviteMemberSchema = z.object({
-  email: z.string().email("Invalid email"),
-});
+const memberIdSchema = {
+  type: "object",
+  properties: {
+    id: { type: "string", format: "uuid" },
+    memberId: { type: "string", format: "uuid" },
+  },
+  required: ["id", "memberId"],
+};
 
-const memberIdSchema = z.object({
-  id: z.string().uuid("Invalid team ID"),
-  memberId: z.string().uuid("Invalid member ID"),
-});
+const updateRoleSchema = {
+  type: "object",
+  properties: {
+    role: { type: "string", enum: ["admin", "member"] },
+  },
+  required: ["role"],
+};
 
-const updateRoleSchema = z.object({
-  role: z.enum(["admin", "member"]),
-});
+const acceptInvitationSchema = {
+  type: "object",
+  properties: {
+    token: { type: "string", minLength: 1 },
+  },
+  required: ["token"],
+};
 
-const acceptInvitationSchema = z.object({
-  token: z.string().min(1, "Token is required"),
-});
+const goalIdSchema = {
+  type: "object",
+  properties: {
+    id: { type: "string", format: "uuid" },
+    goalId: { type: "string", format: "uuid" },
+  },
+  required: ["id", "goalId"],
+};
 
-/**
- * All team routes require corporate tier
- */
-router.use(authMiddleware, requireTier("corporate"));
+const createGoalSchema = {
+  type: "object",
+  properties: {
+    type: { type: "string", enum: ["completion", "accuracy", "study_time"] },
+    target: { type: "number", minimum: 1, maximum: 1000 },
+    deadline: { type: "string" },
+  },
+  required: ["type", "target", "deadline"],
+};
 
-/**
- * GET /api/teams
- * Get user's teams
- */
-router.get("/", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const teams = await teamService.getUserTeams(req.user!.userId);
+const reportOptionsSchema = {
+  type: "object",
+  properties: {
+    startDate: { type: "string" },
+    endDate: { type: "string" },
+    format: { type: "string", enum: ["json", "csv"] },
+  },
+};
 
-    res.json({
-      success: true,
-      data: { teams, count: teams.length },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+export async function teamRoutes(app: FastifyInstance) {
+  const corporateTierMiddleware = [
+    authMiddleware as any,
+    requireTier("corporate") as any,
+  ];
 
-/**
- * POST /api/teams
- * Create a new team
- */
-router.post(
-  "/",
-  validateBody(createTeamSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const team = await teamService.createTeam(req.user!.userId, req.body);
+  app.get(
+    "/",
+    { preHandler: corporateTierMiddleware },
+    async (request, reply) => {
+      const teams = await teamService.getUserTeams(
+        (request as any).user.userId,
+      );
+      reply.send({
+        success: true,
+        data: { teams, count: teams.length },
+      });
+    },
+  );
 
-      res.status(201).json({
+  app.post(
+    "/",
+    { preHandler: corporateTierMiddleware, schema: { body: createTeamSchema } },
+    async (request, reply) => {
+      const team = await teamService.createTeam(
+        (request as any).user.userId,
+        request.body as any,
+      );
+      reply.status(201).send({
         success: true,
         data: { team },
         message: "Team created successfully",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/teams/:id
- * Get team by ID
- */
-router.get(
-  "/:id",
-  validateParams(teamIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const team = await teamService.getTeam(req.params.id!, req.user!.userId);
-
+  app.get(
+    "/:id",
+    { preHandler: corporateTierMiddleware, schema: { params: teamIdSchema } },
+    async (request, reply) => {
+      const team = await teamService.getTeam(
+        (request.params as any).id,
+        (request as any).user.userId,
+      );
       if (!team) {
-        res.status(404).json({
+        reply.status(404).send({
           success: false,
           error: { code: "TEAM_001", message: "Team not found" },
         });
         return;
       }
+      reply.send({ success: true, data: { team } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { team },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/teams/:id/dashboard
- * Get team dashboard
- */
-router.get(
-  "/:id/dashboard",
-  validateParams(teamIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/:id/dashboard",
+    { preHandler: corporateTierMiddleware, schema: { params: teamIdSchema } },
+    async (request, reply) => {
       const dashboard = await teamService.getTeamDashboard(
-        req.params.id!,
-        req.user!.userId,
+        (request.params as any).id,
+        (request as any).user.userId,
       );
+      reply.send({ success: true, data: { dashboard } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { dashboard },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * POST /api/teams/:id/invitations
- * Invite a member to the team
- */
-router.post(
-  "/:id/invitations",
-  validateParams(teamIdSchema),
-  validateBody(inviteMemberSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/:id/invitations",
+    {
+      preHandler: corporateTierMiddleware,
+      schema: { params: teamIdSchema, body: inviteMemberSchema },
+    },
+    async (request, reply) => {
       const invitation = await teamService.inviteMember(
-        req.params.id!,
-        req.user!.userId,
-        req.body.email,
+        (request.params as any).id,
+        (request as any).user.userId,
+        (request.body as any).email,
       );
-
-      res.status(201).json({
+      reply.status(201).send({
         success: true,
         data: { invitation },
         message: "Invitation sent successfully",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/teams/invitations/accept
- * Accept a team invitation
- */
-router.post(
-  "/invitations/accept",
-  validateBody(acceptInvitationSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await teamService.acceptInvitation(req.body.token, req.user!.userId);
-
-      res.json({
+  app.post(
+    "/invitations/accept",
+    { schema: { body: acceptInvitationSchema } },
+    async (request, reply) => {
+      await teamService.acceptInvitation(
+        (request.body as any).token,
+        (request as any).user.userId,
+      );
+      reply.send({
         success: true,
         message: "Invitation accepted successfully",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * DELETE /api/teams/:id/members/:memberId
- * Remove a member from the team
- */
-router.delete(
-  "/:id/members/:memberId",
-  validateParams(memberIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.delete(
+    "/:id/members/:memberId",
+    { preHandler: corporateTierMiddleware, schema: { params: memberIdSchema } },
+    async (request, reply) => {
       await teamService.removeMember(
-        req.params.id!,
-        req.user!.userId,
-        req.params.memberId!,
+        (request.params as any).id,
+        (request as any).user.userId,
+        (request.params as any).memberId,
       );
+      reply.send({ success: true, message: "Member removed successfully" });
+    },
+  );
 
-      res.json({
-        success: true,
-        message: "Member removed successfully",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * PATCH /api/teams/:id/members/:memberId/role
- * Update member role
- */
-router.patch(
-  "/:id/members/:memberId/role",
-  validateParams(memberIdSchema),
-  validateBody(updateRoleSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.patch(
+    "/:id/members/:memberId/role",
+    {
+      preHandler: corporateTierMiddleware,
+      schema: { params: memberIdSchema, body: updateRoleSchema },
+    },
+    async (request, reply) => {
       await teamService.updateMemberRole(
-        req.params.id!,
-        req.user!.userId,
-        req.params.memberId!,
-        req.body.role,
+        (request.params as any).id,
+        (request as any).user.userId,
+        (request.params as any).memberId,
+        (request.body as any).role,
       );
-
-      res.json({
+      reply.send({
         success: true,
         message: "Member role updated successfully",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/teams/:id/alerts/:alertId/acknowledge
- * Acknowledge an alert
- */
-router.post(
-  "/:id/alerts/:alertId/acknowledge",
-  validateParams(
-    z.object({
-      id: z.string().uuid(),
-      alertId: z.string().uuid(),
-    }),
-  ),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await teamService.acknowledgeAlert(req.params.alertId!, req.user!.userId);
+  app.post(
+    "/:id/alerts/:alertId/acknowledge",
+    {
+      preHandler: corporateTierMiddleware,
+      schema: {
+        params: {
+          type: "object",
+          properties: {
+            id: { type: "string", format: "uuid" },
+            alertId: { type: "string", format: "uuid" },
+          },
+          required: ["id", "alertId"],
+        },
+      },
+    },
+    async (request, reply) => {
+      await teamService.acknowledgeAlert(
+        (request.params as any).alertId,
+        (request as any).user.userId,
+      );
+      reply.send({ success: true, message: "Alert acknowledged" });
+    },
+  );
 
-      res.json({
-        success: true,
-        message: "Alert acknowledged",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-// Goal validation schemas
-const createGoalSchema = z.object({
-  type: z.enum(["completion", "accuracy", "study_time"]),
-  target: z.number().min(1).max(1000),
-  deadline: z.string().transform((val) => new Date(val)),
-});
-
-const goalIdSchema = z.object({
-  id: z.string().uuid("Invalid team ID"),
-  goalId: z.string().uuid("Invalid goal ID"),
-});
-
-/**
- * GET /api/teams/:id/goals
- * Get team goals with progress
- */
-router.get(
-  "/:id/goals",
-  validateParams(teamIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/:id/goals",
+    { preHandler: corporateTierMiddleware, schema: { params: teamIdSchema } },
+    async (request, reply) => {
       const goals = await teamService.getGoals(
-        req.params.id!,
-        req.user!.userId,
+        (request.params as any).id,
+        (request as any).user.userId,
       );
+      reply.send({ success: true, data: { goals, count: goals.length } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { goals, count: goals.length },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * POST /api/teams/:id/goals
- * Create a new team goal
- */
-router.post(
-  "/:id/goals",
-  validateParams(teamIdSchema),
-  validateBody(createGoalSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/:id/goals",
+    {
+      preHandler: corporateTierMiddleware,
+      schema: { params: teamIdSchema, body: createGoalSchema },
+    },
+    async (request, reply) => {
       const goal = await teamService.createGoal(
-        req.params.id!,
-        req.user!.userId,
-        req.body,
+        (request.params as any).id,
+        (request as any).user.userId,
+        request.body as any,
       );
+      reply
+        .status(201)
+        .send({
+          success: true,
+          data: { goal },
+          message: "Goal created successfully",
+        });
+    },
+  );
 
-      res.status(201).json({
-        success: true,
-        data: { goal },
-        message: "Goal created successfully",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * DELETE /api/teams/:id/goals/:goalId
- * Delete a team goal
- */
-router.delete(
-  "/:id/goals/:goalId",
-  validateParams(goalIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.delete(
+    "/:id/goals/:goalId",
+    { preHandler: corporateTierMiddleware, schema: { params: goalIdSchema } },
+    async (request, reply) => {
       await teamService.deleteGoal(
-        req.params.id!,
-        req.user!.userId,
-        req.params.goalId!,
+        (request.params as any).id,
+        (request as any).user.userId,
+        (request.params as any).goalId,
       );
+      reply.send({ success: true, message: "Goal deleted successfully" });
+    },
+  );
 
-      res.json({
-        success: true,
-        message: "Goal deleted successfully",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * DELETE /api/teams/:id/members/:memberId/preserve
- * Remove member with data preservation
- */
-router.delete(
-  "/:id/members/:memberId/preserve",
-  validateParams(memberIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.delete(
+    "/:id/members/:memberId/preserve",
+    { preHandler: corporateTierMiddleware, schema: { params: memberIdSchema } },
+    async (request, reply) => {
       const result = await teamService.removeMemberWithDataPreservation(
-        req.params.id!,
-        req.user!.userId,
-        req.params.memberId!,
+        (request.params as any).id,
+        (request as any).user.userId,
+        (request.params as any).memberId,
       );
+      reply.send({ success: true, data: result, message: result.message });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: result,
-        message: result.message,
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-// Report validation schema
-const reportOptionsSchema = z.object({
-  startDate: z
-    .string()
-    .transform((val) => new Date(val))
-    .optional(),
-  endDate: z
-    .string()
-    .transform((val) => new Date(val))
-    .optional(),
-  format: z.enum(["json", "csv"]).optional().default("json"),
-});
-
-/**
- * POST /api/teams/:id/reports
- * Generate a team progress report
- */
-router.post(
-  "/:id/reports",
-  validateParams(teamIdSchema),
-  validateBody(reportOptionsSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/:id/reports",
+    {
+      preHandler: corporateTierMiddleware,
+      schema: { params: teamIdSchema, body: reportOptionsSchema },
+    },
+    async (request, reply) => {
       const report = await teamService.generateReport(
-        req.params.id!,
-        req.user!.userId,
-        req.body,
+        (request.params as any).id,
+        (request as any).user.userId,
+        request.body as any,
       );
-
-      // If CSV format requested, set appropriate headers
-      if (req.body.format === "csv" && report.csvData) {
-        res.setHeader("Content-Type", "text/csv");
-        res.setHeader(
+      if ((request.body as any).format === "csv" && report.csvData) {
+        reply.header("Content-Type", "text/csv");
+        reply.header(
           "Content-Disposition",
           `attachment; filename="team-report-${report.teamId}-${new Date().toISOString().split("T")[0]}.csv"`,
         );
-        res.send(report.csvData);
+        reply.send(report.csvData);
         return;
       }
+      reply.send({ success: true, data: { report } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { report },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/teams/:id/reports
- * Get a quick JSON report (convenience endpoint)
- */
-router.get(
-  "/:id/reports",
-  validateParams(teamIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/:id/reports",
+    { preHandler: corporateTierMiddleware, schema: { params: teamIdSchema } },
+    async (request, reply) => {
       const report = await teamService.generateReport(
-        req.params.id!,
-        req.user!.userId,
-        {
-          format: "json",
-        },
+        (request.params as any).id,
+        (request as any).user.userId,
+        { format: "json" },
       );
-
-      res.json({
-        success: true,
-        data: { report },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+      reply.send({ success: true, data: { report } });
+    },
+  );
+}

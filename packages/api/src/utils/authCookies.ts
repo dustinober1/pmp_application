@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import type { Response } from "express";
 import type { TokenPair } from "@pmp/shared";
 import { env } from "../config/env";
 
@@ -21,37 +20,64 @@ function baseCookieOptions() {
     secure: env.NODE_ENV === "production",
     sameSite: getSameSite(),
     path: "/",
-  } as const;
+  };
 }
 
 export function generateCsrfToken(): string {
   return crypto.randomBytes(32).toString("hex");
 }
 
-export function setCsrfCookie(res: Response, csrfToken: string): void {
-  res.cookie(CSRF_TOKEN_COOKIE, csrfToken, {
+function setCookie(
+  res: any,
+  name: string,
+  value: string,
+  options: {
+    secure?: boolean;
+    sameSite?: string;
+    path?: string;
+    httpOnly?: boolean;
+    maxAge?: number;
+  },
+): void {
+  if (typeof res.setCookie === "function") {
+    res.setCookie(name, value, options);
+  } else {
+    res.cookie(name, value, options);
+  }
+}
+
+function clearCookie(res: any, name: string, options: any): void {
+  if (typeof res.clearCookie === "function") {
+    res.clearCookie(name, options);
+  } else {
+    res.clearCookie(name, options);
+  }
+}
+
+export function setCsrfCookie(res: any, csrfToken: string): void {
+  setCookie(res, CSRF_TOKEN_COOKIE, csrfToken, {
     ...baseCookieOptions(),
     httpOnly: false,
     maxAge: CSRF_TOKEN_MAX_AGE_MS,
   });
 }
 
-export function setAuthCookies(res: Response, tokens: TokenPair): void {
-  res.cookie(ACCESS_TOKEN_COOKIE, tokens.accessToken, {
+export function setAuthCookies(res: any, tokens: TokenPair): void {
+  setCookie(res, ACCESS_TOKEN_COOKIE, tokens.accessToken, {
     ...baseCookieOptions(),
     httpOnly: true,
     maxAge: tokens.expiresIn * 1000,
   });
 
-  res.cookie(REFRESH_TOKEN_COOKIE, tokens.refreshToken, {
+  setCookie(res, REFRESH_TOKEN_COOKIE, tokens.refreshToken, {
     ...baseCookieOptions(),
     httpOnly: true,
     maxAge: REFRESH_TOKEN_MAX_AGE_MS,
   });
 }
 
-export function clearAuthCookies(res: Response): void {
-  res.clearCookie(ACCESS_TOKEN_COOKIE, baseCookieOptions());
-  res.clearCookie(REFRESH_TOKEN_COOKIE, baseCookieOptions());
-  res.clearCookie(CSRF_TOKEN_COOKIE, baseCookieOptions());
+export function clearAuthCookies(res: any): void {
+  clearCookie(res, ACCESS_TOKEN_COOKIE, baseCookieOptions());
+  clearCookie(res, REFRESH_TOKEN_COOKIE, baseCookieOptions());
+  clearCookie(res, CSRF_TOKEN_COOKIE, baseCookieOptions());
 }

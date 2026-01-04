@@ -1,317 +1,234 @@
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
-import rateLimit from "express-rate-limit";
+import { FastifyInstance } from "fastify";
 import { authMiddleware } from "../middleware/auth.middleware";
-import { validateBody } from "../middleware/validation.middleware";
-import {
-  consentUpdateSchema,
-  consentWithdrawSchema,
-  dataExportRequestSchema,
-  accountDeletionRequestSchema,
-  cancelDeletionSchema,
-} from "../validators/privacy.validator";
 import {
   consentService,
   dataExportService,
   accountDeletionService,
 } from "../services";
 
-const router = Router();
+const consentUpdateSchema = {
+  type: "object",
+  properties: {
+    analytics: { type: "boolean" },
+    marketing: { type: "boolean" },
+    thirdParty: { type: "boolean" },
+  },
+};
 
-// Rate limiting for sensitive operations
-const privacyRateLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5,
-  skip: () => process.env.NODE_ENV === "test",
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    error: {
-      code: "RATE_LIMITED",
-      message: "Too many privacy requests, please try again later",
+const consentWithdrawSchema = {
+  type: "object",
+  properties: {
+    reason: { type: "string" },
+  },
+};
+
+const dataExportRequestSchema = {
+  type: "object",
+  properties: {
+    format: { type: "string", enum: ["json", "csv"] },
+  },
+};
+
+const accountDeletionRequestSchema = {
+  type: "object",
+  properties: {
+    reason: { type: "string" },
+    confirmEmail: { type: "string" },
+  },
+  required: ["confirmEmail"],
+};
+
+const cancelDeletionSchema = {
+  type: "object",
+  properties: {
+    requestId: { type: "string" },
+  },
+  required: ["requestId"],
+};
+
+export async function privacyRoutes(app: FastifyInstance) {
+  app.get(
+    "/consent",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const consent = await consentService.getUserConsent(
+        (request as any).user.userId,
+      );
+      reply.send({ success: true, data: { consent } });
     },
-  },
-});
+  );
 
-/**
- * GET /api/privacy/consent
- * Get user's current consent status
- */
-router.get(
-  "/consent",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const consent = await consentService.getUserConsent(req.user!.userId);
-      res.json({
-        success: true,
-        data: { consent },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * PUT /api/privacy/consent
- * Update or create consent
- */
-router.put(
-  "/consent",
-  authMiddleware,
-  validateBody(consentUpdateSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.put(
+    "/consent",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { body: consentUpdateSchema },
+    },
+    async (request, reply) => {
       const metadata = {
-        ipAddress: req.ip,
-        userAgent: req.headers["user-agent"],
+        ipAddress: (request as any).ip,
+        userAgent: request.headers["user-agent"],
       };
-
       const consent = await consentService.updateConsent(
-        req.user!.userId,
-        req.body,
+        (request as any).user.userId,
+        request.body as any,
         metadata,
       );
-
-      res.json({
+      reply.send({
         success: true,
         data: { consent },
         message: "Consent updated successfully",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/privacy/consent/withdraw
- * Withdraw consent
- */
-router.post(
-  "/consent/withdraw",
-  authMiddleware,
-  privacyRateLimiter,
-  validateBody(consentWithdrawSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/consent/withdraw",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { body: consentWithdrawSchema },
+    },
+    async (request, reply) => {
       const metadata = {
-        ipAddress: req.ip,
-        userAgent: req.headers["user-agent"],
+        ipAddress: (request as any).ip,
+        userAgent: request.headers["user-agent"],
       };
-
       await consentService.withdrawConsent(
-        req.user!.userId,
-        req.body.reason,
+        (request as any).user.userId,
+        (request.body as any).reason,
         metadata,
       );
+      reply.send({ success: true, message: "Consent withdrawn successfully" });
+    },
+  );
 
-      res.json({
-        success: true,
-        message: "Consent withdrawn successfully",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * POST /api/privacy/data-export
- * Request data export
- */
-router.post(
-  "/data-export",
-  authMiddleware,
-  privacyRateLimiter,
-  validateBody(dataExportRequestSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/data-export",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { body: dataExportRequestSchema },
+    },
+    async (request, reply) => {
       const metadata = {
-        ipAddress: req.ip,
-        userAgent: req.headers["user-agent"],
+        ipAddress: (request as any).ip,
+        userAgent: request.headers["user-agent"],
       };
-
       const exportRequest = await dataExportService.requestExport(
-        req.user!.userId,
-        req.body,
+        (request as any).user.userId,
+        request.body as any,
         metadata,
       );
+      reply
+        .status(201)
+        .send({
+          success: true,
+          data: { exportRequest },
+          message:
+            "Data export requested. You will receive an email when it is ready.",
+        });
+    },
+  );
 
-      res.status(201).json({
-        success: true,
-        data: { exportRequest },
-        message:
-          "Data export requested. You will receive an email when it is ready.",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/privacy/data-export
- * Get user's export history
- */
-router.get(
-  "/data-export",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/data-export",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
       const history = await dataExportService.getExportHistory(
-        req.user!.userId,
+        (request as any).user.userId,
       );
-      res.json({
-        success: true,
-        data: { exports: history },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+      reply.send({ success: true, data: { exports: history } });
+    },
+  );
 
-/**
- * GET /api/privacy/data-export/:requestId
- * Get export status
- */
-router.get(
-  "/data-export/:requestId",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const requestId = req.params.requestId as string;
+  app.get(
+    "/data-export/:requestId",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const requestId = (request.params as any).requestId;
       const exportRequest = await dataExportService.getExportStatus(
-        req.user!.userId,
+        (request as any).user.userId,
         requestId,
       );
+      reply.send({ success: true, data: { exportRequest } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { exportRequest },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/privacy/data-export/:requestId/download
- * Download exported data
- */
-router.get(
-  "/data-export/:requestId/download",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const requestId = req.params.requestId as string;
+  app.get(
+    "/data-export/:requestId/download",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const requestId = (request.params as any).requestId;
       const userData = await dataExportService.downloadExport(
-        req.user!.userId,
+        (request as any).user.userId,
         requestId,
       );
-
-      res.setHeader("Content-Type", "application/json");
-      res.setHeader(
+      reply.header("Content-Type", "application/json");
+      reply.header(
         "Content-Disposition",
-        `attachment; filename="user-data-export-${req.user!.userId}-${Date.now()}.json"`,
+        `attachment; filename="user-data-export-${(request as any).user.userId}-${Date.now()}.json"`,
       );
+      reply.send(userData);
+    },
+  );
 
-      res.send(userData);
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * POST /api/privacy/delete-account
- * Request account deletion
- */
-router.post(
-  "/delete-account",
-  authMiddleware,
-  privacyRateLimiter,
-  validateBody(accountDeletionRequestSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/delete-account",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { body: accountDeletionRequestSchema },
+    },
+    async (request, reply) => {
       const metadata = {
-        ipAddress: req.ip,
-        userAgent: req.headers["user-agent"],
+        ipAddress: (request as any).ip,
+        userAgent: request.headers["user-agent"],
       };
-
       const deletionRequest = await accountDeletionService.requestDeletion(
-        req.user!.userId,
-        req.body,
+        (request as any).user.userId,
+        request.body as any,
         metadata,
       );
+      reply
+        .status(201)
+        .send({
+          success: true,
+          data: { deletionRequest },
+          message:
+            "Account deletion requested. Your account will be deleted after 30 days. You will receive a confirmation email.",
+        });
+    },
+  );
 
-      res.status(201).json({
-        success: true,
-        data: { deletionRequest },
-        message:
-          "Account deletion requested. Your account will be deleted after 30 days. You will receive a confirmation email.",
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/privacy/delete-account
- * Get account deletion status
- */
-router.get(
-  "/delete-account",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/delete-account",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
       const deletionRequest = await accountDeletionService.getDeletionStatus(
-        req.user!.userId,
+        (request as any).user.userId,
       );
+      reply.send({ success: true, data: { deletionRequest } });
+    },
+  );
 
-      res.json({
-        success: true,
-        data: { deletionRequest },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * POST /api/privacy/delete-account/cancel
- * Cancel account deletion
- */
-router.post(
-  "/delete-account/cancel",
-  authMiddleware,
-  validateBody(cancelDeletionSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/delete-account/cancel",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { body: cancelDeletionSchema },
+    },
+    async (request, reply) => {
       const metadata = {
-        ipAddress: req.ip,
-        userAgent: req.headers["user-agent"],
+        ipAddress: (request as any).ip,
+        userAgent: request.headers["user-agent"],
       };
-
       await accountDeletionService.cancelDeletion(
-        req.user!.userId,
-        req.body.requestId,
+        (request as any).user.userId,
+        (request.body as any).requestId,
         metadata,
       );
-
-      res.json({
+      reply.send({
         success: true,
         message: "Account deletion cancelled successfully",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+    },
+  );
+}

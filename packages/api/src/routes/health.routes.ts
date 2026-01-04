@@ -1,49 +1,42 @@
-import type { Request, Response } from "express";
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import prisma from "../config/database";
 
-const router = Router();
+export async function healthRoutes(app: FastifyInstance) {
+  app.get("/", async (_request, reply) => {
+    try {
+      await prisma.$queryRaw`SELECT 1`;
 
-// Health check endpoint
-router.get("/", async (_req: Request, res: Response) => {
-  try {
-    // Test database connection
-    await prisma.$queryRaw`SELECT 1`;
+      reply.send({
+        status: "healthy",
+        timestamp: new Date().toISOString(),
+        version: "1.0.0",
+        services: {
+          database: "connected",
+        },
+      });
+    } catch {
+      reply.status(503).send({
+        status: "unhealthy",
+        timestamp: new Date().toISOString(),
+        version: "1.0.0",
+        services: {
+          database: "disconnected",
+        },
+        error: "Database connection failed",
+      });
+    }
+  });
 
-    res.json({
-      status: "healthy",
-      timestamp: new Date().toISOString(),
-      version: "1.0.0",
-      services: {
-        database: "connected",
-      },
-    });
-  } catch (error) {
-    res.status(503).json({
-      status: "unhealthy",
-      timestamp: new Date().toISOString(),
-      version: "1.0.0",
-      services: {
-        database: "disconnected",
-      },
-      error: "Database connection failed",
-    });
-  }
-});
+  app.get("/live", async (_request, reply) => {
+    reply.send({ status: "alive" });
+  });
 
-// Liveness probe
-router.get("/live", (_req: Request, res: Response) => {
-  res.json({ status: "alive" });
-});
-
-// Readiness probe
-router.get("/ready", async (_req: Request, res: Response) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.json({ status: "ready" });
-  } catch {
-    res.status(503).json({ status: "not ready" });
-  }
-});
-
-export default router;
+  app.get("/ready", async (_request, reply) => {
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+      reply.send({ status: "ready" });
+    } catch {
+      reply.status(503).send({ status: "not ready" });
+    }
+  });
+}

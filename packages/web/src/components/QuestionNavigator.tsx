@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 
 interface QuestionNavigatorProps {
   totalQuestions: number;
@@ -11,14 +11,14 @@ interface QuestionNavigatorProps {
   questionsPerPage?: number;
 }
 
-export function QuestionNavigator({
+const QuestionNavigatorComponent = ({
   totalQuestions,
   currentIndex,
   answeredQuestions,
   flaggedQuestions,
   onJumpToQuestion,
   questionsPerPage = 10,
-}: QuestionNavigatorProps) {
+}: QuestionNavigatorProps) => {
   const pages = useMemo(() => {
     const pageCount = Math.ceil(totalQuestions / questionsPerPage);
     return Array.from({ length: pageCount }, (_, i) => ({
@@ -140,4 +140,15 @@ export function QuestionNavigator({
       </div>
     </div>
   );
-}
+};
+
+export const QuestionNavigator = memo(
+  QuestionNavigatorComponent,
+  (prev, next) =>
+    prev.totalQuestions === next.totalQuestions &&
+    prev.currentIndex === next.currentIndex &&
+    prev.questionsPerPage === next.questionsPerPage &&
+    prev.onJumpToQuestion === next.onJumpToQuestion &&
+    prev.answeredQuestions === next.answeredQuestions &&
+    prev.flaggedQuestions === next.flaggedQuestions,
+);

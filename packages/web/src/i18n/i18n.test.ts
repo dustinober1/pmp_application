@@ -24,13 +24,15 @@ describe("i18n", () => {
       expect(i18n.isInitialized).toBe(true);
     });
 
-    it("has English resources", () => {
-      expect(i18n.hasResourceBundle("en", "translation")).toBe(true);
-    });
+  it("has English resources", async () => {
+    await setLocale("en" as SupportedLocale);
+    expect(i18n.hasResourceBundle("en", "translation")).toBe(true);
+  });
 
-    it("has Spanish resources", () => {
-      expect(i18n.hasResourceBundle("es", "translation")).toBe(true);
-    });
+  it("has Spanish resources", async () => {
+    await setLocale("es" as SupportedLocale);
+    expect(i18n.hasResourceBundle("es", "translation")).toBe(true);
+  });
 
     it("has English as fallback language", () => {
       expect(i18n.options.fallbackLng).toContain("en");
@@ -131,14 +133,14 @@ describe("setLocale", () => {
     });
   });
 
-  it("sets locale cookie", () => {
+  it("sets locale cookie", async () => {
     const mockDocument = { cookie: "" };
     Object.defineProperty(globalThis, "document", {
       value: mockDocument,
       writable: true,
     });
 
-    setLocale("es" as SupportedLocale);
+    await setLocale("es" as SupportedLocale);
 
     expect(mockDocument.cookie).toContain("pmp_locale=es");
     expect(mockDocument.cookie).toContain("path=/");
@@ -146,8 +148,8 @@ describe("setLocale", () => {
     expect(mockDocument.cookie).toContain("samesite=lax");
   });
 
-  it("sets locale in localStorage", () => {
-    setLocale("es" as SupportedLocale);
+  it("sets locale in localStorage", async () => {
+    await setLocale("es" as SupportedLocale);
 
     expect(globalThis.localStorage.setItem).toHaveBeenCalledWith(
       "pmp_locale",
@@ -158,20 +160,20 @@ describe("setLocale", () => {
   it("changes i18n language", async () => {
     const changeLanguageSpy = vi.spyOn(i18n, "changeLanguage");
 
-    setLocale("es" as SupportedLocale);
+    await setLocale("es" as SupportedLocale);
 
     expect(changeLanguageSpy).toHaveBeenCalledWith("es");
     changeLanguageSpy.mockRestore();
   });
 
-  it("sets English locale correctly", () => {
+  it("sets English locale correctly", async () => {
     const mockDocument = { cookie: "" };
     Object.defineProperty(globalThis, "document", {
       value: mockDocument,
       writable: true,
     });
 
-    setLocale("en" as SupportedLocale);
+    await setLocale("en" as SupportedLocale);
 
     expect(mockDocument.cookie).toContain("pmp_locale=en");
   });

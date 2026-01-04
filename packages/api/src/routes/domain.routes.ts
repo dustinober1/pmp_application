@@ -1,165 +1,135 @@
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import { contentService } from "../services/content.service";
 import {
   authMiddleware,
   optionalAuthMiddleware,
 } from "../middleware/auth.middleware";
-import { validateParams } from "../middleware/validation.middleware";
-import { z } from "zod";
 
-const router = Router();
+const domainIdSchema = {
+  type: "object",
+  properties: {
+    id: { type: "string", format: "uuid" },
+  },
+  required: ["id"],
+};
 
-// Validation schemas
-const domainIdSchema = z.object({
-  id: z.string().uuid("Invalid domain ID"),
-});
+const taskIdSchema = {
+  type: "object",
+  properties: {
+    taskId: { type: "string", format: "uuid" },
+  },
+  required: ["taskId"],
+};
 
-const taskIdSchema = z.object({
-  taskId: z.string().uuid("Invalid task ID"),
-});
+const sectionIdSchema = {
+  type: "object",
+  properties: {
+    sectionId: { type: "string", format: "uuid" },
+  },
+  required: ["sectionId"],
+};
 
-const sectionIdSchema = z.object({
-  sectionId: z.string().uuid("Invalid section ID"),
-});
-
-/**
- * GET /api/domains
- * Get all domains
- */
-router.get("/", async (_req: Request, res: Response, next: NextFunction) => {
-  try {
+export async function domainRoutes(app: FastifyInstance) {
+  app.get("/", async (_request, reply) => {
     const domains = await contentService.getDomains();
-    res.json({
+    reply.send({
       success: true,
       data: { domains },
     });
-  } catch (error) {
-    next(error);
-  }
-});
+  });
 
-/**
- * GET /api/domains/:id
- * Get domain by ID with tasks
- */
-router.get(
-  "/:id",
-  validateParams(domainIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const domain = await contentService.getDomainById(req.params.id!);
+  app.get(
+    "/:id",
+    { schema: { params: domainIdSchema } },
+    async (request, reply) => {
+      const domain = await contentService.getDomainById(
+        (request.params as any).id,
+      );
 
       if (!domain) {
-        res.status(404).json({
+        reply.status(404).send({
           success: false,
           error: { code: "CONTENT_001", message: "Domain not found" },
         });
         return;
       }
 
-      res.json({
+      reply.send({
         success: true,
         data: { domain },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/domains/:id/tasks
- * Get tasks by domain
- */
-router.get(
-  "/:id/tasks",
-  validateParams(domainIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const tasks = await contentService.getTasksByDomain(req.params.id!);
-      res.json({
+  app.get(
+    "/:id/tasks",
+    { schema: { params: domainIdSchema } },
+    async (request, reply) => {
+      const tasks = await contentService.getTasksByDomain(
+        (request.params as any).id,
+      );
+      reply.send({
         success: true,
         data: { tasks },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/domains/tasks/:taskId/study-guide
- * Get study guide for a task
- */
-router.get(
-  "/tasks/:taskId/study-guide",
-  validateParams(taskIdSchema),
-  optionalAuthMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const studyGuide = await contentService.getStudyGuide(req.params.taskId!);
+  app.get(
+    "/tasks/:taskId/study-guide",
+    {
+      schema: { params: taskIdSchema },
+      preHandler: [optionalAuthMiddleware as any],
+    },
+    async (request, reply) => {
+      const studyGuide = await contentService.getStudyGuide(
+        (request.params as any).taskId,
+      );
 
       if (!studyGuide) {
-        res.status(404).json({
+        reply.status(404).send({
           success: false,
           error: { code: "CONTENT_003", message: "Study guide not found" },
         });
         return;
       }
 
-      res.json({
+      reply.send({
         success: true,
         data: { studyGuide },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/domains/progress/sections/:sectionId/complete
- * Mark a section as complete
- */
-router.post(
-  "/progress/sections/:sectionId/complete",
-  authMiddleware,
-  validateParams(sectionIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/progress/sections/:sectionId/complete",
+    {
+      schema: { params: sectionIdSchema },
+      preHandler: [authMiddleware],
+    },
+    async (request, reply) => {
       await contentService.markSectionComplete(
-        req.user!.userId,
-        req.params.sectionId!,
+        (request as any).user.userId,
+        (request.params as any).sectionId,
       );
-      res.json({
+      reply.send({
         success: true,
         message: "Section marked as complete",
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/domains/progress
- * Get user's study progress
- */
-router.get(
-  "/progress",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const progress = await contentService.getUserProgress(req.user!.userId);
-      res.json({
+  app.get(
+    "/progress",
+    { preHandler: [authMiddleware] },
+    async (request, reply) => {
+      const progress = await contentService.getUserProgress(
+        (request as any).user.userId,
+      );
+      reply.send({
         success: true,
         data: { progress },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+    },
+  );
+}

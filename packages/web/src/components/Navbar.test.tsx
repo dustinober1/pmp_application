@@ -7,8 +7,15 @@ vi.mock("@/i18n/i18n", () => ({
   t: (key: string) => key,
   setLocale: vi.fn(),
   getLocale: () => "en",
-  supportedLocales: ["en"],
-  SUPPORTED_LOCALES: ["en"],
+  supportedLocales: ["en", "es"],
+  SUPPORTED_LOCALES: ["en", "es"],
+}));
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    i18n: { language: "en" },
+  }),
 }));
 
 // Mock useAuth hook
@@ -22,7 +29,7 @@ vi.mock("./SearchDialog", () => ({
     setOpen,
   }: {
     open: boolean;
-    setOpen: (open: boolean) => void;
+    setOpen: (open: boolean | ((prev: boolean) => boolean)) => void;
   }) => (
     <div data-testid="search-dialog">
       <button onClick={() => setOpen(false)}>Close</button>
@@ -127,6 +134,17 @@ describe("Navbar Component", () => {
       render(<Navbar />);
       const searchButton = screen.getByLabelText("Search");
       expect(searchButton).toBeInTheDocument();
+    });
+
+    it("opens search dialog with keyboard shortcut", async () => {
+      render(<Navbar />);
+      expect(screen.queryByTestId("search-dialog")).not.toBeInTheDocument();
+
+      fireEvent.keyDown(window, { key: "k", metaKey: true });
+
+      await waitFor(() =>
+        expect(screen.getByTestId("search-dialog")).toBeInTheDocument(),
+      );
     });
 
     it("renders logout button when authenticated", () => {

@@ -27,6 +27,13 @@ vi.mock("@/components/ToastProvider", () => ({
   useToast: () => mockToast,
 }));
 
+const advanceDebounce = async () => {
+  await act(async () => {
+    vi.advanceTimersByTime(500);
+    await Promise.resolve();
+  });
+};
+
 describe("SearchDialog", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -88,10 +95,7 @@ describe("SearchDialog", () => {
       target: { value: "test" },
     });
 
-    // Advance past debounce
-    act(() => {
-      vi.advanceTimersByTime(500);
-    });
+    await advanceDebounce();
 
     // API should have been called
     expect(mockApiRequest).toHaveBeenCalledWith(
@@ -104,9 +108,7 @@ describe("SearchDialog", () => {
 
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "a" } });
 
-    await act(async () => {
-      vi.advanceTimersByTime(500);
-    });
+    await advanceDebounce();
 
     expect(mockApiRequest).not.toHaveBeenCalled();
   });
@@ -122,9 +124,7 @@ describe("SearchDialog", () => {
       target: { value: "nonexistent" },
     });
 
-    act(() => {
-      vi.advanceTimersByTime(500);
-    });
+    await advanceDebounce();
 
     // Just verify the API was called - the UI state depends on async resolution
     expect(mockApiRequest).toHaveBeenCalled();
@@ -144,14 +144,12 @@ describe("SearchDialog", () => {
       target: { value: "test" },
     });
 
-    await act(async () => {
-      vi.advanceTimersByTime(500);
-    });
+    await advanceDebounce();
 
     expect(screen.getByText("Searching...")).toBeInTheDocument();
   });
 
-  it("displays correct icons for result types", () => {
+  it("displays correct icons for result types", async () => {
     // Just verify the component renders with different result types - skip async waiting
     mockApiRequest.mockResolvedValue({
       data: {
@@ -173,9 +171,7 @@ describe("SearchDialog", () => {
       target: { value: "test" },
     });
 
-    act(() => {
-      vi.advanceTimersByTime(500);
-    });
+    await advanceDebounce();
 
     expect(mockApiRequest).toHaveBeenCalled();
   });
@@ -189,25 +185,7 @@ describe("SearchDialog", () => {
     expect(setOpen).toHaveBeenCalledWith(false);
   });
 
-  it("responds to Cmd+K shortcut", () => {
-    const setOpen = vi.fn();
-    render(<SearchDialog open={false} setOpen={setOpen} />);
-
-    fireEvent.keyDown(window, { key: "k", metaKey: true });
-
-    expect(setOpen).toHaveBeenCalledWith(true);
-  });
-
-  it("responds to Ctrl+K shortcut", () => {
-    const setOpen = vi.fn();
-    render(<SearchDialog open={false} setOpen={setOpen} />);
-
-    fireEvent.keyDown(window, { key: "k", ctrlKey: true });
-
-    expect(setOpen).toHaveBeenCalledWith(true);
-  });
-
-  it("renders result links with correct hrefs", () => {
+  it("renders result links with correct hrefs", async () => {
     mockApiRequest.mockResolvedValue({
       data: {
         results: [
@@ -228,9 +206,7 @@ describe("SearchDialog", () => {
       target: { value: "guide" },
     });
 
-    act(() => {
-      vi.advanceTimersByTime(500);
-    });
+    await advanceDebounce();
 
     // Just verify search triggers - link testing requires async resolution
     expect(mockApiRequest).toHaveBeenCalled();

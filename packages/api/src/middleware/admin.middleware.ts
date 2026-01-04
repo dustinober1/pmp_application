@@ -1,73 +1,56 @@
-import type { Request, Response, NextFunction } from "express";
+import { FastifyRequest, FastifyReply } from "fastify";
 import { AppError } from "./error.middleware";
 import { env } from "../config/env";
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Express {
-    interface Request {
-      isAdmin?: boolean;
-    }
+declare module "fastify" {
+  interface FastifyRequest {
+    isAdmin?: boolean;
   }
 }
 
-/**
- * Middleware to check if user is an admin
- * In production, this should check against a role in the database
- * For now, uses environment variable whitelist
- */
-export function adminMiddleware(
-  req: Request,
-  _res: Response,
-  next: NextFunction,
-): void {
-  if (!req.user) {
+export async function adminMiddleware(
+  request: FastifyRequest,
+  _reply: FastifyReply,
+): Promise<void> {
+  const user = (request as any).user;
+  if (!user) {
     throw AppError.unauthorized("Authentication required", "ADMIN_001");
   }
 
-  // Check if user email is in admin whitelist
   const adminEmails =
     env.ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
 
-  // Also check if email domain is allowed (e.g., *@admin.example.com)
   const isAdmin =
-    adminEmails.includes(req.user.email.toLowerCase()) ||
+    adminEmails.includes(user.email.toLowerCase()) ||
     adminEmails.some(
-      (email) =>
+      (email: string) =>
         email.startsWith("*@") &&
-        req.user!.email.toLowerCase().endsWith(email.substring(1)),
+        user.email.toLowerCase().endsWith(email.substring(1)),
     );
 
   if (!isAdmin) {
     throw AppError.forbidden("Admin access required", "ADMIN_002");
   }
 
-  req.isAdmin = true;
-  next();
+  request.isAdmin = true;
 }
 
-/**
- * Optional admin middleware - sets isAdmin flag but doesn't block
- */
 export function optionalAdminMiddleware(
-  req: Request,
-  _res: Response,
-  next: NextFunction,
+  request: FastifyRequest,
+  _reply: FastifyReply,
 ): void {
-  if (!req.user) {
-    next();
+  const user = (request as any).user;
+  if (!user) {
     return;
   }
 
   const adminEmails =
     env.ADMIN_EMAILS?.split(",").map((e) => e.trim().toLowerCase()) || [];
 
-  req.isAdmin =
-    adminEmails.includes(req.user!.email.toLowerCase()) ||
+  request.isAdmin =
+    adminEmails.includes(user.email.toLowerCase()) ||
     adminEmails.some(
-      (email) =>
-        email.startsWith("*@") && req.user!.email.endsWith(email.substring(1)),
+      (email: string) =>
+        email.startsWith("*@") && user.email.endsWith(email.substring(1)),
     );
-
-  next();
 }

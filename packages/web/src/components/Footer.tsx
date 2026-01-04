@@ -5,8 +5,8 @@
 
 "use client";
 
-import React from "react";
 import Link from "next/link";
+import React, { memo } from "react";
 
 interface FooterLink {
   href: string;
@@ -18,7 +18,7 @@ interface FooterSection {
   links: FooterLink[];
 }
 
-export const Footer: React.FC = () => {
+const FooterComponent: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   const sections: FooterSection[] = [
@@ -102,5 +102,7 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
+export const Footer = memo(FooterComponent);
 
 export default Footer;

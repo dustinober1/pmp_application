@@ -1,9 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+const Footer = dynamic(() => import("@/components/Footer").then((mod) => mod.Footer), {
+  ssr: false,
+  loading: () => <div className="h-16" />,
+});
 
 // Note: For dynamic metadata in client components, use generateMetadata in layout.tsx
 // or set document title directly via useEffect

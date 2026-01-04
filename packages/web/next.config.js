@@ -54,17 +54,40 @@ const ContentSecurityPolicy = [
 
 const nextConfig = {
   reactStrictMode: true,
-  // Standalone output reduces memory footprint for 512MB RAM limit
+  // Standalone output reduces memory footprint
   output: "standalone",
   trailingSlash: true,
   transpilePackages: ["@pmp/shared"],
-  // Skip type checking and linting during build to save memory on 512MB instance
-  // Type checking happens in development and should be part of CI/CD
+
+  // Enable SWC minification (faster than Terser)
+  swcMinify: true,
+
+  // Optimize images
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+
+  // Enable compression
+  compress: true,
+
+  // Optimize production builds
+  productionBrowserSourceMaps: false,
+
+  // Enable type checking in CI/CD (not during build for speed)
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
+  },
+
+  // Enable modern JavaScript optimizations
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+    },
   },
   async redirects() {
     return [
@@ -108,6 +131,11 @@ const nextConfig = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const withPWA = require("next-pwa")({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
@@ -118,4 +146,4 @@ const withPWA = require("next-pwa")({
   },
 });
 
-module.exports = withPWA(nextConfig);
+module.exports = withBundleAnalyzer(withPWA(nextConfig));

@@ -1,15 +1,20 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { apiRequest } from "@/lib/api";
 import { useToast } from "@/components/ToastProvider";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 import type { Domain, Enabler } from "@/data/pmpExamContent";
 import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
+
+const Footer = dynamic(() => import("@/components/Footer").then((mod) => mod.Footer), {
+  ssr: false,
+  loading: () => <div className="h-16" />,
+});
 
 type TabType = "study" | "flashcards" | "practice";
 

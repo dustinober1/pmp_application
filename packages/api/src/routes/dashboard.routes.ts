@@ -1,201 +1,122 @@
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import { dashboardService } from "../services/dashboard.service";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { requireTier } from "../middleware/tier.middleware";
 
-const router = Router();
-
-/**
- * GET /api/dashboard
- * Get user's dashboard data
- */
-router.get(
-  "/",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+export async function dashboardRoutes(app: FastifyInstance) {
+  app.get(
+    "/",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
       const dashboard = await dashboardService.getDashboardData(
-        req.user!.userId,
+        (request as any).user.userId,
       );
-
-      res.json({
+      reply.send({
         success: true,
         data: { dashboard },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/dashboard/streak
- * Get user's study streak
- */
-router.get(
-  "/streak",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const streak = await dashboardService.getStudyStreak(req.user!.userId);
-
-      res.json({
+  app.get(
+    "/streak",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const streak = await dashboardService.getStudyStreak(
+        (request as any).user.userId,
+      );
+      reply.send({
         success: true,
         data: { streak },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/dashboard/progress
- * Get domain progress
- */
-router.get(
-  "/progress",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/progress",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
       const domainProgress = await dashboardService.getDomainProgress(
-        req.user!.userId,
+        (request as any).user.userId,
       );
-
-      res.json({
+      reply.send({
         success: true,
         data: { domainProgress },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/dashboard/activity
- * Get recent activity
- */
-router.get(
-  "/activity",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const limit =
-        typeof req.query.limit === "string"
-          ? parseInt(req.query.limit, 10)
-          : 10;
+  app.get(
+    "/activity",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const limit = (request.query as any).limit || 10;
       const activity = await dashboardService.getRecentActivity(
-        req.user!.userId,
+        (request as any).user.userId,
         limit,
       );
-
-      res.json({
+      reply.send({
         success: true,
         data: { activity, count: activity.length },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/dashboard/reviews
- * Get upcoming flashcard reviews
- */
-router.get(
-  "/reviews",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const limit =
-        typeof req.query.limit === "string"
-          ? parseInt(req.query.limit, 10)
-          : 10;
+  app.get(
+    "/reviews",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const limit = (request.query as any).limit || 10;
       const reviews = await dashboardService.getUpcomingReviews(
-        req.user!.userId,
+        (request as any).user.userId,
         limit,
       );
-
-      res.json({
+      reply.send({
         success: true,
         data: { reviews, count: reviews.length },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/dashboard/weak-areas
- * Get weak areas
- */
-router.get(
-  "/weak-areas",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const weakAreas = await dashboardService.getWeakAreas(req.user!.userId);
-
-      res.json({
+  app.get(
+    "/weak-areas",
+    { preHandler: [authMiddleware as any] },
+    async (request, reply) => {
+      const weakAreas = await dashboardService.getWeakAreas(
+        (request as any).user.userId,
+      );
+      reply.send({
         success: true,
         data: { weakAreas, count: weakAreas.length },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/dashboard/readiness
- * Get exam readiness score (Pro+ tier)
- */
-router.get(
-  "/readiness",
-  authMiddleware,
-  requireTier("pro"),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/readiness",
+    { preHandler: [authMiddleware as any, requireTier("pro") as any] },
+    async (request, reply) => {
       const readiness = await dashboardService.getReadinessScore(
-        req.user!.userId,
+        (request as any).user.userId,
       );
-
-      res.json({
+      reply.send({
         success: true,
         data: { readiness },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/dashboard/recommendations
- * Get personalized recommendations (Pro+ tier)
- */
-router.get(
-  "/recommendations",
-  authMiddleware,
-  requireTier("pro"),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.get(
+    "/recommendations",
+    { preHandler: [authMiddleware as any, requireTier("pro") as any] },
+    async (request, reply) => {
       const recommendations = await dashboardService.getRecommendations(
-        req.user!.userId,
+        (request as any).user.userId,
       );
-
-      res.json({
+      reply.send({
         success: true,
         data: { recommendations, count: recommendations.length },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+    },
+  );
+}

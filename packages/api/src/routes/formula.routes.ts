@@ -1,162 +1,127 @@
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import type { FormulaCategory } from "@pmp/shared";
 import { formulaService } from "../services/formula.service";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { requireFeature } from "../middleware/tier.middleware";
-import {
-  validateBody,
-  validateParams,
-  validateQuery,
-} from "../middleware/validation.middleware";
-import { z } from "zod";
 
-const router = Router();
+const formulaIdSchema = {
+  type: "object",
+  properties: {
+    id: { type: "string", format: "uuid" },
+  },
+  required: ["id"],
+};
 
-// Validation schemas
-const formulaIdSchema = z.object({
-  id: z.string().uuid("Invalid formula ID"),
-});
+const categoryQuerySchema = {
+  type: "object",
+  properties: {
+    category: {
+      type: "string",
+      enum: ["earned_value", "scheduling", "cost", "communication", "other"],
+    },
+  },
+};
 
-const categoryQuerySchema = z.object({
-  category: z
-    .enum(["earned_value", "scheduling", "cost", "communication", "other"])
-    .optional(),
-});
+const calculateSchema = {
+  type: "object",
+  properties: {
+    inputs: { type: "object", additionalProperties: { type: "number" } },
+  },
+  required: ["inputs"],
+};
 
-const calculateSchema = z.object({
-  inputs: z.record(z.string(), z.number()),
-});
-
-/**
- * GET /api/formulas
- * Get all formulas (optionally filtered by category)
- */
-router.get(
-  "/",
-  authMiddleware,
-  validateQuery(categoryQuerySchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const category = req.query.category as string | undefined;
-      const formulas = await formulaService.getFormulas(
-        category as FormulaCategory,
-      );
-
-      res.json({
+export async function formulaRoutes(app: FastifyInstance) {
+  app.get(
+    "/",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { querystring: categoryQuerySchema },
+    },
+    async (request, reply) => {
+      const category = (request.query as any).category as
+        | FormulaCategory
+        | undefined;
+      const formulas = await formulaService.getFormulas(category);
+      reply.send({
         success: true,
         data: { formulas, count: formulas.length },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/formulas/variables
- * Get EVM variable definitions
- */
-router.get(
-  "/variables",
-  async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-      const variables = formulaService.getEVMVariables();
+  app.get("/variables", async (_request, reply) => {
+    const variables = formulaService.getEVMVariables();
+    reply.send({
+      success: true,
+      data: { variables },
+    });
+  });
 
-      res.json({
-        success: true,
-        data: { variables },
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-/**
- * GET /api/formulas/:id
- * Get a formula by ID
- */
-router.get(
-  "/:id",
-  authMiddleware,
-  validateParams(formulaIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const formula = await formulaService.getFormulaById(req.params.id!);
+  app.get(
+    "/:id",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { params: formulaIdSchema },
+    },
+    async (request, reply) => {
+      const formula = await formulaService.getFormulaById(
+        (request.params as any).id,
+      );
 
       if (!formula) {
-        res.status(404).json({
+        reply.status(404).send({
           success: false,
           error: { code: "FORMULA_001", message: "Formula not found" },
         });
         return;
       }
 
-      res.json({
+      reply.send({
         success: true,
         data: { formula },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/formulas/:id/questions
- * Get practice questions related to a formula
- */
-router.get(
-  "/:id/questions",
-  authMiddleware,
-  validateParams(formulaIdSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const limit =
-        typeof req.query.limit === "string"
-          ? parseInt(req.query.limit, 10)
-          : 10;
+  app.get(
+    "/:id/questions",
+    {
+      preHandler: [authMiddleware as any],
+      schema: { params: formulaIdSchema },
+    },
+    async (request, reply) => {
+      const limit = (request.query as any).limit || 10;
       const questionIds = await formulaService.getRelatedQuestions(
-        req.params.id!,
+        (request.params as any).id,
         limit,
       );
 
-      res.json({
+      reply.send({
         success: true,
         data: { questionIds, count: questionIds.length },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * POST /api/formulas/:id/calculate
- * Calculate a formula with given inputs (High-End/Corporate tier)
- */
-router.post(
-  "/:id/calculate",
-  authMiddleware,
-  requireFeature("formulaCalculator"),
-  validateParams(formulaIdSchema),
-  validateBody(calculateSchema),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  app.post(
+    "/:id/calculate",
+    {
+      preHandler: [
+        authMiddleware as any,
+        requireFeature("formulaCalculator") as any,
+      ],
+      schema: { params: formulaIdSchema, body: calculateSchema },
+    },
+    async (request, reply) => {
       const result = await formulaService.calculateFormula(
-        req.params.id!,
-        req.body.inputs,
+        (request.params as any).id,
+        (request.body as any).inputs,
       );
 
-      res.json({
+      reply.send({
         success: true,
         data: { result },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+    },
+  );
+}

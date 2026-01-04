@@ -1,7 +1,7 @@
+import dynamic from "next/dynamic";
 import React from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 
 // Feature route mapping for clickable cards
 const featureRoutes: Record<string, string> = {
@@ -12,6 +12,14 @@ const featureRoutes: Record<string, string> = {
   "Analytics Dashboard": "/dashboard",
   "Full Mock Exams": "/practice/mock",
 };
+
+const Footer = dynamic(
+  () => import("@/components/Footer").then((mod) => mod.Footer),
+  {
+    ssr: false,
+    loading: () => <div className="h-20" />,
+  },
+);
 
 export default function HomePage() {
   return (

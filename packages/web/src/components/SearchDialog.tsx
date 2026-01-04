@@ -1,19 +1,20 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { apiRequest } from "../lib/api";
+import { usePathname } from "next/navigation";
+import type { Dispatch, SetStateAction } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { SearchResult } from "@pmp/shared";
-import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useToast } from "@/components/ToastProvider";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { apiRequest } from "../lib/api";
 
 interface SearchDialogProps {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function SearchDialog({ open, setOpen }: SearchDialogProps) {
+const SearchDialogComponent = ({ open, setOpen }: SearchDialogProps) => {
   const pathname = usePathname();
   const toast = useToast();
   const [query, setQuery] = useState("");
@@ -25,47 +26,64 @@ export default function SearchDialog({ open, setOpen }: SearchDialogProps) {
 
   useFocusTrap(open, dialogRef, inputRef);
 
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
   // Debounced search
   useEffect(() => {
+    if (!open) {
+      setResults([]);
+      setLoading(false);
+      return;
+    }
+
+    let isActive = true;
     const timer = setTimeout(async () => {
-      if (query.trim().length >= 2) {
-        setLoading(true);
-        try {
-          const response = await apiRequest<{ results: SearchResult[] }>(
-            `/search?q=${encodeURIComponent(query)}&limit=10`,
-          );
-          if (response.data) {
-            setResults(response.data.results);
-          }
-        } catch (error) {
-          console.error("Search failed", error);
-          toast.error("Search failed. Please try again.");
-        } finally {
+      const trimmedQuery = query.trim();
+      if (trimmedQuery.length < 2) {
+        if (isActive) {
+          setResults([]);
           setLoading(false);
         }
-      } else {
-        setResults([]);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const response = await apiRequest<{ results: SearchResult[] }>(
+          `/search?q=${encodeURIComponent(trimmedQuery)}&limit=10`,
+        );
+        if (response.data && isActive) {
+          setResults(response.data.results);
+        }
+      } catch (error) {
+        if (isActive) {
+          console.error("Search failed", error);
+          toast.error("Search failed. Please try again.");
+        }
+      } finally {
+        if (isActive) {
+          setLoading(false);
+        }
       }
     }, 500);
 
-    return () => clearTimeout(timer);
-  }, [query, toast]);
+    return () => {
+      isActive = false;
+      clearTimeout(timer);
+    };
+  }, [open, query, toast]);
 
   // Global keyboard shortcut
   useEffect(() => {
     const onKeydown = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen(!open);
-      }
-      if (e.key === "Escape" && open) {
-        setOpen(false);
+      if (e.key === "Escape") {
+        handleClose();
       }
     };
 
     window.addEventListener("keydown", onKeydown);
     return () => window.removeEventListener("keydown", onKeydown);
-  }, [open, setOpen]);
+  }, [handleClose]);
 
   // Close on navigation
   useEffect(() => {
@@ -88,7 +106,7 @@ export default function SearchDialog({ open, setOpen }: SearchDialogProps) {
       <button
         type="button"
         className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity"
-        onClick={() => setOpen(false)}
+        onClick={handleClose}
         aria-label="Close search"
       ></button>
 
@@ -225,3 +243,5 @@ function getResultLink(result: SearchResult) {
       return `/dashboard`;
   }
 }
+
+export default memo(SearchDialogComponent);

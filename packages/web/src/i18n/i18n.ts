@@ -2,14 +2,20 @@
 
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import en from "./locales/en.json";
-import es from "./locales/es.json";
 
 export const SUPPORTED_LOCALES = ["en", "es"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
 const LOCALE_COOKIE = "pmp_locale";
 const LOCALE_STORAGE_KEY = "pmp_locale";
+
+const localeLoaders: Record<SupportedLocale, () => Promise<{ default: object }>> =
+  {
+    en: () => import("./locales/en.json"),
+    es: () => import("./locales/es.json"),
+  };
+
+const loadedLocales = new Set<SupportedLocale>();
 
 function isSupportedLocale(
   value: string | null | undefined,
@@ -44,28 +50,39 @@ export function getInitialLocale(): SupportedLocale {
   return "en";
 }
 
-export function setLocale(locale: SupportedLocale): void {
+export async function setLocale(locale: SupportedLocale): Promise<void> {
   if (typeof document !== "undefined") {
     document.cookie = `${LOCALE_COOKIE}=${encodeURIComponent(locale)}; path=/; max-age=31536000; samesite=lax`;
   }
   if (typeof localStorage !== "undefined") {
     localStorage.setItem(LOCALE_STORAGE_KEY, locale);
   }
-  void i18n.changeLanguage(locale);
+  await ensureLocale(locale);
+  await i18n.changeLanguage(locale);
+}
+
+async function ensureLocale(locale: SupportedLocale) {
+  if (loadedLocales.has(locale)) return;
+  const resources = await localeLoaders[locale]();
+  i18n.addResourceBundle(locale, "translation", resources.default, true, true);
+  loadedLocales.add(locale);
 }
 
 if (!i18n.isInitialized) {
-  i18n.use(initReactI18next).init({
-    resources: {
-      en: { translation: en },
-      es: { translation: es },
-    },
-    lng: typeof window === "undefined" ? "en" : getInitialLocale(),
-    fallbackLng: "en",
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+  const initialLocale =
+    typeof window === "undefined" ? "en" : getInitialLocale();
+
+  void i18n
+    .use(initReactI18next)
+    .init({
+      resources: {},
+      lng: initialLocale,
+      fallbackLng: "en",
+      interpolation: {
+        escapeValue: false,
+      },
+    })
+    .then(() => ensureLocale(initialLocale));
 }
 
 export default i18n;

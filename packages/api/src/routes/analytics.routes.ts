@@ -1,25 +1,14 @@
-/**
- * Analytics Routes
- * API endpoints for accessing PMP Study Pro analytics data
- *
- * All endpoints require authentication
- * Admin-only endpoints require admin middleware
- */
-
-import type { Request, Response, NextFunction } from "express";
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { AnalyticsService } from "../services/analytics.service";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { adminMiddleware } from "../middleware/admin.middleware";
 
-const router = Router();
 const analyticsService = new AnalyticsService();
 
-/**
- * Validation schemas
- */
-const timeRangeSchema = z.enum(["24h", "7d", "30d", "90d", "all"]).default("30d");
+const timeRangeSchema = z
+  .enum(["24h", "7d", "30d", "90d", "all"])
+  .default("30d");
 const analyticsQuerySchema = z.object({
   timeRange: timeRangeSchema,
   domainId: z.string().uuid().optional(),
@@ -27,119 +16,73 @@ const analyticsQuerySchema = z.object({
   difficulty: z.enum(["easy", "medium", "hard"]).optional(),
 });
 
-// ==================== STUDENT LEARNING ANALYTICS ====================
+export async function analyticsRoutes(app: FastifyInstance) {
+  app.addHook("preHandler", authMiddleware as any);
 
-/**
- * GET /api/analytics/learning/overview
- * Get overall student learning analytics (ADMIN ONLY)
- *
- * Query params:
- * - timeRange: "24h" | "7d" | "30d" | "90d" | "all" (default: "30d")
- * - limit: number of users to return (default: 100)
- */
-router.get(
-  "/learning/overview",
-  authMiddleware,
-  adminMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const query = analyticsQuerySchema.parse(req.query);
-      const limit = req.query.limit ? parseInt(req.query.limit as string) : 100;
+  app.get(
+    "/learning/overview",
+    { preHandler: [adminMiddleware as any] },
+    async (request, reply) => {
+      const query = analyticsQuerySchema.parse(request.query);
+      const queryAny = request.query as any;
+      const limit = queryAny.limit ? parseInt(queryAny.limit) : 100;
 
       const data = await analyticsService.getStudentLearningAnalytics({
         timeRange: query.timeRange,
         limit,
       });
 
-      res.json({
+      reply.send({
         success: true,
         data,
       });
-    } catch (error) {
-      next(error);
+    },
+  );
+
+  app.get("/learning/user/:userId", async (request, reply) => {
+    const { userId } = request.params as { userId: string };
+    const user = (request as any).user;
+    const isAdmin = (request as any).isAdmin;
+
+    if (user.userId !== userId && !isAdmin) {
+      reply.status(403).send({
+        success: false,
+        error: {
+          code: "FORBIDDEN",
+          message: "You can only access your own analytics",
+        },
+      });
+      return;
     }
-  },
-);
 
-/**
- * GET /api/analytics/learning/user/:userId
- * Get learning analytics for a specific user
- * - Users can access their own analytics
- * - Admins can access any user's analytics
- */
-router.get(
-  "/learning/user/:userId",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { userId } = req.params;
+    const data = await analyticsService.getUserLearningAnalytics(userId);
 
-      // Check if user is requesting their own data or is an admin
-      if (req.user?.userId !== userId && !req.isAdmin) {
-        res.status(403).json({
-          success: false,
-          error: {
-            code: "FORBIDDEN",
-            message: "You can only access your own analytics",
-          },
-        });
-        return;
-      }
+    reply.send({
+      success: true,
+      data,
+    });
+  });
 
-      const data = await analyticsService.getUserLearningAnalytics(userId!);
+  app.get(
+    "/learning/domain/:domainId",
+    { preHandler: [adminMiddleware as any] },
+    async (request, reply) => {
+      const { domainId } = request.params as { domainId: string };
 
-      res.json({
+      const data = await analyticsService.getDomainLearningAnalytics(domainId);
+
+      reply.send({
         success: true,
         data,
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/analytics/learning/domain/:domainId
- * Get learning analytics for a specific domain (ADMIN ONLY)
- */
-router.get(
-  "/learning/domain/:domainId",
-  authMiddleware,
-  adminMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { domainId } = req.params;
-
-      const data = await analyticsService.getDomainLearningAnalytics(domainId!);
-
-      res.json({
-        success: true,
-        data,
-      });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-// ==================== FLASHCARD PERFORMANCE ANALYTICS ====================
-
-/**
- * GET /api/analytics/flashcards/overview
- * Get overall flashcard performance analytics (ADMIN ONLY)
- *
- * Query params:
- * - timeRange: "24h" | "7d" | "30d" | "90d" | "all" (default: "30d")
- * - domainId: optional domain filter
- * - taskId: optional task filter
- */
-router.get(
-  "/flashcards/overview",
-  authMiddleware,
-  adminMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const query = analyticsQuerySchema.parse(req.query);
+  app.get(
+    "/flashcards/overview",
+    { preHandler: [adminMiddleware as any] },
+    async (request, reply) => {
+      const query = analyticsQuerySchema.parse(request.query);
 
       const data = await analyticsService.getFlashcardAnalytics({
         timeRange: query.timeRange,
@@ -147,72 +90,42 @@ router.get(
         taskId: query.taskId,
       });
 
-      res.json({
+      reply.send({
         success: true,
         data,
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/analytics/flashcards/user/:userId
- * Get flashcard analytics for a specific user
- * - Users can access their own analytics
- * - Admins can access any user's analytics
- */
-router.get(
-  "/flashcards/user/:userId",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { userId } = req.params;
+  app.get("/flashcards/user/:userId", async (request, reply) => {
+    const { userId } = request.params as { userId: string };
+    const user = (request as any).user;
+    const isAdmin = (request as any).isAdmin;
 
-      // Check if user is requesting their own data or is an admin
-      if (req.user?.userId !== userId && !req.isAdmin) {
-        res.status(403).json({
-          success: false,
-          error: {
-            code: "FORBIDDEN",
-            message: "You can only access your own analytics",
-          },
-        });
-        return;
-      }
-
-      const data = await analyticsService.getUserFlashcardAnalytics(userId!);
-
-      res.json({
-        success: true,
-        data,
+    if (user.userId !== userId && !isAdmin) {
+      reply.status(403).send({
+        success: false,
+        error: {
+          code: "FORBIDDEN",
+          message: "You can only access your own analytics",
+        },
       });
-    } catch (error) {
-      next(error);
+      return;
     }
-  },
-);
 
-// ==================== PRACTICE QUESTION INSIGHTS ====================
+    const data = await analyticsService.getUserFlashcardAnalytics(userId);
 
-/**
- * GET /api/analytics/questions/overview
- * Get overall practice question analytics (ADMIN ONLY)
- *
- * Query params:
- * - timeRange: "24h" | "7d" | "30d" | "90d" | "all" (default: "30d")
- * - domainId: optional domain filter
- * - taskId: optional task filter
- * - difficulty: optional difficulty filter ("easy" | "medium" | "hard")
- */
-router.get(
-  "/questions/overview",
-  authMiddleware,
-  adminMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const query = analyticsQuerySchema.parse(req.query);
+    reply.send({
+      success: true,
+      data,
+    });
+  });
+
+  app.get(
+    "/questions/overview",
+    { preHandler: [adminMiddleware as any] },
+    async (request, reply) => {
+      const query = analyticsQuerySchema.parse(request.query);
 
       const data = await analyticsService.getQuestionAnalytics({
         timeRange: query.timeRange,
@@ -221,98 +134,60 @@ router.get(
         difficulty: query.difficulty,
       });
 
-      res.json({
+      reply.send({
         success: true,
         data,
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/analytics/questions/user/:userId
- * Get question analytics for a specific user
- * - Users can access their own analytics
- * - Admins can access any user's analytics
- */
-router.get(
-  "/questions/user/:userId",
-  authMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { userId } = req.params;
+  app.get("/questions/user/:userId", async (request, reply) => {
+    const { userId } = request.params as { userId: string };
+    const user = (request as any).user;
+    const isAdmin = (request as any).isAdmin;
 
-      // Check if user is requesting their own data or is an admin
-      if (req.user?.userId !== userId && !req.isAdmin) {
-        res.status(403).json({
-          success: false,
-          error: {
-            code: "FORBIDDEN",
-            message: "You can only access your own analytics",
-          },
-        });
-        return;
-      }
-
-      const data = await analyticsService.getUserQuestionAnalytics(userId!);
-
-      res.json({
-        success: true,
-        data,
+    if (user.userId !== userId && !isAdmin) {
+      reply.status(403).send({
+        success: false,
+        error: {
+          code: "FORBIDDEN",
+          message: "You can only access your own analytics",
+        },
       });
-    } catch (error) {
-      next(error);
+      return;
     }
-  },
-);
 
-// ==================== SYSTEM PERFORMANCE METRICS ====================
+    const data = await analyticsService.getUserQuestionAnalytics(userId);
 
-/**
- * GET /api/analytics/system/overview
- * Get system performance metrics (ADMIN ONLY)
- *
- * Query params:
- * - timeRange: "24h" | "7d" | "30d" | "90d" | "all" (default: "24h")
- */
-router.get(
-  "/system/overview",
-  authMiddleware,
-  adminMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const query = analyticsQuerySchema.parse(req.query);
+    reply.send({
+      success: true,
+      data,
+    });
+  });
+
+  app.get(
+    "/system/overview",
+    { preHandler: [adminMiddleware as any] },
+    async (request, reply) => {
+      const query = analyticsQuerySchema.parse(request.query);
 
       const data = await analyticsService.getSystemPerformanceMetrics({
         timeRange: query.timeRange,
       });
 
-      res.json({
+      reply.send({
         success: true,
         data,
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
+    },
+  );
 
-/**
- * GET /api/analytics/dashboard
- * Get aggregated analytics data for admin dashboard (ADMIN ONLY)
- * Returns a summary of all analytics categories
- */
-router.get(
-  "/dashboard",
-  authMiddleware,
-  adminMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const query = analyticsQuerySchema.parse(req.query);
+  app.get(
+    "/dashboard",
+    { preHandler: [adminMiddleware as any] },
+    async (request, reply) => {
+      const query = analyticsQuerySchema.parse(request.query);
 
-      // Fetch all analytics in parallel for better performance
       const [
         learningAnalytics,
         flashcardAnalytics,
@@ -334,7 +209,7 @@ router.get(
         }),
       ]);
 
-      res.json({
+      reply.send({
         success: true,
         data: {
           learning: learningAnalytics,
@@ -343,10 +218,6 @@ router.get(
           system: systemMetrics,
         },
       });
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-export default router;
+    },
+  );
+}
