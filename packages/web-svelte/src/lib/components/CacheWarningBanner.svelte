@@ -12,7 +12,7 @@
 		<div class="flex items-center gap-2">
 			<span class="text-xl">⚠️</span>
 			<p class="text-sm font-medium text-amber-900 dark:text-amber-100">
-				Progress is saved to your browser only. Clearing cache will delete all data.
+				Progress is stored locally. To avoid losing data when clearing cache, use the Export Progress tool on the Dashboard.
 			</p>
 		</div>
 	</div>
@@ -24,7 +24,7 @@
 			<span class="font-bold text-amber-900 dark:text-amber-100 text-lg">IMPORTANT</span>
 		</div>
 		<p class="text-amber-900 dark:text-amber-100 font-medium text-sm leading-relaxed text-center">
-			Progress is saved to your browser only. Clearing cache will delete all data.
+			Progress is stored locally. To avoid losing data when clearing cache, use the Export Progress tool on the Dashboard.
 		</p>
 	</div>
 {/if}

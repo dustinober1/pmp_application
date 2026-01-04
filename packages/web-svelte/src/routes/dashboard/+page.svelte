@@ -14,6 +14,7 @@
 	import StudyStatsGrid from "$lib/components/StudyStatsGrid.svelte";
 	import Readiness2026Badge from "$lib/components/Readiness2026Badge.svelte";
 	import CacheWarningBanner from "$lib/components/CacheWarningBanner.svelte";
+	import DataManagement from "$lib/components/DataManagement.svelte";
 
 	let loading = $state(true);
 
@@ -192,6 +193,9 @@
 
 				<!-- Quick Actions & Activity -->
 				<div class="space-y-6">
+					<!-- Data Management -->
+					<DataManagement />
+
 					<div class="bg-white rounded-lg shadow p-6">
 						<h2 class="font-semibold mb-4">Quick Actions</h2>
 						<div class="space-y-2">
