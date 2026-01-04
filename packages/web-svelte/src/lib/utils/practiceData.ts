@@ -2,6 +2,8 @@
  * Practice data utility for loading and processing testbank.json
  */
 
+import { base } from '$app/paths';
+
 // Types for the raw testbank.json structure
 export interface TestbankMetadata {
   generatedAt: string;
@@ -136,9 +138,7 @@ export async function loadTestbank(): Promise<TestbankData> {
   }
 
   try {
-    // Use fetch with absolute path for SvelteKit static files
-    // In SvelteKit, fetch in server context can fetch static files
-    const response = await fetch('/data/testbank.json');
+    const response = await fetch(`${base}/data/testbank.json`);
     if (!response.ok) {
       throw new Error(`Failed to load testbank.json: ${response.statusText}`);
     }

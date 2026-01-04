@@ -2,6 +2,8 @@
  * Flashcards data utility for loading and processing flashcards.json
  */
 
+import { base } from '$app/paths';
+
 // Types for the raw flashcards.json structure
 export interface FlashcardMeta {
   title: string;
@@ -88,7 +90,7 @@ export async function loadFlashcardsData(): Promise<FlashcardsData> {
   }
 
   try {
-    const response = await fetch('/data/flashcards.json');
+    const response = await fetch(`${base}/data/flashcards.json`);
     if (!response.ok) {
       throw new Error(`Failed to load flashcards.json: ${response.statusText}`);
     }
