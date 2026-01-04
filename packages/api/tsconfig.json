@@ -6,11 +6,20 @@
     "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "skipLibCheck": true,
-    "noEmit": false,
-    "strict": true
+    "noEmit": false
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "prisma", "**/*.test.ts", "**/*.test.tsx"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "prisma",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }
