@@ -14,6 +14,7 @@
     type Flashcard,
     type FlashcardStats
   } from "$lib/utils/flashcardsData";
+  import { getCardProgressStats } from "$lib/utils/cardProgressStorage";
 
   // Domain filter options
   interface DomainFilter {
@@ -31,6 +32,7 @@
 
   // Local storage state
   let localMasteredCount = $state(0);
+  let dueTodayCount = $state(0);
   let recentReviews: FlashcardReview[] = $state([]);
   let showRecentReviews = $state(false);
 
@@ -219,6 +221,11 @@
 
       allFlashcards = [...peopleCards, ...processCards, ...businessCards];
       filteredFlashcards = allFlashcards;
+
+      // Calculate due today from localStorage card progress
+      const allCardIds = allFlashcards.map(card => card.id);
+      const cardStats = getCardProgressStats(allCardIds);
+      dueTodayCount = cardStats.cardsDue;
     } catch (err) {
       console.error('Failed to load flashcards:', err);
       error = err instanceof Error ? err.message : 'Failed to load flashcards';
@@ -264,7 +271,7 @@
           <div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300 hover:scale-105 cursor-default">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Due Today</h2>
             <p class="text-3xl font-bold text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">
-              0
+              {dueTodayCount}
             </p>
           </div>
           <div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 hover:scale-105 cursor-default">
