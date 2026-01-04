@@ -46,6 +46,12 @@ export interface FlashcardSessionOptions {
   prioritizeReview?: boolean;
 }
 
+// SM-2 Rating for spaced repetition
+export type SM2Rating = "again" | "hard" | "good" | "easy";
+
+// Legacy rating (for backward compatibility) - same as FlashcardRating above
+// export type FlashcardRating = "know_it" | "learning" | "dont_know";
+
 // Spaced Repetition Data (SM-2 Algorithm)
 export interface CardReviewData {
   id: string;
@@ -56,6 +62,53 @@ export interface CardReviewData {
   repetitions: number; // Successful repetitions in a row
   nextReviewDate: Date;
   lastReviewDate: Date;
+}
+
+// Card-level progress stored in localStorage
+export interface CardProgress {
+  cardId: string;
+  easeFactor: number;
+  interval: number;
+  repetitions: number;
+  nextReviewDate: string; // ISO date string
+  lastReviewDate: string; // ISO date string
+  totalReviews: number;
+  ratingCounts: {
+    again: number;
+    hard: number;
+    good: number;
+    easy: number;
+  };
+}
+
+// Study session state
+export interface StudySession {
+  sessionId: string;
+  cards: StudyCard[];
+  currentIndex: number;
+  startedAt: string;
+  completedAt?: string;
+  stats: {
+    total: number;
+    reviewed: number;
+    correct: number;
+    ratings: {
+      again: number;
+      hard: number;
+      good: number;
+      easy: number;
+    };
+  };
+}
+
+// A card in study mode with its progress state
+export interface StudyCard {
+  id: string;
+  domainId: string;
+  taskId: string;
+  front: string;
+  back: string;
+  progress: CardProgress | null;
 }
 
 export interface CreateFlashcardInput {
