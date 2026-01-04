@@ -198,6 +198,36 @@ async function tryRefreshSession(
 let cachedFlashcards: Flashcard[] | null = null;
 let cachedQuestions: PracticeQuestion[] | null = null;
 
+function normalizeDomainId(raw: string): string {
+  const lower = raw.toLowerCase().trim();
+  if (lower.includes("people")) return "domain-people";
+  if (lower.includes("process")) return "domain-process";
+  if (lower.includes("business")) return "domain-business";
+  // Fallback for slugs or already normalized IDs
+  return lower.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+}
+
+function normalizeTaskId(rawEco: string, rawTaskName: string): string {
+  // Priority: EcoReference parsing "Domain I, Task 3" -> "I-3"
+  // "Business Task 1" -> "III-1"
+  if (!rawEco) return rawTaskName; // Fallback
+
+  const eco = rawEco.trim();
+  const domainMatch = eco.match(/Domain\s+([IVX]+)/i);
+  const taskMatch = eco.match(/Task\s+(\d+)/i);
+
+  if (domainMatch && taskMatch) {
+    return `${domainMatch[1].toUpperCase()}-${taskMatch[1]}`;
+  }
+
+  // Handle "Business Task 1" -> "III-1"
+  if (eco.toLowerCase().includes("business") && taskMatch) {
+    return `III-${taskMatch[1]}`;
+  }
+
+  return eco; // Fallback
+}
+
 async function loadStaticFlashcards(fetchFn: typeof fetch): Promise<Flashcard[]> {
   if (cachedFlashcards) return cachedFlashcards;
   try {
@@ -205,16 +235,19 @@ async function loadStaticFlashcards(fetchFn: typeof fetch): Promise<Flashcard[]>
     if (res.ok) {
       const data = await res.json();
       // Flatten the structure: array of { meta, flashcards: [] } -> array of flashcards
-      cachedFlashcards = data.flatMap((group: any) =>
-        group.flashcards.map((card: any) => ({
+      cachedFlashcards = data.flatMap((group: any) => {
+        const domainId = normalizeDomainId(group.meta.domain || "");
+        const taskId = normalizeTaskId(group.meta.ecoReference || "", group.meta.task || "");
+
+        return group.flashcards.map((card: any) => ({
           ...card,
           id: String(card.id),
-          domainId: group.meta.domain, // Assuming simple mapping, might need adjustment
-          taskId: group.meta.task,
+          domainId: domainId,
+          taskId: taskId,
           createdAt: new Date().toISOString(),
           isCustom: false
-        }))
-      ) as Flashcard[];
+        }));
+      }) as Flashcard[];
       return cachedFlashcards;
     }
   } catch (e) {
@@ -229,23 +262,33 @@ async function loadStaticQuestions(fetchFn: typeof fetch): Promise<PracticeQuest
     const res = await fetchFn('/data/testbank.json');
     if (res.ok) {
       const data = await res.json();
-      cachedQuestions = data.questions.map((q: any) => ({
-        id: q.id,
-        domainId: q.domain,
-        taskId: q.task,
-        questionText: q.questionText,
-        options: q.answers.map((a: any, idx: number) => ({
-          id: `opt-${idx}`,
-          questionId: q.id,
-          text: a.text,
-          isCorrect: a.isCorrect
-        } as QuestionOption)),
-        correctOptionId: `opt-${q.correctAnswerIndex}`, // simplistic mapping
-        explanation: q.remediation.coreLogic,
-        difficulty: "medium", // Default
-        relatedFormulaIds: [],
-        createdAt: new Date().toISOString()
-      })) as PracticeQuestion[];
+      cachedQuestions = data.questions.map((q: any) => {
+        const domainId = normalizeDomainId(q.domain || "");
+        // Construct Task ID: "III-1" style if possible
+        // q.domain="business", q.taskNumber=1 -> "III-1"
+        let taskId = q.task || "";
+        if (domainId === 'domain-people') taskId = `I-${q.taskNumber}`;
+        else if (domainId === 'domain-process') taskId = `II-${q.taskNumber}`;
+        else if (domainId === 'domain-business') taskId = `III-${q.taskNumber}`;
+
+        return {
+          id: q.id,
+          domainId: domainId,
+          taskId: taskId,
+          questionText: q.questionText,
+          options: q.answers.map((a: any, idx: number) => ({
+            id: `opt-${idx}`,
+            questionId: q.id,
+            text: a.text,
+            isCorrect: a.isCorrect
+          } as QuestionOption)),
+          correctOptionId: `opt-${q.correctAnswerIndex}`,
+          explanation: q.remediation.coreLogic,
+          difficulty: "medium", // Default
+          relatedFormulaIds: [],
+          createdAt: new Date().toISOString()
+        };
+      }) as PracticeQuestion[];
       return cachedQuestions;
     }
   } catch (e) {
