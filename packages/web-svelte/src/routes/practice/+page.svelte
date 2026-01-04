@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { getRollingAverage, getAllScores, type MockExamScore } from '$lib/utils/mockExamStorage';
+	import { practiceApi } from '$lib/utils/api';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
