@@ -3,13 +3,21 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { getRollingAverage, getAllScores, type MockExamScore } from '$lib/utils/mockExamStorage';
+	import { getPracticeStatsFromStorage, type PracticeStats as StoragePracticeStats } from '$lib/utils/practiceSessionStorage';
 	import { practiceApi } from '$lib/utils/api';
 	import { getPracticeStats, getDomains, type PracticeStats, type Domain } from '$lib/utils/practiceData';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
+	// Combined stats type that includes testbank metadata and user progress
+	interface CombinedPracticeStats extends PracticeStats {
+		totalSessions: number;
+		bestScore: number;
+		weakDomains: string[];
+	}
+
 	let loading = $state(true);
-	let stats: PracticeStats | null = $state(null);
+	let stats: CombinedPracticeStats | null = $state(null);
 	let domains: Domain[] = $state([]);
 	let mockExams = [];
 	let error = $state(null);
@@ -20,9 +28,17 @@
 	// LocalStorage data
 	let rollingAverage = $state(0);
 	let mockExamHistory: MockExamScore[] = $state([]);
+	let storageStats = $state({
+		totalSessions: 0,
+		totalQuestions: 0,
+		bestScore: 0,
+		weakDomains: [] as string[],
+		averageScore: 0
+	});
 
 	onMount(async () => {
-		// Load localStorage data
+		// Load localStorage data for practice sessions
+		storageStats = getPracticeStatsFromStorage();
 		rollingAverage = getRollingAverage(5);
 		mockExamHistory = getAllScores();
 
@@ -34,9 +50,9 @@
 			]);
 			stats = {
 				...statsResult,
-				totalSessions: 0,
-				bestScore: 0,
-				weakDomains: [],
+				totalSessions: storageStats.totalSessions,
+				bestScore: storageStats.bestScore,
+				weakDomains: storageStats.weakDomains,
 			};
 			domains = domainsResult;
 			mockExams = [];
@@ -125,19 +141,19 @@
 			<!-- Stats -->
 			<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 				<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 hover:scale-105 transition-all duration-300 cursor-default">
-					<p class="text-3xl font-bold group-hover:scale-110 transition-transform duration-300">{stats?.totalSessions || 0}</p>
+					<p class="text-3xl font-bold group-hover:scale-110 transition-transform duration-300">{storageStats.totalSessions}</p>
 					<p class="text-sm text-gray-600 dark:text-gray-400">Sessions</p>
 				</div>
 				<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-purple-500/20 hover:scale-105 transition-all duration-300 cursor-default">
-					<p class="text-3xl font-bold group-hover:scale-110 transition-transform duration-300">{stats?.totalQuestions || 0}</p>
+					<p class="text-3xl font-bold group-hover:scale-110 transition-transform duration-300">{storageStats.totalQuestions}</p>
 					<p class="text-sm text-gray-600 dark:text-gray-400">Questions Answered</p>
 				</div>
 				<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 hover:scale-105 transition-all duration-300 cursor-default">
-					<p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">{rollingAverage}%</p>
-					<p class="text-sm text-gray-600 dark:text-gray-400">Rolling Avg (5)</p>
+					<p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">{storageStats.averageScore}%</p>
+					<p class="text-sm text-gray-600 dark:text-gray-400">Average Score</p>
 				</div>
 				<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-green-500/20 hover:scale-105 transition-all duration-300 cursor-default">
-					<p class="text-3xl font-bold text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">{stats?.bestScore || 0}%</p>
+					<p class="text-3xl font-bold text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">{storageStats.bestScore}%</p>
 					<p class="text-sm text-gray-600 dark:text-gray-400">Best Score</p>
 				</div>
 			</div>
@@ -237,14 +253,14 @@
 					</div>
 
 					<!-- Weak Areas -->
-					{#if stats?.weakDomains && stats.weakDomains.length > 0}
+					{#if storageStats.weakDomains && storageStats.weakDomains.length > 0}
 						<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl transition-all duration-300">
 							<h2 class="font-semibold mb-4 text-gray-900 dark:text-white">Focus Areas</h2>
 							<p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
 								Based on your practice history, focus on these areas:
 							</p>
 							<div class="flex flex-wrap gap-2">
-								{#each stats.weakDomains as domain}
+								{#each storageStats.weakDomains as domain}
 									<span class="group px-3 py-1 text-sm font-medium rounded-full bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 text-yellow-800 dark:text-yellow-300 border border-yellow-200/50 dark:border-yellow-800/50 hover:scale-105 hover:shadow-md transition-all duration-300"
 										>{domain}</span
 									>
