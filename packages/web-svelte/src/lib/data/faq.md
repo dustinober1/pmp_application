@@ -131,5 +131,5 @@ Membership is not required, but it reduces exam fees and includes PMI resources.
 ### What's the difference between CAPM and PMP?
 CAPM is an entry-level certification; PMP is for experienced project managers with leadership experience.
 
-### Will the PMBOK 7th edition be enough?
-PMBOK 7 is a guide, not a test-prep book. Use it alongside practice questions and Agile references.
+### Will the PMBOK 8th edition be enough?
+PMBOK 8 is a guide, not a test-prep book. Use it alongside practice questions and Agile references.

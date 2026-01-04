@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { base } from "$app/paths";
-	import { authStore } from "$lib/stores/auth";
 	import {
 		domainProgressStore,
 		recentActivityStore,
@@ -15,15 +14,8 @@
 	import StudyStatsGrid from "$lib/components/StudyStatsGrid.svelte";
 	import Readiness2026Badge from "$lib/components/Readiness2026Badge.svelte";
 	import CacheWarningBanner from "$lib/components/CacheWarningBanner.svelte";
-	import type { UserProfile } from "@pmp/shared";
-
-	export let data: {
-		user: UserProfile | null;
-		error: string | null;
-	};
 
 	let loading = true;
-	let error: string | null = null;
 
 	// Get first name helper
 	function getFirstName(name: string | null | undefined): string {
@@ -58,31 +50,20 @@
 	}
 
 	onMount(async () => {
-		if (data.error) {
-			error = data.error;
-		}
 		loading = false;
 	});
 
-	// Subscribe to auth store
-	let user: UserProfile | null = null;
-	let canAccess = false;
-
-	authStore.subscribe((auth) => {
-		user = auth.user;
-		canAccess = auth.isAuthenticated;
-	});
+	// Optional: Get user name from localStorage for personalization
+	let userName = $state<string>("");
+	try {
+		userName = localStorage.getItem("pmp_user_name") || "";
+	} catch {
+		// localStorage not available
+	}
 </script>
 
 {#if loading}
 	<LoadingState message="Loading dashboard..." />
-{:else if error}
-	<ErrorState title="Dashboard Error" message={error} />
-{:else if !canAccess}
-	<ErrorState
-		title="Authentication Required"
-		message="Please log in to view your dashboard."
-	/>
 {:else}
 	<div class="min-h-screen bg-gray-50">
 		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -97,7 +78,7 @@
 			<!-- Header -->
 			<div class="mb-8">
 				<h1 class="text-2xl font-bold text-gray-900">
-					Welcome back, {getFirstName(user?.name)}! 👋
+					Welcome back, {getFirstName(userName)}! 👋
 				</h1>
 				<p class="text-gray-600">
 					Here's your study progress at a glance.
