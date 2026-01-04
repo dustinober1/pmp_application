@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import { authStore } from '$lib/stores/auth';
+	import { createStudySessionTracker } from '$lib/utils/studySession';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
@@ -37,6 +38,37 @@
 			error = data.error;
 		}
 		loading = false;
+
+		// Start tracking study session when page loads
+		if (task && canAccess) {
+			const tracker = createStudySessionTracker(task.id);
+			tracker.startSession();
+
+			// Save session tracker for cleanup on unmount
+			(window as any).__studySessionTracker = tracker;
+
+			// Add beforeunload listener to save session when tab closes
+			const handleBeforeUnload = () => {
+				tracker.endSession(false);
+			};
+			window.addEventListener('beforeunload', handleBeforeUnload);
+			(window as any).__handleBeforeUnload = handleBeforeUnload;
+		}
+	});
+
+	onDestroy(() => {
+		// End tracking study session when page unloads
+		const tracker = (window as any).__studySessionTracker;
+		if (tracker) {
+			tracker.endSession(false);
+			delete (window as any).__studySessionTracker;
+		}
+
+		// Remove beforeunload event listener
+		if (typeof window !== 'undefined' && (window as any).__handleBeforeUnload) {
+			window.removeEventListener('beforeunload', (window as any).__handleBeforeUnload);
+			delete (window as any).__handleBeforeUnload;
+		}
 	});
 
 	function scrollToSection(sectionId) {
