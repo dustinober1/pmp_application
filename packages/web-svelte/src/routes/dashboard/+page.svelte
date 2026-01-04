@@ -2,22 +2,27 @@
 	import { onMount } from "svelte";
 	import { base } from "$app/paths";
 	import { authStore } from "$lib/stores/auth";
-	import { dashboardApi } from "$lib/utils/api";
+	import {
+		domainProgressStore,
+		recentActivityStore,
+		overallProgress,
+		domains2026,
+		getDomainWeighting
+	} from "$lib/stores/dashboard";
 	import LoadingState from "$lib/components/LoadingState.svelte";
 	import ErrorState from "$lib/components/ErrorState.svelte";
-	import ECOBadge from "$lib/components/ECOBadge.svelte";
+	import CircularProgress from "$lib/components/CircularProgress.svelte";
+	import StudyStatsGrid from "$lib/components/StudyStatsGrid.svelte";
+	import Readiness2026Badge from "$lib/components/Readiness2026Badge.svelte";
 	import CacheWarningBanner from "$lib/components/CacheWarningBanner.svelte";
-	import type { DashboardData } from "@pmp/shared";
 	import type { UserProfile } from "@pmp/shared";
 
 	export let data: {
 		user: UserProfile | null;
-		dashboard: DashboardData | null;
 		error: string | null;
 	};
 
 	let loading = true;
-	let dashboardData: DashboardData | null = null;
 	let error: string | null = null;
 
 	// Get first name helper
@@ -28,8 +33,8 @@
 	}
 
 	// Format date helper
-	function formatDate(timestamp: string): string {
-		const date = new Date(timestamp);
+	function formatDate(timestamp: Date | string): string {
+		const date = typeof timestamp === "string" ? new Date(timestamp) : timestamp;
 		const now = new Date();
 		const diffMs = now.getTime() - date.getTime();
 		const diffMins = Math.floor(diffMs / 60000);
@@ -53,22 +58,8 @@
 	}
 
 	onMount(async () => {
-		// Use data from load function if available
-		if (data.dashboard) {
-			dashboardData = data.dashboard;
-		} else if (data.error) {
+		if (data.error) {
 			error = data.error;
-		} else {
-			// Fallback to client-side fetch
-			try {
-				const response = await dashboardApi.getDashboard();
-				dashboardData = response.data?.dashboard || null;
-			} catch (err) {
-				error =
-					err instanceof Error
-						? err.message
-						: "Failed to load dashboard";
-			}
 		}
 		loading = false;
 	});
@@ -94,14 +85,13 @@
 	/>
 {:else}
 	<div class="min-h-screen bg-gray-50">
-
 		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 			<!-- Cache Warning Banner -->
 			<CacheWarningBanner variant="full" />
 
-			<!-- ECO Badge -->
+			<!-- 2026 Readiness Badge -->
 			<div class="mb-6">
-				<ECOBadge variant="compact" />
+				<Readiness2026Badge variant="card" />
 			</div>
 
 			<!-- Header -->
@@ -114,53 +104,41 @@
 				</p>
 			</div>
 
-			<!-- Stats Grid -->
-			<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-				<div class="bg-white rounded-lg shadow p-6">
-					<p class="text-sm text-gray-600">Current Streak</p>
-					<p class="text-3xl font-bold mt-1">
-						{dashboardData?.studyStreak?.currentStreak || 0} 🔥
-					</p>
-					<p class="text-xs text-gray-600 mt-1">
-						Best: {dashboardData?.studyStreak?.longestStreak || 0} days
-					</p>
-				</div>
+			<!-- Study Stats Grid -->
+			<div class="mb-8">
+				<StudyStatsGrid />
+			</div>
 
-				<div class="bg-white rounded-lg shadow p-6">
-					<p class="text-sm text-gray-600">Overall Progress</p>
-					<p class="text-3xl font-bold mt-1">
-						{dashboardData?.overallProgress || 0}%
-					</p>
-					<div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-						<div
-							class="bg-indigo-600 h-2 rounded-full"
-							style="width: {dashboardData?.overallProgress ||
-								0}%"
-						></div>
+			<!-- Overall Progress -->
+			<div class="bg-white rounded-lg shadow p-6 mb-8">
+				<div class="flex items-center justify-between mb-4">
+					<h2 class="text-lg font-semibold text-gray-900">Overall Progress</h2>
+					<span class="text-sm text-gray-600">Based on 2026 ECO</span>
+				</div>
+				<div class="flex items-center gap-6">
+					{#if $overallProgress !== undefined}
+						<CircularProgress
+							percentage={$overallProgress}
+							label="Complete"
+							size={140}
+							strokeWidth={12}
+							color="blue"
+						/>
+					{/if}
+					<div class="flex-1">
+						<p class="text-sm text-gray-600 mb-3">
+							Your progress across all three domains of the 2026 PMP Exam Content Outline.
+						</p>
+						<div class="grid grid-cols-3 gap-4">
+							{#each domains2026 as domain}
+								<div class="text-center p-3 bg-gray-50 rounded-lg">
+									<p class="text-xs font-medium text-gray-600 mb-1">{domain.domainName}</p>
+									<p class="text-lg font-bold text-indigo-600">{domain.weighting}%</p>
+									<p class="text-[10px] text-gray-500">{domain.description}</p>
+								</div>
+							{/each}
+						</div>
 					</div>
-				</div>
-
-				<div class="bg-white rounded-lg shadow p-6">
-					<p class="text-sm text-gray-600">Cards to Review</p>
-					<p class="text-3xl font-bold mt-1">
-						{dashboardData?.upcomingReviews?.length || 0}
-					</p>
-					<a
-						href="{base}/flashcards/review"
-						class="text-xs text-indigo-600 mt-1 hover:underline inline-block"
-					>
-						Start review →
-					</a>
-				</div>
-
-				<div class="bg-white rounded-lg shadow p-6">
-					<p class="text-sm text-gray-600">Weak Areas</p>
-					<p class="text-3xl font-bold mt-1">
-						{dashboardData?.weakAreas?.length || 0}
-					</p>
-					<p class="text-xs text-gray-600 mt-1">
-						Topics needing focus
-					</p>
 				</div>
 			</div>
 
@@ -168,71 +146,67 @@
 				<!-- Domain Progress -->
 				<div class="lg:col-span-2 space-y-6">
 					<div class="bg-white rounded-lg shadow p-6">
-						<h2 class="font-semibold mb-4">Domain Progress</h2>
-						<div class="space-y-4">
-							{#each dashboardData?.domainProgress || [] as domain}
-								<div>
-									<div
-										class="flex justify-between items-center mb-1"
-									>
-										<span class="text-sm font-medium"
-											>{domain.domainName}</span
-										>
-										<span class="text-sm text-gray-600"
-											>{domain.progress}%</span
-										>
+						<h2 class="text-lg font-semibold mb-2">2026 Domain Progress</h2>
+						<p class="text-sm text-gray-600 mb-4">
+							Track your mastery across the three domains of the updated PMP ECO.
+						</p>
+						<div class="grid md:grid-cols-3 gap-6">
+							{#each $domainProgressStore.domains as domain}
+								{@const domainInfo = domains2026.find((d) => d.domainId === domain.domainId)}
+								<div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+									<div class="flex justify-between items-center mb-3">
+										<div>
+											<h3 class="font-medium text-gray-900">{domain.domainName}</h3>
+											<p class="text-xs text-gray-500">{domainInfo?.description || ""}</p>
+										</div>
+										<span class="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800">
+											{domainInfo?.weighting || 0}%
+										</span>
 									</div>
-									<div
-										class="w-full bg-gray-200 rounded-full h-2"
-									>
-										<div
-											class="bg-indigo-600 h-2 rounded-full"
-											style="width: {domain.progress}%"
-										></div>
+
+									<!-- Circular Progress for each domain -->
+									<div class="flex justify-center mb-3">
+										<CircularProgress
+											percentage={Math.round(
+												((domain.studyGuideProgress || 0) +
+													(domain.flashcardsTotal > 0
+														? (domain.flashcardsMastered / domain.flashcardsTotal) * 100
+														: 0)) /
+													2
+											)}
+											label={domain.domainName}
+											size={100}
+											strokeWidth={8}
+											color={domain.domainId === "people"
+												? "purple"
+												: domain.domainId === "process"
+													? "blue"
+													: "emerald"}
+											showLabel={false}
+											description=""
+										/>
 									</div>
-									<p class="text-xs text-gray-600 mt-1">
-										{domain.questionsAnswered} questions • {domain.accuracy}%
-										accuracy
-									</p>
+
+									<div class="space-y-2 text-sm">
+										<div class="flex justify-between">
+											<span class="text-gray-600">Study Guide:</span>
+											<span class="font-medium">{domain.studyGuideProgress || 0}%</span>
+										</div>
+										<div class="flex justify-between">
+											<span class="text-gray-600">Flashcards:</span>
+											<span class="font-medium"
+												>{domain.flashcardsMastered || 0} / {domain.flashcardsTotal || 0}</span
+											>
+										</div>
+										<div class="flex justify-between">
+											<span class="text-gray-600">Accuracy:</span>
+											<span class="font-medium">{domain.practiceAccuracy || 0}%</span>
+										</div>
+									</div>
 								</div>
 							{/each}
 						</div>
 					</div>
-
-					<!-- Weak Areas -->
-					{#if dashboardData?.weakAreas && dashboardData.weakAreas.length > 0}
-						<div class="bg-white rounded-lg shadow p-6">
-							<h2 class="font-semibold mb-4">Areas to Improve</h2>
-							<div class="space-y-3">
-								{#each dashboardData.weakAreas as area}
-									<div
-										class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-									>
-										<div>
-											<p
-												class="font-medium text-sm"
-												title={area.taskName}
-											>
-												{truncateAtWordBoundary(
-													area.taskName,
-													50,
-												)}
-											</p>
-											<p class="text-xs text-gray-600">
-												{area.domainName}
-											</p>
-										</div>
-										<div class="text-right">
-											<span
-												class="px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800"
-												>{area.accuracy}%</span
-											>
-										</div>
-									</div>
-								{/each}
-							</div>
-						</div>
-					{/if}
 				</div>
 
 				<!-- Quick Actions & Activity -->
@@ -312,26 +286,26 @@
 					<div class="bg-white rounded-lg shadow p-6">
 						<h2 class="font-semibold mb-4">Recent Activity</h2>
 						<div class="space-y-3">
-							{#each (dashboardData?.recentActivity || []).slice(0, 5) as activity}
-								<div class="flex items-start gap-3 text-sm">
-									<div
-										class="w-2 h-2 rounded-full bg-indigo-600 mt-2"
-									></div>
-									<div>
-										<p title={activity.description}>
-											{truncateAtWordBoundary(
-												activity.description,
-												80,
-											)}
-										</p>
-										<p class="text-xs text-gray-600">
-											{formatDate(activity.timestamp)}
-										</p>
+							{#if $recentActivityStore.activities && $recentActivityStore.activities.length > 0}
+								{#each $recentActivityStore.activities.slice(0, 5) as activity}
+									<div class="flex items-start gap-3 text-sm">
+										<div
+											class="w-2 h-2 rounded-full bg-indigo-600 mt-2"
+										></div>
+										<div>
+											<p title={activity.targetName}>
+												{truncateAtWordBoundary(
+													activity.targetName,
+													80,
+												)}
+											</p>
+											<p class="text-xs text-gray-600">
+												{formatDate(activity.timestamp)}
+											</p>
+										</div>
 									</div>
-								</div>
-							{/each}
-
-							{#if !dashboardData?.recentActivity || dashboardData.recentActivity.length === 0}
+								{/each}
+							{:else}
 								<p class="text-sm text-gray-600">
 									No recent activity yet. Start studying!
 								</p>
