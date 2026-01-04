@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { auth, user, isAuthenticated } from '$lib/stores/auth';
+	import { authStore, user, isAuthenticated } from '$lib/stores/auth';
 	import { locale, t } from '$lib/stores/i18n';
 
 	let mobileMenuOpen = $state(false);

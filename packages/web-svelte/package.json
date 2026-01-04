@@ -12,7 +12,9 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"dependencies": {
-		"@pmp/shared": "1.0.0"
+		"@pmp/shared": "1.0.0",
+		"isomorphic-dompurify": "^2.35.0",
+		"marked": "^17.0.1"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.0",
