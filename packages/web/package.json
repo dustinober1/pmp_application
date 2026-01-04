@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "NODE_OPTIONS='--max-old-space-size=448' next build",
-    "start": "next start",
+    "start": "cd .next/standalone/packages/web && node server.js",
+    "start:dev": "next start",
     "lint": "next lint",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
