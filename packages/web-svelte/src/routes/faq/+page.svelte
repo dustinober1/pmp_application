@@ -1,14 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
+	import faqContent from '$lib/data/faq.md?raw';
 	import SanitizedMarkdown from '$lib/components/SanitizedMarkdown.svelte';
-
-	interface PageData {
-		faqContent: string;
-		error: string | null;
-	}
-
-	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
@@ -44,22 +37,12 @@
 			</p>
 		</div>
 
-		<!-- Error State -->
-		{#if data.error}
-			<div
-				class="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl p-6 text-center"
-			>
-				<p class="text-red-700 dark:text-red-300 font-medium">Failed to load FAQ content</p>
-				<p class="text-red-600 dark:text-red-400 text-sm mt-1">{data.error}</p>
-			</div>
-		{:else}
-			<!-- FAQ Content in Glassmorphism Card -->
-			<div
-				class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-8 md:p-12 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300"
-			>
-				<SanitizedMarkdown content={data.faqContent} className="faq-content" />
-			</div>
-		{/if}
+		<!-- FAQ Content in Glassmorphism Card -->
+		<div
+			class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-8 md:p-12 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300"
+		>
+			<SanitizedMarkdown content={faqContent} className="faq-content" />
+		</div>
 	</div>
 </div>
 
