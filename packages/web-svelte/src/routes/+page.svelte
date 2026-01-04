@@ -43,19 +43,22 @@
 				Access practice questions, flashcards, and study guides without any subscription or login required.
 			</p>
 
-			<!-- Domain Percentages -->
+			<!-- Domain Percentages with Glassmorphism -->
 			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-				<div class="text-center p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-					<div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-1">33%</div>
-					<div class="text-sm font-medium text-gray-700 dark:text-gray-300">People</div>
+				<div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 dark:from-indigo-400/10 dark:to-indigo-500/10 backdrop-blur-md border border-indigo-200/50 dark:border-indigo-700/50 shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-105 cursor-default">
+					<div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2 group-hover:scale-110 transition-transform duration-300">33%</div>
+					<div class="font-semibold text-gray-800 dark:text-gray-200 mb-2">People</div>
+					<p class="text-xs text-gray-600 dark:text-gray-400 leading-snug">Focus on soft skills and leadership</p>
 				</div>
-				<div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-					<div class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-1">41%</div>
-					<div class="text-sm font-medium text-gray-700 dark:text-gray-300">Process</div>
+				<div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-600/10 dark:from-purple-400/10 dark:to-purple-500/10 backdrop-blur-md border border-purple-200/50 dark:border-purple-700/50 shadow-lg hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 cursor-default">
+					<div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2 group-hover:scale-110 transition-transform duration-300">41%</div>
+					<div class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Process</div>
+					<p class="text-xs text-gray-600 dark:text-gray-400 leading-snug">Technical management of projects</p>
 				</div>
-				<div class="text-center p-4 bg-pink-50 dark:bg-pink-900/20 rounded-lg">
-					<div class="text-3xl font-bold text-pink-600 dark:text-pink-400 mb-1">26%</div>
-					<div class="text-sm font-medium text-gray-700 dark:text-gray-300">Business Environment</div>
+				<div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-pink-500/10 to-pink-600/10 dark:from-pink-400/10 dark:to-pink-500/10 backdrop-blur-md border border-pink-200/50 dark:border-pink-700/50 shadow-lg hover:shadow-pink-500/25 transition-all duration-300 hover:scale-105 cursor-default">
+					<div class="text-4xl font-bold text-pink-600 dark:text-pink-400 mb-2 group-hover:scale-110 transition-transform duration-300">26%</div>
+					<div class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Business Environment</div>
+					<p class="text-xs text-gray-600 dark:text-gray-400 leading-snug">Major Increase — strategic alignment, compliance, and organizational value</p>
 				</div>
 			</div>
 
