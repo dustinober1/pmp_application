@@ -1,6 +1,5 @@
-import { writable, derived, get } from "svelte/store";
+import { writable, derived } from "svelte/store";
 import type { UserProfile } from "@pmp/shared";
-import { apiRequest } from "$lib/api";
 
 interface AuthState {
   user: UserProfile | null;
@@ -9,99 +8,69 @@ interface AuthState {
 }
 
 function createAuthStore() {
-  const { subscribe, set, update } = writable<AuthState>({
+  const { subscribe, set } = writable<AuthState>({
     user: null,
     isLoading: true,
     isAuthenticated: false,
   });
 
-  // Hydrate auth state on client-side
+  // Default static user
+  const staticUser: UserProfile = {
+    id: "local-user",
+    email: "student@example.com",
+    name: "PMP Student",
+    emailVerified: true,
+    failedLoginAttempts: 0,
+    lockedUntil: null,
+    tier: "pro", // Give pro access by default since it's free now
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
+
   async function hydrate(): Promise<void> {
-    // Skip hydration during server-side rendering
-    if (typeof window === "undefined") {
-      return;
-    }
+    if (typeof window === "undefined") return;
 
-    try {
-      const response = await apiRequest<{ user: UserProfile }>("/auth/me");
-      const user = response.data?.user || null;
-
-      set({
-        user,
-        isLoading: false,
-        isAuthenticated: !!user,
-      });
-    } catch (error) {
-      set({
-        user: null,
-        isLoading: false,
-        isAuthenticated: false,
-      });
-    }
-  }
-
-  async function login(
-    email: string,
-    password: string,
-    rememberMe: boolean = false,
-  ): Promise<void> {
-    const response = await apiRequest<{ user: UserProfile }>("/auth/login", {
-      method: "POST",
-      body: { email, password, rememberMe },
-    });
-
-    const user = response.data?.user || null;
+    // In a static site with no backend, we just auto-login the user
+    // We can check localStorage if we want to persist custom names later,
+    // but for now, just set the static user.
     set({
-      user,
+      user: staticUser,
       isLoading: false,
-      isAuthenticated: !!user,
+      isAuthenticated: true,
     });
   }
 
-  async function register(
-    email: string,
-    password: string,
-    name: string,
-  ): Promise<void> {
-    const response = await apiRequest<{ user: UserProfile }>("/auth/register", {
-      method: "POST",
-      body: { email, password, name },
-    });
+  // Mock functions that simulate auth actions
+  async function login(): Promise<void> {
+    await hydrate();
+  }
 
-    const user = response.data?.user || null;
-    set({
-      user,
-      isLoading: false,
-      isAuthenticated: !!user,
-    });
+  async function register(): Promise<void> {
+    await hydrate();
   }
 
   async function logout(): Promise<void> {
-    try {
-      await apiRequest("/auth/logout", { method: "POST" });
-    } finally {
-      set({
-        user: null,
-        isLoading: false,
-        isAuthenticated: false,
-      });
-    }
+    // For a static site, "logout" just reloads the page or does nothing.
+    // We could clear localStorage if we were using it for state.
+    // For now, let's keep them logged in or allow a 'reset'.
+    set({
+      user: null,
+      isLoading: false,
+      isAuthenticated: false
+    });
+    // Immediately re-login after a short delay to simulate "public" site behavior?
+    // Or just leave them logged out. Let's leave them logged out until refresh.
   }
 
   async function refreshToken(): Promise<void> {
-    try {
-      await apiRequest("/auth/refresh", { method: "POST" });
-      await hydrate();
-    } catch {
-      await logout();
-    }
+    await hydrate();
   }
 
   async function refreshUser(): Promise<void> {
     await hydrate();
   }
 
-  // Initialize hydration on client
+  // Initialize
   if (typeof window !== "undefined") {
     hydrate();
   }
@@ -118,14 +87,8 @@ function createAuthStore() {
 }
 
 export const authStore = createAuthStore();
-
-// Export as 'auth' for compatibility with existing components
 export const auth = authStore;
 
-// Derived stores for convenience
 export const user = derived(authStore, ($auth) => $auth.user);
 export const isLoading = derived(authStore, ($auth) => $auth.isLoading);
-export const isAuthenticated = derived(
-  authStore,
-  ($auth) => $auth.isAuthenticated,
-);
+export const isAuthenticated = derived(authStore, ($auth) => $auth.isAuthenticated);

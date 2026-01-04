@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import { practiceApi } from '$lib/utils/api';
 	import LoadingState from '$lib/components/LoadingState.svelte';
@@ -113,7 +114,7 @@
 		try {
 			const sessionId = $page.params.sessionId;
 			await practiceApi.completeSession(sessionId);
-			goto('/dashboard');
+			goto(`${base}/dashboard`);
 		} catch (err) {
 			console.error('Failed to complete session:', err);
 			error = err instanceof Error ? err.message : 'Failed to complete session';

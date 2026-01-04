@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { goto } from "$app/navigation";
+	import { base } from "$app/paths";
 	import { authStore } from "$lib/stores/auth";
 	import { dashboardApi } from "$lib/utils/api";
-	import Navbar from "$lib/components/Navbar.svelte";
 	import LoadingState from "$lib/components/LoadingState.svelte";
 	import ErrorState from "$lib/components/ErrorState.svelte";
 	import type { DashboardData } from "@pmp/shared";
@@ -93,7 +92,6 @@
 	/>
 {:else}
 	<div class="min-h-screen bg-gray-50">
-		<Navbar />
 
 		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 			<!-- Header -->
@@ -138,7 +136,7 @@
 						{dashboardData?.upcomingReviews?.length || 0}
 					</p>
 					<a
-						href="/flashcards/review"
+						href="{base}/flashcards/review"
 						class="text-xs text-indigo-600 mt-1 hover:underline inline-block"
 					>
 						Start review →
@@ -233,7 +231,7 @@
 						<h2 class="font-semibold mb-4">Quick Actions</h2>
 						<div class="space-y-2">
 							<a
-								href="/study"
+								href="{base}/study"
 								class="block w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-left"
 							>
 								<div class="flex items-center gap-2">
@@ -255,7 +253,7 @@
 							</a>
 
 							<a
-								href="/flashcards"
+								href="{base}/flashcards"
 								class="block w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-left"
 							>
 								<div class="flex items-center gap-2">
@@ -277,7 +275,7 @@
 							</a>
 
 							<a
-								href="/practice"
+								href="{base}/practice"
 								class="block w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-left"
 							>
 								<div class="flex items-center gap-2">

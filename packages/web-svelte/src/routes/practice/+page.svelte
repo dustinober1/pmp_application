@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { authStore } from '$lib/stores/auth';
 	import { practiceApi } from '$lib/utils/api';
-	import Navbar from '$lib/components/Navbar.svelte';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
@@ -53,7 +53,7 @@
 			});
 			const sessionId = response.data?.sessionId;
 			if (sessionId) {
-				goto(`/practice/session/${sessionId}`);
+				goto(`${base}/practice/session/${sessionId}`);
 			}
 		} catch (err) {
 			console.error('Failed to start session:', err);
@@ -73,7 +73,7 @@
 			});
 			const sessionId = response.data?.sessionId;
 			if (sessionId) {
-				goto(`/practice/session/${sessionId}`);
+				goto(`${base}/practice/session/${sessionId}`);
 			}
 		} catch (err) {
 			console.error('Failed to start mock exam:', err);
@@ -105,7 +105,6 @@
 	/>
 {:else}
 	<div class="min-h-screen bg-gray-50">
-		<Navbar />
 
 		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 			<div class="mb-8">
@@ -281,7 +280,7 @@
 									Available for Pro and Corporate tiers
 								</p>
 								<a
-									href="/pricing"
+									href="{base}/pricing"
 									class="block w-full px-4 py-2 bg-gray-100 text-gray-700 text-center rounded-lg hover:bg-gray-200 transition"
 								>
 									Upgrade to Access
@@ -297,7 +296,7 @@
 							Review questions you have flagged for later.
 						</p>
 						<a
-							href="/practice/flagged"
+							href="{base}/practice/flagged"
 							class="block w-full px-4 py-2 bg-gray-100 text-gray-700 text-center rounded-lg hover:bg-gray-200 transition mt-4"
 						>
 							View Flagged

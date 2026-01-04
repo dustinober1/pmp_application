@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import { authStore } from '$lib/stores/auth';
 	import LoadingState from '$lib/components/LoadingState.svelte';
@@ -54,7 +55,7 @@
 		<h1 class="text-2xl font-bold text-white mb-2">Task Not Found</h1>
 		<p class="text-gray-400 mb-6">The requested task could not be found.</p>
 		<button
-			on:click={() => goto('/study')}
+			on:click={() => goto(`${base}/study`)}
 			class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
 		>
 			Back to Study Guide
@@ -70,7 +71,7 @@
 		<!-- Header -->
 		<div class="mb-8">
 			<div class="flex items-center space-x-2 text-sm text-gray-400 mb-2">
-				<button on:click={() => goto('/study')} class="hover:text-white transition">
+				<button on:click={() => goto(`${base}/study`)} class="hover:text-white transition">
 					Study Guide
 				</button>
 				<span>/</span>
@@ -117,13 +118,13 @@
 						</h3>
 						<div class="space-y-2">
 							<button
-								on:click={() => goto('/flashcards')}
+								on:click={() => goto(`${base}/flashcards`)}
 								class="w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center"
 							>
 								<span class="mr-2">🗂️</span> Related Flashcards
 							</button>
 							<button
-								on:click={() => goto('/formulas')}
+								on:click={() => goto(`${base}/formulas`)}
 								class="w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center"
 							>
 								<span class="mr-2">∑</span> Related Formulas
@@ -148,7 +149,7 @@
 						</p>
 						<div class="mt-6 flex justify-center space-x-4">
 							<button
-								on:click={() => goto('/flashcards')}
+								on:click={() => goto(`${base}/flashcards`)}
 								class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
 							>
 								Start Flashcards

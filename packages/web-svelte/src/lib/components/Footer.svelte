@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	interface FooterLink {
 		href: string;
 		label: string;
@@ -13,27 +14,19 @@
 
 	const sections: FooterSection[] = [
 		{
-			title: 'Product',
-			links: [
-				{ href: '/#features', label: 'Features' },
-				{ href: '/pricing', label: 'Pricing' },
-				{ href: '/#testimonials', label: 'Testimonials' }
-			]
-		},
-		{
 			title: 'Resources',
 			links: [
-				{ href: '/blog', label: 'Blog' },
-				{ href: '/study-guide', label: 'Study Guide' },
-				{ href: '/faq', label: 'FAQ' }
+				{ href: `${base}/blog`, label: 'Blog' },
+				{ href: `${base}/study-guide`, label: 'Study Guide' },
+				{ href: `${base}/faq`, label: 'FAQ' }
 			]
 		},
 		{
 			title: 'Legal',
 			links: [
-				{ href: '/privacy', label: 'Privacy Policy' },
-				{ href: '/terms', label: 'Terms of Service' },
-				{ href: '/contact', label: 'Contact' }
+				{ href: `${base}/privacy`, label: 'Privacy Policy' },
+				{ href: `${base}/terms`, label: 'Terms of Service' },
+				{ href: `${base}/contact`, label: 'Contact' }
 			]
 		}
 	];
@@ -44,7 +37,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 			<!-- Company Info -->
 			<div class="col-span-1">
-				<a href="/" class="flex items-center gap-2" aria-label="PMP Study Pro - Home">
+				<a href="{base}/" class="flex items-center gap-2" aria-label="PMP Study Pro - Home">
 					<div class="w-8 h-8 rounded-full bg-md-primary flex items-center justify-center">
 						<span class="text-white font-bold">P</span>
 					</div>
