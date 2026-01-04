@@ -313,7 +313,7 @@
 													{@html tab.icon}
 													<span class="hidden sm:inline">{tab.label}</span>
 													{#if currentTab === tab.id}
-														<div class="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600" />
+														<div class="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600"></div>
 													{/if}
 												</button>
 											{/each}
@@ -368,7 +368,7 @@
 															<span class="flex items-center gap-2">
 																<div
 																	class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
-																/>
+																></div>
 																Starting...
 															</span>
 														{:else}
@@ -416,7 +416,7 @@
 															<span class="flex items-center gap-2">
 																<div
 																	class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
-																/>
+																></div>
 																Starting...
 															</span>
 														{:else}

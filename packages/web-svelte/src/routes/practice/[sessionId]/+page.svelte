@@ -238,7 +238,7 @@
 														: 'border-gray-300'}"
 										>
 											{#if isSelected && !showExplanation}
-												<div class="w-2 h-2 rounded-full bg-white" />
+												<div class="w-2 h-2 rounded-full bg-white"></div>
 											{/if}
 											{#if showCorrect}
 												<span class="text-white text-xs">✓</span>
