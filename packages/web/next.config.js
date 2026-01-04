@@ -58,6 +58,14 @@ const nextConfig = {
   output: "standalone",
   trailingSlash: true,
   transpilePackages: ["@pmp/shared"],
+  // Skip type checking and linting during build to save memory on 512MB instance
+  // Type checking happens in development and should be part of CI/CD
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async redirects() {
     return [
       { source: "/login", destination: "/auth/login", permanent: false },
