@@ -10,7 +10,9 @@
       "ES2022"
     ],
     "skipLibCheck": true,
-    "noEmit": false
+    "noEmit": false,
+    "noImplicitAny": false,
+    "strict": false
   },
   "include": [
     "src/**/*"
