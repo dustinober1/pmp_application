@@ -62,34 +62,44 @@
 				</div>
 			</div>
 
-			<!-- Key Updates -->
-			<div class="mb-8 text-left space-y-3">
-				<div class="flex items-start gap-3">
-					<span class="text-lg">🤖</span>
-					<div>
-						<div class="font-medium text-gray-900 dark:text-white">AI in Project Management</div>
-						<p class="text-sm text-gray-500 dark:text-gray-400">New core theme for 2026</p>
+			<!-- 2026 Key Themes Grid -->
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">2026 Key Themes</h3>
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					<!-- AI Integration -->
+					<div class="group p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-600/10 dark:from-emerald-400/10 dark:to-teal-500/10 backdrop-blur-md border border-emerald-200/50 dark:border-emerald-700/50 shadow-lg hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105 cursor-default">
+						<div class="flex items-center gap-3 mb-2">
+							<span class="text-3xl group-hover:scale-110 transition-transform duration-300">🤖</span>
+							<div class="font-bold text-emerald-700 dark:text-emerald-300 text-lg">AI Integration</div>
+						</div>
+						<p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">Use of GenAI for scheduling, risk, and data analysis</p>
 					</div>
-				</div>
-				<div class="flex items-start gap-3">
-					<span class="text-lg">🌱</span>
-					<div>
-						<div class="font-medium text-gray-900 dark:text-white">Sustainability & ESG</div>
-						<p class="text-sm text-gray-500 dark:text-gray-400">Environmental, Social, Governance focus</p>
+
+					<!-- Sustainability & ESG -->
+					<div class="group p-5 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-600/10 dark:from-green-400/10 dark:to-emerald-500/10 backdrop-blur-md border border-green-200/50 dark:border-green-700/50 shadow-lg hover:shadow-green-500/25 transition-all duration-300 hover:scale-105 cursor-default">
+						<div class="flex items-center gap-3 mb-2">
+							<span class="text-3xl group-hover:scale-110 transition-transform duration-300">🌱</span>
+							<div class="font-bold text-green-700 dark:text-green-300 text-lg">Sustainability & ESG</div>
+						</div>
+						<p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">Environmental and social governance considerations</p>
 					</div>
-				</div>
-				<div class="flex items-start gap-3">
-					<span class="text-lg">📊</span>
-					<div>
-						<div class="font-medium text-gray-900 dark:text-white">60% Adaptive / 40% Predictive</div>
-						<p class="text-sm text-gray-500 dark:text-gray-400">Updated methodology emphasis</p>
+
+					<!-- Methodology Shift -->
+					<div class="group p-5 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-600/10 dark:from-blue-400/10 dark:to-cyan-500/10 backdrop-blur-md border border-blue-200/50 dark:border-blue-700/50 shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105 cursor-default">
+						<div class="flex items-center gap-3 mb-2">
+							<span class="text-3xl group-hover:scale-110 transition-transform duration-300">📊</span>
+							<div class="font-bold text-blue-700 dark:text-blue-300 text-lg">Methodology Shift</div>
+						</div>
+						<p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">60% Adaptive/Hybrid vs 40% Predictive/Waterfall</p>
 					</div>
-				</div>
-				<div class="flex items-start gap-3">
-					<span class="text-lg">⏱️</span>
-					<div>
-						<div class="font-medium text-gray-900 dark:text-white">185 Questions, 240 Minutes</div>
-						<p class="text-sm text-gray-500 dark:text-gray-400">New exam format</p>
+
+					<!-- Exam Logistics -->
+					<div class="group p-5 rounded-2xl bg-gradient-to-br from-orange-500/10 to-amber-600/10 dark:from-orange-400/10 dark:to-amber-500/10 backdrop-blur-md border border-orange-200/50 dark:border-orange-700/50 shadow-lg hover:shadow-orange-500/25 transition-all duration-300 hover:scale-105 cursor-default">
+						<div class="flex items-center gap-3 mb-2">
+							<span class="text-3xl group-hover:scale-110 transition-transform duration-300">⏱️</span>
+							<div class="font-bold text-orange-700 dark:text-orange-300 text-lg">Exam Logistics</div>
+						</div>
+						<p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">185 Questions over 240 Minutes</p>
 					</div>
 				</div>
 			</div>
