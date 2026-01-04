@@ -9,11 +9,13 @@ export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 const LOCALE_COOKIE = "pmp_locale";
 const LOCALE_STORAGE_KEY = "pmp_locale";
 
-const localeLoaders: Record<SupportedLocale, () => Promise<{ default: object }>> =
-  {
-    en: () => import("./locales/en.json"),
-    es: () => import("./locales/es.json"),
-  };
+const localeLoaders: Record<
+  SupportedLocale,
+  () => Promise<{ default: object }>
+> = {
+  en: () => import("./locales/en.json"),
+  es: () => import("./locales/es.json"),
+};
 
 const loadedLocales = new Set<SupportedLocale>();
 

@@ -5,10 +5,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../../contexts/AuthContext";
 import { Navbar } from "@/components/Navbar";
-const Footer = dynamic(() => import("@/components/Footer").then((mod) => mod.Footer), {
-  ssr: false,
-  loading: () => <div className="h-16" />,
-});
+const Footer = dynamic(
+  () => import("@/components/Footer").then((mod) => mod.Footer),
+  {
+    ssr: false,
+    loading: () => <div className="h-16" />,
+  },
+);
 
 export default function PricingPage() {
   const { user } = useAuth();

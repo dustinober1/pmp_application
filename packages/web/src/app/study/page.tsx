@@ -11,10 +11,13 @@ import { FullPageSkeleton } from "@/components/FullPageSkeleton";
 import type { Domain, Enabler } from "@/data/pmpExamContent";
 import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
 
-const Footer = dynamic(() => import("@/components/Footer").then((mod) => mod.Footer), {
-  ssr: false,
-  loading: () => <div className="h-16" />,
-});
+const Footer = dynamic(
+  () => import("@/components/Footer").then((mod) => mod.Footer),
+  {
+    ssr: false,
+    loading: () => <div className="h-16" />,
+  },
+);
 
 type TabType = "study" | "flashcards" | "practice";
 

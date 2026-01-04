@@ -146,7 +146,7 @@ const SearchDialogComponent = ({ open, setOpen }: SearchDialogProps) => {
       </div>
     </div>
   );
-}
+};
 
 function verifyResults(
   results: SearchResult[],

@@ -26,6 +26,7 @@
     "test": "npm run test --workspaces --if-present",
     "test:api": "npm run test -w @pmp/api",
     "test:web": "npm run test -w @pmp/web",
+    "test:web-svelte": "npm run test -w @pmp/web-svelte",
     "analyze": "npm run analyze -w @pmp/web",
     "db:generate": "npm run db:generate -w @pmp/api",
     "db:migrate": "npm run db:migrate -w @pmp/api",

@@ -24,15 +24,15 @@ describe("i18n", () => {
       expect(i18n.isInitialized).toBe(true);
     });
 
-  it("has English resources", async () => {
-    await setLocale("en" as SupportedLocale);
-    expect(i18n.hasResourceBundle("en", "translation")).toBe(true);
-  });
+    it("has English resources", async () => {
+      await setLocale("en" as SupportedLocale);
+      expect(i18n.hasResourceBundle("en", "translation")).toBe(true);
+    });
 
-  it("has Spanish resources", async () => {
-    await setLocale("es" as SupportedLocale);
-    expect(i18n.hasResourceBundle("es", "translation")).toBe(true);
-  });
+    it("has Spanish resources", async () => {
+      await setLocale("es" as SupportedLocale);
+      expect(i18n.hasResourceBundle("es", "translation")).toBe(true);
+    });
 
     it("has English as fallback language", () => {
       expect(i18n.options.fallbackLng).toContain("en");
