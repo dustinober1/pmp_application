@@ -12,7 +12,11 @@
     "skipLibCheck": true,
     "noEmit": false,
     "noImplicitAny": false,
-    "strict": false
+    "strict": false,
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "sourceMap": false,
+    "removeComments": true
   },
   "include": [
     "src/**/*"
