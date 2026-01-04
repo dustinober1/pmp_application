@@ -1,45 +1,33 @@
-import "@testing-library/jest-dom";
-import { vi } from "vitest";
-
-// Mock window.matchMedia for responsive design tests
-Object.defineProperty(window, "matchMedia", {
-  writable: true,
-  value: vi.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
-});
-
-// Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
-  disconnect() {}
-  observe() {}
-  takeRecords() {
-    return [];
-  }
-  unobserve() {}
-} as any;
-
-// Mock ResizeObserver
-global.ResizeObserver = class ResizeObserver {
-  constructor() {}
-  disconnect() {}
-  observe() {}
-  unobserve() {}
-} as any;
+import { beforeEach, vi } from 'vitest';
 
 // Mock localStorage
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-};
-global.localStorage = localStorageMock as any;
+const localStorageMock = (() => {
+	let store: Record<string, string> = {};
+
+	return {
+		getItem: (key: string) => store[key] || null,
+		setItem: (key: string, value: string) => {
+			store[key] = value.toString();
+		},
+		removeItem: (key: string) => {
+			delete store[key];
+		},
+		clear: () => {
+			store = {};
+		}
+	};
+})();
+
+beforeEach(() => {
+	// Clear localStorage before each test
+	localStorageMock.clear();
+
+	// Set up window mock with localStorage included
+	vi.stubGlobal('window', {
+		addEventListener: vi.fn(),
+		removeEventListener: vi.fn(),
+		setInterval: vi.fn(() => 123),
+		clearInterval: vi.fn(),
+		localStorage: localStorageMock
+	});
+});
