@@ -20,3 +20,4 @@ export { default as SearchDialog } from "./components/SearchDialog.svelte";
 export { default as QuestionNavigator } from "./components/QuestionNavigator.svelte";
 export { default as StreakCounter } from "./components/StreakCounter.svelte";
 export { default as SanitizedMarkdown } from "./components/SanitizedMarkdown.svelte";
+export { default as Readiness2026Badge } from "./components/Readiness2026Badge.svelte";
