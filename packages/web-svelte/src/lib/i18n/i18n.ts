@@ -1,10 +1,11 @@
 import { writable, derived, get } from "svelte/store";
+import { STORAGE_KEYS } from "$lib/constants/storageKeys";
 
 export const SUPPORTED_LOCALES = ["en", "es"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
 const LOCALE_COOKIE = "pmp_locale";
-const LOCALE_STORAGE_KEY = "pmp_locale";
+const LOCALE_STORAGE_KEY = STORAGE_KEYS.LOCALE;
 
 interface LocaleData {
   [key: string]: string | LocaleData;

@@ -1,14 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
-	// Local storage keys
-	const STORAGE_KEYS = {
-		TOTAL_STUDY_TIME: 'pmp_total_study_time_ms',
-		FLASHCARDS_MASTERED: 'pmp_flashcards_mastered',
-		MOCK_EXAMS: 'pmp_mock_exams',
-		STUDY_STREAK: 'pmp_study_streak',
-		LAST_STUDY_DATE: 'pmp_last_study_date'
-	};
+	import { STORAGE_KEYS } from '$lib/constants/storageKeys';
 
 	// Reactive state for stats
 	let totalStudyTime = $state({

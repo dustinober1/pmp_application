@@ -3,6 +3,10 @@
  * Tracks and saves study sessions to localStorage
  */
 
+import { STORAGE_KEYS } from '$lib/constants/storageKeys';
+
+const { STUDY_SESSIONS } = STORAGE_KEYS;
+
 export interface StudySession {
 	taskId: string;
 	startTime: number;
@@ -11,15 +15,13 @@ export interface StudySession {
 	taskCompleted: boolean;
 }
 
-const STORAGE_KEY = 'pmp_study_sessions';
-
 /**
  * Get all study sessions from localStorage
  */
 export function getStudySessions(): StudySession[] {
 	if (typeof window === 'undefined') return [];
 	try {
-		const data = localStorage.getItem(STORAGE_KEY);
+		const data = localStorage.getItem(STUDY_SESSIONS);
 		return data ? JSON.parse(data) : [];
 	} catch (error) {
 		console.error('Failed to read study sessions:', error);
@@ -35,7 +37,7 @@ export function saveStudySession(session: StudySession): void {
 	try {
 		const sessions = getStudySessions();
 		sessions.push(session);
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+		localStorage.setItem(STUDY_SESSIONS, JSON.stringify(sessions));
 	} catch (error) {
 		console.error('Failed to save study session:', error);
 	}

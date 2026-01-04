@@ -3,10 +3,9 @@
  * Stores mastered card count and recent reviews locally
  */
 
-const STORAGE_KEYS = {
-  MASTERED_COUNT: 'pmp_flashcards_mastered_count',
-  RECENT_REVIEWS: 'pmp_flashcards_recent_reviews',
-} as const;
+import { STORAGE_KEYS } from '$lib/constants/storageKeys';
+
+const { MASTERED_COUNT, RECENT_REVIEWS } = STORAGE_KEYS;
 
 export interface FlashcardReview {
   cardId: string;

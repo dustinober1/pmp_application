@@ -2,6 +2,10 @@
  * LocalStorage utility for mock exam scores
  */
 
+import { STORAGE_KEYS } from '$lib/constants/storageKeys';
+
+const { MOCK_EXAM_SCORES } = STORAGE_KEYS;
+
 export interface MockExamScore {
 	sessionId: string;
 	score: number;
@@ -10,7 +14,6 @@ export interface MockExamScore {
 	date: string;
 }
 
-const STORAGE_KEY = 'pmp_mock_exam_scores';
 
 /**
  * Get all stored mock exam scores
@@ -18,7 +21,7 @@ const STORAGE_KEY = 'pmp_mock_exam_scores';
 export function getMockExamScores(): MockExamScore[] {
 	if (typeof window === 'undefined') return [];
 	try {
-		const stored = localStorage.getItem(STORAGE_KEY);
+		const stored = localStorage.getItem(MOCK_EXAM_SCORES);
 		return stored ? JSON.parse(stored) : [];
 	} catch {
 		return [];
@@ -33,7 +36,7 @@ export function saveMockExamScore(score: MockExamScore): void {
 	try {
 		const scores = getMockExamScores();
 		scores.push(score);
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(scores));
+		localStorage.setItem(MOCK_EXAM_SCORES, JSON.stringify(scores));
 	} catch (err) {
 		console.error('Failed to save mock exam score:', err);
 	}
@@ -65,7 +68,7 @@ export function getAllScores(): MockExamScore[] {
 export function clearMockExamScores(): void {
 	if (typeof window === 'undefined') return;
 	try {
-		localStorage.removeItem(STORAGE_KEY);
+		localStorage.removeItem(MOCK_EXAM_SCORES);
 	} catch (err) {
 		console.error('Failed to clear mock exam scores:', err);
 	}
