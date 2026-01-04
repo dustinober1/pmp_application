@@ -1,14 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useMemo, useState } from "react";
+import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { apiRequest } from "@/lib/api";
 import { useToast } from "@/components/ToastProvider";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
-import { FullPageSkeleton } from "@/components/FullPageSkeleton";
-import type { Domain, Enabler } from "@/data/pmpExamContent";
+import type { Domain, Enabler, Task } from "@/data/pmpExamContent";
 import { PMP_EXAM_CONTENT } from "@/data/pmpExamContent";
 
 const Footer = dynamic(
@@ -40,50 +37,24 @@ function normalizeEnablers(
 }
 
 export default function StudyPage() {
-  const router = useRouter();
-  const { isLoading: authLoading } = useRequireAuth();
   const toast = useToast();
-  const [domains, setDomains] = useState<Domain[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Use static data directly - no API calls
+  const domains = useMemo(() => PMP_EXAM_CONTENT, []);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
-  const [selectedDomainData, setSelectedDomainData] = useState<Domain | null>(
-    null,
-  );
-  const [loadingDomainDetails, setLoadingDomainDetails] = useState(false);
   const [expandedTask, setExpandedTask] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Record<string, TabType>>({});
-  const [startingSession, setStartingSession] = useState<string | null>(null);
 
   const toggleSelectedDomain = useCallback(
     async (domainId: string) => {
-      const isDeselecting = selectedDomain === domainId;
-
       setSelectedDomain((prev) => {
         const newSelection = prev === domainId ? null : domainId;
         if (newSelection !== prev) {
           setExpandedTask(null);
-          setSelectedDomainData(null);
         }
         return newSelection;
       });
-
-      if (!isDeselecting) {
-        setLoadingDomainDetails(true);
-        try {
-          const response = await apiRequest<{ domain: Domain }>(
-            `/domains/${domainId}`,
-          );
-          setSelectedDomainData(response.data?.domain ?? null);
-        } catch (error) {
-          console.error("Failed to fetch domain details:", error);
-          const staticDomain = PMP_EXAM_CONTENT.find((d) => d.id === domainId);
-          setSelectedDomainData(staticDomain ?? null);
-        } finally {
-          setLoadingDomainDetails(false);
-        }
-      }
     },
-    [selectedDomain],
+    [],
   );
 
   const toggleTaskExpanded = useCallback((taskId: string) => {
@@ -94,84 +65,6 @@ export default function StudyPage() {
   const setTaskTab = useCallback((taskId: string, tab: TabType) => {
     setActiveTab((prev) => ({ ...prev, [taskId]: tab }));
   }, []);
-
-  const startFlashcardSession = useCallback(
-    async (domainId: string, taskId: string) => {
-      try {
-        setStartingSession(`flashcard-${taskId}`);
-        const response = await apiRequest<{ sessionId: string }>(
-          "/flashcards/sessions",
-          {
-            method: "POST",
-            body: {
-              domainIds: [domainId],
-              taskIds: [taskId],
-              cardCount: 20,
-            },
-          },
-        );
-        if (response.data?.sessionId) {
-          router.push(`/flashcards/session/${response.data.sessionId}`);
-        }
-      } catch (error) {
-        console.error("Failed to start flashcard session:", error);
-        toast.error("Failed to start flashcard session");
-      } finally {
-        setStartingSession(null);
-      }
-    },
-    [router, toast],
-  );
-
-  const startPracticeSession = useCallback(
-    async (domainId: string, taskId: string) => {
-      try {
-        setStartingSession(`practice-${taskId}`);
-        const response = await apiRequest<{ sessionId: string }>(
-          "/practice/sessions",
-          {
-            method: "POST",
-            body: {
-              domainIds: [domainId],
-              taskIds: [taskId],
-              questionCount: 10,
-            },
-          },
-        );
-        if (response.data?.sessionId) {
-          router.push(`/practice/session/${response.data.sessionId}`);
-        }
-      } catch (error) {
-        console.error("Failed to start practice session:", error);
-        toast.error("Failed to start practice session");
-      } finally {
-        setStartingSession(null);
-      }
-    },
-    [router, toast],
-  );
-
-  const fetchDomains = useCallback(async () => {
-    try {
-      const response = await apiRequest<{ domains: Domain[] }>("/domains");
-      setDomains(response.data?.domains ?? []);
-    } catch (error) {
-      console.error("Failed to fetch domains:", error);
-      setDomains(PMP_EXAM_CONTENT);
-      toast.info("Using offline study content");
-    } finally {
-      setLoading(false);
-    }
-  }, [toast]);
-
-  useEffect(() => {
-    // In static mode, always fetch domains (no auth check)
-    fetchDomains();
-  }, [fetchDomains]);
-
-  if (authLoading || loading) {
-    return <FullPageSkeleton />;
-  }
 
   const domainColors: Record<
     string,
@@ -254,6 +147,11 @@ export default function StudyPage() {
     },
   ];
 
+  const selectedDomainData = useMemo(() => {
+    if (!selectedDomain) return null;
+    return PMP_EXAM_CONTENT.find((d) => d.id === selectedDomain) ?? null;
+  }, [selectedDomain]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -327,22 +225,8 @@ export default function StudyPage() {
           })}
         </div>
 
-        {/* Loading state for domain details */}
-        {selectedDomain && loadingDomainDetails && (
-          <div className="card animate-slideUp">
-            <div className="flex items-center justify-center py-12">
-              <div className="flex items-center gap-3">
-                <div className="w-5 h-5 border-2 border-md-primary border-t-transparent rounded-full animate-spin"></div>
-                <span className="text-sm text-md-on-surface-variant">
-                  Loading tasks and study materials...
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Expanded Domain with Tasks */}
-        {selectedDomain && selectedDomainData && !loadingDomainDetails && (
+        {selectedDomain && selectedDomainData && (
           <div className="animate-slideUp space-y-4">
             {/* Domain Header */}
             <div className="card bg-md-surface-container-low">
@@ -372,11 +256,12 @@ export default function StudyPage() {
                 const isExpanded = expandedTask === task.id;
                 const currentTab = activeTab[task.id] || "study";
                 const normalizedEnablers = normalizeEnablers(task.enablers);
-                const colors = domainColors[selectedDomainData.code] || {
-                  gradient: "from-gray-500 to-gray-600",
-                  bg: "bg-gray-500/10",
-                  text: "text-gray-600",
-                };
+                const colors =
+                  domainColors[selectedDomainData.code] || {
+                    gradient: "from-gray-500 to-gray-600",
+                    bg: "bg-gray-500/10",
+                    text: "text-gray-600",
+                  };
 
                 return (
                   <div
@@ -559,28 +444,12 @@ export default function StudyPage() {
                                   &rdquo; with our SM-2 spaced repetition
                                   flashcards.
                                 </p>
-                                <button
-                                  onClick={() =>
-                                    startFlashcardSession(
-                                      selectedDomainData.id,
-                                      task.id,
-                                    )
-                                  }
-                                  disabled={
-                                    startingSession === `flashcard-${task.id}`
-                                  }
+                                <Link
+                                  href={`/flashcards/play?domain=${selectedDomainData.code}&task=${task.code}`}
                                   className="btn btn-primary"
                                 >
-                                  {startingSession ===
-                                  `flashcard-${task.id}` ? (
-                                    <span className="flex items-center gap-2">
-                                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                      Starting...
-                                    </span>
-                                  ) : (
-                                    "Start Flashcard Session"
-                                  )}
-                                </button>
+                                  Start Flashcard Session
+                                </Link>
                               </div>
                             </div>
                           )}
@@ -611,27 +480,12 @@ export default function StudyPage() {
                                   Test your knowledge of &ldquo;{task.name}
                                   &rdquo; with exam-style practice questions.
                                 </p>
-                                <button
-                                  onClick={() =>
-                                    startPracticeSession(
-                                      selectedDomainData.id,
-                                      task.id,
-                                    )
-                                  }
-                                  disabled={
-                                    startingSession === `practice-${task.id}`
-                                  }
+                                <Link
+                                  href={`/practice/play?domain=${selectedDomainData.code}&task=${task.code}`}
                                   className="btn btn-primary"
                                 >
-                                  {startingSession === `practice-${task.id}` ? (
-                                    <span className="flex items-center gap-2">
-                                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                      Starting...
-                                    </span>
-                                  ) : (
-                                    "Start Practice Session"
-                                  )}
-                                </button>
+                                  Start Practice Session
+                                </Link>
                               </div>
                             </div>
                           )}

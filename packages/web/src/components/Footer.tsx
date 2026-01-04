@@ -26,16 +26,16 @@ const FooterComponent: React.FC = () => {
       title: "Product",
       links: [
         { href: "/#features", label: "Features" },
-        { href: "/pricing", label: "Pricing" },
+        { href: "/donate", label: "Donate" },
         { href: "/#testimonials", label: "Testimonials" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { href: "/blog", label: "Blog" },
-        { href: "/study-guide", label: "Study Guide" },
-        { href: "/faq", label: "FAQ" },
+        { href: "/study", label: "Study Guides" },
+        { href: "/flashcards", label: "Flashcards" },
+        { href: "/practice", label: "Practice" },
       ],
     },
     {
