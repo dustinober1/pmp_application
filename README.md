@@ -1,6 +1,6 @@
 # PMP Study Pro
 
-A **100% free and open-source** study platform for the 2026 PMP (Project Management Professional) certification exam.
+A **100% free and open-source** study platform for the 2026 PMP (Project Management Professional) certification exam. Consider supporting this project please.
 
 ## Features
 
