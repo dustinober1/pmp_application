@@ -637,17 +637,14 @@ export default function StudyGuidePage() {
             their exam on the first try.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/auth/register"
-              className="btn btn-primary text-lg px-8 py-3"
-            >
-              Create Free Account
+            <Link href="/study" className="btn btn-primary text-lg px-8 py-3">
+              Start Studying
             </Link>
             <Link
-              href="/pricing"
+              href="/donate"
               className="btn btn-secondary text-lg px-8 py-3"
             >
-              View Plans
+              Support the Project
             </Link>
           </div>
         </div>
