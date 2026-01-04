@@ -228,7 +228,7 @@
 						<button
 							on:click={startSession}
 							disabled={starting}
-							class="group w-full px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-[1.02]"
+							class="group w-full px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-105"
 						>
 							{starting ? 'Starting...' : 'Start Practice Session'}
 						</button>
@@ -307,7 +307,7 @@
 											<button
 												on:click|stopPropagation={() => startMockExam(exam.id)}
 												disabled={starting}
-												class="group w-full px-3 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm rounded-lg hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-[1.02]"
+												class="group w-full px-3 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm rounded-lg hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105"
 											>
 												{starting ? 'Starting...' : `Start ${exam.name}`}
 											</button>
@@ -330,7 +330,7 @@
 						</p>
 						<a
 							href="{base}/practice/flagged"
-							class="group block w-full px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 text-center rounded-lg hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/50 hover:scale-[1.02] transition-all duration-300 mt-4 shadow-md hover:shadow-lg"
+							class="group block w-full px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 text-center rounded-lg hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/50 hover:scale-105 transition-all duration-300 mt-4 shadow-md hover:shadow-lg"
 						>
 							View Flagged
 						</a>

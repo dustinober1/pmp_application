@@ -170,7 +170,7 @@
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<!-- ECO Notice -->
 				<div class="mb-6 flex justify-center">
-					<div class="group inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 border border-indigo-200 dark:border-indigo-700 rounded-full backdrop-blur-sm hover:shadow-indigo-500/20 hover:scale-[1.02] transition-all duration-300">
+					<div class="group inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 border border-indigo-200 dark:border-indigo-700 rounded-full backdrop-blur-sm hover:shadow-indigo-500/20 hover:scale-105 transition-all duration-300">
 						<span class="relative flex h-3 w-3">
 							<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
 							<span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
@@ -237,7 +237,7 @@
 					</div>
 
 					<!-- Sustainability/ESG Section -->
-					<div class="group mt-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 backdrop-blur-md rounded-lg p-6 border border-green-200 dark:border-green-700 shadow-lg hover:shadow-green-500/25 hover:scale-[1.01] transition-all duration-300">
+					<div class="group mt-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 backdrop-blur-md rounded-lg p-6 border border-green-200 dark:border-green-700 shadow-lg hover:shadow-green-500/25 hover:scale-105 transition-all duration-300">
 						<div class="flex items-center justify-center gap-2 mb-4">
 							<span class="text-2xl group-hover:scale-110 transition-transform duration-300">🌱</span>
 							<h3 class="text-lg font-semibold text-green-900 dark:text-green-100">Sustainability & ESG Considerations</h3>
@@ -291,7 +291,7 @@
 					</div>
 
 					<!-- AI in Project Management Section -->
-					<div class="group mt-6 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/30 backdrop-blur-md rounded-lg p-6 border border-violet-200 dark:border-violet-700 shadow-lg hover:shadow-violet-500/25 hover:scale-[1.01] transition-all duration-300">
+					<div class="group mt-6 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/30 backdrop-blur-md rounded-lg p-6 border border-violet-200 dark:border-violet-700 shadow-lg hover:shadow-violet-500/25 hover:scale-105 transition-all duration-300">
 						<div class="flex items-center justify-center gap-2 mb-4">
 							<span class="text-2xl group-hover:scale-110 transition-transform duration-300">🤖</span>
 							<h3 class="text-lg font-semibold text-violet-900 dark:text-violet-100">AI in Project Management</h3>
@@ -470,7 +470,7 @@
 							<div
 								class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transition-all duration-300 {isExpanded
 									? 'ring-2 ring-indigo-600 shadow-xl'
-									: 'hover:shadow-xl hover:scale-[1.01] ' + hoverShadowClass}"
+									: 'hover:shadow-xl hover:scale-105 ' + hoverShadowClass}"
 							>
 								<!-- Task Header -->
 								<button

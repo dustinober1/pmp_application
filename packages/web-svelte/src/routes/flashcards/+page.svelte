@@ -127,7 +127,7 @@
             </h2>
             <button
               on:click={() => showRecentReviews = !showRecentReviews}
-              class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:scale-105 transition-all duration-300"
+              class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:scale-105 hover:shadow-md hover:shadow-indigo-500/20 transition-all duration-300"
             >
               {showRecentReviews ? 'Hide' : 'Show'}
             </button>

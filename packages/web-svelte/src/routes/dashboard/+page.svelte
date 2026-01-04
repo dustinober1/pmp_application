@@ -278,7 +278,7 @@
 						<div class="space-y-3">
 							{#if $recentActivityStore.activities && $recentActivityStore.activities.length > 0}
 								{#each $recentActivityStore.activities.slice(0, 5) as activity}
-									<div class="group flex items-start gap-3 text-sm p-2 rounded-lg hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-all duration-200 cursor-default">
+									<div class="group flex items-start gap-3 text-sm p-2 rounded-lg hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-all duration-300 cursor-default">
 										<div
 											class="w-2 h-2 rounded-full bg-indigo-600 mt-2 group-hover:scale-125 transition-transform duration-300"
 										></div>
