@@ -7,6 +7,7 @@
 	import { createStudySessionTracker } from '$lib/utils/studySession';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
+	import DOMPurify from 'isomorphic-dompurify';
 
 	export let data;
 
@@ -205,7 +206,7 @@
 									<div
 										class="px-6 py-6 prose prose-invert max-w-none prose-p:text-gray-300 prose-headings:text-white prose-strong:text-white prose-a:text-indigo-400 prose-code:text-indigo-300"
 									>
-										{@html section.content}
+										{@html DOMPurify.sanitize(section.content)}
 									</div>
 								</div>
 							</section>
