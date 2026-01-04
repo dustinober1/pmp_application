@@ -4,6 +4,7 @@
 	import { base } from '$app/paths';
 	import { authStore } from '$lib/stores/auth';
 	import { practiceApi } from '$lib/utils/api';
+	import { getRollingAverage, getAllScores, type MockExamScore } from '$lib/utils/mockExamStorage';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
@@ -17,6 +18,10 @@
 	let selectedDomains = [];
 	let questionCount = 20;
 	let starting = false;
+
+	// LocalStorage data
+	let rollingAverage = 0;
+	let mockExamHistory: MockExamScore[] = [];
 
 	// Auth state
 	let user = null;
@@ -41,6 +46,11 @@
 		if (data.error) {
 			error = data.error;
 		}
+
+		// Load localStorage data
+		rollingAverage = getRollingAverage(5);
+		mockExamHistory = getAllScores();
+
 		loading = false;
 	});
 
@@ -136,14 +146,51 @@
 					<p class="text-sm text-gray-600">Questions Answered</p>
 				</div>
 				<div class="bg-white rounded-lg shadow p-6 text-center">
-					<p class="text-3xl font-bold text-indigo-600">{stats?.averageScore || 0}%</p>
-					<p class="text-sm text-gray-600">Average Score</p>
+					<p class="text-3xl font-bold text-indigo-600">{rollingAverage}%</p>
+					<p class="text-sm text-gray-600">Rolling Avg (5)</p>
 				</div>
 				<div class="bg-white rounded-lg shadow p-6 text-center">
 					<p class="text-3xl font-bold text-green-600">{stats?.bestScore || 0}%</p>
 					<p class="text-sm text-gray-600">Best Score</p>
 				</div>
 			</div>
+
+			<!-- Mock Exam History -->
+			{#if mockExamHistory.length > 0}
+				<div class="mb-8 bg-white rounded-lg shadow p-6">
+					<h2 class="font-semibold mb-4">Mock Exam History</h2>
+					<div class="overflow-x-auto">
+						<table class="w-full text-sm">
+							<thead>
+								<tr class="border-b border-gray-200">
+									<th class="text-left py-2 px-4">Date</th>
+									<th class="text-center py-2 px-4">Score</th>
+									<th class="text-center py-2 px-4">Correct</th>
+									<th class="text-center py-2 px-4">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								{#each mockExamHistory.slice().reverse() as exam}
+									<tr class="border-b border-gray-100">
+										<td class="py-2 px-4">{new Date(exam.date).toLocaleDateString()}</td>
+										<td class="text-center py-2 px-4">
+											<span class="px-2 py-1 rounded-full text-xs font-medium {exam.score >= 75
+												? 'bg-green-100 text-green-800'
+												: exam.score >= 60
+													? 'bg-yellow-100 text-yellow-800'
+													: 'bg-red-100 text-red-800'}">
+												{exam.score}%
+											</span>
+										</td>
+										<td class="text-center py-2 px-4">{exam.correctAnswers}</td>
+										<td class="text-center py-2 px-4">{exam.totalQuestions}</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			{/if}
 
 			<div class="grid lg:grid-cols-3 gap-6">
 				<!-- Practice Configuration -->

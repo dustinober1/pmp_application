@@ -4,6 +4,7 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import { practiceApi } from '$lib/utils/api';
+	import { saveMockExamScore } from '$lib/utils/mockExamStorage';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
@@ -20,6 +21,7 @@
 	let streak = null;
 	let error = null;
 	let totalQuestions = 0;
+	let correctAnswers = 0;
 
 	onMount(() => {
 		// Use data from load function if available
@@ -56,6 +58,12 @@
 				selectedOptionId,
 				timeSpentMs: 0
 			});
+
+			// Check if answer was correct
+			const selectedOption = question.options.find((opt) => opt.id === selectedOptionId);
+			if (selectedOption?.isCorrect) {
+				correctAnswers += 1;
+			}
 
 			answeredQuestions = new Set([...answeredQuestions, question.id]);
 			showExplanation = true;
@@ -113,7 +121,18 @@
 	async function handleCompleteSession() {
 		try {
 			const sessionId = $page.params.sessionId;
-			await practiceApi.completeSession(sessionId);
+			const response = await practiceApi.completeSession(sessionId);
+
+			// Save score to localStorage for mock exams
+			const score = Math.round((correctAnswers / totalQuestions) * 100);
+			saveMockExamScore({
+				sessionId,
+				score,
+				totalQuestions,
+				correctAnswers,
+				date: new Date().toISOString()
+			});
+
 			goto(`${base}/dashboard`);
 		} catch (err) {
 			console.error('Failed to complete session:', err);
