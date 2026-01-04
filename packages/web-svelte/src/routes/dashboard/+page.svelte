@@ -1,23 +1,29 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { authStore } from '$lib/stores/auth';
-	import { dashboardApi } from '$lib/utils/api';
-	import Navbar from '$lib/components/Navbar.svelte';
-	import LoadingState from '$lib/components/LoadingState.svelte';
-	import ErrorState from '$lib/components/ErrorState.svelte';
+	import { onMount } from "svelte";
+	import { goto } from "$app/navigation";
+	import { authStore } from "$lib/stores/auth";
+	import { dashboardApi } from "$lib/utils/api";
+	import Navbar from "$lib/components/Navbar.svelte";
+	import LoadingState from "$lib/components/LoadingState.svelte";
+	import ErrorState from "$lib/components/ErrorState.svelte";
+	import type { DashboardData } from "@pmp/shared";
+	import type { UserProfile } from "@pmp/shared";
 
-	export let data;
+	export let data: {
+		user: UserProfile | null;
+		dashboard: DashboardData | null;
+		error: string | null;
+	};
 
 	let loading = true;
-	let dashboardData = null;
-	let error = null;
+	let dashboardData: DashboardData | null = null;
+	let error: string | null = null;
 
 	// Get first name helper
 	function getFirstName(name: string | null | undefined): string {
-		if (!name || name.trim() === '') return 'there';
-		const parts = name.trim().split(' ');
-		return parts[0] || 'there';
+		if (!name || name.trim() === "") return "there";
+		const parts = name.trim().split(" ");
+		return parts[0] || "there";
 	}
 
 	// Format date helper
@@ -39,8 +45,10 @@
 	function truncateAtWordBoundary(text: string, maxLength: number): string {
 		if (text.length <= maxLength) return text;
 		const truncated = text.substring(0, maxLength);
-		const lastSpace = truncated.lastIndexOf(' ');
-		return lastSpace > 0 ? truncated.substring(0, lastSpace) + '...' : truncated + '...';
+		const lastSpace = truncated.lastIndexOf(" ");
+		return lastSpace > 0
+			? truncated.substring(0, lastSpace) + "..."
+			: truncated + "...";
 	}
 
 	onMount(async () => {
@@ -55,16 +63,17 @@
 				const response = await dashboardApi.getDashboard();
 				dashboardData = response.data?.dashboard || null;
 			} catch (err) {
-				error = err instanceof Error ? err.message : 'Failed to load dashboard';
+				error =
+					err instanceof Error
+						? err.message
+						: "Failed to load dashboard";
 			}
 		}
 		loading = false;
 	});
 
-
-
 	// Subscribe to auth store
-	let user = null;
+	let user: UserProfile | null = null;
 	let canAccess = false;
 
 	authStore.subscribe((auth) => {
@@ -92,7 +101,9 @@
 				<h1 class="text-2xl font-bold text-gray-900">
 					Welcome back, {getFirstName(user?.name)}! 👋
 				</h1>
-				<p class="text-gray-600">Here's your study progress at a glance.</p>
+				<p class="text-gray-600">
+					Here's your study progress at a glance.
+				</p>
 			</div>
 
 			<!-- Stats Grid -->
@@ -100,25 +111,32 @@
 				<div class="bg-white rounded-lg shadow p-6">
 					<p class="text-sm text-gray-600">Current Streak</p>
 					<p class="text-3xl font-bold mt-1">
-						{dashboardData?.streak?.currentStreak || 0} 🔥
+						{dashboardData?.studyStreak?.currentStreak || 0} 🔥
 					</p>
-					<p class="text-xs text-gray-600 mt-1">Best: {dashboardData?.streak?.longestStreak || 0} days</p>
+					<p class="text-xs text-gray-600 mt-1">
+						Best: {dashboardData?.studyStreak?.longestStreak || 0} days
+					</p>
 				</div>
 
 				<div class="bg-white rounded-lg shadow p-6">
 					<p class="text-sm text-gray-600">Overall Progress</p>
-					<p class="text-3xl font-bold mt-1">{dashboardData?.overallProgress || 0}%</p>
+					<p class="text-3xl font-bold mt-1">
+						{dashboardData?.overallProgress || 0}%
+					</p>
 					<div class="w-full bg-gray-200 rounded-full h-2 mt-2">
 						<div
 							class="bg-indigo-600 h-2 rounded-full"
-							style="width: {dashboardData?.overallProgress || 0}%"
+							style="width: {dashboardData?.overallProgress ||
+								0}%"
 						></div>
 					</div>
 				</div>
 
 				<div class="bg-white rounded-lg shadow p-6">
 					<p class="text-sm text-gray-600">Cards to Review</p>
-					<p class="text-3xl font-bold mt-1">{dashboardData?.upcomingReviews?.length || 0}</p>
+					<p class="text-3xl font-bold mt-1">
+						{dashboardData?.upcomingReviews?.length || 0}
+					</p>
 					<a
 						href="/flashcards/review"
 						class="text-xs text-indigo-600 mt-1 hover:underline inline-block"
@@ -129,8 +147,12 @@
 
 				<div class="bg-white rounded-lg shadow p-6">
 					<p class="text-sm text-gray-600">Weak Areas</p>
-					<p class="text-3xl font-bold mt-1">{dashboardData?.weakAreas?.length || 0}</p>
-					<p class="text-xs text-gray-600 mt-1">Topics needing focus</p>
+					<p class="text-3xl font-bold mt-1">
+						{dashboardData?.weakAreas?.length || 0}
+					</p>
+					<p class="text-xs text-gray-600 mt-1">
+						Topics needing focus
+					</p>
 				</div>
 			</div>
 
@@ -140,20 +162,29 @@
 					<div class="bg-white rounded-lg shadow p-6">
 						<h2 class="font-semibold mb-4">Domain Progress</h2>
 						<div class="space-y-4">
-							{#each (dashboardData?.domainProgress || []) as domain}
+							{#each dashboardData?.domainProgress || [] as domain}
 								<div>
-									<div class="flex justify-between items-center mb-1">
-										<span class="text-sm font-medium">{domain.domainName}</span>
-										<span class="text-sm text-gray-600">{domain.progress}%</span>
+									<div
+										class="flex justify-between items-center mb-1"
+									>
+										<span class="text-sm font-medium"
+											>{domain.domainName}</span
+										>
+										<span class="text-sm text-gray-600"
+											>{domain.progress}%</span
+										>
 									</div>
-									<div class="w-full bg-gray-200 rounded-full h-2">
+									<div
+										class="w-full bg-gray-200 rounded-full h-2"
+									>
 										<div
 											class="bg-indigo-600 h-2 rounded-full"
 											style="width: {domain.progress}%"
 										></div>
 									</div>
 									<p class="text-xs text-gray-600 mt-1">
-										{domain.questionsAnswered} questions • {domain.accuracy}% accuracy
+										{domain.questionsAnswered} questions • {domain.accuracy}%
+										accuracy
 									</p>
 								</div>
 							{/each}
@@ -170,13 +201,22 @@
 										class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
 									>
 										<div>
-											<p class="font-medium text-sm" title={area.taskName}>
-												{truncateAtWordBoundary(area.taskName, 50)}
+											<p
+												class="font-medium text-sm"
+												title={area.taskName}
+											>
+												{truncateAtWordBoundary(
+													area.taskName,
+													50,
+												)}
 											</p>
-											<p class="text-xs text-gray-600">{area.domainName}</p>
+											<p class="text-xs text-gray-600">
+												{area.domainName}
+											</p>
 										</div>
 										<div class="text-right">
-											<span class="px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800"
+											<span
+												class="px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800"
 												>{area.accuracy}%</span
 											>
 										</div>
@@ -257,7 +297,6 @@
 									Practice Questions
 								</div>
 							</a>
-
 						</div>
 					</div>
 
@@ -267,18 +306,27 @@
 						<div class="space-y-3">
 							{#each (dashboardData?.recentActivity || []).slice(0, 5) as activity}
 								<div class="flex items-start gap-3 text-sm">
-									<div class="w-2 h-2 rounded-full bg-indigo-600 mt-2"></div>
+									<div
+										class="w-2 h-2 rounded-full bg-indigo-600 mt-2"
+									></div>
 									<div>
 										<p title={activity.description}>
-											{truncateAtWordBoundary(activity.description, 80)}
+											{truncateAtWordBoundary(
+												activity.description,
+												80,
+											)}
 										</p>
-										<p class="text-xs text-gray-600">{formatDate(activity.timestamp)}</p>
+										<p class="text-xs text-gray-600">
+											{formatDate(activity.timestamp)}
+										</p>
 									</div>
 								</div>
 							{/each}
 
 							{#if !dashboardData?.recentActivity || dashboardData.recentActivity.length === 0}
-								<p class="text-sm text-gray-600">No recent activity yet. Start studying!</p>
+								<p class="text-sm text-gray-600">
+									No recent activity yet. Start studying!
+								</p>
 							{/if}
 						</div>
 					</div>

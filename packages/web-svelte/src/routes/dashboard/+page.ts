@@ -18,5 +18,6 @@ export const load: Load = async ({ fetch }) => {
   return {
     user: userResult.data,
     dashboard: dashboardResult.data,
+    error: userResult.error || dashboardResult.error,
   };
 };

@@ -2,7 +2,7 @@
  * Authentication related types
  */
 
-import type { TierName } from "./subscription";
+export type TierName = "free" | "pro" | "corporate";
 
 export interface User {
   id: string;
@@ -16,7 +16,7 @@ export interface User {
   updatedAt: Date;
 }
 
-export interface UserProfile extends User {}
+export interface UserProfile extends User { }
 
 export interface RegisterInput {
   email: string;

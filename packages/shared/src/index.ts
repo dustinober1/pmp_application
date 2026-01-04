@@ -1,8 +1,7 @@
 // Authentication Types
 export * from "./types/auth.js";
 
-// Subscription Types
-export * from "./types/subscription.js";
+
 
 // Content Types (Domains, Tasks, Study Guides)
 export * from "./types/content.js";
