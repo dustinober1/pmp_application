@@ -15,7 +15,7 @@
 	import Readiness2026Badge from "$lib/components/Readiness2026Badge.svelte";
 	import CacheWarningBanner from "$lib/components/CacheWarningBanner.svelte";
 
-	let loading = true;
+	let loading = $state(true);
 
 	// Get first name helper
 	function getFirstName(name: string | null | undefined): string {
