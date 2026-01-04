@@ -301,6 +301,86 @@
 							</p>
 						</div>
 					</div>
+
+					<!-- AI in Project Management Section -->
+					<div class="mt-6 bg-gradient-to-br from-violet-50 to-purple-50 rounded-lg p-6 border border-violet-200">
+						<div class="flex items-center justify-center gap-2 mb-4">
+							<span class="text-2xl">🤖</span>
+							<h3 class="text-lg font-semibold text-violet-900">AI in Project Management</h3>
+						</div>
+						<p class="text-sm text-violet-800 mb-4 text-center">
+							New for July 2026 ECO - Generative AI, machine learning, and automation tools transforming project delivery
+						</p>
+						<div class="grid sm:grid-cols-3 gap-4">
+							<div class="bg-white rounded-lg p-4 border border-violet-200">
+								<div class="flex items-center gap-2 mb-2">
+									<span class="text-xl">📝</span>
+									<h4 class="font-semibold text-violet-900 text-sm">Documentation</h4>
+								</div>
+								<ul class="text-xs text-violet-800 space-y-1">
+									<li>• AI-generated project docs</li>
+									<li>• Meeting summaries</li>
+									<li>• Report automation</li>
+									<li>• Requirements analysis</li>
+								</ul>
+							</div>
+							<div class="bg-white rounded-lg p-4 border border-violet-200">
+								<div class="flex items-center gap-2 mb-2">
+									<span class="text-xl">📊</span>
+									<h4 class="font-semibold text-violet-900 text-sm">Analytics</h4>
+								</div>
+								<ul class="text-xs text-violet-800 space-y-1">
+									<li>• Predictive risk modeling</li>
+									<li>• Schedule forecasting</li>
+									<li>• Resource optimization</li>
+									<li>• Performance insights</li>
+								</ul>
+							</div>
+							<div class="bg-white rounded-lg p-4 border border-violet-200">
+								<div class="flex items-center gap-2 mb-2">
+									<span class="text-xl">💬</span>
+									<h4 class="font-semibold text-violet-900 text-sm">Communication</h4>
+								</div>
+								<ul class="text-xs text-violet-800 space-y-1">
+									<li>• Stakeholder engagement</li>
+									<li>• Automated updates</li>
+									<li>• Sentiment analysis</li>
+									<li>• Language translation</li>
+								</ul>
+							</div>
+						</div>
+						<div class="mt-4 grid sm:grid-cols-2 gap-4">
+							<div class="bg-white rounded-lg p-4 border border-violet-200">
+								<div class="flex items-center gap-2 mb-2">
+									<span class="text-xl">⚠️</span>
+									<h4 class="font-semibold text-violet-900 text-sm">Key Considerations</h4>
+								</div>
+								<ul class="text-xs text-violet-800 space-y-1">
+									<li>• Ethical implications & bias</li>
+									<li>• Data privacy & security</li>
+									<li>• Human judgment remains key</li>
+									<li>• Verify AI-generated outputs</li>
+								</ul>
+							</div>
+							<div class="bg-white rounded-lg p-4 border border-violet-200">
+								<div class="flex items-center gap-2 mb-2">
+									<span class="text-xl">🎯</span>
+									<h4 class="font-semibold text-violet-900 text-sm">Exam Focus</h4>
+								</div>
+								<ul class="text-xs text-violet-800 space-y-1">
+									<li>• AI as tool, not replacement</li>
+									<li>• When to use vs. not use AI</li>
+									<li>• Balancing automation & oversight</li>
+									<li>• PMI's AI guidelines</li>
+								</ul>
+							</div>
+						</div>
+						<div class="mt-4 p-3 bg-violet-100 rounded-lg border border-violet-300">
+							<p class="text-xs text-violet-900 font-medium">
+								💡 <strong>Exam Tip:</strong> AI appears across all domains in scenarios. Focus on understanding when AI enhances project outcomes versus when human expertise is essential. Consider ethical, privacy, and accuracy implications in AI-assisted decisions.
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
