@@ -4,7 +4,7 @@
   "description": "PMP Study Application API Server",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' tsc",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "start": "node dist/index.js",
     "clean": "rm -rf dist",
