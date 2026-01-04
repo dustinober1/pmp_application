@@ -164,14 +164,7 @@ export const authApi = {
     }),
 };
 
-// Subscription API
-export const subscriptionApi = {
-  getTiers: () => apiRequest("/subscriptions/tiers"),
-  getCurrent: () => apiRequest("/subscriptions/current"),
-  create: (tierId: string) =>
-    apiRequest("/subscriptions/create", { method: "POST", body: { tierId } }),
-  cancel: () => apiRequest("/subscriptions/cancel", { method: "POST" }),
-};
+
 
 // Domain/Content API
 export const contentApi = {

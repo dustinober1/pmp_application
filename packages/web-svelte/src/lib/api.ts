@@ -346,21 +346,7 @@ export const authApi = {
     ),
 };
 
-// Subscription API
-export const subscriptionApi = {
-  getTiers: (fetchFn?: typeof fetch) =>
-    apiRequest("/subscriptions/tiers", {}, fetchFn || fetch),
-  getCurrent: (fetchFn?: typeof fetch) =>
-    apiRequest("/subscriptions/current", {}, fetchFn || fetch),
-  create: (tierId: string, fetchFn?: typeof fetch) =>
-    apiRequest(
-      "/subscriptions/create",
-      { method: "POST", body: { tierId } },
-      fetchFn || fetch,
-    ),
-  cancel: (fetchFn?: typeof fetch) =>
-    apiRequest("/subscriptions/cancel", { method: "POST" }, fetchFn || fetch),
-};
+
 
 // Domain/Content API
 export const contentApi = {

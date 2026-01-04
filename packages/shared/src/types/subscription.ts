@@ -1,92 +1,52 @@
 /**
- * Subscription and tier related types
+ * Subscription and pricing related types
  */
 
-export type TierName = "free" | "pro" | "corporate";
-export type BillingPeriod = "monthly" | "annual";
-export type SubscriptionStatus =
-  | "active"
-  | "cancelled"
-  | "expired"
-  | "grace_period";
-
-export interface TierFeatures {
-  studyGuidesAccess: "limited" | "full";
-  flashcardsLimit: number | "unlimited";
-  practiceQuestionsPerDomain: number | "unlimited";
-  customFlashcards: boolean;
-  mockExams: boolean | "unlimited";
-  formulaCalculator: boolean;
-  advancedAnalytics: boolean;
-  personalizedStudyPlan: boolean;
-  teamManagement: boolean;
-  dedicatedSupport: boolean;
-}
+export type TierName = "free" | "basic" | "premium" | "enterprise";
 
 export interface SubscriptionTier {
   id: string;
   name: TierName;
   price: number;
-  billingPeriod: BillingPeriod;
-  features: TierFeatures;
+  currency: string;
+  interval: "monthly" | "yearly";
+  features: string[];
+  maxUsers?: number;
+  maxProjects?: number;
 }
 
 export interface UserSubscription {
   id: string;
   userId: string;
-  tierId: string;
-  tier: SubscriptionTier;
-  status: SubscriptionStatus;
-  startDate: Date;
-  endDate: Date;
-  stripeSubscriptionId?: string;
-  stripeCustomerId?: string;
+  tier: TierName;
+  status: "active" | "canceled" | "past_due" | "unpaid";
+  currentPeriodStart: Date;
+  currentPeriodEnd: Date;
+  cancelAtPeriodEnd: boolean;
   createdAt: Date;
+  updatedAt: Date;
 }
 
-// Tier hierarchy for comparison
-export const TIER_HIERARCHY: Record<TierName, number> = {
-  free: 0,
-  pro: 1,
-  corporate: 2,
-};
+export interface SubscriptionInput {
+  tierId: string;
+  paymentMethodId: string;
+}
 
-// Default tier configurations
-export const DEFAULT_TIER_FEATURES: Record<TierName, TierFeatures> = {
-  free: {
-    studyGuidesAccess: "limited",
-    flashcardsLimit: 500,
-    practiceQuestionsPerDomain: 25,
-    customFlashcards: false,
-    mockExams: true,
-    formulaCalculator: false,
-    advancedAnalytics: false,
-    personalizedStudyPlan: false,
-    teamManagement: false,
-    dedicatedSupport: false,
-  },
-  pro: {
-    studyGuidesAccess: "full",
-    flashcardsLimit: "unlimited",
-    practiceQuestionsPerDomain: "unlimited",
-    customFlashcards: true,
-    mockExams: "unlimited",
-    formulaCalculator: true,
-    advancedAnalytics: true,
-    personalizedStudyPlan: true,
-    teamManagement: false,
-    dedicatedSupport: false,
-  },
-  corporate: {
-    studyGuidesAccess: "full",
-    flashcardsLimit: "unlimited",
-    practiceQuestionsPerDomain: 200,
-    customFlashcards: true,
-    mockExams: true,
-    formulaCalculator: true,
-    advancedAnalytics: true,
-    personalizedStudyPlan: true,
-    teamManagement: true,
-    dedicatedSupport: true,
-  },
-};
+export interface SubscriptionUpdateInput {
+  tierId: string;
+}
+
+export interface SubscriptionCancelInput {
+  reason?: string;
+  feedback?: string;
+}
+
+export interface UsageMetrics {
+  userId: string;
+  tier: TierName;
+  periodStart: Date;
+  periodEnd: Date;
+  apiCalls: number;
+  storageUsed: number;
+  activeUsers: number;
+}

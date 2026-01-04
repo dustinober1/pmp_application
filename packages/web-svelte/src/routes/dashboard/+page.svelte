@@ -61,19 +61,7 @@
 		loading = false;
 	});
 
-	async function handleManageSubscription() {
-		try {
-			const response = await fetch('/api/subscriptions/stripe/portal', {
-				method: 'POST'
-			});
-			const data = await response.json();
-			if (data.url) {
-				window.location.href = data.url;
-			}
-		} catch (err) {
-			console.error('Failed to open billing portal:', err);
-		}
-	}
+
 
 	// Subscribe to auth store
 	let user = null;
@@ -270,27 +258,6 @@
 								</div>
 							</a>
 
-							<button
-								on:click={handleManageSubscription}
-								class="block w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-left"
-							>
-								<div class="flex items-center gap-2">
-									<svg
-										class="w-5 h-5"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-										/>
-									</svg>
-									Manage Subscription
-								</div>
-							</button>
 						</div>
 					</div>
 
