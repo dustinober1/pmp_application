@@ -1,5 +1,5 @@
 import { writable, derived } from "svelte/store";
-import type { UserProfile } from "@pmp/shared";
+import { UserTier, type UserProfile } from "@pmp/shared";
 
 interface AuthState {
   user: UserProfile | null;
@@ -22,7 +22,7 @@ function createAuthStore() {
     emailVerified: true,
     failedLoginAttempts: 0,
     lockedUntil: null,
-    tier: "pro", // Give pro access by default since it's free now
+    tier: UserTier.PRO, // Give pro access by default since it's free now
     createdAt: new Date(),
     updatedAt: new Date()
   };

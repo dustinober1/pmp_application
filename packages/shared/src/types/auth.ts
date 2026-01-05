@@ -2,7 +2,25 @@
  * Authentication related types
  */
 
-export type TierName = "free" | "pro" | "corporate";
+/**
+ * User tier constants
+ * Usage: Import and reference these constants instead of magic strings
+ * @example
+ * ```ts
+ * import { UserTier } from '@pmp/shared';
+ * const tier: TierName = UserTier.PRO;
+ * ```
+ */
+export const UserTier = {
+  FREE: "free",
+  PRO: "pro",
+  CORPORATE: "corporate",
+} as const;
+
+/**
+ * User tier type definition
+ */
+export type TierName = typeof UserTier[keyof typeof UserTier];
 
 export interface User {
   id: string;
