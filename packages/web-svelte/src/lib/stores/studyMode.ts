@@ -12,6 +12,7 @@ import {
   getDueCards,
   isCardDue
 } from '$lib/utils/spacedRepetition';
+import { addRecentReview, incrementMasteredCount, decrementMasteredCount } from '$lib/utils/flashcardStorage';
 
 // Store state
 interface StudyModeState {
@@ -152,6 +153,30 @@ function createStudyModeStore() {
 
         // Update card progress using SM-2
         const newProgress = updateCardProgress(currentCard.id, rating);
+
+        // SYNC: Update dashboard metrics
+        // 1. Add to recent reviews
+        addRecentReview({
+          cardId: currentCard.id,
+          cardFront: currentCard.front,
+          rating: rating === 'again' ? 'dont_know' : (rating === 'hard' ? 'learning' : 'know_it'),
+          timestamp: new Date().toISOString()
+        });
+
+        // 2. Update Mastered count
+        // If rating is 'good' or 'easy', we consider it "mastered" for the simple counter
+        // If it was already mastered (previous rating was good/easy), we don't increment again
+        // Note: The simple flashcardStorage doesn't track per-card state, so we use a heuristic
+        // or just increment if the user says they know it. For better accuracy, we check previous progress.
+        const wasMastered = currentCard.progress &&
+          (currentCard.progress.ratingCounts.good > 0 || currentCard.progress.ratingCounts.easy > 0);
+        const isNowMastered = (rating === 'good' || rating === 'easy');
+
+        if (isNowMastered && !wasMastered) {
+          incrementMasteredCount();
+        } else if (!isNowMastered && wasMastered) {
+          decrementMasteredCount();
+        }
 
         // Update session stats
         session.stats.reviewed++;

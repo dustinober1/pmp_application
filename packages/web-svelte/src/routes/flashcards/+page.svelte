@@ -116,6 +116,13 @@
     }
   });
 
+  // Re-fetch progress when returning to the page (e.g. from practice)
+  $effect(() => {
+    // This will trigger whenever the component is active
+    localMasteredCount = getMasteredCount();
+    recentReviews = getRecentReviews();
+  });
+
   // Domain filter effect removed
 </script>
 
