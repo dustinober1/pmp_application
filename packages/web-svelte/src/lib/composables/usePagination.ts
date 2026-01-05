@@ -6,8 +6,7 @@
  *
  * @example
  * ```ts
- * const items = $state([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
- * const pagination = usePagination({ items, pageSize: 3 });
+ * const pagination = usePagination({ items: [], pageSize: 20 });
  *
  * // Access paginated data
  * console.log(pagination.displayItems); // [1, 2, 3]
@@ -18,7 +17,6 @@
  * pagination.next();
  * pagination.previous();
  * pagination.goToPage(2);
- * pagination.reset();
  * ```
  */
 
@@ -56,6 +54,8 @@ export interface PaginationState<T> {
   reset: () => void;
   /** Update page size */
   setPageSize: (size: number) => void;
+  /** Update items array */
+  setItems: (items: T[]) => void;
 }
 
 export interface PaginationComputedInfo {
@@ -72,82 +72,83 @@ export interface PaginationComputedInfo {
 /**
  * Creates a pagination composable with reactive state management
  *
+ * Wrap the returned object in $state() in your Svelte component:
+ * ```ts
+ * let pagination = $state(usePagination({ items, pageSize: 20 }));
+ * ```
+ *
  * @param options - Pagination configuration options
  * @returns Pagination state and control methods
  */
 export function usePagination<T>(
   options: PaginationOptions<T>
 ): PaginationState<T> {
-  const { items, pageSize = 20, initialOffset = 0 } = options;
+  let { items, pageSize = 20, initialOffset = 0 } = options;
 
-  // Reactive state
-  let offset = $state(initialOffset);
-  let limit = $state(pageSize);
+  // State
+  let offset = initialOffset;
+  let limit = pageSize;
 
-  // Computed values
-  const displayItems = $derived<T[]>(
-    items.slice(offset, offset + limit)
-  );
-
-  const hasMore = $derived<boolean>(
-    offset + limit < items.length
-  );
-
-  const currentPage = $derived<number>(
-    Math.floor(offset / limit) + 1
-  );
-
-  const totalPages = $derived<number>(
-    Math.max(1, Math.ceil(items.length / limit))
-  );
-
-  const currentPageInfo = $derived<string>(
-    items.length > 0
-      ? `Showing ${offset + 1} to ${Math.min(offset + limit, items.length)} of ${items.length}`
-      : 'No items'
-  );
-
-  // Navigation methods
-  function previous(): void {
-    const newOffset = Math.max(0, offset - limit);
-    offset = newOffset;
-  }
-
-  function next(): void {
-    const newOffset = offset + limit;
-    offset = Math.min(newOffset, items.length - 1);
-  }
-
-  function goToPage(page: number): void {
-    const targetPage = Math.max(1, Math.min(page, totalPages));
-    offset = (targetPage - 1) * limit;
-  }
-
-  function reset(): void {
-    offset = 0;
-  }
-
-  function setPageSize(size: number): void {
-    const currentPageBeforeReset = currentPage;
-    limit = Math.max(1, size);
-    // Try to stay on the same logical page
-    offset = Math.min((currentPageBeforeReset - 1) * limit, items.length - 1);
-  }
-
-  return {
+  // Getters for computed values (called by Svelte's reactivity when accessed)
+  const getState = () => ({
     offset,
     limit,
-    displayItems,
-    hasMore,
-    currentPage,
-    totalPages,
-    currentPageInfo,
-    previous,
-    next,
-    goToPage,
-    reset,
-    setPageSize
-  };
+    displayItems: items.slice(offset, offset + limit),
+    hasMore: offset + limit < items.length,
+    currentPage: Math.floor(offset / limit) + 1,
+    totalPages: Math.max(1, Math.ceil(items.length / limit)),
+    currentPageInfo:
+      items.length > 0
+        ? `Showing ${offset + 1} to ${Math.min(offset + limit, items.length)} of ${items.length}`
+        : 'No items'
+  });
+
+  // Create a proxy that provides reactive access to the state
+  const state = new Proxy({} as PaginationState<T>, {
+    get(_target, prop: keyof PaginationState<T>) {
+      const current = getState();
+      if (prop in current) {
+        return current[prop as keyof typeof current];
+      }
+      // Method handlers
+      switch (prop) {
+        case 'previous':
+          return () => {
+            offset = Math.max(0, offset - limit);
+          };
+        case 'next':
+          return () => {
+            const newOffset = offset + limit;
+            offset = Math.min(newOffset, Math.max(0, items.length - 1));
+          };
+        case 'goToPage':
+          return (page: number) => {
+            const totalPages = Math.max(1, Math.ceil(items.length / limit));
+            const targetPage = Math.max(1, Math.min(page, totalPages));
+            offset = (targetPage - 1) * limit;
+          };
+        case 'reset':
+          return () => {
+            offset = 0;
+          };
+        case 'setPageSize':
+          return (size: number) => {
+            const currentPage = Math.floor(offset / limit) + 1;
+            limit = Math.max(1, size);
+            offset = Math.min((currentPage - 1) * limit, Math.max(0, items.length - 1));
+          };
+        case 'setItems':
+          return (newItems: T[]) => {
+            items = newItems;
+            offset = 0;
+          };
+        default:
+          return undefined;
+      }
+    }
+  });
+
+  return state;
 }
 
 /**
