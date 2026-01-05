@@ -73,6 +73,12 @@ function createStudyModeStore() {
         });
       }
 
+      // Always shuffle first to ensure randomness among cards with same priority (e.g. new cards correctly randomized)
+      for (let i = studyCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [studyCards[i], studyCards[j]] = [studyCards[j], studyCards[i]];
+      }
+
       // Prioritize cards
       if (options?.priority === 'srs') {
         // Sort by nextReviewDate (earliest first), new cards (null progress) always first
@@ -82,12 +88,6 @@ function createStudyModeStore() {
           if (!b.progress) return 1;
           return new Date(a.progress.nextReviewDate).getTime() - new Date(b.progress.nextReviewDate).getTime();
         });
-      } else if (options?.shuffle || options?.priority === 'shuffle') {
-        // Shuffle if requested
-        for (let i = studyCards.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [studyCards[i], studyCards[j]] = [studyCards[j], studyCards[i]];
-        }
       }
 
       // Apply limit
