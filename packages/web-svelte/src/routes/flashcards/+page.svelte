@@ -18,7 +18,6 @@
   import { getCardProgressStats } from "$lib/utils/cardProgressStorage";
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import { usePagination } from '$lib/composables';
 
   // Domain filter options
   interface DomainFilter {
@@ -40,175 +39,13 @@
   let recentReviews: FlashcardReview[] = $state([]);
   let showRecentReviews = $state(false);
 
-  // Data loading state - now uses lazy loading
+  // Data loading state
   let loading = $state(true);
-  let loadingDomain = $state(false); // For domain-specific loading indicator
   let allFlashcards: Flashcard[] = $state([]);
-  let filteredFlashcards: Flashcard[] = $state([]);
   let quickStats: { totalFlashcards: number; totalDomains: number; totalTasks: number; domains: DomainManifest[] } | null = $state(null);
-  let loadedDomains: Set<string> = new Set(); // Track which domains have been loaded
   let error: string | null = $state(null);
 
-  // Domain filter state
-  let selectedDomain = $state<string>('people');
-
-  // Search state
-  let searchQuery = $state('');
-  let searchInput = $state('');
-
-  // Pagination - will be initialized with filteredFlashcards after data loads
-  let pagination: ReturnType<typeof usePagination<Flashcard>> | null = null;
-
-  // Reactive state for triggering updates when pagination changes
-  let paginationVersion = $state(0);
-
-  // Get chip color classes
-  function getChipClasses(filterId: string): string {
-    const isSelected = selectedDomain === filterId;
-    const baseClasses = "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ";
-
-    if (filterId === 'all') {
-      return isSelected
-        ? baseClasses + "bg-gray-600 text-white shadow-lg shadow-gray-500/30 scale-105"
-        : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105";
-    }
-    if (filterId === 'people') {
-      return isSelected
-        ? baseClasses + "bg-blue-600 text-white shadow-lg shadow-blue-500/30 scale-105"
-        : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:scale-105";
-    }
-    if (filterId === 'process') {
-      return isSelected
-        ? baseClasses + "bg-green-600 text-white shadow-lg shadow-green-500/30 scale-105"
-        : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-green-700 dark:text-green-300 border border-green-300 dark:border-green-600 hover:bg-green-50 dark:hover:bg-green-900/30 hover:scale-105";
-    }
-    // business
-    return isSelected
-      ? baseClasses + "bg-purple-600 text-white shadow-lg shadow-purple-500/30 scale-105"
-      : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:scale-105";
-  }
-
-  // Load flashcards for a specific domain (lazy loading)
-  async function loadDomainFlashcards(domainId: string): Promise<Flashcard[]> {
-    if (loadedDomains.has(domainId)) {
-      // Already loaded, just filter from allFlashcards
-      return allFlashcards.filter(card => card.domainId === domainId);
-    }
-    
-    loadingDomain = true;
-    try {
-      const cards = await getFlashcardsByDomain(domainId);
-      // Add to allFlashcards cache
-      allFlashcards = [...allFlashcards, ...cards];
-      loadedDomains.add(domainId);
-      return cards;
-    } finally {
-      loadingDomain = false;
-    }
-  }
-
-  // Load all domains (for "All" filter)
-  async function loadAllDomains(): Promise<void> {
-    if (!quickStats) return;
-    
-    const unloadedDomains = quickStats.domains.filter(d => !loadedDomains.has(d.id));
-    if (unloadedDomains.length === 0) return; // All already loaded
-    
-    loadingDomain = true;
-    try {
-      // Load all unloaded domains in parallel
-      const results = await Promise.all(
-        unloadedDomains.map(d => getFlashcardsByDomain(d.id))
-      );
-      
-      // Add all new cards to cache
-      const newCards = results.flat();
-      allFlashcards = [...allFlashcards, ...newCards];
-      unloadedDomains.forEach(d => loadedDomains.add(d.id));
-    } finally {
-      loadingDomain = false;
-    }
-  }
-
-  // Apply domain filter (now async with lazy loading)
-  async function applyDomainFilter() {
-    if (selectedDomain === 'all') {
-      await loadAllDomains();
-      filteredFlashcards = allFlashcards;
-    } else {
-      // Load the specific domain if needed
-      const domainCards = await loadDomainFlashcards(selectedDomain);
-      filteredFlashcards = domainCards;
-    }
-
-    // Re-apply search if there's an active search
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase().trim();
-      filteredFlashcards = filteredFlashcards.filter(card =>
-        card.front.toLowerCase().includes(q) ||
-        card.back.toLowerCase().includes(q) ||
-        card.category.toLowerCase().includes(q) ||
-        card.domain.toLowerCase().includes(q) ||
-        card.task.toLowerCase().includes(q)
-      );
-    }
-
-    // Update pagination with new filtered items (if initialized)
-    if (pagination) {
-      pagination.reset();
-      pagination.setItems(filteredFlashcards);
-      paginationVersion++;
-    }
-  }
-
-  // Search function
-  function searchFlashcards(query: string) {
-    searchQuery = query;
-    const q = query.toLowerCase().trim();
-
-    let baseFlashcards = allFlashcards;
-
-    // Apply domain filter first
-    if (selectedDomain !== 'all') {
-      baseFlashcards = baseFlashcards.filter(card => card.domainId === selectedDomain);
-    }
-
-    if (!q) {
-      filteredFlashcards = baseFlashcards;
-    } else {
-      filteredFlashcards = baseFlashcards.filter(card =>
-        card.front.toLowerCase().includes(q) ||
-        card.back.toLowerCase().includes(q) ||
-        card.category.toLowerCase().includes(q) ||
-        card.domain.toLowerCase().includes(q) ||
-        card.task.toLowerCase().includes(q)
-      );
-    }
-
-    // Update pagination with new filtered items (if initialized)
-    if (pagination) {
-      pagination.reset();
-      pagination.setItems(filteredFlashcards);
-      paginationVersion++;
-    }
-  }
-
-  // Debounced search
-  let searchTimeout: ReturnType<typeof setTimeout> | undefined;
-  function handleSearchInput(event: Event) {
-    const target = event.target as HTMLInputElement;
-    searchInput = target.value;
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-      searchFlashcards(searchInput);
-    }, 300);
-  }
-
-  function clearSearch() {
-    searchInput = '';
-    searchQuery = '';
-    applyDomainFilter();
-  }
+  // Debounced search removed
 
   // Format date helper
   function formatReviewDate(timestamp: string): string {
@@ -253,41 +90,7 @@
     }
   }
 
-  // Pagination navigation wrappers that trigger reactivity
-  function goToPreviousPage() {
-    if (pagination) {
-      pagination.previous();
-      paginationVersion++;
-    }
-  }
-
-  function goToNextPage() {
-    if (pagination) {
-      pagination.next();
-      paginationVersion++;
-    }
-  }
-
-  // Computed pagination values (reactive via paginationVersion dependency)
-  let displayItems = $derived(() => {
-    paginationVersion; // Depend on version to trigger recomputation
-    return pagination?.displayItems ?? [];
-  });
-
-  let currentPageInfo = $derived(() => {
-    paginationVersion;
-    return pagination?.currentPageInfo ?? '0-0 of 0';
-  });
-
-  let hasMore = $derived(() => {
-    paginationVersion;
-    return pagination?.hasMore ?? false;
-  });
-
-  let canGoBack = $derived(() => {
-    paginationVersion;
-    return pagination ? pagination.offset > 0 : false;
-  });
+  // Pagination helpers removed
 
   onMount(async () => {
     // Load data from localStorage first (fast, synchronous)
@@ -301,19 +104,13 @@
       // Immediately mark as loaded - page renders instantly with stats
       loading = false;
       
-      // Then load the first domain by default (e.g., People, the most popular)
-      // This happens after the page is visible, providing perceived speed
-      const defaultDomain = 'people';
-      const domainCards = await loadDomainFlashcards(defaultDomain);
-      filteredFlashcards = domainCards;
-      
-      // Initialize pagination with loaded flashcards
-      pagination = usePagination({ items: filteredFlashcards, pageSize: 20 });
-      paginationVersion++;
+      // Load all cards for "due" calculation and prefetching
+      const domains = ['people', 'process', 'business'];
+      const results = await Promise.all(domains.map(d => getFlashcardsByDomain(d)));
+      allFlashcards = results.flat();
 
       // Calculate due today from localStorage card progress (deferred)
       setTimeout(() => {
-        // For now, just use the loaded cards - full calculation will happen later
         const cardIds = allFlashcards.map(card => card.id);
         if (cardIds.length > 0) {
           const cardStats = getCardProgressStats(cardIds);
@@ -321,8 +118,8 @@
         }
       }, 100);
       
-      // Start prefetching other domains in the background
-      prefetchDomains(defaultDomain);
+      // Start prefetching
+      prefetchDomains('people');
     } catch (err) {
       console.error('Failed to load flashcards:', err);
       error = err instanceof Error ? err.message : 'Failed to load flashcards';
@@ -330,15 +127,7 @@
     }
   });
 
-  // Watch for domain filter changes
-  $effect(() => {
-    // Only trigger when domain changes and we have stats loaded
-    if (quickStats && !loading) {
-      // Get the current domain value to track
-      const currentDomain = selectedDomain;
-      applyDomainFilter();
-    }
-  });
+  // Domain filter effect removed
 </script>
 
 {#if loading}
@@ -388,61 +177,25 @@
         </a>
       </div>
 
-      <!-- Stats -->
-      {#if quickStats}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300 hover:scale-105 cursor-default">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Total Cards</h2>
-            <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">
-              {quickStats.totalFlashcards || 0}
-            </p>
-          </div>
-          <div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300 hover:scale-105 cursor-default">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Due Today</h2>
-            <p class="text-3xl font-bold text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">
-              {dueTodayCount}
-            </p>
-          </div>
-          <div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 hover:scale-105 cursor-default">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Mastered (Local)</h2>
-            <p class="text-3xl font-bold text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
-              {localMasteredCount || 0}
-            </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Stored in browser</p>
-          </div>
-        </div>
-      {/if}
-
-      <!-- Domain Filter Chips -->
-      <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-4 mb-8 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
-        <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Filter by Domain</h2>
-        <div class="flex flex-wrap gap-3">
-          {#each DOMAIN_FILTERS as filter}
-            <button
-              onclick={() => selectedDomain = filter.id}
-              class={getChipClasses(filter.id)}
-              disabled={loadingDomain}
-            >
-              {filter.label}
-            </button>
-          {/each}
-          {#if loadingDomain}
-            <span class="inline-flex items-center gap-2 px-3 py-1 text-sm text-indigo-600 dark:text-indigo-400">
-              <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Loading...
-            </span>
-          {/if}
-        </div>
-        <p class="text-xs text-gray-500 dark:text-gray-400 mt-3">
-          {#if loadingDomain}
-            Loading flashcards...
-          {:else}
-            Showing {filteredFlashcards.length} {selectedDomain === 'all' ? 'total' : DOMAIN_FILTERS.find(f => f.id === selectedDomain)?.label} flashcards
-          {/if}
-        </p>
+      <!-- Practice Sessions -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {#each [25, 50, 75, 100] as limit}
+          <a
+            href="{base}/flashcards/practice?limit={limit}"
+            class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-indigo-600/50 dark:hover:border-indigo-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/20"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+              </div>
+              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/50 px-2 py-1 rounded-lg">SRS</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Practice {limit}</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Random {limit} cards from your SRS queue</p>
+          </a>
+        {/each}
       </div>
 
       <!-- Recent Reviews -->
@@ -486,112 +239,21 @@
         </div>
       {/if}
 
-      <!-- Flashcards List -->
-      {#if allFlashcards.length > 0}
-        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
-          <!-- Search Header -->
-          <div class="px-6 py-4 border-b border-gray-200/50 dark:border-gray-700/50 space-y-4">
-            <div class="flex items-center justify-between">
-              <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                {selectedDomain === 'all' ? 'All Flashcards' : DOMAIN_FILTERS.find(f => f.id === selectedDomain)?.label + ' Flashcards'}
-              </h2>
-              <span class="text-sm text-gray-500 dark:text-gray-400">
-                {searchQuery
-                  ? `${filteredFlashcards.length} of ${allFlashcards.length} found`
-                  : selectedDomain === 'all'
-                    ? `${allFlashcards.length} total`
-                    : `${filteredFlashcards.length} in this domain`
-                }
-              </span>
-            </div>
-
-            <!-- Search Input -->
-            <div class="relative">
-              <input
-                type="text"
-                value={searchInput}
-                oninput={handleSearchInput}
-                placeholder="Search flashcards by text, category, domain, or task..."
-                class="w-full px-4 py-3 pl-11 pr-11 border border-gray-300 dark:border-gray-600 rounded-xl text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-300"
-              />
-              <!-- Search Icon -->
-              <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <!-- Clear Button -->
-              {#if searchInput}
-                <button
-                  onclick={clearSearch}
-                  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
-                  aria-label="Clear search"
-                >
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              {/if}
-            </div>
+      <!-- Quick Stats -->
+      {#if quickStats}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 cursor-default">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Total Cards</h2>
+            <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{quickStats.totalFlashcards || 0}</p>
           </div>
-
-          <div class="divide-y divide-gray-200/50 dark:divide-gray-700/50">
-            {#each displayItems() as flashcard}
-              <div class="group px-6 py-4 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors duration-300 cursor-default">
-                <div class="flex items-start gap-3">
-                  <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:translate-x-1 transition-transform duration-300">{flashcard.front}</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{flashcard.back}</p>
-                    <div class="flex items-center gap-2 mt-2">
-                      <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-md bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700/50">
-                        {flashcard.category}
-                      </span>
-                      <span class="text-xs text-gray-500 dark:text-gray-400">
-                        {flashcard.domain} / {flashcard.task}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {:else}
-              <div class="px-6 py-12 text-center">
-                {#if searchQuery}
-                  <p class="text-gray-500 dark:text-gray-400 mb-2">No flashcards match your search</p>
-                  <button
-                    onclick={clearSearch}
-                    class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:underline"
-                  >
-                    Clear search to see all flashcards
-                  </button>
-                {:else}
-                  <p class="text-gray-500 dark:text-gray-400">No flashcards available</p>
-                {/if}
-              </div>
-            {/each}
+          <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 cursor-default">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Due Today</h2>
+            <p class="text-3xl font-bold text-green-600 dark:text-green-400">{dueTodayCount}</p>
           </div>
-
-          <!-- Pagination -->
-          {#if pagination && filteredFlashcards.length > pagination.limit}
-            <div class="px-6 py-4 border-t border-gray-200/50 dark:border-gray-700/50 flex items-center justify-between">
-              <button
-                onclick={goToPreviousPage}
-                disabled={!canGoBack}
-                class="group px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md hover:shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:shadow-none transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
-              >
-                Previous
-              </button>
-
-              <span class="text-sm text-gray-700 dark:text-gray-300">
-                {currentPageInfo()}
-              </span>
-
-              <button
-                onclick={goToNextPage}
-                disabled={!hasMore()}
-                class="group px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md hover:shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:shadow-none transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
-              >
-                Next
-              </button>
-            </div>
-          {/if}
+          <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 cursor-default">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Mastered</h2>
+            <p class="text-3xl font-bold text-purple-600 dark:text-purple-400">{localMasteredCount || 0}</p>
+          </div>
         </div>
       {/if}
     </div>

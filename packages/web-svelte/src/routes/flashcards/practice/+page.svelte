@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
+  import { page } from '$app/stores';
   import { studyMode } from '$lib/stores/studyMode';
   import { getFlashcardsByDomain, prefetchDomains, type Flashcard } from '$lib/utils/flashcardsData';
   import FlashcardStudyCard from '$lib/components/FlashcardStudyCard.svelte';
@@ -68,11 +69,15 @@
       return;
     }
 
-    // Start the session with 25 questions, prioritized by SRS
+    // Get limit from URL query params, default to 25
+    const limitParam = $page.url.searchParams.get('limit');
+    const limit = limitParam ? parseInt(limitParam, 10) : 25;
+
+    // Start the session with requested questions, prioritized by SRS
     studyMode.startSession(allFlashcards, {
       dueOnly: false, // Include all cards but prioritize due ones
       priority: 'srs',
-      limit: 25
+      limit: isNaN(limit) ? 25 : limit
     });
 
     studyStarted = true;
