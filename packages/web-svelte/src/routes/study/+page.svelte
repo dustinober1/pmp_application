@@ -191,53 +191,7 @@
 						practice questions for each task.
 					</p>
 
-					<!-- ECO Info Cards -->
-					<div class="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
-						<!-- Domain Weighting -->
-						<div class="group bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 backdrop-blur-md rounded-lg p-4 border border-blue-200 dark:border-blue-700 shadow-lg hover:shadow-blue-500/25 hover:scale-105 transition-all duration-300">
-							<div class="flex items-center justify-center gap-2 mb-3">
-								<svg class="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-								</svg>
-								<span class="text-sm font-semibold text-blue-900 dark:text-blue-100">Domain Weighting</span>
-							</div>
-							<div class="space-y-1 text-xs text-blue-800 dark:text-blue-200">
-								<div class="flex justify-between"><span>People</span><span class="font-medium">{ecoInfo.domains[0].weight}%</span></div>
-								<div class="flex justify-between"><span>Process</span><span class="font-medium">{ecoInfo.domains[1].weight}%</span></div>
-								<div class="flex justify-between"><span>Business Environment</span><span class="font-medium">{ecoInfo.domains[2].weight}%</span></div>
-							</div>
-						</div>
 
-						<!-- Methodology Distribution -->
-						<div class="group bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30 backdrop-blur-md rounded-lg p-4 border border-emerald-200 dark:border-emerald-700 shadow-lg hover:shadow-emerald-500/25 hover:scale-105 transition-all duration-300">
-							<div class="flex items-center justify-center gap-2 mb-3">
-								<svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-								</svg>
-								<span class="text-sm font-semibold text-emerald-900 dark:text-emerald-100">Methodology Focus</span>
-							</div>
-							<div class="space-y-1 text-xs text-emerald-800 dark:text-emerald-200">
-								<div class="flex justify-between"><span>Adaptive/Hybrid</span><span class="font-medium">{ecoInfo.methodology.adaptiveHybrid}%</span></div>
-								<div class="flex justify-between"><span>Predictive</span><span class="font-medium">{ecoInfo.methodology.predictive}%</span></div>
-								<div class="pt-1 text-xs text-emerald-600 dark:text-emerald-300 italic">60/40 split for ECO 2026</div>
-							</div>
-						</div>
-
-						<!-- Exam Format -->
-						<div class="group bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 backdrop-blur-md rounded-lg p-4 border border-orange-200 dark:border-orange-700 shadow-lg hover:shadow-orange-500/25 hover:scale-105 transition-all duration-300">
-							<div class="flex items-center justify-center gap-2 mb-3">
-								<svg class="w-5 h-5 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-								</svg>
-								<span class="text-sm font-semibold text-orange-900 dark:text-orange-100">Exam Format</span>
-							</div>
-							<div class="space-y-1 text-xs text-orange-800 dark:text-orange-200">
-								<div class="flex justify-between"><span>Questions</span><span class="font-medium">{ecoInfo.examFormat.questions}</span></div>
-								<div class="flex justify-between"><span>Time Limit</span><span class="font-medium">{ecoInfo.examFormat.minutes} minutes</span></div>
-								<div class="pt-1 text-xs text-orange-600 dark:text-orange-300">~{Math.round(ecoInfo.examFormat.minutes / (ecoInfo.examFormat.questions / 60))} sec/question</div>
-							</div>
-						</div>
-					</div>
 
 
 				</div>
@@ -246,37 +200,7 @@
 
 		<main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
 			
-			<!-- Study Modules -->
-			{#if data.modules && data.modules.length > 0}
-				<div class="mb-12">
-					<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-2">
-						<span class="text-indigo-600 dark:text-indigo-400">📚</span> 
-						Study Modules
-					</h2>
-					<div class="grid md:grid-cols-2 gap-6">
-						{#each data.modules as module}
-							<a href="{base}/study/modules/{module.id}" 
-							   class="group block bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
-								<div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
-								<div class="relative z-10">
-									<span class="inline-block px-3 py-1 text-xs font-semibold text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mb-3">
-										Module {module.id.split('-')[0]}
-									</span>
-									<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-										{module.title}
-									</h3>
-									<p class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-										{module.description}
-									</p>
-									<div class="flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400">
-										Start Learning <span class="ml-1 transition-transform group-hover:translate-x-1">→</span>
-									</div>
-								</div>
-							</a>
-						{/each}
-					</div>
-				</div>
-			{/if}
+
 
 			<!-- Domain Cards -->
 			<div class="grid md:grid-cols-3 gap-6 mb-8">
