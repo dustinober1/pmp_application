@@ -78,5 +78,27 @@ npm run test:web-svelte
 *   **Linting:** Run `npm run lint` to check for issues (ESLint).
 *   **Types:** Strict TypeScript usage is enforced. Avoid `any`.
 
+## Recent Progress (January 2026)
+
+*   **Routing & Navigation:** Fixed 404 errors in practice/flashcard routing by ensuring consistent use of the `${base}` path and removing redundant route segments.
+*   **Practice Session Enhancements:**
+    *   **Layout Optimization:** Widened the container and tightened vertical spacing to minimize scrolling.
+    *   **Scenario Integration:** Added support for complex question scenarios, displayed in a dedicated context card.
+    *   **Option Randomization:** Implemented shuffling for question answers to ensure the correct option is not predictable.
+*   **Data Portability:** Expanded export/import functionality to include detailed SRS progress (repetitions, intervals, mastery) for both flashcards and questions.
+*   **Code Quality:** Resolved numerous TypeScript linting errors in the `dashboard` store to improve type safety and maintainability.
+
+## Current Status & Roadmap
+
+*   [x] Core SvelteKit Migration
+*   [x] Offline-first Storage (LocalStorage)
+*   [x] SRS Algorithm (SM-2) for Flashcards
+*   [x] Question Practice Sessions
+*   [x] Dashboard Progress Visualization
+*   [x] Data Export/Import (Full Persistence)
+*   [ ] Multi-device Sync (Cloud Optional)
+*   [ ] Performance Analytics & Insights
+*   [ ] Mock Exam Mode (Timed)
+
 ## Note on README
 The root `README.md` references a Next.js architecture which has been migrated to SvelteKit. Refer to `packages/web-svelte/package.json` and this document for the current operational commands.
