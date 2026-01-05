@@ -88,7 +88,7 @@
 			});
 
 			if (sessionId) {
-				goto(`${base}/practice/session/${sessionId}`);
+				goto(`${base}/practice/${sessionId}`);
 			}
 		} catch (err) {
 			console.error('Failed to start session:', err);
