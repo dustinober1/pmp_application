@@ -46,6 +46,18 @@ export function normalizeTaskId(rawEco: string, rawTaskName: string): string {
 }
 
 /**
+ * Shuffles an array in place using Durstenfeld shuffle algorithm
+ */
+function shuffleArray<T>(array: T[]): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+/**
  * Loads flashcards from static JSON file with transformation
  * Applies normalization to domain and task IDs
  */
@@ -99,19 +111,24 @@ export async function loadStaticQuestions(fetchFn: typeof fetch = fetch): Promis
         else if (domainId === 'domain-process') taskId = `II-${q.taskNumber}`;
         else if (domainId === 'domain-business') taskId = `III-${q.taskNumber}`;
 
+        const rawOptions = q.answers.map((a: any, idx: number) => ({
+          id: `opt-${idx}`,
+          questionId: q.id,
+          text: a.text,
+          isCorrect: a.isCorrect
+        } as QuestionOption));
+
+        const shuffledOptions = shuffleArray<QuestionOption>(rawOptions);
+        const correctOption = shuffledOptions.find((o: QuestionOption) => o.isCorrect);
+
         return {
           id: q.id,
           domainId: domainId,
           taskId: taskId,
           scenario: q.scenario,
           questionText: q.questionText,
-          options: q.answers.map((a: any, idx: number) => ({
-            id: `opt-${idx}`,
-            questionId: q.id,
-            text: a.text,
-            isCorrect: a.isCorrect
-          } as QuestionOption)),
-          correctOptionId: `opt-${q.correctAnswerIndex}`,
+          options: shuffledOptions,
+          correctOptionId: correctOption?.id || `opt-${q.correctAnswerIndex}`,
           explanation: q.remediation.coreLogic,
           difficulty: "medium",
           relatedFormulaIds: [],
