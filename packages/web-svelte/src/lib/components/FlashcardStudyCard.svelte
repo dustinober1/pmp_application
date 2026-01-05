@@ -89,14 +89,15 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 500px;
+    max-width: 800px;
     padding: 0.5rem 0;
   }
 
   .flashcard {
     width: 100%;
-    max-width: 600px;
-    height: 350px;
+    max-width: 800px;
+    min-height: 350px;
+    height: auto;
     cursor: pointer;
     position: relative;
     transform-style: preserve-3d;
@@ -193,8 +194,8 @@
 
   .no-card-placeholder {
     width: 100%;
-    max-width: 600px;
-    height: 350px;
+    max-width: 800px;
+    min-height: 350px;
     display: flex;
     align-items: center;
     justify-content: center;
