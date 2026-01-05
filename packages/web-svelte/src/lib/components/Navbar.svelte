@@ -88,6 +88,14 @@
 					{$t('Practice')}
 				</a>
 				<a
+					href="{base}/exams"
+					class="transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity {isActive('/exams')
+						? 'text-[var(--primary)] after:opacity-100'
+						: 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] after:opacity-0'}"
+				>
+					Exams
+				</a>
+				<a
 					href="{base}/formulas"
 					class="transition relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[var(--primary)] after:transition-opacity {isActive('/formulas')
 						? 'text-[var(--primary)] after:opacity-100'
@@ -200,6 +208,14 @@
 							: 'hover:bg-[var(--secondary)]'}"
 					>
 						{$t('Practice')}
+					</a>
+					<a
+						href="{base}/exams"
+						class="px-4 py-2 rounded-lg transition {isActive('/exams')
+							? 'bg-[var(--primary)]/20 text-[var(--primary)] font-medium'
+							: 'hover:bg-[var(--secondary)]'}"
+					>
+						Exams
 					</a>
 					<a
 						href="{base}/formulas"
