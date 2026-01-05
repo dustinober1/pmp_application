@@ -125,6 +125,14 @@
 			selectedDomains = [...selectedDomains, domainId];
 		}
 	}
+	
+	function startPresetSession(count: number, mode: 'srs' | 'shuffle') {
+		questionCount = count;
+		startMode = mode;
+		startSession();
+	}
+
+	let showHistory = $state(false);
 </script>
 
 {#if loading}
@@ -147,190 +155,165 @@
 			</div>
 
 			<div class="mb-8">
-				<h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Practice Questions</h1>
+				<h1 class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-2">Practice Questions</h1>
 				<p class="text-gray-600 dark:text-gray-300">
 					Test your knowledge with realistic PMP exam questions.
 				</p>
 			</div>
 
-			<!-- Stats -->
+			<!-- Quick Start Grid -->
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+				<!-- Quick 10 -->
+				<button
+					onclick={() => startPresetSession(10, 'shuffle')}
+					disabled={starting}
+					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-indigo-600/50 dark:hover:border-indigo-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/20 text-left"
+				>
+					<div class="flex items-center justify-between mb-4">
+						<div class="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+							</svg>
+						</div>
+						<span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/50 px-2 py-1 rounded-lg">Quick</span>
+					</div>
+					<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Quick 10</h3>
+					<p class="text-sm text-gray-500 dark:text-gray-400">Random 10 questions to warm up</p>
+				</button>
+
+				<!-- Standard 25 -->
+				<button
+					onclick={() => startPresetSession(25, 'shuffle')}
+					disabled={starting}
+					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-purple-600/50 dark:hover:border-purple-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-purple-500/20 text-left"
+				>
+					<div class="flex items-center justify-between mb-4">
+						<div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+							</svg>
+						</div>
+						<span class="text-xs font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/50 px-2 py-1 rounded-lg">Standard</span>
+					</div>
+					<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Standard 25</h3>
+					<p class="text-sm text-gray-500 dark:text-gray-400">Balanced set of 25 questions</p>
+				</button>
+
+				<!-- Weak Areas (SRS) -->
+				<button
+					onclick={() => startPresetSession(30, 'srs')}
+					disabled={starting}
+					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-pink-600/50 dark:hover:border-pink-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-pink-500/20 text-left"
+				>
+					<div class="flex items-center justify-between mb-4">
+						<div class="p-3 bg-pink-100 dark:bg-pink-900/30 rounded-xl text-pink-600 dark:text-pink-400 group-hover:scale-110 transition-transform duration-300">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+							</svg>
+						</div>
+						<span class="text-xs font-bold text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-900/50 px-2 py-1 rounded-lg">Smart Focus</span>
+					</div>
+					<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Weak Areas</h3>
+					<p class="text-sm text-gray-500 dark:text-gray-400">Target your weakest topics</p>
+				</button>
+				
+				<!-- Review Flagged -->
+				<a
+					href="{base}/practice/flagged"
+					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-yellow-600/50 dark:hover:border-yellow-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-yellow-500/20 block"
+				>
+					<div class="flex items-center justify-between mb-4">
+						<div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl text-yellow-600 dark:text-yellow-400 group-hover:scale-110 transition-transform duration-300">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8l-2 2h-2a2 2 0 01-2-2v-3a2 2 0 01-2-2h-3z" /> 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+							</svg>
+						</div>
+						<span class="text-xs font-bold text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/50 px-2 py-1 rounded-lg">Review</span>
+					</div>
+					<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Flagged</h3>
+					<p class="text-sm text-gray-500 dark:text-gray-400">Review questions you marked</p>
+				</a>
+			</div>
+			
+			<!-- Stats Row -->
 			<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-				<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 hover:scale-105 transition-all duration-300 cursor-default">
-					<p class="text-3xl font-bold group-hover:scale-110 transition-transform duration-300">{storageStats.totalSessions}</p>
-					<p class="text-sm text-gray-600 dark:text-gray-400">Sessions</p>
+				<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50">
+					<h2 class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Total Sessions</h2>
+					<p class="text-3xl font-bold text-gray-900 dark:text-white">{storageStats.totalSessions}</p>
 				</div>
-				<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-purple-500/20 hover:scale-105 transition-all duration-300 cursor-default">
-					<p class="text-3xl font-bold group-hover:scale-110 transition-transform duration-300">{storageStats.totalQuestions}</p>
-					<p class="text-sm text-gray-600 dark:text-gray-400">Questions Answered</p>
+				<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50">
+					<h2 class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Questions Answered</h2>
+					<p class="text-3xl font-bold text-gray-900 dark:text-white">{storageStats.totalQuestions}</p>
 				</div>
-				<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 hover:scale-105 transition-all duration-300 cursor-default">
-					<p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">{storageStats.averageScore}%</p>
-					<p class="text-sm text-gray-600 dark:text-gray-400">Average Score</p>
+				<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50">
+					<h2 class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Average Score</h2>
+					<p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{storageStats.averageScore}%</p>
 				</div>
-				<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-green-500/20 hover:scale-105 transition-all duration-300 cursor-default">
-					<p class="text-3xl font-bold text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">{storageStats.bestScore}%</p>
-					<p class="text-sm text-gray-600 dark:text-gray-400">Best Score</p>
+				<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg p-6 text-center border border-gray-200/50 dark:border-gray-700/50">
+					<h2 class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Best Score</h2>
+					<p class="text-3xl font-bold text-green-600 dark:text-green-400">{storageStats.bestScore}%</p>
 				</div>
 			</div>
 
-			<!-- Mock Exam History -->
+			<!-- Session History (Collapsible) -->
 			{#if mockExamHistory.length > 0}
-				<div class="mb-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl transition-all duration-300">
-					<h2 class="font-semibold mb-4 text-gray-900 dark:text-white">Mock Exam History</h2>
-					<div class="overflow-x-auto">
-						<table class="w-full text-sm">
-							<thead>
-								<tr class="border-b border-gray-200">
-									<th class="text-left py-2 px-4">Date</th>
-									<th class="text-center py-2 px-4">Score</th>
-									<th class="text-center py-2 px-4">Correct</th>
-									<th class="text-center py-2 px-4">Total</th>
-								</tr>
-							</thead>
-							<tbody>
-								{#each mockExamHistory.slice().reverse() as exam}
-									<tr class="border-b border-gray-100">
-										<td class="py-2 px-4">{new Date(exam.date).toLocaleDateString()}</td>
-										<td class="text-center py-2 px-4">
-											<span class="px-2 py-1 rounded-full text-xs font-medium {exam.score >= 75
-												? 'bg-green-100 text-green-800'
-												: exam.score >= 60
-													? 'bg-yellow-100 text-yellow-800'
-													: 'bg-red-100 text-red-800'}">
+				<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 mb-8 transition-all duration-300">
+					<div class="px-6 py-4 border-b border-gray-200/50 dark:border-gray-700/50 flex items-center justify-between">
+						<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+							Session History ({mockExamHistory.length})
+						</h2>
+						<button
+							onclick={() => showHistory = !showHistory}
+							class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
+						>
+							{showHistory ? 'Hide' : 'Show'}
+						</button>
+					</div>
+
+					{#if showHistory}
+						<div class="divide-y divide-gray-200/50 dark:divide-gray-700/50">
+							{#each mockExamHistory.slice().reverse() as exam}
+								<div class="px-6 py-4 hover:bg-gray-50/50 dark:hover:bg-gray-700/30 transition-colors flex items-center justify-between">
+									<div>
+										<p class="text-sm font-medium text-gray-900 dark:text-white">
+											Practice Session
+										</p>
+										<p class="text-xs text-gray-500 dark:text-gray-400">
+											{new Date(exam.date).toLocaleDateString()} • {exam.totalQuestions} Questions
+										</p>
+									</div>
+									<div class="flex items-center gap-4">
+										<div class="text-right">
+											<p class="text-sm font-bold {exam.score >= 70 ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}">
 												{exam.score}%
-											</span>
-										</td>
-										<td class="text-center py-2 px-4">{exam.correctAnswers}</td>
-										<td class="text-center py-2 px-4">{exam.totalQuestions}</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
+											</p>
+											<p class="text-xs text-gray-500 dark:text-gray-400">
+												{exam.correctAnswers}/{exam.totalQuestions}
+											</p>
+										</div>
+									</div>
+								</div>
+							{/each}
+						</div>
+					{/if}
+				</div>
+			{/if}
+			
+			<!-- Weak Areas Focus -->
+			{#if storageStats.weakDomains && storageStats.weakDomains.length > 0}
+				<div class="bg-red-50/80 dark:bg-red-900/20 backdrop-blur-md rounded-2xl shadow-sm border border-red-100 dark:border-red-800/30 p-6">
+					<h2 class="text-lg font-semibold text-red-800 dark:text-red-300 mb-3">Priority Focus Areas</h2>
+					<div class="flex flex-wrap gap-2">
+						{#each storageStats.weakDomains as domain}
+							<span class="px-3 py-1 text-sm font-medium rounded-full bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/50">
+								{domain}
+							</span>
+						{/each}
 					</div>
 				</div>
 			{/if}
 
-			<div class="grid lg:grid-cols-3 gap-6">
-				<!-- Practice Configuration -->
-				<div class="lg:col-span-2 space-y-6">
-					<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl transition-all duration-300">
-						<h2 class="font-semibold mb-4 text-gray-900 dark:text-white">Configure Practice Session</h2>
-
-						<!-- Domain Selection -->
-						<fieldset class="mb-6">
-							<legend class="block text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">
-								Select Domains (optional)
-							</legend>
-							<div class="flex flex-wrap gap-2">
-								{#each domains as domain}
-									<button
-										on:click={() => toggleDomain(domain.id)}
-										class="group px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 {selectedDomains.includes(
-											domain.id
-										)
-											? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-											: 'bg-white/60 dark:bg-gray-700/60 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:scale-105 hover:shadow-md'}"
-									>
-										{domain.name}
-									</button>
-								{/each}
-							</div>
-							<p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Leave empty to include all domains</p>
-						</fieldset>
-
-						<!-- Question Count -->
-						<fieldset class="mb-6">
-							<legend class="block text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">
-								Number of Questions
-							</legend>
-							<div class="flex gap-2">
-								{#each [25, 50, 75, 100] as count}
-									<button
-										on:click={() => (questionCount = count)}
-										class="group px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 {questionCount ===
-										count
-											? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-											: 'bg-white/60 dark:bg-gray-700/60 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:scale-105 hover:shadow-md'}"
-									>
-										{count}
-									</button>
-								{/each}
-							</div>
-						</fieldset>
-
-						<!-- Practice Mode -->
-						<fieldset class="mb-6">
-							<legend class="block text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">
-								Practice Mode
-							</legend>
-							<div class="grid grid-cols-2 gap-4">
-								<button
-									on:click={() => (startMode = 'srs')}
-									class="flex flex-col p-4 rounded-xl border-2 text-left transition-all {startMode === 'srs'
-										? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
-										: 'border-gray-200 dark:border-gray-700 hover:border-indigo-300'}"
-								>
-									<span class="font-bold text-gray-900 dark:text-white">Smart SRS</span>
-									<span class="text-xs text-gray-600 dark:text-gray-400">Prioritize due and weak questions</span>
-								</button>
-								<button
-									on:click={() => (startMode = 'shuffle')}
-									class="flex flex-col p-4 rounded-xl border-2 text-left transition-all {startMode === 'shuffle'
-										? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
-										: 'border-gray-200 dark:border-gray-700 hover:border-indigo-300'}"
-								>
-									<span class="font-bold text-gray-900 dark:text-white">Random</span>
-									<span class="text-xs text-gray-600 dark:text-gray-400">Full shuffle of all questions</span>
-								</button>
-							</div>
-						</fieldset>
-
-						<button
-							on:click={startSession}
-							disabled={starting}
-							class="group w-full px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-105"
-						>
-							{starting ? 'Starting...' : 'Start Practice Session'}
-						</button>
-					</div>
-
-					<!-- Weak Areas -->
-					{#if storageStats.weakDomains && storageStats.weakDomains.length > 0}
-						<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl transition-all duration-300">
-							<h2 class="font-semibold mb-4 text-gray-900 dark:text-white">Focus Areas</h2>
-							<p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-								Based on your practice history, focus on these areas:
-							</p>
-							<div class="flex flex-wrap gap-2">
-								{#each storageStats.weakDomains as domain}
-									<span class="group px-3 py-1 text-sm font-medium rounded-full bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 text-yellow-800 dark:text-yellow-300 border border-yellow-200/50 dark:border-yellow-800/50 hover:scale-105 hover:shadow-md transition-all duration-300"
-										>{domain}</span
-									>
-								{/each}
-							</div>
-						</div>
-					{/if}
-				</div>
-
-				<!-- Quick Actions -->
-				<div class="space-y-6">
-
-
-					<!-- Flagged Questions -->
-					<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300">
-						<h2 class="font-semibold mb-2 text-gray-900 dark:text-white">Flagged Questions</h2>
-						<p class="text-sm text-gray-600 dark:text-gray-400">
-							Review questions you have flagged for later.
-						</p>
-						<a
-							href="{base}/practice/flagged"
-							class="group block w-full px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-200 text-center rounded-lg hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/50 hover:scale-105 transition-all duration-300 mt-4 shadow-md hover:shadow-lg"
-						>
-							View Flagged
-						</a>
-					</div>
-				</div>
-			</div>
 		</main>
 	</div>
 {/if}
