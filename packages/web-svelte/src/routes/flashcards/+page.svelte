@@ -17,6 +17,7 @@
   } from "$lib/utils/flashcardsData";
   import { getCardProgressStats } from "$lib/utils/cardProgressStorage";
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { usePagination } from '$lib/composables';
 
   // Domain filter options
@@ -352,7 +353,7 @@
 
       <!-- Study Mode Button -->
       <a
-        href="/flashcards/study"
+        href="{base}/flashcards/study"
         class="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-[1.02] mb-8"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { studyMode, type StudyModeStore } from '$lib/stores/studyMode';
   import { getFlashcardsByDomain, prefetchDomains, type Flashcard } from '$lib/utils/flashcardsData';
   import FlashcardStudyCard from '$lib/components/FlashcardStudyCard.svelte';
@@ -169,7 +170,7 @@
   // Go back to flashcards home
   function goBack() {
     studyMode.reset();
-    goto('/flashcards');
+    goto(`${base}/flashcards`);
   }
 
   // Calculate accuracy percentage
