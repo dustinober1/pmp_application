@@ -12,32 +12,30 @@ import { SM2_DEFAULTS } from '@pmp/shared';
 
 /**
  * Get all card progress from localStorage
- * Returns a Map for easier manipulation
+ * Returns a Record for better localStorage compatibility and Object-based access pattern
  */
-export function getAllCardProgress(): Map<string, CardProgress> {
-	if (typeof window === 'undefined') return new Map();
+export function getAllCardProgress(): Record<string, CardProgress> {
+	if (typeof window === 'undefined') return {};
 
 	try {
 		const stored = localStorage.getItem(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS);
-		if (!stored) return new Map();
+		if (!stored) return {};
 
-		const data = JSON.parse(stored) as Record<string, CardProgress>;
-		return new Map(Object.entries(data));
+		return JSON.parse(stored) as Record<string, CardProgress>;
 	} catch {
-		return new Map();
+		return {};
 	}
 }
 
 /**
  * Save all card progress to localStorage
- * Accepts a Map and converts to Object for JSON serialization
+ * Accepts a Record for direct JSON serialization
  */
-function saveAllCardProgress(progress: Map<string, CardProgress>): void {
+function saveAllCardProgress(progress: Record<string, CardProgress>): void {
 	if (typeof window === 'undefined') return;
 
 	try {
-		const data = Object.fromEntries(progress.entries());
-		localStorage.setItem(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, JSON.stringify(data));
+		localStorage.setItem(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, JSON.stringify(progress));
 	} catch (error) {
 		console.error('Failed to save card progress to localStorage:', error);
 	}
@@ -49,7 +47,7 @@ function saveAllCardProgress(progress: Map<string, CardProgress>): void {
  */
 export function getCardProgress(cardId: string): CardProgress | null {
 	const allProgress = getAllCardProgress();
-	return allProgress.get(cardId) || null;
+	return allProgress[cardId] || null;
 }
 
 /**
@@ -60,9 +58,9 @@ export function saveCardProgress(cardId: string, progress: CardProgress): void {
 	if (typeof window === 'undefined') return;
 
 	try {
-		const progressMap = getAllCardProgress();
-		progressMap.set(cardId, progress);
-		saveAllCardProgress(progressMap);
+		const progressRecord = getAllCardProgress();
+		progressRecord[cardId] = progress;
+		saveAllCardProgress(progressRecord);
 	} catch (error) {
 		console.error('Failed to save card progress:', error);
 	}
@@ -104,7 +102,7 @@ export function getDueCards(allCardIds: string[]): string[] {
 	const allProgress = getAllCardProgress();
 
 	return allCardIds.filter((cardId) => {
-		const progress = allProgress.get(cardId);
+		const progress = allProgress[cardId];
 		if (!progress) return true; // New cards are due
 		return new Date(progress.nextReviewDate) <= now;
 	});
@@ -127,7 +125,7 @@ export function isCardDue(cardId: string): boolean {
  */
 export function deleteCardProgress(cardId: string): void {
 	const allProgress = getAllCardProgress();
-	allProgress.delete(cardId);
+	delete allProgress[cardId];
 	saveAllCardProgress(allProgress);
 }
 
@@ -163,7 +161,7 @@ export function getCardProgressStats(allCardIds: string[]): CardProgressStats {
 	let cardsWithProgress = 0;
 
 	for (const cardId of allCardIds) {
-		const progress = allProgress.get(cardId);
+		const progress = allProgress[cardId];
 		if (progress) {
 			cardsWithProgress++;
 			totalEaseFactor += progress.easeFactor;

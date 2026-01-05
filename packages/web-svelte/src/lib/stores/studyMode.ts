@@ -56,7 +56,7 @@ function createStudyModeStore() {
       const now = new Date().toISOString();
 
       // Get all card progress
-      const progressMap = getAllCardProgress();
+      const progressRecord = getAllCardProgress();
 
       // Convert flashcards to study cards with progress
       let studyCards: StudyCard[] = flashcards.map((card) => ({
@@ -65,7 +65,7 @@ function createStudyModeStore() {
         taskId: card.taskId,
         front: card.front,
         back: card.back,
-        progress: progressMap.get(card.id) || null,
+        progress: progressRecord[card.id] || null,
       }));
 
       // Filter to only due cards if option is set
