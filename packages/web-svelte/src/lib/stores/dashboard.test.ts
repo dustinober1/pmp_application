@@ -24,12 +24,34 @@ vi.mock('../utils/flashcardsData', () => ({
     })
 }));
 
+// Mock $app/paths
+vi.mock('$app/paths', () => ({
+    base: '/pmp_application'
+}));
+
 describe('dashboard store', () => {
     beforeEach(() => {
         // Clear storage
         window.localStorage.clear();
         vi.clearAllMocks();
         domainProgressStore.reset();
+
+        // Mock global fetch for testbank.json
+        global.fetch = vi.fn().mockImplementation((url) => {
+            if (url.toString().includes('testbank.json')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve({
+                        domains: {
+                            people: { questions: 20 },
+                            process: { questions: 20 },
+                            business: { questions: 20 }
+                        }
+                    })
+                } as Response);
+            }
+            return Promise.reject(new Error(`Fetch not mocked for URL: ${url}`));
+        });
     });
 
     it('should initialize with default values', () => {
@@ -63,42 +85,44 @@ describe('dashboard store', () => {
         expect(people?.flashcardsMastered).toBe(1);
         expect(process?.flashcardsMastered).toBe(1);
         expect(business?.flashcardsMastered).toBe(0);
+
+        // Note: New calculation logic (questions + flashcards) isn't explicitly tested for the FIELD values 
+        // because `flashcardsTotal` field still holds only flashcards count based on my implementation,
+        // but let's verify if I should check the derived `questionsTotal` or similar if I exposed it.
+        // I didn't expose it on the type, but I can check it exists on the object.
+        expect((people as any).questionsTotal).toBe(20);
     });
 
     it('should calculate overall progress correctly', async () => {
         // Setup mock data
-        const cardProgress = {
-            // All 50 people cards mastered (100% flashcard progress)
-            // Study guide 0%
-            // Domain progress = (0 + 100) / 2 = 50%
-        };
 
-        // We can just update the domain store directly to test overall calculation logic 
-        // without relying on refresh logic complexity for this specific test
+        // People: 50 FC (25 done), 50 Q (0 done) -> Total 100, 25 done => 25%
         domainProgressStore.updateDomain('people', {
-            studyGuideProgress: 50,
             flashcardsMastered: 25,
-            flashcardsTotal: 50
+            flashcardsTotal: 50,
+            questionsMastered: 0,
+            questionsTotal: 50
         });
-        // People: (50 + (25/50)*100) / 2 = (50 + 50) / 2 = 50%
 
+        // Process: 40 FC (40 done), 10 Q (10 done) -> Total 50, 50 done => 100%
         domainProgressStore.updateDomain('process', {
-            studyGuideProgress: 100,
             flashcardsMastered: 40,
-            flashcardsTotal: 40
+            flashcardsTotal: 40,
+            questionsMastered: 10,
+            questionsTotal: 10
         });
-        // Process: (100 + (40/40)*100) / 2 = (100 + 100) / 2 = 100%
 
+        // Business: 10 FC (0 done), 0 Q (0 done) -> Total 10, 0 done => 0%
         domainProgressStore.updateDomain('business', {
-            studyGuideProgress: 0,
             flashcardsMastered: 0,
-            flashcardsTotal: 10
+            flashcardsTotal: 10,
+            questionsMastered: 0,
+            questionsTotal: 0
         });
-        // Business: (0 + 0) / 2 = 0%
 
-        // Overall: (50 + 100 + 0) / 3 = 50%
+        // Overall: (25 + 100 + 0) / 3 = 125 / 3 = 41.66 -> 42%
 
         const overall = get(overallProgress);
-        expect(overall).toBe(50);
+        expect(overall).toBe(42);
     });
 });

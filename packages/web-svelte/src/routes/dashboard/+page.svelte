@@ -168,12 +168,9 @@
 									<div class="flex justify-center mb-3">
 										<CircularProgress
 											percentage={Math.round(
-												((domain.studyGuideProgress || 0) +
-													(domain.flashcardsTotal > 0
-														? (domain.flashcardsMastered / domain.flashcardsTotal) * 100
-														: 0)) /
-													2
-											)}
+												((domain.flashcardsMastered + (domain.questionsMastered || 0)) /
+												 (domain.flashcardsTotal + (domain.questionsTotal || 0))) * 100
+											) || 0}
 											label={domain.domainName}
 											size={100}
 											strokeWidth={8}

@@ -44,6 +44,8 @@ export interface DomainProgressStats {
   flashcardsTotal: number;
   practiceAccuracy: number;
   questionsAttempted: number;
+  questionsTotal?: number;
+  questionsMastered?: number;
 }
 
 export interface RecentActivity {
