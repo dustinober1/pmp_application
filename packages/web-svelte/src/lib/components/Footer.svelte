@@ -16,17 +16,13 @@
 		{
 			title: 'Resources',
 			links: [
-				{ href: `${base}/blog`, label: 'Blog' },
-				{ href: `${base}/study-guide`, label: 'Study Guide' },
 				{ href: `${base}/faq`, label: 'FAQ' }
 			]
 		},
 		{
 			title: 'Legal',
 			links: [
-				{ href: `${base}/privacy`, label: 'Privacy Policy' },
-				{ href: `${base}/terms`, label: 'Terms of Service' },
-				{ href: `${base}/contact`, label: 'Contact' }
+				{ href: `${base}/terms`, label: 'Terms of Service' }
 			]
 		}
 	];
