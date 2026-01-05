@@ -1,0 +1,552 @@
+{
+  "meta": {
+    "title": "⚡ Process Task: Develop and Manage Project Scope",
+    "domain": "Process",
+    "task": "Develop and manage project scope",
+    "ecoReference": "Process Task 2",
+    "description": "Flashcards for PMP Process Domain Task 2",
+    "file": "guide/appendices/flashcards-process-task2-scope.md"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is the difference between Product Scope and Project Scope?\n",
+      "back": "- Product Scope: The features and functions of the product, service, or result (e.g., \"The phone unlocks with FaceID\").\n- Project Scope: The work performed to deliver the product (e.g., \"Design the sensor, coding, testing, user manual\").\n"
+    },
+    {
+      "id": 2,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What are the three components of the Scope Baseline?\n",
+      "back": "1. Project Scope Statement\n2. Work Breakdown Structure (WBS)\n3. WBS Dictionary\n"
+    },
+    {
+      "id": 3,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is Gold Plating?\n",
+      "back": "The practice of adding extra features or functionality that were not requested by the customer or sponsor. It is considered bad practice as it wastes resources and adds risk.\n"
+    },
+    {
+      "id": 4,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is Scope Creep?\n",
+      "back": "The uncontrolled expansion to product or project scope without adjustments to time, cost, and resources. It typically happens when changes are accepted without formal Change Control.\n"
+    },
+    {
+      "id": 5,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is the primary purpose of the Scope Management Plan?\n",
+      "back": "It describes how the scope will be defined, developed, monitored, controlled, and validated. It is a \"process\" document, not the scope itself.\n"
+    },
+    {
+      "id": 6,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is the 100% Rule in WBS creation?\n",
+      "back": "The WBS includes 100% of the work defined by the project scope and captures all deliverables—internal, external, and interim. If it's not in the WBS, it's not in the project.\n"
+    },
+    {
+      "id": 7,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is a Work Package?\n",
+      "back": "The lowest level of the WBS modification. It is the point at which cost and activity durations are estimated and managed.\n"
+    },
+    {
+      "id": 8,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is the WBS Dictionary?\n",
+      "back": "A document that provides detailed deliverables, activities, and scheduling information about each component in the WBS. It explains the brief title found on the WBS chart.\n"
+    },
+    {
+      "id": 9,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is a Control Account?\n",
+      "back": "A management control point where scope, budget, actual cost, and schedule are integrated and compared to earned value for performance measurement.\n"
+    },
+    {
+      "id": 10,
+      "category": "🎯 Scope Fundamentals",
+      "front": "What is the difference between Validate Scope and Control Quality?\n",
+      "back": "- Control Quality: Checking deliverables for correctness (defects) internally.\n- Validate Scope: Obtaining formal acceptance of the deliverables from the stakeholder/customer.\n\n\n"
+    },
+    {
+      "id": 11,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What is the Requirements Traceability Matrix (RTM)?\n",
+      "back": "A grid that links product requirements from their origin (e.g., business need) to the deliverables that satisfy them. It helps ensure every requirement adds value.\n"
+    },
+    {
+      "id": 12,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What is distinct about a Focus Group versus a regular meeting?\n",
+      "back": "A Focus Group uses a trained moderator to guide a prequalified group of stakeholders/SMEs through an interactive discussion to elicit attitudes and needs.\n"
+    },
+    {
+      "id": 13,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What is Benchmarking?\n",
+      "back": "Comparing actual or planned practices (or requirements) to those of comparable projects or organizations to identify best practices and generate ideas.\n"
+    },
+    {
+      "id": 14,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What is the Nominal Group Technique?\n",
+      "back": "A structured brainstorming method that prioritizes ideas by having participants vote. It prevents dominant personalities from swaying the group (unlike free-form brainstorming).\n"
+    },
+    {
+      "id": 15,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What is a Context Diagram?\n",
+      "back": "A visual model that shows the boundaries of the product scope by depicting the business system and how people and other systems (actors) interact with it.\n"
+    },
+    {
+      "id": 16,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What are Functional Requirements?\n",
+      "back": "Behaviors of the product. \"The system shall do X.\" (e.g., \"Send an email when order ships\").\n"
+    },
+    {
+      "id": 17,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What are Non-Functional Requirements?\n",
+      "back": "Attributes of the service or product performance. \"The system shall be X.\" (e.g., Reliability, Security, Performance, Compliance).\n"
+    },
+    {
+      "id": 18,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What is JAD (Joint Application Design)?\n",
+      "back": "A requirement collection technique where the development team and business stakeholders work together in intense workshops to define requirements (common in software).\n"
+    },
+    {
+      "id": 19,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What is Document Analysis?\n",
+      "back": "Reviewing existing documentation (business plans, agreements, laws, legacy system docs) to elicit requirements without needing to interview people directly.\n"
+    },
+    {
+      "id": 20,
+      "category": "🛠️ Collecting Requirements",
+      "front": "What is the difference between an Affinity Diagram and a Mind Map?\n",
+      "back": "- Affinity Diagram: Organizing large amounts of unorganized data into groups/themes (bottom-up).\n- Mind Map: Visualizing ideas branching out from a central concept (top-down/associative).\n\n\n"
+    },
+    {
+      "id": 21,
+      "category": "🏃 Agile Scope Management",
+      "front": "In Agile, what replaces the detailed hierarchical WBS?\n",
+      "back": "The Product Backlog (decomposed into Epics, Features, and User Stories).\n"
+    },
+    {
+      "id": 22,
+      "category": "🏃 Agile Scope Management",
+      "front": "What is the structure of a standard User Story?\n",
+      "back": "\"As a [role], I want [feature/action], so that [benefit/value].\"\n"
+    },
+    {
+      "id": 23,
+      "category": "🏃 Agile Scope Management",
+      "front": "What are the INVEST criteria for good User Stories?\n",
+      "back": "- Independent\n- Negotiable\n- Valuable\n- Estimable\n- Small\n- Testable\n"
+    },
+    {
+      "id": 24,
+      "category": "🏃 Agile Scope Management",
+      "front": "What is the primary purpose of Product Backlog Refinement?\n",
+      "back": "To review items at the top of the backlog, clarify details, and estimate them so they are \"Ready\" for the upcoming Sprint Planning.\n"
+    },
+    {
+      "id": 25,
+      "category": "🏃 Agile Scope Management",
+      "front": "Who is ultimately responsible for managing the Project Scope in a predictive environment?\n",
+      "back": "The Project Manager. (In Agile, the Product Owner manages the Product Scope/Backlog, but the Team manages the Sprint Scope).\n"
+    },
+    {
+      "id": 26,
+      "category": "🏃 Agile Scope Management",
+      "front": "What is a Spike?\n",
+      "back": "A time-boxed investigation story used to explore a requirement or technical approach to reduce risk before committing to a solution.\n"
+    },
+    {
+      "id": 27,
+      "category": "🏃 Agile Scope Management",
+      "front": "How does Agile handle Scope Change during a Sprint?\n",
+      "back": "Scope within a Sprint is generally fixed. New requests go to the Product Backlog for future prioritization. If a change is critical, the PO may terminate the sprint (extreme case).\n"
+    },
+    {
+      "id": 28,
+      "category": "🏃 Agile Scope Management",
+      "front": "What is Velocity?\n",
+      "back": "A measure of the amount of work (in Story Points) a team can complete in a single iteration. It helps in forecasting future scope delivery.\n"
+    },
+    {
+      "id": 29,
+      "category": "🏃 Agile Scope Management",
+      "front": "What is the Definition of Ready?\n",
+      "back": "The set of criteria that a User Story must meet (e.g., clear, small enough, testable) before it can be accepted into a Sprint.\n"
+    },
+    {
+      "id": 30,
+      "category": "🏃 Agile Scope Management",
+      "front": "What is MoSCoW prioritization?\n",
+      "back": "- Must Have\n- Should Have\n- Could Have\n- Won't Have\nA method to align stakeholders on scope priorities.\n\n\n"
+    },
+    {
+      "id": 31,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "What is a Constraint?\n",
+      "back": "A limiting factor that affects the execution of a project (e.g., fixed budget, hard deadline, mandatory regulation). It is a \"Wall\" you cannot move easily.\n"
+    },
+    {
+      "id": 32,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "What is an Assumption?\n",
+      "back": "A factor considered to be true for planning purposes without proof. If an assumption turns out to be false, it becomes a Risk or Issue.\n"
+    },
+    {
+      "id": 33,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "Where should you document assumptions?\n",
+      "back": "In the Assumption Log.\n"
+    },
+    {
+      "id": 34,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "Scenario: You assumed a specific server would be available, but it crashed. The project is now delayed. Is this a Risk or an Issue?\n",
+      "back": "It is an Issue. The uncertainty (Risk) has happened. You must now implement a workaround or change request.\n"
+    },
+    {
+      "id": 35,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "How often should the Assumption Log be reviewed?\n",
+      "back": "Regularly throughout the project. Assumptions should be validated (proven true) or identified as false (triggering risks) as the project progresses.\n"
+    },
+    {
+      "id": 36,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "\"The project must be completed by December 31st to meet regulatory compliance.\" Is this a constraint or assumption?\n",
+      "back": "Constraint. It is an external limitation imposed on the project.\n"
+    },
+    {
+      "id": 37,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "\"We believe the vendor will deliver the hardware within 4 weeks.\" Is this a constraint or assumption?\n",
+      "back": "Assumption. It is a belief that has not yet been validated.\n"
+    },
+    {
+      "id": 38,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "What is Constraint Optimization?\n",
+      "back": "The process of analyzing trade-offs (Scope vs. Time vs. Cost) to find the best solution when constraints conflict.\n"
+    },
+    {
+      "id": 39,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "What is the Assumption Analysis technique?\n",
+      "back": "A structured review of assumptions to test their validity and identify the risks associated with them being false.\n"
+    },
+    {
+      "id": 40,
+      "category": "🧱 Constraints & Assumptions",
+      "front": "How do Enterprise Environmental Factors (EEFs) act as constraints?\n",
+      "back": "EEFs (like market conditions, government regulations, or existing infrastructure) limit the team's options and must be worked within.\n\n\n"
+    },
+    {
+      "id": 41,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: A stakeholder asks for a \"small change\" directly to a developer. The developer initiates the work. What should the PM do?\n",
+      "back": "Stop the work. Explain the Change Control Process to the stakeholder and the team member. Even small changes must be logged and analyzed to prevent scope creep.\n"
+    },
+    {
+      "id": 42,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: You are in the Validate Scope process, and the client rejects a deliverable because \"it doesn't look right,\" although it meets all requirements. What do you do?\n",
+      "back": "Document the rejection as an Issue. Compare the deliverable to the Requirements and Acceptance Criteria. If it meets them, negotiate or initiate a Change Request for the new design. If it doesn't, initiate Defect Repair.\n"
+    },
+    {
+      "id": 43,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: During a project phase, the team discovers a faster way to do the work that changes the technical approach but yields the same deliverable. Do you need a Change Request?\n",
+      "back": "Usually No, provided the scope (deliverable), schedule, and cost baselines are not negatively affected. The \"How\" is often the team's domain; the \"What\" is the baseline.\n"
+    },
+    {
+      "id": 44,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: A sponsor demands a fixed deadline (Constraint). The team estimates the Scope will take 2 months longer than that deadline. What is your response?\n",
+      "back": "Present options:\n1. Cut Scope (deliver MVP by deadline).\n2. Add Resources (Crash the schedule - increases Cost/Risk).\n3. Extend Deadline (reject the constraint).\nDo not just agree to an impossible plan.\n"
+    },
+    {
+      "id": 45,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: You are using Agile. The Product Owner keeps adding stories to the active Sprint. The team is burning out. What do you do?\n",
+      "back": "As a Servant Leader (Scrum Master), protect the team. Remind the PO that the Sprint Scope is fixed to ensure focus. New items go to the Backlog for the next sprint.\n"
+    },
+    {
+      "id": 46,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: You discover that a \"Must Have\" requirement was missed in the WBS. The project is in execution. What do you do?\n",
+      "back": "Submit a Change Request. You cannot just add it; you must analyze the impact on Schedule and Cost and get approval to update the baselines.\n"
+    },
+    {
+      "id": 47,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: A team member adds a cool animation to the app that wasn't in the design because \"it took only 2 hours.\" How do you handle this?\n",
+      "back": "Address it as Gold Plating. Explain that while well-intentioned, unauthorized features introduce maintenance costs and bugs. It should be removed or formally approved.\n"
+    },
+    {
+      "id": 48,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: Your Requirement Traceability Matrix shows a requirement that is not linked to any WBS element or test case. What does this mean?\n",
+      "back": "You have a Gap. A requirement was approved but is not being built or tested. You need to update the WBS/Plan to include it (or remove the requirement if it's invalid).\n"
+    },
+    {
+      "id": 49,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: The WBS has 6 levels of decomposition, and the team is confused by the micromanagement. What happened?\n",
+      "back": "Excessive Decomposition. The WBS should only go down to the Work Package level (managable chunks, e.g., 8-80 hours). Too much detail paralyzes the team.\n"
+    },
+    {
+      "id": 50,
+      "category": "🧠 Scenarios: Managing Scope",
+      "front": "Scenario: You are gathering requirements for a global tool. One region dominates the conversation. How do you ensure balanced scope?\n",
+      "back": "Use Facilitation Techniques (like round-robin voting or surveys) to ensure quiet stakeholders are heard. Avoid \"Groupthink\" or bias towards the loudest voice.\n\n\n"
+    },
+    {
+      "id": 51,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is the key Output of the \"Create WBS\" process?\n",
+      "back": "The Scope Baseline.\n"
+    },
+    {
+      "id": 52,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is Decomposition?\n",
+      "back": "The technique of subdividing project deliverables into smaller, more manageable components until the work and deliverables are defined to the Work Package level.\n"
+    },
+    {
+      "id": 53,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is Variance Analysis in the context of Control Scope?\n",
+      "back": "Comparing the baseline scope to the actual work completed to determine the magnitude of difference and decide if corrective action is needed.\n"
+    },
+    {
+      "id": 54,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is the difference between the Project Charter and the Project Scope Statement?\n",
+      "back": "- Charter: High-level intent, authorized by Sponsor.\n- Scope Statement: Detailed description of deliverables, exclusions, and acceptance criteria, created by the Team during planning.\n"
+    },
+    {
+      "id": 55,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is an Exclusion in the Scope Statement?\n",
+      "back": "A clear statement of what is NOT included in the project. This manages expectations and prevents scope creep.\n"
+    },
+    {
+      "id": 56,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "In Agile, what is a User Story Map useful for?\n",
+      "back": "It visualizes the journey of a user and helps arrange stories into Releases or versions based on value and priority.\n"
+    },
+    {
+      "id": 57,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is Product Analysis?\n",
+      "back": "A tool used to define scope by asking questions about a product and forming answers to describe the use, characteristics, and other relevant aspects.\n"
+    },
+    {
+      "id": 58,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is Acceptance Criteria?\n",
+      "back": "A set of conditions that is required to be met before deliverables are accepted. They are specific to each work package or user story.\n"
+    },
+    {
+      "id": 59,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is the Definition of Done (DoD)?\n",
+      "back": "A global checklist (applied to all stories) that signifies a piece of work is quality-checked and ready for release (e.g., \"Code Reviewed,\" \"Passed UAT\").\n"
+    },
+    {
+      "id": 60,
+      "category": "🛠️ ITTOs of Scope Management",
+      "front": "What is Work Performance Info in Scope Control?\n",
+      "back": "The correlation of \"Work Started\" vs \"Work Finished\" vs \"Work Planned.\" It tells you if you are delivering the scope on track.\n\n\n"
+    },
+    {
+      "id": 61,
+      "category": "📊 Executing Work & Scope",
+      "front": "What is a Work Authorization System?\n",
+      "back": "A subsystem (in predictive projects) used to ensure that work is done at the right time and in the right sequence. It prevents \"Cowboy Coding\" or working out of order.\n"
+    },
+    {
+      "id": 62,
+      "category": "📊 Executing Work & Scope",
+      "front": "How does Direct and Manage Project Work relate to Scope?\n",
+      "back": "This is the process where the team actually executes the WBS. The PM ensures only approved work (Scope Baseline) is being performed.\n"
+    },
+    {
+      "id": 63,
+      "category": "📊 Executing Work & Scope",
+      "front": "What is the role of Tacit Knowledge in executing scope?\n",
+      "back": "Sharing \"know-how\" and experience (via pairing or shadowing) helps the team deliver complex scope that might not be fully documented in written specs.\n"
+    },
+    {
+      "id": 64,
+      "category": "📊 Executing Work & Scope",
+      "front": "What happens to a Risk when it occurs during execution?\n",
+      "back": "It becomes an Issue. You must execute the response plan and update the Issue Log.\n"
+    },
+    {
+      "id": 65,
+      "category": "📊 Executing Work & Scope",
+      "front": "Who is responsible for Executing the scope in an Agile team?\n",
+      "back": "The Development Team (Developers). They self-organize to turn the backlog items into a potentially shippable increment.\n"
+    },
+    {
+      "id": 66,
+      "category": "📊 Executing Work & Scope",
+      "front": "What is the Daily Standup's role in scope management?\n",
+      "back": "It coordinates the day's work to ensure the team remains focused on the Sprint Goal (the scope commitment for that iteration).\n"
+    },
+    {
+      "id": 67,
+      "category": "📊 Executing Work & Scope",
+      "front": "When does the client formally accept the scope deliverables?\n",
+      "back": "During the Validate Scope process (Predictive) or the Sprint Review (Agile).\n"
+    },
+    {
+      "id": 68,
+      "category": "📊 Executing Work & Scope",
+      "front": "What is the difference between \"Work Performance Data\" and \"Information\"?\n",
+      "back": "- Data: Raw facts (e.g., \"3 stories completed\").\n- Information: Contextualized analysis (e.g., \"We are 2 stories behind planned velocity\").\n"
+    },
+    {
+      "id": 69,
+      "category": "📊 Executing Work & Scope",
+      "front": "What is Managed Project Knowledge?\n",
+      "back": "The process of using existing knowledge and creating new knowledge to achieve the project's objectives and contribute to organizational learning.\n"
+    },
+    {
+      "id": 70,
+      "category": "📊 Executing Work & Scope",
+      "front": "What is the Issue Log?\n",
+      "back": "A document where you track problems (that have already happened) and their resolution status. It is a key tool during execution.\n\n\n"
+    },
+    {
+      "id": 71,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "True or False: The WBS should be organized by time/phases only.\n",
+      "back": "False. It can be organized by Phases, Deliverables, or Sub-projects. Deliverable-based is often preferred to focus on outcomes.\n"
+    },
+    {
+      "id": 72,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "True or False: Agile teams do not use a WBS.\n",
+      "back": "True-ish. They don't usually use a traditional WBS chart, but the Decomposition of Epics -> Features -> Stories -> Tasks is functionally the same concept.\n"
+    },
+    {
+      "id": 73,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "True or False: The Project Scope Statement is part of the Scope Baseline.\n",
+      "back": "True. Along with WBS and WBS Dictionary.\n"
+    },
+    {
+      "id": 74,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "True or False: You should validate scope only at the very end of the project.\n",
+      "back": "False. Validate scope at the end of every phase or sprint to ensure you don't build the wrong thing for months.\n"
+    },
+    {
+      "id": 75,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "True or False: Adding \"just a little\" extra value for free is good project management.\n",
+      "back": "False. That is Gold Plating. It bypasses change control and introduces risk.\n"
+    },
+    {
+      "id": 76,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "What is Rolling Wave Planning in relation to Scope?\n",
+      "back": "You detail the WBS for the near term (Work Packages) but leave future work at a high level (Planning Packages) until more info is known.\n"
+    },
+    {
+      "id": 77,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "What do you call a WBS element that is used for cost control but not yet detailed enough to be a Work Package?\n",
+      "back": "A Planning Package.\n"
+    },
+    {
+      "id": 78,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "What is the hierarchy of Agile scope items?\n",
+      "back": "Theme -> Epic -> Feature -> User Story -> Task.\n"
+    },
+    {
+      "id": 79,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "What is the specific technique used to break down the project scope?\n",
+      "back": "Decomposition.\n"
+    },
+    {
+      "id": 80,
+      "category": "⚡ Quick-Fire Scope Review",
+      "front": "Who approves the Scope Baseline?\n",
+      "back": "The Sponsor and key stakeholders (and the PM). It is a mutual agreement.\n\n\n"
+    },
+    {
+      "id": 81,
+      "category": "🚦 Closing Scope",
+      "front": "When is scope validation performed?\n",
+      "back": "Throughout the project (iteratively), but formally at the end of each phase/sprint and at the end of the project.\n"
+    },
+    {
+      "id": 82,
+      "category": "🚦 Closing Scope",
+      "front": "If a project is terminated early, do you still do Validate Scope?\n",
+      "back": "Yes. You must determine the level of completion and acceptance of whatever was finished up to that point.\n"
+    },
+    {
+      "id": 83,
+      "category": "🚦 Closing Scope",
+      "front": "What is the output of Validate Scope?\n",
+      "back": "Accepted Deliverables and Work Performance Information.\n"
+    },
+    {
+      "id": 84,
+      "category": "🚦 Closing Scope",
+      "front": "How does Scope relate to Procurement?\n",
+      "back": "The Statement of Work (SOW) in a contract is essentially the Scope Statement for the vendor.\n"
+    },
+    {
+      "id": 85,
+      "category": "🚦 Closing Scope",
+      "front": "What happens if the WBS is not complete?\n",
+      "back": "The project cannot be accurately estimated (Cost/Schedule) or controlled. \" If it's not in the WBS, it's not in the project.\"\n"
+    },
+    {
+      "id": 86,
+      "category": "🚦 Closing Scope",
+      "front": "Can a Requirement be in the RTM but not the WBS?\n",
+      "back": "No. If it's a requirement, work must be done to deliver it. That work must be in the WBS. If they don't match, you have a gap.\n"
+    },
+    {
+      "id": 87,
+      "category": "🚦 Closing Scope",
+      "front": "What is Regression Testing?\n",
+      "back": "Testing to ensure that new code/scope changes didn't break existing functionality. Essential in Agile scope management.\n"
+    },
+    {
+      "id": 88,
+      "category": "🚦 Closing Scope",
+      "front": "What is Iterative Life Cycle scope management?\n",
+      "back": "Scope is determined early, but time and cost estimates are modified as the team understands the product better through iterations.\n"
+    },
+    {
+      "id": 89,
+      "category": "🚦 Closing Scope",
+      "front": "What is Incremental Life Cycle scope management?\n",
+      "back": "The deliverable is produced through a series of iterations that successively add functionality within a predetermined time frame.\n"
+    },
+    {
+      "id": 90,
+      "category": "🚦 Closing Scope",
+      "front": "What is a Change Control Board (CCB)?\n",
+      "back": "A formally chartered group responsible for reviewing, evaluating, approving, delaying, or rejecting changes to the project (including scope).\n"
+    }
+  ]
+}

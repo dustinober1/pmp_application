@@ -1,0 +1,852 @@
+{
+  "meta": {
+    "title": "PMP 2026 Flashcards: People Domain – Task 5",
+    "domain": "People (33%)",
+    "task": "Align stakeholder expectations",
+    "ecoReference": "Domain I, Task 5",
+    "description": "",
+    "file": "guide/appendices/flashcards-people-task5-align-expectations.md"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "What is the PMP definition of \"managing expectations\"?",
+      "back": "Proactively increasing the likelihood that project outcomes will be accepted by ensuring stakeholders understand what will be delivered and when."
+    },
+    {
+      "id": 2,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "What is the \"Engagement Gap\"?",
+      "back": "The difference between a stakeholder's Current engagement level and the Desired engagement level needed for project success."
+    },
+    {
+      "id": 3,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "What are the 5 levels of the Stakeholder Engagement Assessment Matrix?",
+      "back": "1) Unaware, 2) Resistant, 3) Neutral, 4) Supportive, 5) Leading."
+    },
+    {
+      "id": 4,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "What is the most dangerous stakeholder engagement level?",
+      "back": "Unaware (because they can be surprised later) or Resistant (if they have high power)."
+    },
+    {
+      "id": 5,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "What defines the \"Leading\" engagement level?",
+      "back": "The stakeholder is actively engaged in ensuring the project is a success, not just supportive. They are a Champion."
+    },
+    {
+      "id": 6,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "If a stakeholder is currently \"Neutral\" but you need them to be \"Supportive\", what do you do?",
+      "back": "Execute the planned strategies in the Stakeholder Engagement Plan (e.g., show value/WIIFM, involve in decisions)."
+    },
+    {
+      "id": 7,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "What is \"Direction of Influence\"?",
+      "back": "Classifying stakeholders based on their relationship to the PM: Upward (Senior), Downward (Team), Outward (External), Sideward (Peers)."
+    },
+    {
+      "id": 8,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "How should you communicate \"Upward\" (to Executives/Sponsors)?",
+      "back": "Be concise. Focus on strategic value, ROI, risks, and decisions. Avoid burying the lead."
+    },
+    {
+      "id": 9,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "How should you communicate \"Sideward\" (to Peers/Functional Managers)?",
+      "back": "Focus on negotiation, resource sharing, and mutual support. You usually lack authority here."
+    },
+    {
+      "id": 10,
+      "category": "Stakeholder Experience & Expectations",
+      "front": "What is the \"Stakeholder Register\" primarily used for in this task?",
+      "back": "To document specific expectations, requirements, and success criteria for each stakeholder so they can be tracked."
+    },
+    {
+      "id": 11,
+      "category": "Communication Planning",
+      "front": "What is the Communications Management Plan?",
+      "back": "A document describing how, when, and by whom information will be administered and disseminated."
+    },
+    {
+      "id": 12,
+      "category": "Communication Planning",
+      "front": "What is \"Push Communication\"?",
+      "back": "Sending information to specific recipients (e.g., Email, Reports). Ensures receipt but not understanding."
+    },
+    {
+      "id": 13,
+      "category": "Communication Planning",
+      "front": "What is \"Pull Communication\"?",
+      "back": "Placing information in a central repository for audiences to access at their own discretion (e.g., Wiki, SharePoint)."
+    },
+    {
+      "id": 14,
+      "category": "Communication Planning",
+      "front": "What is \"Interactive Communication\"?",
+      "back": "Real-time experimentation exchange (Meetings, Calls). The most efficient way to ensure common understanding."
+    },
+    {
+      "id": 15,
+      "category": "Communication Planning",
+      "front": "What is the formula for Communication Channels?",
+      "back": "N * (N - 1) / 2. (Where N is the number of people)."
+    },
+    {
+      "id": 16,
+      "category": "Communication Planning",
+      "front": "If you add one person to a team of 4 (making it 5), how many channels do you add?",
+      "back": "You go from 6 to 10 channels. (Add 4). Complexity grows exponentially."
+    },
+    {
+      "id": 17,
+      "category": "Communication Planning",
+      "front": "What is \"Noise\" in the communication model?",
+      "back": "Anything that distorts the message (language barriers, cultural differences, bad connection, jargon)."
+    },
+    {
+      "id": 18,
+      "category": "Communication Planning",
+      "front": "In the Sender-Receiver model, what confirms the message was understood?",
+      "back": "Feedback. (Acknowledgment only confirms receipt)."
+    },
+    {
+      "id": 19,
+      "category": "Communication Planning",
+      "front": "What is \"Paralingual\" communication?",
+      "back": "The tone, pitch, and volume of voice (how something is said), not the words themselves."
+    },
+    {
+      "id": 20,
+      "category": "Communication Planning",
+      "front": "Theoretically, what percentage of communication is non-verbal?",
+      "back": "~55% (Body language) + ~38% (Tone) = ~93%. Words are only ~7%."
+    },
+    {
+      "id": 21,
+      "category": "Delivery Strategy Awareness",
+      "front": "Why does choosing a Delivery Strategy (Agile vs Predictive) matter for stakeholders?",
+      "back": "It sets the expectation for how and when they will receive value and give feedback."
+    },
+    {
+      "id": 22,
+      "category": "Delivery Strategy Awareness",
+      "front": "If stakeholders expect \"frequent changes\" and \"rapid feedback,\" which strategy should you choose?",
+      "back": "Adaptive / Agile."
+    },
+    {
+      "id": 23,
+      "category": "Delivery Strategy Awareness",
+      "front": "If stakeholders expect \"fixed budget\" and \"guaranteed date\" for a known scope, which strategy might be best?",
+      "back": "Predictive (Waterfall)."
+    },
+    {
+      "id": 24,
+      "category": "Delivery Strategy Awareness",
+      "front": "What is the Stacey Matrix used for?",
+      "back": "To select a project approach based on Technical Uncertainty (Y-axis) and Requirements Uncertainty (X-axis)."
+    },
+    {
+      "id": 25,
+      "category": "Delivery Strategy Awareness",
+      "front": "According to the Stacey Matrix, if requirements are unclear and technology is unknown, the project is...",
+      "back": "Complex (or Chaotic). Best suited for Agile/Empirical process."
+    },
+    {
+      "id": 26,
+      "category": "Delivery Strategy Awareness",
+      "front": "What is the Cynefin Framework?",
+      "back": "A complexity model comprising 5 domains: Obvious/Clear, Complicated, Complex, Chaotic, and Disorder."
+    },
+    {
+      "id": 27,
+      "category": "Delivery Strategy Awareness",
+      "front": "In the Complex domain of Cynefin, how do you act?",
+      "back": "Probe - Sense - Respond. (Experimentation)."
+    },
+    {
+      "id": 28,
+      "category": "Delivery Strategy Awareness",
+      "front": "In the Chaotic domain of Cynefin, how do you act?",
+      "back": "Act - Sense - Respond. (Triage/Crisis management)."
+    },
+    {
+      "id": 29,
+      "category": "Delivery Strategy Awareness",
+      "front": "What is a \"Hybrid\" approach?",
+      "back": "Combining Predictive and Agile elements (e.g., Fixed milestones with agile execution) to match stakeholder needs."
+    },
+    {
+      "id": 30,
+      "category": "Delivery Strategy Awareness",
+      "front": "If a stakeholder demands a \"detailed project plan\" upfront but the scope is unknown, what do you do?",
+      "back": "Educate them on the risk of false certainty. Propose a Hybrid approach (Rolling Wave planning) to align expectations with reality."
+    },
+    {
+      "id": 31,
+      "category": "Global & Virtual Communication",
+      "front": "What is \"High-Context\" communication?",
+      "back": "Meaning is embedded in the relationship, history, and non-verbal cues (e.g., Japan, Arab cultures). \"Yes\" might just mean \"I hear you.\""
+    },
+    {
+      "id": 32,
+      "category": "Global & Virtual Communication",
+      "front": "What is \"Low-Context\" communication?",
+      "back": "Meaning is explicit in the words (e.g., USA, Germany). \"Yes\" means \"Yes.\""
+    },
+    {
+      "id": 33,
+      "category": "Global & Virtual Communication",
+      "front": "How do you aligning expectations in a global team with time zone differences?",
+      "back": "Use asynchronous communication (Pull) and rotate meeting times so one region doesn't always suffer."
+    },
+    {
+      "id": 34,
+      "category": "Global & Virtual Communication",
+      "front": "Ideally, what communication channel should be used for sensitive/conflict topics in a virtual team?",
+      "back": "Video Call (Interactive with high bandwidth) to capture non-verbal cues. Never email."
+    },
+    {
+      "id": 35,
+      "category": "Global & Virtual Communication",
+      "front": "What is \"Virtual Facilitation\"?",
+      "back": "Managing meetings online using tools (chat, polls, breakout rooms) to ensure engagement and equal voice."
+    },
+    {
+      "id": 36,
+      "category": "Managing Expectations in Practice",
+      "front": "A stakeholder says, \"I thought this feature was included.\" How do you prevent this?",
+      "back": "Requirement Traceability Matrix and clear Scope Baseline (or Backlog refinement). No ambiguity."
+    },
+    {
+      "id": 37,
+      "category": "Managing Expectations in Practice",
+      "front": "A stakeholder asks for a change. You say \"Yes\" immediately. Is this good?",
+      "back": "No. It is \"Scope Creep.\" You must analyze the impact (Time/Cost) first to align expectations on the consequence of the Yes."
+    },
+    {
+      "id": 38,
+      "category": "Managing Expectations in Practice",
+      "front": "What is the \"No Surprises\" rule?",
+      "back": "Stakeholders should never learn about a major issue for the first time in a formal status meeting. Communicate bad news early."
+    },
+    {
+      "id": 39,
+      "category": "Managing Expectations in Practice",
+      "front": "How does an \"Iteration Review\" help align expectations?",
+      "back": "It provides a regular \"Reality Check\" by showing working product. Stakeholders can verify if it matches their mental model."
+    },
+    {
+      "id": 40,
+      "category": "Managing Expectations in Practice",
+      "front": "What is the best way to handle a stakeholder with unrealistic expectations?",
+      "back": "Use data. Show the impact of their request on the schedule/budget. \"We can do X, but it will delay Y.\""
+    },
+    {
+      "id": 41,
+      "category": "Tools & Artifacts Drill",
+      "front": "Does the Communications Management Plan include \"Strategies for handling resistance\"?",
+      "back": "No, that's the Stakeholder Engagement Plan. The Comm Plan is about the \"Mechanics\" (Who/What/When)."
+    },
+    {
+      "id": 42,
+      "category": "Tools & Artifacts Drill",
+      "front": "What is a \"Project Glossary\"?",
+      "back": "A document defining terms and acronyms. Essential for reducing Semantic Noise and aligning understanding."
+    },
+    {
+      "id": 43,
+      "category": "Tools & Artifacts Drill",
+      "front": "What is a \"Status Report\"?",
+      "back": "A Push communication summarizing performance (Work Performance Information) for a specific period."
+    },
+    {
+      "id": 44,
+      "category": "Tools & Artifacts Drill",
+      "front": "What is \"Trend Analysis\" in reporting?",
+      "back": "Showing whether performance is improving or deteriorating over time. (Better than a single data point)."
+    },
+    {
+      "id": 45,
+      "category": "Tools & Artifacts Drill",
+      "front": "What is \"Variance Analysis\"?",
+      "back": "Comparing Actuals vs. Planned (Baseline). \"We are $10k over budget.\""
+    },
+    {
+      "id": 46,
+      "category": "Advanced Scenarios",
+      "front": "Scenario: Detailed requirements are impossible to define upfront. A stakeholder insists on a fixed price.",
+      "back": "Risky. Propose a collaborative model (Time & Materials with a cap) or a phased approach to align expectations with the uncertainty."
+    },
+    {
+      "id": 47,
+      "category": "Advanced Scenarios",
+      "front": "Scenario: You send weekly reports, but the stakeholder says they \"never know what's going on.\"",
+      "back": "The method is failing (Push). Switch to Interactive (brief call) or ask them what format they need."
+    },
+    {
+      "id": 48,
+      "category": "Advanced Scenarios",
+      "front": "Scenario: A stakeholder bypasses you and asks the team for work.",
+      "back": "This disrupts expectations of workload. Intervene. Reiterate the protocol (Comm Management Plan) to funnel requests properly."
+    },
+    {
+      "id": 49,
+      "category": "Advanced Scenarios",
+      "front": "Scenario: Half the team is on video, half is in a conference room.",
+      "back": "\"One remote, all remote.\" Everyone should log into the meeting software to level the playing field."
+    },
+    {
+      "id": 50,
+      "category": "Advanced Scenarios",
+      "front": "Scenario: A key stakeholder is \"Unaware\" of the project's bad status.",
+      "back": "Ethical breach (hiding truth). You must align expectations immediately by sharing the \"Yellow/Red\" status. Use \"Radical Transparency.\""
+    },
+    {
+      "id": 51,
+      "category": "Advanced Scenarios",
+      "front": "What is key to communicating with \"Senior Executives\"?",
+      "back": "Brevity and connection to strategy. They care about \"So What?\", not \"How.\""
+    },
+    {
+      "id": 52,
+      "category": "Advanced Scenarios",
+      "front": "Why is \"active listening\" crucial for expectation alignment?",
+      "back": "You cannot align with an expectation you don't understand. You must listen to uncover the real need."
+    },
+    {
+      "id": 53,
+      "category": "Advanced Scenarios",
+      "front": "What is the \"Kickoff Meeting\" purpose regarding expectations?",
+      "back": "To set the initial baseline of expectations for scope, schedule, and ways of working for all stakeholders."
+    },
+    {
+      "id": 54,
+      "category": "Advanced Scenarios",
+      "front": "If a project is \"Hybrid,\" how might reporting differ?",
+      "back": "You report on both Agile metrics (Velocity/Burndown) and Predictive metrics (Milestones/Budget) to satisfy different stakeholder needs."
+    },
+    {
+      "id": 55,
+      "category": "Advanced Scenarios",
+      "front": "Mindset: Is \"Over-communicating\" possible?",
+      "back": "Yes. It creates noise. Aim for \"Right-sizing\" communication."
+    },
+    {
+      "id": 56,
+      "category": "Vocabulary",
+      "front": "Define \"Empirical Process Control\".",
+      "back": "Making decisions based on observation and data (Transparency, Inspection, Adaptation). Core to Agile."
+    },
+    {
+      "id": 57,
+      "category": "Vocabulary",
+      "front": "Define \"Rolling Wave Planning\".",
+      "back": "Planning in detail for the near term and at a high level for the long term. (Aligns expectation of precision with time)."
+    },
+    {
+      "id": 58,
+      "category": "Vocabulary",
+      "front": "Define \"Progressive Elaboration\".",
+      "back": "Improving and detailing the plan as more information becomes available."
+    },
+    {
+      "id": 59,
+      "category": "Vocabulary",
+      "front": "Define \"Information Radiator\".",
+      "back": "A large visible display (physical or virtual) that pulls information to stakeholders (e.g., Kanban board)."
+    },
+    {
+      "id": 60,
+      "category": "Vocabulary",
+      "front": "Define \"Osmotic Communication\".",
+      "back": "Information absorbed by being in the same environment (physical or virtual) as the team."
+    },
+    {
+      "id": 61,
+      "category": "2026 Skills Focus: Digital & Diversity",
+      "front": "How does AI impact communication planning?",
+      "back": "AI can automate status reports and translation, but the PM must verify accuracy and add human context (\"Noise reduction\")."
+    },
+    {
+      "id": 62,
+      "category": "2026 Skills Focus: Digital & Diversity",
+      "front": "What is the impact of \"Neurodiversity\" on communication?",
+      "back": "Different brains process info differently. Offer multiple formats (Written + Verbal + Visual) to ensure alignment."
+    },
+    {
+      "id": 63,
+      "category": "2026 Skills Focus: Digital & Diversity",
+      "front": "What is \"Psychological Noise\"?",
+      "back": "Biases or emotional states (stress/fear) that prevent a stakeholder from hearing the message."
+    },
+    {
+      "id": 64,
+      "category": "2026 Skills Focus: Digital & Diversity",
+      "front": "How do you align expectations with a \"Digital Stakeholder\" (e.g., Compliance Algorithm)?",
+      "back": "feed it the correct data format. \"Expectations\" here are strict interface requirements."
+    },
+    {
+      "id": 65,
+      "category": "2026 Skills Focus: Digital & Diversity",
+      "front": "In a global team, whose holidays do you respect?",
+      "back": "All of them. The schedule expectations must account for local holidays of all key team regions."
+    },
+    {
+      "id": 66,
+      "category": "Scenario Drill: What went wrong?",
+      "front": "Scenario: The customer is happy with the demo, but the sponsor cancels the project.",
+      "back": "Expectation Misalignment. The PM focused on the User (Features) but ignored the Sponsor (ROI/Business Value)."
+    },
+    {
+      "id": 67,
+      "category": "Scenario Drill: What went wrong?",
+      "front": "Scenario: The team built the wrong feature because the requirements doc was 500 pages long.",
+      "back": "Communication Failure (Too much noise). Should have used Interactive communication or Prototypes."
+    },
+    {
+      "id": 68,
+      "category": "Scenario Drill: What went wrong?",
+      "front": "Scenario: A vendor delivers late, claiming they didn't know the deadline was strict.",
+      "back": "Communication Failure. The constraint (Time) was not emphasized in the agreement/Kickoff."
+    },
+    {
+      "id": 69,
+      "category": "Scenario Drill: What went wrong?",
+      "front": "Scenario: Stakeholders are angry that the \"Agile\" project doesn't have a fixed finish date.",
+      "back": "Delivery Strategy Expectation Gap. They wanted Predictive certainty; you gave them Agile flexibility. Hybrid might have been better."
+    },
+    {
+      "id": 70,
+      "category": "Scenario Drill: What went wrong?",
+      "front": "Scenario: You find out about a regulation change 2 months late.",
+      "back": "Poor Environmental Scanning / Stakeholder Identification. The regulator (External Stakeholder) was ignored."
+    },
+    {
+      "id": 71,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "A stakeholder asks: \"In Agile, does 'Welcome Change' mean I can change anything at any time?\"",
+      "back": "No. Changes are welcomed into the Backlog. Changes to the current Sprint are generally not allowed if they endanger the Sprint Goal (unless extreme emergency)."
+    },
+    {
+      "id": 72,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "What is the \"Cone of Uncertainty\"?",
+      "back": "A graphical representation showing that estimates are highly uncertain at the beginning of a project (Initiation) and become more precise over time."
+    },
+    {
+      "id": 73,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "A stakeholder demands a \"Fixed Scope\" AND \"Fixed Date\" on an Agile project.",
+      "back": "Actively manage this expectation. Explain the Iron Triangle. In Agile, if Time (Sprints) is fixed, Scope (Features) must be variable."
+    },
+    {
+      "id": 74,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "Define \"Velocity\" as an expectation tool.",
+      "back": "A measure of the amount of work a team can tackle during a single Sprint. It helps forecast future capacity for stakeholders."
+    },
+    {
+      "id": 75,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "Can you compare Velocity between two different teams?",
+      "back": "No. Velocity is unique to each team's estimation baseline. Doing so creates false expectations and toxic competition."
+    },
+    {
+      "id": 76,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "What is a \"Burnup Chart\" best for showing stakeholders?",
+      "back": "It shows Total Scope vs. Completed Work. It clearly visualizes if \"Scope Creep\" is the reason the finish line is moving further away."
+    },
+    {
+      "id": 77,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "What is a \"Burndown Chart\"?",
+      "back": "It tracks work remaining across time. Good for the Team to manage their Sprint, less useful for long-term stakeholder forecasting."
+    },
+    {
+      "id": 78,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "A stakeholder wants to skip the \"Retrospective\" to save time.",
+      "back": "Push back. The Retrospective is the engine of improvement. Skipping it aligns expectations with \"stagnation\" rather than \"efficiency.\""
+    },
+    {
+      "id": 79,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "Define \"Definition of Done (DoD)\" regarding expectations.",
+      "back": "A shared agreement on the criteria that must be met for a product increment to be considered release-ready (e.g., Tested, Documented, Compliant)."
+    },
+    {
+      "id": 80,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "Define \"Definition of Ready (DoR)\".",
+      "back": "Criteria work must meet before it can be accepted into a Sprint (e.g., Clear acceptance criteria, dependencies resolved). Prevents teams from starting vague work."
+    },
+    {
+      "id": 81,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "A stakeholder says, \"I don't need to see the demo; just email me when it's live.\"",
+      "back": "High risk. Without the feedback loop of the Demo, there is no validation of their expectations until it's too late. Encourage participation."
+    },
+    {
+      "id": 82,
+      "category": "Agile & Hybrid Expectations (Advanced)",
+      "front": "In Hybrid, how do you handle a \"Fixed Milestone\" (e.g., Trade Show)?",
+      "back": "Treat the Date as a constraint. Use Agile to prioritize the \"Must Haves\" for that date and cut \"Nice to Haves\" (Scope flexibility)."
+    },
+    {
+      "id": 83,
+      "category": "Soft Skills & Political Awareness",
+      "front": "Define \"Political Awareness\" in project management.",
+      "back": "Understanding the power dynamics, hidden agendas, and informal alliances that influence project success."
+    },
+    {
+      "id": 84,
+      "category": "Soft Skills & Political Awareness",
+      "front": "What is \"Cultural Awareness\"?",
+      "back": "Understanding how personal beliefs, values, and norms affect communication and behavior (e.g., attitudes toward authority or time)."
+    },
+    {
+      "id": 85,
+      "category": "Soft Skills & Political Awareness",
+      "front": "What are the 3 dimensions of \"Active Listening\"?",
+      "back": "1) Listening to the words, 2) Understanding the content, 3) Observing non-verbal cues (and avoiding autobiographical listening)."
+    },
+    {
+      "id": 86,
+      "category": "Soft Skills & Political Awareness",
+      "front": "What is \"Empathy\" vs \"Sympathy\"?",
+      "back": "Sympathy is feeling for someone. Empathy is feeling with someone (understanding their perspective). Empathy builds trust closer."
+    },
+    {
+      "id": 87,
+      "category": "Soft Skills & Political Awareness",
+      "front": "How do you handle a \"Power Play\" by a senior stakeholder?",
+      "back": "Stay professional. Focus on project objectives/Charter. Do not react emotionally. Use your Sponsor for cover if needed."
+    },
+    {
+      "id": 88,
+      "category": "Soft Skills & Political Awareness",
+      "front": "What is \"Mirroring\" in communication?",
+      "back": "Subtly mimicking the body language or speech patterns of the other person to build rapport (use with caution)."
+    },
+    {
+      "id": 89,
+      "category": "Soft Skills & Political Awareness",
+      "front": "A stakeholder is angry. What is the \"De-escalation\" first step?",
+      "back": "Validate their feelings. \"I can see you are frustrated.\" Do not argue facts until emotions are lowered."
+    },
+    {
+      "id": 90,
+      "category": "Soft Skills & Political Awareness",
+      "front": "What is the \"Platinum Rule\"?",
+      "back": "Treat others as they want to be treated (an upgrade to the Golden Rule, \"Treat others as you want to be treated\")."
+    },
+    {
+      "id": 91,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "What is the difference between \"Work Performance Data\" and \"Work Performance Information\"?",
+      "back": "Data = Raw numbers (e.g., \"5 defects\"). Information = Analyzed context (e.g., \"Defects are up 20% vs last month\"). Stakeholders need Information."
+    },
+    {
+      "id": 92,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "Who needs \"Work Performance Reports\"?",
+      "back": "Stakeholders (Sponsors, Customers). It is the physical/digital representation of the Information (e.g., The Dashboard)."
+    },
+    {
+      "id": 93,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "What is a \"Trend Report\"?",
+      "back": "A report showing performance over time to predict future status (e.g., CPI trend over 6 months)."
+    },
+    {
+      "id": 94,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "What is an \"Earned Value Report\"?",
+      "back": "A report integrating Scope, Schedule, and Cost to give a true picture of progress (e.g., using SPI and CPI)."
+    },
+    {
+      "id": 95,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "Why is \"Knowledge Transfer\" a stakeholder expectation?",
+      "back": "Operations/Support teams expect to know how to run the product after you leave. If you don't plan for this, they will resist the handover."
+    },
+    {
+      "id": 96,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "What is \"Explicit Knowledge\"?",
+      "back": "Knowledge that can be readily codified via words, numbers, and manuals (Easy to transfer)."
+    },
+    {
+      "id": 97,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "What is \"Tacit Knowledge\"?",
+      "back": "Knowledge that is difficult to transfer (experience, intuition, \"muscle memory\"). Requires shadowing or mentoring to transfer."
+    },
+    {
+      "id": 98,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "A Dashboard is a form of...",
+      "back": "...Pull Communication (usually). Stakeholders \"pull\" the data when they want to see it."
+    },
+    {
+      "id": 99,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "\"Traffic Light Reporting\" (R/A/G). What does \"Amber/Yellow\" usually mean?",
+      "back": "The project has issues, but the team has a plan to fix them. (Red usually means \"We need help/escalation\")."
+    },
+    {
+      "id": 100,
+      "category": "Reporting & Knowledge Transfer",
+      "front": "What risks come with \"Traffic Light Reporting\"?",
+      "back": "\"Watermelon Projects\" (Green on the outside, Red on the inside). Stakeholders may not see the true rot until it's too late."
+    },
+    {
+      "id": 101,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: Marketing promised a feature you didn't know about.",
+      "back": "Expectation Gap. Validate with the Charter/Backlog. If not there, it's a Change Request. Do not just absorb the work."
+    },
+    {
+      "id": 102,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: Stakeholder A says \"Fast\", Stakeholder B says \"Cheap\".",
+      "back": "Competing Expectations. You must facilitate a negotiation. Use the \"Iron Triangle\" to show the trade-off. They cannot have everything."
+    },
+    {
+      "id": 103,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: You find a technical error. The fix will delay the project 1 week.",
+      "back": "Radical Transparency. Tell stakeholders immediately. Hiding it creates a \"Surprise\" later, which destroys trust."
+    },
+    {
+      "id": 104,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: Stakeholders keep calling your team members directly for updates.",
+      "back": "This causes \"Context Switching\" and reporting confusion. Re-route them to the PM or appropriate channels defined in the Comm Plan."
+    },
+    {
+      "id": 105,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: A stakeholder claims they \"didn't approve\" the design, but they signed the document.",
+      "back": "They signed but didn't understand. Sign-off is not enough. You should have used Demos or Prototypes (Interactive comms)."
+    },
+    {
+      "id": 106,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: A stakeholder is \"Ghosting\" you (not replying).",
+      "back": "Check the Engagement Matrix. If they are critical, escalate or change methods (visit their desk). If low-power, move to \"Monitor.\""
+    },
+    {
+      "id": 107,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: The team is using Agile jargon (Spike, Velocity) that confuses the Sponsor.",
+      "back": "Semantic Noise. Translate the jargon into business terms (Risk Reduction, Capacity) for the Executive audience."
+    },
+    {
+      "id": 108,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: A stakeholder wants a \"Daily Status Report.\"",
+      "back": "Push back appropriately. Explain the overhead cost. Offer a real-time Dashboard (Pull) instead."
+    },
+    {
+      "id": 109,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: Your project relies on another project which is delayed.",
+      "back": "Manage the expectation of the External dependency. Communicate the slip immediately to your stakeholders as a Risk realization."
+    },
+    {
+      "id": 110,
+      "category": "Scenarios: Conflict & Misalignment",
+      "front": "Scenario: Users hate the new interface during UAT.",
+      "back": "Expectation Failure. UAT is too late for first feedback. Should have engaged them in Design or earlier Demos."
+    },
+    {
+      "id": 111,
+      "category": "Channels & Noise Tuning",
+      "front": "What is the \"Medium\" of communication?",
+      "back": "The method used to convey the message (e.g., Phone, Email, In-person)."
+    },
+    {
+      "id": 112,
+      "category": "Channels & Noise Tuning",
+      "front": "Rich Media vs Lean Media. When do you use Rich Media (Face-to-Face)?",
+      "back": "For complex, ambiguous, or emotional situations."
+    },
+    {
+      "id": 113,
+      "category": "Channels & Noise Tuning",
+      "front": "When do you use Lean Media (Email/Report)?",
+      "back": "For simple, routine, factual updates explicitly requiring a paper trail."
+    },
+    {
+      "id": 114,
+      "category": "Channels & Noise Tuning",
+      "front": "What is \"Cognitive Load\"?",
+      "back": "The mental effort required to process information. Great PMs minimize cognitive load by keeping reports simple and visual."
+    },
+    {
+      "id": 115,
+      "category": "Channels & Noise Tuning",
+      "front": "Is \"Silence\" a form of communication?",
+      "back": "Yes. It communicates disengagement, agreement, or fear, depending on context. You must interpret it."
+    },
+    {
+      "id": 116,
+      "category": "Channels & Noise Tuning",
+      "front": "What is the \"Feedback Loop\" in a conversation?",
+      "back": "The receiver reflecting back understanding. Without it, you are just \"Broadcasting,\" not communicating."
+    },
+    {
+      "id": 117,
+      "category": "Channels & Noise Tuning",
+      "front": "How do you reduce \"Cross-Cultural Noise\"?",
+      "back": "Avoid idioms (\"hit it out of the park\"), speak clearly, use visuals, and confirm understanding frequently."
+    },
+    {
+      "id": 118,
+      "category": "Channels & Noise Tuning",
+      "front": "What is the risk of \"Reply All\"?",
+      "back": "Creates noise and can accidentally disclose sensitive info. Discourage its overuse in the Comm Plan."
+    },
+    {
+      "id": 119,
+      "category": "Channels & Noise Tuning",
+      "front": "What is \"Version Control\" as an expectation tool?",
+      "back": "Ensuring everyone is looking at the same document (e.g., Specs v2.0). Using v1.0 creates massive misalignment."
+    },
+    {
+      "id": 120,
+      "category": "Channels & Noise Tuning",
+      "front": "A \"Risk Register\" aligns expectations on...",
+      "back": "...What might go wrong. It prevents \"Shock\" if a risk occurs."
+    },
+    {
+      "id": 121,
+      "category": "2026 Emerging Trends",
+      "front": "What is \"Asynchronous Equity\"?",
+      "back": "Ensuring that people who work asynchronously (different time zones) have the same access to info/decisions as those in the meeting."
+    },
+    {
+      "id": 122,
+      "category": "2026 Emerging Trends",
+      "front": "How do you \"Facilitate\" a hybrid meeting successfully?",
+      "back": "\"Remote First.\" Engage the remote participants before the people in the room to counter recency/proximity bias."
+    },
+    {
+      "id": 123,
+      "category": "2026 Emerging Trends",
+      "front": "What is the impact of \"Deepfakes\" on communication?",
+      "back": "A 2026 security concern. Verification of source identity for sensitive communications is becoming a standard project protocol."
+    },
+    {
+      "id": 124,
+      "category": "2026 Emerging Trends",
+      "front": "What is \"Information Overload\"?",
+      "back": "When the volume of communication exceeds the receiver's capacity to process it. Leads to missed expectations."
+    },
+    {
+      "id": 125,
+      "category": "2026 Emerging Trends",
+      "front": "How do you \"ESG\" (Environmental, Social, Governance) affect reporting?",
+      "back": "Stakeholders now expect \"Non-Financial\" reporting (Carbon footprint, Diversity metrics) alongside budget/schedule."
+    },
+    {
+      "id": 126,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: You are replaced as PM. The new PM has no idea what's going on.",
+      "back": "Meaning you failed \"Knowledge Transfer\" and documentation. Expectations were stored in your head, not the project artifacts."
+    },
+    {
+      "id": 127,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: The team is working hard, but the \"Percent Complete\" hasn't moved.",
+      "back": "The \"90% Done Syndrome.\" Expectations were mismanaged by tracking activity instead of outcomes. Switch to \"0/100\" (Done or Not Done)."
+    },
+    {
+      "id": 128,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: A stakeholder claims a \"verbal agreement\" from 3 months ago.",
+      "back": "\"If it isn't written down, it didn't happen.\" Always send \"Meeting Minutes\" to align expectations after a verbal chat."
+    },
+    {
+      "id": 129,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: You have a meeting with 20 people to \"write\" a document.",
+      "back": "Inefficient. Use a small group to write, and the large group to \"Review.\" Align expectations on the purpose of the meeting."
+    },
+    {
+      "id": 130,
+      "category": "Final Drill Scenarios",
+      "front": "What is the \"Parking Lot\" in a meeting?",
+      "back": "A tool to acknowledge off-topic ideas without derailing the current expectation (Agenda). \"Let's park that for later.\""
+    },
+    {
+      "id": 131,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: The Sponsor asks \"Are we Agile or Waterfall?\"",
+      "back": "Don't get trapped in labels. Explain the approach aimed at their expectations (e.g., \"We use fixed milestones with iterative delivery\")."
+    },
+    {
+      "id": 132,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: You have to deliver bad news to a \"High Power\" stakeholder.",
+      "back": "Go prepared with: 1) The Facts, 2) The Impact, 3) Options/Recommendations. Don't just dump the problem."
+    },
+    {
+      "id": 133,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: The project is green, but the customer is unhappy.",
+      "back": "KPI misalignment. You are tracking \"Outputs\" ( deliverables), they care about \"Outcomes\" (value). Update your metrics."
+    },
+    {
+      "id": 134,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: A new regulation is fast-tracked.",
+      "back": "Immediately align expectations on the impact to Scope/Schedule. This is a mandatory external constraint."
+    },
+    {
+      "id": 135,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: The team is \"Storming\" and arguing. Stakeholders are worried.",
+      "back": "Normalize it. Explain the \"Tuckman Ladder\" to stakeholders so they expect this as a natural phase, not a failure."
+    },
+    {
+      "id": 136,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: You need a decision by Friday. No one replies.",
+      "back": "You didn't align on \"Escalation.\" Trigger the escalation path defined in the Comm Plan."
+    },
+    {
+      "id": 137,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: Stakeholder A wants \"Blue,\" Stakeholder B wants \"Red.\"",
+      "back": "Do not pick a side. Bring them together (Interactive Comms) to resolve the conflict. You are the facilitator."
+    },
+    {
+      "id": 138,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: You are taking over a project with zero documentation.",
+      "back": "Reset expectations. Your first phase is \"Discovery.\" Don't commit to dates until you know the baseline."
+    },
+    {
+      "id": 139,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: The product is technically perfect but no one uses it.",
+      "back": "Failed \"Organizational Change Management\" (OCM). Stakeholders weren't prepared for the change in their workflow."
+    },
+    {
+      "id": 140,
+      "category": "Final Drill Scenarios",
+      "front": "Scenario: How do you know when to stop communicating?",
+      "back": "When the \"Marginal Value\" of the next report is less than the effort to produce it. (Or when the project closes)."
+    }
+  ]
+}

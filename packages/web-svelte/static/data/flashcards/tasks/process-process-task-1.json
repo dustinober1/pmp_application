@@ -1,0 +1,612 @@
+{
+  "meta": {
+    "title": "⚡ Process Task: Develop an Integrated Project Management Plan",
+    "domain": "Process",
+    "task": "Develop an integrated project management plan and plan delivery",
+    "ecoReference": "Process Task 1",
+    "description": "Flashcards for PMP Process Domain Task 1",
+    "file": "guide/appendices/flashcards-process-task1-integrated-plan.md"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "What is the primary function of the Project Management Plan?\n",
+      "back": "It is the master document that defines how the project will be executed, monitored, controlled, and closed. It integrates all subsidiary plans and baselines into a single cohesive strategy.\n"
+    },
+    {
+      "id": 2,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "What are the three core Baselines that make up the Performance Measurement Baseline (PMB)?\n",
+      "back": "1. Scope Baseline (Scope Statement + WBS + WBS Dictionary)\n2. Schedule Baseline (Approved start/end dates)\n3. Cost Baseline (Time-phased budget)\n"
+    },
+    {
+      "id": 3,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "In the context of the PMBOK Guide, what is Progressive Elaboration?\n",
+      "back": "The iterative process of increasing the level of detail in a project management plan as greater amounts of information and more accurate estimates become available.\n"
+    },
+    {
+      "id": 4,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "What is Rolling Wave Planning?\n",
+      "back": "A form of progressive elaboration where near-term work is planned in detail, while future work is planned at a higher level (e.g., planning packages) until more information is known.\n"
+    },
+    {
+      "id": 5,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "What is a Subsidiary Management Plan?\n",
+      "back": "A component of the Project Management Plan that describes how a specific knowledge area (like Scope, Risk, or Cost) will be planned, executed, and controlled.\nExample: Risk Management Plan, Schedule Management Plan.\n"
+    },
+    {
+      "id": 6,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "What is the difference between a Project Charter and a Project Management Plan?\n",
+      "back": "- Project Charter: High-level, issued by the Sponsor, authorizes the project, and provides initial requirements/budget.\n- Project Management Plan: Detailed, developed by the PM and Team, describes specific execution strategies, and integrates all planning work.\n"
+    },
+    {
+      "id": 7,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "What is the Performance Measurement Baseline (PMB) used for?\n",
+      "back": "It serves as the approved standard against which actual project performance (scope, schedule, cost) is compared to determine if the project is on track.\n"
+    },
+    {
+      "id": 8,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "If a project management plan is \"integrated,\" what does that imply about changes?\n",
+      "back": "It implies that a change in one area (e.g., Scope) must be evaluated for its impact on all other areas (e.g., Schedule, Cost, Quality, Risk, Resources) before approval. This is the concept of competing constraints.\n"
+    },
+    {
+      "id": 9,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "What is Tailoring in project management?\n",
+      "back": "The deliberate adaptation of the project management approach, governance, and processes to make them suitable for the specific project context (e.g., size, complexity, methodology).\n"
+    },
+    {
+      "id": 10,
+      "category": "🏗️ Core Concepts & Definitions",
+      "front": "What does it mean to be \"Methodology Agnostic\"?\n",
+      "back": "It means the Project Manager is not tied to a single way of working (like only Waterfall or only Scrum) but selects the best approach (Predictive, Agile, or Hybrid) based on the project's unique needs.\n\n\n"
+    },
+    {
+      "id": 11,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "What characterizes a Predictive (Waterfall) life cycle?\n",
+      "back": "- Scope, time, and cost are determined early in the project.\n- Changes are managed carefully via a formal Change Control Board (CCB).\n- Best for projects with stable, well-understood requirements.\n"
+    },
+    {
+      "id": 12,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "What characterizes an Adaptive (Agile) life cycle?\n",
+      "back": "- Scope is detailed iteratively; time and cost are fixed for iterations/sprints.\n- Change is welcomed and managed via the backlog.\n- Best for projects with high uncertainty or rapidly changing requirements.\n"
+    },
+    {
+      "id": 13,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "What characterizes a Hybrid life cycle?\n",
+      "back": "A combination of predictive and adaptive elements.\nExample: A hardware team uses Waterfall (fixed specs) while the software team uses Scrum (iterative updates) for the same product launch.\n"
+    },
+    {
+      "id": 14,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "According to the Stacey Complexity Matrix, when should you use an Agile approach?\n",
+      "back": "When requirements are unclear (what to build) and technology/method is uncertain (how to build it), leading to a \"Complex\" environment that benefits from experimentation and adaptation.\n"
+    },
+    {
+      "id": 15,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "In an Agile project, who is responsible for \"planning delivery\"?\n",
+      "back": "The Team. While the Product Owner prioritizes potentially shippable work, the Developers estimate the effort and determine how much they can deliver in a sprint.\n"
+    },
+    {
+      "id": 16,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "What is the primary planning artifact in Scrum that replaces the detailed WBS of Waterfall?\n",
+      "back": "The Product Backlog (and subsequently the Sprint Backlog for the current iteration).\n"
+    },
+    {
+      "id": 17,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "What is Sprint Planning?\n",
+      "back": "A collaborative event where the Scrum Team determines what can be delivered in the upcoming Sprint and how that work will be achieved (creating the Sprint Backlog).\n"
+    },
+    {
+      "id": 18,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "What is Velocity in Agile planning?\n",
+      "back": "A measure of the amount of work (usually in Story Points) a team can tackle during a single Sprint, used to forecast future delivery capacity.\n"
+    },
+    {
+      "id": 19,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "What is the \"Definition of Done\" (DoD)?\n",
+      "back": "A shared understanding/checklist of criteria that a product increment must meet to be considered complete and release-ready. It ensures quality standards are met.\n"
+    },
+    {
+      "id": 20,
+      "category": "🔄 Methodologies: Predictive, Agile, & Hybrid",
+      "front": "What is the \"Definition of Ready\"?\n",
+      "back": "The criteria that a user story must meet (e.g., clear acceptance criteria, dependencies resolved) before it can be accepted into a Sprint for work.\n\n\n"
+    },
+    {
+      "id": 21,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: You are managing a construction project with strict regulatory inspections and fixed deadlines. The client wants to use \"Agile\" because it's a buzzword. What do you do?\n",
+      "back": "Explain that Predictive is likely better due to the high cost of change (you can't \"refactor\" concrete) and regulatory constraints. You might suggest a Hybrid approach using Agile for the design/planning phase if appropriate.\n"
+    },
+    {
+      "id": 22,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: You are launching a new mobile app where user preferences are unknown. Your sponsor asks for a detailed 12-month project plan with fixed scope. What is the risk?\n",
+      "back": "The risk is building the wrong thing. In high-uncertainty environments, a detailed predictive plan often fails. You should advocate for an Adaptive/Agile approach to validate assumptions iteratively through MVPs and user feedback.\n"
+    },
+    {
+      "id": 23,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: During project planning, you realize the initial budget (ROM) is insufficient for the detailed scope defined in the WBS. What is your next step?\n",
+      "back": "You must re-align expectations. Options: \n1. Request more budget based on the detailed estimate.\n2. Reduce scope to fit the available budget.\n3. Discuss trade-offs (quality, schedule) with the sponsor before baselining.\n"
+    },
+    {
+      "id": 24,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: A key stakeholder asks \"How will we handle changes to the requirements?\" during the kickoff. Where do you point them?\n",
+      "back": "Refer them to the Scope Management Plan (or the Change Management Plan section of the Project Management Plan), which defines the formal process for submitting, reviewing, and approving changes.\n"
+    },
+    {
+      "id": 25,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: Your team is geographically distributed across three time zones. You are developing the Project Management Plan. what specific subsidiary plan needs extra attention?\n",
+      "back": "The Communications Management Plan. You need explicit protocols for asynchronous work, meeting times, and tool usage to bridge the location gaps.\n"
+    },
+    {
+      "id": 26,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: You are in the planning phase. A Subject Matter Expert (SME) says a critical task will take 4 weeks, but the sponsor demands it be done in 2. What do you do?\n",
+      "back": "Do not simply overwrite the estimate. Negotiate with the sponsor by showing the impact: \"If we compress this to 2 weeks, we need double the resources (Cost) or we must cut these testing steps (Risk/Quality).\"\n"
+    },
+    {
+      "id": 27,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: You are managing a large program with both hardware (Predictive) and software (Agile) components. How do you integrate the schedules?\n",
+      "back": "Use a Hybrid schedule strategy. Maintain a master schedule with high-level dependencies and milestones (e.g., \"Hardware Prototype Ready\"), while the software team manages their detailed work in Sprints that align with those milestones.\n"
+    },
+    {
+      "id": 28,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: Your developer team wants to start coding immediately without any planning documentation. \"We're Agile!\" they say. How do you respond?\n",
+      "back": "Remind them that Agile is not \"no planning.\" It is \"planning at the last responsible moment.\" Insist on a Product Backlog and a Sprint Plan to ensure we are working on what provides the most value.\n"
+    },
+    {
+      "id": 29,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: You have just joined a project in execution. You want to see the \"Project Management Plan,\" but only find a Gantt chart. What is missing?\n",
+      "back": "Everything else. A Gantt chart is just a schedule. You are missing the definitions of how to manage scope, cost, risk, quality, resources, stakeholders, and communications.\n"
+    },
+    {
+      "id": 30,
+      "category": "🧠 Scenarios & \"What Would You Do?\"",
+      "front": "Scenario: Stakeholders are arguing about what \"complete\" means for a deliverable. How should this have been prevented during planning?\n",
+      "back": "By clearly defining the Acceptance Criteria (for specific deliverables) and the Definition of Done (for the project/sprint) within the Scope Management Plan or Quality Management Plan.\n\n\n"
+    },
+    {
+      "id": 31,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "What is the primary Input necessary to start developing the Project Management Plan?\n",
+      "back": "The Project Charter. It provides the high-level boundaries, budget, and authority required to start detailed planning.\n"
+    },
+    {
+      "id": 32,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "Which Tool & Technique is most commonly used to leverage the knowledge of SMEs during planning?\n",
+      "back": "Expert Judgment. Consulting with individuals who have specialized knowledge or training in the subject area.\n"
+    },
+    {
+      "id": 33,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "What is the main Output of the \"Develop Project Management Plan\" process?\n",
+      "back": "The Project Management Plan itself (including all subsidiary plans, baselines, and life cycle descriptions).\n"
+    },
+    {
+      "id": 34,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "In the context of planning, what is a Kickoff Meeting?\n",
+      "back": "A meeting held at the end of planning (or start of a major phase) to communicate the plan, gain stakeholder commitment, and officially start execution.\n"
+    },
+    {
+      "id": 35,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "What is a Change Management Plan?\n",
+      "back": "A plan that establishes the Change Control Board (CCB), defines how change requests are submitted, and outlines the criteria for approving or rejecting changes.\n"
+    },
+    {
+      "id": 36,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "What is a Configuration Management Plan?\n",
+      "back": "A plan that defines how you will track and control versions of project artifacts (specs, code, documents) to ensure everyone is working on the correct \"truth.\"\n"
+    },
+    {
+      "id": 37,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "What is the difference between specific Requirements and the Scope Statement?\n",
+      "back": "- Requirements: Individual needs/wants of stakeholders (e.g., \"User must login\").\n- Scope Statement: The definitive description of the project deliverables and the work required to create them (e.g., \"The Login Module\").\n"
+    },
+    {
+      "id": 38,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "What is the Development Approach and Life Cycle section of the plan?\n",
+      "back": "The section where you explicitly state if the project will use a Predictive, Adaptive, Iterative, Incremental, or Hybrid approach, and define the phases (e.g., Design, Build, Test).\n"
+    },
+    {
+      "id": 39,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "What is Data Gathering in the context of planning?\n",
+      "back": "Techniques like Brainstorming, Checklists, Focus Groups, and Interviews used to collect inputs from stakeholders to inform the plan.\n"
+    },
+    {
+      "id": 40,
+      "category": "🛠️ Inputs, Tools, & Outputs (ITTOs)",
+      "front": "What is the role of Facilitation in planning?\n",
+      "back": "A soft skill used by the PM to guide a group of diverse stakeholders to a decision or consensus on project objectives and plans.\n\n\n"
+    },
+    {
+      "id": 41,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "What are the six common Competing Constraints (the \"Hexagon\" instead of the Triangle)?\n",
+      "back": "1. Scope\n2. Schedule\n3. Cost\n4. Quality\n5. Resources\n6. Risk\n"
+    },
+    {
+      "id": 42,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "If you crash the schedule (shorten duration) by adding resources, what is the likely impact on other constraints?\n",
+      "back": "- Cost increases (paying for more people).\n- Risk may increase (communication overhead).\n- Quality might decrease (rushing/onboarding new people).\n"
+    },
+    {
+      "id": 43,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "What is Value Engineering?\n",
+      "back": "An approach used during planning to optimize the project life cycle costs, save time, increase profits, or improve quality without reducing the scope/functionality.\n"
+    },
+    {
+      "id": 44,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "Why is Stakeholder Engagement considered part of the \"Integrated\" plan?\n",
+      "back": "Because a plan is useless if stakeholders don't buy into it. Engagement planning ensures that the right people are involved in creating and approving the plan.\n"
+    },
+    {
+      "id": 45,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "What is the WBS Dictionary?\n",
+      "back": "A document that provides detailed deliverables, activities, and scheduling information for each component in the Work Breakdown Structure. It explains \"what\" the box in the chart actually means.\n"
+    },
+    {
+      "id": 46,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "In Agile, what concept replaces the \"Scope Baseline\"?\n",
+      "back": "The project doesn't have a rigid scope baseline. Instead, the Product Vision and Product Goal provide direction, while the Product Backlog serves as the dynamic scope container.\n"
+    },
+    {
+      "id": 47,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "What is MVP (Minimum Viable Product)?\n",
+      "back": "The smallest outcome that provides value to the user and allows the team to validate assumptions. It is a key concept in \"planning delivery\" for Agile projects.\n"
+    },
+    {
+      "id": 48,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "What is the difference between a Phase Review (or Kill Point) and a Retrospective?\n",
+      "back": "- Phase Review (Predictive): A governance gate to approve moving to the next phase (Go/No-Go).\n- Retrospective (Agile): A team meeting to inspect and adapt their process for improvement.\n"
+    },
+    {
+      "id": 49,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "What is Just-in-Time (JIT) Planning?\n",
+      "back": "Delaying detailed planning until the work is about to begin (e.g., planning the next sprint only just before it starts) to avoid wasting effort on things that might change.\n"
+    },
+    {
+      "id": 50,
+      "category": "⚖️ Competing Constraints & Integration",
+      "front": "What is a Pre-Mortem?\n",
+      "back": "A planning exercise where the team imagines the project has already failed and brainstorms reasons why. It is a powerful tool to identify hidden risks and integrate responses into the plan.\n\n\n"
+    },
+    {
+      "id": 51,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "How does Organizational Process Assets (OPAs) influence planning?\n",
+      "back": "OPAs provide templates, checklists, lessons learned, and historical data from previous projects, allowing the PM to not \"reinvent the wheel.\"\n"
+    },
+    {
+      "id": 52,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "How does Enterprise Environmental Factors (EEFs) influence planning?\n",
+      "back": "EEFs are internal/external conditions not under the team's control (e.g., market conditions, company culture, software tools) that constrain or direct the planning options.\n"
+    },
+    {
+      "id": 53,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "What is Plan-Do-Check-Act (PDCA)?\n",
+      "back": "The iterative cycle essential for continuous improvement and quality management, applicable to both the project product and the project management processes.\n"
+    },
+    {
+      "id": 54,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "What is the significance of the Project Management Office (PMO) during planning?\n",
+      "back": "The PMO may provide the framework, methodology, templates, and governance standards that the integrated plan must adhere to.\n"
+    },
+    {
+      "id": 55,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "What is the Requirements Traceability Matrix (RTM)?\n",
+      "back": "A grid that links product requirements from their origin to the satisfy deliverables. It ensures that every requirement adds business value and is actually delivered.\n"
+    },
+    {
+      "id": 56,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "In a Hybrid project, how might the Cost Baseline be structured?\n",
+      "back": "It might have fixed costs for predictive phases (like hardware procurement) and \"burn rates\" (team salary per sprint) for adaptive phases.\n"
+    },
+    {
+      "id": 57,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "What is Manage Project Knowledge?\n",
+      "back": "The process of using existing knowledge and creating new knowledge. In planning, this means using Lessons Learned from past projects to avoid repeating mistakes.\n"
+    },
+    {
+      "id": 58,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "What is the role of the Sponsor in the planning phase?\n",
+      "back": "To provide resources, approve the final Project Management Plan, champion the project, and clarify scope/business needs when the team is stuck.\n"
+    },
+    {
+      "id": 59,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "What is a Constraint in project planning?\n",
+      "back": "A limiting factor that affects the execution of a project, program, portfolio, or process.\nExamples: Fixed budget, hard deadline, mandatory regulatory compliance.\n"
+    },
+    {
+      "id": 60,
+      "category": "🏗️ Advanced Integration Concepts",
+      "front": "What is an Assumption in project planning?\n",
+      "back": "A factor in the planning process that is considered to be true, real, or certain, without proof or demonstration. Assumptions introduce risk if they turn out to be false.\n\n\n"
+    },
+    {
+      "id": 61,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is User Story Mapping?\n",
+      "back": "A visual exercise that organizes user stories into a useful model to help understand the functionality of the system, identify holes and omissions, and effectively plan releases.\n"
+    },
+    {
+      "id": 62,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What are Story Points?\n",
+      "back": "A unit of measure for expressing the overall size of a user story, feature, or other piece of work. They represent relative effort, complexity, and risk, not hours.\n"
+    },
+    {
+      "id": 63,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is Planning Poker?\n",
+      "back": "A consensus-based estimation technique where team members use cards to estimate the effort of user stories, avoiding anchoring bias.\n"
+    },
+    {
+      "id": 64,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is an Information Radiator?\n",
+      "back": "A highly visible display (like a Kanban board or Burndown chart) that provides up-to-date project information to all stakeholders without them having to ask just by walking by.\n"
+    },
+    {
+      "id": 65,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is the Daily Scrum?\n",
+      "back": "A 15-minute time-boxed event for the Developers to inspect progress toward the Sprint Goal and adapt the Sprint Backlog as necessary, adjusting the upcoming planned work.\n"
+    },
+    {
+      "id": 66,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is a Spike in Agile planning?\n",
+      "back": "A task aimed at answering a question or gathering information, rather than producing a shippable product. It is used to reduce uncertainty before estimating a feature.\n"
+    },
+    {
+      "id": 67,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is the purpose of Backlog Refinement (Grooming)?\n",
+      "back": "The ongoing process of adding detail, estimates, and order to items in the Product Backlog, ensuring they are \"Ready\" for future sprints.\n"
+    },
+    {
+      "id": 68,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is MoSCoW prioritization?\n",
+      "back": "A technique to prioritize requirements:\n- Must have (Critical)\n- Should have (Important)\n- Could have (Nice to have)\n- Won't have (Not now)\n"
+    },
+    {
+      "id": 69,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is a Release Plan in Agile?\n",
+      "back": "A high-level plan that indicates which features/epics are expected to be delivered in upcoming releases (groupings of sprints), though it is mutable.\n"
+    },
+    {
+      "id": 70,
+      "category": "🎯 Agile Planning Specifics",
+      "front": "What is Agile Chartering?\n",
+      "back": "Creating a lightweight charter that defines the \"Why,\" \"Who,\" and high-level \"What\" (Vision, Mission, Success Criteria) to align an agile team.\n\n\n"
+    },
+    {
+      "id": 71,
+      "category": "📊 Performance Measurement",
+      "front": "What is Earned Value Management (EVM)?\n",
+      "back": "A methodology that combines scope, schedule, and resource measurements to assess project performance and progress.\nKey Metrics: CPI, SPI.\n"
+    },
+    {
+      "id": 72,
+      "category": "📊 Performance Measurement",
+      "front": "If your SPI (Schedule Performance Index) is 0.8, what does that mean?\n",
+      "back": "You are behind schedule. You are effectively accomplishing only 80% of the work you planned to do in the given time.\n"
+    },
+    {
+      "id": 73,
+      "category": "📊 Performance Measurement",
+      "front": "If your CPI (Cost Performance Index) is 1.2, what does that mean?\n",
+      "back": "You are under budget. For every $1 spent, you are getting $1.20 worth of planned value.\n"
+    },
+    {
+      "id": 74,
+      "category": "📊 Performance Measurement",
+      "front": "What is Variance Analysis?\n",
+      "back": "The technique of determining the cause and degree of difference between the Baseline (Plan) and Actual performance (Reality).\n"
+    },
+    {
+      "id": 75,
+      "category": "📊 Performance Measurement",
+      "front": "What is a Burndown Chart?\n",
+      "back": "A graphical representation of work left to do versus time. It is used in Agile/Scrum to track progress toward the Sprint Goal.\n"
+    },
+    {
+      "id": 76,
+      "category": "📊 Performance Measurement",
+      "front": "What is a Burnup Chart?\n",
+      "back": "A chart showing the total scope (work to do) and the work completed over time. It is useful for showing scope creep (if the total scope line moves up).\n"
+    },
+    {
+      "id": 77,
+      "category": "📊 Performance Measurement",
+      "front": "What is Throughput in Kanban?\n",
+      "back": "The number of items (cards) passing through a process (to \"Done\") within a specific period of time.\n"
+    },
+    {
+      "id": 78,
+      "category": "📊 Performance Measurement",
+      "front": "What is Cycle Time?\n",
+      "back": "The time elapsed from when work actually starts on an item until it is ready for delivery.\n"
+    },
+    {
+      "id": 79,
+      "category": "📊 Performance Measurement",
+      "front": "What is Lead Time?\n",
+      "back": "The time elapsed from when a request is made (created) until it is delivered to the customer.\n"
+    },
+    {
+      "id": 80,
+      "category": "📊 Performance Measurement",
+      "front": "What is WIP Limit (Work In Progress)?\n",
+      "back": "A policy in Kanban that restricts the number of items that can exist in a workflow stage at one time. It exposes bottlenecks and improves flow.\n\n\n"
+    },
+    {
+      "id": 81,
+      "category": "🚦 Closing the Plan",
+      "front": "When is the Project Management Plan considered \"Final\"?\n",
+      "back": "Never, technically, until the project closes. It is a living document that is updated via Change Control throughout the life of the project.\n"
+    },
+    {
+      "id": 82,
+      "category": "🚦 Closing the Plan",
+      "front": "Who approves the Project Management Plan?\n",
+      "back": "The Project Sponsor and key stakeholders (as defined by the governance/charter). The PM creates it, but the Sponsor authorizes it.\n"
+    },
+    {
+      "id": 83,
+      "category": "🚦 Closing the Plan",
+      "front": "What happens if you find a major gap in the plan during Execution?\n",
+      "back": "You initiate a Change Request to update the relevant subsidiary plan or baseline. You do not just \"fix it on the fly\" without analysis.\n"
+    },
+    {
+      "id": 84,
+      "category": "🚦 Closing the Plan",
+      "front": "How does the plan relate to Procurement?\n",
+      "back": "The plan dictates what needs to be bought and when. The Procurement Management Plan specifically details the types of contracts and selection criteria.\n"
+    },
+    {
+      "id": 85,
+      "category": "🚦 Closing the Plan",
+      "front": "How does the plan relate to Quality?\n",
+      "back": "The Quality Management Plan defines the standards (e.g., ISO, coding regs) that the project must meet. The plan ensures resources and time are allocated for testing/QA.\n"
+    },
+    {
+      "id": 86,
+      "category": "🚦 Closing the Plan",
+      "front": "What is the Scope Management Plan's main job?\n",
+      "back": "It does not define the scope (that's the purpose of the Scope Statement). It explains the process for how you will define, validate, and control scope.\n"
+    },
+    {
+      "id": 87,
+      "category": "🚦 Closing the Plan",
+      "front": "What is the Schedule Management Plan's main job?\n",
+      "back": "It establishes the criteria and activities for developing, monitoring, and controlling the schedule (e.g., unit of measure: hours vs days, accuracy levels).\n"
+    },
+    {
+      "id": 88,
+      "category": "🚦 Closing the Plan",
+      "front": "What is the Cost Management Plan's main job?\n",
+      "back": "It establishes how costs will be planned, structured, and controlled (e.g., currency used, reporting thresholds for variance).\n"
+    },
+    {
+      "id": 89,
+      "category": "🚦 Closing the Plan",
+      "front": "What is the Stakeholder Engagement Plan's main job?\n",
+      "back": "It identifies the strategies and actions required to promote productive involvement of stakeholders in project decision-making and execution.\n"
+    },
+    {
+      "id": 90,
+      "category": "🚦 Closing the Plan",
+      "front": "What is the Resource Management Plan's main job?\n",
+      "back": "It describes how project resources (team and physical) should be categorized, allocated, managed, and released.\n\n\n"
+    },
+    {
+      "id": 91,
+      "category": "⚡ Quick-Fire Review",
+      "front": "True or False: In Agile, there is no Project Management Plan.\n",
+      "back": "False. There is a plan, but it is lighter weight, updated frequently, and often spread across artifacts like the Backlog, Roadmap, and Team Charter.\n"
+    },
+    {
+      "id": 92,
+      "category": "⚡ Quick-Fire Review",
+      "front": "True or False: The Project Manager must write every word of the plan personally.\n",
+      "back": "False. The PM integrates the plan, but Team Members and SMEs should help write the technical estimates and subsidiary plans.\n"
+    },
+    {
+      "id": 93,
+      "category": "⚡ Quick-Fire Review",
+      "front": "True or False: Baselines can be changed whenever the project runs behind.\n",
+      "back": "False. Baselines can only be changed through approved Change Requests. Changing the baseline just to hide poor performance is unethical.\n"
+    },
+    {
+      "id": 94,
+      "category": "⚡ Quick-Fire Review",
+      "front": "True or False: A Project Management Plan is required for small projects.\n",
+      "back": "True, but it should be tailored. A small project plan might be a 2-page document, while a mega-project plan might be hundreds of pages.\n"
+    },
+    {
+      "id": 95,
+      "category": "⚡ Quick-Fire Review",
+      "front": "Which approach uses \"Servant Leadership\" as a primary planning enabler?\n",
+      "back": "Agile. The leader clears the path (removes impediments) so the team can execute the plan they created.\n"
+    },
+    {
+      "id": 96,
+      "category": "⚡ Quick-Fire Review",
+      "front": "What is the \"Cone of Uncertainty\"?\n",
+      "back": "The concept that estimates are very inaccurate (wide range) at the start of learning/planning and become more accurate (narrow range) as the project progresses.\n"
+    },
+    {
+      "id": 97,
+      "category": "⚡ Quick-Fire Review",
+      "front": "What is Parkinson's Law?\n",
+      "back": "\"Work expands to fill the time available for its completion.\" (Reason to use time-boxing/Sprints).\n"
+    },
+    {
+      "id": 98,
+      "category": "⚡ Quick-Fire Review",
+      "front": "What is Student Syndrome?\n",
+      "back": "Procrastination: waiting until the last possible moment to apply oneself to a task. (Another reason for Sprints/Milestones).\n"
+    },
+    {
+      "id": 99,
+      "category": "⚡ Quick-Fire Review",
+      "front": "What is the Critical Path?\n",
+      "back": "The sequence of activities that represents the longest path through a project, which determines the shortest possible project duration.\n"
+    },
+    {
+      "id": 100,
+      "category": "⚡ Quick-Fire Review",
+      "front": "If you have zero float (slack) on an activity, where is it located?\n",
+      "back": "On the Critical Path. Any delay to this activity will delay the project finish date.\n"
+    }
+  ]
+}

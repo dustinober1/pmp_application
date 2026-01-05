@@ -11,6 +11,7 @@
   import {
     getQuickStats,
     getFlashcardsByDomain,
+    prefetchDomains,
     type Flashcard,
     type DomainManifest
   } from "$lib/utils/flashcardsData";
@@ -48,7 +49,7 @@
   let error: string | null = $state(null);
 
   // Domain filter state
-  let selectedDomain = $state<string>('all');
+  let selectedDomain = $state<string>('people');
 
   // Search state
   let searchQuery = $state('');
@@ -311,6 +312,9 @@
           dueTodayCount = cardStats.cardsDue;
         }
       }, 100);
+      
+      // Start prefetching other domains in the background
+      prefetchDomains(defaultDomain);
     } catch (err) {
       console.error('Failed to load flashcards:', err);
       error = err instanceof Error ? err.message : 'Failed to load flashcards';

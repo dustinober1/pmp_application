@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { studyMode, type StudyModeStore } from '$lib/stores/studyMode';
-  import { getFlashcardsByDomain, type Flashcard } from '$lib/utils/flashcardsData';
+  import { getFlashcardsByDomain, prefetchDomains, type Flashcard } from '$lib/utils/flashcardsData';
   import FlashcardStudyCard from '$lib/components/FlashcardStudyCard.svelte';
   import FlashcardRatingButtons from '$lib/components/FlashcardRatingButtons.svelte';
   import LoadingState from '$lib/components/LoadingState.svelte';
@@ -85,15 +85,28 @@
   // Load flashcards on mount
   onMount(async () => {
     try {
-      const peopleCards = await getFlashcardsByDomain('people');
-      const processCards = await getFlashcardsByDomain('process');
-      const businessCards = await getFlashcardsByDomain('business');
-
+      // Load default domain first for quick UI display
+      const defaultDomain = 'people';
+      const peopleCards = await getFlashcardsByDomain(defaultDomain);
+      allFlashcards = peopleCards;
+      
+      // Show UI immediately after first domain loads
+      loading = false;
+      
+      // Start prefetching other domains in the background
+      prefetchDomains(defaultDomain);
+      
+      // Then load remaining domains (this happens after UI is visible)
+      const [processCards, businessCards] = await Promise.all([
+        getFlashcardsByDomain('process'),
+        getFlashcardsByDomain('business')
+      ]);
+      
+      // Add to cache
       allFlashcards = [...peopleCards, ...processCards, ...businessCards];
     } catch (err) {
       console.error('Failed to load flashcards:', err);
       error = err instanceof Error ? err.message : 'Failed to load flashcards';
-    } finally {
       loading = false;
     }
   });

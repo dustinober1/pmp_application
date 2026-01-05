@@ -1,0 +1,612 @@
+{
+  "meta": {
+    "title": "PMP 2026 Flashcards: People Domain – Task 3",
+    "domain": "People (33%)",
+    "task": "Lead the project team",
+    "ecoReference": "Domain I, Task 3",
+    "description": "",
+    "file": "guide/appendices/flashcards-people-task3-lead-team.md"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "category": "Team Formation and Development",
+      "front": "What is the PMP exam's definition of \"Acquire Team\"?",
+      "back": "Getting the right people with the right availability. Artifacts: Skills matrix, RACI, Resource calendars."
+    },
+    {
+      "id": 2,
+      "category": "Team Formation and Development",
+      "front": "What is the PMP exam's definition of \"Develop Team\"?",
+      "back": "Improving skills, trust, and collaboration. Artifacts: Team Charter, training, mentoring, team-building."
+    },
+    {
+      "id": 3,
+      "category": "Team Formation and Development",
+      "front": "What is the PMP exam's definition of \"Manage Team\"?",
+      "back": "Tracking performance and resolving issues. Artifacts: Issue log, feedback, conflict resolution."
+    },
+    {
+      "id": 4,
+      "category": "Team Formation and Development",
+      "front": "What does \"Psychological Safety\" mean for a project team?",
+      "back": "An environment where team members can speak up, ask questions, or admit mistakes without fear of punishment or humiliation."
+    },
+    {
+      "id": 5,
+      "category": "Team Formation and Development",
+      "front": "Why is diversity important in team formation?",
+      "back": "Diverse teams solve problems better because they think differently (cognitive diversity) and avoid groupthink."
+    },
+    {
+      "id": 6,
+      "category": "Team Formation and Development",
+      "front": "Describe the Forming stage of Tuckman's ladder.",
+      "back": "Team is polite, roles are unclear, productivity is low. Leader needs to be Directive."
+    },
+    {
+      "id": 7,
+      "category": "Team Formation and Development",
+      "front": "Describe the Storming stage of Tuckman's ladder.",
+      "back": "Conflict arises as people push boundaries. Trust is low. Leader needs to be a Coach/Facilitator."
+    },
+    {
+      "id": 8,
+      "category": "Team Formation and Development",
+      "front": "Describe the Norming stage of Tuckman's ladder.",
+      "back": "Team starts to resolve differences, appreciate strengths, and respect the leader. Productivity increases."
+    },
+    {
+      "id": 9,
+      "category": "Team Formation and Development",
+      "front": "Describe the Performing stage of Tuckman's ladder.",
+      "back": "High alignment, high trust, high productivity. Team is autonomous. Leader delegates."
+    },
+    {
+      "id": 10,
+      "category": "Team Formation and Development",
+      "front": "Describe the Adjourning stage of Tuckman's ladder.",
+      "back": "Breaking up the team after project completion. Focus on celebration and closure."
+    },
+    {
+      "id": 11,
+      "category": "Motivation Theories",
+      "front": "Summarize Herzberg's Two-Factor Theory.",
+      "back": "Hygiene Factors (pay, safety) prevent dissatisfaction but don't motivate. Motivators (growth, recognition) drive performance."
+    },
+    {
+      "id": 12,
+      "category": "Motivation Theories",
+      "front": "According to Herzberg, will a salary increase motivate high performance in the long run?",
+      "back": "No. Money is a Hygiene factor. It stops them from quitting (dissatisfaction), but doesn't create drive (motivation)."
+    },
+    {
+      "id": 13,
+      "category": "Motivation Theories",
+      "front": "Summarize McClelland's Acquired Needs Theory.",
+      "back": "People are driven by one dominant need: Achievement (nAch), Affiliation (nAff), or Power (nPow)."
+    },
+    {
+      "id": 14,
+      "category": "Motivation Theories",
+      "front": "How do you motivate someone with high nAch (Achievement)?",
+      "back": "Give them challenging problems, clear feedback, and personal responsibility."
+    },
+    {
+      "id": 15,
+      "category": "Motivation Theories",
+      "front": "How do you motivate someone with high nAff (Affiliation)?",
+      "back": "Place them in a collaborative team environment; focus on relationships and harmony."
+    },
+    {
+      "id": 16,
+      "category": "Motivation Theories",
+      "front": "How do you motivate someone with high nPow (Power)?",
+      "back": "Give them leadership roles, influence, or the chance to present to executives."
+    },
+    {
+      "id": 17,
+      "category": "Motivation Theories",
+      "front": "Summarize Maslow's Hierarchy of Needs.",
+      "back": "Needs are met in order: Physiological -> Safety -> Social/Belonging -> Esteem -> Self-Actualization."
+    },
+    {
+      "id": 18,
+      "category": "Motivation Theories",
+      "front": "Summarize McGregor's Theory X vs. Theory Y.",
+      "back": "Theory X = \"People are lazy; need control\" (Dictator). Theory Y = \"People want to grow; need support\" (Servant Leader)."
+    },
+    {
+      "id": 19,
+      "category": "Motivation Theories",
+      "front": "Summarize Pink's Drive theory (3 elements).",
+      "back": "Autonomy (control over work), Mastery (getting better), Purpose (meaningful contribution)."
+    },
+    {
+      "id": 20,
+      "category": "Motivation Theories",
+      "front": "Summarize Vroom's Expectancy Theory.",
+      "back": "Motivation = Expectancy (I can do it) x Instrumentality (I will get the reward) x Valence (I want the reward)."
+    },
+    {
+      "id": 21,
+      "category": "Motivation Theories",
+      "front": "Summarize Adams' Equity Theory.",
+      "back": "People compare their effort/reward ratio to others. If they perceive unfairness (inequity), motivation drops."
+    },
+    {
+      "id": 22,
+      "category": "Motivation Theories",
+      "front": "What is Ouchi's Theory Z?",
+      "back": "Japanese management style focused on long-term loyalty, collective decision-making, and holistic well-being."
+    },
+    {
+      "id": 23,
+      "category": "Leadership Styles",
+      "front": "What is Servant Leadership?",
+      "back": "A leadership philosophy where the leader's primary goal is to serve the team—remove blockers, provide resources, and shield them from distraction."
+    },
+    {
+      "id": 24,
+      "category": "Leadership Styles",
+      "front": "What is Laissez-Faire leadership?",
+      "back": "\"Hands-off.\" The team makes all decisions. Effective for highly skilled experts; dangerous for inexperienced teams."
+    },
+    {
+      "id": 25,
+      "category": "Leadership Styles",
+      "front": "What is Transactional leadership?",
+      "back": "Focuses on rewards and punishments to ensure compliance (quid pro quo)."
+    },
+    {
+      "id": 26,
+      "category": "Leadership Styles",
+      "front": "What is Transformational leadership?",
+      "back": "Inspires the team with a vision and encourages innovation/change."
+    },
+    {
+      "id": 27,
+      "category": "Leadership Styles",
+      "front": "What is Situational Leadership?",
+      "back": "Adapting your style (Directing, Coaching, Supporting, Delegating) based on the team member's competence and commitment."
+    },
+    {
+      "id": 28,
+      "category": "Leading Virtual Teams",
+      "front": "What is the #1 challenge for virtual teams?",
+      "back": "Communication (lack of non-verbal cues) and Trust."
+    },
+    {
+      "id": 29,
+      "category": "Leading Virtual Teams",
+      "front": "How do you handle timezone differences in a virtual team?",
+      "back": "Share the pain (rotate meeting times), use asynchronous communication for status, and overlap hours for collaboration."
+    },
+    {
+      "id": 30,
+      "category": "Leading Virtual Teams",
+      "front": "What defines a \"Fishbowl Window\" in virtual teams?",
+      "back": "A scheduled time when all team members (regardless of location) are online simultaneously for real-time collaboration."
+    },
+    {
+      "id": 31,
+      "category": "Performance Management",
+      "front": "What is the first step when a team member underperforms?",
+      "back": "Meet privately to understand the root cause (Diagnose before prescribing)."
+    },
+    {
+      "id": 32,
+      "category": "Performance Management",
+      "front": "What is a PIP (Performance Improvement Plan)?",
+      "back": "A formal document for serious/persistent issues involving clear standards, timelines, and consequences. It is a LAST RESORT on the exam (after coaching fails)."
+    },
+    {
+      "id": 33,
+      "category": "Performance Management",
+      "front": "If a team member lacks the skill to do the job, what is the correct response?",
+      "back": "Provide training, pair programming, or mentoring (Help them succeed). Do not fire them immediately."
+    },
+    {
+      "id": 34,
+      "category": "Performance Management",
+      "front": "If a team member has the skill but lacks the will (motivation), what is the response?",
+      "back": "Find out what motivates them (Theories) or if there is a hygiene blocker (burnout, equipment)."
+    },
+    {
+      "id": 35,
+      "category": "Performance Management",
+      "front": "What is the \"Recognition Formula\" for high impact?",
+      "back": "Specific + Timely + Personal + Proportional."
+    },
+    {
+      "id": 36,
+      "category": "Agile Leadership & Ceremonies",
+      "front": "What is the Sprint Planning ceremony?",
+      "back": "Developing the plan for the sprint. PO defines \"What\", Team defines \"How\". Output: Sprint Goal + Sprint Backlog."
+    },
+    {
+      "id": 37,
+      "category": "Agile Leadership & Ceremonies",
+      "front": "What is the Daily Scrum (Standup)?",
+      "back": "A 15-minute alignment meeting for the Developers. \"What did I do? What will I do? Any blockers?\""
+    },
+    {
+      "id": 38,
+      "category": "Agile Leadership & Ceremonies",
+      "front": "Who runs the Daily Scrum?",
+      "back": "The Development Team. The Scrum Master ensures it happens but does not \"run\" it."
+    },
+    {
+      "id": 39,
+      "category": "Agile Leadership & Ceremonies",
+      "front": "What is the Sprint Review (Demo)?",
+      "back": "Inspecting the working increment with stakeholders at the end of the sprint to get feedback."
+    },
+    {
+      "id": 40,
+      "category": "Agile Leadership & Ceremonies",
+      "front": "What is the Sprint Retrospective?",
+      "back": "The team inspects ITSELF (processes, relationships) to identify improvements for the next sprint."
+    },
+    {
+      "id": 41,
+      "category": "Agile Leadership & Ceremonies",
+      "front": "If the team consistently fails to finish work in a sprint, what should happen?",
+      "back": "Discuss in Retrospective. Likely root causes: Overcommitment, unclear stories, or external interruptions."
+    },
+    {
+      "id": 42,
+      "category": "Agile Leadership & Ceremonies",
+      "front": "What is the \"Definition of Ready\"?",
+      "back": "Criteria that a user story must meet BEFORE it is accepted into a sprint (e.g., clear acceptance criteria, dependencies resolved)."
+    },
+    {
+      "id": 43,
+      "category": "Agile Leadership & Ceremonies",
+      "front": "What is the \"Definition of Done\"?",
+      "back": "The quality checklist that must be met for a work item to be considered complete (e.g., coded, tested, documented)."
+    },
+    {
+      "id": 44,
+      "category": "Execution & Flow",
+      "front": "What is a Work Authorization System (WAS)?",
+      "back": "A predictive tool to ensure work is done at the right time and in the right sequence. Prevents \"gold plating\" or starting without approval."
+    },
+    {
+      "id": 45,
+      "category": "Execution & Flow",
+      "front": "What is the difference between an Impediment and a Risk?",
+      "back": "Impediment = Blocking you NOW. Risk = May block you in the FUTURE."
+    },
+    {
+      "id": 46,
+      "category": "Execution & Flow",
+      "front": "What is the difference between an Issue and a Risk?",
+      "back": "Issue = Has happened (Facts). Risk = Might happen (Uncertainty)."
+    },
+    {
+      "id": 47,
+      "category": "Execution & Flow",
+      "front": "A risk has occurred. What do you do?",
+      "back": "1) Execute the risk response plan, 2) Log it as an Issue, 3) Communicate."
+    },
+    {
+      "id": 48,
+      "category": "Execution & Flow",
+      "front": "What is Knowledge Management in execution?",
+      "back": "Ensuring \"Explicit\" knowledge (docs) and \"Tacit\" knowledge (experience) are shared to prevent repeating mistakes."
+    },
+    {
+      "id": 49,
+      "category": "Execution & Flow",
+      "front": "How do you transfer Tacit Knowledge?",
+      "back": "Mentoring, pairing, shadowing, communities of practice, and social interaction. (You can't just write it down)."
+    },
+    {
+      "id": 50,
+      "category": "Execution & Flow",
+      "front": "When should Lessons Learned be captured?",
+      "back": "Continuously! (e.g., at every Retrospective or phase gate), not just at the end of the project."
+    },
+    {
+      "id": 51,
+      "category": "Key Terms & Concepts",
+      "front": "What is Velocity?",
+      "back": "The measure of how much work a team can complete in a sprint (usually story points). Used for forecasting."
+    },
+    {
+      "id": 52,
+      "category": "Key Terms & Concepts",
+      "front": "What is Burnup Chart?",
+      "back": "Shows work completed vs. total work over time. Tracks progress toward a goal."
+    },
+    {
+      "id": 53,
+      "category": "Key Terms & Concepts",
+      "front": "What is a Burndown Chart?",
+      "back": "Shows work REMAINING over time. Ideally trends down to zero."
+    },
+    {
+      "id": 54,
+      "category": "Key Terms & Concepts",
+      "front": "What is a Kanban Board?",
+      "back": "A visual tool to track work flow (To Do -> In Progress -> Done) and limit Work In Progress (WIP)."
+    },
+    {
+      "id": 55,
+      "category": "Key Terms & Concepts",
+      "front": "What is WIP Limit?",
+      "back": "A constraint on the number of items allowed in a specific stage. Prevents bottlenecks and context switching."
+    },
+    {
+      "id": 56,
+      "category": "Key Terms & Concepts",
+      "front": "What is Resource Smoothing?",
+      "back": "Adjusting activities within their float to minimize resource fluctuation. Does NOT change the critical path."
+    },
+    {
+      "id": 57,
+      "category": "Key Terms & Concepts",
+      "front": "What is Resource Leveling?",
+      "back": "Balancing demand with supply. Often extends the schedule (changes critical path) because resources are constrained."
+    },
+    {
+      "id": 58,
+      "category": "Key Terms & Concepts",
+      "front": "What is EI (Emotional Intelligence) and its 4 domains?",
+      "back": "Self-Awareness, Self-Management, Social Awareness, Relationship Management. Critical for leadership."
+    },
+    {
+      "id": 59,
+      "category": "Key Terms & Concepts",
+      "front": "What is Colocation?",
+      "back": "Placing team members in the same physical space (\"War Room\") to enhance communication (Osmotic Communication)."
+    },
+    {
+      "id": 60,
+      "category": "Key Terms & Concepts",
+      "front": "What is Osmotic Communication?",
+      "back": "Information absorbed by overhearing conversations in a shared space. A benefit of colocation."
+    },
+    {
+      "id": 61,
+      "category": "Problem Solving Scenarios",
+      "front": "Scenario: A senior developer is refusing to mentor junior staff.",
+      "back": "Check motivation (WIIFM). Explain the value. Make mentoring part of their performance goals (nPow or nAch)."
+    },
+    {
+      "id": 62,
+      "category": "Problem Solving Scenarios",
+      "front": "Scenario: The team is burnt out and quality is dropping.",
+      "back": "Protect the team. Reduce scope/WIP. Ensure breaks. Servant Leadership."
+    },
+    {
+      "id": 63,
+      "category": "Problem Solving Scenarios",
+      "front": "Scenario: A functional manager pulls a key resource away.",
+      "back": "Negotiate. Explain the impact on the project. Do not just \"accept\" it without communicating the consequence (Risk -> Issue)."
+    },
+    {
+      "id": 64,
+      "category": "Problem Solving Scenarios",
+      "front": "Scenario: Two team members have a \"personality clash.\"",
+      "back": "It's likely a Process issue (roles/goals) in disguise. Investigate the root cause before treating it as personal only."
+    },
+    {
+      "id": 65,
+      "category": "Problem Solving Scenarios",
+      "front": "Scenario: Stakeholders keep asking team members for \"small favors\" securely.",
+      "back": "Stop it. Channel requests through the backlog/PO/Change Control. Protect the team's focus."
+    },
+    {
+      "id": 66,
+      "category": "Problem Solving Scenarios",
+      "front": "Scenario: A team member dominates the Daily Standup.",
+      "back": "Coach them offline. Remind them of the purpose (alignment, not status report). Enforce the timebox."
+    },
+    {
+      "id": 67,
+      "category": "Problem Solving Scenarios",
+      "front": "Scenario: A team member is silent during Retrospectives.",
+      "back": "Safety issue. Use anonymous techniques (writing on cards) or small groups to encourage participation."
+    },
+    {
+      "id": 68,
+      "category": "Problem Solving Scenarios",
+      "front": "Scenario: You inherit a team that is used to being micromanaged.",
+      "back": "Start with \"Theory Y\" but provide structure. Gradually increase autonomy as they build confidence (Situational Leadership)."
+    },
+    {
+      "id": 69,
+      "category": "Recognition & Rewards",
+      "front": "Should you reward individual heroics in an Agile team?",
+      "back": "Be careful. Agile emphasizes TEAM success. Rewarding individual heroes can undermine collaboration. Reward the TEAM."
+    },
+    {
+      "id": 70,
+      "category": "Recognition & Rewards",
+      "front": "What is a \"Hygiene Factor\" regarding rewards?",
+      "back": "Salary/Safety. If these are missing, people leave. But adding more doesn't necessarily make them work harder."
+    },
+    {
+      "id": 71,
+      "category": "Recognition & Rewards",
+      "front": "Why is \"Public Recognition\" not always the best choice?",
+      "back": "Introverts may feel embarrassed. Always tailor recognition to the individual's preference."
+    },
+    {
+      "id": 72,
+      "category": "2026 Skills focus",
+      "front": "What is the \"T-Shaped Skills\" concept?",
+      "back": "Deep expertise in one area (vertical bar) + broad ability to collaborate across other areas (horizontal bar). Ideal for Agile teams."
+    },
+    {
+      "id": 73,
+      "category": "2026 Skills focus",
+      "front": "What is an \"I-Shaped\" person?",
+      "back": "Specialist. Deep knowledge in one area only. Can create bottlenecks."
+    },
+    {
+      "id": 74,
+      "category": "2026 Skills focus",
+      "front": "What is \"Swarming\"?",
+      "back": "When multiple team members work together on a single blocked or high-priority item to finish it faster."
+    },
+    {
+      "id": 75,
+      "category": "2026 Skills focus",
+      "front": "What is \"Facilitation\"?",
+      "back": "The art of guiding a group to a decision or outcome without dictating the content. A core PM skill."
+    },
+    {
+      "id": 76,
+      "category": "2026 Skills focus",
+      "front": "What is \"Coaching\"?",
+      "back": "Helping someone solve their own problems and grow, rather than giving them the answers."
+    },
+    {
+      "id": 77,
+      "category": "2026 Skills focus",
+      "front": "What is \"Mentoring\"?",
+      "back": "Sharing experience and advice to help someone develop professionally (usually a longer-term relationship than coaching)."
+    },
+    {
+      "id": 78,
+      "category": "Execution: Data & Reporting",
+      "front": "What comes first: Work Performance Data or Work Performance Information?",
+      "back": "Data (Raw) -> Information (Analyzed) -> Reports (Communicated)."
+    },
+    {
+      "id": 79,
+      "category": "Execution: Data & Reporting",
+      "front": "What is \"Work Performance Information\"?",
+      "back": "The result of comparing Data (actuals) to the Plan (baselines). E.g., \"We are 2 days behind schedule.\""
+    },
+    {
+      "id": 80,
+      "category": "Execution: Data & Reporting",
+      "front": "Who creates Work Performance Data?",
+      "back": "The Team (while doing the work)."
+    },
+    {
+      "id": 81,
+      "category": "Impediment Removal",
+      "front": "Who is responsible for removing impediments in Scrum?",
+      "back": "The Scrum Master."
+    },
+    {
+      "id": 82,
+      "category": "Impediment Removal",
+      "front": "If a blocker is outside the team's control, who handles it?",
+      "back": "The PM/Scrum Master must escalate or negotiate with the organization to resolve it."
+    },
+    {
+      "id": 83,
+      "category": "Impediment Removal",
+      "front": "How should impediments be tracked?",
+      "back": "Visibly! On an Impediment Log or physically on the Kanban board (blocked column/sticker)."
+    },
+    {
+      "id": 84,
+      "category": "Change Management (People Side)",
+      "front": "What is the ADKAR model?",
+      "back": "A model for individual change: Awareness, Desire, Knowledge, Ability, Reinforcement."
+    },
+    {
+      "id": 85,
+      "category": "Change Management (People Side)",
+      "front": "Why do people resist change?",
+      "back": "Fear of the unknown, loss of status/control, or lack of trust."
+    },
+    {
+      "id": 86,
+      "category": "Change Management (People Side)",
+      "front": "How do you overcome resistance to change?",
+      "back": "Involve people in the decision (Participation = Ownership), communicate the \"Why\" (Vision), and provide training/support."
+    },
+    {
+      "id": 87,
+      "category": "Self-Organizing Teams",
+      "front": "What decisions should a Self-Organizing team make?",
+      "back": "\"How\" to do the work, \"How much\" they can do (estimates), and who does which task."
+    },
+    {
+      "id": 88,
+      "category": "Self-Organizing Teams",
+      "front": "Does \"Self-Organizing\" mean there is no leader?",
+      "back": "No. It means the leadership style is \"Servant Leadership\" rather than \"Command and Control.\""
+    },
+    {
+      "id": 89,
+      "category": "Self-Organizing Teams",
+      "front": "What is the best way to assign tasks in an Agile team?",
+      "back": "Team members volunteer/pull tasks. They are NOT assigned by the PM."
+    },
+    {
+      "id": 90,
+      "category": "Training & Growth",
+      "front": "When is Training a project cost?",
+      "back": "If the skills are needed specifically for the project deliverables, training costs are part of the project budget."
+    },
+    {
+      "id": 91,
+      "category": "Training & Growth",
+      "front": "What is \"Cross-Training\"?",
+      "back": "Teaching team members each other's jobs. Reduces risk (key person dependency) and increases flexibility (T-shaped skills)."
+    },
+    {
+      "id": 92,
+      "category": "Training & Growth",
+      "front": "If a team member asks for training unrelated to the project, what do you do?",
+      "back": "Check policy. If it motivates them (Growth) and fits the budget/time, it can be a good reward. If strictly project-focused, clarify the boundary."
+    },
+    {
+      "id": 93,
+      "category": "Exam \"Mindset\" Checks",
+      "front": "Mindset: A problem arises. What is your FIRST instinct?",
+      "back": "Analyze/Understand. (Don't Act/Fire/Replace/Escalate until you understand)."
+    },
+    {
+      "id": 94,
+      "category": "Exam \"Mindset\" Checks",
+      "front": "Mindset: You have a choice between \"Following the Plan\" and \"Responding to Change\" (Agile value).",
+      "back": "Respond to change (if it adds value). The plan serves the project; the project doesn't serve the plan."
+    },
+    {
+      "id": 95,
+      "category": "Exam \"Mindset\" Checks",
+      "front": "Mindset: You have a choice between \"Emailing\" and \"Talking Face-to-Face\".",
+      "back": "Face-to-Face (or video). High-bandwidth communication is preferred."
+    },
+    {
+      "id": 96,
+      "category": "Exam \"Mindset\" Checks",
+      "front": "Mindset: A team member makes a mistake. Do you punish them?",
+      "back": "No. You use it as a learning opportunity (Retrospective/Lesson Learned). Punishment kills psychological safety."
+    },
+    {
+      "id": 97,
+      "category": "Exam \"Mindset\" Checks",
+      "front": "Mindset: The sponsor wants to cut quality to meet a deadline.",
+      "back": "Push back. Quality is usually non-negotiable (Scope/Time/Cost trade-offs are okay, but professional standards must be maintained)."
+    },
+    {
+      "id": 98,
+      "category": "Exam \"Mindset\" Checks",
+      "front": "Mindset: Who is accountable for the quality of the work?",
+      "back": "The Team (Agile) or the person doing the work (Predictive). The PM is accountable for the process of quality."
+    },
+    {
+      "id": 99,
+      "category": "Exam \"Mindset\" Checks",
+      "front": "Mindset: Who defines \"Value\"?",
+      "back": "The Customer (or Product Owner representing them). Not the PM."
+    },
+    {
+      "id": 100,
+      "category": "Exam \"Mindset\" Checks",
+      "front": "Mindset: Lead the _; Manage the _.",
+      "back": "Lead the People; Manage the Process/Work. (You don't \"manage\" people like inventory)."
+    }
+  ]
+}

@@ -1,0 +1,492 @@
+{
+  "meta": {
+    "title": "⚡ Process Task: Evaluate Project Status",
+    "domain": "Process",
+    "task": "Evaluate project status",
+    "ecoReference": "Process Task 9",
+    "description": "Flashcards for PMP Process Domain Task 9",
+    "file": "guide/appendices/flashcards-process-task9-status.md"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "category": "📊 Work Performance Data Flow",
+      "front": "What is Work Performance Data (WPD)?\n",
+      "back": "Raw observations and measurements identified during activities being performed (e.g., % complete, start/finish dates, actual costs). Output of Direct and Manage Project Work.\n"
+    },
+    {
+      "id": 2,
+      "category": "📊 Work Performance Data Flow",
+      "front": "What is Work Performance Information (WPI)?\n",
+      "back": "The performance data collected from various controlling processes, analyzed in context and integrated based on relationships across areas (e.g., SPI, CPI, Forecasts).\n"
+    },
+    {
+      "id": 3,
+      "category": "📊 Work Performance Data Flow",
+      "front": "What are Work Performance Reports (WPR)?\n",
+      "back": "The physical or electronic representation of work performance information compiled in project documents, intended to generate decisions (e.g., Status Reports, Memos, Dashboards).\n"
+    },
+    {
+      "id": 4,
+      "category": "📊 Work Performance Data Flow",
+      "front": "What is the correct flow of performance data?\n",
+      "back": "Data (WPD) -> Information (WPI) -> Reports (WPR).\n"
+    },
+    {
+      "id": 5,
+      "category": "📊 Work Performance Data Flow",
+      "front": "Which process outputs Work Performance Data?\n",
+      "back": "Direct and Manage Project Work. (Executing).\n"
+    },
+    {
+      "id": 6,
+      "category": "📊 Work Performance Data Flow",
+      "front": "Which process group generates Work Performance Information?\n",
+      "back": "Monitoring and Controlling (e.g., Control Schedule, Control Scope, Control Costs).\n"
+    },
+    {
+      "id": 7,
+      "category": "📊 Work Performance Data Flow",
+      "front": "Which process outputs Work Performance Reports?\n",
+      "back": "Monitor and Control Project Work.\n"
+    },
+    {
+      "id": 8,
+      "category": "📊 Work Performance Data Flow",
+      "front": "What is a Dashboard?\n",
+      "back": "A visual display of the most important information needed to achieve one or more objectives, consolidated and arranged on a single screen so the information can be monitored at a glance.\n"
+    },
+    {
+      "id": 9,
+      "category": "📊 Work Performance Data Flow",
+      "front": "What is a Status Report?\n",
+      "back": "A report that describes where the project stands at a specific point in time (Snapshpot).\n"
+    },
+    {
+      "id": 10,
+      "category": "📊 Work Performance Data Flow",
+      "front": "What is a Progress Report?\n",
+      "back": "A report that describes what the project team has accomplished (Historic).\n\n\n"
+    },
+    {
+      "id": 11,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "What is Trend Analysis?\n",
+      "back": "An analytical technique that uses mathematical models to forecast future outcomes based on historical results (e.g., Is CPI getting better or worse?).\n"
+    },
+    {
+      "id": 12,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "What is Variance Analysis?\n",
+      "back": "A technique for determining the cause and degree of difference between the baseline and actual performance.\n"
+    },
+    {
+      "id": 13,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "Scenario: You have a CPI of 1.2 and SPI of 0.8. What should you report?\n",
+      "back": "The project is Under Budget but Behind Schedule. You might recommend using the extra money to Crash the schedule.\n"
+    },
+    {
+      "id": 14,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "Scenario: Your BAC is $100k. You are 50% done. You spent $60k. Calculate CV.\n",
+      "back": "EV = 50k. AC = 60k. CV = 50k - 60k = -$10k. (Over Budget).\n"
+    },
+    {
+      "id": 15,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "Scenario: Using the previous card ($10k over budget), you expect this rate of spending to continue. Calculate EAC.\n",
+      "back": "CPI = 50/60 = 0.83.\nEAC = BAC / CPI = 100k / 0.83 = $120,481.\n"
+    },
+    {
+      "id": 16,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "Scenario: Using the same data ($10k over budget), but the overage was a one-time setup fee. Future work will cost as planned. Calculate EAC.\n",
+      "back": "EAC = AC + (BAC - EV) = 60k + (100k - 50k) = $110k.\n"
+    },
+    {
+      "id": 17,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "What is TCPI (To-Complete Performance Index)?\n",
+      "back": "A measure of the cost performance required to be achieved with the remaining resources to meet a specified management goal (BAC or EAC).\n"
+    },
+    {
+      "id": 18,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "If TCPI > 1.0, what does it mean?\n",
+      "back": "The team needs to work more efficiently than planned to meet the budget. (Harder).\n"
+    },
+    {
+      "id": 19,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "If TCPI < 1.0, what does it mean?\n",
+      "back": "The team can work less efficiently than planned and still meet the budget. (Easier).\n"
+    },
+    {
+      "id": 20,
+      "category": "📈 EVM Forecasting & Analysis",
+      "front": "What is Management by Exception?\n",
+      "back": "A practice where only significant deviations from the plan (exceeding thresholds) are brought to the attention of management.\n\n\n"
+    },
+    {
+      "id": 21,
+      "category": "🚧 Integrated Change Control",
+      "front": "What is the primary goal of Perform Integrated Change Control?\n",
+      "back": "To review all change requests, approve changes, and manage changes to deliverables and organizational process assets. It protects the Baselines.\n"
+    },
+    {
+      "id": 22,
+      "category": "🚧 Integrated Change Control",
+      "front": "Who is responsible for approving Change Requests?\n",
+      "back": "The Change Control Board (CCB) or the person identified in the Change Management Plan (sometimes the PM for small changes).\n"
+    },
+    {
+      "id": 23,
+      "category": "🚧 Integrated Change Control",
+      "front": "What is a Change Control Board (CCB)?\n",
+      "back": "A formally chartered group responsible for reviewing, evaluating, approving, delaying, or rejecting changes to the project.\n"
+    },
+    {
+      "id": 24,
+      "category": "🚧 Integrated Change Control",
+      "front": "Scenario: A stakeholder asks for a change. What is the FIRST thing you do?\n",
+      "back": "Analyze the impact of the change on Scope, Schedule, Cost, Quality, and Risk. (Check the constraints before saying yes/no).\n"
+    },
+    {
+      "id": 25,
+      "category": "🚧 Integrated Change Control",
+      "front": "Scenario: You analyze a change and it has zero cost/schedule impact. Can you implement it?\n",
+      "back": "Typically Yes (if you have authority), but you should still document it. If it affects the Baseline, it needs CCB approval.\n"
+    },
+    {
+      "id": 26,
+      "category": "🚧 Integrated Change Control",
+      "front": "What happens to a Rejected change request?\n",
+      "back": "It is documented in the Change Log as \"Rejected\" and communicated to the stakeholder.\n"
+    },
+    {
+      "id": 27,
+      "category": "🚧 Integrated Change Control",
+      "front": "What is Configuration Management?\n",
+      "back": "A subsystem of the overall project management system. It deals with the functional and physical characteristics of the product (Version Control).\n"
+    },
+    {
+      "id": 28,
+      "category": "🚧 Integrated Change Control",
+      "front": "Scenario: A team member implements a change without approval. What is this called?\n",
+      "back": "Scope Creep (or Uncontrolled Change). It is a failure of Integrated Change Control.\n"
+    },
+    {
+      "id": 29,
+      "category": "🚧 Integrated Change Control",
+      "front": "Does a Change Request always involve scope?\n",
+      "back": "No. It can be for Corrective Action, Preventive Action, or Defect Repair.\n"
+    },
+    {
+      "id": 30,
+      "category": "🚧 Integrated Change Control",
+      "front": "Who typically sits on the CCB?\n",
+      "back": "Key stakeholders, Sponsor, Project Manager (often non-voting), Subject Matter Experts.\n\n\n"
+    },
+    {
+      "id": 31,
+      "category": "📉 Agile Monitoring",
+      "front": "What is a Burnup Chart?\n",
+      "back": "A chart showing the amount of work completed (rising line) and the total scope (work to be done). The gap is remaining work.\n"
+    },
+    {
+      "id": 32,
+      "category": "📉 Agile Monitoring",
+      "front": "What is a Burndown Chart?\n",
+      "back": "A chart showing the remaining work (trending down to zero) over time.\n"
+    },
+    {
+      "id": 33,
+      "category": "📉 Agile Monitoring",
+      "front": "What is a Cumulative Flow Diagram (CFD)?\n",
+      "back": "A chart showing the status of work items (e.g., To Do, In Progress, Done) over time. It helps identify Bottlenecks.\n"
+    },
+    {
+      "id": 34,
+      "category": "📉 Agile Monitoring",
+      "front": "Scenario: On a CFD, the \"In Progress\" band is getting wider and wider. What does this mean?\n",
+      "back": "Cycle Time is increasing. Work is piling up in progress (Bottleneck). You likely need to limit WIP.\n"
+    },
+    {
+      "id": 35,
+      "category": "📉 Agile Monitoring",
+      "front": "What is Lead Time?\n",
+      "back": "The total time from the customer request to the delivery of the product.\n"
+    },
+    {
+      "id": 36,
+      "category": "📉 Agile Monitoring",
+      "front": "What is Cycle Time?\n",
+      "back": "The time from when the team starts working on an item to when it is finished.\n"
+    },
+    {
+      "id": 37,
+      "category": "📉 Agile Monitoring",
+      "front": "What is Throughput?\n",
+      "back": "The number of items passing through a process (completed) per unit of time.\n"
+    },
+    {
+      "id": 38,
+      "category": "📉 Agile Monitoring",
+      "front": "What is Information Radiator?\n",
+      "back": "A large graphical display (e.g., Kanban board, Burndown chart) placed in a high-traffic area to communicate project status to observers.\n"
+    },
+    {
+      "id": 39,
+      "category": "📉 Agile Monitoring",
+      "front": "How often is status inspected in Scrum?\n",
+      "back": "Daily (Daily Scrum/Standup).\n"
+    },
+    {
+      "id": 40,
+      "category": "📉 Agile Monitoring",
+      "front": "Scenario: The Product Owner adds 5 new stories to the backlog mid-sprint. What happens to the Burndown chart?\n",
+      "back": "(Trick question) In a Sprint, scope is usually fixed. If added, the burndown \"spikes up.\" In a Project Burndown, the \"remaining work\" jumps up.\n\n\n"
+    },
+    {
+      "id": 41,
+      "category": "🔍 Risk Monitoring",
+      "front": "What is a Risk Audit?\n",
+      "back": "A type of audit used to consider the effectiveness of the risk management process. (Are we doing risk management well?).\n"
+    },
+    {
+      "id": 42,
+      "category": "🔍 Risk Monitoring",
+      "front": "What is Reserve Analysis (Monitoring)?\n",
+      "back": "Comparing the amount of contingency reserves remaining to the amount of risk remaining. (Do we have enough money left for the remaining risks?).\n"
+    },
+    {
+      "id": 43,
+      "category": "🔍 Risk Monitoring",
+      "front": "What is a Technical Performance Analysis?\n",
+      "back": "Comparing technical accomplishments during project execution to the schedule of technical achievement (e.g., weight, processing speed, bug count).\n"
+    },
+    {
+      "id": 44,
+      "category": "🔍 Risk Monitoring",
+      "front": "What is a Workaround?\n",
+      "back": "An unplanned response to a negative risk event (Issue) that has occurred. Distinguish from \"Contingency Plan\" which is planned.\n"
+    },
+    {
+      "id": 45,
+      "category": "🔍 Risk Monitoring",
+      "front": "Scenario: An identified risk occurs. You execute the plan. What is the next document to update?\n",
+      "back": "The Risk Register (to mark it as occurred/closed) and the Issue Log (if it requires active management).\n\n\n"
+    },
+    {
+      "id": 46,
+      "category": "🧠 Scenarios: Evaluating Status",
+      "front": "Scenario: The Sponsor asks for a report on the project's sustainability impact. Is this part of monitoring?\n",
+      "back": "Yes. Value delivery includes non-financial benefits like social/environmental impact (PMP 2026 focus).\n"
+    },
+    {
+      "id": 47,
+      "category": "🧠 Scenarios: Evaluating Status",
+      "front": "Scenario: You are using a specialized vendor. They are claiming they are \"90% done.\" How do you verify?\n",
+      "back": "Inspections, Audits, or asking for interim deliverables. Do not rely solely on their status report (\"Trust but Verify\").\n"
+    },
+    {
+      "id": 48,
+      "category": "🧠 Scenarios: Evaluating Status",
+      "front": "Scenario: Your SPI is 0.6. The team says \"We are almost done with the big tasks.\" What is the objective truth?\n",
+      "back": "Objective Truth: You are significantly behind schedule. Subjective assurances should be validated against the earned value data.\n"
+    },
+    {
+      "id": 49,
+      "category": "🧠 Scenarios: Evaluating Status",
+      "front": "Scenario: A team member finds a defect. They fix it immediately. Do you need a Change Request?\n",
+      "back": "If it is during development (before baseline/acceptance), usually No. If it is a fix to a baselined deliverable or production system, Yes (Defect Repair).\n"
+    },
+    {
+      "id": 50,
+      "category": "🧠 Scenarios: Evaluating Status",
+      "front": "Scenario: The project status is \"Green\" but the Customer is unhappy. What is the problem?\n",
+      "back": "Stakeholder Engagement failure. Metrics might be green, but \"Value\" or \"Satisfaction\" is red. Talk to the customer.\n\n\n"
+    },
+    {
+      "id": 51,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "True or False: Change Control Boards are only for Waterfall projects.\n",
+      "back": "False. Even in Agile, significant changes (e.g., changing the Product Goal or Budget) often require governance approval.\n"
+    },
+    {
+      "id": 52,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "True or False: Monitor Risks is a one-time process.\n",
+      "back": "False. Risks should be monitored continuously throughout the project.\n"
+    },
+    {
+      "id": 53,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "True or False: Work Performance Data is an Input to \"Monitor and Control Project Work.\"\n",
+      "back": "False. Work Performance Information is the Input. Data goes into the lower-level control processes first.\n"
+    },
+    {
+      "id": 54,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "Calculate: BAC = 200, EV = 150, AC = 180. Cost Variance?\n",
+      "back": "CV = 150 - 180 = -30.\n"
+    },
+    {
+      "id": 55,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "Calculate: BAC = 200, EV = 150, AC = 180. CPI?\n",
+      "back": "CPI = 150 / 180 = 0.83.\n"
+    },
+    {
+      "id": 56,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "What is EAC vs ETC?\n",
+      "back": "- EAC: Total cost at the end (Big number).\n- ETC: Money needed from now until the end (Smaller number).\n"
+    },
+    {
+      "id": 57,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "What is VAC?\n",
+      "back": "Variance at Completion. (Budget surplus/deficit).\n"
+    },
+    {
+      "id": 58,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "What is the formula for VAC?\n",
+      "back": "VAC = BAC - EAC.\n"
+    },
+    {
+      "id": 59,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "What is Corrective Action?\n",
+      "back": "An intentional activity that realigns the performance of the project work with the project management plan. (Fixing the path).\n"
+    },
+    {
+      "id": 60,
+      "category": "⚡ Quick-Fire Status Review",
+      "front": "What is Preventive Action?\n",
+      "back": "An intentional activity that ensures the future performance of the project work is aligned with the project management plan. (Avoiding the pothole).\n\n\n"
+    },
+    {
+      "id": 61,
+      "category": "📂 Reporting & Closing",
+      "front": "What is the Final Report?\n",
+      "back": "A summary of the project performance (Scope, Schedule, Cost, Quality) provided at project closure.\n"
+    },
+    {
+      "id": 62,
+      "category": "📂 Reporting & Closing",
+      "front": "What is a Regression Analysis?\n",
+      "back": "Analyzing the relationship between variables to understand why performance is changing (e.g., does adding people reduce schedule variance?).\n"
+    },
+    {
+      "id": 63,
+      "category": "📂 Reporting & Closing",
+      "front": "Who receives Work Performance Reports?\n",
+      "back": "Stakeholders (as defined in the Communications Management Plan).\n"
+    },
+    {
+      "id": 64,
+      "category": "📂 Reporting & Closing",
+      "front": "What is Exception Reporting?\n",
+      "back": "Reporting primarily on items that have breached control thresholds (Red/Yellow items).\n"
+    },
+    {
+      "id": 65,
+      "category": "📂 Reporting & Closing",
+      "front": "What is Forecast Reporting?\n",
+      "back": "Predicting future project status and performance based on current data (EVM).\n"
+    },
+    {
+      "id": 66,
+      "category": "📂 Reporting & Closing",
+      "front": "Scenario: Your dashboard shows \"Red\" on Schedule. Senior management asks \"Why?\". What do you show them?\n",
+      "back": "Root Cause Analysis (e.g., Fishbone or 5 Whys) explaining why it is red and the corrective action plan.\n"
+    },
+    {
+      "id": 67,
+      "category": "📂 Reporting & Closing",
+      "front": "Scenario: You update the project schedule with actual start/finish dates. What is this process?\n",
+      "back": "Control Schedule.\n"
+    },
+    {
+      "id": 68,
+      "category": "📂 Reporting & Closing",
+      "front": "What is Earned Schedule?\n",
+      "back": "An extension of EVM that uses time units instead of cost units to measure schedule performance. (Solves the \"SPI = 1.0 at the end\" problem).\n"
+    },
+    {
+      "id": 69,
+      "category": "📂 Reporting & Closing",
+      "front": "Scenario: You utilize a Stoplight Chart (RAG). What does RAG stand for?\n",
+      "back": "Red, Amber (Yellow), Green.\n"
+    },
+    {
+      "id": 70,
+      "category": "📂 Reporting & Closing",
+      "front": "What is Management Reserve used for?\n",
+      "back": "Unforeseen work (Unknown Unknowns) that is within the scope of the project. Requires a Change Request to move to Baseline.\n\n\n"
+    },
+    {
+      "id": 71,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: BAC = $1000. PV = $500. EV = $400. AC = $600.\nCalculate SV. Is it ahead or behind?\n",
+      "back": "SV = EV - PV = 400 - 500 = -$100. Behind schedule.\n"
+    },
+    {
+      "id": 72,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: BAC = $1000. PV = $500. EV = $400. AC = $600.\nCalculate CV. Is it under or over budget?\n",
+      "back": "CV = EV - AC = 400 - 600 = -$200. Over budget.\n"
+    },
+    {
+      "id": 73,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: BAC = $1000. PV = $500. EV = $400. AC = $600.\nCalculate SPI.\n",
+      "back": "SPI = 400 / 500 = 0.8.\n"
+    },
+    {
+      "id": 74,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: BAC = $1000. PV = $500. EV = $400. AC = $600.\nCalculate CPI.\n",
+      "back": "CPI = 400 / 600 = 0.67.\n"
+    },
+    {
+      "id": 75,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: BAC = $1000. PV = $500. EV = $400. AC = $600.\nCalculate EAC (assuming typical variance).\n",
+      "back": "EAC = BAC / CPI = 1000 / 0.67 = $1,492.\n"
+    },
+    {
+      "id": 76,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: BAC = $1000. PV = $500. EV = $400. AC = $600.\nCalculate ETC (Money needed to finish).\n",
+      "back": "ETC = EAC - AC = 1492 - 600 = $892.\n"
+    },
+    {
+      "id": 77,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: BAC = $1000. PV = $500. EV = $400. AC = $600.\nCalculate VAC.\n",
+      "back": "VAC = BAC - EAC = 1000 - 1492 = -$492.\n"
+    },
+    {
+      "id": 78,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: BAC = $1000. PV = $500. EV = $400. AC = $600.\nCalculate TCPI (to BAC).\n",
+      "back": "TCPI = (1000 - 400) / (1000 - 600) = 600 / 400 = 1.5.\n(Must be 50% more efficient. Very hard).\n"
+    },
+    {
+      "id": 79,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: If PV is $100 and EV is $100, what is the SV?\n",
+      "back": "0. (On schedule).\n"
+    },
+    {
+      "id": 80,
+      "category": "🔢 More Calculation Practice",
+      "front": "Problem: If AC is $50 and EV is $100, what is the CV?\n",
+      "back": "+$50. (Under budget / Great performance).\n"
+    }
+  ]
+}
