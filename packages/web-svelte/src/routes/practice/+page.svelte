@@ -202,7 +202,7 @@
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 				<!-- Quick 10 -->
 				<button
-					on:click={() => startPresetSession(10, 'shuffle')}
+					onclick={() => startPresetSession(10, 'shuffle')}
 					disabled={starting}
 					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-indigo-600/50 dark:hover:border-indigo-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/20 text-left"
 				>
@@ -220,7 +220,7 @@
 
 				<!-- Standard 25 -->
 				<button
-					on:click={() => startPresetSession(25, 'shuffle')}
+					onclick={() => startPresetSession(25, 'shuffle')}
 					disabled={starting}
 					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-purple-600/50 dark:hover:border-purple-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-purple-500/20 text-left"
 				>
@@ -238,7 +238,7 @@
 
 				<!-- Weak Areas (SRS) -->
 				<button
-					on:click={() => startPresetSession(30, 'srs')}
+					onclick={() => startPresetSession(30, 'srs')}
 					disabled={starting}
 					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-pink-600/50 dark:hover:border-pink-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-pink-500/20 text-left"
 				>

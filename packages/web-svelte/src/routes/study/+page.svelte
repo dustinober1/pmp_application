@@ -239,144 +239,45 @@
 						</div>
 					</div>
 
-					<!-- Sustainability/ESG Section -->
-					<div class="group mt-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 backdrop-blur-md rounded-lg p-6 border border-green-200 dark:border-green-700 shadow-lg hover:shadow-green-500/25 hover:scale-105 transition-all duration-300">
-						<div class="flex items-center justify-center gap-2 mb-4">
-							<span class="text-2xl group-hover:scale-110 transition-transform duration-300">🌱</span>
-							<h3 class="text-lg font-semibold text-green-900 dark:text-green-100">Sustainability & ESG Considerations</h3>
-						</div>
-						<p class="text-sm text-green-800 dark:text-green-200 mb-4 text-center">
-							New for July 2026 ECO - Environmental, Social, and Governance factors in project management
-						</p>
-						<div class="grid sm:grid-cols-3 gap-4">
-							<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-green-200 dark:border-green-700 shadow-md hover:shadow-lg hover:shadow-green-500/20 hover:scale-105 transition-all duration-300">
-								<div class="flex items-center gap-2 mb-2">
-									<span class="text-xl group-hover:scale-110 transition-transform duration-300">🌍</span>
-									<h4 class="font-semibold text-green-900 dark:text-green-100 text-sm">Environmental</h4>
-								</div>
-								<ul class="text-xs text-green-800 dark:text-green-200 space-y-1">
-									<li>• Carbon footprint management</li>
-									<li>• Resource efficiency</li>
-									<li>• Climate risk assessment</li>
-									<li>• Sustainable procurement</li>
-								</ul>
-							</div>
-							<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-green-200 dark:border-green-700 shadow-md hover:shadow-lg hover:shadow-green-500/20 hover:scale-105 transition-all duration-300">
-								<div class="flex items-center gap-2 mb-2">
-									<span class="text-xl group-hover:scale-110 transition-transform duration-300">👥</span>
-									<h4 class="font-semibold text-green-900 dark:text-green-100 text-sm">Social</h4>
-								</div>
-								<ul class="text-xs text-green-800 dark:text-green-200 space-y-1">
-									<li>• Stakeholder inclusivity</li>
-									<li>• Community impact</li>
-									<li>• Labor practices</li>
-									<li>• Health & safety</li>
-								</ul>
-							</div>
-							<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-green-200 dark:border-green-700 shadow-md hover:shadow-lg hover:shadow-green-500/20 hover:scale-105 transition-all duration-300">
-								<div class="flex items-center gap-2 mb-2">
-									<span class="text-xl group-hover:scale-110 transition-transform duration-300">⚖️</span>
-									<h4 class="font-semibold text-green-900 dark:text-green-100 text-sm">Governance</h4>
-								</div>
-								<ul class="text-xs text-green-800 dark:text-green-200 space-y-1">
-									<li>• Ethical leadership</li>
-									<li>• Compliance & reporting</li>
-									<li>• Transparency</li>
-									<li>• Risk management</li>
-								</ul>
-							</div>
-						</div>
-						<div class="mt-4 p-3 bg-green-100/90 dark:bg-green-900/50 backdrop-blur-sm rounded-lg border border-green-300 dark:border-green-600">
-							<p class="text-xs text-green-900 dark:text-green-100 font-medium">
-								💡 <strong>Exam Tip:</strong> ESG considerations are integrated across all three domains. Look for scenarios where sustainable practices impact project decisions, stakeholder engagement, and business value.
-							</p>
-						</div>
-					</div>
 
-					<!-- AI in Project Management Section -->
-					<div class="group mt-6 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/30 backdrop-blur-md rounded-lg p-6 border border-violet-200 dark:border-violet-700 shadow-lg hover:shadow-violet-500/25 hover:scale-105 transition-all duration-300">
-						<div class="flex items-center justify-center gap-2 mb-4">
-							<span class="text-2xl group-hover:scale-110 transition-transform duration-300">🤖</span>
-							<h3 class="text-lg font-semibold text-violet-900 dark:text-violet-100">AI in Project Management</h3>
-						</div>
-						<p class="text-sm text-violet-800 dark:text-violet-200 mb-4 text-center">
-							New for July 2026 ECO - Generative AI, machine learning, and automation tools transforming project delivery
-						</p>
-						<div class="grid sm:grid-cols-3 gap-4">
-							<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-violet-200 dark:border-violet-700 shadow-md hover:shadow-lg hover:shadow-violet-500/20 hover:scale-105 transition-all duration-300">
-								<div class="flex items-center gap-2 mb-2">
-									<span class="text-xl group-hover:scale-110 transition-transform duration-300">📝</span>
-									<h4 class="font-semibold text-violet-900 dark:text-violet-100 text-sm">Documentation</h4>
-								</div>
-								<ul class="text-xs text-violet-800 dark:text-violet-200 space-y-1">
-									<li>• AI-generated project docs</li>
-									<li>• Meeting summaries</li>
-									<li>• Report automation</li>
-									<li>• Requirements analysis</li>
-								</ul>
-							</div>
-							<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-violet-200 dark:border-violet-700 shadow-md hover:shadow-lg hover:shadow-violet-500/20 hover:scale-105 transition-all duration-300">
-								<div class="flex items-center gap-2 mb-2">
-									<span class="text-xl group-hover:scale-110 transition-transform duration-300">📊</span>
-									<h4 class="font-semibold text-violet-900 dark:text-violet-100 text-sm">Analytics</h4>
-								</div>
-								<ul class="text-xs text-violet-800 dark:text-violet-200 space-y-1">
-									<li>• Predictive risk modeling</li>
-									<li>• Schedule forecasting</li>
-									<li>• Resource optimization</li>
-									<li>• Performance insights</li>
-								</ul>
-							</div>
-							<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-violet-200 dark:border-violet-700 shadow-md hover:shadow-lg hover:shadow-violet-500/20 hover:scale-105 transition-all duration-300">
-								<div class="flex items-center gap-2 mb-2">
-									<span class="text-xl group-hover:scale-110 transition-transform duration-300">💬</span>
-									<h4 class="font-semibold text-violet-900 dark:text-violet-100 text-sm">Communication</h4>
-								</div>
-								<ul class="text-xs text-violet-800 dark:text-violet-200 space-y-1">
-									<li>• Stakeholder engagement</li>
-									<li>• Automated updates</li>
-									<li>• Sentiment analysis</li>
-									<li>• Language translation</li>
-								</ul>
-							</div>
-						</div>
-						<div class="mt-4 grid sm:grid-cols-2 gap-4">
-							<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-violet-200 dark:border-violet-700 shadow-md hover:shadow-lg hover:shadow-violet-500/20 hover:scale-105 transition-all duration-300">
-								<div class="flex items-center gap-2 mb-2">
-									<span class="text-xl group-hover:scale-110 transition-transform duration-300">⚠️</span>
-									<h4 class="font-semibold text-violet-900 dark:text-violet-100 text-sm">Key Considerations</h4>
-								</div>
-								<ul class="text-xs text-violet-800 dark:text-violet-200 space-y-1">
-									<li>• Ethical implications & bias</li>
-									<li>• Data privacy & security</li>
-									<li>• Human judgment remains key</li>
-									<li>• Verify AI-generated outputs</li>
-								</ul>
-							</div>
-							<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-violet-200 dark:border-violet-700 shadow-md hover:shadow-lg hover:shadow-violet-500/20 hover:scale-105 transition-all duration-300">
-								<div class="flex items-center gap-2 mb-2">
-									<span class="text-xl group-hover:scale-110 transition-transform duration-300">🎯</span>
-									<h4 class="font-semibold text-violet-900 dark:text-violet-100 text-sm">Exam Focus</h4>
-								</div>
-								<ul class="text-xs text-violet-800 dark:text-violet-200 space-y-1">
-									<li>• AI as tool, not replacement</li>
-									<li>• When to use vs. not use AI</li>
-									<li>• Balancing automation & oversight</li>
-									<li>• PMI's AI guidelines</li>
-								</ul>
-							</div>
-						</div>
-						<div class="mt-4 p-3 bg-violet-100/90 dark:bg-violet-900/50 backdrop-blur-sm rounded-lg border border-violet-300 dark:border-violet-600">
-							<p class="text-xs text-violet-900 dark:text-violet-100 font-medium">
-								💡 <strong>Exam Tip:</strong> AI appears across all domains in scenarios. Focus on understanding when AI enhances project outcomes versus when human expertise is essential. Consider ethical, privacy, and accuracy implications in AI-assisted decisions.
-							</p>
-						</div>
-					</div>
 				</div>
 			</div>
 		</section>
 
 		<main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+			
+			<!-- Study Modules -->
+			{#if data.modules && data.modules.length > 0}
+				<div class="mb-12">
+					<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-2">
+						<span class="text-indigo-600 dark:text-indigo-400">📚</span> 
+						Study Modules
+					</h2>
+					<div class="grid md:grid-cols-2 gap-6">
+						{#each data.modules as module}
+							<a href="{base}/study/modules/{module.id}" 
+							   class="group block bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
+								<div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+								<div class="relative z-10">
+									<span class="inline-block px-3 py-1 text-xs font-semibold text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mb-3">
+										Module {module.id.split('-')[0]}
+									</span>
+									<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+										{module.title}
+									</h3>
+									<p class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+										{module.description}
+									</p>
+									<div class="flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400">
+										Start Learning <span class="ml-1 transition-transform group-hover:translate-x-1">→</span>
+									</div>
+								</div>
+							</a>
+						{/each}
+					</div>
+				</div>
+			{/if}
+
 			<!-- Domain Cards -->
 			<div class="grid md:grid-cols-3 gap-6 mb-8">
 				{#each domains as domain}

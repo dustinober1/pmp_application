@@ -129,7 +129,7 @@
 				<div class="flex justify-between h-16">
 					<div class="flex items-center">
 						<button
-							on:click={() => window.history.back()}
+							onclick={() => window.history.back()}
 							class="text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium flex items-center gap-2"
 						>
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,7 +208,7 @@
 								{@const showIncorrect = showExplanation && isSelected && !option.isCorrect}
 
 								<button
-									on:click={() => {
+									onclick={() => {
 										if (!showExplanation) selectedOptionId = option.id;
 									}}
 									disabled={showExplanation}
@@ -269,7 +269,7 @@
 						<div class="flex justify-end gap-3 pt-6 border-t border-gray-100 dark:border-gray-700">
 							{#if !showExplanation}
 								<button
-									on:click={handleSubmitAnswer}
+									onclick={handleSubmitAnswer}
 									disabled={!selectedOptionId || submitting}
 									class="px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg hover:shadow-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
 								>
@@ -278,14 +278,14 @@
 							{:else}
 								{#if isLastQuestion}
 									<button
-										on:click={handleCompleteSession}
+										onclick={handleCompleteSession}
 										class="px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:shadow-lg hover:shadow-green-500/30 transition-all active:scale-95"
 									>
 										Finish Session
 									</button>
 								{:else}
 									<button
-										on:click={handleNext}
+										onclick={handleNext}
 										class="px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
 									>
 										Next Question
