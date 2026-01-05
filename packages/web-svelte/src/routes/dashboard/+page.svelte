@@ -131,7 +131,7 @@
 					<div class="flex-1">
 						<p class="text-gray-600 dark:text-gray-400">
 							Your progress across all three domains of the 2026 PMP Exam Content Outline.
-							This score balances your Study Guide completion and Flashcard mastery.
+							This score reflects your Flashcard mastery and Question practice performance.
 						</p>
 					</div>
 				</div>
@@ -185,10 +185,13 @@
 									</div>
 
 									<div class="space-y-2 text-sm">
+										<!-- Study Guide row hidden as per user request -->
+										<!-- 
 										<div class="flex justify-between">
 											<span class="text-gray-600 dark:text-gray-400">Study Guide:</span>
 											<span class="font-medium text-gray-900 dark:text-gray-100">{domain.studyGuideProgress || 0}%</span>
-										</div>
+										</div> 
+										-->
 										<div class="flex justify-between">
 											<span class="text-gray-600 dark:text-gray-400">Flashcards:</span>
 											<span class="font-medium text-gray-900 dark:text-gray-100"
