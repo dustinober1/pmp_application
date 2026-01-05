@@ -90,7 +90,7 @@
 		const handleStorageChange = (e: StorageEvent) => {
 			if (
 				e.key === STORAGE_KEYS.TOTAL_STUDY_TIME ||
-				e.key === STORAGE_KEYS.FLASHCARDS_MASTERED ||
+				e.key === STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT ||
 				e.key === STORAGE_KEYS.MOCK_EXAMS ||
 				e.key === STORAGE_KEYS.STUDY_STREAK
 			) {

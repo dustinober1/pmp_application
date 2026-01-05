@@ -88,6 +88,7 @@ npm run test:web-svelte
 *   **Data Portability:** Expanded export/import functionality to include detailed SRS progress (repetitions, intervals, mastery) for both flashcards and questions.
 *   **Code Quality:** Resolved numerous TypeScript linting errors in the `dashboard` store to improve type safety and maintainability.
 *   **MCP Exploration:** Analyzed the repository to identify MCP servers that will assist in shipping the application (Browser, Everything, Memory).
+*   **Bug Fixes:** Resolved an issue where dashboard tiles (Flashcards Learned) displayed "NaN" due to incorrect localStorage key usage.
 
 ## Current Status & Roadmap
 

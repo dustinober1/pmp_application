@@ -5,7 +5,7 @@
 
 import { STORAGE_KEYS } from '$lib/constants/storageKeys';
 
-const { FLASHCARDS_MASTERED_COUNT: MASTERED_COUNT, FLASHCARDS_RECENT_REVIEWS: RECENT_REVIEWS } = STORAGE_KEYS;
+const { FLASHCARDS_MASTERED_COUNT, FLASHCARDS_RECENT_REVIEWS } = STORAGE_KEYS;
 
 export interface FlashcardReview {
   cardId: string;
@@ -26,7 +26,7 @@ export function getMasteredCount(): number {
   if (typeof window === 'undefined') return 0;
 
   try {
-    const stored = localStorage.getItem(STORAGE_KEYS.MASTERED_COUNT);
+    const stored = localStorage.getItem(STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT);
     return stored ? parseInt(stored, 10) : 0;
   } catch {
     return 0;
@@ -40,7 +40,7 @@ export function setMasteredCount(count: number): void {
   if (typeof window === 'undefined') return;
 
   try {
-    localStorage.setItem(STORAGE_KEYS.MASTERED_COUNT, count.toString());
+    localStorage.setItem(STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT, count.toString());
   } catch (error) {
     console.error('Failed to save mastered count to localStorage:', error);
   }
@@ -74,7 +74,7 @@ export function getRecentReviews(): FlashcardReview[] {
   if (typeof window === 'undefined') return [];
 
   try {
-    const stored = localStorage.getItem(STORAGE_KEYS.RECENT_REVIEWS);
+    const stored = localStorage.getItem(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS);
     if (!stored) return [];
 
     const reviews = JSON.parse(stored) as FlashcardReview[];
@@ -103,7 +103,7 @@ export function addRecentReview(review: FlashcardReview): void {
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
       .slice(0, 50);
 
-    localStorage.setItem(STORAGE_KEYS.RECENT_REVIEWS, JSON.stringify(trimmedReviews));
+    localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS, JSON.stringify(trimmedReviews));
   } catch (error) {
     console.error('Failed to save recent review to localStorage:', error);
   }
@@ -116,8 +116,8 @@ export function clearFlashcardProgress(): void {
   if (typeof window === 'undefined') return;
 
   try {
-    localStorage.removeItem(STORAGE_KEYS.MASTERED_COUNT);
-    localStorage.removeItem(STORAGE_KEYS.RECENT_REVIEWS);
+    localStorage.removeItem(STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT);
+    localStorage.removeItem(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS);
   } catch (error) {
     console.error('Failed to clear flashcard progress from localStorage:', error);
   }
