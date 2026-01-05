@@ -1,47 +1,43 @@
 /**
  * LocalStorage utility for card-level progress tracking
  * Implements SM-2 spaced repetition algorithm data storage
+ *
+ * This module provides the storage layer for card progress data.
+ * Use spacedRepetition.ts for SM-2 algorithm calculations and business logic.
  */
 
 import { STORAGE_KEYS } from '$lib/constants/storageKeys';
-import type { CardReviewData } from '@pmp/shared';
+import type { CardProgress } from '@pmp/shared';
 import { SM2_DEFAULTS } from '@pmp/shared';
 
 /**
- * Card progress data stored in localStorage (simplified from CardReviewData)
- */
-export interface CardProgress {
-	cardId: string;
-	easeFactor: number; // SM-2 ease factor (default 2.5)
-	interval: number; // Days until next review
-	nextReviewDate: string; // ISO date string
-	lastReviewDate?: string; // ISO date string
-}
-
-/**
  * Get all card progress from localStorage
+ * Returns a Map for easier manipulation
  */
-export function getAllCardProgress(): Record<string, CardProgress> {
-	if (typeof window === 'undefined') return {};
+export function getAllCardProgress(): Map<string, CardProgress> {
+	if (typeof window === 'undefined') return new Map();
 
 	try {
 		const stored = localStorage.getItem(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS);
-		if (!stored) return {};
+		if (!stored) return new Map();
 
-		return JSON.parse(stored) as Record<string, CardProgress>;
+		const data = JSON.parse(stored) as Record<string, CardProgress>;
+		return new Map(Object.entries(data));
 	} catch {
-		return {};
+		return new Map();
 	}
 }
 
 /**
  * Save all card progress to localStorage
+ * Accepts a Map and converts to Object for JSON serialization
  */
-function saveAllCardProgress(progress: Record<string, CardProgress>): void {
+function saveAllCardProgress(progress: Map<string, CardProgress>): void {
 	if (typeof window === 'undefined') return;
 
 	try {
-		localStorage.setItem(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, JSON.stringify(progress));
+		const data = Object.fromEntries(progress.entries());
+		localStorage.setItem(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, JSON.stringify(data));
 	} catch (error) {
 		console.error('Failed to save card progress to localStorage:', error);
 	}
@@ -49,20 +45,27 @@ function saveAllCardProgress(progress: Record<string, CardProgress>): void {
 
 /**
  * Get progress for a specific card
- * Returns undefined if card has no progress data
+ * Returns null if card has no progress data
  */
-export function getCardProgress(cardId: string): CardProgress | undefined {
+export function getCardProgress(cardId: string): CardProgress | null {
 	const allProgress = getAllCardProgress();
-	return allProgress[cardId];
+	return allProgress.get(cardId) || null;
 }
 
 /**
- * Set or update progress for a specific card
+ * Save card progress to localStorage
+ * Updates or creates progress for a specific card
  */
-export function setCardProgress(cardId: string, progress: CardProgress): void {
-	const allProgress = getAllCardProgress();
-	allProgress[cardId] = progress;
-	saveAllCardProgress(allProgress);
+export function saveCardProgress(cardId: string, progress: CardProgress): void {
+	if (typeof window === 'undefined') return;
+
+	try {
+		const progressMap = getAllCardProgress();
+		progressMap.set(cardId, progress);
+		saveAllCardProgress(progressMap);
+	} catch (error) {
+		console.error('Failed to save card progress:', error);
+	}
 }
 
 /**
@@ -73,9 +76,13 @@ export function initializeCardProgress(cardId: string): CardProgress {
 		cardId,
 		easeFactor: SM2_DEFAULTS.INITIAL_EASE_FACTOR,
 		interval: SM2_DEFAULTS.INITIAL_INTERVAL,
+		repetitions: 0,
 		nextReviewDate: new Date().toISOString(),
+		lastReviewDate: new Date().toISOString(),
+		totalReviews: 0,
+		ratingCounts: { again: 0, hard: 0, good: 0, easy: 0 },
 	};
-	setCardProgress(cardId, progress);
+	saveCardProgress(cardId, progress);
 	return progress;
 }
 
@@ -89,39 +96,30 @@ export function getOrInitializeCardProgress(cardId: string): CardProgress {
 }
 
 /**
- * Update card progress after a review
- * Uses SM-2 algorithm parameters provided by the caller
- */
-export function updateCardProgress(
-	cardId: string,
-	easeFactor: number,
-	interval: number,
-	nextReviewDate: Date
-): CardProgress {
-	const progress: CardProgress = {
-		cardId,
-		easeFactor,
-		interval,
-		nextReviewDate: nextReviewDate.toISOString(),
-		lastReviewDate: new Date().toISOString(),
-	};
-	setCardProgress(cardId, progress);
-	return progress;
-}
-
-/**
  * Get cards due for review
- * Returns card IDs where nextReviewDate is in the past
+ * Returns card IDs where nextReviewDate is in the past or now
  */
 export function getDueCards(allCardIds: string[]): string[] {
 	const now = new Date();
 	const allProgress = getAllCardProgress();
 
 	return allCardIds.filter((cardId) => {
-		const progress = allProgress[cardId];
+		const progress = allProgress.get(cardId);
 		if (!progress) return true; // New cards are due
 		return new Date(progress.nextReviewDate) <= now;
 	});
+}
+
+/**
+ * Check if a specific card is due for review
+ */
+export function isCardDue(cardId: string): boolean {
+	const progress = getCardProgress(cardId);
+	if (!progress) return true; // New cards are due
+
+	const now = new Date();
+	const nextReview = new Date(progress.nextReviewDate);
+	return now >= nextReview;
 }
 
 /**
@@ -129,7 +127,7 @@ export function getDueCards(allCardIds: string[]): string[] {
  */
 export function deleteCardProgress(cardId: string): void {
 	const allProgress = getAllCardProgress();
-	delete allProgress[cardId];
+	allProgress.delete(cardId);
 	saveAllCardProgress(allProgress);
 }
 
@@ -158,15 +156,16 @@ export interface CardProgressStats {
 
 export function getCardProgressStats(allCardIds: string[]): CardProgressStats {
 	const allProgress = getAllCardProgress();
-	const cardsWithProgress = Object.keys(allProgress);
 	const now = new Date();
 
 	let totalEaseFactor = 0;
 	let cardsDue = 0;
+	let cardsWithProgress = 0;
 
 	for (const cardId of allCardIds) {
-		const progress = allProgress[cardId];
+		const progress = allProgress.get(cardId);
 		if (progress) {
+			cardsWithProgress++;
 			totalEaseFactor += progress.easeFactor;
 			if (new Date(progress.nextReviewDate) <= now) {
 				cardsDue++;
@@ -178,13 +177,13 @@ export function getCardProgressStats(allCardIds: string[]): CardProgressStats {
 	}
 
 	const averageEaseFactor =
-		cardsWithProgress.length > 0
-			? totalEaseFactor / cardsWithProgress.length
+		cardsWithProgress > 0
+			? totalEaseFactor / cardsWithProgress
 			: SM2_DEFAULTS.INITIAL_EASE_FACTOR;
 
 	return {
 		totalCards: allCardIds.length,
-		cardsWithProgress: cardsWithProgress.length,
+		cardsWithProgress,
 		cardsDue,
 		averageEaseFactor,
 	};

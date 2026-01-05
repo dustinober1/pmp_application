@@ -2,16 +2,23 @@
  * SM-2 Spaced Repetition Algorithm Implementation
  * Based on the SuperMemo 2 algorithm by Piotr Wozniak
  *
+ * This module provides the SM-2 algorithm business logic.
+ * Storage layer is provided by cardProgressStorage.ts.
+ *
  * References:
  * - https://www.supermemo.com/en/blog/application-of-a-computer-to-improve-the-results-obtained-in-working-with-the-supermemo-method
  * - https://en.wikipedia.org/wiki/SuperMemo
  */
 
 import { SM2_DEFAULTS, type CardProgress, type SM2Rating } from '@pmp/shared';
-import { STORAGE_KEYS } from '$lib/constants/storageKeys';
+import * as cardProgressStorage from './cardProgressStorage';
 
-// Storage for card-level progress
-const CARD_PROGRESS_KEY = STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS;
+// Re-export storage functions for convenience
+export const getAllCardProgress = cardProgressStorage.getAllCardProgress;
+export const getCardProgress = cardProgressStorage.getCardProgress;
+export const getDueCards = cardProgressStorage.getDueCards;
+export const isCardDue = cardProgressStorage.isCardDue;
+export const clearAllCardProgress = cardProgressStorage.clearAllCardProgress;
 
 /**
  * Calculate the next interval using SM-2 algorithm
@@ -82,47 +89,8 @@ function ratingToQuality(rating: SM2Rating): number {
 }
 
 /**
- * Get all card progress from localStorage
- * Returns Object for direct localStorage compatibility
- */
-export function getAllCardProgress(): Record<string, CardProgress> {
-  if (typeof window === 'undefined') return {};
-
-  try {
-    const stored = localStorage.getItem(CARD_PROGRESS_KEY);
-    if (!stored) return {};
-
-    return JSON.parse(stored) as Record<string, CardProgress>;
-  } catch {
-    return {};
-  }
-}
-
-/**
- * Get progress for a specific card
- */
-export function getCardProgress(cardId: string): CardProgress | null {
-  const allProgress = getAllCardProgress();
-  return allProgress[cardId] || null;
-}
-
-/**
- * Save card progress to localStorage
- */
-export function saveCardProgress(cardId: string, progress: CardProgress): void {
-  if (typeof window === 'undefined') return;
-
-  try {
-    const allProgress = getAllCardProgress();
-    allProgress[cardId] = progress;
-    localStorage.setItem(CARD_PROGRESS_KEY, JSON.stringify(allProgress));
-  } catch (error) {
-    console.error('Failed to save card progress:', error);
-  }
-}
-
-/**
  * Update card progress after a review
+ * Uses SM-2 algorithm to calculate next interval and updates storage
  */
 export function updateCardProgress(
   cardId: string,
@@ -164,27 +132,9 @@ export function updateCardProgress(
     ratingCounts,
   };
 
-  saveCardProgress(cardId, newProgress);
+  // Use cardProgressStorage for persistence
+  cardProgressStorage.saveCardProgress(cardId, newProgress);
   return newProgress;
-}
-
-/**
- * Check if a card is due for review
- */
-export function isCardDue(cardId: string): boolean {
-  const progress = getCardProgress(cardId);
-  if (!progress) return true; // New cards are due
-
-  const now = new Date();
-  const nextReview = new Date(progress.nextReviewDate);
-  return now >= nextReview;
-}
-
-/**
- * Get cards that are due for review
- */
-export function getDueCards(cardIds: string[]): string[] {
-  return cardIds.filter(isCardDue);
 }
 
 /**
@@ -192,19 +142,6 @@ export function getDueCards(cardIds: string[]): string[] {
  */
 export function getDueCardCount(cardIds: string[]): number {
   return getDueCards(cardIds).length;
-}
-
-/**
- * Clear all card progress (for reset functionality)
- */
-export function clearAllCardProgress(): void {
-  if (typeof window === 'undefined') return;
-
-  try {
-    localStorage.removeItem(CARD_PROGRESS_KEY);
-  } catch (error) {
-    console.error('Failed to clear card progress:', error);
-  }
 }
 
 /**
@@ -217,7 +154,7 @@ export function getRatingLabel(rating: SM2Rating): string {
     case 'hard':
       return 'Hard';
     case 'good':
-      'Good';
+      return 'Good';
     case 'easy':
       return 'Easy';
     default:
