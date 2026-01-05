@@ -4,8 +4,8 @@
 
 import { base } from '$app/paths';
 
-// Types for the raw testbank.json structure
-export interface TestbankMetadata {
+// Types for the raw testbank.json structure (prefixed with Raw to distinguish from shared types)
+export interface RawTestbankMetadata {
   generatedAt: string;
   totalFiles: number;
   totalQuestions: number;
@@ -26,7 +26,7 @@ export interface DomainStats {
   questions: number;
 }
 
-export interface TestbankFile {
+export interface RawTestbankFile {
   filename: string;
   domain: string;
   taskNumber: number;
@@ -43,7 +43,7 @@ export interface Remediation {
   sourceLink: string;
 }
 
-export interface PracticeQuestion {
+export interface RawPracticeQuestion {
   id: string;
   domain: string;
   task: string;
@@ -69,7 +69,7 @@ export interface Answer {
   isCorrect: boolean;
 }
 
-export interface TestbankData {
+export interface RawTestbankData {
   generatedAt: string;
   totalFiles: number;
   totalQuestions: number;
@@ -83,8 +83,8 @@ export interface TestbankData {
     agile: number;
     hybrid: number;
   };
-  files: TestbankFile[];
-  questions: PracticeQuestion[];
+  files: RawTestbankFile[];
+  questions: RawPracticeQuestion[];
 }
 
 // Processed types for the application
@@ -126,13 +126,88 @@ export interface Domain {
 }
 
 // Cache for the loaded testbank data
-let cachedTestbank: TestbankData | null = null;
+let cachedTestbank: RawTestbankData | null = null;
+
+/**
+ * Validate raw testbank data structure
+ * Ensures required fields exist and methodology values are valid
+ */
+function validateTestbankData(data: unknown): data is RawTestbankData {
+  if (typeof data !== 'object' || data === null) {
+    console.error('Testbank data is not an object');
+    return false;
+  }
+
+  const d = data as Record<string, unknown>;
+
+  // Validate required top-level fields
+  if (typeof d.generatedAt !== 'string') {
+    console.error('Invalid or missing generatedAt field');
+    return false;
+  }
+
+  if (typeof d.totalQuestions !== 'number') {
+    console.error('Invalid or missing totalQuestions field');
+    return false;
+  }
+
+  if (typeof d.domains !== 'object' || d.domains === null) {
+    console.error('Invalid or missing domains field');
+    return false;
+  }
+
+  // Validate questions array
+  if (!Array.isArray(d.questions)) {
+    console.error('Invalid or missing questions array');
+    return false;
+  }
+
+  // Validate each question has required fields and valid methodology
+  for (const q of d.questions) {
+    if (typeof q !== 'object' || q === null) {
+      console.error('Question is not an object');
+      return false;
+    }
+
+    const question = q as Record<string, unknown>;
+
+    // Check required string fields
+    const requiredStringFields = ['id', 'domain', 'task', 'scenario', 'questionText'];
+    for (const field of requiredStringFields) {
+      if (typeof question[field] !== 'string') {
+        console.error(`Question missing or invalid required field: ${field}`);
+        return false;
+      }
+    }
+
+    // Validate methodology enum
+    if (typeof question.methodology !== 'string' ||
+        !['predictive', 'agile', 'hybrid'].includes(question.methodology)) {
+      console.error(`Question has invalid methodology: ${question.methodology}`);
+      return false;
+    }
+
+    // Validate answers array
+    if (!Array.isArray(question.answers)) {
+      console.error('Question missing answers array');
+      return false;
+    }
+
+    // Validate correctAnswerIndex
+    if (typeof question.correctAnswerIndex !== 'number') {
+      console.error('Question missing or invalid correctAnswerIndex');
+      return false;
+    }
+  }
+
+  return true;
+}
 
 /**
  * Load and parse testbank.json
  * Uses fetch which works in both server and client contexts in SvelteKit
  */
-export async function loadTestbank(): Promise<TestbankData> {
+export async function loadTestbank(): Promise<RawTestbankData> {
   if (cachedTestbank) {
     return cachedTestbank;
   }
@@ -142,7 +217,13 @@ export async function loadTestbank(): Promise<TestbankData> {
     if (!response.ok) {
       throw new Error(`Failed to load testbank.json: ${response.statusText}`);
     }
-    const data = (await response.json()) as TestbankData;
+    const data = await response.json();
+
+    // Validate the data structure before using it
+    if (!validateTestbankData(data)) {
+      throw new Error('Testbank data validation failed: malformed JSON structure');
+    }
+
     cachedTestbank = data;
     return cachedTestbank;
   } catch (error) {
@@ -223,7 +304,7 @@ export async function getDomains(): Promise<Domain[]> {
 /**
  * Get questions by domain
  */
-export async function getQuestionsByDomain(domain: string): Promise<PracticeQuestion[]> {
+export async function getQuestionsByDomain(domain: string): Promise<RawPracticeQuestion[]> {
   const testbank = await loadTestbank();
   return testbank.questions.filter((q) => q.domain === domain);
 }
@@ -234,7 +315,7 @@ export async function getQuestionsByDomain(domain: string): Promise<PracticeQues
 export async function getQuestionsByTask(
   domain: string,
   taskNumber: number
-): Promise<PracticeQuestion[]> {
+): Promise<RawPracticeQuestion[]> {
   const testbank = await loadTestbank();
   return testbank.questions.filter((q) => q.domain === domain && q.taskNumber === taskNumber);
 }
@@ -242,7 +323,7 @@ export async function getQuestionsByTask(
 /**
  * Get question by ID
  */
-export async function getQuestionById(id: string): Promise<PracticeQuestion | null> {
+export async function getQuestionById(id: string): Promise<RawPracticeQuestion | null> {
   const testbank = await loadTestbank();
   return testbank.questions.find((q) => q.id === id) || null;
 }
@@ -250,9 +331,9 @@ export async function getQuestionById(id: string): Promise<PracticeQuestion | nu
 /**
  * Get random questions for mock exam
  */
-export async function getRandomQuestions(count: number): Promise<PracticeQuestion[]> {
+export async function getRandomQuestions(count: number): Promise<RawPracticeQuestion[]> {
   const testbank = await loadTestbank();
-  const shuffled = [...testbank.questions].sort(() => Math.random() - 0.5);
+  const shuffled = fisherYatesShuffle([...testbank.questions]);
   return shuffled.slice(0, count);
 }
 
@@ -261,9 +342,22 @@ export async function getRandomQuestions(count: number): Promise<PracticeQuestio
  */
 export async function getQuestionsByMethodology(
   methodology: 'predictive' | 'agile' | 'hybrid'
-): Promise<PracticeQuestion[]> {
+): Promise<RawPracticeQuestion[]> {
   const testbank = await loadTestbank();
   return testbank.questions.filter((q) => q.methodology === methodology);
+}
+
+/**
+ * Fisher-Yates shuffle algorithm for unbiased randomization
+ * Provides uniform distribution and is more secure than Math.random() sort
+ */
+function fisherYatesShuffle<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }
 
 /**
