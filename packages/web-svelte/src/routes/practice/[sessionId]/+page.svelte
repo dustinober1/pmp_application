@@ -129,8 +129,14 @@
 							</span>
 						</div>
 
-						<!-- Question Text -->
-						<div class="mb-6">
+						<!-- Question Content -->
+						<div class="mb-6 space-y-4">
+							{#if $currentQuestion.scenario}
+								<div class="p-5 bg-gray-50 dark:bg-gray-900/40 rounded-xl border-l-4 border-indigo-500 text-gray-700 dark:text-gray-300 italic leading-relaxed">
+									{$currentQuestion.scenario}
+								</div>
+							{/if}
+							
 							<h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white leading-tight">
 								{$currentQuestion.questionText}
 							</h2>

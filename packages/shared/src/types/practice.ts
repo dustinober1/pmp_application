@@ -8,6 +8,7 @@ export interface PracticeQuestion {
   id: string;
   domainId: string;
   taskId: string;
+  scenario?: string;
   questionText: string;
   options: QuestionOption[];
   correctOptionId: string;

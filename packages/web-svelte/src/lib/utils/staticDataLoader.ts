@@ -103,6 +103,7 @@ export async function loadStaticQuestions(fetchFn: typeof fetch = fetch): Promis
           id: q.id,
           domainId: domainId,
           taskId: taskId,
+          scenario: q.scenario,
           questionText: q.questionText,
           options: q.answers.map((a: any, idx: number) => ({
             id: `opt-${idx}`,
