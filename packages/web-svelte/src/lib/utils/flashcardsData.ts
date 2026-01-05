@@ -1,16 +1,29 @@
 /**
  * Flashcards data utility with LAZY LOADING by domain AND task
- * 
+ *
  * This module loads flashcard data on-demand for optimal performance:
  * - manifest.json (~2KB) - Loaded first, contains all stats
  * - Domain files (~20-250KB) - Loaded when domain is selected
  * - Task files (~20-40KB) - For granular loading when needed
- * 
+ *
  * Also supports prefetching for smooth user experience.
  */
 
 import { base } from '$app/paths';
 import { browser } from '$app/environment';
+import { z } from 'zod';
+
+// ============================================
+// RAW DATA TYPES (from JSON files)
+// ============================================
+// These types describe the structure of static JSON data files.
+// They are NOT the same as application-internal types in @pmp/shared.
+//
+// Differences from @pmp/shared:
+// - RawFlashcard: Has 'category' field, 'id' as number (processed uses string)
+// - Flashcard (below): Enhanced with 'domain', 'task', 'ecoReference' metadata
+// - @pmp/shared Flashcard: Simplified for session management (no metadata fields)
+// ============================================
 
 // Types for the manifest (v2 with task support)
 export interface TaskInfo {
@@ -67,6 +80,14 @@ export interface FlashcardGroup {
 
 export type FlashcardsData = FlashcardGroup[];
 
+// ============================================
+// PROCESSED TYPES (application-internal)
+// ============================================
+// These are enhanced versions of flashcard data with metadata.
+// Used for filtering, searching, and display purposes.
+// NOT the same as @pmp/shared/flashcard.Flashcard which is for session management.
+// ============================================
+
 // Processed types for the application
 export interface Flashcard {
   id: string;
@@ -109,6 +130,66 @@ export interface PaginatedFlashcards {
   limit: number;
 }
 
+// ============================================
+// RUNTIME VALIDATION SCHEMAS (Zod)
+// ============================================
+
+/**
+ * Zod schemas for runtime validation of JSON data
+ * Prevents crashes from malformed data files
+ */
+
+const TaskInfoSchema = z.object({
+  taskId: z.string(),
+  name: z.string(),
+  ecoReference: z.string(),
+  cardCount: z.number().int().nonnegative(),
+  file: z.string(),
+});
+
+const DomainManifestSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  file: z.string(),
+  taskCount: z.number().int().nonnegative(),
+  cardCount: z.number().int().nonnegative(),
+  tasks: z.array(TaskInfoSchema),
+});
+
+const TaskIndexEntrySchema = z.object({
+  domainId: z.string(),
+  file: z.string(),
+  cardCount: z.number().int().nonnegative(),
+});
+
+export const FlashcardManifestSchema = z.object({
+  version: z.number().int().positive(),
+  generatedAt: z.string(),
+  domains: z.array(DomainManifestSchema),
+  taskIndex: z.record(z.string(), TaskIndexEntrySchema),
+});
+
+const FlashcardMetaSchema = z.object({
+  title: z.string(),
+  domain: z.string(),
+  task: z.string(),
+  ecoReference: z.string(),
+  description: z.string(),
+  file: z.string(),
+});
+
+const RawFlashcardSchema = z.object({
+  id: z.number().int().nonnegative(),
+  category: z.string(),
+  front: z.string(),
+  back: z.string(),
+});
+
+export const FlashcardGroupSchema = z.object({
+  meta: FlashcardMetaSchema,
+  flashcards: z.array(RawFlashcardSchema),
+});
+
 // Domain name to ID mapping
 const DOMAIN_MAP: Record<string, string> = {
   'Business Environment': 'business',
@@ -150,10 +231,17 @@ export async function loadManifest(): Promise<FlashcardManifest> {
     if (!response.ok) {
       throw new Error(`Failed to load manifest: ${response.statusText}`);
     }
-    const data = (await response.json()) as FlashcardManifest;
+    const rawData = await response.json();
+
+    // Runtime validation using Zod schema
+    const data = FlashcardManifestSchema.parse(rawData);
     cachedManifest = data;
     return data;
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error('Flashcards manifest validation failed:', error.issues);
+      throw new Error('Invalid flashcards manifest data format');
+    }
     console.error('Failed to load flashcards manifest:', error);
     throw new Error('Failed to load flashcards');
   }
@@ -173,11 +261,18 @@ export async function loadDomainData(domainId: string): Promise<FlashcardGroup[]
     if (!response.ok) {
       throw new Error(`Failed to load domain ${domainId}: ${response.statusText}`);
     }
-    const data = (await response.json()) as FlashcardGroup[];
+    const rawData = await response.json();
+
+    // Runtime validation using Zod schema
+    const data = z.array(FlashcardGroupSchema).parse(rawData);
     cachedDomainData.set(domainId, data);
     prefetchedDomains.add(domainId);
     return data;
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error(`Flashcards data validation failed for domain ${domainId}:`, error.issues);
+      throw new Error(`Invalid flashcards data format for domain ${domainId}`);
+    }
     console.error(`Failed to load flashcards for domain ${domainId}:`, error);
     throw new Error(`Failed to load flashcards for ${domainId}`);
   }
@@ -199,10 +294,17 @@ export async function loadTaskData(domainId: string, taskId: string): Promise<Fl
     if (!response.ok) {
       throw new Error(`Failed to load task ${taskId}: ${response.statusText}`);
     }
-    const data = (await response.json()) as FlashcardGroup;
+    const rawData = await response.json();
+
+    // Runtime validation using Zod schema
+    const data = FlashcardGroupSchema.parse(rawData);
     cachedTaskData.set(cacheKey, data);
     return data;
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error(`Flashcards data validation failed for task ${taskId}:`, error.issues);
+      throw new Error(`Invalid flashcards data format for task ${taskId}`);
+    }
     console.error(`Failed to load flashcards for task ${taskId}:`, error);
     throw new Error(`Failed to load flashcards for task ${taskId}`);
   }
