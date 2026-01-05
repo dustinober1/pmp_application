@@ -78,6 +78,12 @@ export interface PMPProgressData {
 		masteredCount: number;
 		masteredSet: string[] | null;
 		recentReviews: FlashcardReview[];
+		cardProgress: Record<string, any> | null;
+	};
+
+	// Question progress
+	questionProgress: {
+		cardProgress: Record<string, any> | null;
 	};
 
 	// Mock exam scores
@@ -131,7 +137,13 @@ export function downloadProgressBackup(): void {
 			flashcardProgress: {
 				masteredCount: getStorageItem<number>(STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT) || 0,
 				masteredSet: getStorageItem<string[]>(STORAGE_KEYS.FLASHCARDS_MASTERED),
-				recentReviews: getStorageItem<FlashcardReview[]>(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS) || []
+				recentReviews: getStorageItem<FlashcardReview[]>(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS) || [],
+				cardProgress: getStorageItem<Record<string, any>>(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS)
+			},
+
+			// Question progress
+			questionProgress: {
+				cardProgress: getStorageItem<Record<string, any>>(STORAGE_KEYS.QUESTIONS_CARD_PROGRESS)
 			},
 
 			// Mock exam scores
@@ -343,6 +355,19 @@ export async function importProgress(file: File): Promise<ImportResult> {
 		}
 		if (setStorageItem(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS, flashcardProgress.recentReviews)) {
 			result.importedItems.push('Recent flashcard reviews');
+		}
+		if (flashcardProgress.cardProgress) {
+			if (setStorageItem(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, flashcardProgress.cardProgress)) {
+				result.importedItems.push('Detailed flashcard SRS progress');
+			}
+		}
+
+		// Import question progress
+		const { questionProgress } = importData;
+		if (questionProgress && questionProgress.cardProgress) {
+			if (setStorageItem(STORAGE_KEYS.QUESTIONS_CARD_PROGRESS, questionProgress.cardProgress)) {
+				result.importedItems.push('Detailed question SRS progress');
+			}
 		}
 
 		// Import mock exam scores
