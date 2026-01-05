@@ -29,5 +29,8 @@ export const STORAGE_KEYS = {
 	OVERALL_PROGRESS: 'pmp_overall_progress',
 
 	// Internationalization
-	LOCALE: 'pmp_locale'
+	LOCALE: 'pmp_locale',
+
+	// User preferences
+	USER_NAME: 'pmp_user_name'
 } as const;

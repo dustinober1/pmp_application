@@ -140,7 +140,7 @@ export function downloadProgressBackup(): void {
 			// User preferences
 			preferences: {
 				locale: getStorageItem<string>(STORAGE_KEYS.LOCALE),
-				userName: getStorageItem<string>('pmp_user_name')
+				userName: getStorageItem<string>(STORAGE_KEYS.USER_NAME)
 			}
 		};
 
@@ -360,7 +360,7 @@ export async function importProgress(file: File): Promise<ImportResult> {
 			}
 		}
 		if (preferences.userName !== null) {
-			if (setStorageItem('pmp_user_name', preferences.userName)) {
+			if (setStorageItem(STORAGE_KEYS.USER_NAME, preferences.userName)) {
 				result.importedItems.push('User name');
 			}
 		}
@@ -404,16 +404,7 @@ export async function importProgressFromFile(file: File): Promise<ImportResult> 
 		};
 	}
 
-	try {
-		const text = await file.text();
-		const jsonData = JSON.parse(text);
-		return importProgress(jsonData);
-	} catch (error) {
-		return {
-			success: false,
-			message: 'Import failed: Unable to read or parse the file',
-			importedItems: [],
-			errors: [error instanceof Error ? error.message : String(error)]
-		};
-	}
+	// The actual import is handled by importProgress function
+	// This function is kept for API compatibility but delegates to importProgress
+	return importProgress(file);
 }

@@ -1,5 +1,5 @@
-import type { Flashcard, PracticeQuestion, QuestionOption } from "@pmp/shared";
-import { base } from "$app/paths";
+import type { PracticeQuestion } from "@pmp/shared";
+import { loadStaticFlashcards, loadStaticQuestions } from "./staticDataLoader";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
@@ -77,111 +77,17 @@ export async function apiRequest<T>(
   }
 }
 
-// --- Static Data Management ---
+// --- Mock Session Store (Client-side memory) ---
 
-let cachedFlashcards: Flashcard[] | null = null;
-let cachedQuestions: PracticeQuestion[] | null = null;
-
-function normalizeDomainId(raw: string): string {
-  const lower = raw.toLowerCase().trim();
-  if (lower.includes("people")) return "domain-people";
-  if (lower.includes("process")) return "domain-process";
-  if (lower.includes("business")) return "domain-business";
-  return lower.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-}
-
-function normalizeTaskId(rawEco: string, rawTaskName: string): string {
-  if (!rawEco) return rawTaskName;
-
-  const eco = rawEco.trim();
-  const domainMatch = eco.match(/Domain\s+([IVX]+)/i);
-  const taskMatch = eco.match(/Task\s+(\d+)/i);
-
-  if (domainMatch && taskMatch) {
-    return `${domainMatch[1].toUpperCase()}-${taskMatch[1]}`;
-  }
-
-  if (eco.toLowerCase().includes("business") && taskMatch) {
-    return `III-${taskMatch[1]}`;
-  }
-
-  return eco;
-}
-
-async function loadStaticFlashcards(fetchFn: typeof fetch): Promise<Flashcard[]> {
-  if (cachedFlashcards) return cachedFlashcards;
-  try {
-    // Correctly prepend base path for GitHub Pages compatibility
-    const res = await fetchFn(`${base}/data/flashcards.json`);
-    if (res.ok) {
-      const data = await res.json();
-      cachedFlashcards = data.flatMap((group: any) => {
-        const domainId = normalizeDomainId(group.meta.domain || "");
-        const taskId = normalizeTaskId(group.meta.ecoReference || "", group.meta.task || "");
-
-        return group.flashcards.map((card: any) => ({
-          ...card,
-          id: String(card.id),
-          domainId: domainId,
-          taskId: taskId,
-          createdAt: new Date().toISOString(),
-          isCustom: false
-        }));
-      }) as Flashcard[];
-      return cachedFlashcards;
-    }
-  } catch (e) {
-    console.error("Failed to load static flashcards", e);
-  }
-  return [];
-}
-
-async function loadStaticQuestions(fetchFn: typeof fetch): Promise<PracticeQuestion[]> {
-  if (cachedQuestions) return cachedQuestions;
-  try {
-    // Correctly prepend base path for GitHub Pages compatibility
-    const res = await fetchFn(`${base}/data/testbank.json`);
-    if (res.ok) {
-      const data = await res.json();
-      cachedQuestions = data.questions.map((q: any) => {
-        const domainId = normalizeDomainId(q.domain || "");
-        let taskId = q.task || "";
-        if (domainId === 'domain-people') taskId = `I-${q.taskNumber}`;
-        else if (domainId === 'domain-process') taskId = `II-${q.taskNumber}`;
-        else if (domainId === 'domain-business') taskId = `III-${q.taskNumber}`;
-
-        return {
-          id: q.id,
-          domainId: domainId,
-          taskId: taskId,
-          questionText: q.questionText,
-          options: q.answers.map((a: any, idx: number) => ({
-            id: `opt-${idx}`,
-            questionId: q.id,
-            text: a.text,
-            isCorrect: a.isCorrect
-          } as QuestionOption)),
-          correctOptionId: `opt-${q.correctAnswerIndex}`,
-          explanation: q.remediation.coreLogic,
-          difficulty: "medium",
-          relatedFormulaIds: [],
-          createdAt: new Date().toISOString()
-        };
-      }) as PracticeQuestion[];
-      return cachedQuestions;
-    }
-  } catch (e) {
-    console.error("Failed to load static questions", e);
-  }
-  return [];
-}
-
-// Mock Session Store (Client-side memory)
 const sessionStore = new Map<string, any>();
 
-// --- APIs ---
+// --- API Endpoints ---
 
 export const flashcardApi = {
+  /**
+   * Get flashcards with optional filtering
+   * Falls back to static data loading if API is unavailable
+   */
   getFlashcards: async (
     params?: {
       domainId?: string;
@@ -195,7 +101,9 @@ export const flashcardApi = {
       if (cards && cards.length > 0) {
         let filtered = cards;
         if (params?.domainId) {
-          filtered = filtered.filter(c => c.domainId?.toLowerCase().includes(params.domainId?.toLowerCase() || ''));
+          filtered = filtered.filter(c =>
+            c.domainId?.toLowerCase().includes(params.domainId?.toLowerCase() || '')
+          );
         }
         const limit = params?.limit || 20;
         return {
@@ -210,13 +118,16 @@ export const flashcardApi = {
       console.warn("Static flashcard load failed", e);
     }
 
-    // Fallback
+    // Fallback to API
     const queryParams = new URLSearchParams();
     if (params?.domainId) queryParams.set("domainId", params.domainId);
     if (params?.limit) queryParams.set("limit", String(params.limit));
     return apiRequest(`/flashcards?${queryParams}`, {}, fetchFn || fetch);
   },
 
+  /**
+   * Start a flashcard study session
+   */
   startSession: (
     options: {
       domainIds?: string[];
@@ -233,6 +144,10 @@ export const flashcardApi = {
 };
 
 export const practiceApi = {
+  /**
+   * Start a practice quiz session
+   * Falls back to static data loading if API is unavailable
+   */
   startSession: async (
     options: {
       domainIds?: string[];
@@ -247,9 +162,13 @@ export const practiceApi = {
       if (questions && questions.length > 0) {
         const sessionId = `local-session-${Date.now()}`;
         let selected = questions;
+
         if (options.domainIds && options.domainIds.length > 0) {
-          selected = selected.filter(q => options.domainIds!.some(d => q.domainId.toLowerCase().includes(d.toLowerCase())));
+          selected = selected.filter(q =>
+            options.domainIds!.some(d => q.domainId.toLowerCase().includes(d.toLowerCase()))
+          );
         }
+
         selected = selected.slice(0, options.questionCount || 20);
 
         sessionStore.set(sessionId, {
@@ -275,6 +194,9 @@ export const practiceApi = {
     );
   },
 
+  /**
+   * Get a practice session by ID
+   */
   getSession: async (sessionId: string, fetchFn: typeof fetch = fetch) => {
     if (sessionId.startsWith('local-session-')) {
       const session = sessionStore.get(sessionId);
@@ -286,6 +208,9 @@ export const practiceApi = {
     return apiRequest(`/practice/sessions/${sessionId}`, {}, fetchFn || fetch);
   },
 
+  /**
+   * Get questions for a practice session with pagination
+   */
   getSessionQuestions: async (
     sessionId: string,
     offset: number = 0,
@@ -311,6 +236,9 @@ export const practiceApi = {
     );
   },
 
+  /**
+   * Submit an answer for a practice question
+   */
   submitAnswer: async (
     params: {
       sessionId: string;
@@ -323,7 +251,7 @@ export const practiceApi = {
     if (params.sessionId.startsWith('local-session-')) {
       const session = sessionStore.get(params.sessionId);
       if (session) {
-        const question = session.questions.find((q: any) => q.id === params.questionId);
+        const question = session.questions.find((q: PracticeQuestion) => q.id === params.questionId);
         let isCorrect = false;
         let correctOptionId = "";
         let explanation = "";
@@ -358,7 +286,9 @@ export const practiceApi = {
     );
   },
 
-  // Fallback for mock exams if we want to support them later statically
+  /**
+   * Start a mock exam session
+   */
   startMockExam: (fetchFn?: typeof fetch) =>
     apiRequest("/practice/mock-exams", { method: "POST" }, fetchFn || fetch),
 };

@@ -57,8 +57,7 @@
   let searchInput = $state('');
 
   // Pagination - will be initialized with filteredFlashcards after data loads
-  // Note: Not wrapped in $state() to avoid infinite re-render loops
-  let pagination = usePagination({ items: [] as Flashcard[], pageSize: 20 });
+  let pagination: ReturnType<typeof usePagination<Flashcard>> | null = null;
 
   // Reactive state for triggering updates when pagination changes
   let paginationVersion = $state(0);
@@ -141,7 +140,7 @@
       const domainCards = await loadDomainFlashcards(selectedDomain);
       filteredFlashcards = domainCards;
     }
-    
+
     // Re-apply search if there's an active search
     if (searchQuery) {
       const q = searchQuery.toLowerCase().trim();
@@ -153,11 +152,13 @@
         card.task.toLowerCase().includes(q)
       );
     }
-    // Reset pagination when filter changes
-    pagination.reset();
-    // Update pagination with new filtered items
-    pagination.setItems(filteredFlashcards);
-    paginationVersion++;
+
+    // Update pagination with new filtered items (if initialized)
+    if (pagination) {
+      pagination.reset();
+      pagination.setItems(filteredFlashcards);
+      paginationVersion++;
+    }
   }
 
   // Search function
@@ -183,11 +184,13 @@
         card.task.toLowerCase().includes(q)
       );
     }
-    // Reset pagination when search changes
-    pagination.reset();
-    // Update pagination with new filtered items
-    pagination.setItems(filteredFlashcards);
-    paginationVersion++;
+
+    // Update pagination with new filtered items (if initialized)
+    if (pagination) {
+      pagination.reset();
+      pagination.setItems(filteredFlashcards);
+      paginationVersion++;
+    }
   }
 
   // Debounced search
@@ -252,34 +255,38 @@
 
   // Pagination navigation wrappers that trigger reactivity
   function goToPreviousPage() {
-    pagination.previous();
-    paginationVersion++;
+    if (pagination) {
+      pagination.previous();
+      paginationVersion++;
+    }
   }
 
   function goToNextPage() {
-    pagination.next();
-    paginationVersion++;
+    if (pagination) {
+      pagination.next();
+      paginationVersion++;
+    }
   }
 
   // Computed pagination values (reactive via paginationVersion dependency)
   let displayItems = $derived(() => {
     paginationVersion; // Depend on version to trigger recomputation
-    return pagination.displayItems;
+    return pagination?.displayItems ?? [];
   });
 
   let currentPageInfo = $derived(() => {
     paginationVersion;
-    return pagination.currentPageInfo;
+    return pagination?.currentPageInfo ?? '0-0 of 0';
   });
 
   let hasMore = $derived(() => {
     paginationVersion;
-    return pagination.hasMore;
+    return pagination?.hasMore ?? false;
   });
 
   let canGoBack = $derived(() => {
     paginationVersion;
-    return pagination.offset > 0;
+    return pagination ? pagination.offset > 0 : false;
   });
 
   onMount(async () => {
@@ -545,7 +552,7 @@
           </div>
 
           <!-- Pagination -->
-          {#if filteredFlashcards.length > pagination.limit}
+          {#if pagination && filteredFlashcards.length > pagination.limit}
             <div class="px-6 py-4 border-t border-gray-200/50 dark:border-gray-700/50 flex items-center justify-between">
               <button
                 onclick={goToPreviousPage}

@@ -1,7 +1,10 @@
 // place files you want to import through the `$lib` alias in this folder.
 
-// API Client
+// API Client (placeholder for future backend integration)
 export * from "./api";
+
+// Static Data Loader
+export * from "./utils/staticDataLoader";
 
 // Load Function Utilities
 export * from "./load";
