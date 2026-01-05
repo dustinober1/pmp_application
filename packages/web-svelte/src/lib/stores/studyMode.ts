@@ -65,7 +65,7 @@ function createStudyModeStore() {
         taskId: card.taskId,
         front: card.front,
         back: card.back,
-        progress: progressMap.get(card.id) || null,
+        progress: progressMap[card.id] || null,
       }));
 
       // Filter to only due cards if option is set

@@ -83,18 +83,18 @@ function ratingToQuality(rating: SM2Rating): number {
 
 /**
  * Get all card progress from localStorage
+ * Returns Object for direct localStorage compatibility
  */
-export function getAllCardProgress(): Map<string, CardProgress> {
-  if (typeof window === 'undefined') return new Map();
+export function getAllCardProgress(): Record<string, CardProgress> {
+  if (typeof window === 'undefined') return {};
 
   try {
     const stored = localStorage.getItem(CARD_PROGRESS_KEY);
-    if (!stored) return new Map();
+    if (!stored) return {};
 
-    const data = JSON.parse(stored) as Record<string, CardProgress>;
-    return new Map(Object.entries(data));
+    return JSON.parse(stored) as Record<string, CardProgress>;
   } catch {
-    return new Map();
+    return {};
   }
 }
 
@@ -102,8 +102,8 @@ export function getAllCardProgress(): Map<string, CardProgress> {
  * Get progress for a specific card
  */
 export function getCardProgress(cardId: string): CardProgress | null {
-  const progressMap = getAllCardProgress();
-  return progressMap.get(cardId) || null;
+  const allProgress = getAllCardProgress();
+  return allProgress[cardId] || null;
 }
 
 /**
@@ -113,11 +113,9 @@ export function saveCardProgress(cardId: string, progress: CardProgress): void {
   if (typeof window === 'undefined') return;
 
   try {
-    const progressMap = getAllCardProgress();
-    progressMap.set(cardId, progress);
-
-    const data = Object.fromEntries(progressMap.entries());
-    localStorage.setItem(CARD_PROGRESS_KEY, JSON.stringify(data));
+    const allProgress = getAllCardProgress();
+    allProgress[cardId] = progress;
+    localStorage.setItem(CARD_PROGRESS_KEY, JSON.stringify(allProgress));
   } catch (error) {
     console.error('Failed to save card progress:', error);
   }
