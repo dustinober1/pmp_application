@@ -39,11 +39,11 @@
 			<!-- Logo -->
 			<div class="flex items-center">
 				<a href="{base}/" class="flex items-center gap-2">
-					<div
-						class="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center"
-					>
-						<span class="text-white font-bold text-sm" aria-hidden="true">PM</span>
-					</div>
+					<img
+						src="{base}/logo.png"
+						alt="PMP Study Pro Logo"
+						class="w-10 h-10 object-contain"
+					/>
 					<span class="font-semibold text-lg hidden sm:block">PMP Study Pro</span>
 				</a>
 			</div>
