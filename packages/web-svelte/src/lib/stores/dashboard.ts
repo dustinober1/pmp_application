@@ -87,8 +87,8 @@ function createDomainProgressStore() {
 
     // Update progress for a specific domain
     updateDomain(domainId: string, updates: Partial<DomainProgressStats>) {
-      update((state) => {
-        const newDomains = state.domains.map((d) =>
+      update((state: DomainProgressState) => {
+        const newDomains = state.domains.map((d: DomainProgressStats) =>
           d.domainId === domainId ? { ...d, ...updates } : d
         );
         const newState = {
@@ -103,8 +103,8 @@ function createDomainProgressStore() {
 
     // Update flashcard counts for all domains
     updateFlashcards(domainUpdates: { domainId: string; mastered: number; total: number }[]) {
-      update((state) => {
-        const newDomains = state.domains.map((domain) => {
+      update((state: DomainProgressState) => {
+        const newDomains = state.domains.map((domain: DomainProgressStats) => {
           const update = domainUpdates.find((u) => u.domainId === domain.domainId);
           if (update) {
             return {
@@ -148,7 +148,7 @@ function createDomainProgressStore() {
       const cardProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, {});
       const questionProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.QUESTIONS_CARD_PROGRESS, {});
 
-      update((state) => {
+      update((state: DomainProgressState) => {
         const fCounts: Record<string, number> = { people: 0, process: 0, business: 0 };
         const qCounts: Record<string, { attempted: number; correct: number; mastered: number }> = {
           people: { attempted: 0, correct: 0, mastered: 0 },
@@ -157,9 +157,10 @@ function createDomainProgressStore() {
         };
 
         // Count mastered flashcards per domain
-        Object.entries(cardProgress).forEach(([cardId, progress]) => {
+        Object.keys(cardProgress).forEach((cardId) => {
+          const progress = cardProgress[cardId];
           const domainId = cardId.split("-")[0].toLowerCase();
-          const isMastered = progress.repetitions >= 2 && progress.interval >= 1;
+          const isMastered = (progress.repetitions || 0) >= 2 && (progress.interval || 0) >= 1;
 
           if (isMastered && fCounts[domainId] !== undefined) {
             fCounts[domainId]++;
@@ -167,7 +168,8 @@ function createDomainProgressStore() {
         });
 
         // Count question stats per domain
-        Object.entries(questionProgress).forEach(([qId, progress]) => {
+        Object.keys(questionProgress).forEach((qId) => {
+          const progress = questionProgress[qId];
           const domainId = qId.split("-")[0].toLowerCase();
           if (qCounts[domainId]) {
             qCounts[domainId].attempted += (progress.repetitions || 0);
@@ -176,23 +178,23 @@ function createDomainProgressStore() {
             qCounts[domainId].correct += correct;
 
             // Mastery for questions: answered correctly at least twice (repetitions >= 2)
-            if (progress.repetitions >= 2 && progress.interval >= 1) {
+            if ((progress.repetitions || 0) >= 2 && (progress.interval || 0) >= 1) {
               qCounts[domainId].mastered++;
             }
           }
         });
 
-        const newDomains = state.domains.map((d) => {
+        const newDomains = state.domains.map((d: DomainProgressStats) => {
           const domainId = d.domainId.toLowerCase();
           const qStat = qCounts[domainId];
-          const accuracy = qStat.attempted > 0 ? Math.round((qStat.correct / qStat.attempted) * 100) : 0;
+          const accuracy = qStat && qStat.attempted > 0 ? Math.round((qStat.correct / qStat.attempted) * 100) : 0;
 
           return {
             ...d,
             flashcardsMastered: fCounts[domainId] || 0,
-            questionsAttempted: qStat.attempted,
+            questionsAttempted: qStat?.attempted || 0,
             practiceAccuracy: accuracy,
-            // Total counts from manifest
+            // Total counts from manifest (approximate for now)
             flashcardsTotal: domainId === "people" ? 840 : domainId === "process" ? 830 : 80
           };
         });
@@ -222,10 +224,10 @@ function createDomainProgressStore() {
 export const domainProgressStore = createDomainProgressStore();
 
 // Overall progress derived from domain progress
-export const overallProgress = derived(domainProgressStore, ($store) =>
+export const overallProgress = derived(domainProgressStore, ($store: DomainProgressState) =>
   $store.domains.length > 0
     ? Math.round(
-      $store.domains.reduce((sum, d) => {
+      $store.domains.reduce((sum: number, d: DomainProgressStats) => {
         const guideProgress = d.studyGuideProgress || 0;
         const flashcardProgress =
           d.flashcardsTotal > 0 ? (d.flashcardsMastered / d.flashcardsTotal) * 100 : 0;
@@ -256,7 +258,7 @@ function createRecentActivityStore() {
 
     // Add a new activity
     addActivity(activity: Omit<RecentActivity, "id" | "timestamp">) {
-      update((state) => {
+      update((state: RecentActivityState) => {
         const newActivity: RecentActivity = {
           ...activity,
           id: `activity-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,

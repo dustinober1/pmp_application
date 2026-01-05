@@ -108,7 +108,7 @@
 			});
 			const sessionId = response.data?.sessionId;
 			if (sessionId) {
-				goto(`${base}/practice/session/${sessionId}`);
+				goto(`${base}/practice/${sessionId}`);
 			}
 		} catch (err) {
 			console.error('Failed to start mock exam:', err);

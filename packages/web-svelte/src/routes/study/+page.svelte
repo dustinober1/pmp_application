@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { getDomain } from '$lib/utils/studyData';
 	import { flashcardApi, practiceApi } from '$lib/utils/api';
 	import LoadingState from '$lib/components/LoadingState.svelte';
@@ -92,7 +93,7 @@
 				cardCount: 20
 			});
 			if (response.data?.sessionId) {
-				goto(`/flashcards/session/${response.data.sessionId}`);
+				goto(`${base}/flashcards/practice?sessionId=${response.data.sessionId}`);
 			}
 		} catch (err) {
 			console.error('Failed to start flashcard session:', err);
@@ -110,7 +111,7 @@
 				questionCount: 10
 			});
 			if (response.data?.sessionId) {
-				goto(`/practice/session/${response.data.sessionId}`);
+				goto(`${base}/practice/${response.data.sessionId}`);
 			}
 		} catch (err) {
 			console.error('Failed to start practice session:', err);
