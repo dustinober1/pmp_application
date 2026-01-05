@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { STORAGE_KEYS } from '$lib/constants/storageKeys';
+	import { getMasteredCount } from '$lib/utils/flashcardStorage';
 
 	// Reactive state for stats
 	let totalStudyTime = $state({
@@ -26,10 +27,7 @@
 			}
 
 			// Flashcards Mastered
-			const storedCards = localStorage.getItem(STORAGE_KEYS.FLASHCARDS_MASTERED);
-			if (storedCards) {
-				flashcardsMastered = parseInt(storedCards, 10) || 0;
-			}
+			flashcardsMastered = getMasteredCount();
 
 			// Mock Exam Average (last 3 tests)
 			const storedExams = localStorage.getItem(STORAGE_KEYS.MOCK_EXAMS);

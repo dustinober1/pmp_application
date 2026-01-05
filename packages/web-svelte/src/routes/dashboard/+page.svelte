@@ -71,6 +71,7 @@
 	}
 
 	onMount(async () => {
+		domainProgressStore.refreshFromActualData();
 		loading = false;
 	});
 
@@ -91,19 +92,19 @@
 			<!-- Cache Warning Banner -->
 			<CacheWarningBanner variant="full" />
 
-			<!-- 2026 Readiness Badge -->
-			<div class="mb-6">
-				<Readiness2026Badge variant="card" />
-			</div>
-
-			<!-- Header -->
-			<div class="mb-8">
-				<h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
-					Welcome back, {getFirstName(userName)}! 👋
-				</h1>
-				<p class="text-lg text-gray-700 dark:text-gray-300 mt-2">
-					{getWelcomeSubtitle($overallProgress)}
-				</p>
+			<!-- Header with Badge -->
+			<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+				<div>
+					<h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+						Welcome back, {getFirstName(userName)}! 👋
+					</h1>
+					<p class="text-lg text-gray-700 dark:text-gray-300 mt-2">
+						{getWelcomeSubtitle($overallProgress)}
+					</p>
+				</div>
+				<div class="flex-shrink-0 w-full md:w-auto">
+					<Readiness2026Badge variant="card" />
+				</div>
 			</div>
 
 			<!-- Study Stats Grid -->
@@ -128,18 +129,10 @@
 						/>
 					{/if}
 					<div class="flex-1">
-						<p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+						<p class="text-gray-600 dark:text-gray-400">
 							Your progress across all three domains of the 2026 PMP Exam Content Outline.
+							This score balances your Study Guide completion and Flashcard mastery.
 						</p>
-						<div class="grid grid-cols-3 gap-4">
-							{#each domains2026 as domain}
-								<div class="group text-center p-3 bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 dark:from-indigo-400/10 dark:to-indigo-500/10 backdrop-blur-md rounded-lg border border-indigo-200/50 dark:border-indigo-700/50 hover:scale-105 transition-all duration-300 cursor-default">
-									<p class="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{domain.domainName}</p>
-									<p class="text-lg font-bold text-indigo-600 dark:text-indigo-400">{domain.weighting}%</p>
-									<p class="text-[10px] text-gray-600 dark:text-gray-400">{domain.description}</p>
-								</div>
-							{/each}
-						</div>
 					</div>
 				</div>
 			</div>
@@ -217,110 +210,75 @@
 				</div>
 
 				<!-- Quick Actions & Activity -->
+				<!-- Next Steps Hub -->
 				<div class="space-y-6">
-					<!-- Data Management -->
-					<DataManagement />
-
-					<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
-						<h2 class="font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Quick Actions</h2>
-						<div class="space-y-2">
-							<a
-								href="{base}/study"
-								class="group block w-full px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/40 transition-all duration-300 text-left"
-							>
-								<div class="flex items-center gap-2">
-									<svg
-										class="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-										/>
-									</svg>
-									Continue Studying
-								</div>
-							</a>
-
+					<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 border border-gray-200/50 dark:border-gray-700/50">
+						<h2 class="text-lg font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Study Hub</h2>
+						
+						<!-- Major Actions -->
+						<div class="space-y-3 mb-8">
 							<a
 								href="{base}/flashcards"
-								class="group block w-full px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 rounded-lg hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/50 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 text-left"
+								class="group flex items-center justify-between p-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:scale-[1.02] transition-all shadow-md overflow-hidden relative"
 							>
-								<div class="flex items-center gap-2">
-									<svg
-										class="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-										/>
-									</svg>
-									Review Flashcards
+								<div class="relative z-10">
+									<p class="text-sm font-medium opacity-80">Flashcards</p>
+									<p class="text-xl font-bold">Smart Review</p>
 								</div>
+								<div class="relative z-10 bg-white/20 p-2 rounded-lg">
+									<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+									</svg>
+								</div>
+								<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
 							</a>
 
 							<a
-								href="{base}/practice"
-								class="group block w-full px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 rounded-lg hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/50 hover:scale-105 hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300 text-left"
+								href="{base}/study"
+								class="group flex items-center justify-between p-4 bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-xl hover:border-indigo-300 dark:hover:border-indigo-500 transition-all shadow-sm"
 							>
-								<div class="flex items-center gap-2">
-									<svg
-										class="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-										/>
+								<div>
+									<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Study Guide</p>
+									<p class="text-lg font-bold text-gray-900 dark:text-white">Continue Reading</p>
+								</div>
+								<div class="text-indigo-600 dark:text-indigo-400">
+									<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
 									</svg>
-									Practice Questions
 								</div>
 							</a>
+						</div>
+
+						<!-- Recent Activity Integrated -->
+						<div class="border-t border-gray-100 dark:border-gray-700 pt-6">
+							<h3 class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4">Recent Activity</h3>
+							<div class="space-y-4">
+								{#if $recentActivityStore.activities && $recentActivityStore.activities.length > 0}
+									{#each $recentActivityStore.activities.slice(0, 3) as activity}
+										<div class="flex gap-3">
+											<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+												<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+												</svg>
+											</div>
+											<div class="min-w-0 flex-1">
+												<p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{activity.targetName}</p>
+												<p class="text-xs text-gray-500 dark:text-gray-400">{formatDate(activity.timestamp)}</p>
+											</div>
+										</div>
+									{/each}
+								{:else}
+									<p class="text-sm text-gray-500 dark:text-gray-400 italic text-center py-4">
+										Your journey begins with your first study session!
+									</p>
+								{/if}
+							</div>
 						</div>
 					</div>
 
-					<!-- Recent Activity -->
-					<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
-						<h2 class="font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Recent Activity</h2>
-						<div class="space-y-3">
-							{#if $recentActivityStore.activities && $recentActivityStore.activities.length > 0}
-								{#each $recentActivityStore.activities.slice(0, 5) as activity}
-									<div class="group flex items-start gap-3 text-sm p-2 rounded-lg hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-all duration-300 cursor-default">
-										<div
-											class="w-2 h-2 rounded-full bg-indigo-600 mt-2 group-hover:scale-125 transition-transform duration-300"
-										></div>
-										<div>
-											<p title={activity.targetName} class="text-gray-900 dark:text-gray-100">
-												{truncateAtWordBoundary(
-													activity.targetName,
-													80,
-												)}
-											</p>
-											<p class="text-xs text-gray-600 dark:text-gray-400">
-												{formatDate(activity.timestamp)}
-											</p>
-										</div>
-									</div>
-								{/each}
-							{:else}
-								<p class="text-sm text-gray-600 dark:text-gray-400">
-									No recent activity yet. Start studying!
-								</p>
-							{/if}
-						</div>
+					<!-- Settings / Management pushed down -->
+					<div class="opacity-80 hover:opacity-100 transition-opacity">
+						<DataManagement />
 					</div>
 				</div>
 			</div>

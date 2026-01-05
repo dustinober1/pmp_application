@@ -17,7 +17,7 @@ const DOMAINS_2026 = [
     description: "Technical project management"
   },
   {
-    domainId: "business-environment",
+    domainId: "business",
     domainName: "Business Environment",
     weighting: 26,
     description: "Strategic alignment, compliance, value"
@@ -141,6 +141,44 @@ function createDomainProgressStore() {
       return Math.round(overall / state.domains.length);
     },
 
+    // Refresh domain stats from actual SRS data
+    refreshFromActualData() {
+      if (typeof window === "undefined") return;
+
+      const cardProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, {});
+
+      update((state) => {
+        const counts: Record<string, number> = { people: 0, process: 0, business: 0 };
+
+        // Count mastered cards per domain
+        Object.entries(cardProgress).forEach(([cardId, progress]) => {
+          const domainId = cardId.split("-")[0];
+          // Simple definition of "mastered" for the dashboard: has any positive progress
+          // In SM-2 terms, we could be more specific, but for a global overview this is reactive.
+          const isMastered = progress.ratingCounts && (progress.ratingCounts.good > 0 || progress.ratingCounts.easy > 0);
+
+          if (isMastered && counts[domainId] !== undefined) {
+            counts[domainId]++;
+          }
+        });
+
+        const newDomains = state.domains.map((d) => ({
+          ...d,
+          flashcardsMastered: counts[d.domainId] || 0,
+          // Total counts from manifest
+          flashcardsTotal: d.domainId === "people" ? 840 : d.domainId === "process" ? 830 : 80
+        }));
+
+        const newState = {
+          ...state,
+          domains: newDomains,
+          lastUpdated: new Date().toISOString()
+        };
+        setStorageItem(STORAGE_KEYS.DOMAIN_PROGRESS, newState);
+        return newState;
+      });
+    },
+
     // Reset to initial state
     reset() {
       const resetState = {
@@ -159,13 +197,13 @@ export const domainProgressStore = createDomainProgressStore();
 export const overallProgress = derived(domainProgressStore, ($store) =>
   $store.domains.length > 0
     ? Math.round(
-        $store.domains.reduce((sum, d) => {
-          const guideProgress = d.studyGuideProgress || 0;
-          const flashcardProgress =
-            d.flashcardsTotal > 0 ? (d.flashcardsMastered / d.flashcardsTotal) * 100 : 0;
-          return sum + (guideProgress + flashcardProgress) / 2;
-        }, 0) / $store.domains.length
-      )
+      $store.domains.reduce((sum, d) => {
+        const guideProgress = d.studyGuideProgress || 0;
+        const flashcardProgress =
+          d.flashcardsTotal > 0 ? (d.flashcardsMastered / d.flashcardsTotal) * 100 : 0;
+        return sum + (guideProgress + flashcardProgress) / 2;
+      }, 0) / $store.domains.length
+    )
     : 0
 );
 

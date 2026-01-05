@@ -5,7 +5,7 @@
 
 import { STORAGE_KEYS } from '$lib/constants/storageKeys';
 
-const { MASTERED_COUNT, RECENT_REVIEWS } = STORAGE_KEYS;
+const { FLASHCARDS_MASTERED_COUNT: MASTERED_COUNT, FLASHCARDS_RECENT_REVIEWS: RECENT_REVIEWS } = STORAGE_KEYS;
 
 export interface FlashcardReview {
   cardId: string;
