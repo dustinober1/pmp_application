@@ -138,6 +138,59 @@ export async function searchFormulas(query: string): Promise<Formula[]> {
 }
 
 /**
+ * Validation error for formula calculations
+ */
+export class FormulaValidationError extends Error {
+	constructor(
+		public field: string,
+		message: string
+	) {
+		super(message);
+		this.name = 'FormulaValidationError';
+	}
+}
+
+/**
+ * Validate that a value is a finite number
+ */
+function validateFiniteNumber(value: unknown, fieldName: string): number {
+	if (typeof value !== 'number' || !Number.isFinite(value)) {
+		throw new FormulaValidationError(fieldName, `${fieldName} must be a finite number`);
+	}
+	return value;
+}
+
+/**
+ * Validate that required inputs exist and are valid numbers
+ */
+function validateInputs(
+	inputs: Record<string, number>,
+	requiredFields: string[]
+): void {
+	// Check that all required fields are present
+	for (const field of requiredFields) {
+		if (!(field in inputs) || inputs[field] === undefined || inputs[field] === null) {
+			throw new FormulaValidationError(field, `Required input '${field}' is missing`);
+		}
+	}
+
+	// Validate all inputs are finite numbers
+	for (const [key, value] of Object.entries(inputs)) {
+		validateFiniteNumber(value, key);
+	}
+}
+
+/**
+ * Check for division by zero before performing division
+ */
+function safeDivision(numerator: number, denominator: number, fieldName: string): number {
+	if (denominator === 0) {
+		throw new FormulaValidationError(fieldName, `Division by zero: ${fieldName} cannot be zero`);
+	}
+	return numerator / denominator;
+}
+
+/**
  * Calculate formula result based on inputs
  */
 export function calculateFormula(
@@ -150,6 +203,7 @@ export function calculateFormula(
 	switch (formula.id) {
 		// Earned Value formulas
 		case 'cv':
+			validateInputs(inputs, ['ev', 'ac']);
 			result = inputs.ev - inputs.ac;
 			steps.push({
 				stepNumber: 1,
@@ -160,6 +214,7 @@ export function calculateFormula(
 			break;
 
 		case 'sv':
+			validateInputs(inputs, ['ev', 'pv']);
 			result = inputs.ev - inputs.pv;
 			steps.push({
 				stepNumber: 1,
@@ -170,7 +225,8 @@ export function calculateFormula(
 			break;
 
 		case 'cpi':
-			result = inputs.ev / inputs.ac;
+			validateInputs(inputs, ['ev', 'ac']);
+			result = safeDivision(inputs.ev, inputs.ac, 'AC');
 			steps.push({
 				stepNumber: 1,
 				description: 'Calculate Cost Performance Index',
@@ -180,7 +236,8 @@ export function calculateFormula(
 			break;
 
 		case 'spi':
-			result = inputs.ev / inputs.pv;
+			validateInputs(inputs, ['ev', 'pv']);
+			result = safeDivision(inputs.ev, inputs.pv, 'PV');
 			steps.push({
 				stepNumber: 1,
 				description: 'Calculate Schedule Performance Index',
@@ -190,7 +247,8 @@ export function calculateFormula(
 			break;
 
 		case 'eac_bac_cpi':
-			result = inputs.bac / inputs.cpi;
+			validateInputs(inputs, ['bac', 'cpi']);
+			result = safeDivision(inputs.bac, inputs.cpi, 'CPI');
 			steps.push({
 				stepNumber: 1,
 				description: 'Calculate Estimate at Completion',
@@ -200,6 +258,7 @@ export function calculateFormula(
 			break;
 
 		case 'etc_eac_ac':
+			validateInputs(inputs, ['eac', 'ac']);
 			result = inputs.eac - inputs.ac;
 			steps.push({
 				stepNumber: 1,
@@ -210,6 +269,7 @@ export function calculateFormula(
 			break;
 
 		case 'vac':
+			validateInputs(inputs, ['bac', 'eac']);
 			result = inputs.bac - inputs.eac;
 			steps.push({
 				stepNumber: 1,
@@ -220,9 +280,10 @@ export function calculateFormula(
 			break;
 
 		case 'tcpi':
+			validateInputs(inputs, ['bac', 'ev', 'ac']);
 			const remainingWork = inputs.bac - inputs.ev;
 			const remainingFunds = inputs.bac - inputs.ac;
-			result = remainingWork / remainingFunds;
+			result = safeDivision(remainingWork, remainingFunds, 'BAC - AC');
 			steps.push({
 				stepNumber: 1,
 				description: 'Calculate remaining work (BAC - EV)',
@@ -245,31 +306,46 @@ export function calculateFormula(
 
 		// Cost formulas
 		case 'pv_fv':
-			const pvResult = inputs.fv / Math.pow(1 + inputs.r, inputs.n);
+			validateInputs(inputs, ['fv', 'r', 'n']);
+			const denominator = Math.pow(1 + inputs.r, inputs.n);
+			if (denominator === 0) {
+				throw new FormulaValidationError('denominator', 'Division by zero: (1 + r)^n cannot be zero');
+			}
+			const pvResult = safeDivision(inputs.fv, denominator, '(1 + r)^n');
 			steps.push({
 				stepNumber: 1,
 				description: 'Calculate denominator (1 + r)^n',
-				expression: `(1 + ${inputs.r})^${inputs.n} = ${Math.pow(1 + inputs.r, inputs.n).toFixed(4)}`,
-				value: Math.pow(1 + inputs.r, inputs.n)
+				expression: `(1 + ${inputs.r})^${inputs.n} = ${denominator.toFixed(4)}`,
+				value: denominator
 			});
 			result = pvResult;
 			steps.push({
 				stepNumber: 2,
 				description: 'Calculate Present Value',
-				expression: `PV = ${inputs.fv} / ${Math.pow(1 + inputs.r, inputs.n).toFixed(4)}`,
+				expression: `PV = ${inputs.fv} / ${denominator.toFixed(4)}`,
 				value: result
 			});
 			break;
 
 		case 'npv': {
+			validateInputs(inputs, ['cashFlows', 'r', 'initialInvestment']);
 			const cashFlows = inputs.cashFlows as unknown as number[];
 			const r = inputs.r;
 			const initialInvestment = inputs.initialInvestment;
 
+			if (!Array.isArray(cashFlows) || cashFlows.length === 0) {
+				throw new FormulaValidationError('cashFlows', 'cashFlows must be a non-empty array');
+			}
+
 			let presentValue = 0;
 			cashFlows.forEach((cf, index) => {
+				validateFiniteNumber(cf, `cashFlows[${index}]`);
 				const period = index + 1;
-				const pv = cf / Math.pow(1 + r, period);
+				const periodDenominator = Math.pow(1 + r, period);
+				if (periodDenominator === 0) {
+					throw new FormulaValidationError(`period ${period}`, 'Division by zero: (1 + r)^period cannot be zero');
+				}
+				const pv = safeDivision(cf, periodDenominator, `(1 + r)^${period}`);
 				presentValue += pv;
 				steps.push({
 					stepNumber: index + 1,
@@ -290,8 +366,19 @@ export function calculateFormula(
 		}
 
 		case 'irr': {
-			// IRR requires iterative calculation - use Newton-Raphson method
+			validateInputs(inputs, ['cashFlows']);
 			const cashFlows = inputs.cashFlows as unknown as number[];
+
+			if (!Array.isArray(cashFlows) || cashFlows.length === 0) {
+				throw new FormulaValidationError('cashFlows', 'cashFlows must be a non-empty array');
+			}
+
+			// Validate all cash flows are finite numbers
+			cashFlows.forEach((cf, index) => {
+				validateFiniteNumber(cf, `cashFlows[${index}]`);
+			});
+
+			// IRR requires iterative calculation - use Newton-Raphson method
 			let guess = 0.1; // Initial guess of 10%
 			const maxIterations = 100;
 			const tolerance = 0.00001;
@@ -301,13 +388,25 @@ export function calculateFormula(
 				let dnpv = 0;
 
 				for (let j = 0; j < cashFlows.length; j++) {
-					npv += cashFlows[j] / Math.pow(1 + guess, j);
+					const periodDenominator = Math.pow(1 + guess, j);
+					if (periodDenominator === 0) {
+						throw new FormulaValidationError(`iteration ${i}`, 'Division by zero in IRR calculation');
+					}
+					npv += safeDivision(cashFlows[j], periodDenominator, `(1 + guess)^${j}`);
 					if (j > 0) {
-						dnpv -= (j * cashFlows[j]) / Math.pow(1 + guess, j + 1);
+						const derivativeDenominator = Math.pow(1 + guess, j + 1);
+						if (derivativeDenominator === 0) {
+							throw new FormulaValidationError(`iteration ${i}`, 'Division by zero in IRR derivative');
+						}
+						dnpv -= safeDivision(j * cashFlows[j], derivativeDenominator, `(1 + guess)^${j + 1}`);
 					}
 				}
 
-				const newGuess = guess - npv / dnpv;
+				if (dnpv === 0) {
+					throw new FormulaValidationError('derivative', 'Division by zero: derivative cannot be zero in IRR calculation');
+				}
+
+				const newGuess = guess - safeDivision(npv, dnpv, 'derivative');
 				if (Math.abs(newGuess - guess) < tolerance) {
 					guess = newGuess;
 					break;
@@ -327,7 +426,8 @@ export function calculateFormula(
 
 		// Scheduling formulas
 		case 'activity_duration':
-			result = (inputs.p + 4 * inputs.m + inputs.o) / 6;
+			validateInputs(inputs, ['p', 'm', 'o']);
+			result = safeDivision(inputs.p + 4 * inputs.m + inputs.o, 6, '6');
 			steps.push({
 				stepNumber: 1,
 				description: 'Apply PERT formula',
@@ -337,23 +437,26 @@ export function calculateFormula(
 			break;
 
 		case 'activity_variance':
+			validateInputs(inputs, ['p', 'o']);
 			const diff = inputs.p - inputs.o;
-			result = Math.pow(diff / 6, 2);
+			const diffDivided = safeDivision(diff, 6, '6');
+			result = Math.pow(diffDivided, 2);
 			steps.push({
 				stepNumber: 1,
 				description: 'Calculate range (P - O)',
-				expression: `(${inputs.p} - ${inputs.o}) / 6 = ${diff / 6}`,
-				value: diff / 6
+				expression: `(${inputs.p} - ${inputs.o}) / 6 = ${diffDivided}`,
+				value: diffDivided
 			});
 			steps.push({
 				stepNumber: 2,
 				description: 'Square the result',
-				expression: `(${diff / 6})²`,
+				expression: `(${diffDivided})²`,
 				value: result
 			});
 			break;
 
 		case 'float':
+			validateInputs(inputs, ['ls', 'es', 'lf', 'ef']);
 			const float1 = inputs.ls - inputs.es;
 			const float2 = inputs.lf - inputs.ef;
 			result = float1;
@@ -373,7 +476,8 @@ export function calculateFormula(
 
 		// Communication formulas
 		case 'communication_channels':
-			result = (inputs.n * (inputs.n - 1)) / 2;
+			validateInputs(inputs, ['n']);
+			result = safeDivision(inputs.n * (inputs.n - 1), 2, '2');
 			steps.push({
 				stepNumber: 1,
 				description: 'Calculate communication channels',
@@ -384,6 +488,7 @@ export function calculateFormula(
 
 		// Probability formulas
 		case 'expectation_ept':
+			validateInputs(inputs, ['probability', 'impact']);
 			result = inputs.probability * inputs.impact;
 			steps.push({
 				stepNumber: 1,
@@ -394,7 +499,8 @@ export function calculateFormula(
 			break;
 
 		case 'sigma':
-			result = (inputs.p - inputs.o) / 6;
+			validateInputs(inputs, ['p', 'o']);
+			result = safeDivision(inputs.p - inputs.o, 6, '6');
 			steps.push({
 				stepNumber: 1,
 				description: 'Calculate Standard Deviation',
@@ -405,8 +511,9 @@ export function calculateFormula(
 
 		// Procurement formulas
 		case 'point_of_total_assumption':
+			validateInputs(inputs, ['ceilingPrice', 'targetPrice', 'buyerShareRatio', 'targetCost']);
 			const ptaNumerator = inputs.ceilingPrice - inputs.targetPrice;
-			const ptaQuotient = ptaNumerator / inputs.buyerShareRatio;
+			const ptaQuotient = safeDivision(ptaNumerator, inputs.buyerShareRatio, 'buyerShareRatio');
 			result = ptaQuotient + inputs.targetCost;
 			steps.push({
 				stepNumber: 1,
@@ -429,6 +536,7 @@ export function calculateFormula(
 			break;
 
 		case 'expected_value_defects':
+			validateInputs(inputs, ['evwpi', 'evwopi']);
 			result = inputs.evwpi - inputs.evwopi;
 			steps.push({
 				stepNumber: 1,
@@ -480,8 +588,30 @@ export function clearCache(): void {
  * Parse cash flows from comma-separated string
  */
 export function parseCashFlows(input: string): number[] {
-	return input
+	if (!input || typeof input !== 'string') {
+		throw new FormulaValidationError('input', 'Input must be a non-empty string');
+	}
+
+	const parsed = input
 		.split(',')
-		.map((s) => parseFloat(s.trim()))
-		.filter((n) => !isNaN(n));
+		.map((s) => {
+			const trimmed = s.trim();
+			if (trimmed === '') {
+				throw new FormulaValidationError('input', 'Empty value found in cash flows input');
+			}
+			const num = parseFloat(trimmed);
+			if (isNaN(num)) {
+				throw new FormulaValidationError(trimmed, `"${trimmed}" is not a valid number`);
+			}
+			if (!Number.isFinite(num)) {
+				throw new FormulaValidationError(trimmed, `"${trimmed}" is not a finite number`);
+			}
+			return num;
+		});
+
+	if (parsed.length === 0) {
+		throw new FormulaValidationError('input', 'No valid cash flows found in input');
+	}
+
+	return parsed;
 }
