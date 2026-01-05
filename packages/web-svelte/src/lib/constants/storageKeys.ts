@@ -32,5 +32,8 @@ export const STORAGE_KEYS = {
 	LOCALE: 'pmp_locale',
 
 	// User preferences
-	USER_NAME: 'pmp_user_name'
+	USER_NAME: 'pmp_user_name',
+
+	// Question progress
+	QUESTIONS_CARD_PROGRESS: 'pmp_questions_card_progress'
 } as const;

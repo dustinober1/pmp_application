@@ -6,6 +6,8 @@
 	import { getPracticeStatsFromStorage, type PracticeStats as StoragePracticeStats } from '$lib/utils/practiceSessionStorage';
 	import { practiceApi } from '$lib/utils/api';
 	import { getPracticeStats, getDomains, type PracticeStats, type Domain } from '$lib/utils/practiceData';
+	import { loadStaticQuestions } from '$lib/utils/staticDataLoader';
+	import { practiceMode } from '$lib/stores/practiceMode';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
@@ -22,7 +24,8 @@
 	let mockExams = [];
 	let error = $state(null);
 	let selectedDomains = $state<string[]>([]);
-	let questionCount = $state(20);
+	let questionCount = $state(25);
+	let startMode = $state<'srs' | 'shuffle'>('srs');
 	let starting = $state(false);
 
 	// LocalStorage data
@@ -67,11 +70,23 @@
 	async function startSession() {
 		starting = true;
 		try {
-			const response = await practiceApi.startSession({
-				domainIds: selectedDomains.length > 0 ? selectedDomains : undefined,
-				questionCount
+			// Load all questions
+			const allQuestions = await loadStaticQuestions();
+			
+			// Filter by domain if selected
+			let filteredQuestions = allQuestions;
+			if (selectedDomains.length > 0) {
+				filteredQuestions = allQuestions.filter(q => 
+					selectedDomains.some(dId => q.domainId.toLowerCase().includes(dId.toLowerCase()))
+				);
+			}
+
+			// Start session in store
+			const sessionId = practiceMode.startSession(filteredQuestions, {
+				limit: questionCount,
+				priority: startMode
 			});
-			const sessionId = response.data?.sessionId;
+
 			if (sessionId) {
 				goto(`${base}/practice/session/${sessionId}`);
 			}
@@ -229,7 +244,7 @@
 								Number of Questions
 							</legend>
 							<div class="flex gap-2">
-								{#each [10, 20, 30, 50] as count}
+								{#each [25, 50, 75, 100] as count}
 									<button
 										on:click={() => (questionCount = count)}
 										class="group px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 {questionCount ===
@@ -240,6 +255,33 @@
 										{count}
 									</button>
 								{/each}
+							</div>
+						</fieldset>
+
+						<!-- Practice Mode -->
+						<fieldset class="mb-6">
+							<legend class="block text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">
+								Practice Mode
+							</legend>
+							<div class="grid grid-cols-2 gap-4">
+								<button
+									on:click={() => (startMode = 'srs')}
+									class="flex flex-col p-4 rounded-xl border-2 text-left transition-all {startMode === 'srs'
+										? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
+										: 'border-gray-200 dark:border-gray-700 hover:border-indigo-300'}"
+								>
+									<span class="font-bold text-gray-900 dark:text-white">Smart SRS</span>
+									<span class="text-xs text-gray-600 dark:text-gray-400">Prioritize due and weak questions</span>
+								</button>
+								<button
+									on:click={() => (startMode = 'shuffle')}
+									class="flex flex-col p-4 rounded-xl border-2 text-left transition-all {startMode === 'shuffle'
+										? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
+										: 'border-gray-200 dark:border-gray-700 hover:border-indigo-300'}"
+								>
+									<span class="font-bold text-gray-900 dark:text-white">Random</span>
+									<span class="text-xs text-gray-600 dark:text-gray-400">Full shuffle of all questions</span>
+								</button>
 							</div>
 						</fieldset>
 

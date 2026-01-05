@@ -141,33 +141,61 @@ function createDomainProgressStore() {
       return Math.round(overall / state.domains.length);
     },
 
-    // Refresh domain stats from actual SRS data
+    // Refresh domain stats from actual SRS data (flashcards and questions)
     refreshFromActualData() {
       if (typeof window === "undefined") return;
 
       const cardProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, {});
+      const questionProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.QUESTIONS_CARD_PROGRESS, {});
 
       update((state) => {
-        const counts: Record<string, number> = { people: 0, process: 0, business: 0 };
+        const fCounts: Record<string, number> = { people: 0, process: 0, business: 0 };
+        const qCounts: Record<string, { attempted: number; correct: number; mastered: number }> = {
+          people: { attempted: 0, correct: 0, mastered: 0 },
+          process: { attempted: 0, correct: 0, mastered: 0 },
+          business: { attempted: 0, correct: 0, mastered: 0 }
+        };
 
-        // Count mastered cards per domain
+        // Count mastered flashcards per domain
         Object.entries(cardProgress).forEach(([cardId, progress]) => {
-          const domainId = cardId.split("-")[0];
-          // Simple definition of "mastered" for the dashboard: has any positive progress
-          // In SM-2 terms, we could be more specific, but for a global overview this is reactive.
-          const isMastered = progress.ratingCounts && (progress.ratingCounts.good > 0 || progress.ratingCounts.easy > 0);
+          const domainId = cardId.split("-")[0].toLowerCase();
+          const isMastered = progress.repetitions >= 2 && progress.interval >= 1;
 
-          if (isMastered && counts[domainId] !== undefined) {
-            counts[domainId]++;
+          if (isMastered && fCounts[domainId] !== undefined) {
+            fCounts[domainId]++;
           }
         });
 
-        const newDomains = state.domains.map((d) => ({
-          ...d,
-          flashcardsMastered: counts[d.domainId] || 0,
-          // Total counts from manifest
-          flashcardsTotal: d.domainId === "people" ? 840 : d.domainId === "process" ? 830 : 80
-        }));
+        // Count question stats per domain
+        Object.entries(questionProgress).forEach(([qId, progress]) => {
+          const domainId = qId.split("-")[0].toLowerCase();
+          if (qCounts[domainId]) {
+            qCounts[domainId].attempted += (progress.repetitions || 0);
+            // ratingCounts tracks correctness
+            const correct = (progress.ratingCounts?.good || 0) + (progress.ratingCounts?.easy || 0);
+            qCounts[domainId].correct += correct;
+
+            // Mastery for questions: answered correctly at least twice (repetitions >= 2)
+            if (progress.repetitions >= 2 && progress.interval >= 1) {
+              qCounts[domainId].mastered++;
+            }
+          }
+        });
+
+        const newDomains = state.domains.map((d) => {
+          const domainId = d.domainId.toLowerCase();
+          const qStat = qCounts[domainId];
+          const accuracy = qStat.attempted > 0 ? Math.round((qStat.correct / qStat.attempted) * 100) : 0;
+
+          return {
+            ...d,
+            flashcardsMastered: fCounts[domainId] || 0,
+            questionsAttempted: qStat.attempted,
+            practiceAccuracy: accuracy,
+            // Total counts from manifest
+            flashcardsTotal: domainId === "people" ? 840 : domainId === "process" ? 830 : 80
+          };
+        });
 
         const newState = {
           ...state,

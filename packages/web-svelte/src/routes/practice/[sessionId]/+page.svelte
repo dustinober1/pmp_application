@@ -2,70 +2,28 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
-	import { practiceApi } from '$lib/utils/api';
 	import { saveMockExamScore } from '$lib/utils/mockExamStorage';
+	import { practiceMode, currentQuestion, practiceProgress, sessionStats } from '$lib/stores/practiceMode';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
-	export let data;
-
-	let loading = true;
-	let questions = [];
-	let currentIndex = 0;
 	let selectedOptionId = null;
 	let showExplanation = false;
 	let submitting = false;
-	let answeredQuestions = new Set();
-	let flaggedQuestions = new Set();
-	let streak = null;
 	let error = null;
-	let totalQuestions = 0;
-	let correctAnswers = 0;
 
 	onMount(() => {
-		// Use data from load function if available
-		if (data.questions) {
-			questions = data.questions;
+		if (!$practiceMode.sessionId) {
+			error = "No active session found. Please start a session from the practice configuration page.";
 		}
-		if (data.totalQuestions !== undefined) {
-			totalQuestions = data.totalQuestions;
-		}
-		if (data.streak) {
-			streak = data.streak;
-		}
-		if (data.error) {
-			error = data.error;
-		}
-		loading = false;
 	});
 
 	async function handleSubmitAnswer() {
 		if (!selectedOptionId || submitting) return;
 
 		submitting = true;
-		const question = questions[currentIndex];
-		if (!question) {
-			submitting = false;
-			return;
-		}
-
 		try {
-			const sessionId = $page.params.sessionId;
-			await practiceApi.submitAnswer({
-				sessionId,
-				questionId: question.id,
-				selectedOptionId,
-				timeSpentMs: 0
-			});
-
-			// Check if answer was correct
-			const selectedOption = question.options.find((opt) => opt.id === selectedOptionId);
-			if (selectedOption?.isCorrect) {
-				correctAnswers += 1;
-			}
-
-			answeredQuestions = new Set([...answeredQuestions, question.id]);
+			practiceMode.submitAnswer(selectedOptionId);
 			showExplanation = true;
 		} catch (err) {
 			console.error('Failed to submit answer:', err);
@@ -76,60 +34,19 @@
 	}
 
 	function handleNext() {
-		if (currentIndex < questions.length - 1) {
-			currentIndex += 1;
-			selectedOptionId = null;
-			showExplanation = false;
-		}
-	}
-
-	function handlePrevious() {
-		if (currentIndex > 0) {
-			currentIndex -= 1;
-			selectedOptionId = null;
-			showExplanation = false;
-		}
-	}
-
-	function handleJumpToQuestion(index) {
-		currentIndex = index;
+		practiceMode.nextQuestion();
 		selectedOptionId = null;
 		showExplanation = false;
 	}
 
-	async function handleFlag() {
-		const question = questions[currentIndex];
-		if (!question) return;
-
-		const isFlagged = flaggedQuestions.has(question.id);
-
-		try {
-			if (isFlagged) {
-				await practiceApi.unflagQuestion(question.id);
-				flaggedQuestions = new Set(
-					Array.from(flaggedQuestions).filter((id) => id !== question.id)
-				);
-			} else {
-				await practiceApi.flagQuestion(question.id);
-				flaggedQuestions = new Set([...flaggedQuestions, question.id]);
-			}
-		} catch (err) {
-			console.error('Failed to flag question:', err);
-		}
-	}
-
 	async function handleCompleteSession() {
 		try {
-			const sessionId = $page.params.sessionId;
-			const response = await practiceApi.completeSession(sessionId);
-
-			// Save score to localStorage for mock exams
-			const score = Math.round((correctAnswers / totalQuestions) * 100);
+			const stats = $sessionStats;
 			saveMockExamScore({
-				sessionId,
-				score,
-				totalQuestions,
-				correctAnswers,
+				sessionId: $practiceMode.sessionId,
+				score: stats.percentage,
+				totalQuestions: stats.total,
+				correctAnswers: stats.correct,
 				date: new Date().toISOString()
 			});
 
@@ -140,240 +57,197 @@
 		}
 	}
 
-	$: currentQuestion = questions[currentIndex];
-	$: progress = totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
-	$: isLastQuestion = currentIndex === totalQuestions - 1;
+	$: isLastQuestion = $practiceMode.currentIndex === $practiceMode.questions.length - 1;
+	$: isComplete = $practiceMode.isComplete;
+
+	// Automatically complete session when store marks it as complete
+	$: if (isComplete) {
+		handleCompleteSession();
+	}
 </script>
 
-{#if loading}
+{#if !error && !$currentQuestion && !isComplete}
 	<LoadingState message="Loading practice session..." />
 {:else if error}
 	<ErrorState title="Practice Session Error" message={error} />
-{:else if !currentQuestion}
+{:else if !$currentQuestion && !isComplete}
 	<ErrorState
 		title="Question Not Found"
 		message="Could not load the current question."
 	/>
-{:else}
-	<div class="min-h-screen bg-gray-50">
-		<nav class="bg-white border-b border-gray-200">
+{:else if $currentQuestion}
+	<div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+		<nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div class="flex justify-between h-16">
 					<div class="flex items-center">
 						<button
 							on:click={() => window.history.back()}
-							class="text-gray-700 hover:text-indigo-600"
+							class="text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium flex items-center gap-2"
 						>
-							← Back
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+							</svg>
+							Back to Practice
 						</button>
 					</div>
 				</div>
 			</div>
 		</nav>
 
-		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+		<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 			<!-- Progress Bar -->
-			<div class="mb-6">
-				<div class="flex justify-between items-center mb-2">
-					<span class="text-sm font-medium">
-						Question {currentIndex + 1} of {totalQuestions}
+			<div class="mb-8">
+				<div class="flex justify-between items-center mb-3">
+					<span class="text-sm font-semibold text-gray-900 dark:text-white">
+						Question {$practiceMode.currentIndex + 1} of {$practiceMode.questions.length}
 					</span>
-					<span class="text-sm font-medium">{Math.round(progress)}%</span>
+					<span class="text-sm font-bold text-indigo-600 dark:text-indigo-400">{$practiceProgress}%</span>
 				</div>
-				<div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+				<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden shadow-inner">
 					<div
-						class="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out"
-						style="width: {progress}%"
+						class="bg-gradient-to-r from-indigo-600 to-purple-600 h-full rounded-full transition-all duration-500 ease-out"
+						style="width: {$practiceProgress}%"
 					></div>
 				</div>
 			</div>
 
-			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-				<!-- Main Question Area -->
-				<div class="lg:col-span-2">
-					<div class="bg-white rounded-lg shadow p-6">
+			<div class="space-y-6">
+				<!-- Main Question Card -->
+				<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden transform transition-all duration-300">
+					<div class="p-6 sm:p-8">
 						<!-- Question Header -->
-						<div class="flex justify-between items-start mb-4">
-							<div class="flex gap-2">
-								<span class="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-									{currentQuestion.domain}
-								</span>
-								<span class="px-3 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">
-									{currentQuestion.task}
-								</span>
-								<span class="px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
-									{currentQuestion.difficulty}
-								</span>
-							</div>
-							<button
-								on:click={handleFlag}
-								class="px-4 py-2 rounded-lg font-medium transition-colors {flaggedQuestions.has(
-									currentQuestion.id
-								)
-									? 'bg-red-100 text-red-700 hover:bg-red-200'
-									: 'bg-gray-100 text-gray-700 hover:bg-gray-200'}"
-							>
-								{flaggedQuestions.has(currentQuestion.id) ? '🚩 Flagged' : 'Flag'}
-							</button>
+						<div class="flex flex-wrap gap-2 mb-6">
+							<span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300">
+								{$currentQuestion.domainId.split('-')[1]}
+							</span>
+							<span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300">
+								{$currentQuestion.taskId}
+							</span>
+							<span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300">
+								{$currentQuestion.difficulty}
+							</span>
 						</div>
 
 						<!-- Question Text -->
-						<div class="mb-6">
-							<h2 class="text-xl font-semibold mb-4">
-								{currentQuestion.question}
+						<div class="mb-8">
+							<h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white leading-tight">
+								{$currentQuestion.questionText}
 							</h2>
 						</div>
 
 						<!-- Options -->
-						<div class="space-y-3 mb-6">
-							{#each currentQuestion.options as option}
+						<div class="space-y-4 mb-8">
+							{#each $currentQuestion.options as option}
 								{@const isSelected = selectedOptionId === option.id}
 								{@const showCorrect = showExplanation && option.isCorrect}
-								{@const showIncorrect =
-									showExplanation && isSelected && !option.isCorrect}
+								{@const showIncorrect = showExplanation && isSelected && !option.isCorrect}
 
 								<button
 									on:click={() => {
 										if (!showExplanation) selectedOptionId = option.id;
 									}}
 									disabled={showExplanation}
-									class="w-full text-left p-4 rounded-lg border-2 transition-all {showCorrect
-										? 'border-green-500 bg-green-50'
+									class="w-full text-left p-5 rounded-xl border-2 transition-all duration-200 group {showCorrect
+										? 'border-green-500 bg-green-50 dark:bg-green-900/10'
 										: showIncorrect
-											? 'border-red-500 bg-red-50'
+											? 'border-red-500 bg-red-50 dark:bg-red-900/10'
 											: isSelected
-												? 'border-indigo-500 bg-indigo-50'
-												: 'border-gray-200 hover:border-indigo-300'} {showExplanation
-										? 'cursor-not-allowed'
-										: 'cursor-pointer'}"
+												? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/10'
+												: 'border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:bg-gray-50 dark:hover:bg-gray-700/50'} {showExplanation
+										? 'cursor-default'
+										: 'cursor-pointer active:scale-[0.98]'}"
 								>
-									<div class="flex items-center gap-3">
+									<div class="flex items-center gap-4">
 										<div
-											class="w-5 h-5 rounded-full border-2 flex items-center justify-center {showCorrect
+											class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors {showCorrect
 												? 'border-green-500 bg-green-500'
 												: showIncorrect
 													? 'border-red-500 bg-red-500'
 													: isSelected
 														? 'border-indigo-500 bg-indigo-500'
-														: 'border-gray-300'}"
+														: 'border-gray-300 dark:border-gray-600 group-hover:border-indigo-400'}"
 										>
 											{#if isSelected && !showExplanation}
-												<div class="w-2 h-2 rounded-full bg-white"></div>
+												<div class="w-2.5 h-2.5 rounded-full bg-white"></div>
 											{/if}
 											{#if showCorrect}
-												<span class="text-white text-xs">✓</span>
+												<svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+													<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+												</svg>
 											{/if}
 											{#if showIncorrect}
-												<span class="text-white text-xs">✗</span>
+												<svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+													<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+												</svg>
 											{/if}
 										</div>
-										<span class="flex-1">{option.text}</span>
+										<span class="text-gray-800 dark:text-gray-200 font-medium leading-relaxed">{option.text}</span>
 									</div>
 								</button>
 							{/each}
 						</div>
 
-						<!-- Explanation -->
+						<!-- Explanation Area -->
 						{#if showExplanation}
-							<div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-								<h3 class="font-semibold mb-2">Explanation</h3>
-								<p class="text-sm text-gray-700">{currentQuestion.explanation}</p>
+							<div class="mb-8 p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800/50 animate-in fade-in slide-in-from-top-4 duration-300">
+								<div class="flex items-center gap-2 mb-3 text-indigo-700 dark:text-indigo-300">
+									<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+									</svg>
+									<h3 class="font-bold tracking-tight">remediation Core Logic</h3>
+								</div>
+								<p class="text-gray-800 dark:text-gray-300 leading-relaxed">{$currentQuestion.explanation}</p>
 							</div>
 						{/if}
 
 						<!-- Action Buttons -->
-						<div class="flex justify-between">
-							<button
-								on:click={handlePrevious}
-								disabled={currentIndex === 0}
-								class="px-6 py-2 rounded-lg font-medium bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition"
-							>
-								Previous
-							</button>
-							<div class="flex gap-2">
-								{#if !showExplanation}
+						<div class="flex justify-end gap-3 pt-6 border-t border-gray-100 dark:border-gray-700">
+							{#if !showExplanation}
+								<button
+									on:click={handleSubmitAnswer}
+									disabled={!selectedOptionId || submitting}
+									class="px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg hover:shadow-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
+								>
+									{submitting ? 'Checking...' : 'Check Answer'}
+								</button>
+							{:else}
+								{#if isLastQuestion}
 									<button
-										on:click={handleSubmitAnswer}
-										disabled={!selectedOptionId || submitting}
-										class="px-6 py-2 rounded-lg font-medium bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+										on:click={handleCompleteSession}
+										class="px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:shadow-lg hover:shadow-green-500/30 transition-all active:scale-95"
 									>
-										{submitting ? 'Submitting...' : 'Submit Answer'}
+										Finish Session
 									</button>
 								{:else}
-									{#if isLastQuestion}
-										<button
-											on:click={handleCompleteSession}
-											class="px-6 py-2 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 transition"
-										>
-											Complete Session
-										</button>
-									{:else}
-										<button
-											on:click={handleNext}
-											class="px-6 py-2 rounded-lg font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition"
-										>
-											Next Question
-										</button>
-									{/if}
+									<button
+										on:click={handleNext}
+										class="px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95"
+									>
+										Next Question
+									</button>
 								{/if}
-							</div>
+							{/if}
 						</div>
 					</div>
 				</div>
 
-				<!-- Sidebar -->
-				<div class="space-y-6">
-					<!-- Streak Counter -->
-					{#if streak}
-						<div class="bg-white rounded-lg shadow p-6">
-							<h3 class="font-semibold mb-4">Current Streak</h3>
-							<div class="text-center">
-								<p class="text-4xl font-bold text-indigo-600">
-									{streak.currentStreak}
-								</p>
-								<p class="text-sm text-gray-600 mt-1">consecutive correct</p>
-							</div>
-							<div class="mt-4 pt-4 border-t border-gray-200">
-								<div class="flex justify-between text-sm">
-									<span class="text-gray-600">Best Streak</span>
-									<span class="font-medium">{streak.longestStreak}</span>
-								</div>
-								<div class="flex justify-between text-sm mt-2">
-									<span class="text-gray-600">Total Answered</span>
-									<span class="font-medium">{streak.totalAnswered}</span>
-								</div>
-								<div class="flex justify-between text-sm mt-2">
-									<span class="text-gray-600">Accuracy</span>
-									<span class="font-medium"
-										>{streak.totalAnswered > 0
-											? Math.round((streak.correctCount / streak.totalAnswered) * 100)
-											: 0}%</span
-									>
-								</div>
-							</div>
+				<!-- Session Stats Card -->
+				<div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-lg">
+					<div class="flex items-center justify-between gap-4">
+						<div class="text-center flex-1 border-r border-gray-100 dark:border-gray-700">
+							<p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Correct</p>
+							<p class="text-xl font-bold text-green-600 dark:text-green-400">{$sessionStats.correct}</p>
 						</div>
-					{/if}
-
-					<!-- Question Navigator -->
-					<div class="bg-white rounded-lg shadow p-6">
-						<h3 class="font-semibold mb-4">Question Navigator</h3>
-						<div class="grid grid-cols-5 gap-2">
-							{#each Array(totalQuestions) as _, i}
-								{@const isAnswered = answeredQuestions.has(
-									questions[i]?.id
-								)}
-								{@const isCurrent = i === currentIndex}
-								<button
-									on:click={() => handleJumpToQuestion(i)}
-									class="w-10 h-10 rounded text-sm font-medium transition-colors {isCurrent
-										? 'bg-indigo-600 text-white'
-										: isAnswered
-											? 'bg-green-100 text-green-700'
-											: 'bg-gray-100 text-gray-700 hover:bg-gray-200'}"
-								>
-									{i + 1}
-								</button>
-							{/each}
+						<div class="text-center flex-1 border-r border-gray-100 dark:border-gray-700">
+							<p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Current Accuracy</p>
+							<p class="text-xl font-bold text-indigo-600 dark:text-indigo-400">{$sessionStats.percentage}%</p>
+						</div>
+						<div class="text-center flex-1">
+							<p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Remaining</p>
+							<p class="text-xl font-bold text-purple-600 dark:text-purple-400">
+								{$practiceMode.questions.length - ($practiceMode.currentIndex + (showExplanation ? 1 : 0))}
+							</p>
 						</div>
 					</div>
 				</div>
