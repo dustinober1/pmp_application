@@ -35,17 +35,14 @@ export type StudyModeStore = ReturnType<typeof createStudyModeStore>;
 function createStudyModeStore() {
   const { subscribe, set, update } = writable<StudyModeState>(initialState);
 
-  // Internal state tracking for getState()
-  let currentState: StudyModeState = initialState;
-
   return {
     subscribe,
 
     /**
-     * Get current state synchronously
+     * Get current state synchronously using Svelte's get()
      */
     getState() {
-      return currentState;
+      return get(this);
     },
 
     /**
@@ -104,8 +101,7 @@ function createStudyModeStore() {
         currentCard: studyCards[0] || null,
       };
 
-      currentState = newState;
-      update(() => newState);
+      set(newState);
 
       return session;
     },
@@ -114,134 +110,124 @@ function createStudyModeStore() {
      * Flip the current card
      */
     flipCard() {
-      const newState: StudyModeState = {
-        ...currentState,
-        isFlipped: !currentState.isFlipped,
-      };
-      currentState = newState;
-      update(() => newState);
+      update((state) => ({
+        ...state,
+        isFlipped: !state.isFlipped,
+      }));
     },
 
     /**
      * Reset flip state (useful when moving to next card)
      */
     resetFlip() {
-      const newState: StudyModeState = {
-        ...currentState,
+      update((state) => ({
+        ...state,
         isFlipped: false,
-      };
-      currentState = newState;
-      update(() => newState);
+      }));
     },
 
     /**
      * Rate the current card and move to next
      */
     rateCard(rating: SM2Rating) {
-      if (!currentState.session || !currentState.currentCard) return;
+      update((state) => {
+        if (!state.session || !state.currentCard) return state;
 
-      const session = currentState.session;
-      const currentCard = currentState.currentCard;
+        const session = { ...state.session };
+        const currentCard = state.currentCard;
 
-      // Update card progress using SM-2
-      const newProgress = updateCardProgress(currentCard.id, rating);
+        // Update card progress using SM-2
+        const newProgress = updateCardProgress(currentCard.id, rating);
 
-      // Update session stats
-      session.stats.reviewed++;
-      session.stats.ratings[rating]++;
+        // Update session stats
+        session.stats.reviewed++;
+        session.stats.ratings[rating]++;
 
-      // Count "good" and "easy" as correct for stats
-      if (rating === 'good' || rating === 'easy') {
-        session.stats.correct++;
-      }
+        // Count "good" and "easy" as correct for stats
+        if (rating === 'good' || rating === 'easy') {
+          session.stats.correct++;
+        }
 
-      // Move to next card
-      session.currentIndex++;
+        // Move to next card
+        session.currentIndex++;
 
-      // Check if session is complete
-      const isComplete = session.currentIndex >= session.cards.length;
+        // Check if session is complete
+        const isComplete = session.currentIndex >= session.cards.length;
 
-      let newState: StudyModeState;
-      if (isComplete) {
-        session.completedAt = new Date().toISOString();
-        newState = {
-          ...currentState,
-          session,
-          isComplete: true,
-          currentCard: null,
-          isFlipped: false,
-        };
-      } else {
-        const nextCard = session.cards[session.currentIndex];
-        newState = {
-          ...currentState,
-          session,
-          currentCard: nextCard,
-          isFlipped: false,
-        };
-      }
-
-      currentState = newState;
-      update(() => newState);
+        if (isComplete) {
+          session.completedAt = new Date().toISOString();
+          return {
+            ...state,
+            session,
+            isComplete: true,
+            currentCard: null,
+            isFlipped: false,
+          };
+        } else {
+          const nextCard = session.cards[session.currentIndex];
+          return {
+            ...state,
+            session,
+            currentCard: nextCard,
+            isFlipped: false,
+          };
+        }
+      });
     },
 
     /**
      * Get the next card without rating (for skipping)
      */
     nextCard() {
-      if (!currentState.session) return;
+      update((state) => {
+        if (!state.session) return state;
 
-      const session = currentState.session;
-      session.currentIndex++;
+        const session = { ...state.session };
+        session.currentIndex++;
 
-      let newState: StudyModeState;
-      if (session.currentIndex >= session.cards.length) {
-        session.completedAt = new Date().toISOString();
-        newState = {
-          ...currentState,
-          session,
-          isComplete: true,
-          currentCard: null,
-          isFlipped: false,
-        };
-      } else {
-        const nextCard = session.cards[session.currentIndex];
-        newState = {
-          ...currentState,
-          session,
-          currentCard: nextCard,
-          isFlipped: false,
-        };
-      }
-
-      currentState = newState;
-      update(() => newState);
+        if (session.currentIndex >= session.cards.length) {
+          session.completedAt = new Date().toISOString();
+          return {
+            ...state,
+            session,
+            isComplete: true,
+            currentCard: null,
+            isFlipped: false,
+          };
+        } else {
+          const nextCard = session.cards[session.currentIndex];
+          return {
+            ...state,
+            session,
+            currentCard: nextCard,
+            isFlipped: false,
+          };
+        }
+      });
     },
 
     /**
      * End the current session
      */
     endSession() {
-      if (!currentState.session) return;
+      update((state) => {
+        if (!state.session) return state;
 
-      const session = currentState.session;
-      session.completedAt = new Date().toISOString();
+        const session = { ...state.session };
+        session.completedAt = new Date().toISOString();
 
-      const newState: StudyModeState = {
-        ...currentState,
-        session,
-        isComplete: true,
-      };
-
-      currentState = newState;
-      update(() => newState);
+        return {
+          ...state,
+          session,
+          isComplete: true,
+        };
+      });
     },
 
     /**
      * Clear/reset the store
      */
     reset() {
-      currentState = initialState;
       set(initialState);
     },
   };
