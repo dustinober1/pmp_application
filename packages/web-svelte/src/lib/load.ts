@@ -1,6 +1,6 @@
 import type { NumericRange } from "@sveltejs/kit";
 import { redirect, error as kitError } from "@sveltejs/kit";
-import { ApiError, apiRequest } from "./api";
+import { ApiError } from "./api";
 
 /**
  * Standard load data interface
@@ -74,28 +74,22 @@ export function throwLoadError(
 }
 
 /**
- * Helper to require authentication in load functions
- * Redirects to login if user is not authenticated
+ * NOTE: Authentication is not implemented in this static-only application.
  *
- * @example
- * ```ts
- * export const load = async ({ fetch }) => {
- *   const user = await requireAuth(fetch);
- *   return { user };
- * };
- * ```
+ * This is a client-side PMP study app with no backend. All progress is stored
+ * locally via localStorage. The app uses a static "local user" model defined
+ * in `lib/stores/auth.ts` for future extensibility, but there is no actual
+ * authentication flow or API endpoint.
+ *
+ * If you need to add authentication in the future:
+ * 1. Implement a backend API with /auth/me endpoint
+ * 2. Update apiRequest() in lib/api.ts to handle actual HTTP requests
+ * 3. Re-introduce a requireAuth() helper similar to the removed implementation
+ *
+ * @deprecated This app is static-only with no authentication.
+ * The auth store (lib/stores/auth.ts) provides a static user placeholder
+ * for future backend integration, but authentication is not currently functional.
  */
-export async function requireAuth(fetch: typeof globalThis.fetch) {
-  const { data, error, status } = await loadApi(() =>
-    apiRequest("/auth/me", {}, fetch),
-  );
-
-  if (status === 401 || error) {
-    throw throwRedirect(303, "/auth/login");
-  }
-
-  return data;
-}
 
 /**
  * Helper to load multiple API calls in parallel
