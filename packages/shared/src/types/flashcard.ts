@@ -79,6 +79,7 @@ export interface CardProgress {
     good: number;
     easy: number;
   };
+  flagged?: boolean;
 }
 
 // Study session state

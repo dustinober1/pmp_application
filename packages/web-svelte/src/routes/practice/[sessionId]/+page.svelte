@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { savePracticeSession } from '$lib/utils/practiceSessionStorage';
+	import { toggleQuestionFlag, isQuestionFlagged } from '$lib/utils/questionProgressStorage';
 	import { practiceMode, currentQuestion, practiceProgress, sessionStats } from '$lib/stores/practiceMode';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
@@ -11,6 +12,18 @@
 	let showExplanation = false;
 	let submitting = false;
 	let error = null;
+	let isFlagged = false;
+
+	// Update flagged status when question changes
+	$: if ($currentQuestion) {
+		isFlagged = isQuestionFlagged($currentQuestion.id);
+	}
+
+	function handleToggleFlag() {
+		if ($currentQuestion) {
+			isFlagged = toggleQuestionFlag($currentQuestion.id);
+		}
+	}
 
 	onMount(() => {
 		if (!$practiceMode.sessionId) {
@@ -161,6 +174,17 @@
 							<span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300">
 								{$currentQuestion.difficulty}
 							</span>
+							
+							<button 
+								onclick={handleToggleFlag}
+								class="ml-auto p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors {isFlagged ? 'text-yellow-500' : 'text-gray-400 dark:text-gray-500'}"
+								title={isFlagged ? "Unflag question" : "Flag for review"}
+							>
+								<svg class="w-6 h-6" fill={isFlagged ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8l-2 2h-2a2 2 0 01-2-2v-3a2 2 0 01-2-2h-3z" /> 
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+								</svg>
+							</button>
 						</div>
 
 						<!-- Question Content -->

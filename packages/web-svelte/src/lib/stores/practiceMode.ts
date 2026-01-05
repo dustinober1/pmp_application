@@ -35,7 +35,7 @@ function createPracticeModeStore() {
         /**
          * Start a new practice session
          */
-        startSession(questions: PracticeQuestion[], options?: { limit?: number; priority?: 'srs' | 'shuffle' | 'none' }) {
+        startSession(questions: PracticeQuestion[], options?: { limit?: number; priority?: 'srs' | 'shuffle' | 'flagged' | 'none' }) {
             const sessionId = crypto.randomUUID();
             const now = new Date().toISOString();
 
@@ -60,6 +60,9 @@ function createPracticeModeStore() {
                     if (!progB) return 1;
                     return new Date(progA.nextReviewDate).getTime() - new Date(progB.nextReviewDate).getTime();
                 });
+            } else if (options?.priority === 'flagged') {
+                // Filter only flagged questions
+                selectedQuestions = selectedQuestions.filter(q => progressRecord[q.id]?.flagged);
             }
 
             // Apply limit

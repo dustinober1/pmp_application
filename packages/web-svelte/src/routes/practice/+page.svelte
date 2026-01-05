@@ -68,10 +68,13 @@
 	});
 
 	async function startSession() {
+		console.log('[DEBUG] startSession called');
 		starting = true;
 		try {
 			// Load all questions
+			console.log('[DEBUG] Loading static questions...');
 			const allQuestions = await loadStaticQuestions();
+			console.log('[DEBUG] Questions loaded:', allQuestions?.length);
 			
 			// Filter by domain if selected
 			let filteredQuestions = allQuestions;
@@ -82,13 +85,19 @@
 			}
 
 			// Start session in store
+			console.log('[DEBUG] Starting session in store with options:', { limit: questionCount, priority: startMode });
 			const sessionId = practiceMode.startSession(filteredQuestions, {
 				limit: questionCount,
 				priority: startMode
 			});
+			console.log('[DEBUG] Session ID generated:', sessionId);
 
 			if (sessionId) {
-				goto(`${base}/practice/${sessionId}`);
+				const target = `${base}/practice/${sessionId}`;
+				console.log('[DEBUG] Navigating to:', target);
+				goto(target);
+			} else {
+				console.error('[DEBUG] No session ID returned');
 			}
 		} catch (err) {
 			console.error('Failed to start session:', err);
@@ -126,10 +135,38 @@
 		}
 	}
 	
-	function startPresetSession(count: number, mode: 'srs' | 'shuffle') {
-		questionCount = count;
-		startMode = mode;
-		startSession();
+	async function startPresetSession(count: number, mode: 'srs' | 'shuffle') {
+            console.log('[DEBUG] startPresetSession called with:', count, mode, 'Base:', base);
+            // alert('Starting session...'); // Debug alert
+		    questionCount = count;
+		    startMode = mode;
+		    await startSession();
+	}
+
+	async function startFlaggedSession() {
+		console.log('[DEBUG] startFlaggedSession called');
+		starting = true;
+		try {
+			// Load all questions
+			const allQuestions = await loadStaticQuestions();
+			
+			// Start session with 'flagged' priority (filtering handled in store)
+			const sessionId = practiceMode.startSession(allQuestions, {
+				priority: 'flagged'
+			});
+
+			if (sessionId) {
+				goto(`${base}/practice/${sessionId}`);
+			} else {
+				// Handle case where no flagged questions exist
+				alert('No flagged questions found to review!');
+			}
+		} catch (err) {
+			console.error('Failed to start flagged session:', err);
+			error = err instanceof Error ? err.message : 'Failed to start flagged session';
+		} finally {
+			starting = false;
+		}
 	}
 
 	let showHistory = $state(false);
@@ -165,7 +202,7 @@
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 				<!-- Quick 10 -->
 				<button
-					onclick={() => startPresetSession(10, 'shuffle')}
+					on:click={() => startPresetSession(10, 'shuffle')}
 					disabled={starting}
 					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-indigo-600/50 dark:hover:border-indigo-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/20 text-left"
 				>
@@ -183,7 +220,7 @@
 
 				<!-- Standard 25 -->
 				<button
-					onclick={() => startPresetSession(25, 'shuffle')}
+					on:click={() => startPresetSession(25, 'shuffle')}
 					disabled={starting}
 					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-purple-600/50 dark:hover:border-purple-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-purple-500/20 text-left"
 				>
@@ -201,7 +238,7 @@
 
 				<!-- Weak Areas (SRS) -->
 				<button
-					onclick={() => startPresetSession(30, 'srs')}
+					on:click={() => startPresetSession(30, 'srs')}
 					disabled={starting}
 					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-pink-600/50 dark:hover:border-pink-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-pink-500/20 text-left"
 				>
@@ -218,9 +255,10 @@
 				</button>
 				
 				<!-- Review Flagged -->
-				<a
-					href="{base}/practice/flagged"
-					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-yellow-600/50 dark:hover:border-yellow-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-yellow-500/20 block"
+				<button
+					onclick={startFlaggedSession}
+					disabled={starting}
+					class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-yellow-600/50 dark:hover:border-yellow-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-yellow-500/20 block w-full text-left"
 				>
 					<div class="flex items-center justify-between mb-4">
 						<div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl text-yellow-600 dark:text-yellow-400 group-hover:scale-110 transition-transform duration-300">
@@ -233,7 +271,7 @@
 					</div>
 					<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Flagged</h3>
 					<p class="text-sm text-gray-500 dark:text-gray-400">Review questions you marked</p>
-				</a>
+				</button>
 			</div>
 			
 			<!-- Stats Row -->

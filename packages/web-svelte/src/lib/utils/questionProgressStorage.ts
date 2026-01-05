@@ -73,9 +73,38 @@ export function initializeQuestionProgress(questionId: string): CardProgress {
         lastReviewDate: new Date().toISOString(),
         totalReviews: 0,
         ratingCounts: { again: 0, hard: 0, good: 0, easy: 0 },
+        flagged: false,
     };
     saveQuestionProgress(questionId, progress);
     return progress;
+}
+
+/**
+ * Toggle the flagged status of a question
+ */
+export function toggleQuestionFlag(questionId: string): boolean {
+    const progress = getOrInitializeQuestionProgress(questionId);
+    progress.flagged = !progress.flagged;
+    saveQuestionProgress(questionId, progress);
+    return progress.flagged || false;
+}
+
+/**
+ * Get all flagged question IDs
+ */
+export function getFlaggedQuestions(): string[] {
+    const allProgress = getAllQuestionProgress();
+    return Object.values(allProgress)
+        .filter(p => p.flagged)
+        .map(p => p.cardId);
+}
+
+/**
+ * Check if a question is flagged
+ */
+export function isQuestionFlagged(questionId: string): boolean {
+    const progress = getQuestionProgress(questionId);
+    return progress?.flagged || false;
 }
 
 /**
