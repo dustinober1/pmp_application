@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "generatedAt": "2026-01-05T10:34:54.397Z",
+  "domains": [
+    {
+      "id": "business",
+      "name": "Business Environment",
+      "file": "flashcards/business.json",
+      "taskCount": 1,
+      "cardCount": 80
+    },
+    {
+      "id": "people",
+      "name": "People",
+      "file": "flashcards/people.json",
+      "taskCount": 8,
+      "cardCount": 840
+    },
+    {
+      "id": "process",
+      "name": "Process",
+      "file": "flashcards/process.json",
+      "taskCount": 10,
+      "cardCount": 830
+    }
+  ]
+}

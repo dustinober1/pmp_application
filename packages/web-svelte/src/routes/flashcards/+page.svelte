@@ -9,9 +9,10 @@
     type FlashcardReview
   } from "$lib/utils/flashcardStorage";
   import {
-    getFlashcardStats,
+    getQuickStats,
+    getFlashcardsByDomain,
     type Flashcard,
-    type FlashcardStats
+    type DomainManifest
   } from "$lib/utils/flashcardsData";
   import { getCardProgressStats } from "$lib/utils/cardProgressStorage";
   import { goto } from '$app/navigation';
@@ -37,12 +38,14 @@
   let recentReviews: FlashcardReview[] = $state([]);
   let showRecentReviews = $state(false);
 
-  // Data loading state
+  // Data loading state - now uses lazy loading
   let loading = $state(true);
+  let loadingDomain = $state(false); // For domain-specific loading indicator
   let allFlashcards: Flashcard[] = $state([]);
   let filteredFlashcards: Flashcard[] = $state([]);
-  let statsData: FlashcardStats | null = $state(null);
-  let error = $state(null);
+  let quickStats: { totalFlashcards: number; totalDomains: number; totalTasks: number; domains: DomainManifest[] } | null = $state(null);
+  let loadedDomains: Set<string> = new Set(); // Track which domains have been loaded
+  let error: string | null = $state(null);
 
   // Domain filter state
   let selectedDomain = $state<string>('all');
@@ -84,13 +87,59 @@
       : baseClasses + "bg-white/80 dark:bg-gray-800/80 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:scale-105";
   }
 
-  // Apply domain filter
-  function applyDomainFilter() {
+  // Load flashcards for a specific domain (lazy loading)
+  async function loadDomainFlashcards(domainId: string): Promise<Flashcard[]> {
+    if (loadedDomains.has(domainId)) {
+      // Already loaded, just filter from allFlashcards
+      return allFlashcards.filter(card => card.domainId === domainId);
+    }
+    
+    loadingDomain = true;
+    try {
+      const cards = await getFlashcardsByDomain(domainId);
+      // Add to allFlashcards cache
+      allFlashcards = [...allFlashcards, ...cards];
+      loadedDomains.add(domainId);
+      return cards;
+    } finally {
+      loadingDomain = false;
+    }
+  }
+
+  // Load all domains (for "All" filter)
+  async function loadAllDomains(): Promise<void> {
+    if (!quickStats) return;
+    
+    const unloadedDomains = quickStats.domains.filter(d => !loadedDomains.has(d.id));
+    if (unloadedDomains.length === 0) return; // All already loaded
+    
+    loadingDomain = true;
+    try {
+      // Load all unloaded domains in parallel
+      const results = await Promise.all(
+        unloadedDomains.map(d => getFlashcardsByDomain(d.id))
+      );
+      
+      // Add all new cards to cache
+      const newCards = results.flat();
+      allFlashcards = [...allFlashcards, ...newCards];
+      unloadedDomains.forEach(d => loadedDomains.add(d.id));
+    } finally {
+      loadingDomain = false;
+    }
+  }
+
+  // Apply domain filter (now async with lazy loading)
+  async function applyDomainFilter() {
     if (selectedDomain === 'all') {
+      await loadAllDomains();
       filteredFlashcards = allFlashcards;
     } else {
-      filteredFlashcards = allFlashcards.filter(card => card.domainId === selectedDomain);
+      // Load the specific domain if needed
+      const domainCards = await loadDomainFlashcards(selectedDomain);
+      filteredFlashcards = domainCards;
     }
+    
     // Re-apply search if there's an active search
     if (searchQuery) {
       const q = searchQuery.toLowerCase().trim();
@@ -236,32 +285,32 @@
     localMasteredCount = getMasteredCount();
     recentReviews = getRecentReviews();
 
-    // Load flashcards data from JSON files
     try {
-      // Load stats and all flashcards in a more efficient way
-      // processFlashcards() will load and cache the data, so we only load once
-      const [statsResult, flashcardsResult] = await Promise.all([
-        getFlashcardStats(),
-        import('$lib/utils/flashcardsData').then(m => m.processFlashcards())
-      ]);
+      // FAST: Load only the manifest (~500 bytes) initially
+      quickStats = await getQuickStats();
       
-      statsData = statsResult;
-      allFlashcards = flashcardsResult;
-      filteredFlashcards = allFlashcards;
-
+      // Immediately mark as loaded - page renders instantly with stats
+      loading = false;
+      
+      // Then load the first domain by default (e.g., People, the most popular)
+      // This happens after the page is visible, providing perceived speed
+      const defaultDomain = 'people';
+      const domainCards = await loadDomainFlashcards(defaultDomain);
+      filteredFlashcards = domainCards;
+      
       // Initialize pagination with loaded flashcards
       pagination = usePagination({ items: filteredFlashcards, pageSize: 20 });
-      
-      // Mark as loaded before expensive calculations
-      loading = false;
+      paginationVersion++;
 
-      // Calculate due today from localStorage card progress (deferred, non-blocking)
-      // Use setTimeout to allow the UI to render first
+      // Calculate due today from localStorage card progress (deferred)
       setTimeout(() => {
-        const allCardIds = allFlashcards.map(card => card.id);
-        const cardStats = getCardProgressStats(allCardIds);
-        dueTodayCount = cardStats.cardsDue;
-      }, 0);
+        // For now, just use the loaded cards - full calculation will happen later
+        const cardIds = allFlashcards.map(card => card.id);
+        if (cardIds.length > 0) {
+          const cardStats = getCardProgressStats(cardIds);
+          dueTodayCount = cardStats.cardsDue;
+        }
+      }, 100);
     } catch (err) {
       console.error('Failed to load flashcards:', err);
       error = err instanceof Error ? err.message : 'Failed to load flashcards';
@@ -271,7 +320,10 @@
 
   // Watch for domain filter changes
   $effect(() => {
-    if (allFlashcards.length > 0) {
+    // Only trigger when domain changes and we have stats loaded
+    if (quickStats && !loading) {
+      // Get the current domain value to track
+      const currentDomain = selectedDomain;
       applyDomainFilter();
     }
   });
@@ -308,12 +360,12 @@
       </a>
 
       <!-- Stats -->
-      {#if statsData}
+      {#if quickStats}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300 hover:scale-105 cursor-default">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Total Cards</h2>
             <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">
-              {statsData.totalFlashcards || 0}
+              {quickStats.totalFlashcards || 0}
             </p>
           </div>
           <div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300 hover:scale-105 cursor-default">
@@ -340,13 +392,27 @@
             <button
               onclick={() => selectedDomain = filter.id}
               class={getChipClasses(filter.id)}
+              disabled={loadingDomain}
             >
               {filter.label}
             </button>
           {/each}
+          {#if loadingDomain}
+            <span class="inline-flex items-center gap-2 px-3 py-1 text-sm text-indigo-600 dark:text-indigo-400">
+              <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Loading...
+            </span>
+          {/if}
         </div>
         <p class="text-xs text-gray-500 dark:text-gray-400 mt-3">
-          Showing {filteredFlashcards.length} {selectedDomain === 'all' ? 'total' : DOMAIN_FILTERS.find(f => f.id === selectedDomain)?.label} flashcards
+          {#if loadingDomain}
+            Loading flashcards...
+          {:else}
+            Showing {filteredFlashcards.length} {selectedDomain === 'all' ? 'total' : DOMAIN_FILTERS.find(f => f.id === selectedDomain)?.label} flashcards
+          {/if}
         </p>
       </div>
 

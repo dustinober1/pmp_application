@@ -1,8 +1,27 @@
 /**
- * Flashcards data utility for loading and processing flashcards.json
+ * Flashcards data utility with LAZY LOADING by domain
+ * 
+ * This module loads flashcard data on-demand per domain to improve initial page load.
+ * Instead of loading 500KB+ upfront, we load only the manifest (~500 bytes) initially,
+ * then load individual domain files (~20-250KB each) as needed.
  */
 
 import { base } from '$app/paths';
+
+// Types for the manifest
+export interface DomainManifest {
+  id: string;
+  name: string;
+  file: string;
+  taskCount: number;
+  cardCount: number;
+}
+
+export interface FlashcardManifest {
+  version: number;
+  generatedAt: string;
+  domains: DomainManifest[];
+}
 
 // Types for the raw flashcards.json structure
 export interface FlashcardMeta {
@@ -74,57 +93,75 @@ export interface PaginatedFlashcards {
 const DOMAIN_MAP: Record<string, string> = {
   'Business Environment': 'business',
   'People': 'people',
+  'People (33%)': 'people',
+  'People (42%)': 'people',
   'Process': 'process',
 };
 
-// Cache for the loaded flashcards data
-let cachedFlashcards: Flashcard[] | null = null;
-let cachedFlashcardsData: FlashcardsData | null = null;
+// Cache for loaded data
+let cachedManifest: FlashcardManifest | null = null;
+const cachedDomainData: Map<string, FlashcardGroup[]> = new Map();
+const cachedProcessedFlashcards: Map<string, Flashcard[]> = new Map();
 
 /**
- * Load and parse flashcards.json from static/data directory
+ * Load the manifest file (very small, ~500 bytes)
  */
-export async function loadFlashcardsData(): Promise<FlashcardsData> {
-  if (cachedFlashcardsData) {
-    return cachedFlashcardsData;
+export async function loadManifest(): Promise<FlashcardManifest> {
+  if (cachedManifest) {
+    return cachedManifest;
   }
 
   try {
-    const response = await fetch(`${base}/data/flashcards.json`);
+    const response = await fetch(`${base}/data/flashcards/manifest.json`);
     if (!response.ok) {
-      throw new Error(`Failed to load flashcards.json: ${response.statusText}`);
+      throw new Error(`Failed to load manifest: ${response.statusText}`);
     }
-    const data = (await response.json()) as FlashcardsData;
-    cachedFlashcardsData = data;
+    const data = (await response.json()) as FlashcardManifest;
+    cachedManifest = data;
     return data;
   } catch (error) {
-    console.error('Failed to load flashcards.json:', error);
+    console.error('Failed to load flashcards manifest:', error);
     throw new Error('Failed to load flashcards');
   }
 }
 
 /**
- * Process raw flashcards data into application format
+ * Load flashcard groups for a specific domain (lazy loaded)
  */
-export async function processFlashcards(): Promise<Flashcard[]> {
-  if (cachedFlashcards) {
-    return cachedFlashcards;
+export async function loadDomainData(domainId: string): Promise<FlashcardGroup[]> {
+  // Return cached if available
+  if (cachedDomainData.has(domainId)) {
+    return cachedDomainData.get(domainId)!;
   }
 
-  const data = await loadFlashcardsData();
+  try {
+    const response = await fetch(`${base}/data/flashcards/${domainId}.json`);
+    if (!response.ok) {
+      throw new Error(`Failed to load domain ${domainId}: ${response.statusText}`);
+    }
+    const data = (await response.json()) as FlashcardGroup[];
+    cachedDomainData.set(domainId, data);
+    return data;
+  } catch (error) {
+    console.error(`Failed to load flashcards for domain ${domainId}:`, error);
+    throw new Error(`Failed to load flashcards for ${domainId}`);
+  }
+}
 
+/**
+ * Process raw domain data into Flashcard format
+ */
+function processDomainFlashcards(domainId: string, groups: FlashcardGroup[]): Flashcard[] {
   const processed: Flashcard[] = [];
 
-  for (const group of data) {
-    const domainId = DOMAIN_MAP[group.meta.domain] || group.meta.domain.toLowerCase().replace(/\s+/g, '-');
-
-    // Create a task ID from the task name or ecoReference
+  for (const group of groups) {
+    const groupDomainId = DOMAIN_MAP[group.meta.domain] || group.meta.domain.toLowerCase().replace(/\s+/g, '-');
     const taskId = group.meta.ecoReference.toLowerCase().replace(/\s+/g, '-');
 
     for (const raw of group.flashcards) {
       processed.push({
-        id: `${domainId}-${taskId}-${raw.id}`,
-        domainId,
+        id: `${groupDomainId}-${taskId}-${raw.id}`,
+        domainId: groupDomainId,
         taskId,
         domain: group.meta.domain,
         task: group.meta.task,
@@ -136,49 +173,97 @@ export async function processFlashcards(): Promise<Flashcard[]> {
     }
   }
 
-  cachedFlashcards = processed;
   return processed;
 }
 
 /**
- * Get flashcard statistics
+ * Get flashcards for a specific domain (lazy loaded)
+ */
+export async function getFlashcardsByDomain(domainId: string): Promise<Flashcard[]> {
+  // Return cached processed flashcards if available
+  if (cachedProcessedFlashcards.has(domainId)) {
+    return cachedProcessedFlashcards.get(domainId)!;
+  }
+
+  const groups = await loadDomainData(domainId);
+  const flashcards = processDomainFlashcards(domainId, groups);
+  cachedProcessedFlashcards.set(domainId, flashcards);
+  return flashcards;
+}
+
+/**
+ * Get all processed flashcards (loads all domains)
+ * Use sparingly - prefer getFlashcardsByDomain for better performance
+ */
+export async function processFlashcards(): Promise<Flashcard[]> {
+  const manifest = await loadManifest();
+
+  // Load all domains in parallel
+  const domainPromises = manifest.domains.map(d => getFlashcardsByDomain(d.id));
+  const allFlashcards = await Promise.all(domainPromises);
+
+  return allFlashcards.flat();
+}
+
+/**
+ * Get flashcard statistics from manifest (fast, no full data load)
  */
 export async function getFlashcardStats(): Promise<FlashcardStats> {
-  const data = await loadFlashcardsData();
+  const manifest = await loadManifest();
 
-  const domainMap = new Map<string, DomainBreakdown>();
+  // Basic stats from manifest (fast!)
+  const totalFlashcards = manifest.domains.reduce((sum, d) => sum + d.cardCount, 0);
+  const totalTasks = manifest.domains.reduce((sum, d) => sum + d.taskCount, 0);
 
-  for (const group of data) {
-    const domainId = DOMAIN_MAP[group.meta.domain] || group.meta.domain.toLowerCase().replace(/\s+/g, '-');
+  // Domain breakdown needs actual data for full task info
+  const domainBreakdown: DomainBreakdown[] = [];
 
-    if (!domainMap.has(domainId)) {
-      domainMap.set(domainId, {
-        domainId,
-        domain: group.meta.domain,
-        totalFlashcards: 0,
-        tasks: [],
-      });
-    }
+  for (const domain of manifest.domains) {
+    const groups = await loadDomainData(domain.id);
 
-    const domain = domainMap.get(domainId)!;
-    domain.totalFlashcards += group.flashcards.length;
+    const tasks: TaskBreakdown[] = groups.map(group => {
+      const categories = new Set(group.flashcards.map(f => f.category));
+      return {
+        taskId: group.meta.ecoReference.toLowerCase().replace(/\s+/g, '-'),
+        task: group.meta.task,
+        ecoReference: group.meta.ecoReference,
+        flashcardCount: group.flashcards.length,
+        categories: Array.from(categories),
+      };
+    });
 
-    const categories = new Set(group.flashcards.map((f) => f.category));
-
-    domain.tasks.push({
-      taskId: group.meta.ecoReference.toLowerCase().replace(/\s+/g, '-'),
-      task: group.meta.task,
-      ecoReference: group.meta.ecoReference,
-      flashcardCount: group.flashcards.length,
-      categories: Array.from(categories),
+    domainBreakdown.push({
+      domainId: domain.id,
+      domain: domain.name,
+      totalFlashcards: domain.cardCount,
+      tasks,
     });
   }
 
   return {
-    totalFlashcards: data.reduce((sum, group) => sum + group.flashcards.length, 0),
-    totalDomains: domainMap.size,
-    totalTasks: data.length,
-    domainBreakdown: Array.from(domainMap.values()),
+    totalFlashcards,
+    totalDomains: manifest.domains.length,
+    totalTasks,
+    domainBreakdown,
+  };
+}
+
+/**
+ * Get quick stats from manifest only (very fast, no domain data load)
+ */
+export async function getQuickStats(): Promise<{
+  totalFlashcards: number;
+  totalDomains: number;
+  totalTasks: number;
+  domains: DomainManifest[];
+}> {
+  const manifest = await loadManifest();
+
+  return {
+    totalFlashcards: manifest.domains.reduce((sum, d) => sum + d.cardCount, 0),
+    totalDomains: manifest.domains.length,
+    totalTasks: manifest.domains.reduce((sum, d) => sum + d.taskCount, 0),
+    domains: manifest.domains,
   };
 }
 
@@ -190,13 +275,17 @@ export async function getFlashcards(options: {
   domainId?: string;
   taskId?: string;
 }): Promise<PaginatedFlashcards> {
-  let flashcards = await processFlashcards();
+  let flashcards: Flashcard[];
 
-  // Apply filters
   if (options.domainId) {
-    flashcards = flashcards.filter((f) => f.domainId === options.domainId);
+    // Only load the specific domain
+    flashcards = await getFlashcardsByDomain(options.domainId);
+  } else {
+    // Load all (use sparingly)
+    flashcards = await processFlashcards();
   }
 
+  // Apply task filter
   if (options.taskId) {
     flashcards = flashcards.filter((f) => f.taskId === options.taskId);
   }
@@ -207,14 +296,6 @@ export async function getFlashcards(options: {
     offset: 0,
     limit: options.limit,
   };
-}
-
-/**
- * Get flashcards by domain
- */
-export async function getFlashcardsByDomain(domainId: string): Promise<Flashcard[]> {
-  const flashcards = await processFlashcards();
-  return flashcards.filter((f) => f.domainId === domainId);
 }
 
 /**
@@ -229,51 +310,67 @@ export async function getFlashcardsByTask(taskId: string): Promise<Flashcard[]> 
  * Get flashcard by ID
  */
 export async function getFlashcardById(id: string): Promise<Flashcard | null> {
+  // Extract domain from ID (format: domain-task-id)
+  const parts = id.split('-');
+  if (parts.length >= 3) {
+    const domainId = parts[0];
+    const flashcards = await getFlashcardsByDomain(domainId);
+    return flashcards.find((f) => f.id === id) || null;
+  }
+
+  // Fallback to searching all
   const flashcards = await processFlashcards();
   return flashcards.find((f) => f.id === id) || null;
 }
 
 /**
- * Get all unique domains
+ * Get all unique domains from manifest (fast)
  */
 export async function getDomains(): Promise<Array<{ id: string; name: string }>> {
-  const data = await loadFlashcardsData();
-  const domains = new Map<string, string>();
-
-  for (const group of data) {
-    const domainId = DOMAIN_MAP[group.meta.domain] || group.meta.domain.toLowerCase().replace(/\s+/g, '-');
-    domains.set(domainId, group.meta.domain);
-  }
-
-  return Array.from(domains.entries()).map(([id, name]) => ({ id, name }));
+  const manifest = await loadManifest();
+  return manifest.domains.map(d => ({ id: d.id, name: d.name }));
 }
 
 /**
  * Get all unique tasks for a domain
  */
 export async function getTasksByDomain(domainId: string): Promise<Array<{ id: string; name: string; ecoReference: string }>> {
-  const data = await loadFlashcardsData();
-  const tasks: Array<{ id: string; name: string; ecoReference: string }> = [];
+  const groups = await loadDomainData(domainId);
 
-  for (const group of data) {
-    const groupDomainId = DOMAIN_MAP[group.meta.domain] || group.meta.domain.toLowerCase().replace(/\s+/g, '-');
-
-    if (groupDomainId === domainId) {
-      tasks.push({
-        id: group.meta.ecoReference.toLowerCase().replace(/\s+/g, '-'),
-        name: group.meta.task,
-        ecoReference: group.meta.ecoReference,
-      });
-    }
-  }
-
-  return tasks;
+  return groups.map(group => ({
+    id: group.meta.ecoReference.toLowerCase().replace(/\s+/g, '-'),
+    name: group.meta.task,
+    ecoReference: group.meta.ecoReference,
+  }));
 }
 
 /**
- * Clear cached flashcards data
+ * Clear all cached flashcards data
  */
 export function clearCache(): void {
-  cachedFlashcards = null;
-  cachedFlashcardsData = null;
+  cachedManifest = null;
+  cachedDomainData.clear();
+  cachedProcessedFlashcards.clear();
+}
+
+// ============================================
+// LEGACY COMPATIBILITY
+// ============================================
+// These functions maintain backwards compatibility with the old API
+// that loaded everything from flashcards.json
+
+/**
+ * @deprecated Use loadManifest() + loadDomainData() instead
+ * Load and parse flashcards.json from static/data directory
+ */
+export async function loadFlashcardsData(): Promise<FlashcardsData> {
+  const manifest = await loadManifest();
+  const allGroups: FlashcardGroup[] = [];
+
+  for (const domain of manifest.domains) {
+    const groups = await loadDomainData(domain.id);
+    allGroups.push(...groups);
+  }
+
+  return allGroups;
 }

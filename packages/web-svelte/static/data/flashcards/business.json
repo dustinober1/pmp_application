@@ -1,0 +1,494 @@
+[
+  {
+    "meta": {
+      "title": "",
+      "domain": "Business Environment",
+      "task": "Define and establish project governance",
+      "ecoReference": "Business Task 1",
+      "description": "Flashcards for PMP Business Domain Task 1",
+      "file": "guide/appendices/flashcards-business-task1-governance.md"
+    },
+    "flashcards": [
+      {
+        "id": 1,
+        "category": "🏛️ Governance Structures",
+        "front": "What is Project Governance?\n",
+        "back": "The framework, functions, and processes that guide project management activities in order to create a unique product, service, or result to meet organizational, strategic, and operational goals. (The \"Rules of the Road\").\n"
+      },
+      {
+        "id": 2,
+        "category": "🏛️ Governance Structures",
+        "front": "What is the difference between Governance and Management?\n",
+        "back": "- Governance: Oversight, Strategic Direction, \"doing the right things\" (Steering Committee).\n- Management: Execution, Day-to-Day Operations, \"doing things right\" (Project Manager).\n"
+      },
+      {
+        "id": 3,
+        "category": "🏛️ Governance Structures",
+        "front": "What is a Steering Committee?\n",
+        "back": "A governance body of key stakeholders (Sponsor, Execs) that provides strategic direction, resolves escalated issues, and makes \"Go/No-Go\" decisions.\n"
+      },
+      {
+        "id": 4,
+        "category": "🏛️ Governance Structures",
+        "front": "What is the Sponsor's primary governance role?\n",
+        "back": "Providing funding (resources), championing the project, and acting as the final escalation point for issues the PM cannot resolve.\n"
+      },
+      {
+        "id": 5,
+        "category": "🏛️ Governance Structures",
+        "front": "What is the Change Control Board (CCB)?\n",
+        "back": "A formally chartered group responsible for reviewing, evaluating, approving, delaying, or rejecting changes to the project baselines.\n"
+      },
+      {
+        "id": 6,
+        "category": "🏛️ Governance Structures",
+        "front": "Scenario: You need a template for a Project Charter. Who do you contact?\n",
+        "back": "The Project Management Office (PMO).\n"
+      },
+      {
+        "id": 7,
+        "category": "🏛️ Governance Structures",
+        "front": "Scenario: You need more budget (Funding) because costs increased. Who do you contact?\n",
+        "back": "The Sponsor (or Steering Committee). The PMO cannot grant budget.\n"
+      },
+      {
+        "id": 8,
+        "category": "🏛️ Governance Structures",
+        "front": "Scenario: A new law is passed that makes your product illegal. Who decides whether to cancel the project?\n",
+        "back": "Governance (Steering Committee / Sponsor). The PM provides the impact analysis, but Governance makes the \"Kill\" decision.\n"
+      },
+      {
+        "id": 9,
+        "category": "🏛️ Governance Structures",
+        "front": "What is a Phase Gate (Kill Point)?\n",
+        "back": "A review at the end of a phase in which a decision is made to continue to the next phase, to continue with modification, or to end a project or program.\n"
+      },
+      {
+        "id": 10,
+        "category": "🏛️ Governance Structures",
+        "front": "What is Organizational Project Management (OPM)?\n",
+        "back": "A strategy execution framework utilizing project, program, and portfolio management as well as organizational enablers (e.g., PMO) to consistently deliver better performance/results.\n\n\n"
+      },
+      {
+        "id": 11,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "What is a Supportive PMO?\n",
+        "back": "A PMO that provides a consultative role by supplying templates, best practices, training, access to information, and lessons learned. Level of Control: Low.\n"
+      },
+      {
+        "id": 12,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "What is a Controlling PMO?\n",
+        "back": "A PMO that provides support and requires compliance through various means (frameworks, methodologies, templates, tools). Level of Control: Moderate.\n"
+      },
+      {
+        "id": 13,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "What is a Directive PMO?\n",
+        "back": "A PMO that takes control of the projects by directly managing them. Project Managers report to the PMO. Level of Control: High.\n"
+      },
+      {
+        "id": 14,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "Scenario: Your PMO Director assigns you to a project and you report directly to them. What type of PMO is this?\n",
+        "back": "Directive PMO.\n"
+      },
+      {
+        "id": 15,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "Scenario: The PMO provides you with a Risk Register template but lets you choose your own methodology. What type of PMO is this?\n",
+        "back": "Supportive PMO.\n"
+      },
+      {
+        "id": 16,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "Scenario: The PMO audits your project to ensure you are following the standard 5-step risk process. What type of PMO is this?\n",
+        "back": "Controlling PMO.\n"
+      },
+      {
+        "id": 17,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "What is the modern, value-driven view of a PMO?\n",
+        "back": "It is a \"Servant Leader\" service center that enables delivery, focuses on strategic alignment, and optimizes resources (vs. the old \"Police Force\" view).\n"
+      },
+      {
+        "id": 18,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "Does the PMO manage the project budget?\n",
+        "back": "Usually No. The PMO tracks/reports on it, but the Sponsor owns the budget and the PM manages it. (Exception: Directive PMO might own the budget).\n"
+      },
+      {
+        "id": 19,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "How does a PMO support Knowledge Management?\n",
+        "back": "By maintaining the repository of Lessons Learned (OPAs) from past projects so new teams don't repeat mistakes.\n"
+      },
+      {
+        "id": 20,
+        "category": "📋 The PMO (Project Management Office)",
+        "front": "What acts as a bridge between Strategy (Executives) and Execution (Teams)?\n",
+        "back": "The PMO (and Portfolio Management).\n\n\n"
+      },
+      {
+        "id": 21,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "What is the hierarchy of rules (highest to lowest)?\n",
+        "back": "1. Laws/Regulations (Mandatory)\n2. Standards (Industry best practice)\n3. Policies (Internal Organizational rules)\n4. Guidelines (Optional recommendations).\n"
+      },
+      {
+        "id": 22,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "Scenario: A stakeholder asks you to skip a safety inspection to save time. It is required by OSHA (Law). What do you do?\n",
+        "back": "Refuse. Laws and safety regulations are non-negotiable. \"Safety > Schedule\".\n"
+      },
+      {
+        "id": 23,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "Scenario: A new regulation (GDPR) is passed mid-project. It requires a major scope change. What do you do?\n",
+        "back": "You Must implement it. Initiate a Change Request to update scope/budget/schedule. You cannot deliver a non-compliant product.\n"
+      },
+      {
+        "id": 24,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "What is GDPR?\n",
+        "back": "General Data Protection Regulation (EU). Focuses on data privacy and user consent. Key for software/global projects.\n"
+      },
+      {
+        "id": 25,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "What is SOX (Sarbanes-Oxley)?\n",
+        "back": "US Law regarding financial reporting and internal controls. Key for finance/accounting projects.\n"
+      },
+      {
+        "id": 26,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "What is OSHA?\n",
+        "back": "Workplace safety regulations (US). Critical for construction/manufacturing projects.\n"
+      },
+      {
+        "id": 27,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "True or False: You can use the project budget to pay a \"Facilitation Payment\" (Bribe) to get permits faster in a foreign country.\n",
+        "back": "False. PMI Code of Ethics and laws (like FCPA) strictly prohibit bribery.\n"
+      },
+      {
+        "id": 28,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "Scenario: You discover your project is violating an environmental law. The fix will kill the project budget. What do you do?\n",
+        "back": "Report it immediately. You cannot ignore legal violations. If the project is no longer viable, it should be cancelled.\n"
+      },
+      {
+        "id": 29,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "Who is responsible for identifying project compliance requirements?\n",
+        "back": "The Project Manager. (You can consult Legal, but you must ensure they are in the plan).\n"
+      },
+      {
+        "id": 30,
+        "category": "⚖️ Compliance & Regulations",
+        "front": "What is a Compliance Audit?\n",
+        "back": "A structured review to determine whether project activities comply with organizational and project policies, processes, and procedures.\n\n\n"
+      },
+      {
+        "id": 31,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "What are the 4 values of the PMI Code of Ethics?\n",
+        "back": "Responsibility, Respect, Fairness, Honesty.\n"
+      },
+      {
+        "id": 32,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "Scenario: You own stock in a vendor company bidding on your project. What is this called?\n",
+        "back": "Conflict of Interest.\n"
+      },
+      {
+        "id": 33,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "Scenario: You have a Conflict of Interest (own stock in vendor). What must you do?\n",
+        "back": "Disclose it to your employer and Recuse yourself from the decision-making process.\n"
+      },
+      {
+        "id": 34,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "Scenario: A vendor offers you a \"consulting fee\" if you pick them. What is this?\n",
+        "back": "Bribery. It is illegal and unethical. Refuse and report.\n"
+      },
+      {
+        "id": 35,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "Scenario: A vendor offers you a cheap pen with their logo. Is this a bribe?\n",
+        "back": "Probably not. Check your Organizational Policy on gifts. If nominal, it might be allowed. When in doubt, refuse.\n"
+      },
+      {
+        "id": 36,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "Scenario: Your project is failing. The Sponsor asks you to report \"Green\" status to the Board so stock prices don't drop. What do you do?\n",
+        "back": "Refuse. Honesty is a core value. Report the accurate status (\"Red\").\n"
+      },
+      {
+        "id": 37,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "Scenario: You find out a team member PMP holder cheated on the exam. What is your ethical duty?\n",
+        "back": "Report it to PMI. We have a duty to protect the profession.\n"
+      },
+      {
+        "id": 38,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "What does the value of Respect entail?\n",
+        "back": "Listening to others' points of view, good faith negotiations, respecting property rights (IP), and avoiding abusive behavior.\n"
+      },
+      {
+        "id": 39,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "What does the value of Fairness entail?\n",
+        "back": "Impartiality and objectivity. Awarding contracts based on merit, not favoritism. Accessibility for all.\n"
+      },
+      {
+        "id": 40,
+        "category": "🧭 Ethics & Professional Conduct",
+        "front": "True or False: It is okay to copy software for the team if you plan to buy licenses later.\n",
+        "back": "False. That is copyright infringement (illegal) and violates the code of ethics (Respect for IP/Honesty).\n\n\n"
+      },
+      {
+        "id": 41,
+        "category": "🔄 Agile Governance",
+        "front": "How does Governance differ in Agile vs. Waterfall?\n",
+        "back": "- Waterfall: Heavy upfront planning, formal Phase Gates, rigorous documentation reviews to proceed.\n- Agile: Iterative, empirical control (reviewing working software), decentralized decision making.\n"
+      },
+      {
+        "id": 42,
+        "category": "🔄 Agile Governance",
+        "front": "What replaces \"Phase Gates\" in Agile?\n",
+        "back": "Sprint Reviews (System Demos) and Retrospectives. If the increment isn't acceptable, we adapt immediately.\n"
+      },
+      {
+        "id": 43,
+        "category": "🔄 Agile Governance",
+        "front": "Who provides governance on the \"product value\" in Agile?\n",
+        "back": "The Product Owner. They decide what gets built and in what order.\n"
+      },
+      {
+        "id": 44,
+        "category": "🔄 Agile Governance",
+        "front": "Who creates the \"Team Governance\" (Ground Rules) in Agile?\n",
+        "back": "The Team itself (Self-Organization).\n"
+      },
+      {
+        "id": 45,
+        "category": "🔄 Agile Governance",
+        "front": "What is Servant Leadership in governance?\n",
+        "back": "Governance that focuses on removing impediments and enabling the team rather than just auditing and controlling.\n"
+      },
+      {
+        "id": 46,
+        "category": "🔄 Agile Governance",
+        "front": "Scenario: An Agile team wants to skip regulatory documentation because \"we value working software over documentation.\"\n",
+        "back": "Incorrect. Agile values working software more, but regulatory compliance (documentation) is a constraint. You must do it if required by law/audit.\n"
+      },
+      {
+        "id": 47,
+        "category": "🔄 Agile Governance",
+        "front": "How do you track compliance in Agile?\n",
+        "back": "Add compliance items to the Backlog or as part of the Definition of Done (DoD).\n"
+      },
+      {
+        "id": 48,
+        "category": "🔄 Agile Governance",
+        "front": "What is Empirical Process Control?\n",
+        "back": "Making decisions based on observation and data (Transparency, Inspection, Adaptation) rather than following a predictive plan blindly.\n"
+      },
+      {
+        "id": 49,
+        "category": "🔄 Agile Governance",
+        "front": "Does Agile have a PMO?\n",
+        "back": "Yes, often an Agile PMO or \"Center of Excellence\" that provides coaching, tools, and aggregated reporting, but less command-and-control.\n"
+      },
+      {
+        "id": 50,
+        "category": "🔄 Agile Governance",
+        "front": "Scenario: The Agile team wants to change the Sprint length. Who decides?\n",
+        "back": "The Team decides their own process (usually).\n\n\n"
+      },
+      {
+        "id": 51,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "Who approves the Project Charter?\n",
+        "back": "The Sponsor.\n"
+      },
+      {
+        "id": 52,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "Who approves the Project Management Plan?\n",
+        "back": "The Sponsor and key stakeholders (functional managers), then it is baselined.\n"
+      },
+      {
+        "id": 53,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "Who approves Changes to Baselines?\n",
+        "back": "The Change Control Board (CCB).\n"
+      },
+      {
+        "id": 54,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "Who approves the Project Audit?\n",
+        "back": "Usually the PMO or an external audit body.\n"
+      },
+      {
+        "id": 55,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "Who is responsible for project quality?\n",
+        "back": "The Project Manager is ultimately responsible, though everyone plays a part.\n"
+      },
+      {
+        "id": 56,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "Who is accountable for the success of the project?\n",
+        "back": "The Project Manager (execution success) and Sponsor (business value success).\n"
+      },
+      {
+        "id": 57,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "True or False: Functional Managers have governance authority in a Matrix organization.\n",
+        "back": "True. They own the resources and often the technical standards.\n"
+      },
+      {
+        "id": 58,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "What is a Governance Framework?\n",
+        "back": "The organizational policies, rules, procedures, and norms that the project must follow (part of EEFs).\n"
+      },
+      {
+        "id": 59,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "Scenario: You are unsure if your project requires a specific environmental permit. Who do you ask?\n",
+        "back": "Legal / Compliance department (or a Subject Matter Expert).\n"
+      },
+      {
+        "id": 60,
+        "category": "⚡ Quick-Fire Governance Review",
+        "front": "What is the risk of Poor Governance?\n",
+        "back": "Misalignment with strategy, lack of funding control, legal violations, and \"Zombie Projects\" (projects that should be killed but grind on).\n\n\n"
+      },
+      {
+        "id": 61,
+        "category": "🧠 Situational Governance",
+        "front": "Scenario: A senior executive who is NOT the sponsor demands a change to the project. What is your governance response?\n",
+        "back": "Direct them to the Sponsor or the Change Control Process. Do not just say \"yes\" because of their title; you must protect the approved plan.\n"
+      },
+      {
+        "id": 62,
+        "category": "🧠 Situational Governance",
+        "front": "Scenario: Your project involves personal data from EU citizens. You didn't budget for GDPR activities.\n",
+        "back": "Issue a Change Request for budget/schedule. You cannot launch without compliance.\n"
+      },
+      {
+        "id": 63,
+        "category": "🧠 Situational Governance",
+        "front": "Scenario: A safety inspector shuts down your valid construction site. You think they are wrong.\n",
+        "back": "Compliance First. Stop work. Then follow the formal appeals process. Do not ignore the order.\n"
+      },
+      {
+        "id": 64,
+        "category": "🧠 Situational Governance",
+        "front": "Scenario: The Sponsor refuses to sign the Charter.\n",
+        "back": "You cannot start the project (planning/execution). The Charter authorizes the project. Without it, you are a \"rogue\" project.\n"
+      },
+      {
+        "id": 65,
+        "category": "🧠 Situational Governance",
+        "front": "Scenario: The PMO requires a specific \"Status Report\" format that adds no value to your Agile team.\n",
+        "back": "Negotiate/Tailor. Ask the PMO why they need it (what info they need) and see if your Agile charts (Burnups) can satisfy the need. But if mandatory, you do it.\n"
+      },
+      {
+        "id": 66,
+        "category": "🧠 Situational Governance",
+        "front": "Scenario: You discover a conflict between two internal policies.\n",
+        "back": "Escalate to Governance (PMO or Sponsor) for a decision on which policy takes precedence.\n"
+      },
+      {
+        "id": 67,
+        "category": "🧠 Situational Governance",
+        "front": "Scenario: You are a PMP. Your boss tells you to lie to a client.\n",
+        "back": "Refuse. It violates the \"Honesty\" and \"Responsibility\" clauses of the Code of Ethics.\n"
+      },
+      {
+        "id": 68,
+        "category": "🧠 Situational Governance",
+        "front": "Scenario: You see a potential copyright violation on another project. Is it your business?\n",
+        "back": "Yes. \"Responsibility\" means we protect the profession and organization. Report it.\n"
+      },
+      {
+        "id": 69,
+        "category": "🧠 Situational Governance",
+        "front": "What is Escalation?\n",
+        "back": "Moving an issue up the governance chain (Team -> PM -> Sponsor -> Steering Committee) when it exceeds your authority to solve.\n"
+      },
+      {
+        "id": 70,
+        "category": "🧠 Situational Governance",
+        "front": "Why is Role Clarity part of governance?\n",
+        "back": "Because if people don't know who decides what (RACI), decisions stall and accountability fails.\n\n\n"
+      },
+      {
+        "id": 71,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: How to handle a \"Bribe\" question?\n",
+        "back": "Strictly Refuse. Report if required. Never accept.\n"
+      },
+      {
+        "id": 72,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: How to handle a \"Conflict of Interest\" question?\n",
+        "back": "Disclose and Recuse.\n"
+      },
+      {
+        "id": 73,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: Safety vs. Deadlines?\n",
+        "back": "Safety always wins.\n"
+      },
+      {
+        "id": 74,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: Laws vs. Internal Policy?\n",
+        "back": "Laws always win.\n"
+      },
+      {
+        "id": 75,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: Who kills a project?\n",
+        "back": "The Sponsor or Steering Committee (Governance), not the PM.\n"
+      },
+      {
+        "id": 76,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: Who authorizes the project?\n",
+        "back": "The Sponsor (via Charter).\n"
+      },
+      {
+        "id": 77,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: What does the PMO provide?\n",
+        "back": "Templates, Standards, Lessons Learned, Guidance.\n"
+      },
+      {
+        "id": 78,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: Cultural differences in ethics?\n",
+        "back": "PMI Code of Ethics is Universal. Even if \"everyone does it\" in that country (e.g., bribes), a PMP does not.\n"
+      },
+      {
+        "id": 79,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: You made an honest mistake. governance?\n",
+        "back": "Admit it immediately (Honesty/Responsibility). Do not hide it. Fix it.\n"
+      },
+      {
+        "id": 80,
+        "category": "🔐 Final Tips",
+        "front": "Exam Tip: \"Gold Plating\" (giving extra code) is an ethical issue?\n",
+        "back": "Yes. It wastes company resources (Responsibility) and creates unauthorized scope changes. Stick to the plan.\n"
+      }
+    ]
+  }
+]
