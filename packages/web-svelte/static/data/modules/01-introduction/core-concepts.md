@@ -45,6 +45,6 @@ Success on the 2026 exam isn't about knowing these concepts in isolation—it's 
 By month three, Sarah realized that a change in the office floor plan (Scope) wasn't just a technical update—it was a social risk that required stakeholder empathy and data-driven communication.
 :::
 
-<div class="action-bar">
-  <a href="./knowledge-check" class="action-button primary">Next: Knowledge Check →</a>
+<div class="flex justify-center my-12">
+  <a href="./knowledge-check" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Knowledge Check →</a>
 </div>

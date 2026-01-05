@@ -246,8 +246,8 @@ PMI has expanded the window for qualifying experience:
 - **Score Report**: Detailed breakdown by domain within a few days
 - **Certification**: Certificate mailed within 4-6 weeks
 
-<div class="action-bar">
-  <a href="./using-guide" class="action-button primary">Next: How To Use This Guide →</a>
+<div class="flex justify-center my-12">
+  <a href="./using-guide" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: How To Use This Guide →</a>
 </div>
 
 <style>

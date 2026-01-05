@@ -316,6 +316,6 @@ Quality also includes meeting legal and organizational standards:
 Never "ship and pray." Quality issues discovered by the customer are exponentially more expensive to fix than those found during production. Prevention > Detection > Failure.
 :::
 
-<div class="action-bar">
-  <a href="./core-risk" class="action-button primary">Next: Risk →</a>
+<div class="flex justify-center my-12">
+  <a href="./core-risk" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Risk →</a>
 </div>

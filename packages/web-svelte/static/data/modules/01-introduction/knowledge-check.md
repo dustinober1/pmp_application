@@ -313,3 +313,7 @@ If you scored:
 ::: tip Study Tip
 For each question you missed, go back to the referenced section and read it carefully. Understanding *why* an answer is correct is more important than memorizing the answer itself.
 :::
+
+<div class="flex justify-center my-12">
+  <a href="../../../" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Return to Study Home →</a>
+</div>

@@ -287,6 +287,6 @@ Tracks total risk exposure over time:
 Risk management is not about *eliminating* risk (which is impossible); it's about being **prepared** so uncertainty doesn't derail your project. The best PMs are not risk-averse—they are risk-aware.
 :::
 
-<div class="action-bar">
-  <a href="./core-data" class="action-button primary">Next: Data & AI →</a>
+<div class="flex justify-center my-12">
+  <a href="./core-data" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Data & AI →</a>
 </div>
