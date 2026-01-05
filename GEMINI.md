@@ -89,6 +89,7 @@ npm run test:web-svelte
 *   **Code Quality:** Resolved numerous TypeScript linting errors in the `dashboard` store to improve type safety and maintainability.
 *   **MCP Exploration:** Analyzed the repository to identify MCP servers that will assist in shipping the application (Browser, Everything, Memory).
 *   **Bug Fixes:** Resolved an issue where dashboard tiles (Flashcards Learned) displayed "NaN" due to incorrect localStorage key usage.
+*   **UI Improvements:** Updated the dashboard to display flashcards progress as a percentage instead of a raw count.
 
 ## Current Status & Roadmap
 

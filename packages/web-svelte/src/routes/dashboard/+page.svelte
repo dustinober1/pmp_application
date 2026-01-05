@@ -195,7 +195,7 @@
 										<div class="flex justify-between">
 											<span class="text-gray-600 dark:text-gray-400">Flashcards:</span>
 											<span class="font-medium text-gray-900 dark:text-gray-100"
-												>{domain.flashcardsMastered || 0} / {domain.flashcardsTotal || 0}</span
+												>{Math.round((domain.flashcardsTotal > 0 ? (domain.flashcardsMastered / domain.flashcardsTotal) * 100 : 0))}%</span
 											>
 										</div>
 										<div class="flex justify-between">
