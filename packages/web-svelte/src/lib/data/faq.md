@@ -58,6 +58,9 @@ Focus on reviewing weak areas, redoing missed questions, and taking one or two t
 ### What if I am not scoring well on practice exams?
 Identify the weakest domains, review the remediation notes, and drill targeted question sets before taking another full mock.
 
+### Is this site affiliated with PMI?
+No. This is an independent study resource. "PMP," "PMBOK," and "PMI" are registered trademarks of the Project Management Institute, Inc. For official PMI information, visit [pmi.org](https://www.pmi.org).
+
 ## Training and Contact Hours
 ### Do I need a 35-hour course?
 Yes, PMI requires 35 contact hours of project management education to qualify.
@@ -90,6 +93,9 @@ Practice questions include remediation notes that explain the correct answer and
 ### Can I track my progress?
 Yes. Progress is stored locally in your browser cache and localStorage. Clearing site data will reset your stats.
 
+### Can I back up or transfer my progress?
+Yes. You can export your progress data to a file and import it later or on another device. This is useful for backing up your data or transferring between devices. All data is processed locally on your device.
+
 ### Do I need an account or login?
 No. The core study content is available without a subscription or login.
 
@@ -113,10 +119,10 @@ Never. This site does not run ads.
 No. The full experience is free for everyone.
 
 ### Where is my data stored?
-All data stays on your computer only. Nothing is stored on our servers.
+All data stays on your computer only. Nothing is stored on our servers. For more details, see our Privacy Policy.
 
 ### Will my data be sold or shared?
-No. We do not sell or share your personal data.
+No. We do not sell or share your personal data with third parties for marketing purposes.
 
 ### Why did you make this free?
 The PMP exam is already expensive. Preparing for it should not be.
@@ -131,5 +137,5 @@ Membership is not required, but it reduces exam fees and includes PMI resources.
 ### What's the difference between CAPM and PMP?
 CAPM is an entry-level certification; PMP is for experienced project managers with leadership experience.
 
-### Will the PMBOK 8th edition be enough?
-PMBOK 8 is a guide, not a test-prep book. Use it alongside practice questions and Agile references.
+### Will the PMBOK 7th edition be enough?
+PMBOK 7 is a guide, not a test-prep book. Use it alongside practice questions and Agile references.
