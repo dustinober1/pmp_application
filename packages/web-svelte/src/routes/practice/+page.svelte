@@ -314,69 +314,7 @@
 
 				<!-- Quick Actions -->
 				<div class="space-y-6">
-					<!-- Mock Exam Card -->
-					<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
-						<div
-							class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"
-						>
-							<svg
-								class="w-6 h-6 text-white"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
-						</div>
-						<h2 class="text-lg font-semibold text-gray-900 dark:text-white">Full Mock Exams</h2>
-						<p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-							Simulate the real PMP exam with 185 questions and a 4-hour time limit.
-						</p>
 
-						<div class="mt-4 space-y-2">
-								{#if mockExams.length > 0}
-									{#each mockExams as exam}
-										<div
-											class="group border border-gray-200/50 dark:border-gray-700/50 rounded-lg p-3 hover:border-indigo-300/50 dark:hover:border-indigo-600/50 hover:bg-indigo-50/30 dark:hover:bg-indigo-900/20 transition-all duration-300 cursor-pointer"
-											on:click={() => startMockExam(exam.id)}
-											role="button"
-											tabindex="0"
-											on:keypress={(e) =>
-												e.key === 'Enter' && startMockExam(exam.id)}
-										>
-											<div class="flex items-center justify-between mb-2">
-												<h3 class="font-medium text-sm text-gray-900 dark:text-white">{exam.name}</h3>
-												<span class="text-xs text-gray-600 dark:text-gray-400">{exam.totalQuestions} questions</span>
-											</div>
-											<div class="flex flex-wrap gap-1 mb-3">
-												{#each exam.domainBreakdown as domain}
-													<span
-														class="text-xs px-2 py-1 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-300 border border-gray-200/50 dark:border-gray-600/50"
-														title="{domain.domainName}: {domain.count} questions"
-													>
-														{domain.domainName.split(' ')[0]} {domain.percentage}%
-													</span>
-												{/each}
-											</div>
-											<button
-												on:click|stopPropagation={() => startMockExam(exam.id)}
-												disabled={starting}
-												class="group w-full px-3 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm rounded-lg hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105"
-											>
-												{starting ? 'Starting...' : `Start ${exam.name}`}
-											</button>
-										</div>
-									{/each}
-								{:else}
-									<p class="text-sm text-gray-600 dark:text-gray-400 text-center py-4">No mock exams available</p>
-								{/if}
-							</div>
-					</div>
 
 					<!-- Flagged Questions -->
 					<div class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300">

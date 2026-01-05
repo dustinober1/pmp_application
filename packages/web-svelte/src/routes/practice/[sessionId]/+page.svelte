@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { saveMockExamScore } from '$lib/utils/mockExamStorage';
+	import { savePracticeSession } from '$lib/utils/practiceSessionStorage';
 	import { practiceMode, currentQuestion, practiceProgress, sessionStats } from '$lib/stores/practiceMode';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
@@ -39,17 +39,42 @@
 		showExplanation = false;
 	}
 
+	// Logic to save session stats
+	function saveSession() {
+		// Only save if we've actually done something
+		if ($practiceMode.currentIndex > 0 || $sessionStats.correct > 0) {
+			const stats = $sessionStats;
+			// Calculate actual attempted questions for accurate partial stats
+			const attempted = $practiceMode.currentIndex + (submitting ? 1 : 0); // Include current if submitting
+            
+            // For partial sessions, effective total is what was seen
+            const effectiveTotal = isComplete ? stats.total : Math.max(attempted, 1);
+            
+			// Recalculate score based on attempted
+			const actualScore = Math.round((stats.correct / effectiveTotal) * 100);
+
+			savePracticeSession({
+				sessionId: $practiceMode.sessionId || crypto.randomUUID(),
+				score: actualScore,
+				questionCount: effectiveTotal,
+				correctAnswers: stats.correct,
+				date: new Date().toISOString(),
+				// Collect unique domains from questions seen so far
+				domainIds: [...new Set($practiceMode.questions.slice(0, effectiveTotal).map(q => q.domainId))]
+			});
+		}
+	}
+
 	async function handleCompleteSession() {
 		try {
-			const stats = $sessionStats;
-			saveMockExamScore({
-				sessionId: $practiceMode.sessionId,
-				score: stats.percentage,
-				totalQuestions: stats.total,
-				correctAnswers: stats.correct,
-				date: new Date().toISOString()
-			});
-
+			// Save handled by onDestroy if we navigate away, or explicitly here
+            // But we want to ensure we don't double save. 
+            // Let's rely on explicit save here for "Finish" button, 
+            // and onDestroy for "Exit" early.
+            
+            // Actually, onDestroy runs on navigation too. 
+            // So we can let onDestroy handle it, OR have a flag.
+            // Let's use a flag to prevent double saving.
 			goto(`${base}/dashboard`);
 		} catch (err) {
 			console.error('Failed to complete session:', err);
@@ -57,12 +82,21 @@
 		}
 	}
 
+	let saved = false;
+	onDestroy(() => {
+		if (!saved && $practiceMode.sessionId) {
+			saveSession();
+			saved = true;
+		}
+	});
+
 	$: isLastQuestion = $practiceMode.currentIndex === $practiceMode.questions.length - 1;
 	$: isComplete = $practiceMode.isComplete;
 
 	// Automatically complete session when store marks it as complete
-	$: if (isComplete) {
-		handleCompleteSession();
+	$: if (isComplete && !saved) {
+		// We can just navigate, onDestroy will save.
+		goto(`${base}/dashboard`);
 	}
 </script>
 
