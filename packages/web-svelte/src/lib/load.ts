@@ -47,6 +47,13 @@ export async function loadApi<T>(
 }
 
 /**
+ * Type guard to check if error is an ApiError
+ */
+function isApiError(error: unknown): error is ApiError {
+	return error instanceof ApiError;
+}
+
+/**
  * Throws an SvelteKit redirect error
  */
 export function throwRedirect(
@@ -78,7 +85,7 @@ export function throwLoadError(
  * };
  * ```
  */
-export async function requireAuth(fetch: typeof fetch) {
+export async function requireAuth(fetch: typeof globalThis.fetch) {
   const { data, error, status } = await loadApi(() =>
     apiRequest("/auth/me", {}, fetch),
   );
@@ -173,7 +180,7 @@ export async function loadPaginated<T>(
       status: 200,
     };
   } catch (error) {
-    if (error instanceof ApiError) {
+    if (isApiError(error)) {
       return { data: null, error: error.message, status: error.status };
     }
     return {
