@@ -82,6 +82,8 @@
     align-items: center;
     gap: 1.5rem;
     perspective: 1000px;
+    width: 100%;
+    padding: 0 1rem;
   }
 
   .card-progress {
@@ -89,15 +91,14 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     padding: 0.5rem 0;
   }
 
   .flashcard {
     width: 100%;
-    max-width: 800px;
-    min-height: 350px;
-    height: auto;
+    max-width: 1000px;
+    height: 400px;
     cursor: pointer;
     position: relative;
     transform-style: preserve-3d;
@@ -194,8 +195,8 @@
 
   .no-card-placeholder {
     width: 100%;
-    max-width: 800px;
-    min-height: 350px;
+    max-width: 1000px;
+    height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
