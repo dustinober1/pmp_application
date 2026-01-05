@@ -11,7 +11,7 @@ PMP Study Pro is a free, client-side PMP exam study application built with Svelt
 - Local-only data storage (no server-side user data)
 - 2026 PMP Exam Content Outline (ECO) alignment
 - Material Design 3 color system with glassmorphism UI
-- Spaced repetition learning system (Leitner box) for flashcards
+- Spaced repetition learning system (SM-2 algorithm) for flashcards
 
 ## Development Commands
 
@@ -107,8 +107,8 @@ Static JSON content is loaded via utilities in `lib/utils/`:
 - `formulasData.ts` - Formula reference data
 
 **Progress Storage:**
-- `flashcardStorage.ts` - Leitner box system for spaced repetition
-- `cardProgressStorage.ts` - Per-card progress tracking (box level, last reviewed)
+- `spacedRepetition.ts` - SM-2 algorithm for spaced repetition
+- `cardProgressStorage.ts` - Per-card progress tracking (ease factor, interval, repetitions)
 - `practiceSessionStorage.ts` - Practice quiz session management
 - `mockExamStorage.ts` - Mock exam session tracking
 - `studySession.ts` - Study session time tracking and streaks
@@ -192,25 +192,26 @@ Run tests in watch mode during development: `npm run test -w @pmp/web-svelte`
 
 ## Spaced Repetition System
 
-The flashcard system uses a **Leitner box** algorithm for spaced repetition:
+The flashcard system uses the **SM-2 (SuperMemo 2)** algorithm for spaced repetition:
 
-**Box Levels & Review Intervals:**
-- Box 0: New cards (review every session)
-- Box 1: 1 day
-- Box 2: 3 days
-- Box 3: 7 days
-- Box 4: 14 days
-- Box 5: 30 days (mastered)
+**Algorithm Details:**
+- Initial ease factor: 2.5 (minimum: 1.3)
+- Initial interval: 1 day
+- Repetition 2: 6 days
+- Repetition 3+: Previous interval × ease factor
+- Failed reviews (Again rating): Reset to repetition 0, interval 1 day
+
+**Rating System:**
+- Again (quality 1): Didn't remember - resets progress
+- Hard (quality 3): Remembered with difficulty - minimal interval increase
+- Good (quality 4): Remembered correctly - normal interval increase
+- Easy (quality 5): Remembered easily - larger interval increase
 
 **Key Files:**
-- `lib/utils/flashcardStorage.ts` - Leitner box logic
-- `lib/utils/cardProgressStorage.ts` - Per-card progress (box level, next review date)
+- `lib/utils/spacedRepetition.ts` - SM-2 algorithm implementation
+- `lib/utils/cardProgressStorage.ts` - Per-card progress storage (ease factor, interval, repetitions)
+- `lib/stores/studyMode.ts` - Study session management with rating
 - `lib/constants/storageKeys.ts` - `FLASHCARDS_CARD_PROGRESS` key
-
-When reviewing cards:
-- Correct answer → Move up one box (max: Box 5)
-- Incorrect answer → Reset to Box 0
-- Track "last reviewed" timestamp to enforce intervals
 
 ## Content Updates
 
