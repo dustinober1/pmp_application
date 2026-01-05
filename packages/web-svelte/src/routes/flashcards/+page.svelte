@@ -358,18 +358,35 @@
 
       <h1 class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-6">Flashcards</h1>
 
-      <!-- Study Mode Button -->
-      <a
-        href="{base}/flashcards/study"
-        class="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-[1.02] mb-8"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span>Start Study Mode</span>
-        <span class="text-sm opacity-90 font-normal">{dueTodayCount > 0 ? `(${dueTodayCount} due)` : '(spaced repetition)'}</span>
-      </a>
+      <!-- Session Buttons -->
+      <div class="flex flex-wrap gap-4 mb-8">
+        <a
+          href="{base}/flashcards/study"
+          class="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-[1.02]"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div class="text-left">
+            <div class="block">Study Mode</div>
+            <div class="text-xs opacity-90 font-normal">{dueTodayCount > 0 ? `${dueTodayCount} due` : 'spaced repetition'}</div>
+          </div>
+        </a>
+
+        <a
+          href="{base}/flashcards/practice"
+          class="inline-flex items-center gap-3 px-6 py-4 bg-white dark:bg-gray-800 border-2 border-indigo-600/20 dark:border-indigo-400/20 hover:border-indigo-600 dark:hover:border-indigo-400 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+          <div class="text-left">
+            <div class="block">Practice 25</div>
+            <div class="text-xs opacity-70 font-normal">Fast SRS Session</div>
+          </div>
+        </a>
+      </div>
 
       <!-- Stats -->
       {#if quickStats}

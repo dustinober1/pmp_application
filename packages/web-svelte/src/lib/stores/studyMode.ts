@@ -48,7 +48,7 @@ function createStudyModeStore() {
     /**
      * Start a new study session
      */
-    startSession(flashcards: Flashcard[], options?: { dueOnly?: boolean; shuffle?: boolean }) {
+    startSession(flashcards: Flashcard[], options?: { dueOnly?: boolean; shuffle?: boolean; limit?: number; priority?: 'srs' | 'shuffle' | 'none' }) {
       const sessionId = crypto.randomUUID();
       const now = new Date().toISOString();
 
@@ -73,12 +73,26 @@ function createStudyModeStore() {
         });
       }
 
-      // Shuffle if requested
-      if (options?.shuffle) {
+      // Prioritize cards
+      if (options?.priority === 'srs') {
+        // Sort by nextReviewDate (earliest first), new cards (null progress) always first
+        studyCards.sort((a, b) => {
+          if (!a.progress && !b.progress) return 0;
+          if (!a.progress) return -1;
+          if (!b.progress) return 1;
+          return new Date(a.progress.nextReviewDate).getTime() - new Date(b.progress.nextReviewDate).getTime();
+        });
+      } else if (options?.shuffle || options?.priority === 'shuffle') {
+        // Shuffle if requested
         for (let i = studyCards.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [studyCards[i], studyCards[j]] = [studyCards[j], studyCards[i]];
         }
+      }
+
+      // Apply limit
+      if (options?.limit && options.limit > 0) {
+        studyCards = studyCards.slice(0, options.limit);
       }
 
       const session: StudySession = {
