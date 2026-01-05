@@ -182,7 +182,7 @@
 												: domain.domainId === "process"
 													? "blue"
 													: "emerald"}
-											showLabel={false}
+											showLabel={true}
 											description=""
 										/>
 									</div>
