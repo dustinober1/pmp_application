@@ -1,5 +1,6 @@
 import { writable, derived } from "svelte/store";
 import type { DomainProgressStats, RecentActivity } from "@pmp/shared";
+import { STORAGE_KEYS } from "../constants/storageKeys";
 
 // 2026 PMP ECO Domains with weightings
 const DOMAINS_2026 = [
@@ -22,12 +23,6 @@ const DOMAINS_2026 = [
     description: "Strategic alignment, compliance, value"
   }
 ];
-
-const STORAGE_KEYS = {
-  DOMAIN_PROGRESS: "pmp_domain_progress_2026",
-  RECENT_ACTIVITY: "pmp_recent_activity",
-  OVERALL_PROGRESS: "pmp_overall_progress"
-};
 
 // Helper to safely access localStorage
 function getStorageItem<T>(key: string, defaultValue: T): T {

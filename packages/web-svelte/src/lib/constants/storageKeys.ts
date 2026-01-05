@@ -23,6 +23,11 @@ export const STORAGE_KEYS = {
 	// Practice sessions
 	PRACTICE_SESSIONS: 'pmp_practice_sessions',
 
+	// Dashboard
+	DOMAIN_PROGRESS: 'pmp_domain_progress_2026',
+	RECENT_ACTIVITY: 'pmp_recent_activity',
+	OVERALL_PROGRESS: 'pmp_overall_progress',
+
 	// Internationalization
 	LOCALE: 'pmp_locale'
 } as const;
