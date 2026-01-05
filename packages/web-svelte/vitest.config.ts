@@ -28,6 +28,7 @@ export default defineConfig({
 			'$lib': path.resolve(__dirname, './src/lib'),
 			'$lib/components': path.resolve(__dirname, './src/lib/components'),
 			'$app/paths': path.resolve(__dirname, './src/test/mocks/app-paths.ts'),
+			'$app/environment': path.resolve(__dirname, './src/test/mocks/app-environment.ts'),
 			'@pmp/shared': path.resolve(__dirname, '../shared/src')
 		}
 	}

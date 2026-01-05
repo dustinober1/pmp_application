@@ -1,6 +1,7 @@
 import { writable, derived } from "svelte/store";
 import type { DomainProgressStats, RecentActivity } from "@pmp/shared";
 import { STORAGE_KEYS } from "../constants/storageKeys";
+import { getFlashcardStats } from "../utils/flashcardsData";
 
 // 2026 PMP ECO Domains with weightings
 const DOMAINS_2026 = [
@@ -28,7 +29,7 @@ const DOMAINS_2026 = [
 function getStorageItem<T>(key: string, defaultValue: T): T {
   if (typeof window === "undefined") return defaultValue;
   try {
-    const item = localStorage.getItem(key);
+    const item = window.localStorage.getItem(key);
     if (!item) return defaultValue;
 
     const parsed = JSON.parse(item, (key, value) => {
@@ -52,7 +53,7 @@ function getStorageItem<T>(key: string, defaultValue: T): T {
 function setStorageItem<T>(key: string, value: T): void {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(key, JSON.stringify(value));
+    window.localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     console.error(`Error saving to localStorage (${key}):`, error);
   }
@@ -71,7 +72,7 @@ function createDomainProgressStore() {
       domainName: d.domainName,
       studyGuideProgress: 0,
       flashcardsMastered: 0,
-      flashcardsTotal: 100, // Default, will be updated
+      flashcardsTotal: 0, // Initialize to 0, will be updated from manifest
       practiceAccuracy: 0,
       questionsAttempted: 0
     })),
@@ -142,8 +143,28 @@ function createDomainProgressStore() {
     },
 
     // Refresh domain stats from actual SRS data (flashcards and questions)
-    refreshFromActualData() {
+    async refreshFromActualData() {
       if (typeof window === "undefined") return;
+
+      // 1. Get dynamic totals from manifest (async)
+      let domainTotals: Record<string, number> = {};
+      try {
+        const stats = await getFlashcardStats();
+
+        stats.domainBreakdown.forEach(d => {
+          // Normalize domain ID (e.g. "People (33%)" -> "people")
+          const normalizedId = d.domainId.toLowerCase().includes('people') ? 'people'
+            : d.domainId.toLowerCase().includes('process') ? 'process'
+              : d.domainId.toLowerCase().includes('business') ? 'business'
+                : d.domainId.toLowerCase();
+
+          domainTotals[normalizedId] = d.totalFlashcards;
+        });
+      } catch (error) {
+        console.warn("Failed to load flashcard manifest for totals, using fallbacks:", error);
+        // Fallback to approximate values if manifest fails
+        domainTotals = { people: 840, process: 830, business: 80 };
+      }
 
       const cardProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, {});
       const questionProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.QUESTIONS_CARD_PROGRESS, {});
@@ -156,28 +177,48 @@ function createDomainProgressStore() {
           business: { attempted: 0, correct: 0, mastered: 0 }
         };
 
-        // Count mastered flashcards per domain
+        // Count mastered flashcards per domain with robust parsing
         Object.keys(cardProgress).forEach((cardId) => {
           const progress = cardProgress[cardId];
-          const domainId = cardId.split("-")[0].toLowerCase();
-          const isMastered = (progress.repetitions || 0) >= 2 && (progress.interval || 0) >= 1;
+          const parts = cardId.split("-");
 
-          if (isMastered && fCounts[domainId] !== undefined) {
-            fCounts[domainId]++;
+          // Robust domain detection from ID (usually index 0)
+          let domainId = parts[0]?.toLowerCase() || "";
+          if (!['people', 'process', 'business'].includes(domainId)) {
+            // Try to fuzzy match if ID format is unexpected
+            if (cardId.includes('people')) domainId = 'people';
+            else if (cardId.includes('process')) domainId = 'process';
+            else if (cardId.includes('business')) domainId = 'business';
+          }
+
+          if (fCounts[domainId] !== undefined) {
+            const isMastered = (progress.repetitions || 0) >= 2 && (progress.interval || 0) >= 1;
+            if (isMastered) {
+              fCounts[domainId]++;
+            }
           }
         });
 
         // Count question stats per domain
         Object.keys(questionProgress).forEach((qId) => {
           const progress = questionProgress[qId];
-          const domainId = qId.split("-")[0].toLowerCase();
+          const parts = qId.split("-");
+          let domainId = parts[0]?.toLowerCase() || "";
+
+          // Robust domain detection
+          if (!['people', 'process', 'business'].includes(domainId)) {
+            if (qId.includes('people')) domainId = 'people';
+            else if (qId.includes('process')) domainId = 'process';
+            else if (qId.includes('business')) domainId = 'business';
+          }
+
           if (qCounts[domainId]) {
             qCounts[domainId].attempted += (progress.repetitions || 0);
             // ratingCounts tracks correctness
             const correct = (progress.ratingCounts?.good || 0) + (progress.ratingCounts?.easy || 0);
             qCounts[domainId].correct += correct;
 
-            // Mastery for questions: answered correctly at least twice (repetitions >= 2)
+            // Mastery for questions
             if ((progress.repetitions || 0) >= 2 && (progress.interval || 0) >= 1) {
               qCounts[domainId].mastered++;
             }
@@ -189,13 +230,15 @@ function createDomainProgressStore() {
           const qStat = qCounts[domainId];
           const accuracy = qStat && qStat.attempted > 0 ? Math.round((qStat.correct / qStat.attempted) * 100) : 0;
 
+          // Use dynamic total if available, otherwise keep existing or default to 100 to avoid div/0
+          const total = domainTotals[domainId] || d.flashcardsTotal || 100;
+
           return {
             ...d,
             flashcardsMastered: fCounts[domainId] || 0,
             questionsAttempted: qStat?.attempted || 0,
             practiceAccuracy: accuracy,
-            // Total counts from manifest (approximate for now)
-            flashcardsTotal: domainId === "people" ? 840 : domainId === "process" ? 830 : 80
+            flashcardsTotal: total
           };
         });
 
