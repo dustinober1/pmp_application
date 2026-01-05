@@ -4,31 +4,17 @@
  */
 
 import { STORAGE_KEYS } from '$lib/constants/storageKeys';
+import type { StoredPracticeSession, StoredPracticeStats } from '@pmp/shared';
 
 const { PRACTICE_SESSIONS } = STORAGE_KEYS;
 
-export interface PracticeSession {
-	sessionId: string;
-	date: string; // ISO string
-	questionCount: number;
-	correctAnswers: number;
-	score: number; // percentage
-	domainIds?: string[]; // domains practiced
-	duration?: number; // seconds
-}
-
-export interface PracticeStats {
-	totalSessions: number;
-	totalQuestions: number;
-	bestScore: number;
-	weakDomains: string[];
-	averageScore: number;
-}
+// Re-export types for convenience
+export type { StoredPracticeSession as PracticeSession, StoredPracticeStats as PracticeStats };
 
 /**
  * Get all stored practice sessions
  */
-export function getPracticeSessions(): PracticeSession[] {
+export function getPracticeSessions(): StoredPracticeSession[] {
 	if (typeof window === 'undefined') return [];
 	try {
 		const stored = localStorage.getItem(PRACTICE_SESSIONS);
@@ -41,7 +27,7 @@ export function getPracticeSessions(): PracticeSession[] {
 /**
  * Save a practice session
  */
-export function savePracticeSession(session: PracticeSession): void {
+export function savePracticeSession(session: StoredPracticeSession): void {
 	if (typeof window === 'undefined') return;
 	try {
 		const sessions = getPracticeSessions();
@@ -55,7 +41,7 @@ export function savePracticeSession(session: PracticeSession): void {
 /**
  * Get practice statistics for dashboard display
  */
-export function getPracticeStatsFromStorage(): PracticeStats {
+export function getPracticeStatsFromStorage(): StoredPracticeStats {
 	const sessions = getPracticeSessions();
 
 	if (sessions.length === 0) {

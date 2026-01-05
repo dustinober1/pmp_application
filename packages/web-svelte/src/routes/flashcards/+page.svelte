@@ -16,6 +16,7 @@
   } from "$lib/utils/flashcardsData";
   import { getCardProgressStats } from "$lib/utils/cardProgressStorage";
   import { goto } from '$app/navigation';
+  import { usePagination } from '$lib/composables';
 
   // Domain filter options
   interface DomainFilter {
@@ -51,13 +52,10 @@
   let searchQuery = $state('');
   let searchInput = $state('');
 
-  // Pagination state
-  let offset = $state(0);
-  let limit = $state(20);
-  let displayFlashcards = $derived<Flashcard[]>(
-    filteredFlashcards.slice(offset, offset + limit)
+  // Pagination - will be initialized with filteredFlashcards after data loads
+  let pagination = $state(
+    usePagination({ items: [] as Flashcard[], pageSize: 20 })
   );
-  let hasMore = $derived(offset + limit < filteredFlashcards.length);
 
   // Get chip color classes
   function getChipClasses(filterId: string): string {
@@ -103,8 +101,10 @@
         card.task.toLowerCase().includes(q)
       );
     }
-    // Reset offset when filter changes
-    offset = 0;
+    // Reset pagination when filter changes
+    pagination.reset();
+    // Update pagination with new filtered items
+    pagination = usePagination({ items: filteredFlashcards, pageSize: 20 });
   }
 
   // Search function
@@ -130,8 +130,10 @@
         card.task.toLowerCase().includes(q)
       );
     }
-    // Reset offset when search changes
-    offset = 0;
+    // Reset pagination when search changes
+    pagination.reset();
+    // Update pagination with new filtered items
+    pagination = usePagination({ items: filteredFlashcards, pageSize: 20 });
   }
 
   // Debounced search
@@ -149,17 +151,6 @@
     searchInput = '';
     searchQuery = '';
     applyDomainFilter();
-    offset = 0;
-  }
-
-  function loadPrevious() {
-    const newOffset = Math.max(0, offset - limit);
-    offset = newOffset;
-  }
-
-  function loadNext() {
-    const newOffset = offset + limit;
-    offset = newOffset;
   }
 
   // Format date helper
@@ -222,6 +213,9 @@
 
       allFlashcards = [...peopleCards, ...processCards, ...businessCards];
       filteredFlashcards = allFlashcards;
+
+      // Initialize pagination with loaded flashcards
+      pagination = usePagination({ items: filteredFlashcards, pageSize: 20 });
 
       // Calculate due today from localStorage card progress
       const allCardIds = allFlashcards.map(card => card.id);
@@ -405,7 +399,7 @@
           </div>
 
           <div class="divide-y divide-gray-200/50 dark:divide-gray-700/50">
-            {#each displayFlashcards as flashcard}
+            {#each pagination.displayItems as flashcard}
               <div class="group px-6 py-4 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors duration-300 cursor-default">
                 <div class="flex items-start gap-3">
                   <div class="flex-1 min-w-0">
@@ -440,23 +434,23 @@
           </div>
 
           <!-- Pagination -->
-          {#if filteredFlashcards.length > limit}
+          {#if filteredFlashcards.length > pagination.limit}
             <div class="px-6 py-4 border-t border-gray-200/50 dark:border-gray-700/50 flex items-center justify-between">
               <button
-                onclick={loadPrevious}
-                disabled={offset === 0}
+                onclick={() => pagination.previous()}
+                disabled={pagination.offset === 0}
                 class="group px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md hover:shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:shadow-none transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
               >
                 Previous
               </button>
 
               <span class="text-sm text-gray-700 dark:text-gray-300">
-                Showing {offset + 1} to {Math.min(offset + limit, filteredFlashcards.length)} of {filteredFlashcards.length}
+                {pagination.currentPageInfo}
               </span>
 
               <button
-                onclick={loadNext}
-                disabled={!hasMore}
+                onclick={() => pagination.next()}
+                disabled={!pagination.hasMore}
                 class="group px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md hover:shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:shadow-none transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
               >
                 Next

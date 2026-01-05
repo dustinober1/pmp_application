@@ -109,3 +109,31 @@ export const PMP_EXAM = {
   TOTAL_QUESTIONS: 185,
   PASSING_SCORE_PERCENTAGE: 61, // Approximate
 } as const;
+
+// LocalStorage-optimized types for client-side session tracking
+
+/**
+ * Stored practice session record in localStorage
+ * Tracks completed practice sessions for progress analytics
+ */
+export interface StoredPracticeSession {
+  sessionId: string;
+  date: string; // ISO string
+  questionCount: number;
+  correctAnswers: number;
+  score: number; // percentage
+  domainIds?: string[]; // domains practiced
+  duration?: number; // seconds
+}
+
+/**
+ * Aggregated statistics from stored practice sessions
+ * Used for dashboard display and progress tracking
+ */
+export interface StoredPracticeStats {
+  totalSessions: number;
+  totalQuestions: number;
+  bestScore: number;
+  weakDomains: string[];
+  averageScore: number;
+}
