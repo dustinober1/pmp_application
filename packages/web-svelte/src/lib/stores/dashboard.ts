@@ -24,12 +24,26 @@ const DOMAINS_2026 = [
   }
 ];
 
-// Helper to safely access localStorage
+// Helper to safely access localStorage with Date reviving
 function getStorageItem<T>(key: string, defaultValue: T): T {
   if (typeof window === "undefined") return defaultValue;
   try {
     const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultValue;
+    if (!item) return defaultValue;
+
+    const parsed = JSON.parse(item, (key, value) => {
+      // Revive ISO date strings to Date objects for timestamp fields
+      if (
+        (key === "timestamp" || key === "dueDate" || key === "lastStudyDate") &&
+        typeof value === "string" &&
+        !isNaN(Date.parse(value))
+      ) {
+        return new Date(value);
+      }
+      return value;
+    });
+
+    return parsed;
   } catch {
     return defaultValue;
   }
@@ -179,8 +193,8 @@ function createRecentActivityStore() {
       update((state) => {
         const newActivity: RecentActivity = {
           ...activity,
-          id: `activity-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          timestamp: new Date() as any // Svelte stores can handle Date objects
+          id: `activity-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
+          timestamp: new Date()
         };
 
         // Keep only last 20 activities
