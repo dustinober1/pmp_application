@@ -192,12 +192,14 @@ function createDomainProgressStore() {
           }
 
           if (fCounts[domainId] !== undefined) {
-            const isMastered = (progress.repetitions || 0) >= 2 && (progress.interval || 0) >= 1;
+            const isMastered = (progress.repetitions || 0) >= 1;
             if (isMastered) {
               fCounts[domainId]++;
             }
           }
         });
+
+        console.log('[DEBUG] Dashboard counts:', { fCounts, qCounts, domainTotals });
 
         // Count question stats per domain
         Object.keys(questionProgress).forEach((qId) => {
