@@ -9,7 +9,6 @@
     type FlashcardReview
   } from "$lib/utils/flashcardStorage";
   import {
-    getFlashcardsByDomain,
     getFlashcardStats,
     type Flashcard,
     type FlashcardStats
@@ -233,34 +232,39 @@
   });
 
   onMount(async () => {
-    // Load data from localStorage
+    // Load data from localStorage first (fast, synchronous)
     localMasteredCount = getMasteredCount();
     recentReviews = getRecentReviews();
 
     // Load flashcards data from JSON files
     try {
-      const statsResult = await getFlashcardStats();
+      // Load stats and all flashcards in a more efficient way
+      // processFlashcards() will load and cache the data, so we only load once
+      const [statsResult, flashcardsResult] = await Promise.all([
+        getFlashcardStats(),
+        import('$lib/utils/flashcardsData').then(m => m.processFlashcards())
+      ]);
+      
       statsData = statsResult;
-
-      // Load all flashcards by domain to get everything
-      const peopleCards = await getFlashcardsByDomain('people');
-      const processCards = await getFlashcardsByDomain('process');
-      const businessCards = await getFlashcardsByDomain('business');
-
-      allFlashcards = [...peopleCards, ...processCards, ...businessCards];
+      allFlashcards = flashcardsResult;
       filteredFlashcards = allFlashcards;
 
       // Initialize pagination with loaded flashcards
       pagination = usePagination({ items: filteredFlashcards, pageSize: 20 });
+      
+      // Mark as loaded before expensive calculations
+      loading = false;
 
-      // Calculate due today from localStorage card progress
-      const allCardIds = allFlashcards.map(card => card.id);
-      const cardStats = getCardProgressStats(allCardIds);
-      dueTodayCount = cardStats.cardsDue;
+      // Calculate due today from localStorage card progress (deferred, non-blocking)
+      // Use setTimeout to allow the UI to render first
+      setTimeout(() => {
+        const allCardIds = allFlashcards.map(card => card.id);
+        const cardStats = getCardProgressStats(allCardIds);
+        dueTodayCount = cardStats.cardsDue;
+      }, 0);
     } catch (err) {
       console.error('Failed to load flashcards:', err);
       error = err instanceof Error ? err.message : 'Failed to load flashcards';
-    } finally {
       loading = false;
     }
   });
