@@ -95,7 +95,7 @@
 			</div>
 		</nav>
 
-		<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+		<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 			<!-- Progress Bar -->
 			<div class="mb-8">
 				<div class="flex justify-between items-center mb-3">
@@ -130,14 +130,14 @@
 						</div>
 
 						<!-- Question Text -->
-						<div class="mb-8">
+						<div class="mb-6">
 							<h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white leading-tight">
 								{$currentQuestion.questionText}
 							</h2>
 						</div>
 
 						<!-- Options -->
-						<div class="space-y-4 mb-8">
+						<div class="space-y-4 mb-6">
 							{#each $currentQuestion.options as option}
 								{@const isSelected = selectedOptionId === option.id}
 								{@const showCorrect = showExplanation && option.isCorrect}
