@@ -53,9 +53,11 @@
   let searchInput = $state('');
 
   // Pagination - will be initialized with filteredFlashcards after data loads
-  let pagination = $state(
-    usePagination({ items: [] as Flashcard[], pageSize: 20 })
-  );
+  // Note: Not wrapped in $state() to avoid infinite re-render loops
+  let pagination = usePagination({ items: [] as Flashcard[], pageSize: 20 });
+
+  // Reactive state for triggering updates when pagination changes
+  let paginationVersion = $state(0);
 
   // Get chip color classes
   function getChipClasses(filterId: string): string {
@@ -104,7 +106,8 @@
     // Reset pagination when filter changes
     pagination.reset();
     // Update pagination with new filtered items
-    pagination = usePagination({ items: filteredFlashcards, pageSize: 20 });
+    pagination.setItems(filteredFlashcards);
+    paginationVersion++;
   }
 
   // Search function
@@ -133,7 +136,8 @@
     // Reset pagination when search changes
     pagination.reset();
     // Update pagination with new filtered items
-    pagination = usePagination({ items: filteredFlashcards, pageSize: 20 });
+    pagination.setItems(filteredFlashcards);
+    paginationVersion++;
   }
 
   // Debounced search
@@ -195,6 +199,38 @@
         return rating;
     }
   }
+
+  // Pagination navigation wrappers that trigger reactivity
+  function goToPreviousPage() {
+    pagination.previous();
+    paginationVersion++;
+  }
+
+  function goToNextPage() {
+    pagination.next();
+    paginationVersion++;
+  }
+
+  // Computed pagination values (reactive via paginationVersion dependency)
+  let displayItems = $derived(() => {
+    paginationVersion; // Depend on version to trigger recomputation
+    return pagination.displayItems;
+  });
+
+  let currentPageInfo = $derived(() => {
+    paginationVersion;
+    return pagination.currentPageInfo;
+  });
+
+  let hasMore = $derived(() => {
+    paginationVersion;
+    return pagination.hasMore;
+  });
+
+  let canGoBack = $derived(() => {
+    paginationVersion;
+    return pagination.offset > 0;
+  });
 
   onMount(async () => {
     // Load data from localStorage
@@ -399,7 +435,7 @@
           </div>
 
           <div class="divide-y divide-gray-200/50 dark:divide-gray-700/50">
-            {#each pagination.displayItems as flashcard}
+            {#each displayItems() as flashcard}
               <div class="group px-6 py-4 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors duration-300 cursor-default">
                 <div class="flex items-start gap-3">
                   <div class="flex-1 min-w-0">
@@ -437,20 +473,20 @@
           {#if filteredFlashcards.length > pagination.limit}
             <div class="px-6 py-4 border-t border-gray-200/50 dark:border-gray-700/50 flex items-center justify-between">
               <button
-                onclick={() => pagination.previous()}
-                disabled={pagination.offset === 0}
+                onclick={goToPreviousPage}
+                disabled={!canGoBack}
                 class="group px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md hover:shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:shadow-none transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
               >
                 Previous
               </button>
 
               <span class="text-sm text-gray-700 dark:text-gray-300">
-                {pagination.currentPageInfo}
+                {currentPageInfo()}
               </span>
 
               <button
-                onclick={() => pagination.next()}
-                disabled={!pagination.hasMore}
+                onclick={goToNextPage}
+                disabled={!hasMore()}
                 class="group px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md hover:shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:shadow-none transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
               >
                 Next
