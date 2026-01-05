@@ -16,13 +16,13 @@ export interface PaginationOptions<T> {
 
 export interface PaginationComputedInfo {
   /** Whether we're on the first page */
-  isFirstPage: boolean;
+  readonly isFirstPage: boolean;
   /** Whether we're on the last page */
-  isLastPage: boolean;
-  /** Start index of current page (1-indexed) */
-  startIndex: number;
-  /** End index of current page (1-indexed) */
-  endIndex: number;
+  readonly isLastPage: boolean;
+  /** Start index of current page (1-indexed for display) */
+  readonly startIndex: number;
+  /** End index of current page (1-indexed for display) */
+  readonly endIndex: number;
 }
 
 /**
@@ -87,8 +87,7 @@ export class Pagination<T> {
 
   /** Navigate to next page */
   next(): void {
-    const newOffset = this.#offset + this.#limit;
-    this.#offset = Math.min(newOffset, Math.max(0, this.#items.length - 1));
+    this.#offset = Math.min(this.#offset + this.#limit, Math.max(0, this.#items.length - 1));
   }
 
   /** Jump to specific page (1-indexed) */
@@ -138,9 +137,17 @@ export function usePagination<T>(
  * Useful for non-reactive contexts or when you only need computed values
  *
  * @param items - The array of items
- * @param offset - Current offset
- * @param limit - Page size
- * @returns Computed pagination information
+ * @param offset - Current offset (0-indexed)
+ * @param limit - Page size (number of items per page)
+ * @returns Computed pagination information including page boundaries
+ *
+ * @example
+ * ```ts
+ * const info = getPaginationInfo(items, 0, 20);
+ * console.log(info.isFirstPage); // true
+ * console.log(info.startIndex); // 1
+ * console.log(info.endIndex); // 20
+ * ```
  */
 export function getPaginationInfo<T>(
   items: T[],
