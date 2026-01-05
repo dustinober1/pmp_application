@@ -1,4 +1,5 @@
 import type { Flashcard, PracticeQuestion, QuestionOption } from "@pmp/shared";
+import { base } from "$app/paths";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
@@ -110,11 +111,8 @@ function normalizeTaskId(rawEco: string, rawTaskName: string): string {
 async function loadStaticFlashcards(fetchFn: typeof fetch): Promise<Flashcard[]> {
   if (cachedFlashcards) return cachedFlashcards;
   try {
-    // In SvelteKit, fetch can access static assets from the root. 
-    // If run on client, fetch relative path works. 
-    // If run on server, might need fully qualified URL or just rely on the static logic being client-side.
-    // Assuming this static logic runs mostly client-side for the SPA feel.
-    const res = await fetchFn('/data/flashcards.json');
+    // Correctly prepend base path for GitHub Pages compatibility
+    const res = await fetchFn(`${base}/data/flashcards.json`);
     if (res.ok) {
       const data = await res.json();
       cachedFlashcards = data.flatMap((group: any) => {
@@ -141,7 +139,8 @@ async function loadStaticFlashcards(fetchFn: typeof fetch): Promise<Flashcard[]>
 async function loadStaticQuestions(fetchFn: typeof fetch): Promise<PracticeQuestion[]> {
   if (cachedQuestions) return cachedQuestions;
   try {
-    const res = await fetchFn('/data/testbank.json');
+    // Correctly prepend base path for GitHub Pages compatibility
+    const res = await fetchFn(`${base}/data/testbank.json`);
     if (res.ok) {
       const data = await res.json();
       cachedQuestions = data.questions.map((q: any) => {
@@ -362,4 +361,4 @@ export const practiceApi = {
   // Fallback for mock exams if we want to support them later statically
   startMockExam: (fetchFn?: typeof fetch) =>
     apiRequest("/practice/mock-exams", { method: "POST" }, fetchFn || fetch),
-}; 
+};
