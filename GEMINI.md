@@ -93,6 +93,7 @@ npm run test:web-svelte
 *   **UI Improvements:** Updated the dashboard to display flashcards progress as a percentage instead of a raw count.
 *   **Dashboard Reliability:** Refactored dashboard store to dynamically load flashcard totals from manifest, resolving "NaN cards" issues and improving count accuracy. Added unit tests for dashboard logic.
 *   **Study Page Cleanup:** Removed "Domain Cards" section from the main Study page to simplify the interface, keeping the ECO Info Cards and Study Modules, as per user correction.
+*   **Module Content:** Added configuration for Module 2 (Strategic Business Management) and Module 3 (Team Leadership & Development) to the study page, enabling access to new study materials.
 
 ## Current Status & Roadmap
 

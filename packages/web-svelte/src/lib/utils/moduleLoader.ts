@@ -35,6 +35,44 @@ const MODULES: StudyModule[] = [
             { id: 'core-ethics', title: 'Core Concept: Ethics', description: 'The PMI Code of Ethics', path: 'core-ethics.md' },
             { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your foundational knowledge', path: 'knowledge-check.md' }
         ]
+    },
+    {
+        id: '02-strategic',
+        title: 'Module 2: Strategic Business Management',
+        description: 'Focus on the strategic aspects of project management, emphasizing how projects align with organizational goals and contribute to business value.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'strategy-alignment', title: 'Strategic Alignment', description: 'Aligning projects with organizational strategy', path: 'strategy-alignment.md' },
+            { id: 'project-alignment', title: 'Project Alignment', description: 'Ensuring project goals match business needs', path: 'project-alignment.md' },
+            { id: 'strategy-selection', title: 'Project Selection Strategy', description: 'Methods for selecting the right projects', path: 'strategy-selection.md' },
+            { id: 'portfolio-concepts', title: 'Portfolio Concepts', description: 'Understanding portfolio management', path: 'portfolio-concepts.md' },
+            { id: 'program-management', title: 'Program Management', description: 'Managing related projects as a program', path: 'program-management.md' },
+            { id: 'pmo-role', title: 'The Role of the PMO', description: 'Functions and types of Project Management Offices', path: 'pmo-role.md' },
+            { id: 'benefits-value', title: 'Benefits & Value', description: 'Delivering and measuring business value', path: 'benefits-value.md' },
+            { id: 'benefits-realization', title: 'Benefits Realization', description: 'Ensuring benefits are sustained', path: 'benefits-realization.md' },
+            { id: 'organizational-change', title: 'Organizational Change', description: 'Managing change within the organization', path: 'organizational-change.md' },
+            { id: 'external-environment', title: 'External Environment', description: 'EEFs and their impact', path: 'external-environment.md' },
+            { id: 'compliance-governance', title: 'Compliance & Governance', description: 'Adhering to legal and internal standards', path: 'compliance-governance.md' },
+            { id: 'sustainability', title: 'Sustainability', description: 'Sustainable project management practices', path: 'sustainability.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your strategic knowledge', path: 'knowledge-check.md' }
+        ]
+    },
+    {
+        id: '03-team-leadership',
+        title: 'Module 3: Team Leadership & Development',
+        description: 'Master the art of leading diverse teams, resolving conflict, and fostering a high-performance culture.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'team-formation', title: 'Team Formation', description: 'Skills matrix, RACI, and assembling the team', path: 'team-formation.md' },
+            { id: 'team-development', title: 'Team Development', description: 'Tuckman model and team growth', path: 'team-development.md' },
+            { id: 'team-charter', title: 'Team Charter', description: 'Creating working agreements', path: 'team-charter.md' },
+            { id: 'building-teams', title: 'Building Teams', description: 'Strategies for cohesive teams', path: 'building-teams.md' },
+            { id: 'virtual-teams', title: 'Virtual Teams', description: 'Leading remote and hybrid teams', path: 'virtual-teams.md' },
+            { id: 'coaching-mentoring', title: 'Coaching & Mentoring', description: 'Developing team members', path: 'coaching-mentoring.md' },
+            { id: 'conflict-management', title: 'Conflict Management', description: 'Resolving disputes effectively', path: 'conflict-management.md' },
+            { id: 'motivation-performance', title: 'Motivation & Performance', description: 'Driving high performance', path: 'motivation-performance.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your leadership knowledge', path: 'knowledge-check.md' }
+        ]
     }
 ];
 
@@ -52,7 +90,7 @@ export async function getModuleContent(moduleId: string, sectionId: string): Pro
 
     // Default to index.md if sectionId is empty or 'index'
     const filename = sectionId === 'index' || !sectionId ? 'index.md' : `${sectionId}.md`;
-    
+
     // Verify the section exists in our definition (security/validity check)
     // allowing 'index' implicitly
     const sectionExists = filename === 'index.md' || module.sections.some(s => s.path === filename);
