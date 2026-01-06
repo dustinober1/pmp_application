@@ -1,216 +1,307 @@
 <script lang="ts">
- import { base } from '$app/paths';
- import SanitizedMarkdown from '$lib/components/SanitizedMarkdown.svelte';
- import QuizComponent from '$lib/components/QuizComponent.svelte';
- import ConceptGrid from '$lib/components/ConceptGrid.svelte';
- import ConceptCard from '$lib/components/ConceptCard.svelte';
- import TriangleViz from '$lib/components/TriangleViz.svelte';
- import PowerInterestGrid from '$lib/components/PowerInterestGrid.svelte';
- import { getModuleBreadcrumbLabel } from '$lib/utils/moduleFormatting';
+	import { base } from '$app/paths';
+	import { onMount } from 'svelte';
+	import SanitizedMarkdown from '$lib/components/SanitizedMarkdown.svelte';
+	import QuizComponent from '$lib/components/QuizComponent.svelte';
+	import ConceptGrid from '$lib/components/ConceptGrid.svelte';
+	import ConceptCard from '$lib/components/ConceptCard.svelte';
+	import TriangleViz from '$lib/components/TriangleViz.svelte';
+	import PowerInterestGrid from '$lib/components/PowerInterestGrid.svelte';
+	import { getModuleBreadcrumbLabel } from '$lib/utils/moduleFormatting';
+	import { getModules, getModuleContent, type StudyModule } from '$lib/utils/moduleLoader';
 
- export let data;
+	export let data: { moduleId: string; sectionId: string };
 
- type Block = 
- | { type: 'markdown'; content: string }
- | { type: 'quiz'; title: string; questions: any[] }
- | { type: 'triangle-viz' }
- | { type: 'power-interest-grid'; htmlContent: any }
- | { type: 'concept-grid'; cards: any[] };
+	let module: StudyModule | null = null;
+	let content: string | null = null;
+	let title = '';
+	let prevSection: { moduleId: string; sectionId: string; title: string } | null = null;
+	let nextSection: { moduleId: string; sectionId: string; title: string } | null = null;
+	let loading = true;
+	let error: string | null = null;
 
- function parseContent(content: string): Block[] {
- const blocks: Block[] = [];
- let remaining = content;
+	type Block = 
+		| { type: 'markdown'; content: string }
+		| { type: 'quiz'; title: string; questions: any[] }
+		| { type: 'triangle-viz' }
+		| { type: 'power-interest-grid'; htmlContent: any }
+		| { type: 'concept-grid'; cards: any[] };
 
- // Regular expressions for our components
- const quizRegex = /<QuizComponent\s+title="([^"]+)"\s+:questions="([\s\S]+?)"\s*\/>/;
- const triangleRegex = /<TriangleViz\s*\/>/;
- const powerInterestRegex = /<PowerInterestGrid>([\s\S]+?)<\/PowerInterestGrid>/;
- const conceptGridRegex = /<ConceptGrid>([\s\S]+?)<\/ConceptGrid>/;
+	function parseContent(rawContent: string): Block[] {
+		const blocks: Block[] = [];
+		let remaining = rawContent;
 
- while (remaining.length > 0) {
- // Find the first occurrence of any component
- const matches = [
- { type: 'quiz', match: remaining.match(quizRegex) },
- { type: 'triangle-viz', match: remaining.match(triangleRegex) },
- { type: 'power-interest-grid', match: remaining.match(powerInterestRegex) },
- { type: 'concept-grid', match: remaining.match(conceptGridRegex) }
- ].filter(m => m.match).sort((a, b) => (a.match!.index || 0) - (b.match!.index || 0));
+		// Regular expressions for our components
+		const quizRegex = /<QuizComponent\s+title="([^"]+)"\s+:questions="([\s\S]+?)"\s*\/>/;
+		const triangleRegex = /<TriangleViz\s*\/>/;
+		const powerInterestRegex = /<PowerInterestGrid>([\s\S]+?)<\/PowerInterestGrid>/;
+		const conceptGridRegex = /<ConceptGrid>([\s\S]+?)<\/ConceptGrid>/;
 
- if (matches.length === 0) {
- blocks.push({ type: 'markdown', content: remaining });
- break;
- }
+		while (remaining.length > 0) {
+			// Find the first occurrence of any component
+			const matches = [
+				{ type: 'quiz', match: remaining.match(quizRegex) },
+				{ type: 'triangle-viz', match: remaining.match(triangleRegex) },
+				{ type: 'power-interest-grid', match: remaining.match(powerInterestRegex) },
+				{ type: 'concept-grid', match: remaining.match(conceptGridRegex) }
+			].filter(m => m.match).sort((a, b) => (a.match!.index || 0) - (b.match!.index || 0));
 
- const firstMatch = matches[0];
- const matchIndex = firstMatch.match!.index || 0;
+			if (matches.length === 0) {
+				blocks.push({ type: 'markdown', content: remaining });
+				break;
+			}
 
- // Add markdown before the component
- if (matchIndex > 0) {
- blocks.push({ type: 'markdown', content: remaining.substring(0, matchIndex) });
- }
+			const firstMatch = matches[0];
+			const matchIndex = firstMatch.match!.index || 0;
 
- // Process the component
- if (firstMatch.type === 'quiz') {
- const [fullMatch, title, questionsRaw] = firstMatch.match!;
- try {
- const questions = JSON.parse(questionsRaw.replace(/'/g, '"').replace(/(\w+):/g, '"$1":'));
- blocks.push({ type: 'quiz', title, questions });
- } catch (e) {
- console.error('Quiz parse error', e);
- blocks.push({ type: 'markdown', content: fullMatch });
- }
- remaining = remaining.substring(matchIndex + firstMatch.match![0].length);
- } else if (firstMatch.type === 'triangle-viz') {
- blocks.push({ type: 'triangle-viz' });
- remaining = remaining.substring(matchIndex + firstMatch.match![0].length);
- } else if (firstMatch.type === 'power-interest-grid') {
- const [fullMatch, innerContent] = firstMatch.match!;
- const htmlContent = {
- manage: innerContent.match(/<template #manage>([\s\S]+?)<\/template>/)?.[1] || '',
- satisfy: innerContent.match(/<template #satisfy>([\s\S]+?)<\/template>/)?.[1] || '',
- inform: innerContent.match(/<template #inform>([\s\S]+?)<\/template>/)?.[1] || '',
- monitor: innerContent.match(/<template #monitor>([\s\S]+?)<\/template>/)?.[1] || ''
- };
- blocks.push({ type: 'power-interest-grid', htmlContent });
- remaining = remaining.substring(matchIndex + fullMatch.length);
- } else if (firstMatch.type === 'concept-grid') {
- const [fullMatch, innerContent] = firstMatch.match!;
- const cards = [];
- const cardRegex = /<ConceptCard\s+title="([^"]+)"\s+link="([^"]+)"\s+linkText="([^"]+)">([\s\S]+?)<\/ConceptCard>/g;
- let cardMatch;
- while ((cardMatch = cardRegex.exec(innerContent)) !== null) {
- cards.push({
- title: cardMatch[1],
- link: cardMatch[2],
- linkText: cardMatch[3],
- content: cardMatch[4].trim()
- });
- }
- blocks.push({ type: 'concept-grid', cards });
- remaining = remaining.substring(matchIndex + fullMatch.length);
- } else {
- // Should not happen, but for safety
- remaining = remaining.substring(matchIndex + 1);
- }
- }
+			// Add markdown before the component
+			if (matchIndex > 0) {
+				blocks.push({ type: 'markdown', content: remaining.substring(0, matchIndex) });
+			}
 
- return blocks;
- }
+			// Process the component
+			if (firstMatch.type === 'quiz') {
+				const [fullMatch, quizTitle, questionsRaw] = firstMatch.match!;
+				try {
+					const questions = JSON.parse(questionsRaw.replace(/'/g, '"').replace(/(\w+):/g, '"$1":'));
+					blocks.push({ type: 'quiz', title: quizTitle, questions });
+				} catch (e) {
+					console.error('Quiz parse error', e);
+					blocks.push({ type: 'markdown', content: fullMatch });
+				}
+				remaining = remaining.substring(matchIndex + firstMatch.match![0].length);
+			} else if (firstMatch.type === 'triangle-viz') {
+				blocks.push({ type: 'triangle-viz' });
+				remaining = remaining.substring(matchIndex + firstMatch.match![0].length);
+			} else if (firstMatch.type === 'power-interest-grid') {
+				const [fullMatch, innerContent] = firstMatch.match!;
+				const htmlContent = {
+					manage: innerContent.match(/<template #manage>([\s\S]+?)<\/template>/)?.[1] || '',
+					satisfy: innerContent.match(/<template #satisfy>([\s\S]+?)<\/template>/)?.[1] || '',
+					inform: innerContent.match(/<template #inform>([\s\S]+?)<\/template>/)?.[1] || '',
+					monitor: innerContent.match(/<template #monitor>([\s\S]+?)<\/template>/)?.[1] || ''
+				};
+				blocks.push({ type: 'power-interest-grid', htmlContent });
+				remaining = remaining.substring(matchIndex + fullMatch.length);
+			} else if (firstMatch.type === 'concept-grid') {
+				const [fullMatch, innerContent] = firstMatch.match!;
+				const cards: { title: string; link: string; linkText: string; content: string }[] = [];
+				const cardRegex = /<ConceptCard\s+title="([^"]+)"\s+link="([^"]+)"\s+linkText="([^"]+)">([\s\S]+?)<\/ConceptCard>/g;
+				let cardMatch;
+				while ((cardMatch = cardRegex.exec(innerContent)) !== null) {
+					cards.push({
+						title: cardMatch[1],
+						link: cardMatch[2],
+						linkText: cardMatch[3],
+						content: cardMatch[4].trim()
+					});
+				}
+				blocks.push({ type: 'concept-grid', cards });
+				remaining = remaining.substring(matchIndex + fullMatch.length);
+			} else {
+				// Should not happen, but for safety
+				remaining = remaining.substring(matchIndex + 1);
+			}
+		}
 
- 	$: blocks = parseContent(data.content);
- 
- // Fix relative links in markdown content
- function fixLinks(content: string) {
- // Replace href="./something" with href="{base}/study/modules/{moduleId}/something"
- return content.replace(/href="\.\/([^"]+)"/g, `href="${base}/study/modules/${data.module.id}/$1"`);
- }
- 
- $: processedBlocks = blocks.map(b => b.type === 'markdown' ? { ...b, content: fixLinks(b.content) } : b);
- </script>
- 
-<div class="min-h-screen bg-stone-50 dark:bg-stone-950 pb-20">
- <!-- Hero Header Section -->
- <header class="bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 pt-12 pb-16 mb-12">
- <div class="max-w-4xl mx-auto px-6">
- <nav class="mb-8 flex items-center gap-3 text-sm font-medium">
- <a href="{base}/study" class="text-stone-500 hover:text-primary transition-colors flex items-center gap-1">
- <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
- <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
- </svg>
- Study Hub
- </a>
- <span class="text-stone-300">/</span>
- <a href="{base}/study/modules/{data.module.id}" class="text-stone-500 hover:text-primary transition-colors">
- {getModuleBreadcrumbLabel(data.module.id, data.module.title)}
- </a>
- <span class="text-stone-300">/</span>
- <span class="text-primary truncate">{data.title}</span>
- </nav>
+		return blocks;
+	}
 
- <h1 class="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-100 mb-4 font-serif leading-tight">
- {data.title}
- </h1>
- </div>
- </header>
+	// Fix relative links in markdown content
+	function fixLinks(rawContent: string, moduleId: string) {
+		// Replace href="./something" with href="{base}/study/modules/{moduleId}/something"
+		return rawContent.replace(/href="\.\/([^"]+)"/g, `href="${base}/study/modules/${moduleId}/$1"`);
+	}
 
- <div class="max-w-4xl mx-auto px-6">
- <article class="prose prose-stone prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-black prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl prose-img:shadow-lg">
- {#each processedBlocks as block}
- {#if block.type === 'markdown'}
- <SanitizedMarkdown content={block.content} />
- {:else if block.type === 'quiz'}
- <div class="my-12">
- <QuizComponent title={block.title} questions={block.questions} />
- </div>
- {:else if block.type === 'triangle-viz'}
- <div class="my-12">
- <TriangleViz />
- </div>
- {:else if block.type === 'power-interest-grid'}
- <div class="my-12">
- <PowerInterestGrid htmlContent={block.htmlContent} />
- </div>
- {:else if block.type === 'concept-grid'}
- <div class="my-12">
- <ConceptGrid>
- {#each block.cards as card}
- <ConceptCard title={card.title} link={card.link} linkText={card.linkText}>
- <p>{card.content}</p>
- </ConceptCard>
- {/each}
- </ConceptGrid>
- </div>
- {/if}
- {/each}
- </article>
+	onMount(async () => {
+		try {
+			const modules = await getModules();
+			const moduleIndex = modules.findIndex((m) => m.id === data.moduleId);
+			module = modules[moduleIndex];
 
- <footer class="mt-16 pt-12 border-t border-stone-200 dark:border-stone-800">
- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
- {#if data.prevSection}
- <a 
- href="{base}/study/modules/{data.prevSection.moduleId}/{data.prevSection.sectionId}" 
- class="group flex flex-col p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-primary/50 hover:shadow-lg transition-all"
- >
- <span class="text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 mb-2 flex items-center gap-1">
- <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
- <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
- </svg>
- Previous
- </span>
- <span class="text-lg font-serif font-black text-stone-900 dark:text-stone-100 group-hover:text-primary transition-colors">
- {data.prevSection.title}
- </span>
- </a>
- {:else}
- <div></div>
- {/if}
+			if (!module) {
+				error = 'Module not found';
+				loading = false;
+				return;
+			}
 
- {#if data.nextSection}
- <a 
- href="{base}/study/modules/{data.nextSection.moduleId}/{data.nextSection.sectionId}" 
- class="group flex flex-col p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-primary/50 hover:shadow-lg transition-all text-right items-end"
- >
- <span class="text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 mb-2 flex items-center gap-1">
- Next
- <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
- <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
- </svg>
- </span>
- <span class="text-lg font-serif font-black text-stone-900 dark:text-stone-100 group-hover:text-primary transition-colors">
- {data.nextSection.title}
- </span>
- </a>
- {/if}
- </div>
+			content = await getModuleContent(data.moduleId, data.sectionId);
+			if (!content) {
+				error = 'Section content not found';
+				loading = false;
+				return;
+			}
 
- <div class="mt-12 flex justify-center">
- <a href="{base}/study/modules/{data.module.id}" class="inline-flex items-center gap-2 text-stone-500 hover:text-primary font-medium transition-colors py-2 px-4 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800">
- <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
- <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
- </svg>
- Back to Module Overview
- </a>
- </div>
- </footer>
- </div>
+			const sectionIndex = module.sections.findIndex((s) => s.id === data.sectionId);
+			const currentSection = module.sections[sectionIndex];
+			title = currentSection?.title || data.sectionId;
+
+			// Calculate previous section
+			if (sectionIndex > 0) {
+				prevSection = {
+					moduleId: module.id,
+					sectionId: module.sections[sectionIndex - 1].id,
+					title: module.sections[sectionIndex - 1].title,
+				};
+			} else if (moduleIndex > 0) {
+				const prevModule = modules[moduleIndex - 1];
+				const lastSection = prevModule.sections[prevModule.sections.length - 1];
+				prevSection = {
+					moduleId: prevModule.id,
+					sectionId: lastSection.id,
+					title: lastSection.title,
+				};
+			}
+
+			// Calculate next section
+			if (sectionIndex < module.sections.length - 1) {
+				nextSection = {
+					moduleId: module.id,
+					sectionId: module.sections[sectionIndex + 1].id,
+					title: module.sections[sectionIndex + 1].title,
+				};
+			} else if (moduleIndex < modules.length - 1) {
+				const nextModule = modules[moduleIndex + 1];
+				const firstSection = nextModule.sections[0];
+				nextSection = {
+					moduleId: nextModule.id,
+					sectionId: firstSection.id,
+					title: firstSection.title,
+				};
+			}
+		} catch (e) {
+			error = e instanceof Error ? e.message : 'Failed to load content';
+		} finally {
+			loading = false;
+		}
+	});
+
+	$: blocks = content ? parseContent(content) : [];
+	$: processedBlocks = module ? blocks.map(b => b.type === 'markdown' ? { ...b, content: fixLinks(b.content, module!.id) } : b) : [];
+</script>
+
+{#if loading}
+<div class="min-h-screen bg-stone-50 dark:bg-stone-950 flex items-center justify-center">
+	<div class="text-center">
+		<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+		<p class="text-stone-600 dark:text-stone-400">Loading content...</p>
+	</div>
 </div>
+{:else if error}
+<div class="min-h-screen bg-stone-50 dark:bg-stone-950 flex items-center justify-center">
+	<div class="text-center max-w-md mx-auto px-6">
+		<h1 class="text-2xl font-bold text-stone-900 dark:text-stone-100 mb-4">Error</h1>
+		<p class="text-stone-600 dark:text-stone-400 mb-6">{error}</p>
+		<a href="{base}/study" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+			Back to Study Hub
+		</a>
+	</div>
+</div>
+{:else if module}
+<div class="min-h-screen bg-stone-50 dark:bg-stone-950 pb-20">
+	<!-- Hero Header Section -->
+	<header class="bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 pt-12 pb-16 mb-12">
+		<div class="max-w-4xl mx-auto px-6">
+			<nav class="mb-8 flex items-center gap-3 text-sm font-medium">
+				<a href="{base}/study" class="text-stone-500 hover:text-primary transition-colors flex items-center gap-1">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+					</svg>
+					Study Hub
+				</a>
+				<span class="text-stone-300">/</span>
+				<a href="{base}/study/modules/{module.id}" class="text-stone-500 hover:text-primary transition-colors">
+					{getModuleBreadcrumbLabel(module.id, module.title)}
+				</a>
+				<span class="text-stone-300">/</span>
+				<span class="text-primary truncate">{title}</span>
+			</nav>
+
+			<h1 class="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-100 mb-4 font-serif leading-tight">
+				{title}
+			</h1>
+		</div>
+	</header>
+
+	<div class="max-w-4xl mx-auto px-6">
+		<article class="prose prose-stone prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-black prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl prose-img:shadow-lg">
+			{#each processedBlocks as block}
+				{#if block.type === 'markdown'}
+					<SanitizedMarkdown content={block.content} />
+				{:else if block.type === 'quiz'}
+					<div class="my-12">
+						<QuizComponent title={block.title} questions={block.questions} />
+					</div>
+				{:else if block.type === 'triangle-viz'}
+					<div class="my-12">
+						<TriangleViz />
+					</div>
+				{:else if block.type === 'power-interest-grid'}
+					<div class="my-12">
+						<PowerInterestGrid htmlContent={block.htmlContent} />
+					</div>
+				{:else if block.type === 'concept-grid'}
+					<div class="my-12">
+						<ConceptGrid>
+							{#each block.cards as card}
+								<ConceptCard title={card.title} link={card.link} linkText={card.linkText}>
+									<p>{card.content}</p>
+								</ConceptCard>
+							{/each}
+						</ConceptGrid>
+					</div>
+				{/if}
+			{/each}
+		</article>
+
+		<footer class="mt-16 pt-12 border-t border-stone-200 dark:border-stone-800">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{#if prevSection}
+					<a 
+						href="{base}/study/modules/{prevSection.moduleId}/{prevSection.sectionId}" 
+						class="group flex flex-col p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-primary/50 hover:shadow-lg transition-all"
+					>
+						<span class="text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 mb-2 flex items-center gap-1">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+								<path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+							</svg>
+							Previous
+						</span>
+						<span class="text-lg font-serif font-black text-stone-900 dark:text-stone-100 group-hover:text-primary transition-colors">
+							{prevSection.title}
+						</span>
+					</a>
+				{:else}
+					<div></div>
+				{/if}
+
+				{#if nextSection}
+					<a 
+						href="{base}/study/modules/{nextSection.moduleId}/{nextSection.sectionId}" 
+						class="group flex flex-col p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-primary/50 hover:shadow-lg transition-all text-right items-end"
+					>
+						<span class="text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 mb-2 flex items-center gap-1">
+							Next
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+								<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+							</svg>
+						</span>
+						<span class="text-lg font-serif font-black text-stone-900 dark:text-stone-100 group-hover:text-primary transition-colors">
+							{nextSection.title}
+						</span>
+					</a>
+				{/if}
+			</div>
+
+			<div class="mt-12 flex justify-center">
+				<a href="{base}/study/modules/{module.id}" class="inline-flex items-center gap-2 text-stone-500 hover:text-primary font-medium transition-colors py-2 px-4 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+					</svg>
+					Back to Module Overview
+				</a>
+			</div>
+		</footer>
+	</div>
+</div>
+{/if}

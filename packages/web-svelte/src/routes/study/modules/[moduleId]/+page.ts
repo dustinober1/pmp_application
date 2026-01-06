@@ -1,22 +1,21 @@
-import { error } from "@sveltejs/kit";
-import { getModule, getModuleContent } from "$lib/utils/moduleLoader";
+import { getModules } from "$lib/utils/moduleLoader";
+import type { EntryGenerator } from "./$types";
 
-export async function load({ params }) {
-  const { moduleId } = params;
-  const module = await getModule(moduleId);
+// Enable prerendering for static site generation
+export const prerender = true;
 
-  if (!module) {
-    throw error(404, "Module not found");
-  }
+// Disable SSR - content is loaded on client side where fetch to static files works
+export const ssr = false;
 
-  const content = await getModuleContent(moduleId, "index");
-  if (!content) {
-    throw error(404, "Module content not found");
-  }
+// Generate entries for all modules to create static HTML pages
+export const entries: EntryGenerator = async () => {
+  const modules = await getModules();
+  return modules.map((module) => ({ moduleId: module.id }));
+};
 
+// Empty load function - actual loading happens in the component
+export const load = async ({ params }: { params: { moduleId: string } }) => {
   return {
-    module,
-    content,
-    sectionId: "index",
+    moduleId: params.moduleId,
   };
-}
+};
