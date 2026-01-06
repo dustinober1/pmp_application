@@ -1,8 +1,6 @@
 // Authentication Types
 export * from "./types/auth.js";
 
-
-
 // Content Types (Domains, Tasks, Study Guides)
 export * from "./types/content.js";
 

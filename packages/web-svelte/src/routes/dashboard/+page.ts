@@ -4,8 +4,8 @@ import type { Load } from "@sveltejs/kit";
 export const prerender = true;
 
 export const load: Load = async () => {
-	return {
-		user: null,
-		error: null,
-	};
+  return {
+    user: null,
+    error: null,
+  };
 };

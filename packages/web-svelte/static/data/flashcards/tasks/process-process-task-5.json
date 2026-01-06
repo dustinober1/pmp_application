@@ -1,492 +1,492 @@
 {
- "meta": {
- "title": " Process Task: Plan and Manage Procurement",
- "domain": "Process",
- "task": "Plan and manage procurement",
- "ecoReference": "Process Task 5",
- "description": "Flashcards for PMP Process Domain Task 5",
- "file": "guide/appendices/flashcards-process-task5-procurement.md"
- },
- "flashcards": [
- {
- "id": 1,
- "category": " Contract Types & Rationale",
- "front": "Which contract type places the most risk on the Seller?\n",
- "back": "Firm Fixed Price (FFP). The seller is obligated to complete the work for a set price, regardless of their actual costs.\n"
- },
- {
- "id": 2,
- "category": " Contract Types & Rationale",
- "front": "Which contract type places the most risk on the Buyer?\n",
- "back": "Cost Plus Fixed Fee (CPFF) (or Cost Reimbursable). The buyer pays all allowables costs plus a profit fee; if costs spiral, the buyer pays.\n"
- },
- {
- "id": 3,
- "category": " Contract Types & Rationale",
- "front": "When is a Time and Materials (T&M) contract most appropriate?\n",
- "back": "When the scope is not well defined at the start, but resources are needed quickly (e.g., Staff Augmentation or hiring experts for a short period).\n"
- },
- {
- "id": 4,
- "category": " Contract Types & Rationale",
- "front": "What is a Fixed Price Incentive Fee (FPIF) contract?\n",
- "back": "A fixed-price contract that includes financial incentives for achieving specific metrics (e.g., finishing early or under budget). It has a price ceiling.\n"
- },
- {
- "id": 5,
- "category": " Contract Types & Rationale",
- "front": "What is the Point of Total Assumption (PTA)?\n",
- "back": "The cost point in an FPIF contract where the seller assumes 100% of the cost overruns.\nFormula: Target Cost + ((Ceiling Price - Target Price) / Buyer's Share Ratio).\n"
- },
- {
- "id": 6,
- "category": " Contract Types & Rationale",
- "front": "What does CR stand for in contracts?\n",
- "back": "Cost Reimbursable. The seller is reimbursed for actual costs plus a fee representing profit.\n"
- },
- {
- "id": 7,
- "category": " Contract Types & Rationale",
- "front": "What is a Cost Plus Award Fee (CPAF) contract?\n",
- "back": "A contract where the seller is reimbursed for costs, but the profit (fee) is based on subjective performance criteria defined by the buyer. The award amount is usually not subject to appeals.\n"
- },
- {
- "id": 8,
- "category": " Contract Types & Rationale",
- "front": "Scenario: You are buying standard bolts for a construction project. The market price is stable. Which contract type do you use?\n",
- "back": "Fixed Price. Specifically, a Purchase Order (PO) is common for commodities.\n"
- },
- {
- "id": 9,
- "category": " Contract Types & Rationale",
- "front": "Scenario: You are hiring a vendor to invent a new, never-before-seen technology. The scope is vague. Which contract type minimizes vendor bankruptcy risk?\n",
- "back": "Cost Reimbursable (CR). A vendor would likely refuse a Fixed Price contract for undefined R&D work due to excessive risk.\n"
- },
- {
- "id": 10,
- "category": " Contract Types & Rationale",
- "front": "What is a Ceiling Price?\n",
- "back": "The maximum amount the buyer will pay in a Fixed Price Incentive Fee (FPIF) contract. Any cost above this is borne entirely by the seller.\n\n\n"
- },
- {
- "id": 11,
- "category": " Sourcing & Selection",
- "front": "What is the purpose of a Bidder Conference?\n",
- "back": "To ensure all prospective sellers have a clear and common understanding of the procurement requirements (SOW). It ensures fairness.\n"
- },
- {
- "id": 12,
- "category": " Sourcing & Selection",
- "front": "Scenario: At a Bidder Conference, one vendor asks a question. What must you do with the answer?\n",
- "back": "Provide the answer to all potential vendors, not just the one who asked. This ensures a level playing field.\n"
- },
- {
- "id": 13,
- "category": " Sourcing & Selection",
- "front": "What is the Make-or-Buy Analysis?\n",
- "back": "A technique used to determine whether work should be accomplished by the project team or purchased from outside sources.\n"
- },
- {
- "id": 14,
- "category": " Sourcing & Selection",
- "front": "What are Source Selection Criteria?\n",
- "back": "The standards used to rate or score seller proposals (e.g., Price, Technical Approach, Experience, Financial Stability).\n"
- },
- {
- "id": 15,
- "category": " Sourcing & Selection",
- "front": "What describes the work to be done by the seller in detail?\n",
- "back": "The Procurement Statement of Work (SOW).\n"
- },
- {
- "id": 16,
- "category": " Sourcing & Selection",
- "front": "What is a Request for Proposal (RFP)?\n",
- "back": "A procurement document used to solicit proposals from prospective sellers when the solution is not strictly defined (Buyer focuses on the problem; Seller proposes solution).\n"
- },
- {
- "id": 17,
- "category": " Sourcing & Selection",
- "front": "What is a Request for Quotation (RFQ)?\n",
- "back": "A procurement document used when the discussion is mostly about price (e.g., commodities, standard hours).\n"
- },
- {
- "id": 18,
- "category": " Sourcing & Selection",
- "front": "What is a Sole Source procurement?\n",
- "back": "When there is only one qualified seller in the market (e.g., owning a patent), so no competition is possible.\n"
- },
- {
- "id": 19,
- "category": " Sourcing & Selection",
- "front": "What is Single Source procurement?\n",
- "back": "Choosing to use a specific seller even though others exist (e.g., for consistency or previous relationship), usually requiring justification.\n"
- },
- {
- "id": 20,
- "category": " Sourcing & Selection",
- "front": "What is a Screening System?\n",
- "back": "A selection method that establishes minimum requirements (e.g., \"Must be ISO certified\"). Vendors who fail are disqualified immediately before further scoring.\n\n\n"
- },
- {
- "id": 21,
- "category": " Negotiation & Agreements",
- "front": "What is the primary goal of procurement Negotiation?\n",
- "back": "To reach a fair agreement that establishes a good working relationship (Win-Win), not to squeeze every penny out of the vendor.\n"
- },
- {
- "id": 22,
- "category": " Negotiation & Agreements",
- "front": "Who typically leads the negotiation on the buyer's side?\n",
- "back": "The Procurement Manager (or Contract Administrator), not the Project Manager. The PM provides technical support and clarification.\n"
- },
- {
- "id": 23,
- "category": " Negotiation & Agreements",
- "front": "What is Privity of Contract?\n",
- "back": "A legal concept meaning a contractual relationship exists only between the parties who signed the contract. (e.g., You cannot sue the subcontractor of your contractor directly if you don't have a contract with them).\n"
- },
- {
- "id": 24,
- "category": " Negotiation & Agreements",
- "front": "What is a Teaming Agreement?\n",
- "back": "A legal agreement between two or more entities to form a partnership or joint venture for a specific opportunity (often before bidding).\n"
- },
- {
- "id": 25,
- "category": " Negotiation & Agreements",
- "front": "What is Constructive Change?\n",
- "back": "When the buyer's actions or inactions (e.g., frequent interference, unapproved instructions) effectively change the contract scope, potentially entitling the seller to a claim.\n"
- },
- {
- "id": 26,
- "category": " Negotiation & Agreements",
- "front": "What is Force Majeure?\n",
- "back": "A common contract clause that frees both parties from liability/obligation when an extraordinary event (Act of God, war, pandemic) prevents performance.\n"
- },
- {
- "id": 27,
- "category": " Negotiation & Agreements",
- "front": "What is an SLA (Service Level Agreement)?\n",
- "back": "A contract component defining specific measurable metrics (e.g., 99.9% uptime, 4-hour response time) and penalties for missing them.\n"
- },
- {
- "id": 28,
- "category": " Negotiation & Agreements",
- "front": "Scenario: The vendor says \"Handshake deal?\" What do you do?\n",
- "back": "Get it in writing. In PMP, if it's not written in the contract, it doesn't exist. Informal agreements are unenforceable and risky.\n"
- },
- {
- "id": 29,
- "category": " Negotiation & Agreements",
- "front": "What is Retainage?\n",
- "back": "A portion of the contract price withheld until the work is substantially complete to ensure the vendor finishes the job.\n"
- },
- {
- "id": 30,
- "category": " Negotiation & Agreements",
- "front": "Does a contract supersede the Project Charter?\n",
- "back": "Yes, for the work defined in that contract. It is a legally binding document.\n\n\n"
- },
- {
- "id": 31,
- "category": " Control Procurements",
- "front": "What is Control Procurements?\n",
- "back": "The process of managing procurement relationships, monitoring contract performance, and making changes and corrections as appropriate.\n"
- },
- {
- "id": 32,
- "category": " Control Procurements",
- "front": "What is a Claims Administration process?\n",
- "back": "The process of processing, adjudicating, and communicating contract claims (disputes). It is the method for handling disagreements on compensation/scope.\n"
- },
- {
- "id": 33,
- "category": " Control Procurements",
- "front": "What is the preferred method for resolving claims/disputes?\n",
- "back": "Negotiation (Direct usually). If that fails, then Mediation -> Arbitration -> Litigation (Court).\n"
- },
- {
- "id": 34,
- "category": " Control Procurements",
- "front": "What is an Inspection (Procurement)?\n",
- "back": "A structured review of the work being performed by the contractor to ensure it meets the SOW specifications.\n"
- },
- {
- "id": 35,
- "category": " Control Procurements",
- "front": "What is an Audit (Procurement)?\n",
- "back": "A structured review of the procurement process itself (e.g., \"Are invoices being paid on time?\", \"Are we following the change control process?\").\n"
- },
- {
- "id": 36,
- "category": " Control Procurements",
- "front": "Scenario: The vendor delivers a product that doesn't meet the SOW specs but is \"good enough.\" What do you do?\n",
- "back": "Reject it or issue a Change Request. Do not informally accept non-conforming work, as it sets a bad precedent and creates liability.\n"
- },
- {
- "id": 37,
- "category": " Control Procurements",
- "front": "Scenario: You want to change the scope of a Fixed Price contract. What must happen?\n",
- "back": "A formal Contract Change Order (Amendment). This usually involves re-negotiating the price and schedule to account for the new scope.\n"
- },
- {
- "id": 38,
- "category": " Control Procurements",
- "front": "What is Alternative Dispute Resolution (ADR)?\n",
- "back": "Methods like Mediation and Arbitration used to resolve disputes without going to the expensive and damaging process of Litigation (Court).\n"
- },
- {
- "id": 39,
- "category": " Control Procurements",
- "front": "What is Trend Analysis in procurement?\n",
- "back": "checking if vendor performance is improving or deteriorating over time (e.g., \"Are they consistently missing milestones?\").\n"
- },
- {
- "id": 40,
- "category": " Control Procurements",
- "front": "Who has the authority to sign a contract amendment?\n",
- "back": "Usually the authorized procurement officer, not the Project Manager (unless the PM has delegated procurement authority).\n\n\n"
- },
- {
- "id": 41,
- "category": " Closing Procurements",
- "front": "What is the key output of closing a procurement?\n",
- "back": "Closed Procurements (Formal notice that the contract is complete).\n"
- },
- {
- "id": 42,
- "category": " Closing Procurements",
- "front": "Can a project be closed if there are open claims with a vendor?\n",
- "back": "Generally No. Procurement closure usually happens before or as part of project/phase closure. Claims must be resolved or actively handed over to legal.\n"
- },
- {
- "id": 43,
- "category": " Closing Procurements",
- "front": "What is Formal Acceptance?\n",
- "back": "Written confirmation from the buyer that the deliverables meet the requirements. It is often a prerequisite for final payment.\n"
- },
- {
- "id": 44,
- "category": " Closing Procurements",
- "front": "Why capture Lessons Learned from a vendor relationship?\n",
- "back": "To update the organization's vendor list (OPAs). Helps future PMs know if this vendor is reliable or problematic.\n"
- },
- {
- "id": 45,
- "category": " Closing Procurements",
- "front": "Scenario: The project is cancelled early. What happens to the contracts?\n",
- "back": "They enter the Close Procurements process immediately. You must follow the termination clauses (e.g., paying for work done to date).\n"
- },
- {
- "id": 46,
- "category": " Closing Procurements",
- "front": "What is an Records Management System?\n",
- "back": "A set of processes and tools to consolidate and archive contract documents, correspondence, and artifacts for future reference/legal protection.\n"
- },
- {
- "id": 47,
- "category": " Closing Procurements",
- "front": "Scenario: The vendor has finished the work. You are happy. Can you just pay the final invoice?\n",
- "back": "Not yet. You must perform Formal Acceptance (verify SOW is met) and check that no claims are open before authorizing final payment.\n"
- },
- {
- "id": 48,
- "category": " Closing Procurements",
- "front": "What distinguishes Mediation from Arbitration?\n",
- "back": "- Mediation: Non-binding. A third party helps facilitate a solution.\n- Arbitration: Binding. A third party hears both sides and makes a decision.\n"
- },
- {
- "id": 49,
- "category": " Closing Procurements",
- "front": "What is Warranty administration?\n",
- "back": "Ensuring that the seller corrects defects found during the warranty period, even after the initial project acceptance.\n"
- },
- {
- "id": 50,
- "category": " Closing Procurements",
- "front": "Is \"Closing Procurements\" a separate process in the current ECO?\n",
- "back": "It's often integrated into Control Procurements or Project Closure, but the activities (audit, file, acceptance) remain critical.\n\n\n"
- },
- {
- "id": 51,
- "category": " Quick-Fire Procurement Review",
- "front": "True or False: The PM should try to get the lowest possible price from the vendor to save the budget.\n",
- "back": "False. A price that is too low may force the vendor to cut corners or fail. Aim for Fair and Reasonable price.\n"
- },
- {
- "id": 52,
- "category": " Quick-Fire Procurement Review",
- "front": "True or False: If a vendor violates a contract term, you should immediately sue them.\n",
- "back": "False. Use the Cure Notice process first—give them a chance to fix the issue before terminating.\n"
- },
- {
- "id": 53,
- "category": " Quick-Fire Procurement Review",
- "front": "True or False: Independent cost estimates act as a reality check on vendor bids.\n",
- "back": "True. If all bids are much higher than your estimate, your SOW might be unclear or your budget unrealistic.\n"
- },
- {
- "id": 54,
- "category": " Quick-Fire Procurement Review",
- "front": "True or False: In Agile, we prefer \"Contract Negotiation over Customer Collaboration.\"\n",
- "back": "False. Agile Manifesto values Customer Collaboration OVER Contract Negotiation.\n"
- },
- {
- "id": 55,
- "category": " Quick-Fire Procurement Review",
- "front": "What is a Time is of the Essence clause?\n",
- "back": "A legal phrase meaning that delays will be considered a material breach of contract (Late delivery = Breach).\n"
- },
- {
- "id": 56,
- "category": " Quick-Fire Procurement Review",
- "front": "What is Liquidated Damages?\n",
- "back": "Pre-agreed financial penalties (e.g., $1000 per day late) defined in the contract for failure to meet specific targets.\n"
- },
- {
- "id": 57,
- "category": " Quick-Fire Procurement Review",
- "front": "Who owns the IP (Intellectual Property) created during a contract?\n",
- "back": "It depends on the Contract Clauses. Always define who owns the code/design: the buyer or the seller.\n"
- },
- {
- "id": 58,
- "category": " Quick-Fire Procurement Review",
- "front": "What is the risk of a Cost Plus Percentage of Cost (CPPC) contract?\n",
- "back": "It incentivizes the seller to increase costs (to get a bigger percentage fee). It is explicitly forbidden in US Federal contracting.\n"
- },
- {
- "id": 59,
- "category": " Quick-Fire Procurement Review",
- "front": "Scenario: The vendor's PM and your PM agree on a scope change over lunch. Implementation starts. Valid?\n",
- "back": "No. Unless they have specific authority and document it as a formal change, this is unauthorized.\n"
- },
- {
- "id": 60,
- "category": " Quick-Fire Procurement Review",
- "front": "What is Letter of Intent (LOI)?\n",
- "back": "A document stating intent to sign a contract. It allows some work to start but is not usually a binding contract for the full scope.\n\n\n"
- },
- {
- "id": 61,
- "category": " Advanced Procurement Concepts",
- "front": "What is Agile Procurement?\n",
- "back": "Collaborative contracting where the scope is flexible (e.g., T&M or Fixed-Price per Sprint) and the focus is on team capability rather than a fixed deliverable list.\n"
- },
- {
- "id": 62,
- "category": " Advanced Procurement Concepts",
- "front": "What is a Master Services Agreement (MSA)?\n",
- "back": "An overarching contract that defines general terms (NDA, payment, liability) between parties, allowing for quicker Statements of Work (SOW) for specific projects.\n"
- },
- {
- "id": 63,
- "category": " Advanced Procurement Concepts",
- "front": "What is Vendor Lock-in?\n",
- "back": "A risk where you become dependent on a single vendor's proprietary technology, making it expensive or impossible to switch later.\n"
- },
- {
- "id": 64,
- "category": " Advanced Procurement Concepts",
- "front": "What is Weighting Systems in source selection?\n",
- "back": "Assigning numerical weights to evaluation criteria (e.g., Cost=50, Quality=50) to remove bias and objectively pick the best seller.\n"
- },
- {
- "id": 65,
- "category": " Advanced Procurement Concepts",
- "front": "What is a Performance Bond?\n",
- "back": "A financial guarantee (insurance) ensuring the seller will complete the work. If they fail, the bond pays the buyer.\n"
- },
- {
- "id": 66,
- "category": " Advanced Procurement Concepts",
- "front": "What is Privity?\n",
- "back": "The legal relationship between the parties to a contract. (Same as preivous card, reinforcing important term).\n"
- },
- {
- "id": 67,
- "category": " Advanced Procurement Concepts",
- "front": "What is Evaluation Criteria?\n",
- "back": "The \"ruler\" used to measure proposals. Must be objective and clearly defined in the RFP.\n"
- },
- {
- "id": 68,
- "category": " Advanced Procurement Concepts",
- "front": "What is Prompt Payment Act?\n",
- "back": "Regulations (in many jurisdictions) requiring buyers to pay valid invoices within a specific time (e.g., 30 days) or pay interest.\n"
- },
- {
- "id": 69,
- "category": " Advanced Procurement Concepts",
- "front": "What is Breach of Contract?\n",
- "back": "Failure to perform any promise that forms all or part of the contract without legal excuse.\n"
- },
- {
- "id": 70,
- "category": " Advanced Procurement Concepts",
- "front": "Scenario: A vendor goes bankrupt in the middle of the project. What do you do?\n",
- "back": "Consult legal immediately. Secure the work-in-progress. Look for bond protections. Initiate contingency plan (alternate vendor).\n\n\n"
- },
- {
- "id": 71,
- "category": " Calculation Practice",
- "front": "Calculate PTA: Target Cost = 100k, Target Price = 110k, Ceiling = 130k, Buyer Share = 80%.\n",
- "back": "PTA = 100k + ((130k - 110k) / 0.8) = 100k + (20k / 0.8) = 100k + 25k = 125k.\n"
- },
- {
- "id": 72,
- "category": " Calculation Practice",
- "front": "Calculate Fee (CPIF): Target Cost = 100k, Target Fee = 10k, Share = 50/50. Actual Cost = 80k.\n",
- "back": "Under budget by 20k. Seller share = 50% of 20k = 10k.\nTotal Fee = Target Fees (10k) + Incentive (10k) = 20k.\n"
- },
- {
- "id": 73,
- "category": " Calculation Practice",
- "front": "Calculate Final Price (CPIF): Using above numbers.\n",
- "back": "Actual Cost (80k) + Final Fee (20k) = 100k.\n"
- },
- {
- "id": 74,
- "category": " Calculation Practice",
- "front": "Calculate Fee (CPIF): Target Cost = 100k, Target Fee = 10k, Share = 50/50. Actual Cost = 110k.\n",
- "back": "Over budget by 10k. Seller pays 50% of 10k = 5k.\nTotal Fee = Target Fee (10k) - Penalty (5k) = 5k.\n"
- },
- {
- "id": 75,
- "category": " Calculation Practice",
- "front": "Calculate Fee (FPIF): Target Cost = 50k, Target Fee = 5k, Share = 60/40. Ceiling = 70k. Actual Cost = 80k.\n",
- "back": "Wait! Actual Cost (80k) > Ceiling (70k). The Buyer pays 70k max. The fee calculation is irrelevant because the ceiling was breached. Seller loses money.\n"
- },
- {
- "id": 76,
- "category": " Calculation Practice",
- "front": "What does the acronym IFB stand for?\n",
- "back": "Invitation for Bid (Used when price is the main factor).\n"
- },
- {
- "id": 77,
- "category": " Calculation Practice",
- "front": "What is Source Selection?\n",
- "back": "The process of evaluating proposals and choosing the vendor.\n"
- },
- {
- "id": 78,
- "category": " Calculation Practice",
- "front": "Does Procurement Audits happen in Closing or Executing?\n",
- "back": "Originally Closing, but modernly part of Control Procurements and Closing. It reviews the process success.\n"
- },
- {
- "id": 79,
- "category": " Calculation Practice",
- "front": "What is the Records Management System?\n",
- "back": "Specific set of processes, related control functions, and tools that are consolidated and combined to record and retain information about the project.\n"
- },
- {
- "id": 80,
- "category": " Calculation Practice",
- "front": "What is Negotiated Settlements?\n",
- "back": "The final equitable settlement of all outstanding issues, claims, and disputes by process of negotiation.\n"
- }
- ]
+  "meta": {
+    "title": " Process Task: Plan and Manage Procurement",
+    "domain": "Process",
+    "task": "Plan and manage procurement",
+    "ecoReference": "Process Task 5",
+    "description": "Flashcards for PMP Process Domain Task 5",
+    "file": "guide/appendices/flashcards-process-task5-procurement.md"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "category": " Contract Types & Rationale",
+      "front": "Which contract type places the most risk on the Seller?\n",
+      "back": "Firm Fixed Price (FFP). The seller is obligated to complete the work for a set price, regardless of their actual costs.\n"
+    },
+    {
+      "id": 2,
+      "category": " Contract Types & Rationale",
+      "front": "Which contract type places the most risk on the Buyer?\n",
+      "back": "Cost Plus Fixed Fee (CPFF) (or Cost Reimbursable). The buyer pays all allowables costs plus a profit fee; if costs spiral, the buyer pays.\n"
+    },
+    {
+      "id": 3,
+      "category": " Contract Types & Rationale",
+      "front": "When is a Time and Materials (T&M) contract most appropriate?\n",
+      "back": "When the scope is not well defined at the start, but resources are needed quickly (e.g., Staff Augmentation or hiring experts for a short period).\n"
+    },
+    {
+      "id": 4,
+      "category": " Contract Types & Rationale",
+      "front": "What is a Fixed Price Incentive Fee (FPIF) contract?\n",
+      "back": "A fixed-price contract that includes financial incentives for achieving specific metrics (e.g., finishing early or under budget). It has a price ceiling.\n"
+    },
+    {
+      "id": 5,
+      "category": " Contract Types & Rationale",
+      "front": "What is the Point of Total Assumption (PTA)?\n",
+      "back": "The cost point in an FPIF contract where the seller assumes 100% of the cost overruns.\nFormula: Target Cost + ((Ceiling Price - Target Price) / Buyer's Share Ratio).\n"
+    },
+    {
+      "id": 6,
+      "category": " Contract Types & Rationale",
+      "front": "What does CR stand for in contracts?\n",
+      "back": "Cost Reimbursable. The seller is reimbursed for actual costs plus a fee representing profit.\n"
+    },
+    {
+      "id": 7,
+      "category": " Contract Types & Rationale",
+      "front": "What is a Cost Plus Award Fee (CPAF) contract?\n",
+      "back": "A contract where the seller is reimbursed for costs, but the profit (fee) is based on subjective performance criteria defined by the buyer. The award amount is usually not subject to appeals.\n"
+    },
+    {
+      "id": 8,
+      "category": " Contract Types & Rationale",
+      "front": "Scenario: You are buying standard bolts for a construction project. The market price is stable. Which contract type do you use?\n",
+      "back": "Fixed Price. Specifically, a Purchase Order (PO) is common for commodities.\n"
+    },
+    {
+      "id": 9,
+      "category": " Contract Types & Rationale",
+      "front": "Scenario: You are hiring a vendor to invent a new, never-before-seen technology. The scope is vague. Which contract type minimizes vendor bankruptcy risk?\n",
+      "back": "Cost Reimbursable (CR). A vendor would likely refuse a Fixed Price contract for undefined R&D work due to excessive risk.\n"
+    },
+    {
+      "id": 10,
+      "category": " Contract Types & Rationale",
+      "front": "What is a Ceiling Price?\n",
+      "back": "The maximum amount the buyer will pay in a Fixed Price Incentive Fee (FPIF) contract. Any cost above this is borne entirely by the seller.\n\n\n"
+    },
+    {
+      "id": 11,
+      "category": " Sourcing & Selection",
+      "front": "What is the purpose of a Bidder Conference?\n",
+      "back": "To ensure all prospective sellers have a clear and common understanding of the procurement requirements (SOW). It ensures fairness.\n"
+    },
+    {
+      "id": 12,
+      "category": " Sourcing & Selection",
+      "front": "Scenario: At a Bidder Conference, one vendor asks a question. What must you do with the answer?\n",
+      "back": "Provide the answer to all potential vendors, not just the one who asked. This ensures a level playing field.\n"
+    },
+    {
+      "id": 13,
+      "category": " Sourcing & Selection",
+      "front": "What is the Make-or-Buy Analysis?\n",
+      "back": "A technique used to determine whether work should be accomplished by the project team or purchased from outside sources.\n"
+    },
+    {
+      "id": 14,
+      "category": " Sourcing & Selection",
+      "front": "What are Source Selection Criteria?\n",
+      "back": "The standards used to rate or score seller proposals (e.g., Price, Technical Approach, Experience, Financial Stability).\n"
+    },
+    {
+      "id": 15,
+      "category": " Sourcing & Selection",
+      "front": "What describes the work to be done by the seller in detail?\n",
+      "back": "The Procurement Statement of Work (SOW).\n"
+    },
+    {
+      "id": 16,
+      "category": " Sourcing & Selection",
+      "front": "What is a Request for Proposal (RFP)?\n",
+      "back": "A procurement document used to solicit proposals from prospective sellers when the solution is not strictly defined (Buyer focuses on the problem; Seller proposes solution).\n"
+    },
+    {
+      "id": 17,
+      "category": " Sourcing & Selection",
+      "front": "What is a Request for Quotation (RFQ)?\n",
+      "back": "A procurement document used when the discussion is mostly about price (e.g., commodities, standard hours).\n"
+    },
+    {
+      "id": 18,
+      "category": " Sourcing & Selection",
+      "front": "What is a Sole Source procurement?\n",
+      "back": "When there is only one qualified seller in the market (e.g., owning a patent), so no competition is possible.\n"
+    },
+    {
+      "id": 19,
+      "category": " Sourcing & Selection",
+      "front": "What is Single Source procurement?\n",
+      "back": "Choosing to use a specific seller even though others exist (e.g., for consistency or previous relationship), usually requiring justification.\n"
+    },
+    {
+      "id": 20,
+      "category": " Sourcing & Selection",
+      "front": "What is a Screening System?\n",
+      "back": "A selection method that establishes minimum requirements (e.g., \"Must be ISO certified\"). Vendors who fail are disqualified immediately before further scoring.\n\n\n"
+    },
+    {
+      "id": 21,
+      "category": " Negotiation & Agreements",
+      "front": "What is the primary goal of procurement Negotiation?\n",
+      "back": "To reach a fair agreement that establishes a good working relationship (Win-Win), not to squeeze every penny out of the vendor.\n"
+    },
+    {
+      "id": 22,
+      "category": " Negotiation & Agreements",
+      "front": "Who typically leads the negotiation on the buyer's side?\n",
+      "back": "The Procurement Manager (or Contract Administrator), not the Project Manager. The PM provides technical support and clarification.\n"
+    },
+    {
+      "id": 23,
+      "category": " Negotiation & Agreements",
+      "front": "What is Privity of Contract?\n",
+      "back": "A legal concept meaning a contractual relationship exists only between the parties who signed the contract. (e.g., You cannot sue the subcontractor of your contractor directly if you don't have a contract with them).\n"
+    },
+    {
+      "id": 24,
+      "category": " Negotiation & Agreements",
+      "front": "What is a Teaming Agreement?\n",
+      "back": "A legal agreement between two or more entities to form a partnership or joint venture for a specific opportunity (often before bidding).\n"
+    },
+    {
+      "id": 25,
+      "category": " Negotiation & Agreements",
+      "front": "What is Constructive Change?\n",
+      "back": "When the buyer's actions or inactions (e.g., frequent interference, unapproved instructions) effectively change the contract scope, potentially entitling the seller to a claim.\n"
+    },
+    {
+      "id": 26,
+      "category": " Negotiation & Agreements",
+      "front": "What is Force Majeure?\n",
+      "back": "A common contract clause that frees both parties from liability/obligation when an extraordinary event (Act of God, war, pandemic) prevents performance.\n"
+    },
+    {
+      "id": 27,
+      "category": " Negotiation & Agreements",
+      "front": "What is an SLA (Service Level Agreement)?\n",
+      "back": "A contract component defining specific measurable metrics (e.g., 99.9% uptime, 4-hour response time) and penalties for missing them.\n"
+    },
+    {
+      "id": 28,
+      "category": " Negotiation & Agreements",
+      "front": "Scenario: The vendor says \"Handshake deal?\" What do you do?\n",
+      "back": "Get it in writing. In PMP, if it's not written in the contract, it doesn't exist. Informal agreements are unenforceable and risky.\n"
+    },
+    {
+      "id": 29,
+      "category": " Negotiation & Agreements",
+      "front": "What is Retainage?\n",
+      "back": "A portion of the contract price withheld until the work is substantially complete to ensure the vendor finishes the job.\n"
+    },
+    {
+      "id": 30,
+      "category": " Negotiation & Agreements",
+      "front": "Does a contract supersede the Project Charter?\n",
+      "back": "Yes, for the work defined in that contract. It is a legally binding document.\n\n\n"
+    },
+    {
+      "id": 31,
+      "category": " Control Procurements",
+      "front": "What is Control Procurements?\n",
+      "back": "The process of managing procurement relationships, monitoring contract performance, and making changes and corrections as appropriate.\n"
+    },
+    {
+      "id": 32,
+      "category": " Control Procurements",
+      "front": "What is a Claims Administration process?\n",
+      "back": "The process of processing, adjudicating, and communicating contract claims (disputes). It is the method for handling disagreements on compensation/scope.\n"
+    },
+    {
+      "id": 33,
+      "category": " Control Procurements",
+      "front": "What is the preferred method for resolving claims/disputes?\n",
+      "back": "Negotiation (Direct usually). If that fails, then Mediation -> Arbitration -> Litigation (Court).\n"
+    },
+    {
+      "id": 34,
+      "category": " Control Procurements",
+      "front": "What is an Inspection (Procurement)?\n",
+      "back": "A structured review of the work being performed by the contractor to ensure it meets the SOW specifications.\n"
+    },
+    {
+      "id": 35,
+      "category": " Control Procurements",
+      "front": "What is an Audit (Procurement)?\n",
+      "back": "A structured review of the procurement process itself (e.g., \"Are invoices being paid on time?\", \"Are we following the change control process?\").\n"
+    },
+    {
+      "id": 36,
+      "category": " Control Procurements",
+      "front": "Scenario: The vendor delivers a product that doesn't meet the SOW specs but is \"good enough.\" What do you do?\n",
+      "back": "Reject it or issue a Change Request. Do not informally accept non-conforming work, as it sets a bad precedent and creates liability.\n"
+    },
+    {
+      "id": 37,
+      "category": " Control Procurements",
+      "front": "Scenario: You want to change the scope of a Fixed Price contract. What must happen?\n",
+      "back": "A formal Contract Change Order (Amendment). This usually involves re-negotiating the price and schedule to account for the new scope.\n"
+    },
+    {
+      "id": 38,
+      "category": " Control Procurements",
+      "front": "What is Alternative Dispute Resolution (ADR)?\n",
+      "back": "Methods like Mediation and Arbitration used to resolve disputes without going to the expensive and damaging process of Litigation (Court).\n"
+    },
+    {
+      "id": 39,
+      "category": " Control Procurements",
+      "front": "What is Trend Analysis in procurement?\n",
+      "back": "checking if vendor performance is improving or deteriorating over time (e.g., \"Are they consistently missing milestones?\").\n"
+    },
+    {
+      "id": 40,
+      "category": " Control Procurements",
+      "front": "Who has the authority to sign a contract amendment?\n",
+      "back": "Usually the authorized procurement officer, not the Project Manager (unless the PM has delegated procurement authority).\n\n\n"
+    },
+    {
+      "id": 41,
+      "category": " Closing Procurements",
+      "front": "What is the key output of closing a procurement?\n",
+      "back": "Closed Procurements (Formal notice that the contract is complete).\n"
+    },
+    {
+      "id": 42,
+      "category": " Closing Procurements",
+      "front": "Can a project be closed if there are open claims with a vendor?\n",
+      "back": "Generally No. Procurement closure usually happens before or as part of project/phase closure. Claims must be resolved or actively handed over to legal.\n"
+    },
+    {
+      "id": 43,
+      "category": " Closing Procurements",
+      "front": "What is Formal Acceptance?\n",
+      "back": "Written confirmation from the buyer that the deliverables meet the requirements. It is often a prerequisite for final payment.\n"
+    },
+    {
+      "id": 44,
+      "category": " Closing Procurements",
+      "front": "Why capture Lessons Learned from a vendor relationship?\n",
+      "back": "To update the organization's vendor list (OPAs). Helps future PMs know if this vendor is reliable or problematic.\n"
+    },
+    {
+      "id": 45,
+      "category": " Closing Procurements",
+      "front": "Scenario: The project is cancelled early. What happens to the contracts?\n",
+      "back": "They enter the Close Procurements process immediately. You must follow the termination clauses (e.g., paying for work done to date).\n"
+    },
+    {
+      "id": 46,
+      "category": " Closing Procurements",
+      "front": "What is an Records Management System?\n",
+      "back": "A set of processes and tools to consolidate and archive contract documents, correspondence, and artifacts for future reference/legal protection.\n"
+    },
+    {
+      "id": 47,
+      "category": " Closing Procurements",
+      "front": "Scenario: The vendor has finished the work. You are happy. Can you just pay the final invoice?\n",
+      "back": "Not yet. You must perform Formal Acceptance (verify SOW is met) and check that no claims are open before authorizing final payment.\n"
+    },
+    {
+      "id": 48,
+      "category": " Closing Procurements",
+      "front": "What distinguishes Mediation from Arbitration?\n",
+      "back": "- Mediation: Non-binding. A third party helps facilitate a solution.\n- Arbitration: Binding. A third party hears both sides and makes a decision.\n"
+    },
+    {
+      "id": 49,
+      "category": " Closing Procurements",
+      "front": "What is Warranty administration?\n",
+      "back": "Ensuring that the seller corrects defects found during the warranty period, even after the initial project acceptance.\n"
+    },
+    {
+      "id": 50,
+      "category": " Closing Procurements",
+      "front": "Is \"Closing Procurements\" a separate process in the current ECO?\n",
+      "back": "It's often integrated into Control Procurements or Project Closure, but the activities (audit, file, acceptance) remain critical.\n\n\n"
+    },
+    {
+      "id": 51,
+      "category": " Quick-Fire Procurement Review",
+      "front": "True or False: The PM should try to get the lowest possible price from the vendor to save the budget.\n",
+      "back": "False. A price that is too low may force the vendor to cut corners or fail. Aim for Fair and Reasonable price.\n"
+    },
+    {
+      "id": 52,
+      "category": " Quick-Fire Procurement Review",
+      "front": "True or False: If a vendor violates a contract term, you should immediately sue them.\n",
+      "back": "False. Use the Cure Notice process first—give them a chance to fix the issue before terminating.\n"
+    },
+    {
+      "id": 53,
+      "category": " Quick-Fire Procurement Review",
+      "front": "True or False: Independent cost estimates act as a reality check on vendor bids.\n",
+      "back": "True. If all bids are much higher than your estimate, your SOW might be unclear or your budget unrealistic.\n"
+    },
+    {
+      "id": 54,
+      "category": " Quick-Fire Procurement Review",
+      "front": "True or False: In Agile, we prefer \"Contract Negotiation over Customer Collaboration.\"\n",
+      "back": "False. Agile Manifesto values Customer Collaboration OVER Contract Negotiation.\n"
+    },
+    {
+      "id": 55,
+      "category": " Quick-Fire Procurement Review",
+      "front": "What is a Time is of the Essence clause?\n",
+      "back": "A legal phrase meaning that delays will be considered a material breach of contract (Late delivery = Breach).\n"
+    },
+    {
+      "id": 56,
+      "category": " Quick-Fire Procurement Review",
+      "front": "What is Liquidated Damages?\n",
+      "back": "Pre-agreed financial penalties (e.g., $1000 per day late) defined in the contract for failure to meet specific targets.\n"
+    },
+    {
+      "id": 57,
+      "category": " Quick-Fire Procurement Review",
+      "front": "Who owns the IP (Intellectual Property) created during a contract?\n",
+      "back": "It depends on the Contract Clauses. Always define who owns the code/design: the buyer or the seller.\n"
+    },
+    {
+      "id": 58,
+      "category": " Quick-Fire Procurement Review",
+      "front": "What is the risk of a Cost Plus Percentage of Cost (CPPC) contract?\n",
+      "back": "It incentivizes the seller to increase costs (to get a bigger percentage fee). It is explicitly forbidden in US Federal contracting.\n"
+    },
+    {
+      "id": 59,
+      "category": " Quick-Fire Procurement Review",
+      "front": "Scenario: The vendor's PM and your PM agree on a scope change over lunch. Implementation starts. Valid?\n",
+      "back": "No. Unless they have specific authority and document it as a formal change, this is unauthorized.\n"
+    },
+    {
+      "id": 60,
+      "category": " Quick-Fire Procurement Review",
+      "front": "What is Letter of Intent (LOI)?\n",
+      "back": "A document stating intent to sign a contract. It allows some work to start but is not usually a binding contract for the full scope.\n\n\n"
+    },
+    {
+      "id": 61,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is Agile Procurement?\n",
+      "back": "Collaborative contracting where the scope is flexible (e.g., T&M or Fixed-Price per Sprint) and the focus is on team capability rather than a fixed deliverable list.\n"
+    },
+    {
+      "id": 62,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is a Master Services Agreement (MSA)?\n",
+      "back": "An overarching contract that defines general terms (NDA, payment, liability) between parties, allowing for quicker Statements of Work (SOW) for specific projects.\n"
+    },
+    {
+      "id": 63,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is Vendor Lock-in?\n",
+      "back": "A risk where you become dependent on a single vendor's proprietary technology, making it expensive or impossible to switch later.\n"
+    },
+    {
+      "id": 64,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is Weighting Systems in source selection?\n",
+      "back": "Assigning numerical weights to evaluation criteria (e.g., Cost=50, Quality=50) to remove bias and objectively pick the best seller.\n"
+    },
+    {
+      "id": 65,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is a Performance Bond?\n",
+      "back": "A financial guarantee (insurance) ensuring the seller will complete the work. If they fail, the bond pays the buyer.\n"
+    },
+    {
+      "id": 66,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is Privity?\n",
+      "back": "The legal relationship between the parties to a contract. (Same as preivous card, reinforcing important term).\n"
+    },
+    {
+      "id": 67,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is Evaluation Criteria?\n",
+      "back": "The \"ruler\" used to measure proposals. Must be objective and clearly defined in the RFP.\n"
+    },
+    {
+      "id": 68,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is Prompt Payment Act?\n",
+      "back": "Regulations (in many jurisdictions) requiring buyers to pay valid invoices within a specific time (e.g., 30 days) or pay interest.\n"
+    },
+    {
+      "id": 69,
+      "category": " Advanced Procurement Concepts",
+      "front": "What is Breach of Contract?\n",
+      "back": "Failure to perform any promise that forms all or part of the contract without legal excuse.\n"
+    },
+    {
+      "id": 70,
+      "category": " Advanced Procurement Concepts",
+      "front": "Scenario: A vendor goes bankrupt in the middle of the project. What do you do?\n",
+      "back": "Consult legal immediately. Secure the work-in-progress. Look for bond protections. Initiate contingency plan (alternate vendor).\n\n\n"
+    },
+    {
+      "id": 71,
+      "category": " Calculation Practice",
+      "front": "Calculate PTA: Target Cost = 100k, Target Price = 110k, Ceiling = 130k, Buyer Share = 80%.\n",
+      "back": "PTA = 100k + ((130k - 110k) / 0.8) = 100k + (20k / 0.8) = 100k + 25k = 125k.\n"
+    },
+    {
+      "id": 72,
+      "category": " Calculation Practice",
+      "front": "Calculate Fee (CPIF): Target Cost = 100k, Target Fee = 10k, Share = 50/50. Actual Cost = 80k.\n",
+      "back": "Under budget by 20k. Seller share = 50% of 20k = 10k.\nTotal Fee = Target Fees (10k) + Incentive (10k) = 20k.\n"
+    },
+    {
+      "id": 73,
+      "category": " Calculation Practice",
+      "front": "Calculate Final Price (CPIF): Using above numbers.\n",
+      "back": "Actual Cost (80k) + Final Fee (20k) = 100k.\n"
+    },
+    {
+      "id": 74,
+      "category": " Calculation Practice",
+      "front": "Calculate Fee (CPIF): Target Cost = 100k, Target Fee = 10k, Share = 50/50. Actual Cost = 110k.\n",
+      "back": "Over budget by 10k. Seller pays 50% of 10k = 5k.\nTotal Fee = Target Fee (10k) - Penalty (5k) = 5k.\n"
+    },
+    {
+      "id": 75,
+      "category": " Calculation Practice",
+      "front": "Calculate Fee (FPIF): Target Cost = 50k, Target Fee = 5k, Share = 60/40. Ceiling = 70k. Actual Cost = 80k.\n",
+      "back": "Wait! Actual Cost (80k) > Ceiling (70k). The Buyer pays 70k max. The fee calculation is irrelevant because the ceiling was breached. Seller loses money.\n"
+    },
+    {
+      "id": 76,
+      "category": " Calculation Practice",
+      "front": "What does the acronym IFB stand for?\n",
+      "back": "Invitation for Bid (Used when price is the main factor).\n"
+    },
+    {
+      "id": 77,
+      "category": " Calculation Practice",
+      "front": "What is Source Selection?\n",
+      "back": "The process of evaluating proposals and choosing the vendor.\n"
+    },
+    {
+      "id": 78,
+      "category": " Calculation Practice",
+      "front": "Does Procurement Audits happen in Closing or Executing?\n",
+      "back": "Originally Closing, but modernly part of Control Procurements and Closing. It reviews the process success.\n"
+    },
+    {
+      "id": 79,
+      "category": " Calculation Practice",
+      "front": "What is the Records Management System?\n",
+      "back": "Specific set of processes, related control functions, and tools that are consolidated and combined to record and retain information about the project.\n"
+    },
+    {
+      "id": 80,
+      "category": " Calculation Practice",
+      "front": "What is Negotiated Settlements?\n",
+      "back": "The final equitable settlement of all outstanding issues, claims, and disputes by process of negotiation.\n"
+    }
+  ]
 }

@@ -92,70 +92,70 @@
 
 	$: blocks = parseContent(data.content);
 
-    // Fix relative links in markdown content for index page
-    function fixLinks(content: string) {
-        // Replace href="./something" with href="{base}/study/modules/{moduleId}/something"
-        return content.replace(/href="\.\/([^"]+)"/g, `href="${base}/study/modules/${data.module.id}/$1"`);
-    }
+ // Fix relative links in markdown content for index page
+ function fixLinks(content: string) {
+ // Replace href="./something" with href="{base}/study/modules/{moduleId}/something"
+ return content.replace(/href="\.\/([^"]+)"/g, `href="${base}/study/modules/${data.module.id}/$1"`);
+ }
 
-    $: processedBlocks = blocks.map(b => b.type === 'markdown' ? { ...b, content: fixLinks(b.content) } : b);
+ $: processedBlocks = blocks.map(b => b.type === 'markdown' ? { ...b, content: fixLinks(b.content) } : b);
 </script>
 
 <div class="min-h-screen bg-stone-50 dark:bg-stone-950 pb-20">
-    <!-- Hero Header Section -->
-    <header class="bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 pt-12 pb-16 mb-12">
-        <div class="max-w-4xl mx-auto px-6">
-            <nav class="mb-8 flex items-center gap-3 text-sm font-medium">
-                <a href="{base}/study" class="text-stone-500 hover:text-primary transition-colors flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                    Study Hub
-                </a>
-                <span class="text-stone-300">/</span>
-                <span class="text-stone-400">Modules</span>
-                <span class="text-stone-300">/</span>
-                <span class="text-primary">{data.module.title}</span>
-            </nav>
+ <!-- Hero Header Section -->
+ <header class="bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 pt-12 pb-16 mb-12">
+ <div class="max-w-4xl mx-auto px-6">
+ <nav class="mb-8 flex items-center gap-3 text-sm font-medium">
+ <a href="{base}/study" class="text-stone-500 hover:text-primary transition-colors flex items-center gap-1">
+ <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+ <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+ </svg>
+ Study Hub
+ </a>
+ <span class="text-stone-300">/</span>
+ <span class="text-stone-400">Modules</span>
+ <span class="text-stone-300">/</span>
+ <span class="text-primary">{data.module.title}</span>
+ </nav>
 
-            <h1 class="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-100 mb-4 font-serif leading-tight">
-                {data.module.title}
-            </h1>
-            <p class="text-xl text-stone-600 dark:text-stone-400 max-w-2xl leading-relaxed">
-                Foundational concepts and detailed study material for PMP exam success.
-            </p>
-        </div>
-    </header>
+ <h1 class="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-100 mb-4 font-serif leading-tight">
+ {data.module.title}
+ </h1>
+ <p class="text-xl text-stone-600 dark:text-stone-400 max-w-2xl leading-relaxed">
+ Foundational concepts and detailed study material for PMP exam success.
+ </p>
+ </div>
+ </header>
 
-    <div class="max-w-4xl mx-auto px-6">
-        <article class="prose prose-stone prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-black prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl prose-img:shadow-lg">
-            {#each processedBlocks as block}
-                {#if block.type === 'markdown'}
-                    <SanitizedMarkdown content={block.content} />
-                {:else if block.type === 'quiz'}
-                    <div class="my-12">
-                        <QuizComponent title={block.title} questions={block.questions} />
-                    </div>
-                {:else if block.type === 'triangle-viz'}
-                    <div class="my-12">
-                        <TriangleViz />
-                    </div>
-                {:else if block.type === 'power-interest-grid'}
-                    <div class="my-12">
-                        <PowerInterestGrid htmlContent={block.htmlContent} />
-                    </div>
-                {:else if block.type === 'concept-grid'}
-                    <div class="my-12">
-                        <ConceptGrid>
-                            {#each block.cards as card}
-                                <ConceptCard title={card.title} link={card.link} linkText={card.linkText}>
-                                    <p>{card.content}</p>
-                                </ConceptCard>
-                            {/each}
-                        </ConceptGrid>
-                    </div>
-                {/if}
-            {/each}
-        </article>
-    </div>
+ <div class="max-w-4xl mx-auto px-6">
+ <article class="prose prose-stone prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-black prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl prose-img:shadow-lg">
+ {#each processedBlocks as block}
+ {#if block.type === 'markdown'}
+ <SanitizedMarkdown content={block.content} />
+ {:else if block.type === 'quiz'}
+ <div class="my-12">
+ <QuizComponent title={block.title} questions={block.questions} />
+ </div>
+ {:else if block.type === 'triangle-viz'}
+ <div class="my-12">
+ <TriangleViz />
+ </div>
+ {:else if block.type === 'power-interest-grid'}
+ <div class="my-12">
+ <PowerInterestGrid htmlContent={block.htmlContent} />
+ </div>
+ {:else if block.type === 'concept-grid'}
+ <div class="my-12">
+ <ConceptGrid>
+ {#each block.cards as card}
+ <ConceptCard title={card.title} link={card.link} linkText={card.linkText}>
+ <p>{card.content}</p>
+ </ConceptCard>
+ {/each}
+ </ConceptGrid>
+ </div>
+ {/if}
+ {/each}
+ </article>
+ </div>
 </div>

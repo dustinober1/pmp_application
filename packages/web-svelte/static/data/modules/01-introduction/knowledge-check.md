@@ -306,12 +306,13 @@ Test your mastery of the 2026 PMP exam structure, ways of working, and core proj
 ## Next Steps
 
 If you scored:
+
 - **< 60%**: Focus on understanding the core concepts. Re-read the sections referenced in the explanations.
 - **60-79%**: You have a good foundation but need to strengthen specific areas. Review your incorrect answers.
 - **≥ 80%**: Excellent work! You have a solid foundation. Proceed to **[Chapter 2: Strategic Alignment](/guide/02-strategic/)**.
 
 ::: tip Study Tip
-For each question you missed, go back to the referenced section and read it carefully. Understanding *why* an answer is correct is more important than memorizing the answer itself.
+For each question you missed, go back to the referenced section and read it carefully. Understanding _why_ an answer is correct is more important than memorizing the answer itself.
 :::
 
 <div class="flex justify-center my-12">

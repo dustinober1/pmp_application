@@ -10,8 +10,8 @@
  * - https://en.wikipedia.org/wiki/SuperMemo
  */
 
-import { SM2_DEFAULTS, type CardProgress, type SM2Rating } from '@pmp/shared';
-import * as cardProgressStorage from './cardProgressStorage';
+import { SM2_DEFAULTS, type CardProgress, type SM2Rating } from "@pmp/shared";
+import * as cardProgressStorage from "./cardProgressStorage";
 
 // Re-export storage functions for convenience
 export const getAllCardProgress = cardProgressStorage.getAllCardProgress;
@@ -32,7 +32,7 @@ export function calculateSM2(
   easeFactor: number,
   interval: number,
   repetitions: number,
-  rating: SM2Rating
+  rating: SM2Rating,
 ): { newInterval: number; newEaseFactor: number; newRepetitions: number } {
   // Map our 4-button rating to SM-2 quality (0-5 scale)
   // Again -> 1, Hard -> 3, Good -> 4, Easy -> 5
@@ -40,7 +40,8 @@ export function calculateSM2(
 
   // Calculate new ease factor
   // EF' = EF + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
-  let newEaseFactor = easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+  let newEaseFactor =
+    easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
 
   // Ensure ease factor doesn't go below minimum
   newEaseFactor = Math.max(SM2_DEFAULTS.MINIMUM_EASE_FACTOR, newEaseFactor);
@@ -75,13 +76,13 @@ export function calculateSM2(
  */
 function ratingToQuality(rating: SM2Rating): number {
   switch (rating) {
-    case 'again':
+    case "again":
       return 1; // Failed - need to review again
-    case 'hard':
+    case "hard":
       return 3; // Hard but recalled
-    case 'good':
+    case "good":
       return 4; // Good recall
-    case 'easy':
+    case "easy":
       return 5; // Easy recall
     default:
       return 3;
@@ -94,7 +95,7 @@ function ratingToQuality(rating: SM2Rating): number {
  */
 export function updateCardProgress(
   cardId: string,
-  rating: SM2Rating
+  rating: SM2Rating,
 ): CardProgress {
   const existing = getCardProgress(cardId);
   const now = new Date().toISOString();
@@ -104,14 +105,19 @@ export function updateCardProgress(
   const interval = existing?.interval ?? SM2_DEFAULTS.INITIAL_INTERVAL;
   const repetitions = existing?.repetitions ?? 0;
   const totalReviews = existing?.totalReviews ?? 0;
-  const ratingCounts = existing?.ratingCounts ?? { again: 0, hard: 0, good: 0, easy: 0 };
+  const ratingCounts = existing?.ratingCounts ?? {
+    again: 0,
+    hard: 0,
+    good: 0,
+    easy: 0,
+  };
 
   // Calculate new values using SM-2
   const { newInterval, newEaseFactor, newRepetitions } = calculateSM2(
     easeFactor,
     interval,
     repetitions,
-    rating
+    rating,
   );
 
   // Calculate next review date
@@ -149,16 +155,16 @@ export function getDueCardCount(cardIds: string[]): number {
  */
 export function getRatingLabel(rating: SM2Rating): string {
   switch (rating) {
-    case 'again':
-      return 'Again';
-    case 'hard':
-      return 'Hard';
-    case 'good':
-      return 'Good';
-    case 'easy':
-      return 'Easy';
+    case "again":
+      return "Again";
+    case "hard":
+      return "Hard";
+    case "good":
+      return "Good";
+    case "easy":
+      return "Easy";
     default:
-      return 'Rate';
+      return "Rate";
   }
 }
 
@@ -167,16 +173,16 @@ export function getRatingLabel(rating: SM2Rating): string {
  */
 export function getRatingColorClass(rating: SM2Rating): string {
   switch (rating) {
-    case 'again':
-      return 'bg-red-500 text-white hover:bg-red-600';
-    case 'hard':
-      return 'bg-orange-500 text-white hover:bg-orange-600';
-    case 'good':
-      return 'bg-blue-500 text-white hover:bg-blue-600';
-    case 'easy':
-      return 'bg-green-500 text-white hover:bg-green-600';
+    case "again":
+      return "bg-red-500 text-white hover:bg-red-600";
+    case "hard":
+      return "bg-orange-500 text-white hover:bg-orange-600";
+    case "good":
+      return "bg-blue-500 text-white hover:bg-blue-600";
+    case "easy":
+      return "bg-green-500 text-white hover:bg-green-600";
     default:
-      return 'bg-gray-500 text-white';
+      return "bg-gray-500 text-white";
   }
 }
 
@@ -185,15 +191,15 @@ export function getRatingColorClass(rating: SM2Rating): string {
  */
 export function getRatingDescription(rating: SM2Rating): string {
   switch (rating) {
-    case 'again':
+    case "again":
       return "Didn't remember";
-    case 'hard':
-      return 'Remembered with difficulty';
-    case 'good':
-      return 'Remembered correctly';
-    case 'easy':
-      return 'Remembered easily';
+    case "hard":
+      return "Remembered with difficulty";
+    case "good":
+      return "Remembered correctly";
+    case "easy":
+      return "Remembered easily";
     default:
-      return '';
+      return "";
   }
 }

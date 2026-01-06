@@ -22,13 +22,14 @@ Thank you for your interest in contributing to the PMP Study Application! This d
 
 All changes to the `main` branch must go through a Pull Request (PR) and require peer review.
 
-1.  **Branching:** Create a new branch for your feature or fix (e.g., `feature/user-auth` or `fix/login-bug`).
-2.  **Commit Messages:** Use descriptive commit messages explaining _why_ a change was made.
-3.  **PR Description:** clearly describe the changes, the problem solved, and verification steps.
-4.  **Review Requirements:**
-    - **Approval:** At least **1** approval from a code owner or maintainer is required.
-    - **CI Checks:** All CI checks (Lint, Test, Build, CodeQL) must pass.
-    - **No Conflicts:** The branch must be up-to-date with `main` and have no merge conflicts.
+1. **Branching:** Create a new branch for your feature or fix (e.g., `feature/user-auth` or `fix/login-bug`).
+2. **Commit Messages:** Use descriptive commit messages explaining _why_ a change was made.
+3. **PR Description:** clearly describe the changes, the problem solved, and verification steps.
+4. **Review Requirements:**
+
+- **Approval:** At least **1** approval from a code owner or maintainer is required.
+- **CI Checks:** All CI checks (Lint, Test, Build, CodeQL) must pass.
+- **No Conflicts:** The branch must be up-to-date with `main` and have no merge conflicts.
 
 ### Branch Protection Rules (Enforced on `main`)
 
@@ -39,7 +40,7 @@ All changes to the `main` branch must go through a Pull Request (PR) and require
 
 ## Development Setup
 
-1.  **Install Dependencies:** `npm install`
-2.  **Run Dev Server:** `npm run dev`
-3.  **Run Tests:** `npm run test`
-4.  **Run E2E Tests:** `npx playwright test` (in `packages/web`)
+1. **Install Dependencies:** `npm install`
+2. **Run Dev Server:** `npm run dev`
+3. **Run Tests:** `npm run test`
+4. **Run E2E Tests:** `npx playwright test` (in `packages/web`)

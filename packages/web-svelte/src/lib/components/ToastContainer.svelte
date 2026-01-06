@@ -39,7 +39,7 @@
 					class="text-xs text-gray-300 hover:text-white"
 					aria-label="Dismiss notification"
 				>
-					✕
+					
 				</button>
 			</div>
 		</div>

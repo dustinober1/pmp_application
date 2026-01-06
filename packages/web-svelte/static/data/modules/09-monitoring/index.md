@@ -7,13 +7,15 @@ Most questions in this chapter are about **control discipline**: interpreting me
 :::
 
 ::: info The Two Jobs of Chapter 9
+
 - **Monitoring & Controlling**: measure performance, manage variance, and govern change.
 - **Closing**: transfer ownership, close contracts, archive records, and preserve lessons learned as organizational assets.
-:::
+  :::
 
 ---
 
 ## The Process of Control
+
 Monitoring isn't just about watching; it's about **Proactive Adjustment**. It’s the constant refinement of the project's path to ensure you arrive at the intended strategic destination.
 
 <div class="section-grid">
@@ -45,7 +47,9 @@ Monitoring isn't just about watching; it's about **Proactive Adjustment**. It’
 ---
 
 ## 2026 Focus: Integrated Governance
+
 Success in Monitoring & Closing is measured by:
+
 - **Financial Integrity**: Using **Earned Value Management (EVM)** to prove progress to stakeholders.
 - **Change Agility**: Balancing the need for a stable baseline with the need to pivot when requirements change.
 - **Operational Readiness**: Ensuring the organization can support what you built (training, runbooks, support model).

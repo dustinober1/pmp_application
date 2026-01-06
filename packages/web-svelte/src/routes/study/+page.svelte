@@ -226,7 +226,7 @@
 			{#if data.modules && data.modules.length > 0}
 				<div class="mb-12 mt-24">
 					<h2 class="text-2xl font-bold font-serif text-foreground mb-6 flex items-center gap-2">
-						<span class="text-primary">📚</span>
+						<span class="text-primary"></span>
 						Study Modules
 					</h2>
 					<div class="grid md:grid-cols-2 gap-6">

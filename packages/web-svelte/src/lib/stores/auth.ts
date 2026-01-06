@@ -24,7 +24,7 @@ function createAuthStore() {
     lockedUntil: null,
     tier: UserTier.PRO, // Give pro access by default since it's free now
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   async function hydrate(): Promise<void> {
@@ -56,7 +56,7 @@ function createAuthStore() {
     set({
       user: null,
       isLoading: false,
-      isAuthenticated: false
+      isAuthenticated: false,
     });
     // Immediately re-login after a short delay to simulate "public" site behavior?
     // Or just leave them logged out. Let's leave them logged out until refresh.
@@ -91,4 +91,7 @@ export const auth = authStore;
 
 export const user = derived(authStore, ($auth) => $auth.user);
 export const isLoading = derived(authStore, ($auth) => $auth.isLoading);
-export const isAuthenticated = derived(authStore, ($auth) => $auth.isAuthenticated);
+export const isAuthenticated = derived(
+  authStore,
+  ($auth) => $auth.isAuthenticated,
+);

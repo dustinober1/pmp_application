@@ -7,18 +7,20 @@ Strategic alignment is the discipline of ensuring that the **right work** gets d
 ---
 
 ## What Strategic Alignment Means (On the PMP Exam)
+
 On the exam, “strategic alignment” is not a slogan. It is a **decision filter** you use every time you:
 
-* Approve, reject, or re-prioritize work
-* Recommend a scope change (or *refuse* one)
-* Escalate a major risk or regulatory change
-* Recommend a project be paused or closed because the expected value is gone
+- Approve, reject, or re-prioritize work
+- Recommend a scope change (or _refuse_ one)
+- Escalate a major risk or regulatory change
+- Recommend a project be paused or closed because the expected value is gone
 
 ::: tip The PMI Mindset
 If a project is “green” (on time/budget) but is no longer valuable or compliant, it is **not successful**. The right answer is usually: **raise it to governance and recommend a strategic decision**.
 :::
 
 ## The Strategic Hierarchy
+
 Great project management connects daily execution to organizational objectives.
 
 <div class="hierarchy-grid">
@@ -42,20 +44,22 @@ Great project management connects daily execution to organizational objectives.
 ---
 
 ## The Alignment Toolkit (Artifacts You Must Recognize)
-These artifacts show up in exam questions as clues for *where you are* in the lifecycle and *who decides what*.
 
-| Artifact | What it answers | Owned by (primary) | Used when |
-| :----------------------------- | :------------------------------------- | :----------------------- | :------------------------------ |
-| **Business Case** | “Should we invest, and why?” | Sponsor / Business | Selection & funding decisions |
-| **Project Charter** | “Are we authorized to start?” | Sponsor (authorizes) / PM (uses) | Initiating; formal start |
-| **Benefits Realization Plan** | “How will value be measured and sustained?” | Benefits Owner / Business | Planning through sustainment |
-| **Roadmap** (Product/Program) | “What outcomes come when?” | Product Owner / Program | Coordinating delivery & dependencies |
-| **KPIs / OKRs** | “How do we know we are winning?” | Business leadership | Ongoing value validation |
-| **Governance Reviews** | “Continue, pivot, pause, or stop?” | Steering committee / Portfolio | Stage gates / periodic reviews |
+These artifacts show up in exam questions as clues for _where you are_ in the lifecycle and _who decides what_.
+
+| Artifact                      | What it answers                             | Owned by (primary)               | Used when                            |
+| :---------------------------- | :------------------------------------------ | :------------------------------- | :----------------------------------- |
+| **Business Case**             | “Should we invest, and why?”                | Sponsor / Business               | Selection & funding decisions        |
+| **Project Charter**           | “Are we authorized to start?”               | Sponsor (authorizes) / PM (uses) | Initiating; formal start             |
+| **Benefits Realization Plan** | “How will value be measured and sustained?” | Benefits Owner / Business        | Planning through sustainment         |
+| **Roadmap** (Product/Program) | “What outcomes come when?”                  | Product Owner / Program          | Coordinating delivery & dependencies |
+| **KPIs / OKRs**               | “How do we know we are winning?”            | Business leadership              | Ongoing value validation             |
+| **Governance Reviews**        | “Continue, pivot, pause, or stop?”          | Steering committee / Portfolio   | Stage gates / periodic reviews       |
 
 ---
 
 ## Deployment Mechanisms
+
 How does strategy actually reach the project team?
 
 <div class="section-grid">
@@ -99,17 +103,20 @@ How does strategy actually reach the project team?
 ---
 
 ## 2026 Focus: Continuous Validation
+
 Strategic alignment is not a "set it and forget it" activity.
-* **Pivot or Persevere**: Having the courage to recommend project cancellation if the strategic value evaporates.
-* **PESTLE Scanning**: Watching the horizon (Political, Economic, Social) for shifts that impact project viability.
+
+- **Pivot or Persevere**: Having the courage to recommend project cancellation if the strategic value evaporates.
+- **PESTLE Scanning**: Watching the horizon (Political, Economic, Social) for shifts that impact project viability.
 
 ---
 
 ## The Continuous Alignment Loop (A Simple Decision Model)
+
 Use this when an exam question introduces “new information” mid-project (market shift, regulatory change, leadership pivot).
 
 1. **Detect**: Identify the change (signal, trigger, new constraint).
-2. **Assess**: Evaluate impacts to scope/cost/schedule *and* value/benefits.
+2. **Assess**: Evaluate impacts to scope/cost/schedule _and_ value/benefits.
 3. **Escalate**: Bring options to governance (continue, pivot, pause, stop).
 4. **Decide**: Governance chooses; the PM executes the decision.
 5. **Update**: Update baselines, risks, and communications; reinforce adoption.

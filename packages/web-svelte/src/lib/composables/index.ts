@@ -1,2 +1,5 @@
-export { usePagination, getPaginationInfo, Pagination } from './usePagination';
-export type { PaginationOptions, PaginationComputedInfo } from './usePagination';
+export { usePagination, getPaginationInfo, Pagination } from "./usePagination";
+export type {
+  PaginationOptions,
+  PaginationComputedInfo,
+} from "./usePagination";

@@ -313,6 +313,7 @@ Test your mastery of execution and value delivery concepts for the 2026 PMP exam
 To achieve mastery of Chapter 8: Execution & Value Delivery for the PMP exam, ensure you can:
 
 ### 1. Executing Project Work & Knowledge Management
+
 - **Differentiate** between impediment, issue, risk, and change request—and know the best first action for each
 - **Apply** the Work Performance Data → Information → Reports transformation chain
 - **Describe** how to capture tacit vs. explicit knowledge during execution
@@ -320,24 +321,27 @@ To achieve mastery of Chapter 8: Execution & Value Delivery for the PMP exam, en
 - **Implement** approved changes systematically (update baselines, communicate, execute, validate)
 
 ### 2. Team Development & Leadership
+
 - **Identify** Tuckman\'s 5 stages (Forming, Storming, Norming, Performing, Adjourning) and appropriate PM actions for each
 - **Apply** the Drexler-Sibbet Team Performance Model (7 questions teams must answer)
 - **Recognize** which motivation theory applies to a scenario:
- - **Maslow**: Hierarchy of needs (physiological → safety → social → esteem → self-actualization)
- - **Herzberg**: Hygiene factors vs. motivators
- - **McGregor**: Theory X (control) vs. Theory Y (empowerment)
- - **Vroom**: Expectancy Theory (Motivation = Expectancy × Instrumentality × Valence)
- - **McClelland**: Achievement, Affiliation, Power needs
+- **Maslow**: Hierarchy of needs (physiological → safety → social → esteem → self-actualization)
+- **Herzberg**: Hygiene factors vs. motivators
+- **McGregor**: Theory X (control) vs. Theory Y (empowerment)
+- **Vroom**: Expectancy Theory (Motivation = Expectancy × Instrumentality × Valence)
+- **McClelland**: Achievement, Affiliation, Power needs
 
 ### 3. Conflict Resolution
+
 - **Select** the appropriate conflict resolution technique based on context:
- - **Collaborating/Problem-Solving**: Best for high-stakes, long-term issues (win-win)
- - **Compromising**: Moderate stakes, time pressure (lose-lose but acceptable)
- - **Smoothing/Accommodating**: Preserve relationships, minor issues
- - **Forcing/Directing**: Emergencies, safety, clear authority required
- - **Withdrawing/Avoiding**: Cooling-off period, trivial issues (least effective)
+- **Collaborating/Problem-Solving**: Best for high-stakes, long-term issues (win-win)
+- **Compromising**: Moderate stakes, time pressure (lose-lose but acceptable)
+- **Smoothing/Accommodating**: Preserve relationships, minor issues
+- **Forcing/Directing**: Emergencies, safety, clear authority required
+- **Withdrawing/Avoiding**: Cooling-off period, trivial issues (least effective)
 
 ### 4. Procurement Execution
+
 - **Explain** the procurement execution flow: Advertise → Bidder Conference → Evaluate Proposals → Negotiate → Award Contract
 - **Apply** fairness principles (all vendors get the same information)
 - **Use** weighted scoring systems and screening systems for vendor selection
@@ -346,47 +350,53 @@ To achieve mastery of Chapter 8: Execution & Value Delivery for the PMP exam, en
 - **Handle** claims and disputes: Check contract → Negotiate → ADR (mediation/arbitration) → Litigation (last resort)
 
 ### 5. Value Delivery & Benefits Realization
+
 - **Distinguish** between Output → Outcome → Benefit → Value
 - **Apply** value frameworks:
- - **Kano Model**: Basic Needs → Performance Needs → Delighters
- - **Value Stream Mapping (VSM)**: Identify waste and bottlenecks
- - **BCR, ROI, Payback Period**: Quantify value
+- **Kano Model**: Basic Needs → Performance Needs → Delighters
+- **Value Stream Mapping (VSM)**: Identify waste and bottlenecks
+- **BCR, ROI, Payback Period**: Quantify value
 - **Manage** benefits realization throughout the project lifecycle (Identify → Execute → Transition → Measure)
 - **Identify** benefits owners and their accountability for post-delivery value
 - **Use** leading indicators (pilot adoption, training completion, feedback) vs. lagging indicators (revenue, ROI, retention)
 
 ### 6. Stakeholder Engagement & Communications
+
 - **Move** stakeholders from current to desired engagement levels (Unaware → Resistant → Neutral → Supportive → Leading)
 - **Select** the right communication method:
- - **Interactive** (meetings, calls): Complex issues, real-time feedback
- - **Push** (email, reports): Documented updates, audit trail
- - **Pull** (wiki, dashboard): Self-service, always-available data
+- **Interactive** (meetings, calls): Complex issues, real-time feedback
+- **Push** (email, reports): Documented updates, audit trail
+- **Pull** (wiki, dashboard): Self-service, always-available data
 - **Apply** the 4 Rs: Right Information, Right Time, Right Audience, Right Channel
 - **Verify** communication effectiveness (feedback loops)
 
 ### 7. Value Measurement & Continuous Improvement
+
 - **Calculate and interpret** EVM metrics:
- - Performance: SV, CV, SPI, CPI
- - Forecasting: EAC, ETC, VAC, TCPI
+- Performance: SV, CV, SPI, CPI
+- Forecasting: EAC, ETC, VAC, TCPI
 - **Apply** KPIs, OKRs, and Balanced Scorecard for value tracking
 - **Use** PDCA (Plan-Do-Check-Act) for systematic improvement
 - **Facilitate** retrospectives and capture lessons learned continuously (not just at project end)
 - **Conduct** root cause analysis using 5 Whys, Fishbone Diagrams, Pareto Analysis
 
 ### 8. Adaptive vs. Predictive Execution
+
 - **Compare** predictive, adaptive, and hybrid execution approaches:
- - Planning horizon, requirements stability, work authorization, change approach
- - Team structure, progress tracking, stakeholder involvement, quality approach
+- Planning horizon, requirements stability, work authorization, change approach
+- Team structure, progress tracking, stakeholder involvement, quality approach
 - **Select** the best first move based on project approach (CCB for predictive, backlog for adaptive)
 - **Deliver** value incrementally in adaptive projects (MVP, iterative releases, validated learning)
 
 ### 9. Operational Readiness & Transition
+
 - **Verify** operational readiness across People, Process, Technology, Governance dimensions
 - **Apply** ADKAR change management model (Awareness → Desire → Knowledge → Ability → Reinforcement)
 - **Ensure** training, documentation, support models, and runbooks are complete before handoff
 - **Prevent** value collapse post-delivery by addressing adoption barriers
 
 ### 10. Quality Execution Practices
+
 - **Apply** Definition of Done (DoD), peer reviews, and checklists to prevent defects
 - **Use** Test-Driven Development (TDD) and Continuous Integration (CI) for built-in quality
 - **Conduct** inspections and quality audits per the quality management plan
@@ -398,24 +408,26 @@ To achieve mastery of Chapter 8: Execution & Value Delivery for the PMP exam, en
 
 ### "What should you do FIRST?" Patterns
 
-| Scenario | FIRST Action | Why |
-|---|---|---|
-| **Team member blocked** | Remove/escalate blocker immediately | Servant leadership: restore flow |
-| **Risk occurred** | Execute response → log as issue | It\'s not a risk anymore |
-| **Stakeholder wants change** | Assess impact → follow change process | Never change baselines informally |
-| **Defect found** | Fix → root cause analysis → prevent | Focus on system, not blame |
-| **Users unhappy despite meeting requirements** | Re-engage → validate outcomes | Requirements are means, not end |
-| **Vendor underperforming** | Check contract → escalate per terms | Contract is the rulebook |
-| **Team conflict** | Facilitate collaboration (win-win) | Addresses root cause |
-| **Operations won\'t accept handoff** | Close readiness gaps (training, docs) | Value collapses without adoption |
+| Scenario                                       | FIRST Action                          | Why                               |
+| ---------------------------------------------- | ------------------------------------- | --------------------------------- |
+| **Team member blocked**                        | Remove/escalate blocker immediately   | Servant leadership: restore flow  |
+| **Risk occurred**                              | Execute response → log as issue       | It\'s not a risk anymore          |
+| **Stakeholder wants change**                   | Assess impact → follow change process | Never change baselines informally |
+| **Defect found**                               | Fix → root cause analysis → prevent   | Focus on system, not blame        |
+| **Users unhappy despite meeting requirements** | Re-engage → validate outcomes         | Requirements are means, not end   |
+| **Vendor underperforming**                     | Check contract → escalate per terms   | Contract is the rulebook          |
+| **Team conflict**                              | Facilitate collaboration (win-win)    | Addresses root cause              |
+| **Operations won\'t accept handoff**           | Close readiness gaps (training, docs) | Value collapses without adoption  |
 
 ### Value Chain Quick Check
+
 - **Output** = Deliverable created (e.g., CRM system)
 - **Outcome** = Behavioral change (e.g., sales team uses CRM)
 - **Benefit** = Measurable gain (e.g., 30% productivity increase)
 - **Value** = Strategic impact (e.g., market leadership, customer loyalty)
 
 ### Conflict Resolution Priority
+
 1. **Collaborating** (best for important issues)
 2. **Compromising** (quick resolution needed)
 3. **Smoothing** (preserve relationships, minor issues)
@@ -423,6 +435,7 @@ To achieve mastery of Chapter 8: Execution & Value Delivery for the PMP exam, en
 5. **Withdrawing** (least effective, use rarely)
 
 ### Motivation Theory Selection
+
 - **Job security concern** → Maslow (Safety need)
 - **Need recognition/achievement** → Herzberg (Motivators) or McClelland (nAch)
 - **Micromanagement vs. empowerment** → McGregor (Theory X vs. Y)

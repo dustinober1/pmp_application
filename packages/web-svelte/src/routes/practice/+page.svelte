@@ -136,11 +136,11 @@
 	}
 	
 	async function startPresetSession(count: number, mode: 'srs' | 'shuffle') {
-            console.log('[DEBUG] startPresetSession called with:', count, mode, 'Base:', base);
-            // alert('Starting session...'); // Debug alert
-		    questionCount = count;
-		    startMode = mode;
-		    await startSession();
+ console.log('[DEBUG] startPresetSession called with:', count, mode, 'Base:', base);
+ // alert('Starting session...'); // Debug alert
+		 questionCount = count;
+		 startMode = mode;
+		 await startSession();
 	}
 
 	async function startFlaggedSession() {
@@ -183,7 +183,7 @@
 			<!-- ECO Notice with Sustainability -->
 			<div class="group mb-6 bg-gradient-to-r from-green-50/90 to-emerald-50/90 dark:from-green-900/30 dark:to-emerald-900/30 backdrop-blur-md p-4 rounded-xl border border-green-200/50 dark:border-green-800/50 shadow-lg hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300 hover:scale-[1.01]">
 				<div class="flex items-center justify-center gap-2 mb-2">
-					<span class="text-2xl group-hover:scale-110 transition-transform duration-300">🌱</span>
+					<span class="text-2xl group-hover:scale-110 transition-transform duration-300"></span>
 					<span class="font-semibold text-green-900 dark:text-green-100">July 2026 ECO Update</span>
 				</div>
 				<p class="text-sm text-green-700 dark:text-green-300 text-center">
@@ -264,7 +264,7 @@
 						<div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl text-yellow-600 dark:text-yellow-400 group-hover:scale-110 transition-transform duration-300">
 							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8l-2 2h-2a2 2 0 01-2-2v-3a2 2 0 01-2-2h-3z" /> 
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
 							</svg>
 						</div>
 						<span class="text-xs font-bold text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/50 px-2 py-1 rounded-lg">Review</span>

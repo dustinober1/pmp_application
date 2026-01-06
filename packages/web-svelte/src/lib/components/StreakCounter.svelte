@@ -37,7 +37,7 @@
 			<div
 				class="text-3xl font-bold text-orange-400 flex items-center justify-center gap-1"
 			>
-				🔥 {currentStreak}
+				 {currentStreak}
 			</div>
 			<div class="text-xs text-[var(--foreground-muted)] mt-1">Current Streak</div>
 		</div>
@@ -49,7 +49,7 @@
 			<div
 				class="text-3xl font-bold text-yellow-400 flex items-center justify-center gap-1"
 			>
-				🏆 {longestStreak}
+				 {longestStreak}
 			</div>
 			<div class="text-xs text-[var(--foreground-muted)] mt-1">Best Streak</div>
 		</div>

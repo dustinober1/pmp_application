@@ -313,6 +313,7 @@ Test your ability to weave together scope, schedule, cost, quality, risk, resour
 For full Chapter 6 proficiency, ensure you can:
 
 ### Scope Planning Mastery
+
 1. **Identify Baselines**: Know the three components of the Scope Baseline (Scope Statement + WBS + WBS Dictionary)
 2. **Trace Requirements**: Use the RTM to link requirements from origin through delivery and verification
 3. **Apply MoSCoW**: Prioritize requirements (Must/Should/Could/Won't Have) for agile and hybrid projects
@@ -320,6 +321,7 @@ For full Chapter 6 proficiency, ensure you can:
 5. **WBS Decomposition**: Apply the 100% rule, create work packages at 8-80 hour level
 
 ### Schedule Planning Mastery
+
 1. **Calculate Critical Path**: Perform forward/backward pass, identify critical path, calculate project duration
 2. **Manage Float**: Calculate Total Float (LS−ES) and Free Float (ES_next − EF_current)
 3. **PERT Estimation**: Calculate expected duration [(O + 4M + P)/6] and standard deviation [(P−O)/6]
@@ -328,17 +330,21 @@ For full Chapter 6 proficiency, ensure you can:
 6. **Resource Optimization**: Know leveling (extends date) vs. smoothing (uses float, keeps date)
 
 ### Cost Planning Mastery
+
 1. **Master EVM Formulas**:
- - Variances: SV = EV−PV, CV = EV−AC
- - Indices: SPI = EV/PV, CPI = EV/AC
- - Forecasts: EAC = BAC/CPI, ETC = EAC−AC, VAC = BAC−EAC
- - Efficiency: TCPI = (BAC−EV)/(BAC−AC)
+
+- Variances: SV = EV−PV, CV = EV−AC
+- Indices: SPI = EV/PV, CPI = EV/AC
+- Forecasts: EAC = BAC/CPI, ETC = EAC−AC, VAC = BAC−EAC
+- Efficiency: TCPI = (BAC−EV)/(BAC−AC)
+
 2. **Interpret Performance**: CPI/SPI > 1.0 = good, < 1.0 = bad
 3. **Apply Cost Types**: Distinguish direct/indirect, fixed/variable costs
 4. **Use Estimation Techniques**: Analogous (quick, less accurate) → Parametric (formula-based) → Bottom-up (detailed, accurate)
 5. **Manage Reserves**: Contingency (known unknowns, PM control) vs. Management (unknown unknowns, sponsor control)
 
 ### Quality Planning Mastery
+
 1. **Cost of Quality**: Prevention + Appraisal (Conformance) vs. Internal + External Failure (Non-Conformance)
 2. **Seven Basic Tools**: Cause-Effect, Flowchart, Checksheet, Pareto, Histogram, Control Chart, Scatter
 3. **Control Chart Rules**: Points outside limits = out of control; Rule of Seven = investigate
@@ -346,6 +352,7 @@ For full Chapter 6 proficiency, ensure you can:
 5. **Prevention over Inspection**: Building quality in costs less than finding defects
 
 ### Risk Planning Mastery
+
 1. **Risk Formulas**: Risk Score = P × I; EMV = Probability × Impact ($)
 2. **Threat Strategies**: Avoid, Mitigate, Transfer, Accept, Escalate
 3. **Opportunity Strategies**: Exploit, Enhance, Share, Accept, Escalate
@@ -353,6 +360,7 @@ For full Chapter 6 proficiency, ensure you can:
 5. **Quantitative Tools**: EMV, Decision Trees, Sensitivity Analysis, Monte Carlo
 
 ### Resource & Procurement Mastery
+
 1. **RACI Clarity**: Assign Responsible (doer), Accountable (owner), Consulted (input), Informed (aware)
 2. **Contract Risk**: Know FFP (seller risk), Cost-Plus (buyer risk), T&M (shared risk)
 3. **Calculate FPIF**: Handle target cost/fee, share ratios, and ceiling prices
@@ -361,6 +369,7 @@ For full Chapter 6 proficiency, ensure you can:
 6. **Bidder Fairness**: Ensure all vendors receive the same information (no secret meetings)
 
 ### Communications Mastery
+
 1. **Channel Formula**: n(n-1)/2 for number of communication channels
 2. **Communication Types**: Interactive (meetings), Push (email), Pull (intranet)
 3. **Communication Model**: Sender → Encode → Message → Decode → Receiver → Feedback
@@ -368,6 +377,7 @@ For full Chapter 6 proficiency, ensure you can:
 5. **Virtual Teams**: Establish norms, use video, document decisions
 
 ### Integration & Progressive Elaboration
+
 1. **Baseline vs. Draft**: Approved baselines require change control; drafts are still being refined
 2. **Rolling Wave Planning**: Detail near-term work, keep future work high-level until more is known
 3. **Estimate Accuracy**: ROM (−25/+75%) → Budget (−10/+25%) → Definitive (−5/+10%)
@@ -378,38 +388,42 @@ For full Chapter 6 proficiency, ensure you can:
 ## Formula Quick Reference
 
 ### Earned Value Management
-| Formula | Purpose |
-|:--------|:--------|
-| **SV = EV − PV** | Schedule Variance (>0 = ahead) |
-| **CV = EV − AC** | Cost Variance (>0 = under budget) |
-| **SPI = EV / PV** | Schedule Performance (>1.0 = ahead) |
-| **CPI = EV / AC** | Cost Performance (>1.0 = under budget) |
-| **EAC = BAC / CPI** | Estimate at Completion |
-| **ETC = EAC − AC** | Estimate to Complete |
-| **VAC = BAC − EAC** | Variance at Completion |
-| **TCPI = (BAC−EV)/(BAC−AC)** | Required efficiency |
+
+| Formula                      | Purpose                                |
+| :--------------------------- | :------------------------------------- |
+| **SV = EV − PV**             | Schedule Variance (>0 = ahead)         |
+| **CV = EV − AC**             | Cost Variance (>0 = under budget)      |
+| **SPI = EV / PV**            | Schedule Performance (>1.0 = ahead)    |
+| **CPI = EV / AC**            | Cost Performance (>1.0 = under budget) |
+| **EAC = BAC / CPI**          | Estimate at Completion                 |
+| **ETC = EAC − AC**           | Estimate to Complete                   |
+| **VAC = BAC − EAC**          | Variance at Completion                 |
+| **TCPI = (BAC−EV)/(BAC−AC)** | Required efficiency                    |
 
 ### Schedule
-| Formula | Purpose |
-|:--------|:--------|
-| **PERT = (O+4M+P)/6** | Expected duration |
-| **σ = (P−O)/6** | Standard deviation |
-| **Total Float = LS − ES** | Float calculation |
+
+| Formula                       | Purpose                |
+| :---------------------------- | :--------------------- |
+| **PERT = (O+4M+P)/6**         | Expected duration      |
+| **σ = (P−O)/6**               | Standard deviation     |
+| **Total Float = LS − ES**     | Float calculation      |
 | **Free Float = ES_next − EF** | Float to next activity |
 
 ### Communication & Risk
-| Formula | Purpose |
-|:--------|:--------|
-| **Channels = n(n-1)/2** | Communication paths |
-| **EMV = P × I** | Expected monetary value |
-| **Risk Score = P × I** | Risk prioritization |
+
+| Formula                 | Purpose                 |
+| :---------------------- | :---------------------- |
+| **Channels = n(n-1)/2** | Communication paths     |
+| **EMV = P × I**         | Expected monetary value |
+| **Risk Score = P × I**  | Risk prioritization     |
 
 ### Procurement (FPIF)
-| Formula | Purpose |
-|:--------|:--------|
-| **Final Fee = Target Fee ± (Variance × Seller Share)** | Fee adjustment |
-| **Total Price = Actual Cost + Final Fee** | Buyer payment |
-| **PTA = TC + [(CP−TP)/Buyer Share]** | Point of total assumption |
+
+| Formula                                                | Purpose                   |
+| :----------------------------------------------------- | :------------------------ |
+| **Final Fee = Target Fee ± (Variance × Seller Share)** | Fee adjustment            |
+| **Total Price = Actual Cost + Final Fee**              | Buyer payment             |
+| **PTA = TC + [(CP−TP)/Buyer Share]**                   | Point of total assumption |
 
 ---
 

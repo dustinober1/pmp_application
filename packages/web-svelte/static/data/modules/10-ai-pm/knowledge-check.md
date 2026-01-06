@@ -489,11 +489,14 @@ Test your AI literacy and judgment to navigate the modern, tech-augmented projec
 />
 
 ### 1. The HITL Principle
+
 Always remember **Human-in-the-Loop**.
-* **AI**: Provides speed, scale, and pattern recognition.
-* **Human**: Provides context, ethics, and accountability.
+
+- **AI**: Provides speed, scale, and pattern recognition.
+- **Human**: Provides context, ethics, and accountability.
 
 ### 2. AI as a Tool, Not a Methodology
+
 AI is not a replacement for Agile or Predictive. It is a **Tech Enhancer** that sits on top of your existing methodology to remove friction.
 
 ---

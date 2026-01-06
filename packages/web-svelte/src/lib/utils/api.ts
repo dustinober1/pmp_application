@@ -70,7 +70,10 @@ export async function apiRequest<T>(
     return data || ({ success: true } as ApiResponse<T>);
   } catch (error) {
     if (endpoint.includes("/flashcards") || endpoint.includes("/practice")) {
-      console.warn("API request failed, falling back to static/local logic", error);
+      console.warn(
+        "API request failed, falling back to static/local logic",
+        error,
+      );
       throw error;
     }
     throw error;
@@ -101,8 +104,10 @@ export const flashcardApi = {
       if (cards && cards.length > 0) {
         let filtered = cards;
         if (params?.domainId) {
-          filtered = filtered.filter(c =>
-            c.domainId?.toLowerCase().includes(params.domainId?.toLowerCase() || '')
+          filtered = filtered.filter((c) =>
+            c.domainId
+              ?.toLowerCase()
+              .includes(params.domainId?.toLowerCase() || ""),
           );
         }
         const limit = params?.limit || 20;
@@ -110,8 +115,8 @@ export const flashcardApi = {
           success: true,
           data: {
             flashcards: filtered.slice(0, limit),
-            total: filtered.length
-          }
+            total: filtered.length,
+          },
         };
       }
     } catch (e) {
@@ -164,8 +169,10 @@ export const practiceApi = {
         let selected = questions;
 
         if (options.domainIds && options.domainIds.length > 0) {
-          selected = selected.filter(q =>
-            options.domainIds!.some(d => q.domainId.toLowerCase().includes(d.toLowerCase()))
+          selected = selected.filter((q) =>
+            options.domainIds!.some((d) =>
+              q.domainId.toLowerCase().includes(d.toLowerCase()),
+            ),
           );
         }
 
@@ -175,12 +182,12 @@ export const practiceApi = {
           id: sessionId,
           startedAt: new Date(),
           questions: selected,
-          answers: []
+          answers: [],
         });
 
         return {
           success: true,
-          data: { id: sessionId }
+          data: { id: sessionId },
         };
       }
     } catch (e) {
@@ -198,12 +205,15 @@ export const practiceApi = {
    * Get a practice session by ID
    */
   getSession: async (sessionId: string, fetchFn: typeof fetch = fetch) => {
-    if (sessionId.startsWith('local-session-')) {
+    if (sessionId.startsWith("local-session-")) {
       const session = sessionStore.get(sessionId);
       if (session) {
         return { success: true, data: session };
       }
-      return { success: false, error: { code: 'NOT_FOUND', message: 'Session not found' } };
+      return {
+        success: false,
+        error: { code: "NOT_FOUND", message: "Session not found" },
+      };
     }
     return apiRequest(`/practice/sessions/${sessionId}`, {}, fetchFn || fetch);
   },
@@ -217,15 +227,15 @@ export const practiceApi = {
     limit: number = 20,
     fetchFn: typeof fetch = fetch,
   ) => {
-    if (sessionId.startsWith('local-session-')) {
+    if (sessionId.startsWith("local-session-")) {
       const session = sessionStore.get(sessionId);
       if (session) {
         return {
           success: true,
           data: {
             items: session.questions.slice(offset, offset + limit),
-            total: session.questions.length
-          }
+            total: session.questions.length,
+          },
         };
       }
     }
@@ -248,10 +258,12 @@ export const practiceApi = {
     },
     fetchFn: typeof fetch = fetch,
   ) => {
-    if (params.sessionId.startsWith('local-session-')) {
+    if (params.sessionId.startsWith("local-session-")) {
       const session = sessionStore.get(params.sessionId);
       if (session) {
-        const question = session.questions.find((q: PracticeQuestion) => q.id === params.questionId);
+        const question = session.questions.find(
+          (q: PracticeQuestion) => q.id === params.questionId,
+        );
         let isCorrect = false;
         let correctOptionId = "";
         let explanation = "";
@@ -268,8 +280,8 @@ export const practiceApi = {
             isCorrect,
             correctOptionId,
             explanation,
-            timeSpentMs: params.timeSpentMs
-          }
+            timeSpentMs: params.timeSpentMs,
+          },
         };
       }
     }

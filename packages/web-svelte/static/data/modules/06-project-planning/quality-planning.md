@@ -30,8 +30,10 @@ The PMP exam tests your understanding of quality principles, not just tools. Mas
 ## The Quality Planning Flow
 
 ### Step 1: Plan Quality Management
+
 **Purpose**: Identify quality requirements and standards; document compliance approach
 **Key Outputs**:
+
 - Quality Management Plan
 - Quality metrics (specific, measurable)
 - Quality checklists
@@ -39,17 +41,18 @@ The PMP exam tests your understanding of quality principles, not just tools. Mas
 
 ### Quality Planning vs. Quality Assurance vs. Quality Control
 
-| Process | When | Focus | Question Answered |
-|:--------|:-----|:------|:------------------|
-| **Plan Quality** | Planning | Define standards | "What quality do we need?" |
-| **Manage Quality** (QA) | Executing | Process effectiveness | "Are we using the right processes?" |
-| **Control Quality** (QC) | Monitoring | Product correctness | "Did we build it correctly?" |
+| Process                  | When       | Focus                 | Question Answered                   |
+| :----------------------- | :--------- | :-------------------- | :---------------------------------- |
+| **Plan Quality**         | Planning   | Define standards      | "What quality do we need?"          |
+| **Manage Quality** (QA)  | Executing  | Process effectiveness | "Are we using the right processes?" |
+| **Control Quality** (QC) | Monitoring | Product correctness   | "Did we build it correctly?"        |
 
 ::: tip Key Distinction
+
 - **Quality Assurance (QA)** = Process-focused (are we building it right way?)
 - **Quality Control (QC)** = Product-focused (did we build it correctly?)
 - **Plan Quality** = Standards and metrics definition
-:::
+  :::
 
 ---
 
@@ -57,14 +60,15 @@ The PMP exam tests your understanding of quality principles, not just tools. Mas
 
 The exam loves to test this distinction:
 
-| Aspect | Quality | Grade |
-|:-------|:--------|:------|
-| **Definition** | Degree to which requirements are met | Category based on features/functions |
-| **Example** | No defects, meets all specs | Economy vs. Premium product |
-| **Low is...** | Always a problem | Not necessarily a problem |
-| **PM Responsibility** | Meet quality requirements | Appropriate grade for context |
+| Aspect                | Quality                              | Grade                                |
+| :-------------------- | :----------------------------------- | :----------------------------------- |
+| **Definition**        | Degree to which requirements are met | Category based on features/functions |
+| **Example**           | No defects, meets all specs          | Economy vs. Premium product          |
+| **Low is...**         | Always a problem                     | Not necessarily a problem            |
+| **PM Responsibility** | Meet quality requirements            | Appropriate grade for context        |
 
 **Example**:
+
 - A **low-quality** car has defects, rattles, and doesn't meet specs (problem)
 - A **low-grade** car is a basic model without luxury features (acceptable if that\'s what was ordered)
 
@@ -76,20 +80,20 @@ The exam loves to test this distinction:
 
 The **Cost of Quality** represents the total cost of conformance and non-conformance.
 
-| Category | Type | Examples | When Incurred |
-|:---------|:-----|:---------|:--------------|
-| **Prevention Costs** | Conformance | Training, documentation, design reviews, prototyping | Before defects occur |
-| **Appraisal Costs** | Conformance | Testing, inspections, audits, quality metrics | During production |
-| **Internal Failure** | Non-Conformance | Rework, scrap, retesting | Before delivery |
-| **External Failure** | Non-Conformance | Warranty, returns, lawsuits, reputation damage | After delivery |
+| Category             | Type            | Examples                                             | When Incurred        |
+| :------------------- | :-------------- | :--------------------------------------------------- | :------------------- |
+| **Prevention Costs** | Conformance     | Training, documentation, design reviews, prototyping | Before defects occur |
+| **Appraisal Costs**  | Conformance     | Testing, inspections, audits, quality metrics        | During production    |
+| **Internal Failure** | Non-Conformance | Rework, scrap, retesting                             | Before delivery      |
+| **External Failure** | Non-Conformance | Warranty, returns, lawsuits, reputation damage       | After delivery       |
 
 ### Cost of Quality Relationship
 
 ```
  Cost
- 
+
  \ Total CoQ
- \ /\ 
+ \ /\
  \ / \
  \/ \
  /\ \_______
@@ -106,7 +110,6 @@ The **Cost of Quality** represents the total cost of conformance and non-conform
 
 ---
 
-
 ### Quality Management Tools (The Seven Basic Tools)
 
 The exam expects you to know when to use each quality tool:
@@ -116,6 +119,7 @@ The exam expects you to know when to use each quality tool:
 **Purpose**: Identify root causes of a problem
 
 **Categories (6 Ms)**:
+
 - **Man** (People)
 - **Machine** (Equipment)
 - **Method** (Process)
@@ -124,31 +128,32 @@ The exam expects you to know when to use each quality tool:
 - **Mother Nature** (Environment)
 
 **Example**:
+
 ```
- 
- Man 
- SOFTWARE 
- Machine DEFECTS 
- 
- Method (Problem) 
- 
- Material 
- 
- Measurement 
- 
- Environment 
+
+ Man
+ SOFTWARE
+ Machine DEFECTS
+
+ Method (Problem)
+
+ Material
+
+ Measurement
+
+ Environment
 ```
 
 **When to Use**: Brainstorming root causes, quality improvement teams
 
 ---
 
-
 #### 2. Flowchart (Process Map)
 
 **Purpose**: Visualize process steps to identify inefficiencies or error points
 
 **Symbols**:
+
 - Oval = Start/End
 - Rectangle = Process step
 - Diamond = Decision point
@@ -157,7 +162,6 @@ The exam expects you to know when to use each quality tool:
 **When to Use**: Understanding workflows, identifying bottlenecks, process improvement
 
 ---
-
 
 #### 3. Checksheet (Tally Sheet)
 
@@ -174,7 +178,6 @@ The exam expects you to know when to use each quality tool:
 
 ---
 
-
 #### 4. Pareto Chart (80/20 Rule)
 
 **Purpose**: Prioritize issues by frequency or impact
@@ -182,10 +185,11 @@ The exam expects you to know when to use each quality tool:
 **Principle**: 80% of problems come from 20% of causes
 
 **Example**:
+
 ```
 Defect Count
 
- (45%) 
+ (45%)
  (75% cumulative)
  (88%)
  (95%)
@@ -199,18 +203,18 @@ ___________________________
 
 ---
 
-
 #### 5. Histogram
 
 **Purpose**: Show frequency distribution of data
 
 **Example**: Distribution of defects per module
+
 ```
 Frequency
 
- 
- 
- 
+
+
+
 
 ________________________
  0-2 3-5 6-8 9+
@@ -221,18 +225,19 @@ ________________________
 
 ---
 
-
 #### 6. Control Chart
 
 **Purpose**: Monitor process stability over time
 
 **Components**:
+
 - **UCL** (Upper Control Limit)
 - **LCL** (Lower Control Limit)
 - **CL** (Center Line / Mean)
 - Data points over time
 
 **Example**:
+
 ```
 Value
  - - - - - - - - - - UCL
@@ -247,6 +252,7 @@ ________________________
 ```
 
 **Interpretation**:
+
 - Points within limits = In control (common cause variation)
 - Points outside limits = Out of control (special cause - investigate!)
 - Rule of Seven: 7+ consecutive points on one side of mean = investigate
@@ -255,17 +261,18 @@ ________________________
 
 ---
 
-
 #### 7. Scatter Diagram
 
 **Purpose**: Show correlation between two variables
 
 **Interpretation**:
+
 - **Positive correlation**: Variables increase together
 - **Negative correlation**: One increases as other decreases
 - **No correlation**: No relationship
 
 **Example**:
+
 ```
 Defects
  ×
@@ -281,7 +288,6 @@ ___________________
 
 ---
 
-
 ### Additional Quality Tools
 
 #### Design of Experiments (DoE)
@@ -294,17 +300,17 @@ ___________________
 
 ---
 
-
 #### Statistical Sampling
 
 **Purpose**: Inspect a subset to draw conclusions about the whole
 
-| Sampling Type | Description | When to Use |
-|:--------------|:------------|:------------|
-| **Attribute Sampling** | Binary (pass/fail) | Go/no-go decisions |
-| **Variable Sampling** | Continuous measurement | Degree of conformance |
+| Sampling Type          | Description            | When to Use           |
+| :--------------------- | :--------------------- | :-------------------- |
+| **Attribute Sampling** | Binary (pass/fail)     | Go/no-go decisions    |
+| **Variable Sampling**  | Continuous measurement | Degree of conformance |
 
 **Key Terms**:
+
 - **Population**: Entire set
 - **Sample**: Subset inspected
 - **Confidence Level**: Probability sample represents population
@@ -312,35 +318,33 @@ ___________________
 
 ---
 
-
 #### Benchmarking
 
 **Purpose**: Compare your processes/practices against organizational best practices or industry standards
 
 **Types**:
+
 - **Internal**: Against other projects in your organization
 - **Competitive**: Against direct competitors
 - **Functional**: Against similar function in different industry
 
 ---
 
-
 ### Quality Metrics Examples
 
 Quality metrics must be **specific**, **measurable**, and tied to requirements:
 
-| Metric | Definition | Target Example |
-|:-------|:-----------|:---------------|
-| **Defect Density** | Defects per 1000 LOC | < 0.5 |
-| **Test Coverage** | % of code tested | > 80% |
-| **Mean Time Between Failures (MTBF)** | Average time between failures | > 720 hours |
-| **Customer Satisfaction Score** | Survey rating | > 4.5/5.0 |
-| **First Pass Yield** | % passing first inspection | > 95% |
-| **Cycle Time** | Time to complete process | < 2 hours |
-| **On-Time Delivery** | % delivered on schedule | > 98% |
+| Metric                                | Definition                    | Target Example |
+| :------------------------------------ | :---------------------------- | :------------- |
+| **Defect Density**                    | Defects per 1000 LOC          | < 0.5          |
+| **Test Coverage**                     | % of code tested              | > 80%          |
+| **Mean Time Between Failures (MTBF)** | Average time between failures | > 720 hours    |
+| **Customer Satisfaction Score**       | Survey rating                 | > 4.5/5.0      |
+| **First Pass Yield**                  | % passing first inspection    | > 95%          |
+| **Cycle Time**                        | Time to complete process      | < 2 hours      |
+| **On-Time Delivery**                  | % delivered on schedule       | > 98%          |
 
 ---
-
 
 ## Quality in Agile
 
@@ -348,14 +352,14 @@ Agile integrates quality throughout the development cycle:
 
 ### Agile Quality Practices
 
-| Practice | Description | Quality Impact |
-|:---------|:------------|:---------------|
-| **Definition of Done (DoD)** | Shared checklist for completeness | Consistent quality standards |
-| **Test-Driven Development (TDD)** | Write tests before code | Prevents defects |
-| **Continuous Integration (CI)** | Frequent code integration + testing | Early defect detection |
-| **Pair Programming** | Two developers work together | Real-time code review |
-| **Sprint Retrospective** | Team reflects on improvement | Continuous improvement |
-| **Refactoring** | Improve code without changing behavior | Technical debt reduction |
+| Practice                          | Description                            | Quality Impact               |
+| :-------------------------------- | :------------------------------------- | :--------------------------- |
+| **Definition of Done (DoD)**      | Shared checklist for completeness      | Consistent quality standards |
+| **Test-Driven Development (TDD)** | Write tests before code                | Prevents defects             |
+| **Continuous Integration (CI)**   | Frequent code integration + testing    | Early defect detection       |
+| **Pair Programming**              | Two developers work together           | Real-time code review        |
+| **Sprint Retrospective**          | Team reflects on improvement           | Continuous improvement       |
+| **Refactoring**                   | Improve code without changing behavior | Technical debt reduction     |
 
 ### Definition of Done (DoD) Example
 
@@ -374,53 +378,56 @@ A comprehensive DoD for a software team:
 
 ---
 
-
 ## Quality Management Plan Components
 
 A comprehensive Quality Management Plan includes:
 
-| Component | Description |
-|:----------|:------------|
-| **Quality Standards** | Applicable standards (ISO, IEEE, organizational) |
-| **Quality Objectives** | Measurable quality goals |
-| **Quality Roles** | Who is responsible for quality |
-| **Quality Metrics** | How quality will be measured |
-| **Quality Tools** | Which tools will be used |
-| **Quality Control Activities** | Testing, inspection procedures |
-| **Quality Assurance Activities** | Process audits, reviews |
-| **Process Improvement** | How lessons will improve future work |
+| Component                        | Description                                      |
+| :------------------------------- | :----------------------------------------------- |
+| **Quality Standards**            | Applicable standards (ISO, IEEE, organizational) |
+| **Quality Objectives**           | Measurable quality goals                         |
+| **Quality Roles**                | Who is responsible for quality                   |
+| **Quality Metrics**              | How quality will be measured                     |
+| **Quality Tools**                | Which tools will be used                         |
+| **Quality Control Activities**   | Testing, inspection procedures                   |
+| **Quality Assurance Activities** | Process audits, reviews                          |
+| **Process Improvement**          | How lessons will improve future work             |
 
 ---
-
 
 ## Quality Planning Scenarios (Exam Practice)
 
 ### Scenario 1: Root Cause Analysis
+
 **Situation**: Defects are increasing but the team doesn\'t know why.
 **Answer**: Use a **Cause-and-Effect (Fishbone) Diagram** to brainstorm and categorize potential root causes.
 
 ### Scenario 2: Prioritizing Improvement
+
 **Situation**: There are many types of defects. Which ones should the team address first?
 **Answer**: Create a **Pareto Chart** to identify the 20% of causes creating 80% of defects.
 
 ### Scenario 3: Process Monitoring
+
 **Situation**: The PM wants to know if the build process is stable.
 **Answer**: Use a **Control Chart** to monitor process variation over time.
 
 ### Scenario 4: Variable Relationship
+
 **Situation**: The PM suspects that code complexity causes more defects.
 **Answer**: Create a **Scatter Diagram** to visualize the correlation between complexity and defects.
 
 ### Scenario 5: Prevention vs. Detection
+
 **Situation**: Should the PM invest in code reviews (prevention) or more testing (detection)?
 **Answer**: **Prevention is preferred**. Cost of Quality shows that prevention costs less than finding/fixing defects later.
 
 ### Scenario 6: Out of Control Process
+
 **Situation**: A control chart shows 8 consecutive points below the mean.
 **Answer**: Investigate for **special cause variation** (Rule of Seven violated). The process is out of control.
 
 ---
-
 
 ## Key Quality Principles (Exam Must-Know)
 
@@ -434,32 +441,31 @@ A comprehensive Quality Management Plan includes:
 
 ---
 
-
 ## Key Terms & Quick Reference
 
 ### Quality Terminology
 
-| Term | Definition |
-|:-----|:-----------|
-| **Quality** | Degree to which requirements are fulfilled |
-| **Grade** | Category based on features/functions |
-| **Precision** | Consistency of measurements |
-| **Accuracy** | Correctness of measurements |
-| **Tolerance** | Acceptable variation from target |
-| **Control Limits** | Statistical boundaries of normal variation |
-| **Specification Limits** | Customer-defined boundaries |
+| Term                     | Definition                                 |
+| :----------------------- | :----------------------------------------- |
+| **Quality**              | Degree to which requirements are fulfilled |
+| **Grade**                | Category based on features/functions       |
+| **Precision**            | Consistency of measurements                |
+| **Accuracy**             | Correctness of measurements                |
+| **Tolerance**            | Acceptable variation from target           |
+| **Control Limits**       | Statistical boundaries of normal variation |
+| **Specification Limits** | Customer-defined boundaries                |
 
 ### Quality Tools Quick Reference
 
-| Tool | Primary Use |
-|:-----|:------------|
-| **Cause-and-Effect** | Find root causes |
-| **Flowchart** | Visualize processes |
-| **Checksheet** | Collect data systematically |
-| **Pareto Chart** | Prioritize by impact |
-| **Histogram** | Show data distribution |
-| **Control Chart** | Monitor process stability |
-| **Scatter Diagram** | Show variable correlation |
+| Tool                 | Primary Use                 |
+| :------------------- | :-------------------------- |
+| **Cause-and-Effect** | Find root causes            |
+| **Flowchart**        | Visualize processes         |
+| **Checksheet**       | Collect data systematically |
+| **Pareto Chart**     | Prioritize by impact        |
+| **Histogram**        | Show data distribution      |
+| **Control Chart**    | Monitor process stability   |
+| **Scatter Diagram**  | Show variable correlation   |
 
 <style>
 .quality-grid {

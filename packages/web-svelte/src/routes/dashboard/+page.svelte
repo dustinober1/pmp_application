@@ -84,7 +84,7 @@
 			<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
 				<div>
 					<h1 class="text-4xl font-bold font-serif text-foreground">
-						Welcome back, {getFirstName(userName)}! 👋
+						Welcome back, {getFirstName(userName)}! 
 					</h1>
 					<p class="text-lg text-muted-foreground mt-2 font-light">
 						{getWelcomeSubtitle($overallProgress)}

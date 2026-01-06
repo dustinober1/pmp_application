@@ -141,7 +141,7 @@
 								on:click={() => goto(`${base}/flashcards`)}
 								class="w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center"
 							>
-								<span class="mr-2">🗂️</span> Related Flashcards
+								<span class="mr-2"></span> Related Flashcards
 							</button>
 							<button
 								on:click={() => goto(`${base}/formulas`)}

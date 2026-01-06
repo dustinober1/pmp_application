@@ -34,26 +34,33 @@ To understand these approaches, we follow Sarah, a PM managing three very differ
 
 Choosing the right way of working requires diagnosing the project's complexity and uncertainty.
 
-| Feature | Predictive (Waterfall) | Agile (Adaptive) | Hybrid (Blended) |
+| Feature          | Predictive (Waterfall) | Agile (Adaptive)           | Hybrid (Blended)        |
 | :--------------- | :--------------------- | :------------------------- | :---------------------- |
-| **Requirements** | Fixed upfront | Evolving / Emerging | Mix of both |
-| **Delivery** | Single final release | Incremental / Frequent | Phased releases |
-| **Change** | Controlled via CCB | Welcomed via Backlog | Tiered based on impact |
-| **Value** | Realized at the end | Realized early & often | Continuous with gates |
-| **When to Use** | Stable, low-risk work | Innovative, uncertain work | Large, complex programs |
+| **Requirements** | Fixed upfront          | Evolving / Emerging        | Mix of both             |
+| **Delivery**     | Single final release   | Incremental / Frequent     | Phased releases         |
+| **Change**       | Controlled via CCB     | Welcomed via Backlog       | Tiered based on impact  |
+| **Value**        | Realized at the end    | Realized early & often     | Continuous with gates   |
+| **When to Use**  | Stable, low-risk work  | Innovative, uncertain work | Large, complex programs |
 
 ## 1.3.1 Navigating Complexity (Stacey Matrix Logic)
 
 How do you scientifically choose the right approach? It comes down to two variables: **Requirements Certainty** and **Technical Certainty**.
 
 1. **Simple (Linear)**: We know _what_ to build and _how_ to build it.
- - _Approach_: **Predictive**. Follow the plan.
+
+- _Approach_: **Predictive**. Follow the plan.
+
 2. **Complicated**: We know _what_ but not _how_ (or vice versa).
- - _Approach_: **Predictive/Hybrid**. Use experts to analyze, then execute.
+
+- _Approach_: **Predictive/Hybrid**. Use experts to analyze, then execute.
+
 3. **Complex**: We don't know _what_ or _how_ until we start trying.
- - _Approach_: **Agile**. Experiment, fail fast, learn, and adapt.
+
+- _Approach_: **Agile**. Experiment, fail fast, learn, and adapt.
+
 4. **Chaotic**: Everything is on fire.
- - _Approach_: **Act**. Triage immediately to stabilize (Crisis Management).
+
+- _Approach_: **Act**. Triage immediately to stabilize (Crisis Management).
 
 ---
 
@@ -70,13 +77,13 @@ The Predictive approach is the traditional "plan the work, work the plan" method
 
 ### When to Use Predictive
 
-| Scenario | Why Predictive Works |
+| Scenario               | Why Predictive Works                      |
 | ---------------------- | ----------------------------------------- |
-| Construction projects | Rework is expensive; need upfront permits |
-| Regulatory compliance | Requirements are mandated, not negotiable |
-| Fixed-price contracts | Scope must be locked to manage risk |
-| Hardware manufacturing | Physical changes are costly |
-| Clear requirements | Customer knows exactly what they want |
+| Construction projects  | Rework is expensive; need upfront permits |
+| Regulatory compliance  | Requirements are mandated, not negotiable |
+| Fixed-price contracts  | Scope must be locked to manage risk       |
+| Hardware manufacturing | Physical changes are costly               |
+| Clear requirements     | Customer knows exactly what they want     |
 
 ### Common Predictive Artifacts
 
@@ -99,12 +106,12 @@ Agile approaches embrace change and deliver value incrementally. The goal is to 
 
 Every PMP candidate should know these core values:
 
-| We Value... | Over... |
+| We Value...                      | Over...                     |
 | -------------------------------- | --------------------------- |
-| **Individuals and interactions** | Processes and tools |
-| **Working software** | Comprehensive documentation |
-| **Customer collaboration** | Contract negotiation |
-| **Responding to change** | Following a plan |
+| **Individuals and interactions** | Processes and tools         |
+| **Working software**             | Comprehensive documentation |
+| **Customer collaboration**       | Contract negotiation        |
+| **Responding to change**         | Following a plan            |
 
 _Note: The items on the right have value, but we prioritize the items on the left._
 
@@ -131,11 +138,11 @@ Scrum is the most popular Agile framework and **heavily tested on the PMP exam**
 
 ### The Three Scrum Roles
 
-| Role | Responsibilities | NOT Responsible For |
+| Role              | Responsibilities                                                                             | NOT Responsible For                               |
 | ----------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------- |
 | **Product Owner** | Owns the backlog, prioritizes features, represents stakeholders, defines acceptance criteria | Technical decisions, assigning work to developers |
-| **Scrum Master** | Facilitates ceremonies, removes impediments, coaches the team, protects the team | Managing the team, making business decisions |
-| **Developers** | Self-organize to complete work, estimate effort, deliver increments, maintain quality | Prioritizing backlog, stakeholder management |
+| **Scrum Master**  | Facilitates ceremonies, removes impediments, coaches the team, protects the team             | Managing the team, making business decisions      |
+| **Developers**    | Self-organize to complete work, estimate effort, deliver increments, maintain quality        | Prioritizing backlog, stakeholder management      |
 
 ::: warning Common Exam Trap
 The Scrum Master is NOT a traditional project manager. They don't assign tasks or manage the team hierarchically. They are a "servant leader" who facilitates and removes blockers.
@@ -143,21 +150,21 @@ The Scrum Master is NOT a traditional project manager. They don't assign tasks o
 
 ### The Five Scrum Events (Ceremonies)
 
-| Event | Timebox | Purpose | Attendees |
+| Event                    | Timebox                          | Purpose                           | Attendees                       |
 | ------------------------ | -------------------------------- | --------------------------------- | ------------------------------- |
-| **Sprint** | 1-4 weeks (fixed) | Container for all work | Entire team |
-| **Sprint Planning** | 8 hours max (for 1-month sprint) | Select work, create Sprint Goal | All roles |
-| **Daily Scrum** | 15 minutes | Synchronize, identify impediments | Developers (others may observe) |
-| **Sprint Review** | 4 hours max | Demo increment, get feedback | All roles + stakeholders |
-| **Sprint Retrospective** | 3 hours max | Inspect and adapt the process | All roles |
+| **Sprint**               | 1-4 weeks (fixed)                | Container for all work            | Entire team                     |
+| **Sprint Planning**      | 8 hours max (for 1-month sprint) | Select work, create Sprint Goal   | All roles                       |
+| **Daily Scrum**          | 15 minutes                       | Synchronize, identify impediments | Developers (others may observe) |
+| **Sprint Review**        | 4 hours max                      | Demo increment, get feedback      | All roles + stakeholders        |
+| **Sprint Retrospective** | 3 hours max                      | Inspect and adapt the process     | All roles                       |
 
 ### The Three Scrum Artifacts
 
-| Artifact | Description | Commitment |
+| Artifact            | Description                                     | Commitment         |
 | ------------------- | ----------------------------------------------- | ------------------ |
-| **Product Backlog** | Ordered list of everything that might be needed | Product Goal |
-| **Sprint Backlog** | Items selected for the Sprint + plan to deliver | Sprint Goal |
-| **Increment** | Usable end-product; sum of all completed items | Definition of Done |
+| **Product Backlog** | Ordered list of everything that might be needed | Product Goal       |
+| **Sprint Backlog**  | Items selected for the Sprint + plan to deliver | Sprint Goal        |
+| **Increment**       | Usable end-product; sum of all completed items  | Definition of Done |
 
 ### Velocity and Story Points
 
@@ -187,22 +194,22 @@ Kanban focuses on visualizing work and limiting work-in-progress (WIP) to improv
 
 ### Key Kanban Metrics
 
-| Metric | Definition | Why It Matters |
+| Metric         | Definition                      | Why It Matters       |
 | -------------- | ------------------------------- | -------------------- |
-| **Lead Time** | Time from request to delivery | Customer perspective |
-| **Cycle Time** | Time from work started to done | Team efficiency |
-| **Throughput** | Items completed per time period | Predictability |
-| **WIP** | Items currently in progress | Bottleneck indicator |
+| **Lead Time**  | Time from request to delivery   | Customer perspective |
+| **Cycle Time** | Time from work started to done  | Team efficiency      |
+| **Throughput** | Items completed per time period | Predictability       |
+| **WIP**        | Items currently in progress     | Bottleneck indicator |
 
 ### Kanban vs. Scrum
 
-| Aspect | Scrum | Kanban |
+| Aspect   | Scrum                  | Kanban                |
 | -------- | ---------------------- | --------------------- |
-| Cadence | Fixed sprints | Continuous flow |
-| Roles | PO, SM, Developers | No prescribed roles |
-| Change | Wait until next sprint | Pull new work anytime |
+| Cadence  | Fixed sprints          | Continuous flow       |
+| Roles    | PO, SM, Developers     | No prescribed roles   |
+| Change   | Wait until next sprint | Pull new work anytime |
 | Planning | Sprint Planning events | Just-in-time planning |
-| Metrics | Velocity | Lead time, throughput |
+| Metrics  | Velocity               | Lead time, throughput |
 
 ::: tip When to Choose Kanban
 
@@ -210,7 +217,7 @@ Kanban focuses on visualizing work and limiting work-in-progress (WIP) to improv
 - Teams already doing Scrum but want more flexibility
 - Work that can't wait for sprint boundaries
 - Visual management is the primary goal
- :::
+  :::
 
 ---
 
@@ -220,16 +227,16 @@ XP is an Agile framework focused on **engineering excellence**. While Scrum focu
 
 ### Core XP Practices
 
-| Practice | Description | Benefit |
+| Practice                          | Description                            | Benefit                                  |
 | --------------------------------- | -------------------------------------- | ---------------------------------------- |
-| **Pair Programming** | Two developers, one keyboard | Real-time code review, knowledge sharing |
-| **Test-Driven Development (TDD)** | Write tests before code | Higher quality, regression safety |
-| **Continuous Integration (CI)** | Integrate code multiple times daily | Early bug detection |
-| **Refactoring** | Improve code without changing behavior | Maintainability |
-| **Simple Design** | Only build what's needed now | Reduce waste |
-| **Collective Code Ownership** | Anyone can change any code | No bottlenecks |
-| **Coding Standards** | Agreed-upon style | Readability |
-| **Sustainable Pace** | No overtime; 40-hour weeks | Long-term productivity |
+| **Pair Programming**              | Two developers, one keyboard           | Real-time code review, knowledge sharing |
+| **Test-Driven Development (TDD)** | Write tests before code                | Higher quality, regression safety        |
+| **Continuous Integration (CI)**   | Integrate code multiple times daily    | Early bug detection                      |
+| **Refactoring**                   | Improve code without changing behavior | Maintainability                          |
+| **Simple Design**                 | Only build what's needed now           | Reduce waste                             |
+| **Collective Code Ownership**     | Anyone can change any code             | No bottlenecks                           |
+| **Coding Standards**              | Agreed-upon style                      | Readability                              |
+| **Sustainable Pace**              | No overtime; 40-hour weeks             | Long-term productivity                   |
 
 ### XP Planning Practices
 
@@ -251,12 +258,12 @@ When organizations need to coordinate multiple Agile teams, they use scaling fra
 
 SAFe is the most widely adopted enterprise Agile framework. It organizes work at multiple levels:
 
-| Level | Focus | Key Roles |
+| Level              | Focus                    | Key Roles                               |
 | ------------------ | ------------------------ | --------------------------------------- |
-| **Team** | Scrum/Kanban delivery | Scrum Master, Product Owner |
-| **Program (ART)** | Coordinate 5-12 teams | Release Train Engineer, Product Manager |
-| **Large Solution** | Coordinate multiple ARTs | Solution Train Engineer |
-| **Portfolio** | Strategy and funding | Lean Portfolio Management |
+| **Team**           | Scrum/Kanban delivery    | Scrum Master, Product Owner             |
+| **Program (ART)**  | Coordinate 5-12 teams    | Release Train Engineer, Product Manager |
+| **Large Solution** | Coordinate multiple ARTs | Solution Train Engineer                 |
+| **Portfolio**      | Strategy and funding     | Lean Portfolio Management               |
 
 **Key SAFe Concepts:**
 
@@ -286,26 +293,26 @@ Most real-world projects use hybrid approaches. The 2026 exam expects you to rec
 
 ### Common Hybrid Patterns
 
-| Pattern | Description | Example |
+| Pattern               | Description                                               | Example                                  |
 | --------------------- | --------------------------------------------------------- | ---------------------------------------- |
-| **Water-Scrum-Fall** | Predictive planning, Agile execution, Predictive closeout | Enterprise software with fixed contracts |
-| **Agile with Gates** | Agile delivery with periodic governance checkpoints | Regulated industries |
-| **Component Hybrid** | Different teams use different approaches | Hardware (predictive) + Software (agile) |
-| **Time-Based Hybrid** | Start predictive, transition to agile | New team learning Agile |
+| **Water-Scrum-Fall**  | Predictive planning, Agile execution, Predictive closeout | Enterprise software with fixed contracts |
+| **Agile with Gates**  | Agile delivery with periodic governance checkpoints       | Regulated industries                     |
+| **Component Hybrid**  | Different teams use different approaches                  | Hardware (predictive) + Software (agile) |
+| **Time-Based Hybrid** | Start predictive, transition to agile                     | New team learning Agile                  |
 
 ### Sarah's Hybrid Global Rollout
 
 Sarah's third project shows hybrid in action:
 
 - **Program Level (Predictive)**:
- - Fixed regional go-live dates (legal/regulatory)
- - Master schedule with milestones
- - Phase-gate reviews with executives
+- Fixed regional go-live dates (legal/regulatory)
+- Master schedule with milestones
+- Phase-gate reviews with executives
 
 - **Team Level (Agile)**:
- - Training content developed in sprints
- - Change management adapts to regional feedback
- - Retrospectives improve rollout process
+- Training content developed in sprints
+- Change management adapts to regional feedback
+- Retrospectives improve rollout process
 
 ::: tip Hybrid Decision Framework
 Ask yourself:
@@ -313,7 +320,7 @@ Ask yourself:
 1. **What must be fixed?** (Date? Scope? Budget?) → Predictive for those elements
 2. **What can evolve?** (Features? Design? Process?) → Agile for those elements
 3. **Who are the stakeholders?** → Match their expectations
- :::
+   :::
 
 ---
 
@@ -342,15 +349,15 @@ Tailoring is the deliberate adaptation of processes to fit the project's unique 
 
 ### Tailoring Factors to Consider
 
-| Factor | Tailoring Consideration |
+| Factor                       | Tailoring Consideration                           |
 | ---------------------------- | ------------------------------------------------- |
-| **Team Size** | Large teams need more coordination; consider SAFe |
-| **Geographic Distribution** | Remote teams need async communication tools |
-| **Organizational Culture** | Traditional orgs may need gradual Agile adoption |
-| **Regulatory Environment** | Compliance may require documentation artifacts |
-| **Contract Type** | T&M enables Agile; Fixed-price favors Predictive |
-| **Technical Complexity** | Novel technology benefits from experimentation |
-| **Stakeholder Expectations** | Align communication style with stakeholder needs |
+| **Team Size**                | Large teams need more coordination; consider SAFe |
+| **Geographic Distribution**  | Remote teams need async communication tools       |
+| **Organizational Culture**   | Traditional orgs may need gradual Agile adoption  |
+| **Regulatory Environment**   | Compliance may require documentation artifacts    |
+| **Contract Type**            | T&M enables Agile; Fixed-price favors Predictive  |
+| **Technical Complexity**     | Novel technology benefits from experimentation    |
+| **Stakeholder Expectations** | Align communication style with stakeholder needs  |
 
 ### Tailoring Anti-Patterns (What NOT to Do)
 

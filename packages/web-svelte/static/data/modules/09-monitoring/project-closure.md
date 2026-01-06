@@ -19,6 +19,7 @@ Use [9.3 Tools & Templates](./toolkit) for a closure checklist, handoff checklis
 ## What “Done” Means (Closure Definition)
 
 A project is ready to close when:
+
 - Deliverables are **verified** and **accepted** against documented acceptance criteria.
 - Remaining work is **formally canceled or deferred** (don’t leave “secret scope”).
 - Contracts are closed and **all claims/disputes are resolved**.
@@ -32,16 +33,16 @@ A project is ready to close when:
 
 Think of closure as generating a “package of record” for the organization: proof of acceptance, proof of contractual/financial completion, and reusable knowledge.
 
-| Output | Why it matters (exam logic) |
-|---|---|
-| **Formal acceptance/sign-off** | proves deliverables met acceptance criteria (Validate Scope) |
-| **Handoff/transition package** | enables operations to run/support the deliverable (value transfer) |
-| **Procurement closure records** | proves contract obligations and payments are complete; closes claims |
-| **Final report** | documents results vs objectives, variances, and final performance |
+| Output                                     | Why it matters (exam logic)                                                      |
+| ------------------------------------------ | -------------------------------------------------------------------------------- |
+| **Formal acceptance/sign-off**             | proves deliverables met acceptance criteria (Validate Scope)                     |
+| **Handoff/transition package**             | enables operations to run/support the deliverable (value transfer)               |
+| **Procurement closure records**            | proves contract obligations and payments are complete; closes claims             |
+| **Final report**                           | documents results vs objectives, variances, and final performance                |
 | **Lessons learned register + OPA updates** | transfers reusable knowledge (templates, metrics, decisions, vendor evaluations) |
-| **Archived artifacts (PMIS/OPA library)** | preserves baselines, registers/logs, approvals, and decisions for audit/reuse |
-| **Resource release + recognition** | formally ends assignments and reinforces culture |
-| **Benefits handoff** | assigns who measures benefits after the project is closed |
+| **Archived artifacts (PMIS/OPA library)**  | preserves baselines, registers/logs, approvals, and decisions for audit/reuse    |
+| **Resource release + recognition**         | formally ends assignments and reinforces culture                                 |
+| **Benefits handoff**                       | assigns who measures benefits after the project is closed                        |
 
 ---
 
@@ -87,15 +88,15 @@ A project must be closed formally, even if it was terminated early or canceled d
 ## Formal Acceptance (Validate Scope vs Close Project)
 
 - **Validate Scope** is about accepting completed deliverables (often incremental).
-- **Close Project or Phase** is the administrative process of finalizing *everything* (records, contracts, transition).
+- **Close Project or Phase** is the administrative process of finalizing _everything_ (records, contracts, transition).
 
 ### If the Customer Refuses to Sign Off (High-Scoring Exam Response)
 
-1) **Refer to acceptance criteria** (requirements/backlog + definition of done + contract terms). 
-2) **Validate scope** with objective evidence (inspection results, UAT outcomes, traceability). 
-3) If criteria were **not** met: log defects/issues and perform **defect repair**. 
-4) If criteria **were** met: document the refusal and escalate using the agreed **governance/contract** path (claims/dispute process if applicable). 
-5) If the customer wants “extras” not in scope: treat as a **change request**, not as “minor fixes.” 
+1. **Refer to acceptance criteria** (requirements/backlog + definition of done + contract terms).
+2. **Validate scope** with objective evidence (inspection results, UAT outcomes, traceability).
+3. If criteria were **not** met: log defects/issues and perform **defect repair**.
+4. If criteria **were** met: document the refusal and escalate using the agreed **governance/contract** path (claims/dispute process if applicable).
+5. If the customer wants “extras” not in scope: treat as a **change request**, not as “minor fixes.”
 
 ::: tip Exam Pattern: “Punch List”
 Minor items can be documented as a punch list/warranty items **only if** acceptance criteria are met and the organization/customer agrees to accept with documented follow-up.
@@ -108,6 +109,7 @@ Minor items can be documented as a punch list/warranty items **only if** accepta
 The "handoff" is where many projects fail in the real world—and where the PMP exam expects you to be rigorous.
 
 Typical handoff components:
+
 - **Transition plan**: who owns what, and when ownership transfers
 - **Operations readiness**: support team trained, access provisioned, monitoring/runbooks documented
 - **Documentation**: user guides, admin guides, architecture diagrams, configuration items
@@ -119,12 +121,14 @@ Typical handoff components:
 The **Business Case** promised benefits (e.g., "reduce support costs by 20%" or "increase customer satisfaction by 15%"). Your job at closure is to **transfer measurement responsibility**, not to prove benefits were achieved (that's post-project).
 
 **Key Questions at Closure:**
+
 1. Who owns benefits measurement after the project closes? (Typically Operations, Product Management, Finance)
 2. What metrics prove the benefit was achieved? (KPIs defined in the Business Case)
 3. When will benefits be measured? (Often 3, 6, or 12 months post-go-live)
 4. How will measurement happen? (Dashboard, survey, financial system extract, etc.)
 
 **Benefits Handoff Template** (from toolkit):
+
 ```
 Benefit: Reduce support costs by 20%
 Owner: Operations Director
@@ -147,6 +151,7 @@ If operations cannot support the deliverable (missing training, missing runbooks
 ## Closing Procurements (You Can't Close With Open Claims)
 
 Procurement closure typically includes:
+
 - Formal acceptance of seller deliverables per contract
 - Final payments (including retainage) per contract terms
 - Closing out open change orders, claims, and disputes
@@ -161,6 +166,7 @@ If a scenario mentions a **claim/dispute**, you generally **cannot** close the p
 A **claim** is a seller's assertion for payment or relief that may be contractual or legal.
 
 **Common Claim Scenarios:**
+
 - Vendor requests payment for work outside the original scope
 - Vendor claims change orders should be backcharged due to delays caused by buyer
 - Vendor seeks compensation for early termination
@@ -168,22 +174,24 @@ A **claim** is a seller's assertion for payment or relief that may be contractua
 
 **Procurement Closure Protocol for Claims:**
 
-| Step | Action | Exam mindset |
-|---|---|---|
-| **1. Verify contract terms** | Check what the contract says about claims, disputes, and payment | Reference the contract first; don't make up policy |
-| **2. Assess validity** | Is the claim legitimate per the contract? (e.g., "Was this really out of scope?") | Objective evidence (change order, acceptance criteria, documentation) |
-| **3. Negotiate / Mediate** | Try to resolve with the vendor (avoid litigation) | Collaboration, win-win if possible |
-| **4. Document the decision** | Whatever is decided—payment, partial payment, rejection—document it | Never leave "open claim" at closure |
-| **5. Formal settlement** | Obtain signed settlement agreement if compromising | Closes legal/financial exposure |
-| **6. Close procurement** | Update procurement records and financial system | Project cannot be closed until this is done |
+| Step                         | Action                                                                            | Exam mindset                                                          |
+| ---------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **1. Verify contract terms** | Check what the contract says about claims, disputes, and payment                  | Reference the contract first; don't make up policy                    |
+| **2. Assess validity**       | Is the claim legitimate per the contract? (e.g., "Was this really out of scope?") | Objective evidence (change order, acceptance criteria, documentation) |
+| **3. Negotiate / Mediate**   | Try to resolve with the vendor (avoid litigation)                                 | Collaboration, win-win if possible                                    |
+| **4. Document the decision** | Whatever is decided—payment, partial payment, rejection—document it               | Never leave "open claim" at closure                                   |
+| **5. Formal settlement**     | Obtain signed settlement agreement if compromising                                | Closes legal/financial exposure                                       |
+| **6. Close procurement**     | Update procurement records and financial system                                   | Project cannot be closed until this is done                           |
 
 **If Claim Cannot Be Resolved Before Project Closure:**
+
 - **Formally transfer claim responsibility** to a post-project legal/finance team (document who owns it)
 - **Document the claim fully** in project records and procurement archive
 - **Note in the final project report** that a claim is outstanding and who is managing it
 - **Close project administratively** but flag that financial settlement may change final costs
 
 **Exam Pattern:**
+
 - If the scenario says "claim is unresolved," look for answers that involve **deferring closure** or **formally transferring responsibility**
 - "Pay to avoid delay" is a red flag answer (avoids governance and may set bad precedent)
 
@@ -192,6 +200,7 @@ A **claim** is a seller's assertion for payment or relief that may be contractua
 ## Final Report and Administrative Closure (How You Leave the Project “Clean”)
 
 Your final report is the “executive summary of record.” It often includes:
+
 - Original objectives and success criteria vs actual outcomes
 - Schedule/cost performance summary (including major variances and approved changes)
 - Quality/defect summary and acceptance status
@@ -202,16 +211,16 @@ Archiving typically includes: plans/baselines, registers/logs, change history, a
 
 ### Final Report Structure (Detailed)
 
-| Section | Content | Audience |
-|---|---|---|
-| **Executive Summary** | 1-page overview: objectives, outcome, key metrics | Executives, Steering Committee |
-| **Scope Delivered** | What was delivered vs. planned; deferred items | Product Owner, Operations |
-| **Schedule Performance** | Baseline vs. actual dates; major milestones | Governance, PMO |
-| **Cost Performance** | Budget vs. actual; EVM summary (CPI, SV, VAC) | Finance, Sponsor |
-| **Quality Summary** | Defect trends, acceptance status, warranty items | Quality, Operations |
-| **Risk/Issue Disposition** | What was closed, transferred, or retired | Governance, Risk Management |
-| **Lessons Learned Summary** | Top 5-10 learnings with recommendations | PMO, Future Project Teams |
-| **Benefits Handoff** | Who measures what, when, with what data | Product Owner, Business Owner |
+| Section                     | Content                                           | Audience                       |
+| --------------------------- | ------------------------------------------------- | ------------------------------ |
+| **Executive Summary**       | 1-page overview: objectives, outcome, key metrics | Executives, Steering Committee |
+| **Scope Delivered**         | What was delivered vs. planned; deferred items    | Product Owner, Operations      |
+| **Schedule Performance**    | Baseline vs. actual dates; major milestones       | Governance, PMO                |
+| **Cost Performance**        | Budget vs. actual; EVM summary (CPI, SV, VAC)     | Finance, Sponsor               |
+| **Quality Summary**         | Defect trends, acceptance status, warranty items  | Quality, Operations            |
+| **Risk/Issue Disposition**  | What was closed, transferred, or retired          | Governance, Risk Management    |
+| **Lessons Learned Summary** | Top 5-10 learnings with recommendations           | PMO, Future Project Teams      |
+| **Benefits Handoff**        | Who measures what, when, with what data           | Product Owner, Business Owner  |
 
 ---
 
@@ -221,35 +230,39 @@ A **Post-Project Review** is a formal governance event that occurs after project
 
 ### Post-Project Review vs. Lessons Learned
 
-| Aspect | Post-Project Review | Lessons Learned Session |
-|---|---|---|
-| **Timing** | 30-90 days after closure (benefits measurable) | During/immediately after closure |
-| **Focus** | Strategic value, ROI, benefits achievement | Process improvement, what worked/didn't |
-| **Participants** | Sponsor, executives, business owners | Core team, key stakeholders |
-| **Output** | Investment decision validation | OPA updates, recommendations |
-| **Primary Question** | "Did we achieve the expected value?" | "What should we do differently next time?" |
+| Aspect               | Post-Project Review                            | Lessons Learned Session                    |
+| -------------------- | ---------------------------------------------- | ------------------------------------------ |
+| **Timing**           | 30-90 days after closure (benefits measurable) | During/immediately after closure           |
+| **Focus**            | Strategic value, ROI, benefits achievement     | Process improvement, what worked/didn't    |
+| **Participants**     | Sponsor, executives, business owners           | Core team, key stakeholders                |
+| **Output**           | Investment decision validation                 | OPA updates, recommendations               |
+| **Primary Question** | "Did we achieve the expected value?"           | "What should we do differently next time?" |
 
 ### Post-Project Review Agenda
 
 1. **Business Case Review**
- - Original justification and expected benefits
- - Actual benefits achieved to date (if measurable)
- - Variance analysis and explanation
+
+- Original justification and expected benefits
+- Actual benefits achieved to date (if measurable)
+- Variance analysis and explanation
 
 2. **Investment Analysis**
- - Planned cost vs. actual cost
- - ROI calculation (if applicable)
- - Comparison to alternatives (was this the right project?)
+
+- Planned cost vs. actual cost
+- ROI calculation (if applicable)
+- Comparison to alternatives (was this the right project?)
 
 3. **Stakeholder Satisfaction**
- - Customer/user feedback
- - Sponsor assessment
- - Operations readiness evaluation
+
+- Customer/user feedback
+- Sponsor assessment
+- Operations readiness evaluation
 
 4. **Lessons for Portfolio**
- - Should we do similar projects?
- - What selection criteria should change?
- - What estimation improvements are needed?
+
+- Should we do similar projects?
+- What selection criteria should change?
+- What estimation improvements are needed?
 
 ### Benefits Realization Tracking (Post-Closure)
 
@@ -257,22 +270,22 @@ The PM's job ends at handoff, but the **organization** continues tracking benefi
 
 ```
 
- BENEFITS REALIZATION TIMELINE 
+ BENEFITS REALIZATION TIMELINE
 
- 
- Project Go-Live 30 days 90 days 1 year 
- Closure 
- 
- 
- 
- HandoffAdoption Early Full ROI 
- Phase Results Benefits Review 
- 
- 
- 
- PM Role Operations Operations Business Finance 
- Ends Monitors Measures Validates Audits 
- 
+
+ Project Go-Live 30 days 90 days 1 year
+ Closure
+
+
+
+ HandoffAdoption Early Full ROI
+ Phase Results Benefits Review
+
+
+
+ PM Role Operations Operations Business Finance
+ Ends Monitors Measures Validates Audits
+
 
 ```
 
@@ -288,17 +301,18 @@ Effective knowledge transfer prevents "brain drain" when the project team disban
 
 ### Knowledge Transfer Matrix
 
-| Knowledge Type | Transfer Method | Recipient | Verification |
-|---|---|---|---|
-| **Technical/How-to** | Documentation, training sessions | Operations, Support | Can they perform the task? |
-| **Decision rationale** | Decision log, architecture docs | Future maintainers | Do they understand why? |
-| **Configuration** | Runbooks, config management | IT Operations | Can they troubleshoot? |
-| **Business context** | Business case, requirements | Product Owner | Can they prioritize enhancements? |
-| **Vendor relationships** | Contract summaries, contact info | Procurement, Legal | Can they manage the vendor? |
+| Knowledge Type           | Transfer Method                  | Recipient           | Verification                      |
+| ------------------------ | -------------------------------- | ------------------- | --------------------------------- |
+| **Technical/How-to**     | Documentation, training sessions | Operations, Support | Can they perform the task?        |
+| **Decision rationale**   | Decision log, architecture docs  | Future maintainers  | Do they understand why?           |
+| **Configuration**        | Runbooks, config management      | IT Operations       | Can they troubleshoot?            |
+| **Business context**     | Business case, requirements      | Product Owner       | Can they prioritize enhancements? |
+| **Vendor relationships** | Contract summaries, contact info | Procurement, Legal  | Can they manage the vendor?       |
 
 ### Documentation Completeness Checklist
 
 **Technical Documentation:**
+
 - [ ] Architecture diagrams (current state)
 - [ ] API documentation and integration guides
 - [ ] Database schema and data dictionary
@@ -306,6 +320,7 @@ Effective knowledge transfer prevents "brain drain" when the project team disban
 - [ ] Deployment procedures and rollback plans
 
 **Operational Documentation:**
+
 - [ ] Runbooks for common procedures
 - [ ] Monitoring and alerting configuration
 - [ ] Incident response procedures
@@ -313,12 +328,14 @@ Effective knowledge transfer prevents "brain drain" when the project team disban
 - [ ] Backup and recovery procedures
 
 **Business Documentation:**
+
 - [ ] User guides and training materials
 - [ ] FAQ and known issues
 - [ ] Enhancement requests (deferred backlog)
 - [ ] Stakeholder contact list
 
 **Project Documentation (Archive):**
+
 - [ ] Project charter and business case
 - [ ] Final baselines (scope, schedule, cost)
 - [ ] Change history and decision log
@@ -332,18 +349,20 @@ Effective knowledge transfer prevents "brain drain" when the project team disban
 The **lessons learned register** should be a living document throughout the project and then finalized at closure. A good lessons learned session is **blameless** and action-oriented.
 
 ### Lessons Learned vs. Retrospectives (Know the Difference)
-| Aspect | Lessons Learned (Predictive) | Retrospective (Agile) |
-|---|---|---|
-| **Timing** | End of phase / end of project | End of every iteration/sprint |
-| **Scope** | Entire project lifecycle | The immediate past 2-4 weeks |
-| **Primary Goal** | Document knowledge for the *organization* (OPAs) | Improve the *team's* process immediately |
-| **Audience** | Future project teams | The current team (private space) |
-| **Output format** | Structured register (topic, lesson, recommendation, owner) | Action items for next sprint |
-| **Reusability** | High (stored in OPA library for years) | Team-specific (may not apply to other teams) |
+
+| Aspect            | Lessons Learned (Predictive)                               | Retrospective (Agile)                        |
+| ----------------- | ---------------------------------------------------------- | -------------------------------------------- |
+| **Timing**        | End of phase / end of project                              | End of every iteration/sprint                |
+| **Scope**         | Entire project lifecycle                                   | The immediate past 2-4 weeks                 |
+| **Primary Goal**  | Document knowledge for the _organization_ (OPAs)           | Improve the _team's_ process immediately     |
+| **Audience**      | Future project teams                                       | The current team (private space)             |
+| **Output format** | Structured register (topic, lesson, recommendation, owner) | Action items for next sprint                 |
+| **Reusability**   | High (stored in OPA library for years)                     | Team-specific (may not apply to other teams) |
 
 #### Effective Lessons Learned Session (Checklist)
 
 **Before the Session:**
+
 - [ ] Schedule it **while memory is fresh** (within 1-2 weeks of closure)
 - [ ] Invite the **core team + key stakeholders** (not just executives)
 - [ ] Create a **safe, blameless environment** (this is not a performance review)
@@ -351,19 +370,27 @@ The **lessons learned register** should be a living document throughout the proj
 - [ ] Set **60-90 minutes** with clear agenda
 
 **During the Session:**
+
 1. **Frame the objectives** (Why are we doing this? What do we want to learn?)
 2. **Review what we planned vs. what we delivered** (scope, schedule, cost, quality)
 3. **Discuss what went well** (repeatable practices)
- - Example: "Our definition of done checklist prevented late defects"
- - Action: Continue using DoD; refine based on lessons
+
+- Example: "Our definition of done checklist prevented late defects"
+- Action: Continue using DoD; refine based on lessons
+
 4. **Discuss what didn't go well** (root causes, early signals)
- - Example: "UAT started late because requirements weren't clear"
- - Action: Require written acceptance criteria sign-off by stakeholders before dev starts
+
+- Example: "UAT started late because requirements weren't clear"
+- Action: Require written acceptance criteria sign-off by stakeholders before dev starts
+
 5. **Identify patterns** (Was this a one-off or systemic?)
- - Example: "Acceptance criteria were unclear on 5 stories; that caused rework"
- - Action: Add acceptance criteria to definition of ready; add PO review step
+
+- Example: "Acceptance criteria were unclear on 5 stories; that caused rework"
+- Action: Add acceptance criteria to definition of ready; add PO review step
+
 6. **Capture actionable recommendations** (Who will do what by when?)
- - Example: "Update requirements template to include mandatory AC section" (Owner: PMO Lead, Due: 2026-03-01)
+
+- Example: "Update requirements template to include mandatory AC section" (Owner: PMO Lead, Due: 2026-03-01)
 
 **Output Template:**
 | Topic | Lesson | Recommendation | Owner | Due date | Status |
@@ -373,6 +400,7 @@ The **lessons learned register** should be a living document throughout the proj
 | Quality | 8 defects escaped to UAT; root cause was insufficient peer review | Require peer review for all code; add code review checklist | Dev Lead | 2026-02-15 | Pending |
 
 **After the Session:**
+
 - [ ] Circulate lessons learned register to team for feedback/validation
 - [ ] Store in **OPA library** with metadata (project, date, category) for future searches
 - [ ] Assign owners and create calendar reminders for follow-up actions
@@ -388,6 +416,7 @@ Questions about lessons learned often ask: "What is the OUTPUT of a lessons lear
 If a project is canceled mid-flight (e.g., strategy shift, budget cut, technical obsolescence), you do **not** just stop and walk away. You must perform **administrative closure**.
 
 **Steps for a Canceled Project:**
+
 1. **Document the status**: Record the exact extent of work completed vs. incomplete.
 2. **Document the reason**: Why was it canceled? (Valuable context for future strategy).
 3. **Archive partial deliverables**: Don't delete code/designs; store them in the repository (they might be useful later).
@@ -398,6 +427,7 @@ If a project is canceled mid-flight (e.g., strategy shift, budget cut, technical
 #### Canceled Project Scenarios (Common Exam Patterns)
 
 **Scenario A: Strategic Shift (Market Changed)**
+
 - Reason: "New competitor entered the market; this feature is no longer strategically important"
 - Closure approach: **No blame**; this is a business decision, not a failure
 - Lessons learned: "Our market analysis assumed competitors would remain stable; we should increase market monitoring"
@@ -405,6 +435,7 @@ If a project is canceled mid-flight (e.g., strategy shift, budget cut, technical
 - Example on exam: "The team feels bad about cancellation. How should you respond?" → Focus on the business value and freed resources
 
 **Scenario B: Budget Cut (Financial Constraint)**
+
 - Reason: "Company revenue miss; all non-essential projects halted"
 - Closure approach: Pay vendors for work-to-date per contract; release team to higher-priority work
 - Lessons learned: "Our estimate was accurate, but we didn't plan for budget volatility; add contingency planning for next projects"
@@ -412,12 +443,14 @@ If a project is canceled mid-flight (e.g., strategy shift, budget cut, technical
 - Example on exam: "Should we continue to meet the original deadline?" → No; accept that the project is canceled and focus on clean closure
 
 **Scenario C: Technical Obsolescence**
+
 - Reason: "The technology stack became unsupported; reimplementing would cost more than the original plan"
 - Closure approach: Document the decision, archive code for reference, capture technical lessons
 - Lessons learned: "We chose a technology without long-term support commitments; future projects should verify vendor stability"
 - Example on exam: "What should you tell the sponsor?" → Present the business case for cancellation (cost of continuance vs. cost of cancellation)
 
 **Administrative Closure Checklist for Canceled Projects:**
+
 - [ ] Final project status report (% complete, budget spent vs. remaining, explanation of cancellation)
 - [ ] Vendor contract closeout (payment for work-to-date per contract; follow termination clauses)
 - [ ] Team release and transition to other projects (formal reassignment)
@@ -435,7 +468,7 @@ The "sunk cost fallacy" (spending more because you already spent a lot) is a bia
 ## Methodology Nuances
 
 - **Predictive**: closure occurs at the end of each phase and at the final project conclusion (phase-gate acceptance + final closure).
-- **Agile**: “closure” happens continuously (reviews + retros). Final closure occurs when the product backlog is satisfied, funding ends, or the product is retired—*and you still do handoff/knowledge transfer*.
+- **Agile**: “closure” happens continuously (reviews + retros). Final closure occurs when the product backlog is satisfied, funding ends, or the product is retired—_and you still do handoff/knowledge transfer_.
 
 ---
 
@@ -445,23 +478,25 @@ Different contract types create different closure considerations. The 2026 PMP e
 
 ### Contract Type Comparison for Closure
 
-| Contract Type | Final Payment Calculation | Buyer Risk | Seller Risk | Closure Complexity |
-|---|---|---|---|---|
-| **Fixed Price (FFP)** | Agreed price regardless of actual cost | Low (cost certainty) | High (cost overruns) | Low (straightforward) |
-| **Time & Materials (T&M)** | Actual hours × rate + materials | High (open-ended cost) | Low (paid for effort) | Medium (verify hours/rates) |
-| **Cost Plus Fixed Fee (CPFF)** | Actual costs + fixed fee | High (pays all costs) | Low (guaranteed profit) | High (audit all costs) |
-| **Cost Plus Incentive Fee (CPIF)** | Actual costs + fee based on performance | Medium (shared savings) | Medium (fee at risk) | High (calculate incentive) |
-| **Cost Plus Award Fee (CPAF)** | Actual costs + subjective award fee | Medium | Medium | High (performance evaluation) |
+| Contract Type                      | Final Payment Calculation               | Buyer Risk              | Seller Risk             | Closure Complexity            |
+| ---------------------------------- | --------------------------------------- | ----------------------- | ----------------------- | ----------------------------- |
+| **Fixed Price (FFP)**              | Agreed price regardless of actual cost  | Low (cost certainty)    | High (cost overruns)    | Low (straightforward)         |
+| **Time & Materials (T&M)**         | Actual hours × rate + materials         | High (open-ended cost)  | Low (paid for effort)   | Medium (verify hours/rates)   |
+| **Cost Plus Fixed Fee (CPFF)**     | Actual costs + fixed fee                | High (pays all costs)   | Low (guaranteed profit) | High (audit all costs)        |
+| **Cost Plus Incentive Fee (CPIF)** | Actual costs + fee based on performance | Medium (shared savings) | Medium (fee at risk)    | High (calculate incentive)    |
+| **Cost Plus Award Fee (CPAF)**     | Actual costs + subjective award fee     | Medium                  | Medium                  | High (performance evaluation) |
 
 ### Fixed Price Closure
 
 **Key Considerations:**
+
 - Verify all deliverables meet contract acceptance criteria
 - Final payment is the contract price (no cost verification needed)
 - Warranty period begins at acceptance
 - Retainage release per contract terms
 
 **Common Exam Scenario:**
+
 > "The vendor completed the work but spent 20% more than they estimated. They want additional payment."
 
 **Answer:** In FFP, the seller bears cost risk. The buyer pays the contract price only. Additional payment would require a contract change order for added scope.
@@ -469,12 +504,14 @@ Different contract types create different closure considerations. The 2026 PMP e
 ### Time & Materials Closure
 
 **Key Considerations:**
+
 - Verify labor hours against timesheets and burn rate
 - Verify materials and expenses against receipts
 - Compare against "not to exceed" (NTE) ceiling if applicable
 - Final invoice reconciliation before payment
 
 **Common Exam Scenario:**
+
 > "The T&M contractor submitted a final invoice that exceeds the project estimate."
 
 **Answer:** If within the NTE ceiling, the buyer pays actual costs. If exceeds NTE, the contract terms govern (usually buyer approval required for overages).
@@ -482,6 +519,7 @@ Different contract types create different closure considerations. The 2026 PMP e
 ### Cost-Reimbursable Closure (CPFF/CPIF/CPAF)
 
 **Key Considerations:**
+
 - Audit all claimed costs for allowability
 - Calculate fee per contract formula
 - For CPIF: Calculate final incentive based on cost performance
@@ -514,13 +552,13 @@ CPIF questions often ask you to calculate the final fee. Know the formula: **Fin
 
 ### Contract Closeout Documentation
 
-| Document | Purpose | Retention |
-|---|---|---|
-| **Final acceptance certificate** | Proves deliverables met requirements | Permanent |
-| **Final invoice and payment record** | Proves financial closure | Per policy (7+ years) |
-| **Warranty terms** | Defines post-closure obligations | Duration of warranty |
-| **Lessons learned (vendor)** | Informs future vendor selection | OPA library |
-| **Performance evaluation** | Vendor rating for future bids | Procurement records |
+| Document                             | Purpose                              | Retention             |
+| ------------------------------------ | ------------------------------------ | --------------------- |
+| **Final acceptance certificate**     | Proves deliverables met requirements | Permanent             |
+| **Final invoice and payment record** | Proves financial closure             | Per policy (7+ years) |
+| **Warranty terms**                   | Defines post-closure obligations     | Duration of warranty  |
+| **Lessons learned (vendor)**         | Informs future vendor selection      | OPA library           |
+| **Performance evaluation**           | Vendor rating for future bids        | Procurement records   |
 
 ---
 
@@ -530,35 +568,39 @@ Certain industries have specific closure requirements beyond standard project ma
 
 ### Industry-Specific Closure Requirements
 
-| Industry | Regulatory Body | Closure Requirements |
-|---|---|---|
-| **Healthcare** | FDA, HIPAA | Validation documentation, audit trails, patient data handling |
-| **Financial Services** | SOX, SEC, PCI-DSS | Control documentation, data retention, audit evidence |
-| **Government** | FAR, OMB | Contract reporting, cost accounting standards, audit readiness |
-| **Construction** | OSHA, local codes | Inspections, certificates of occupancy, safety documentation |
-| **Pharmaceuticals** | FDA (21 CFR Part 11) | Electronic records validation, batch records, GxP compliance |
+| Industry               | Regulatory Body      | Closure Requirements                                           |
+| ---------------------- | -------------------- | -------------------------------------------------------------- |
+| **Healthcare**         | FDA, HIPAA           | Validation documentation, audit trails, patient data handling  |
+| **Financial Services** | SOX, SEC, PCI-DSS    | Control documentation, data retention, audit evidence          |
+| **Government**         | FAR, OMB             | Contract reporting, cost accounting standards, audit readiness |
+| **Construction**       | OSHA, local codes    | Inspections, certificates of occupancy, safety documentation   |
+| **Pharmaceuticals**    | FDA (21 CFR Part 11) | Electronic records validation, batch records, GxP compliance   |
 
 ### Common Compliance Closure Activities
 
 1. **Documentation Retention**
- - Maintain records per legal and regulatory requirements (often 7+ years)
- - Ensure electronic records meet integrity requirements
- - Archive in accessible, auditable format
+
+- Maintain records per legal and regulatory requirements (often 7+ years)
+- Ensure electronic records meet integrity requirements
+- Archive in accessible, auditable format
 
 2. **Audit Trail Verification**
- - Confirm change history is complete and accurate
- - Verify decision records are traceable
- - Ensure approvals are documented
+
+- Confirm change history is complete and accurate
+- Verify decision records are traceable
+- Ensure approvals are documented
 
 3. **Third-Party Certifications**
- - Obtain required inspections (building, safety, environmental)
- - Complete regulatory filings
- - Submit required reports to authorities
+
+- Obtain required inspections (building, safety, environmental)
+- Complete regulatory filings
+- Submit required reports to authorities
 
 4. **Data Handling**
- - Transfer or archive sensitive data per policy
- - Ensure data destruction is documented (if required)
- - Verify access controls are removed for project team
+
+- Transfer or archive sensitive data per policy
+- Ensure data destruction is documented (if required)
+- Verify access controls are removed for project team
 
 ### Compliance Closure Checklist
 
@@ -583,50 +625,55 @@ In agile environments, "closure" often means the product has reached the end of 
 
 ### When Agile Products "Close"
 
-| Trigger | Situation | Closure Approach |
-|---|---|---|
-| **Backlog exhausted** | All valuable features delivered; ROI maximized | Planned sunset with knowledge transfer |
-| **Funding ends** | Budget consumed or redirected | Administrative closure; document what's incomplete |
-| **Product retirement** | Replaced by new system; market demand gone | Migration support; legacy documentation |
-| **Team dissolution** | Organization restructure; members reassigned | Knowledge capture before departure |
+| Trigger                | Situation                                      | Closure Approach                                   |
+| ---------------------- | ---------------------------------------------- | -------------------------------------------------- |
+| **Backlog exhausted**  | All valuable features delivered; ROI maximized | Planned sunset with knowledge transfer             |
+| **Funding ends**       | Budget consumed or redirected                  | Administrative closure; document what's incomplete |
+| **Product retirement** | Replaced by new system; market demand gone     | Migration support; legacy documentation            |
+| **Team dissolution**   | Organization restructure; members reassigned   | Knowledge capture before departure                 |
 
 ### Agile Closure Responsibilities
 
 Even in continuous delivery environments, formal closure includes:
 
 1. **Final Retrospective**
- - Broader scope than sprint retros (entire product/project lifecycle)
- - Focus on organizational learnings, not just team process
- - Document in lessons learned register (OPA)
+
+- Broader scope than sprint retros (entire product/project lifecycle)
+- Focus on organizational learnings, not just team process
+- Document in lessons learned register (OPA)
 
 2. **Technical Debt Resolution**
- - Document remaining technical debt
- - Create maintenance backlog for operations
- - Archive code and documentation
+
+- Document remaining technical debt
+- Create maintenance backlog for operations
+- Archive code and documentation
 
 3. **Feature Flag Cleanup**
- - Remove or finalize feature toggles
- - Document flag states in production
- - Ensure no "zombie" code paths
+
+- Remove or finalize feature toggles
+- Document flag states in production
+- Ensure no "zombie" code paths
 
 4. **Continuous Delivery Sunset**
- - Disable deployment pipelines (after final release)
- - Archive CI/CD configuration
- - Document rollback procedures (in case of post-sunset issues)
+
+- Disable deployment pipelines (after final release)
+- Archive CI/CD configuration
+- Document rollback procedures (in case of post-sunset issues)
 
 5. **Knowledge Transfer**
- - Create operations runbooks
- - Train support team
- - Document "tribal knowledge" before team disbands
+
+- Create operations runbooks
+- Train support team
+- Document "tribal knowledge" before team disbands
 
 ### Product Backlog Disposition
 
-| Backlog Item Status | Disposition | Documentation |
-|---|---|---|
-| **Done** | Completed and deployed | Release notes, user documentation |
-| **Deferred** | Not valuable enough to implement | Archive with rationale |
-| **In Progress** | Partially complete | Document state; decide: finish, defer, or abandon |
-| **Won't Do** | Explicitly rejected | Archive decision and reason |
+| Backlog Item Status | Disposition                      | Documentation                                     |
+| ------------------- | -------------------------------- | ------------------------------------------------- |
+| **Done**            | Completed and deployed           | Release notes, user documentation                 |
+| **Deferred**        | Not valuable enough to implement | Archive with rationale                            |
+| **In Progress**     | Partially complete               | Document state; decide: finish, defer, or abandon |
+| **Won't Do**        | Explicitly rejected              | Archive decision and reason                       |
 
 ::: info Exam Pattern
 Agile closure questions often focus on **knowledge transfer** and **documentation** requirements—even when the delivery approach was informal. The organization needs to support the product after the team moves on.
@@ -640,39 +687,44 @@ Getting stakeholder acceptance can be challenging, especially when expectations 
 
 ### Common Sign-off Challenges
 
-| Challenge | Root Cause | PM Response |
-|---|---|---|
-| **Moving goalposts** | Acceptance criteria not documented upfront | Reference original requirements; new requests are CRs |
-| **Perfectionism** | Stakeholder wants "more" even though criteria met | Separate "must have" from "nice to have"; close on requirements |
-| **Relationship damage** | Trust eroded during project | Focus on objective evidence; involve third party if needed |
-| **Political games** | Stakeholder using closure as leverage | Escalate to sponsor; follow contract/governance path |
-| **Genuine defects** | Real issues that weren't caught in testing | Log as defects; determine fix now vs. warranty |
+| Challenge               | Root Cause                                        | PM Response                                                     |
+| ----------------------- | ------------------------------------------------- | --------------------------------------------------------------- |
+| **Moving goalposts**    | Acceptance criteria not documented upfront        | Reference original requirements; new requests are CRs           |
+| **Perfectionism**       | Stakeholder wants "more" even though criteria met | Separate "must have" from "nice to have"; close on requirements |
+| **Relationship damage** | Trust eroded during project                       | Focus on objective evidence; involve third party if needed      |
+| **Political games**     | Stakeholder using closure as leverage             | Escalate to sponsor; follow contract/governance path            |
+| **Genuine defects**     | Real issues that weren't caught in testing        | Log as defects; determine fix now vs. warranty                  |
 
 ### The "Reluctant Stakeholder" Playbook
 
 When a stakeholder won't sign off, follow this escalation path:
 
 **Step 1: Clarify the Objection**
+
 - Ask: "What specifically is preventing acceptance?"
 - Document the specific concerns
 - Determine if concerns are in-scope or new requirements
 
 **Step 2: Reference Acceptance Criteria**
+
 - Present documented requirements and acceptance criteria
 - Show traceability from requirements → test results → acceptance
 - Highlight objective evidence (test reports, UAT sign-off)
 
 **Step 3: Categorize the Gap**
+
 - **In-scope defect**: Log, prioritize, and fix
 - **Out-of-scope enhancement**: This is a change request; current scope is complete
 - **Subjective preference**: Not grounds for rejecting acceptance if criteria met
 
 **Step 4: Escalate if Necessary**
+
 - Involve sponsor or governance authority
 - Present evidence and request decision
 - Document the escalation and outcome
 
 **Step 5: Formal Resolution**
+
 - If criteria are met: request formal sign-off with documentation
 - If criteria are not met: agree on remediation plan with timeline
 - If dispute continues: follow contract dispute resolution process
@@ -714,19 +766,20 @@ When minor issues exist but core acceptance criteria are met:
 
 ::: tip Exam Pattern
 If a question describes a stakeholder refusing sign-off over a "minor issue," the correct answer usually involves:
+
 1. Verify if the issue was in the original requirements
 2. If yes: fix it before closure
 3. If no: route it as a change request; proceed with closure
-:::
+   :::
 
 ### When to Accept Partial Closure
 
-| Situation | Approach |
-|---|---|
-| **80% of scope complete, remaining 20% descoped** | Close completed scope; document descoped items formally |
-| **Warranty items identified** | Close with punch list; set warranty period |
-| **Phased delivery** | Close each phase individually; final closure after all phases |
-| **Early termination** | Administrative closure; document reason and incomplete work |
+| Situation                                         | Approach                                                      |
+| ------------------------------------------------- | ------------------------------------------------------------- |
+| **80% of scope complete, remaining 20% descoped** | Close completed scope; document descoped items formally       |
+| **Warranty items identified**                     | Close with punch list; set warranty period                    |
+| **Phased delivery**                               | Close each phase individually; final closure after all phases |
+| **Early termination**                             | Administrative closure; document reason and incomplete work   |
 
 <style>
 .closure-grid {
@@ -779,8 +832,3 @@ If a question describes a stakeholder refusing sign-off over a "minor issue," th
  margin: 2rem 0;
 }
 </style>
-
-
-
-
-

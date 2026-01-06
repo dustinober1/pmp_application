@@ -61,10 +61,10 @@
 			const stats = $sessionStats;
 			// Calculate actual attempted questions for accurate partial stats
 			const attempted = $practiceMode.currentIndex + (submitting ? 1 : 0); // Include current if submitting
-            
-            // For partial sessions, effective total is what was seen
-            const effectiveTotal = isComplete ? stats.total : Math.max(attempted, 1);
-            
+ 
+ // For partial sessions, effective total is what was seen
+ const effectiveTotal = isComplete ? stats.total : Math.max(attempted, 1);
+ 
 			// Recalculate score based on attempted
 			const actualScore = Math.round((stats.correct / effectiveTotal) * 100);
 
@@ -83,13 +83,13 @@
 	async function handleCompleteSession() {
 		try {
 			// Save handled by onDestroy if we navigate away, or explicitly here
-            // But we want to ensure we don't double save. 
-            // Let's rely on explicit save here for "Finish" button, 
-            // and onDestroy for "Exit" early.
-            
-            // Actually, onDestroy runs on navigation too. 
-            // So we can let onDestroy handle it, OR have a flag.
-            // Let's use a flag to prevent double saving.
+ // But we want to ensure we don't double save. 
+ // Let's rely on explicit save here for "Finish" button, 
+ // and onDestroy for "Exit" early.
+ 
+ // Actually, onDestroy runs on navigation too. 
+ // So we can let onDestroy handle it, OR have a flag.
+ // Let's use a flag to prevent double saving.
 			goto(`${base}/dashboard`);
 		} catch (err) {
 			console.error('Failed to complete session:', err);

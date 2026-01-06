@@ -3,16 +3,25 @@
  * Manages one-card-at-a-time study mode with SM-2 spaced repetition
  */
 
-import { writable, derived, get } from 'svelte/store';
-import type { StudySession, StudyCard, SM2Rating, CardProgress } from '@pmp/shared';
-import type { Flashcard } from '$lib/utils/flashcardsData';
+import { writable, derived, get } from "svelte/store";
+import type {
+  StudySession,
+  StudyCard,
+  SM2Rating,
+  CardProgress,
+} from "@pmp/shared";
+import type { Flashcard } from "$lib/utils/flashcardsData";
 import {
   getAllCardProgress,
   updateCardProgress,
   getDueCards,
-  isCardDue
-} from '$lib/utils/spacedRepetition';
-import { addRecentReview, incrementMasteredCount, decrementMasteredCount } from '$lib/utils/flashcardStorage';
+  isCardDue,
+} from "$lib/utils/spacedRepetition";
+import {
+  addRecentReview,
+  incrementMasteredCount,
+  decrementMasteredCount,
+} from "$lib/utils/flashcardStorage";
 
 // Store state
 interface StudyModeState {
@@ -49,7 +58,15 @@ function createStudyModeStore() {
     /**
      * Start a new study session
      */
-    startSession(flashcards: Flashcard[], options?: { dueOnly?: boolean; shuffle?: boolean; limit?: number; priority?: 'srs' | 'shuffle' | 'none' }) {
+    startSession(
+      flashcards: Flashcard[],
+      options?: {
+        dueOnly?: boolean;
+        shuffle?: boolean;
+        limit?: number;
+        priority?: "srs" | "shuffle" | "none";
+      },
+    ) {
       const sessionId = crypto.randomUUID();
       const now = new Date().toISOString();
 
@@ -81,13 +98,16 @@ function createStudyModeStore() {
       }
 
       // Prioritize cards
-      if (options?.priority === 'srs') {
+      if (options?.priority === "srs") {
         // Sort by nextReviewDate (earliest first), new cards (null progress) always first
         studyCards.sort((a, b) => {
           if (!a.progress && !b.progress) return 0;
           if (!a.progress) return -1;
           if (!b.progress) return 1;
-          return new Date(a.progress.nextReviewDate).getTime() - new Date(b.progress.nextReviewDate).getTime();
+          return (
+            new Date(a.progress.nextReviewDate).getTime() -
+            new Date(b.progress.nextReviewDate).getTime()
+          );
         });
       }
 
@@ -159,8 +179,13 @@ function createStudyModeStore() {
         addRecentReview({
           cardId: currentCard.id,
           cardFront: currentCard.front,
-          rating: rating === 'again' ? 'dont_know' : (rating === 'hard' ? 'learning' : 'know_it'),
-          timestamp: new Date().toISOString()
+          rating:
+            rating === "again"
+              ? "dont_know"
+              : rating === "hard"
+                ? "learning"
+                : "know_it",
+          timestamp: new Date().toISOString(),
         });
 
         // 2. Update Mastered count
@@ -168,9 +193,11 @@ function createStudyModeStore() {
         // If it was already mastered (previous rating was good/easy), we don't increment again
         // Note: The simple flashcardStorage doesn't track per-card state, so we use a heuristic
         // or just increment if the user says they know it. For better accuracy, we check previous progress.
-        const wasMastered = currentCard.progress &&
-          (currentCard.progress.ratingCounts.good > 0 || currentCard.progress.ratingCounts.easy > 0);
-        const isNowMastered = (rating === 'good' || rating === 'easy');
+        const wasMastered =
+          currentCard.progress &&
+          (currentCard.progress.ratingCounts.good > 0 ||
+            currentCard.progress.ratingCounts.easy > 0);
+        const isNowMastered = rating === "good" || rating === "easy";
 
         if (isNowMastered && !wasMastered) {
           incrementMasteredCount();
@@ -183,7 +210,7 @@ function createStudyModeStore() {
         session.stats.ratings[rating]++;
 
         // Count "good" and "easy" as correct for stats
-        if (rating === 'good' || rating === 'easy') {
+        if (rating === "good" || rating === "easy") {
           session.stats.correct++;
         }
 
@@ -279,10 +306,18 @@ const sessionDerived = derived(store, ($store) => $store.session);
 const isFlippedDerived = derived(store, ($store) => $store.isFlipped);
 const isCompleteDerived = derived(store, ($store) => $store.isComplete);
 const currentCardDerived = derived(store, ($store) => $store.currentCard);
-const currentIndexDerived = derived(store, ($store) => $store.session?.currentIndex ?? 0);
-const totalCardsDerived = derived(store, ($store) => $store.session?.cards.length ?? 0);
-const progressPercentDerived = derived([currentIndexDerived, totalCardsDerived], ([$currentIndex, $totalCards]) =>
-  $totalCards > 0 ? Math.round(($currentIndex / $totalCards) * 100) : 0
+const currentIndexDerived = derived(
+  store,
+  ($store) => $store.session?.currentIndex ?? 0,
+);
+const totalCardsDerived = derived(
+  store,
+  ($store) => $store.session?.cards.length ?? 0,
+);
+const progressPercentDerived = derived(
+  [currentIndexDerived, totalCardsDerived],
+  ([$currentIndex, $totalCards]) =>
+    $totalCards > 0 ? Math.round(($currentIndex / $totalCards) * 100) : 0,
 );
 const statsDerived = derived(store, ($store) => $store.session?.stats);
 

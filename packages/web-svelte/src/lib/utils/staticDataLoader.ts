@@ -20,7 +20,7 @@ export function normalizeDomainId(raw: string): string {
   if (lower.includes("people")) return "domain-people";
   if (lower.includes("process")) return "domain-process";
   if (lower.includes("business")) return "domain-business";
-  return lower.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  return lower.replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
 }
 
 /**
@@ -61,7 +61,9 @@ function shuffleArray<T>(array: T[]): T[] {
  * Loads flashcards from static JSON file with transformation
  * Applies normalization to domain and task IDs
  */
-export async function loadStaticFlashcards(fetchFn: typeof fetch = fetch): Promise<Flashcard[]> {
+export async function loadStaticFlashcards(
+  fetchFn: typeof fetch = fetch,
+): Promise<Flashcard[]> {
   if (cachedFlashcards) return cachedFlashcards;
 
   try {
@@ -70,7 +72,10 @@ export async function loadStaticFlashcards(fetchFn: typeof fetch = fetch): Promi
       const data = await res.json();
       cachedFlashcards = data.flatMap((group: any) => {
         const domainId = normalizeDomainId(group.meta.domain || "");
-        const taskId = normalizeTaskId(group.meta.ecoReference || "", group.meta.task || "");
+        const taskId = normalizeTaskId(
+          group.meta.ecoReference || "",
+          group.meta.task || "",
+        );
 
         return group.flashcards.map((card: any) => ({
           ...card,
@@ -78,7 +83,7 @@ export async function loadStaticFlashcards(fetchFn: typeof fetch = fetch): Promi
           domainId: domainId,
           taskId: taskId,
           createdAt: new Date().toISOString(),
-          isCustom: false
+          isCustom: false,
         }));
       }) as Flashcard[];
 
@@ -95,7 +100,9 @@ export async function loadStaticFlashcards(fetchFn: typeof fetch = fetch): Promi
  * Loads practice questions from static JSON file with transformation
  * Applies normalization and maps to PracticeQuestion type
  */
-export async function loadStaticQuestions(fetchFn: typeof fetch = fetch): Promise<PracticeQuestion[]> {
+export async function loadStaticQuestions(
+  fetchFn: typeof fetch = fetch,
+): Promise<PracticeQuestion[]> {
   if (cachedQuestions) return cachedQuestions;
 
   try {
@@ -107,19 +114,24 @@ export async function loadStaticQuestions(fetchFn: typeof fetch = fetch): Promis
         let taskId = q.task || "";
 
         // Normalize task ID based on domain
-        if (domainId === 'domain-people') taskId = `I-${q.taskNumber}`;
-        else if (domainId === 'domain-process') taskId = `II-${q.taskNumber}`;
-        else if (domainId === 'domain-business') taskId = `III-${q.taskNumber}`;
+        if (domainId === "domain-people") taskId = `I-${q.taskNumber}`;
+        else if (domainId === "domain-process") taskId = `II-${q.taskNumber}`;
+        else if (domainId === "domain-business") taskId = `III-${q.taskNumber}`;
 
-        const rawOptions = q.answers.map((a: any, idx: number) => ({
-          id: `opt-${idx}`,
-          questionId: q.id,
-          text: a.text,
-          isCorrect: a.isCorrect
-        } as QuestionOption));
+        const rawOptions = q.answers.map(
+          (a: any, idx: number) =>
+            ({
+              id: `opt-${idx}`,
+              questionId: q.id,
+              text: a.text,
+              isCorrect: a.isCorrect,
+            }) as QuestionOption,
+        );
 
         const shuffledOptions = shuffleArray<QuestionOption>(rawOptions);
-        const correctOption = shuffledOptions.find((o: QuestionOption) => o.isCorrect);
+        const correctOption = shuffledOptions.find(
+          (o: QuestionOption) => o.isCorrect,
+        );
 
         return {
           id: q.id,
@@ -132,7 +144,7 @@ export async function loadStaticQuestions(fetchFn: typeof fetch = fetch): Promis
           explanation: q.remediation.coreLogic,
           difficulty: "medium",
           relatedFormulaIds: [],
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
         };
       }) as PracticeQuestion[];
 

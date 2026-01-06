@@ -4,10 +4,10 @@ This module focuses on the strategic aspects of project management, emphasizing 
 
 ## Topics Covered:
 
-* **2.1 Organizational Strategy:** Aligning projects with vision, mission, and goals.
-* **2.2 Business Acumen:** Financial metrics (ROI, NPV, IRR) and value delivery.
-* **2.3 Compliance:** Legal, regulatory, and ethical considerations.
-* **2.4 Future Trends:** Forecasting, innovation, and adaptive planning.
+- **2.1 Organizational Strategy:** Aligning projects with vision, mission, and goals.
+- **2.2 Business Acumen:** Financial metrics (ROI, NPV, IRR) and value delivery.
+- **2.3 Compliance:** Legal, regulatory, and ethical considerations.
+- **2.4 Future Trends:** Forecasting, innovation, and adaptive planning.
 
 <div class="section-grid">
  <div class="section-card">
@@ -92,10 +92,12 @@ This module focuses on the strategic aspects of project management, emphasizing 
 ---
 
 ## Learning Objectives:
+
 Upon completion of this module, students will be able to:
-* Align project objectives with organizational strategy.
-* Apply business acumen to project decision-making.
-* Ensure project compliance and adapt to future trends.
+
+- Align project objectives with organizational strategy.
+- Apply business acumen to project decision-making.
+- Ensure project compliance and adapt to future trends.
 
 <div class="action-bar">
  <a href="./strategy-alignment" class="action-button primary">Start Module 2</a>

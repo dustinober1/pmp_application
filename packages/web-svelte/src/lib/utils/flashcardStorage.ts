@@ -3,14 +3,14 @@
  * Stores mastered card count and recent reviews locally
  */
 
-import { STORAGE_KEYS } from '$lib/constants/storageKeys';
+import { STORAGE_KEYS } from "$lib/constants/storageKeys";
 
 const { FLASHCARDS_MASTERED_COUNT, FLASHCARDS_RECENT_REVIEWS } = STORAGE_KEYS;
 
 export interface FlashcardReview {
   cardId: string;
   cardFront: string;
-  rating: 'know_it' | 'learning' | 'dont_know';
+  rating: "know_it" | "learning" | "dont_know";
   timestamp: string;
 }
 
@@ -23,7 +23,7 @@ export interface FlashcardProgress {
  * Get the current mastered card count from localStorage
  */
 export function getMasteredCount(): number {
-  if (typeof window === 'undefined') return 0;
+  if (typeof window === "undefined") return 0;
 
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT);
@@ -37,12 +37,15 @@ export function getMasteredCount(): number {
  * Set the mastered card count in localStorage
  */
 export function setMasteredCount(count: number): void {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   try {
-    localStorage.setItem(STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT, count.toString());
+    localStorage.setItem(
+      STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT,
+      count.toString(),
+    );
   } catch (error) {
-    console.error('Failed to save mastered count to localStorage:', error);
+    console.error("Failed to save mastered count to localStorage:", error);
   }
 }
 
@@ -71,7 +74,7 @@ export function decrementMasteredCount(): number {
  * Returns the most recent 20 reviews, sorted by timestamp (newest first)
  */
 export function getRecentReviews(): FlashcardReview[] {
-  if (typeof window === 'undefined') return [];
+  if (typeof window === "undefined") return [];
 
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS);
@@ -80,7 +83,10 @@ export function getRecentReviews(): FlashcardReview[] {
     const reviews = JSON.parse(stored) as FlashcardReview[];
     // Sort by timestamp descending and limit to 20
     return reviews
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      )
       .slice(0, 20);
   } catch {
     return [];
@@ -92,7 +98,7 @@ export function getRecentReviews(): FlashcardReview[] {
  * Maintains a maximum of 50 reviews in storage (displays 20)
  */
 export function addRecentReview(review: FlashcardReview): void {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   try {
     const reviews = getRecentReviews();
@@ -100,12 +106,18 @@ export function addRecentReview(review: FlashcardReview): void {
 
     // Keep only the most recent 50 reviews in storage
     const trimmedReviews = reviews
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      )
       .slice(0, 50);
 
-    localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS, JSON.stringify(trimmedReviews));
+    localStorage.setItem(
+      STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS,
+      JSON.stringify(trimmedReviews),
+    );
   } catch (error) {
-    console.error('Failed to save recent review to localStorage:', error);
+    console.error("Failed to save recent review to localStorage:", error);
   }
 }
 
@@ -113,13 +125,16 @@ export function addRecentReview(review: FlashcardReview): void {
  * Clear all flashcard progress from localStorage
  */
 export function clearFlashcardProgress(): void {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   try {
     localStorage.removeItem(STORAGE_KEYS.FLASHCARDS_MASTERED_COUNT);
     localStorage.removeItem(STORAGE_KEYS.FLASHCARDS_RECENT_REVIEWS);
   } catch (error) {
-    console.error('Failed to clear flashcard progress from localStorage:', error);
+    console.error(
+      "Failed to clear flashcard progress from localStorage:",
+      error,
+    );
   }
 }
 

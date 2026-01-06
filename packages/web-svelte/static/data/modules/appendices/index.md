@@ -13,6 +13,7 @@ The July 2026 exam blueprint and a crosswalk from ECO tasks to the best sections
 [Use the Crosswalk →](eco-2026-task-map)
 
 Deep-dive flashcards for all 8 People Domain tasks. Covers Conflict, Leadership, Stakeholders, and more.
+
 - [Task 1: Common Vision](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-people-task1-vision)
 - [Task 2: Manage Conflicts](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-people-task2-conflicts)
 - [Task 3: Lead Team](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-people-task3-lead-team)
@@ -23,6 +24,7 @@ Deep-dive flashcards for all 8 People Domain tasks. Covers Conflict, Leadership,
 - [Task 8: Communication](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-people-task8-communication)
 
 Comprehensive flashcards for all 10 Process Domain tasks. Covers Planning, Execution, Monitoring, and Closure.
+
 - [Task 1: Integrated Planning](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-process-task1-integrated-plan)
 - [Task 2: Scope Management](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-process-task2-scope)
 - [Task 3: Value Delivery](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-process-task3-value)
@@ -35,6 +37,7 @@ Comprehensive flashcards for all 10 Process Domain tasks. Covers Planning, Execu
 - [Task 10: Project Closure](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-process-task10-closure)
 
 Strategic flashcards for all 8 Business Domain tasks. Covers Governance, Compliance, Value, and Change.
+
 - [Task 1: Governance](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-business-task1-governance)
 - [Task 2: Compliance](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-business-task2-compliance)
 - [Task 3: Manage Changes](https://raw.githubusercontent.com/dustinober1/PMP-2026/d33fe14286617d0899d9c39e09b81fd81e3e61d3/guide/appendices/flashcards-business-task3-changes)

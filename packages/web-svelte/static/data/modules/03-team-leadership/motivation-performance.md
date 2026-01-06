@@ -7,6 +7,7 @@
 ---
 
 ## Classic Motivational Theories
+
 You must master these theories for the exam—and more importantly, know when to apply each one.
 
 <div class="theory-grid">
@@ -105,61 +106,68 @@ You must master these theories for the exam—and more importantly, know when to
 ---
 
 ## Theory Application Guide
+
 Knowing the theory is step one. Knowing when to apply it is what gets you PMP points.
 
-| Scenario | Theory to Apply | PM Action |
-| :---------------------------- | :-------------------------------- | :--------------------------------------------------- |
-| **Team is well-paid but unhappy** | Herzberg | Money is hygiene; increase motivators (autonomy, recognition, growth) |
-| **New hire is enthusiastic but lacks skills** | Situational Leadership | Apply Directing (S1) style; provide training |
-| **Expert is bored with routine work** | McClelland (nAch) | Assign challenging problems; provide stretch goals |
-| **Team member wants to lead meetings** | McClelland (nPow) | Give them facilitation responsibilities |
-| **Remote team feels disconnected** | Maslow (Social) | Invest in belonging: virtual coffee chats, team-building |
-| **High performer suddenly disengaged** | Vroom (check all three factors) | Check: Do they believe they can succeed? Trust the reward system? Want what's offered? |
-| **Team complains about unfairness** | Adams (Equity) | Increase transparency; ensure equitable workload and recognition |
-| **Knowledge worker micromanaged** | Pink (Autonomy) | Back off; give them control over how they work |
+| Scenario                                      | Theory to Apply                 | PM Action                                                                              |
+| :-------------------------------------------- | :------------------------------ | :------------------------------------------------------------------------------------- |
+| **Team is well-paid but unhappy**             | Herzberg                        | Money is hygiene; increase motivators (autonomy, recognition, growth)                  |
+| **New hire is enthusiastic but lacks skills** | Situational Leadership          | Apply Directing (S1) style; provide training                                           |
+| **Expert is bored with routine work**         | McClelland (nAch)               | Assign challenging problems; provide stretch goals                                     |
+| **Team member wants to lead meetings**        | McClelland (nPow)               | Give them facilitation responsibilities                                                |
+| **Remote team feels disconnected**            | Maslow (Social)                 | Invest in belonging: virtual coffee chats, team-building                               |
+| **High performer suddenly disengaged**        | Vroom (check all three factors) | Check: Do they believe they can succeed? Trust the reward system? Want what's offered? |
+| **Team complains about unfairness**           | Adams (Equity)                  | Increase transparency; ensure equitable workload and recognition                       |
+| **Knowledge worker micromanaged**             | Pink (Autonomy)                 | Back off; give them control over how they work                                         |
 
 ---
 
 ## The Art of Recognition
+
 Recognition is the cheapest, most powerful tool in your kit. But it must be done right.
 
 ### The Recognition Formula
-| Principle | Wrong | Right |
-| :---------- | :----------------------- | :------------------------------------------------ |
-| **Specific** | "Great job!" | "Your fix on the API saved us 3 days and unblocked the whole team." |
-| **Timely** | Recognition 2 months later | Recognition the same day or week |
-| **Personal** | Generic email to all | Personal message or 1-on-1 acknowledgment |
-| **Proportional** | Trophy for minor task | Recognition matches the effort |
-| **Public vs. Private** | Same for everyone | Extroverts like public; introverts may prefer private |
+
+| Principle              | Wrong                      | Right                                                               |
+| :--------------------- | :------------------------- | :------------------------------------------------------------------ |
+| **Specific**           | "Great job!"               | "Your fix on the API saved us 3 days and unblocked the whole team." |
+| **Timely**             | Recognition 2 months later | Recognition the same day or week                                    |
+| **Personal**           | Generic email to all       | Personal message or 1-on-1 acknowledgment                           |
+| **Proportional**       | Trophy for minor task      | Recognition matches the effort                                      |
+| **Public vs. Private** | Same for everyone          | Extroverts like public; introverts may prefer private               |
 
 ### Recognition Ideas Beyond Money
-* Personal thank-you from the PM or Sponsor
-* Shout-out in team meetings or newsletters
-* Choice of next assignment
-* Extra time off or flexibility
-* Learning/conference opportunities
-* Stretch assignment or leadership role
+
+- Personal thank-you from the PM or Sponsor
+- Shout-out in team meetings or newsletters
+- Choice of next assignment
+- Extra time off or flexibility
+- Learning/conference opportunities
+- Stretch assignment or leadership role
 
 ---
 
 ## Motivation Diagnosis: What to Check First
+
 On the exam, the right answer is usually the one that diagnoses the environment before jumping to rewards or discipline.
 
 ### The Diagnostic Sequence
+
 1. **Fix hygiene blockers first** (Herzberg): tools, safety, unrealistic workload, unclear priorities, poor working conditions
 2. **Then increase motivators**: autonomy, mastery, purpose, responsibility, and meaningful recognition
 3. **Tailor the approach** (McClelland): some people want achievement, others affiliation, others influence/leadership
 4. **Check all three expectancy factors** (Vroom): ability, trust in reward system, desire for reward
 
 ### The Motivation Gap Checklist
-* [ ] Is the workload reasonable?
-* [ ] Are tools and environment adequate?
-* [ ] Is job security clear?
-* [ ] Does the person understand what success looks like?
-* [ ] Is there opportunity for growth?
-* [ ] Do they feel recognized for contributions?
-* [ ] Do they have autonomy over their work?
-* [ ] Is the work connected to a meaningful purpose?
+
+- [ ] Is the workload reasonable?
+- [ ] Are tools and environment adequate?
+- [ ] Is job security clear?
+- [ ] Does the person understand what success looks like?
+- [ ] Is there opportunity for growth?
+- [ ] Do they feel recognized for contributions?
+- [ ] Do they have autonomy over their work?
+- [ ] Is the work connected to a meaningful purpose?
 
 ::: warning Trap Answer: "Throw money at morale"
 Bonuses and perks can reduce dissatisfaction, but they rarely create sustained motivation by themselves. If tools are broken and priorities are unclear, a bonus won't fix it.
@@ -168,68 +176,79 @@ Bonuses and perks can reduce dissatisfaction, but they rarely create sustained m
 ---
 
 ## When Performance Drops: The PMI-Friendly Response
+
 If a team member is missing deadlines, follow this sequence:
 
 ### Step 1: Meet Privately
+
 Seek to understand the root cause without assumptions.
 
 **Questions to ask:**
-* "What's making this difficult?"
-* "What do you need to succeed?"
-* "Is there something going on I should know about?"
+
+- "What's making this difficult?"
+- "What do you need to succeed?"
+- "Is there something going on I should know about?"
 
 **DO NOT**: Assume laziness, threaten, or jump to conclusions.
 
 ### Step 2: Clarify Expectations
+
 Make sure they understand what "done" means.
 
-* Review acceptance criteria
-* Confirm priorities
-* Ensure they know the schedule constraints
+- Review acceptance criteria
+- Confirm priorities
+- Ensure they know the schedule constraints
 
 ### Step 3: Enable Success
+
 Remove blockers and provide support.
 
-* Coaching or pairing with a senior
-* Training for skill gaps
-* Workload adjustment if overloaded
-* Tool or access issues fixed
+- Coaching or pairing with a senior
+- Training for skill gaps
+- Workload adjustment if overloaded
+- Tool or access issues fixed
 
 ### Step 4: Agree on a Plan
+
 Set small milestones with check-ins.
 
-* "Let's aim for X by Friday."
-* "I'll check in Wednesday to see if you need anything."
-* Document the plan.
+- "Let's aim for X by Friday."
+- "I'll check in Wednesday to see if you need anything."
+- Document the plan.
 
 ### Step 5: Escalate Last
+
 Involve functional manager/HR only after support fails.
 
 **Required before escalation:**
-* Multiple attempts to support
-* Documentation of conversations
-* Clear evidence the issue persists despite help
+
+- Multiple attempts to support
+- Documentation of conversations
+- Clear evidence the issue persists despite help
 
 ---
 
 ## The Performance Improvement Plan (PIP)
+
 A formal tool for serious, persistent performance issues.
 
 ### When to Use a PIP
-* Informal coaching has not worked
-* Performance gap is clearly documented
-* There's a pattern of underperformance, not a one-time issue
+
+- Informal coaching has not worked
+- Performance gap is clearly documented
+- There's a pattern of underperformance, not a one-time issue
 
 ### PIP Components
-| Element | Description |
-| :------------------------ | :-------------------------------- |
-| **Expected Performance** | Clear, measurable standards |
-| **Current Performance** | Specific gaps documented |
-| **Improvement Actions** | What the employee must do |
-| **Support Provided** | What the organization will provide |
-| **Timeline** | Duration of the PIP (typically 30-90 days) |
-| **Consequences** | What happens if standards aren't met |
-| **Check-in Schedule** | Regular review meetings |
+
+| Element                  | Description                                |
+| :----------------------- | :----------------------------------------- |
+| **Expected Performance** | Clear, measurable standards                |
+| **Current Performance**  | Specific gaps documented                   |
+| **Improvement Actions**  | What the employee must do                  |
+| **Support Provided**     | What the organization will provide         |
+| **Timeline**             | Duration of the PIP (typically 30-90 days) |
+| **Consequences**         | What happens if standards aren't met       |
+| **Check-in Schedule**    | Regular review meetings                    |
 
 ::: warning Exam Note: PIP is Usually Wrong
 On the PMP exam, jumping to a PIP or formal discipline is rarely the right first answer. Look for coaching, clarification, and support first.
@@ -238,57 +257,66 @@ On the PMP exam, jumping to a PIP or formal discipline is rarely the right first
 ---
 
 ## Fairness Is Fuel: Equity in Practice
+
 People compare their effort and rewards to others. If someone feels the system is unfair, motivation drops fast.
 
 ### Building Perceived Equity
-* **Transparent workload**: Make assignments and capacity visible
-* **Consistent recognition**: Apply the same standards to everyone
-* **Clear criteria**: Explain how decisions are made (promotions, assignments, bonuses)
-* **Two-way communication**: Give people a voice in decisions that affect them
+
+- **Transparent workload**: Make assignments and capacity visible
+- **Consistent recognition**: Apply the same standards to everyone
+- **Clear criteria**: Explain how decisions are made (promotions, assignments, bonuses)
+- **Two-way communication**: Give people a voice in decisions that affect them
 
 ### Signs of Perceived Inequity
-* "Why does she always get the good projects?"
-* "He never stays late but gets the same credit."
-* "The rules don't apply to the favorites."
+
+- "Why does she always get the good projects?"
+- "He never stays late but gets the same credit."
+- "The rules don't apply to the favorites."
 
 **PM Action**: Address concerns directly; increase transparency; reinforce fairness.
 
 ---
 
 ## Engagement Metrics: Measuring the Invisible
+
 High-performing teams track more than just velocity.
 
 ### Leading Indicators of Engagement
-| Indicator | What to Watch | Warning Sign |
-| :------------- | :---------------------------------------- | :----------------------------- |
-| **Participation** | Speaking up in meetings, contributing ideas | Same people always silent |
-| **Initiative** | Going beyond the minimum; suggesting improvements | "Not my job" attitude |
-| **Quality** | Attention to detail; pride in work | Rising defects; corner-cutting |
-| **Energy** | Enthusiasm in meetings; positive language | Cynicism; complaints |
-| **Retention** | People staying; recommending the team to others | Turnover; exit interviews with themes |
+
+| Indicator         | What to Watch                                     | Warning Sign                          |
+| :---------------- | :------------------------------------------------ | :------------------------------------ |
+| **Participation** | Speaking up in meetings, contributing ideas       | Same people always silent             |
+| **Initiative**    | Going beyond the minimum; suggesting improvements | "Not my job" attitude                 |
+| **Quality**       | Attention to detail; pride in work                | Rising defects; corner-cutting        |
+| **Energy**        | Enthusiasm in meetings; positive language         | Cynicism; complaints                  |
+| **Retention**     | People staying; recommending the team to others   | Turnover; exit interviews with themes |
 
 ### Lagging Indicators (Too Late)
-* Unexpected departures
-* Formal complaints
-* Sudden productivity drop
-* Sick leave spikes
+
+- Unexpected departures
+- Formal complaints
+- Sudden productivity drop
+- Sick leave spikes
 
 ---
 
 ## The Motivation Maintenance Cycle
+
 Motivation is not a one-time fix. It requires ongoing attention.
 
 ### Monthly Maintenance
-* 1-on-1 check-ins with each team member
-* Recognition for accomplishments
-* Workload review and adjustment
-* Feedback on growth and development
+
+- 1-on-1 check-ins with each team member
+- Recognition for accomplishments
+- Workload review and adjustment
+- Feedback on growth and development
 
 ### Quarterly Review
-* Team health survey
-* Career conversation (not just task conversation)
-* Working agreement refresh
-* Celebrate wins; acknowledge challenges
+
+- Team health survey
+- Career conversation (not just task conversation)
+- Working agreement refresh
+- Celebrate wins; acknowledge challenges
 
 <style>
 .theory-grid {

@@ -20,7 +20,7 @@ export const UserTier = {
 /**
  * User tier type definition
  */
-export type TierName = typeof UserTier[keyof typeof UserTier];
+export type TierName = (typeof UserTier)[keyof typeof UserTier];
 
 export interface User {
   id: string;
@@ -34,7 +34,7 @@ export interface User {
   updatedAt: Date;
 }
 
-export interface UserProfile extends User { }
+export interface UserProfile extends User {}
 
 export interface RegisterInput {
   email: string;

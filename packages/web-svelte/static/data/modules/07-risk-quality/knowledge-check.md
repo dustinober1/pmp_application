@@ -313,6 +313,7 @@ Test your ability to manage uncertainty, ensure quality, and navigate project co
 For full Chapter 7 proficiency, ensure you can:
 
 ### Risk Management Mastery
+
 1. **Calculate EMV**: Probability × Impact, and sum multiple risks for total exposure
 2. **Use Monte Carlo**: Understand P50, P80, P90 confidence levels and S-curve interpretation
 3. **Apply PERT**: Calculate expected duration and standard deviation using (O + 4M + P) / 6 and (P - O) / 6
@@ -323,6 +324,7 @@ For full Chapter 7 proficiency, ensure you can:
 8. **Select response strategies**: Avoid/Mitigate/Transfer/Accept/Escalate for threats; Exploit/Enhance/Share/Accept for opportunities
 
 ### Quality Management Mastery
+
 9. **Distinguish QA vs QC**: Process compliance (QA) vs product inspection (QC)
 10. **Use the 7 quality tools**: Pareto, Fishbone, Control Chart, Histogram, Checksheet, Scatter, Flowchart
 11. **Interpret control charts**: In-control vs in-spec, Rule of Seven, UCL/LCL vs specification limits
@@ -333,6 +335,7 @@ For full Chapter 7 proficiency, ensure you can:
 16. **Apply Kano Model**: Basic/Performance/Delighter requirements and their impact on satisfaction
 
 ### Complexity & Systems Thinking Mastery
+
 17. **Apply Cynefin**: Clear (best practice) → Complicated (analyze) → Complex (probe) → Chaotic (act first)
 18. **Recognize system archetypes**: Shifting the Burden, Limits to Growth, Fixes That Fail
 19. **Use Theory of Constraints**: Identify → Exploit → Subordinate → Elevate → Repeat
@@ -342,6 +345,7 @@ For full Chapter 7 proficiency, ensure you can:
 23. **Recognize cognitive biases**: Availability, Confirmation, Optimism bias in risk identification
 
 ### Integration Mastery
+
 24. **Connect Risk-Quality-Complexity**: Understand how complexity increases both risk and quality challenges
 25. **Combine strategies**: Risk mitigation + quality built-in + iterative delivery for complex projects
 

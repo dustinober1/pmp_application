@@ -65,9 +65,10 @@ The People domain constitutes 42% of the PMP exam, emphasizing that the ability 
 ## 2026 Mindset: The "Servant PM"
 
 ### Core Principles
-* **Don't Direct, Support**: Ask "What do you need?" instead of "Why isn't this done?".
-* **Don't Blame, Learn**: Retrospectives are for process improvement, not finger-pointing.
-* **Don't Ignore, Engage**: Conflict is healthy if it's task-based. Emotional conflict must be defused proactively.
+
+- **Don't Direct, Support**: Ask "What do you need?" instead of "Why isn't this done?".
+- **Don't Blame, Learn**: Retrospectives are for process improvement, not finger-pointing.
+- **Don't Ignore, Engage**: Conflict is healthy if it's task-based. Emotional conflict must be defused proactively.
 
 <div class="action-bar">
  <a href="./team-formation" class="action-button primary">Start Module 3</a>

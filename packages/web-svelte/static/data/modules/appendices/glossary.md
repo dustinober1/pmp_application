@@ -1,4 +1,5 @@
 # PMP 2026 Global Glossary (A-Z)
+
 #exam-prep
 
 Master the standardized language of project management. This glossary aligns with **PMBOK 8th Edition** and the **2026 PMP Exam Content Outline (ECO)**.
@@ -8,6 +9,7 @@ Master the standardized language of project management. This glossary aligns wit
 <div class="glossary-section">
 
 ## A
+
 ::: details Acceptance Criteria
 Measurable conditions that must be met for deliverables to be accepted by stakeholders. In agile contexts, often part of the Definition of Done.
 :::
@@ -25,6 +27,7 @@ A factor considered to be true, real, or certain without proof or demonstration.
 :::
 
 ## B
+
 ::: details BAC (Budget at Completion)
 The total planned budget for the project or work package. Used in Earned Value Management calculations.
 :::
@@ -54,6 +57,7 @@ One of three PMP exam domains (**26% of exam**). Focuses on strategy alignment, 
 :::
 
 ## C
+
 ::: details CAPM (Certified Associate in Project Management)
 PMI's entry-level project management certification for those with less experience than required for PMP.
 :::
@@ -79,6 +83,7 @@ The sequence of activities that determines the minimum project duration. Activit
 :::
 
 ## D
+
 ::: details Definition of Done (DoD)
 A shared understanding of what it means for work to be complete. In agile contexts, includes quality criteria, testing requirements, and acceptance standards.
 :::
@@ -92,6 +97,7 @@ A relationship between two activities or between an activity and a milestone. Ty
 :::
 
 ## E
+
 ::: details EAC (Estimate at Completion)
 The expected total cost of completing all work. Common formula: **BAC / CPI**.
 :::
@@ -113,21 +119,25 @@ The process of engaging higher levels of authority or management to resolve issu
 :::
 
 ## F
+
 ::: details Float (Slack)
 The amount of time an activity can be delayed without delaying the project finish date (total float) or a successor activity (free float).
 :::
 
 ## G
+
 ::: details Governance
 The framework, functions, and processes that guide project management activities to create value aligned with organizational strategy. Includes decision-making structures, policies, and oversight.
 :::
 
 ## H
+
 ::: details Hybrid Approach
 A combination of predictive and agile approaches tailored to the project context. May use predictive planning with agile execution, or phase-based delivery with iterative development within phases.
 :::
 
 ## I
+
 ::: details Increment
 A functional, tested, and potentially shippable addition to the product. In Scrum, produced at the end of each Sprint.
 :::
@@ -141,16 +151,19 @@ A timeboxed cycle of development work. In agile contexts, synonymous with Sprint
 :::
 
 ## K
+
 ::: details Kanban
 An agile approach that visualizes work, limits work in progress, and focuses on flow and continuous delivery. Uses a Kanban board to track work items through stages.
 :::
 
 ## L
+
 ::: details Lessons Learned
 Knowledge gained during a project that shows how project events were addressed or should be addressed in the future to improve performance. Captured throughout the project and formally documented at closure.
 :::
 
 ## M
+
 ::: details Milestone
 A significant point or event in a project. Milestones have zero duration and are used to mark phase completions, decision points, or deliverable submissions.
 :::
@@ -160,6 +173,7 @@ The smallest version of a product that can be released to gather validated learn
 :::
 
 ## O
+
 ::: details Outcome
 The end result or consequence of a process or project. Outcomes describe changes in behavior or conditions that result from using project outputs. Outcomes enable benefits.
 :::
@@ -169,6 +183,7 @@ A tangible or intangible artifact, product, service, or result produced by a pro
 :::
 
 ## P
+
 ::: details People Domain
 One of three PMP exam domains (**33% of exam**). Focuses on leadership, team development, stakeholder engagement, communication, and conflict resolution.
 :::
@@ -226,11 +241,13 @@ An organizational structure that standardizes project-related governance process
 :::
 
 ## Q
+
 ::: details Quality
 The degree to which a set of inherent characteristics fulfills requirements. Includes both fitness for use (does it meet stakeholder needs?) and conformance to requirements (does it meet specifications?).
 :::
 
 ## R
+
 ::: details RACI Matrix
 A responsibility assignment matrix that defines roles as Responsible, Accountable, Consulted, or Informed for project activities and deliverables.
 :::
@@ -260,6 +277,7 @@ A high-level strategic plan that shows major deliverables, milestones, and depen
 :::
 
 ## S
+
 ::: details Schedule Performance Index (SPI)
 An Earned Value Management metric calculated as **EV / PV**. Indicates schedule efficiency: SPI > 1.0 means ahead of schedule; SPI < 1.0 means behind schedule.
 :::
@@ -305,6 +323,7 @@ The ability to meet the needs of the present without compromising the ability of
 :::
 
 ## T
+
 ::: details TCPI (To-Complete Performance Index)
 An Earned Value Management metric that indicates the cost performance required on remaining work to meet a specified budget goal. Formula: **(BAC - EV) / (BAC - AC)** for BAC target.
 :::
@@ -318,11 +337,13 @@ The traditional view of project constraints as scope, time, and cost. Modern pra
 :::
 
 ## U
+
 ::: details User Story
 A brief description of a feature or requirement from an end-user perspective. Typically follows the format: "As a [role], I want [feature], so that [benefit]."
 :::
 
 ## V
+
 ::: details Value
 The worth, importance, or usefulness of something to stakeholders. Includes financial returns, strategic positioning, customer satisfaction, social impact, and other dimensions.
 :::
@@ -332,6 +353,7 @@ In agile contexts, a measure of the amount of work a team completes during a Spr
 :::
 
 ## W
+
 ::: details WBS (Work Breakdown Structure)
 A hierarchical decomposition of the total scope of work to be carried out by the project team to accomplish project objectives and create required deliverables.
 :::

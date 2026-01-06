@@ -15,12 +15,12 @@ A **100% free and open-source** study platform for the 2026 PMP (Project Managem
 
 This is now a **static site** that requires **no backend, database, or API**. All features work entirely in the browser:
 
-- ❌ No user accounts or authentication required
-- ❌ No database or server-side processing
-- ❌ No subscriptions or payments
-- ✅ All study materials are 100% free
-- ✅ Progress is stored locally in your browser (localStorage)
-- ✅ Works offline once loaded
+- No user accounts or authentication required
+- No database or server-side processing
+- No subscriptions or payments
+- All study materials are 100% free
+- Progress is stored locally in your browser (localStorage)
+- Works offline once loaded
 
 ## Tech Stack
 
@@ -33,14 +33,14 @@ This is now a **static site** that requires **no backend, database, or API**. Al
 
 ```
 pmp_application/
-├── packages/
-│   ├── web/           # Next.js frontend (static export)
-│   └── shared/        # Shared types and utilities
-├── public/
-│   └── data/          # Static JSON data (flashcards, questions)
-└── .github/
-    └── workflows/
-        └── gh-pages.yml  # GitHub Pages deployment workflow
+ packages/
+ web/ # Next.js frontend (static export)
+ shared/ # Shared types and utilities
+ public/
+ data/ # Static JSON data (flashcards, questions)
+ .github/
+ workflows/
+ gh-pages.yml # GitHub Pages deployment workflow
 ```
 
 ## Getting Started
@@ -55,21 +55,21 @@ pmp_application/
 
 2. Install dependencies:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 3. Build the shared package:
 
-   ```bash
-   npm run build:shared
-   ```
+```bash
+npm run build:shared
+```
 
 4. Start the development server:
 
-   ```bash
-   npm run dev:web
-   ```
+```bash
+npm run dev:web
+```
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
@@ -104,6 +104,7 @@ The project includes a GitHub Actions workflow (`.github/workflows/gh-pages.yml`
 2. Set **Source** to **GitHub Actions**
 
 The workflow will:
+
 - Build the site with `NEXT_PUBLIC_BASE_PATH=/pmp_application`
 - Deploy the `packages/web/out` directory to GitHub Pages
 

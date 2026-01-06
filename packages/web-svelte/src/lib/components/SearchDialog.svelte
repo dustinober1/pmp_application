@@ -92,15 +92,15 @@
 	function getResultIcon(type: SearchResult['type']): string {
 		switch (type) {
 			case 'study_guide':
-				return '📚';
+				return '';
 			case 'flashcard':
-				return '🗂️';
+				return '';
 			case 'question':
-				return '❓';
+				return '';
 			case 'formula':
 				return '∑';
 			default:
-				return '📄';
+				return '';
 		}
 	}
 

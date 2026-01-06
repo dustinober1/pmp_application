@@ -3,7 +3,7 @@
 **ECO Task**: Engage stakeholders
 **ECO Task**: Collaborate with stakeholders
 
-Communication is the *act* of sending information; **Engagement** is the *result* of that information. It is the art of building and maintaining trust so that stakeholders actively support the project's vision.
+Communication is the _act_ of sending information; **Engagement** is the _result_ of that information. It is the art of building and maintaining trust so that stakeholders actively support the project's vision.
 
 ---
 
@@ -30,12 +30,12 @@ Trust is the currency of leadership. In the 2026 PMP mindset, transparency is yo
 
 **Trustworthiness = (Credibility + Reliability + Intimacy) / Self-Orientation**
 
-| Factor | Description | How to Build It |
-| :--------------- | :------------------------------------------------ | :---------------------------------------------- |
-| **Credibility** | They believe you know what you're doing | Demonstrate expertise, admit boundaries, cite evidence |
-| **Reliability** | They believe you do what you say | Meet commitments, follow through, be consistent |
-| **Intimacy** | They feel safe sharing with you | Keep confidences, show empathy, create safe spaces |
-| **Self-Orientation** | (Low is good) They believe you care about them | Listen first, put their needs forward, don't sell |
+| Factor               | Description                                    | How to Build It                                        |
+| :------------------- | :--------------------------------------------- | :----------------------------------------------------- |
+| **Credibility**      | They believe you know what you're doing        | Demonstrate expertise, admit boundaries, cite evidence |
+| **Reliability**      | They believe you do what you say               | Meet commitments, follow through, be consistent        |
+| **Intimacy**         | They feel safe sharing with you                | Keep confidences, show empathy, create safe spaces     |
+| **Self-Orientation** | (Low is good) They believe you care about them | Listen first, put their needs forward, don't sell      |
 
 ::: tip Trust Math
 High self-orientation ("I'm trying to sell you something") destroys trust faster than the other factors can build it. **Listen before you pitch.**
@@ -78,12 +78,12 @@ Project managers rarely have formal authority over all stakeholders. These strat
 
 ### Practical Influence Tactics for PMs
 
-| Situation | Tactic | Example |
-| :-------------------- | :-------------------------- | :------------------------------------------- |
-| Need resource commitment | Reciprocity + Authority | Help their project first; get sponsor support |
-| Building coalition | Social Proof + Liking | Show who's already on board; invest in relationship |
-| Getting decision | Scarcity + Commitment | Frame deadline clearly; get public commitment |
-| Overcoming skepticism | Authority + Reciprocity | Bring expert evidence; offer to address their concerns first |
+| Situation                | Tactic                  | Example                                                      |
+| :----------------------- | :---------------------- | :----------------------------------------------------------- |
+| Need resource commitment | Reciprocity + Authority | Help their project first; get sponsor support                |
+| Building coalition       | Social Proof + Liking   | Show who's already on board; invest in relationship          |
+| Getting decision         | Scarcity + Commitment   | Frame deadline clearly; get public commitment                |
+| Overcoming skepticism    | Authority + Reciprocity | Bring expert evidence; offer to address their concerns first |
 
 ---
 
@@ -91,31 +91,31 @@ Project managers rarely have formal authority over all stakeholders. These strat
 
 Resistance is usually a symptom of unmanaged fear or a loss of control.
 
-| Strategy | Action Plan |
-| :----------------------- | :-------------------------------------------------------- |
-| **Root Cause Analysis** | Is the resistance about the project, their job security, or a personal conflict? |
-| **Early Involvement** | Bring resistors into the requirements phase or UAT. Focus on **Inclusion**. |
-| **WIIFM** | Clearly communicate "What's In It For Me" from *their* specific perspective. |
-| **Sponsor Support** | Use the Sponsor for "high-level" political alignment if a peer is blocking progress. |
+| Strategy                | Action Plan                                                                          |
+| :---------------------- | :----------------------------------------------------------------------------------- |
+| **Root Cause Analysis** | Is the resistance about the project, their job security, or a personal conflict?     |
+| **Early Involvement**   | Bring resistors into the requirements phase or UAT. Focus on **Inclusion**.          |
+| **WIIFM**               | Clearly communicate "What's In It For Me" from _their_ specific perspective.         |
+| **Sponsor Support**     | Use the Sponsor for "high-level" political alignment if a peer is blocking progress. |
 
 ### The Resistance Diagnosis Framework
 
-| Symptom | Likely Root Cause | Intervention |
-| :-------------------------- | :---------------------------------------- | :----------------------------------------------- |
-| "This will never work" | Past failures, lack of confidence | Address history, show different approach |
-| "We weren't consulted" | Exclusion, lack of respect | Apologize, include now, demonstrate listening |
-| "This threatens my team" | Fear of job loss or status | Clarify future state, highlight new opportunities |
-| "I don't have time for this" | Competing priorities, overwhelm | Reduce their burden, show ease of participation |
-| "The data is wrong" | Control issues, technical disagreement | Validate together, co-create approach |
-| Silent withdrawal | Calculated opposition or disengagement | Direct 1:1, create safe space for honesty |
+| Symptom                      | Likely Root Cause                      | Intervention                                      |
+| :--------------------------- | :------------------------------------- | :------------------------------------------------ |
+| "This will never work"       | Past failures, lack of confidence      | Address history, show different approach          |
+| "We weren't consulted"       | Exclusion, lack of respect             | Apologize, include now, demonstrate listening     |
+| "This threatens my team"     | Fear of job loss or status             | Clarify future state, highlight new opportunities |
+| "I don't have time for this" | Competing priorities, overwhelm        | Reduce their burden, show ease of participation   |
+| "The data is wrong"          | Control issues, technical disagreement | Validate together, co-create approach             |
+| Silent withdrawal            | Calculated opposition or disengagement | Direct 1:1, create safe space for honesty         |
 
 ### WIIFM Mapping Template
 
-| Stakeholder | What They Care About | Project Impact | WIIFM Message |
-| :--------------- | :------------------------ | :------------------------------ | :---------------------------------------------- |
-| VP Operations | Efficiency, team stability | New system reduces manual work | "Your team spends 30% less time on reports" |
-| End Users | Job security, learning curve | New skills required | "You become certified in market-leading platform" |
-| Finance | Budget accuracy, audit readiness | Better data integration | "Real-time financial visibility, faster close" |
+| Stakeholder   | What They Care About             | Project Impact                 | WIIFM Message                                     |
+| :------------ | :------------------------------- | :----------------------------- | :------------------------------------------------ |
+| VP Operations | Efficiency, team stability       | New system reduces manual work | "Your team spends 30% less time on reports"       |
+| End Users     | Job security, learning curve     | New skills required            | "You become certified in market-leading platform" |
+| Finance       | Budget accuracy, audit readiness | Better data integration        | "Real-time financial visibility, faster close"    |
 
 ::: info 2026 Shift: Continuous Validation
 Forget the "one-time" sign-off. Modern engagement uses **Demos** and **Reviews** as continuous validity checks. If a stakeholder's engagement slips, you find out in two weeks, not two months.
@@ -138,13 +138,13 @@ Major projects require coalitions—groups of stakeholders who collectively supp
 
 ### Coalition Strategy Matrix
 
-| Stakeholder Type | Your Approach | Why |
-| :--------------------- | :-------------------------- | :----------------------------------------- |
-| **Early Champion** | Empower and feature | They advocate when you're not in the room |
-| **Influential Neutral** | Invest heavily | Their shift signals to others |
-| **Quiet Supporter** | Activate strategically | Ask for specific visible support |
-| **Potential Opponent** | Neutralize or convert | Reduce friction, address concerns |
-| **Active Opponent** | Contain or outflank | Build coalition strength around them |
+| Stakeholder Type        | Your Approach          | Why                                       |
+| :---------------------- | :--------------------- | :---------------------------------------- |
+| **Early Champion**      | Empower and feature    | They advocate when you're not in the room |
+| **Influential Neutral** | Invest heavily         | Their shift signals to others             |
+| **Quiet Supporter**     | Activate strategically | Ask for specific visible support          |
+| **Potential Opponent**  | Neutralize or convert  | Reduce friction, address concerns         |
+| **Active Opponent**     | Contain or outflank    | Build coalition strength around them      |
 
 ---
 
@@ -152,24 +152,24 @@ Major projects require coalitions—groups of stakeholders who collectively supp
 
 The exam will test your ability to adapt engagement based on the project life cycle.
 
-| Feature | Predictive (Waterfall) | Adaptive (Agile) |
-| :--------------- | :----------------------------------- | :------------------------------------- |
-| **Timing** | Heavy upfront (planning) + Milestones | Continuous (daily/biweekly) |
-| **Key Event** | Monthly Status Report | Sprint Review / Demo |
-| **Feedback** | Formal Change Request | Direct feedback on working software |
-| **Relationships** | PM is the "Hub" managing all comms | Team speaks directly to Business Owners |
-| **Stakeholder Role** | Reviewer/Approver | Active Participant/Collaborator |
-| **Document Emphasis** | Plans, specifications, sign-offs | Working software, conversations |
+| Feature               | Predictive (Waterfall)                | Adaptive (Agile)                        |
+| :-------------------- | :------------------------------------ | :-------------------------------------- |
+| **Timing**            | Heavy upfront (planning) + Milestones | Continuous (daily/biweekly)             |
+| **Key Event**         | Monthly Status Report                 | Sprint Review / Demo                    |
+| **Feedback**          | Formal Change Request                 | Direct feedback on working software     |
+| **Relationships**     | PM is the "Hub" managing all comms    | Team speaks directly to Business Owners |
+| **Stakeholder Role**  | Reviewer/Approver                     | Active Participant/Collaborator         |
+| **Document Emphasis** | Plans, specifications, sign-offs      | Working software, conversations         |
 
 ### Agile Engagement Ceremonies
 
-| Ceremony | Stakeholder Role | Engagement Value |
-| :---------------- | :----------------------------------- | :---------------------------------------- |
-| **Sprint Planning** | Product Owner participates; others optional | Priority clarity, realistic commitments |
-| **Daily Standup** | Stakeholders observe only (no interruption) | Transparency, progress visibility |
-| **Sprint Review** | Active participation, feedback | Validation, course correction, buy-in |
-| **Retrospective** | Team only (unless invited) | Safe space for improvement |
-| **Backlog Refinement** | Product Owner + SMEs as needed | Requirement clarity, early engagement |
+| Ceremony               | Stakeholder Role                            | Engagement Value                        |
+| :--------------------- | :------------------------------------------ | :-------------------------------------- |
+| **Sprint Planning**    | Product Owner participates; others optional | Priority clarity, realistic commitments |
+| **Daily Standup**      | Stakeholders observe only (no interruption) | Transparency, progress visibility       |
+| **Sprint Review**      | Active participation, feedback              | Validation, course correction, buy-in   |
+| **Retrospective**      | Team only (unless invited)                  | Safe space for improvement              |
+| **Backlog Refinement** | Product Owner + SMEs as needed              | Requirement clarity, early engagement   |
 
 ::: tip Agile Mindset
 In Agile, **Stakeholders are Participants**, not just observers. Invite them to the Daily Standup (as listeners) and the Sprint Review (as active feedback givers).
@@ -182,39 +182,41 @@ In Agile, **Stakeholders are Participants**, not just observers. Invite them to 
 Stakeholder analysis tells you **who matters**. Engagement planning tells you **what you will do** to earn and maintain support.
 
 ### Engagement Assessment (Current vs Desired)
-This is the fastest way to spot where projects fail: the project needs someone to be *Supportive*, but they are currently *Resistant*.
 
-| Stakeholder | Current | Desired | Gap | Your Action |
-| :------------- | :--------- | :--------- | :-- | :----------------------------------------------- |
-| Compliance lead | Neutral | Supportive | +1 | Invite early review; clarify non-negotiables; agree on cadence |
-| Dept head | Resistant | Neutral | +1 | 1:1 listening; clarify WIIFM; reduce perceived loss of control |
-| Power user | Supportive | Leading | +1 | Empower as champion; include in demos/UAT; amplify feedback |
-| CTO | Neutral | Leading | +2 | Strategic alignment meetings; show technology innovation value |
+This is the fastest way to spot where projects fail: the project needs someone to be _Supportive_, but they are currently _Resistant_.
+
+| Stakeholder     | Current    | Desired    | Gap | Your Action                                                    |
+| :-------------- | :--------- | :--------- | :-- | :------------------------------------------------------------- |
+| Compliance lead | Neutral    | Supportive | +1  | Invite early review; clarify non-negotiables; agree on cadence |
+| Dept head       | Resistant  | Neutral    | +1  | 1:1 listening; clarify WIIFM; reduce perceived loss of control |
+| Power user      | Supportive | Leading    | +1  | Empower as champion; include in demos/UAT; amplify feedback    |
+| CTO             | Neutral    | Leading    | +2  | Strategic alignment meetings; show technology innovation value |
 
 ### Stakeholder Engagement Plan Template
 
-| Stakeholder | Gap | Strategy | Specific Actions | Owner | Timeline | Success Metric |
-| :---------- | :------------------- | :------------------ | :------------------------------------------ | :---------- | :---------- | :---------------------------- |
-| VP Finance | Resistant → Neutral | Address concerns | 1:1 meeting, share business case | PM + Sponsor | Week 2 | Attends steering committee |
-| IT Director | Neutral → Supportive | Show value | Technical deep-dive, involve in architecture | PM + Tech Lead | Weeks 2-4 | Publicly endorses approach |
-| End Users | Unaware → Supportive | Build awareness | Town hall, demo, training preview | Change Lead | Weeks 3-6 | 80% attend training |
+| Stakeholder | Gap                  | Strategy         | Specific Actions                             | Owner          | Timeline  | Success Metric             |
+| :---------- | :------------------- | :--------------- | :------------------------------------------- | :------------- | :-------- | :------------------------- |
+| VP Finance  | Resistant → Neutral  | Address concerns | 1:1 meeting, share business case             | PM + Sponsor   | Week 2    | Attends steering committee |
+| IT Director | Neutral → Supportive | Show value       | Technical deep-dive, involve in architecture | PM + Tech Lead | Weeks 2-4 | Publicly endorses approach |
+| End Users   | Unaware → Supportive | Build awareness  | Town hall, demo, training preview            | Change Lead    | Weeks 3-6 | 80% attend training        |
 
 ### Signs Engagement is Slipping (Leading Indicators)
 
-* Stakeholders stop attending demos/reviews
-* Response times increase
-* Decisions stall or get revisited
-* Rumors escalate
-* "Side conversations" replace formal governance
-* Feedback becomes perfunctory or absent
-* Body language disengagement in meetings
+- Stakeholders stop attending demos/reviews
+- Response times increase
+- Decisions stall or get revisited
+- Rumors escalate
+- "Side conversations" replace formal governance
+- Feedback becomes perfunctory or absent
+- Body language disengagement in meetings
 
 ::: warning The Risk Connection
 A **Resistant** stakeholder is a **Risk**. If you identify a high-power resistor, you must:
+
 1. Update the **Stakeholder Register** (to reflect the attitude).
 2. Update the **Risk Register** (to track the threat to project objectives).
 3. Update the **Issue Log** (if they are actively blocking progress).
-:::
+   :::
 
 ---
 
@@ -233,23 +235,23 @@ Expectation management is the #1 job of a PM.
 
 ### Expectation Management Best Practices
 
-| Practice | Why It Works |
-| :------------------------- | :------------------------------------------------- |
-| **Define Done** | Ensures everyone has the same mental picture of the final outcome |
-| **Regular Cadence** | Consistency in communication reduces anxiety and builds trust |
-| **No Surprises** | The hallmark of a great PM is that no stakeholder is ever surprised by a major project event |
-| **Under-promise, Over-deliver** | Set conservative expectations, then exceed them |
-| **Visualize Progress** | Show don't tell—demos beat status reports |
+| Practice                        | Why It Works                                                                                 |
+| :------------------------------ | :------------------------------------------------------------------------------------------- |
+| **Define Done**                 | Ensures everyone has the same mental picture of the final outcome                            |
+| **Regular Cadence**             | Consistency in communication reduces anxiety and builds trust                                |
+| **No Surprises**                | The hallmark of a great PM is that no stakeholder is ever surprised by a major project event |
+| **Under-promise, Over-deliver** | Set conservative expectations, then exceed them                                              |
+| **Visualize Progress**          | Show don't tell—demos beat status reports                                                    |
 
 ### Common Expectation Gaps
 
-| Expectation Area | Common Gap | Prevention |
-| :--------------- | :------------------------------ | :----------------------------------- |
-| **Scope** | "I thought we were getting X feature" | Requirements sign-off, scope statements |
-| **Timeline** | "I expected this sooner" | Published milestones, regular updates |
-| **Quality** | "This doesn't meet my standards" | Acceptance criteria, early demos |
-| **Involvement** | "I wanted to be consulted" | RACI matrix, engagement planning |
-| **Communication** | "I didn't know about this change" | Communications plan, stakeholder register |
+| Expectation Area  | Common Gap                            | Prevention                                |
+| :---------------- | :------------------------------------ | :---------------------------------------- |
+| **Scope**         | "I thought we were getting X feature" | Requirements sign-off, scope statements   |
+| **Timeline**      | "I expected this sooner"              | Published milestones, regular updates     |
+| **Quality**       | "This doesn't meet my standards"      | Acceptance criteria, early demos          |
+| **Involvement**   | "I wanted to be consulted"            | RACI matrix, engagement planning          |
+| **Communication** | "I didn't know about this change"     | Communications plan, stakeholder register |
 
 ---
 
@@ -257,13 +259,13 @@ Expectation management is the #1 job of a PM.
 
 Engagement requires continuous feedback mechanisms:
 
-| Feedback Type | Method | Frequency | Purpose |
-| :------------------- | :----------------------------------- | :-------------- | :---------------------------------- |
-| **Formal Reviews** | Steering committee, gate reviews | Monthly/Quarterly | Governance, major decisions |
-| **Demos/Reviews** | Working product demonstrations | Sprint-level | Validation, course correction |
-| **Surveys** | Stakeholder satisfaction surveys | Quarterly | Sentiment tracking |
-| **1:1 Check-ins** | Individual stakeholder meetings | As needed | Relationship, deep concerns |
-| **Retrospectives** | Team/stakeholder retrospectives | End of phase | Lessons learned |
+| Feedback Type      | Method                           | Frequency         | Purpose                       |
+| :----------------- | :------------------------------- | :---------------- | :---------------------------- |
+| **Formal Reviews** | Steering committee, gate reviews | Monthly/Quarterly | Governance, major decisions   |
+| **Demos/Reviews**  | Working product demonstrations   | Sprint-level      | Validation, course correction |
+| **Surveys**        | Stakeholder satisfaction surveys | Quarterly         | Sentiment tracking            |
+| **1:1 Check-ins**  | Individual stakeholder meetings  | As needed         | Relationship, deep concerns   |
+| **Retrospectives** | Team/stakeholder retrospectives  | End of phase      | Lessons learned               |
 
 ::: tip Exam Pattern
 When a stakeholder is unhappy, the best answers usually involve **direct engagement + plan updates** (Stakeholder Register, Engagement Plan, Communications Plan) before escalation.

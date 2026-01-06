@@ -430,20 +430,20 @@ Test your mastery of performance metrics, change control, configuration manageme
 
 ## EVM Cheatsheet
 
-| Category | Metric | Formula | Good Sign |
-| :-- | :-- | :-- | :-- |
-| Inputs | **BAC** | total budget | n/a |
-| Inputs | **PV** | % planned complete × BAC | n/a |
-| Inputs | **EV** | % actually complete × BAC | n/a |
-| Inputs | **AC** | total spent | n/a |
-| Variance | **CV** | $EV - AC$ | positive |
-| Variance | **SV** | $EV - PV$ | positive |
-| Index | **CPI** | $EV / AC$ | $> 1.0$ |
-| Index | **SPI** | $EV / PV$ | $> 1.0$ |
-| Forecast | **EAC** | $BAC / CPI$ | lower is better |
-| Forecast | **ETC** | $EAC - AC$ | lower is better |
-| Forecast | **VAC** | $BAC - EAC$ | positive |
-| Forecast | **TCPI** | $(BAC - EV)/(BAC - AC)$ | $\\le 1.0$ preferred |
+| Category | Metric   | Formula                   | Good Sign            |
+| :------- | :------- | :------------------------ | :------------------- |
+| Inputs   | **BAC**  | total budget              | n/a                  |
+| Inputs   | **PV**   | % planned complete × BAC  | n/a                  |
+| Inputs   | **EV**   | % actually complete × BAC | n/a                  |
+| Inputs   | **AC**   | total spent               | n/a                  |
+| Variance | **CV**   | $EV - AC$                 | positive             |
+| Variance | **SV**   | $EV - PV$                 | positive             |
+| Index    | **CPI**  | $EV / AC$                 | $> 1.0$              |
+| Index    | **SPI**  | $EV / PV$                 | $> 1.0$              |
+| Forecast | **EAC**  | $BAC / CPI$               | lower is better      |
+| Forecast | **ETC**  | $EAC - AC$                | lower is better      |
+| Forecast | **VAC**  | $BAC - EAC$               | positive             |
+| Forecast | **TCPI** | $(BAC - EV)/(BAC - AC)$   | $\\le 1.0$ preferred |
 
 ---
 

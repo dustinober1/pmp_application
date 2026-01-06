@@ -312,16 +312,16 @@ Test your ability to connect project decisions to business strategy, value, and 
 
 ## Key Takeaways
 
-| Concept | The PMI Way |
+| Concept                | The PMI Way                                                                                                                |
 | :--------------------- | :------------------------------------------------------------------------------------------------------------------------- |
-| **Selection** | Use objective criteria (value, fit, risk, capacity). Sunk costs are irrelevant. Compliance is mandatory regardless of NPV. |
-| **Financial Analysis** | Know NPV, ROI, IRR, BCR, Payback. Higher NPV/IRR is better. Compare using weighted criteria when mixed factors matter. |
-| **Portfolio** | Optimize the whole system (prioritize, rebalance, stop low-value work). Apply WIP limits. Accept strategic decisions. |
-| **Benefits** | Outputs are not enough. Track adoption and value; benefits are owned by the business, not the PM. |
-| **Environment** | Scan PESTLE signals early and respond with impact assessment and governance decisions. Regulatory changes are mandatory. |
-| **Compliance** | Laws and ethics are non-negotiable; update baselines via change control when needed. Safety always wins. |
-| **Change** | Adoption is part of done. Diagnose resistance with ADKAR. Build momentum with Kotter. Address culture proactively. |
-| **PMO** | Use standards, templates, and governance support. Know when to go to PMO vs. Sponsor vs. Steering Committee vs. CCB. |
+| **Selection**          | Use objective criteria (value, fit, risk, capacity). Sunk costs are irrelevant. Compliance is mandatory regardless of NPV. |
+| **Financial Analysis** | Know NPV, ROI, IRR, BCR, Payback. Higher NPV/IRR is better. Compare using weighted criteria when mixed factors matter.     |
+| **Portfolio**          | Optimize the whole system (prioritize, rebalance, stop low-value work). Apply WIP limits. Accept strategic decisions.      |
+| **Benefits**           | Outputs are not enough. Track adoption and value; benefits are owned by the business, not the PM.                          |
+| **Environment**        | Scan PESTLE signals early and respond with impact assessment and governance decisions. Regulatory changes are mandatory.   |
+| **Compliance**         | Laws and ethics are non-negotiable; update baselines via change control when needed. Safety always wins.                   |
+| **Change**             | Adoption is part of done. Diagnose resistance with ADKAR. Build momentum with Kotter. Address culture proactively.         |
+| **PMO**                | Use standards, templates, and governance support. Know when to go to PMO vs. Sponsor vs. Steering Committee vs. CCB.       |
 
 ---
 

@@ -16,7 +16,7 @@
 			
 			<!-- Privacy Notice -->
 			<div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-secondary/10 border border-secondary/20 text-secondary-foreground shadow-soft transition-transform hover:scale-105">
-				<span class="text-lg">⚠️</span>
+				<span class="text-lg"></span>
 				<span class="text-sm font-medium">Progress stored locally in your browser</span>
 			</div>
 
@@ -30,7 +30,7 @@
 				</p>
 			</div>
 
-            <!-- Action Buttons -->
+ <!-- Action Buttons -->
 			<div class="flex flex-col sm:flex-row gap-6 justify-center pt-4">
 				<Button href="{base}/dashboard" size="lg" variant="primary">
 					Start Studying
@@ -44,7 +44,7 @@
 			<!-- ECO Update Notice -->
 			<div class="mt-16 inline-flex flex-col gap-2 p-6 rounded-3xl bg-white/40 backdrop-blur-sm border border-border/50 shadow-soft max-w-2xl mx-auto transform rotate-1 hover:rotate-0 transition-transform duration-500">
 				<div class="flex items-center justify-center gap-2 text-primary">
-					<span class="text-2xl">🌿</span>
+					<span class="text-2xl"></span>
 					<span class="font-bold font-serif text-lg">Cultivated for July 2026 ECO</span>
 				</div>
 				<p class="text-sm text-foreground/80">Updated domain percentages, AI integration, and sustainability focus.</p>
@@ -83,7 +83,7 @@
 			<h3 class="text-3xl font-bold font-serif text-center mb-12">Natural Progression</h3>
 			<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 				<Card variant="default" class="p-6 flex items-start gap-4 hover:rotate-1 transition-transform">
-					<div class="text-3xl bg-accent/20 w-12 h-12 rounded-full flex items-center justify-center">🤖</div>
+					<div class="text-3xl bg-accent/20 w-12 h-12 rounded-full flex items-center justify-center"></div>
 					<div>
 						<h4 class="font-bold text-lg mb-1">AI Integration</h4>
 						<p class="text-muted-foreground text-sm">Leveraging GenAI for risk and data analysis.</p>
@@ -91,7 +91,7 @@
 				</Card>
 
 				<Card variant="default" class="p-6 flex items-start gap-4 hover:-rotate-1 transition-transform">
-					<div class="text-3xl bg-primary/20 w-12 h-12 rounded-full flex items-center justify-center">🌱</div>
+					<div class="text-3xl bg-primary/20 w-12 h-12 rounded-full flex items-center justify-center"></div>
 					<div>
 						<h4 class="font-bold text-lg mb-1">Sustainability & ESG</h4>
 						<p class="text-muted-foreground text-sm">Environmental and social governance impact.</p>
@@ -99,7 +99,7 @@
 				</Card>
 
 				<Card variant="default" class="p-6 flex items-start gap-4 hover:rotate-1 transition-transform">
-					<div class="text-3xl bg-secondary/20 w-12 h-12 rounded-full flex items-center justify-center">📊</div>
+					<div class="text-3xl bg-secondary/20 w-12 h-12 rounded-full flex items-center justify-center"></div>
 					<div>
 						<h4 class="font-bold text-lg mb-1">Methodology Shift</h4>
 						<p class="text-muted-foreground text-sm">60% Adaptive/Hybrid vs 40% Predictive.</p>
@@ -107,7 +107,7 @@
 				</Card>
 
 				<Card variant="default" class="p-6 flex items-start gap-4 hover:-rotate-1 transition-transform">
-					<div class="text-3xl bg-destructive/10 w-12 h-12 rounded-full flex items-center justify-center">⏱️</div>
+					<div class="text-3xl bg-destructive/10 w-12 h-12 rounded-full flex items-center justify-center"></div>
 					<div>
 						<h4 class="font-bold text-lg mb-1">Exam Logistics</h4>
 						<p class="text-muted-foreground text-sm">180 Questions over 230 Minutes.</p>
@@ -118,10 +118,10 @@
 
 		<!-- Feature Links -->
 		<div class="mt-32 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            <!-- Using Card for these as well for consistency -->
+ <!-- Using Card for these as well for consistency -->
 			<a href="{base}/study" class="group block">
 				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
-					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left">📚</div>
+					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left"></div>
 					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Study Guide</h3>
 					<p class="text-muted-foreground">Comprehensive summary of key concepts.</p>
 				</Card>
@@ -129,7 +129,7 @@
 			
 			<a href="{base}/flashcards" class="group block">
 				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
-					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left">⚡️</div>
+					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left"></div>
 					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Flashcards</h3>
 					<p class="text-muted-foreground">Memorize terms and definitions naturally.</p>
 				</Card>
@@ -137,7 +137,7 @@
 			
 			<a href="{base}/practice" class="group block">
 				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
-					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left">🎯</div>
+					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left"></div>
 					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Practice</h3>
 					<p class="text-muted-foreground">Test your knowledge with quizzes.</p>
 				</Card>
@@ -147,13 +147,13 @@
 </div>
 
 <style>
-    /* Custom animations for organic feel */
-    @keyframes float {
-        0% { transform: translate(0px, 0px); }
-        50% { transform: translate(10px, -20px); }
-        100% { transform: translate(0px, 0px); }
-    }
-    .animate-float {
-        animation: float 8s ease-in-out infinite;
-    }
+ /* Custom animations for organic feel */
+ @keyframes float {
+ 0% { transform: translate(0px, 0px); }
+ 50% { transform: translate(10px, -20px); }
+ 100% { transform: translate(0px, 0px); }
+ }
+ .animate-float {
+ animation: float 8s ease-in-out infinite;
+ }
 </style>

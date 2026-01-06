@@ -1,492 +1,492 @@
 {
- "meta": {
- "title": " Process Task: Plan and Optimize Quality",
- "domain": "Process",
- "task": "Plan and optimize quality",
- "ecoReference": "Process Task 7",
- "description": "Flashcards for PMP Process Domain Task 7",
- "file": "guide/appendices/flashcards-process-task7-quality.md"
- },
- "flashcards": [
- {
- "id": 1,
- "category": " Quality Fundamentals",
- "front": "What is the difference between Quality and Grade?\n",
- "back": "- Quality: The degree to which a set of inherent characteristics fulfills requirements (No defects).\n- Grade: A category assigned to deliverables having the same functional use but different technical characteristics (Features/Luxury).\n- Low Grade is acceptable; Low Quality is not.\n"
- },
- {
- "id": 2,
- "category": " Quality Fundamentals",
- "front": "What is the difference between prevention and inspection?\n",
- "back": "- Prevention: Keeping errors out of the process (Quality Assurance).\n- Inspection: Keeping errors out of the hands of the customer (Quality Control).\n- Prevention is preferred over inspection.\n"
- },
- {
- "id": 3,
- "category": " Quality Fundamentals",
- "front": "What is Kaizen?\n",
- "back": "A Japanese term for \"continuous improvement.\" It implies small, ongoing changes to improve efficiency and quality.\n"
- },
- {
- "id": 4,
- "category": " Quality Fundamentals",
- "front": "What is Total Quality Management (TQM)?\n",
- "back": "A management approach where everyone in the organization (from CEO to janitor) is responsible for quality.\n"
- },
- {
- "id": 5,
- "category": " Quality Fundamentals",
- "front": "Who is W. Edwards Deming?\n",
- "back": "A quality guru known for the PDCA cycle (Plan-Do-Check-Act) and the 14 Points for Management. He emphasized that 85% of quality problems are management/process problems.\n"
- },
- {
- "id": 6,
- "category": " Quality Fundamentals",
- "front": "Who is Joseph Juran?\n",
- "back": "A quality guru known for the Pareto Principle (80/20 rule) and defining quality as \"Fitness for Use\" (meeting customer needs).\n"
- },
- {
- "id": 7,
- "category": " Quality Fundamentals",
- "front": "Who is Philip Crosby?\n",
- "back": "A quality guru known for the concepts of \"Zero Defects\" and \"Quality is Free\" (meaning the cost of non-conformance is higher than the cost of getting it right).\n"
- },
- {
- "id": 8,
- "category": " Quality Fundamentals",
- "front": "What is the difference between Precision and Accuracy?\n",
- "back": "- Precision: Consistency; data points are close to each other (e.g., arrows all hitting the same spot, even if it's the wrong spot).\n- Accuracy: Correctness; data points are close to the true value (e.g., arrows hitting the bullseye).\n"
- },
- {
- "id": 9,
- "category": " Quality Fundamentals",
- "front": "What is Gold Plating?\n",
- "back": "Giving the customer more than they asked for (extra features). It is bad practice in PMI because it wastes resources and adds risk.\n"
- },
- {
- "id": 10,
- "category": " Quality Fundamentals",
- "front": "What is Six Sigma?\n",
- "back": "A methodology to reduce defects to 3.4 defects per million opportunities. It focuses on reducing variation.\n\n\n"
- },
- {
- "id": 11,
- "category": " Quality Processes (QA vs QC)",
- "front": "What is the main focus of Plan Quality Management?\n",
- "back": "Identifying which quality standards are relevant to the project and determining how to satisfy them. (Output: Quality Management Plan).\n"
- },
- {
- "id": 12,
- "category": " Quality Processes (QA vs QC)",
- "front": "What is the main focus of Manage Quality (Quality Assurance)?\n",
- "back": "Translating the quality plan into executable quality activities. It focuses on the Process to prevent defects. (Audits, Design for X).\n"
- },
- {
- "id": 13,
- "category": " Quality Processes (QA vs QC)",
- "front": "What is the main focus of Control Quality (Quality Control)?\n",
- "back": "Monitoring specific project results to determine if they comply with relevant quality standards. It focuses on the Product/Deliverables to find defects. (Inspections, Testing).\n"
- },
- {
- "id": 14,
- "category": " Quality Processes (QA vs QC)",
- "front": "Scenario: You are auditing the team's code review process to see if it is effective. Are you doing QA or QC?\n",
- "back": "Manage Quality (QA). You are checking the process, not the code itself.\n"
- },
- {
- "id": 15,
- "category": " Quality Processes (QA vs QC)",
- "front": "Scenario: You are testing the software module to see if it bugs out. Are you doing QA or QC?\n",
- "back": "Control Quality (QC). You are checking the product (deliverable).\n"
- },
- {
- "id": 16,
- "category": " Quality Processes (QA vs QC)",
- "front": "What is a Quality Audit?\n",
- "back": "A structured, independent process to determine if project activities comply with organizational and project policies, processes, and procedures. (Part of Manage Quality).\n"
- },
- {
- "id": 17,
- "category": " Quality Processes (QA vs QC)",
- "front": "What is Design for X (DfX)?\n",
- "back": "A set of technical guidelines that may be applied during the design of a product for the optimization of a specific aspect of the design (e.g., Design for Assembly, Design for Safety).\n"
- },
- {
- "id": 18,
- "category": " Quality Processes (QA vs QC)",
- "front": "What is a Quality Checklist?\n",
- "back": "A structured tool used to verify that a set of required steps has been performed. (Used in Control Quality).\n"
- },
- {
- "id": 19,
- "category": " Quality Processes (QA vs QC)",
- "front": "What is Attribute Sampling?\n",
- "back": "The result is binary: Conforming or Nonconforming (Pass/Fail).\n"
- },
- {
- "id": 20,
- "category": " Quality Processes (QA vs QC)",
- "front": "What is Variable Sampling?\n",
- "back": "The result is rated on a continuous scale that measures the degree of conformity (e.g., the temperature is 98.6 degrees).\n\n\n"
- },
- {
- "id": 21,
- "category": " Cost of Quality (CoQ)",
- "front": "What are the two main categories of Cost of Quality?\n",
- "back": "1. Cost of Conformance (Money spent to avoid failures).\n2. Cost of Nonconformance (Money spent because of failures).\n"
- },
- {
- "id": 22,
- "category": " Cost of Quality (CoQ)",
- "front": "What are examples of Prevention Costs?\n",
- "back": "Training, documenting processes, equipment, time to do it right. (Conformance).\n"
- },
- {
- "id": 23,
- "category": " Cost of Quality (CoQ)",
- "front": "What are examples of Appraisal Costs?\n",
- "back": "Testing, destructive testing loss, inspections. (Conformance).\n"
- },
- {
- "id": 24,
- "category": " Cost of Quality (CoQ)",
- "front": "What are examples of Internal Failure Costs?\n",
- "back": "Rework, scrap. (Nonconformance defined before the customer sees it).\n"
- },
- {
- "id": 25,
- "category": " Cost of Quality (CoQ)",
- "front": "What are examples of External Failure Costs?\n",
- "back": "Liabilities, warranty work, lost business, lawsuits. (Nonconformance defined after the customer sees it).\n"
- },
- {
- "id": 26,
- "category": " Cost of Quality (CoQ)",
- "front": "Which Cost of Quality category is the most expensive?\n",
- "back": "External Failure Costs. (Damage to reputation is often immeasurable).\n"
- },
- {
- "id": 27,
- "category": " Cost of Quality (CoQ)",
- "front": "Scenario: investing $10k in training saves $50k in rework. Is this a good investment?\n",
- "back": "Yes. Prevention costs are almost always lower than failure costs.\n"
- },
- {
- "id": 28,
- "category": " Cost of Quality (CoQ)",
- "front": "Is Destructive Testing a cost of conformance or non-conformance?\n",
- "back": "Conformance (Appraisal Cost). You planned to destroy the unit to prove it works (e.g., crash testing a car).\n"
- },
- {
- "id": 29,
- "category": " Cost of Quality (CoQ)",
- "front": "What is the Optimal Cost of Quality?\n",
- "back": "The balance point where investing more in prevention/appraisal no longer yields a significant reduction in failure costs (Law of Diminishing Returns).\n"
- },
- {
- "id": 30,
- "category": " Cost of Quality (CoQ)",
- "front": "Does Agile reduce Cost of Quality?\n",
- "back": "Typically Yes, by finding defects early (Shift Left) through TDD and CI/CD, reducing the cost of rework.\n\n\n"
- },
- {
- "id": 31,
- "category": " The 7 Basic Quality Tools",
- "front": "What is a Cause-and-Effect Diagram (aka Fishbone or Ishikawa)?\n",
- "back": "A tool that traces a problem's statement to its root cause using categories like Man, Machine, Material, Method, Mother Nature (Environment), and Measurement.\n"
- },
- {
- "id": 32,
- "category": " The 7 Basic Quality Tools",
- "front": "What is a Flowchart (Quality)?\n",
- "back": "A graphical representation of a process showing relationships among process steps. Helps identify where quality problems might occur.\n"
- },
- {
- "id": 33,
- "category": " The 7 Basic Quality Tools",
- "front": "What is a Check Sheet (Tally Sheet)?\n",
- "back": "A structured form for collecting and analyzing data (e.g., counting how many times a specific defect happens).\n"
- },
- {
- "id": 34,
- "category": " The 7 Basic Quality Tools",
- "front": "What is a Pareto Diagram?\n",
- "back": "A vertical bar chart used to identify the vital few sources that are responsible for the most effects. Based on the 80/20 rule.\n"
- },
- {
- "id": 35,
- "category": " The 7 Basic Quality Tools",
- "front": "What is a Histogram?\n",
- "back": "A bar chart that describes the central tendency, dispersion, and shape of a statistical distribution. (Does not rank causes like Pareto).\n"
- },
- {
- "id": 36,
- "category": " The 7 Basic Quality Tools",
- "front": "What is a Control Chart?\n",
- "back": "A graphic display of process data over time and against control limits, used to determine if a process is \"in control.\"\n"
- },
- {
- "id": 37,
- "category": " The 7 Basic Quality Tools",
- "front": "What is the Rule of Seven in Control Charts?\n",
- "back": "If seven consecutive data points fall on one side of the mean, the process is considered \"out of control\" and requires investigation (Assignal Cause), even if all points are within the control limits.\n"
- },
- {
- "id": 38,
- "category": " The 7 Basic Quality Tools",
- "front": "What is a Scatter Diagram?\n",
- "back": "A plot of ordered pairs (X, Y) showing the relationship between two variables (Correlation).\n"
- },
- {
- "id": 39,
- "category": " The 7 Basic Quality Tools",
- "front": "Scenario: You want to focus your limited resources on fixing the defects that occur most frequently. Which tool do you use?\n",
- "back": "Pareto Chart. (Focus on the \"Vital Few\").\n"
- },
- {
- "id": 40,
- "category": " The 7 Basic Quality Tools",
- "front": "Scenario: You want to see if your manufacturing process is stable over time or if it's drifting. Which tool do you use?\n",
- "back": "Control Chart.\n\n\n"
- },
- {
- "id": 41,
- "category": " Advanced Quality Tools",
- "front": "What is Design of Experiments (DOE)?\n",
- "back": "A statistical method for identifying which factors may influence specific variables of a product or process. It changes multiple factors at once to see their combined effect.\n"
- },
- {
- "id": 42,
- "category": " Advanced Quality Tools",
- "front": "What is Statistical Sampling?\n",
- "back": "Choosing part of a population of interest for inspection. Used when testing the whole population is too expensive, time-consuming, or destructive.\n"
- },
- {
- "id": 43,
- "category": " Advanced Quality Tools",
- "front": "What is Benchmarking?\n",
- "back": "Comparing actual or planned project practices to those of comparable projects (internal or external) to identify best practices.\n"
- },
- {
- "id": 44,
- "category": " Advanced Quality Tools",
- "front": "What is Root Cause Analysis (RCA)?\n",
- "back": "An analytical technique used to determine the basic underlying reason that causes a variance or defect or risk.\n"
- },
- {
- "id": 45,
- "category": " Advanced Quality Tools",
- "front": "What is an Affinity Diagram?\n",
- "back": "A technique that allows large numbers of ideas to be classified into groups for review and analysis. (Grouping sticky notes on a wall).\n"
- },
- {
- "id": 46,
- "category": " Advanced Quality Tools",
- "front": "What are Control Limits?\n",
- "back": "The area composed of three standard deviations on either side of the centerline (mean) of a normal distribution. They are calculated statistically.\n"
- },
- {
- "id": 47,
- "category": " Advanced Quality Tools",
- "front": "What are Specification Limits?\n",
- "back": "The limits defined by the Customer (requirements). They may be wider or narrower than control limits.\n"
- },
- {
- "id": 48,
- "category": " Advanced Quality Tools",
- "front": "Scenario: A process is \"In Control\" but produces products outside \"Specification Limits.\" What does this mean?\n",
- "back": "The process is stable/predictable, but it is not capable of meeting customer needs. You need to re-engineer the process (Manage Quality).\n"
- },
- {
- "id": 49,
- "category": " Advanced Quality Tools",
- "front": "What is a SIPOC model?\n",
- "back": "Suppliers, Inputs, Process, Outputs, Customers. A tool used in Six Sigma to map a process at a high level.\n"
- },
- {
- "id": 50,
- "category": " Advanced Quality Tools",
- "front": "What is PDCA?\n",
- "back": "Plan-Do-Check-Act. The cycle of continuous improvement defined by Shewhart and popularized by Deming.\n\n\n"
- },
- {
- "id": 51,
- "category": " Quick-Fire Quality Review",
- "front": "True or False: Quality is planned, not inspected in.\n",
- "back": "True. You cannot inspect quality into a product; it must be built in.\n"
- },
- {
- "id": 52,
- "category": " Quick-Fire Quality Review",
- "front": "True or False: The Project Manager is responsible for the quality of the project.\n",
- "back": "True. While everyone has a role, the PM holds ultimate accountability for the quality management plan.\n"
- },
- {
- "id": 53,
- "category": " Quick-Fire Quality Review",
- "front": "True or False: Upper and Lower Control Limits are set by the Customer.\n",
- "back": "False. Control Limits are statistical (process capability). Specification Limits are set by the Customer.\n"
- },
- {
- "id": 54,
- "category": " Quick-Fire Quality Review",
- "front": "True or False: A datapoint outside the control limits indicates a \"Common Cause\" variation.\n",
- "back": "False. It indicates a \"Special Cause\" variation (something unusual happened).\n"
- },
- {
- "id": 55,
- "category": " Quick-Fire Quality Review",
- "front": "What is Mutually Exclusive?\n",
- "back": "Two events that cannot happen at the same time (e.g., flipping a coin leads to heads or tails).\n"
- },
- {
- "id": 56,
- "category": " Quick-Fire Quality Review",
- "front": "What is Normal Distribution?\n",
- "back": "A bell curve. (68% of data within 1 sigma, 95% within 2 sigma, 99.7% within 3 sigma).\n"
- },
- {
- "id": 57,
- "category": " Quick-Fire Quality Review",
- "front": "What is Just-in-Time (JIT)?\n",
- "back": "An inventory management method that brings inventory down to zero (or near zero). It forces quality issues to surface immediately because there is no buffer stock to hide bad parts.\n"
- },
- {
- "id": 58,
- "category": " Quick-Fire Quality Review",
- "front": "What are Mind Maps?\n",
- "back": "Diagrams used to visually organize information. In Quality, they can link requirements to quality metrics.\n"
- },
- {
- "id": 59,
- "category": " Quick-Fire Quality Review",
- "front": "What is Brainstorming?\n",
- "back": "A data-gathering technique used to identify a list of ideas in a short period of time.\n"
- },
- {
- "id": 60,
- "category": " Quick-Fire Quality Review",
- "front": "What is Nominal Group Technique?\n",
- "back": "Brainstorming with a voting process to rank the most useful ideas.\n\n\n"
- },
- {
- "id": 61,
- "category": " Agile Quality",
- "front": "What is Test-Driven Development (TDD)?\n",
- "back": "Writing the test before writing the code. Ensures the code meets the requirement and nothing more.\n"
- },
- {
- "id": 62,
- "category": " Agile Quality",
- "front": "What is Refactoring?\n",
- "back": "Improving the internal structure of code without changing its external behavior. (Paying down technical debt).\n"
- },
- {
- "id": 63,
- "category": " Agile Quality",
- "front": "What is Continuous Integration (CI)?\n",
- "back": "Developers merge their changes back to the main branch as often as possible (daily). Automated tests run to detect defects immediately.\n"
- },
- {
- "id": 64,
- "category": " Agile Quality",
- "front": "How does a Retrospective support Quality?\n",
- "back": "It is a \"Manage Quality\" (process improvement) event. The team discusses what went wrong and how to improve the process for the next Sprint.\n"
- },
- {
- "id": 65,
- "category": " Agile Quality",
- "front": "What is the Definition of Done (DoD)?\n",
- "back": "A checklist of quality criteria that every User Story must meet to be considered complete.\n"
- },
- {
- "id": 66,
- "category": " Agile Quality",
- "front": "Who approves the DoD?\n",
- "back": "The Team and the Product Owner agree on it.\n"
- },
- {
- "id": 67,
- "category": " Agile Quality",
- "front": "What is Technical Debt?\n",
- "back": "The implied cost of additional rework caused by choosing an easy solution now instead of using a better approach that would take longer.\n"
- },
- {
- "id": 68,
- "category": " Agile Quality",
- "front": "What is Pair Programming?\n",
- "back": "Two developers working at one workstation. One writes code (Driver), the other reviews it in real-time (Navigator). It is a continuous Inspection technique.\n"
- },
- {
- "id": 69,
- "category": " Agile Quality",
- "front": "What is Acceptance Test-Driven Development (ATDD)?\n",
- "back": "Writing acceptance tests (from the user's perspective) before coding begins. Collaborative effort between PO, Dev, and QA.\n"
- },
- {
- "id": 70,
- "category": " Agile Quality",
- "front": "What is Spike?\n",
- "back": "A short, time-boxed research task in Agile to learn about a new technology or reduce risk (often related to quality/feasibility).\n\n\n"
- },
- {
- "id": 71,
- "category": " Closing Quality",
- "front": "What is the output of Control Quality that goes into Validate Scope?\n",
- "back": "Verified Deliverables. (Internal QC checks them first; then the Customer validates them).\n"
- },
- {
- "id": 72,
- "category": " Closing Quality",
- "front": "What happens if the customer finds a defect during User Acceptance Testing (UAT)?\n",
- "back": "The deliverable is rejected. A Change Request (Defect Repair) is logged. The team fixes it, and it goes back through Control Quality.\n"
- },
- {
- "id": 73,
- "category": " Closing Quality",
- "front": "What defines the \"Standard of Quality\"?\n",
- "back": "The Project Management Plan (specifically the Quality Management Plan) and the Requirements Documentation.\n"
- },
- {
- "id": 74,
- "category": " Closing Quality",
- "front": "Scenario: A team member says \"Let's skip the code review to meet the deadline.\" What should the PM do?\n",
- "back": "Refuse. Skipping quality checks typically leads to higher costs (rework) and missed deadlines later. (Grade can be cut; Quality cannot).\n"
- },
- {
- "id": 75,
- "category": " Closing Quality",
- "front": "What is Standard Deviation?\n",
- "back": "A measure of how spread out the numbers in a distribution are. (Sigma).\n"
- },
- {
- "id": 76,
- "category": " Closing Quality",
- "front": "What is Common Cause Variation?\n",
- "back": "Normal, expected variation inherent in the process (noise). (e.g., commute takes 20-25 mins).\n"
- },
- {
- "id": 77,
- "category": " Closing Quality",
- "front": "What is Special Cause Variation?\n",
- "back": "Unexpected variation due to a specific event. (e.g., commute takes 2 hours because of a flat tire).\n"
- },
- {
- "id": 78,
- "category": " Closing Quality",
- "front": "What is Problem Solving?\n",
- "back": "A structured element of Quality Assurance. Steps: Define -> Root Cause -> Generate Solutions -> Choose -> Implement -> Verify.\n"
- },
- {
- "id": 79,
- "category": " Closing Quality",
- "front": "What is Force Field Analysis?\n",
- "back": "Analysis of forces for and against a change. Used in quality improvement to understand barriers to better processes.\n"
- },
- {
- "id": 80,
- "category": " Closing Quality",
- "front": "What is the core message of Modern Quality Management?\n",
- "back": "Customer Satisfaction and Continuous Improvement.\n"
- }
- ]
+  "meta": {
+    "title": " Process Task: Plan and Optimize Quality",
+    "domain": "Process",
+    "task": "Plan and optimize quality",
+    "ecoReference": "Process Task 7",
+    "description": "Flashcards for PMP Process Domain Task 7",
+    "file": "guide/appendices/flashcards-process-task7-quality.md"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "category": " Quality Fundamentals",
+      "front": "What is the difference between Quality and Grade?\n",
+      "back": "- Quality: The degree to which a set of inherent characteristics fulfills requirements (No defects).\n- Grade: A category assigned to deliverables having the same functional use but different technical characteristics (Features/Luxury).\n- Low Grade is acceptable; Low Quality is not.\n"
+    },
+    {
+      "id": 2,
+      "category": " Quality Fundamentals",
+      "front": "What is the difference between prevention and inspection?\n",
+      "back": "- Prevention: Keeping errors out of the process (Quality Assurance).\n- Inspection: Keeping errors out of the hands of the customer (Quality Control).\n- Prevention is preferred over inspection.\n"
+    },
+    {
+      "id": 3,
+      "category": " Quality Fundamentals",
+      "front": "What is Kaizen?\n",
+      "back": "A Japanese term for \"continuous improvement.\" It implies small, ongoing changes to improve efficiency and quality.\n"
+    },
+    {
+      "id": 4,
+      "category": " Quality Fundamentals",
+      "front": "What is Total Quality Management (TQM)?\n",
+      "back": "A management approach where everyone in the organization (from CEO to janitor) is responsible for quality.\n"
+    },
+    {
+      "id": 5,
+      "category": " Quality Fundamentals",
+      "front": "Who is W. Edwards Deming?\n",
+      "back": "A quality guru known for the PDCA cycle (Plan-Do-Check-Act) and the 14 Points for Management. He emphasized that 85% of quality problems are management/process problems.\n"
+    },
+    {
+      "id": 6,
+      "category": " Quality Fundamentals",
+      "front": "Who is Joseph Juran?\n",
+      "back": "A quality guru known for the Pareto Principle (80/20 rule) and defining quality as \"Fitness for Use\" (meeting customer needs).\n"
+    },
+    {
+      "id": 7,
+      "category": " Quality Fundamentals",
+      "front": "Who is Philip Crosby?\n",
+      "back": "A quality guru known for the concepts of \"Zero Defects\" and \"Quality is Free\" (meaning the cost of non-conformance is higher than the cost of getting it right).\n"
+    },
+    {
+      "id": 8,
+      "category": " Quality Fundamentals",
+      "front": "What is the difference between Precision and Accuracy?\n",
+      "back": "- Precision: Consistency; data points are close to each other (e.g., arrows all hitting the same spot, even if it's the wrong spot).\n- Accuracy: Correctness; data points are close to the true value (e.g., arrows hitting the bullseye).\n"
+    },
+    {
+      "id": 9,
+      "category": " Quality Fundamentals",
+      "front": "What is Gold Plating?\n",
+      "back": "Giving the customer more than they asked for (extra features). It is bad practice in PMI because it wastes resources and adds risk.\n"
+    },
+    {
+      "id": 10,
+      "category": " Quality Fundamentals",
+      "front": "What is Six Sigma?\n",
+      "back": "A methodology to reduce defects to 3.4 defects per million opportunities. It focuses on reducing variation.\n\n\n"
+    },
+    {
+      "id": 11,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "What is the main focus of Plan Quality Management?\n",
+      "back": "Identifying which quality standards are relevant to the project and determining how to satisfy them. (Output: Quality Management Plan).\n"
+    },
+    {
+      "id": 12,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "What is the main focus of Manage Quality (Quality Assurance)?\n",
+      "back": "Translating the quality plan into executable quality activities. It focuses on the Process to prevent defects. (Audits, Design for X).\n"
+    },
+    {
+      "id": 13,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "What is the main focus of Control Quality (Quality Control)?\n",
+      "back": "Monitoring specific project results to determine if they comply with relevant quality standards. It focuses on the Product/Deliverables to find defects. (Inspections, Testing).\n"
+    },
+    {
+      "id": 14,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "Scenario: You are auditing the team's code review process to see if it is effective. Are you doing QA or QC?\n",
+      "back": "Manage Quality (QA). You are checking the process, not the code itself.\n"
+    },
+    {
+      "id": 15,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "Scenario: You are testing the software module to see if it bugs out. Are you doing QA or QC?\n",
+      "back": "Control Quality (QC). You are checking the product (deliverable).\n"
+    },
+    {
+      "id": 16,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "What is a Quality Audit?\n",
+      "back": "A structured, independent process to determine if project activities comply with organizational and project policies, processes, and procedures. (Part of Manage Quality).\n"
+    },
+    {
+      "id": 17,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "What is Design for X (DfX)?\n",
+      "back": "A set of technical guidelines that may be applied during the design of a product for the optimization of a specific aspect of the design (e.g., Design for Assembly, Design for Safety).\n"
+    },
+    {
+      "id": 18,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "What is a Quality Checklist?\n",
+      "back": "A structured tool used to verify that a set of required steps has been performed. (Used in Control Quality).\n"
+    },
+    {
+      "id": 19,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "What is Attribute Sampling?\n",
+      "back": "The result is binary: Conforming or Nonconforming (Pass/Fail).\n"
+    },
+    {
+      "id": 20,
+      "category": " Quality Processes (QA vs QC)",
+      "front": "What is Variable Sampling?\n",
+      "back": "The result is rated on a continuous scale that measures the degree of conformity (e.g., the temperature is 98.6 degrees).\n\n\n"
+    },
+    {
+      "id": 21,
+      "category": " Cost of Quality (CoQ)",
+      "front": "What are the two main categories of Cost of Quality?\n",
+      "back": "1. Cost of Conformance (Money spent to avoid failures).\n2. Cost of Nonconformance (Money spent because of failures).\n"
+    },
+    {
+      "id": 22,
+      "category": " Cost of Quality (CoQ)",
+      "front": "What are examples of Prevention Costs?\n",
+      "back": "Training, documenting processes, equipment, time to do it right. (Conformance).\n"
+    },
+    {
+      "id": 23,
+      "category": " Cost of Quality (CoQ)",
+      "front": "What are examples of Appraisal Costs?\n",
+      "back": "Testing, destructive testing loss, inspections. (Conformance).\n"
+    },
+    {
+      "id": 24,
+      "category": " Cost of Quality (CoQ)",
+      "front": "What are examples of Internal Failure Costs?\n",
+      "back": "Rework, scrap. (Nonconformance defined before the customer sees it).\n"
+    },
+    {
+      "id": 25,
+      "category": " Cost of Quality (CoQ)",
+      "front": "What are examples of External Failure Costs?\n",
+      "back": "Liabilities, warranty work, lost business, lawsuits. (Nonconformance defined after the customer sees it).\n"
+    },
+    {
+      "id": 26,
+      "category": " Cost of Quality (CoQ)",
+      "front": "Which Cost of Quality category is the most expensive?\n",
+      "back": "External Failure Costs. (Damage to reputation is often immeasurable).\n"
+    },
+    {
+      "id": 27,
+      "category": " Cost of Quality (CoQ)",
+      "front": "Scenario: investing $10k in training saves $50k in rework. Is this a good investment?\n",
+      "back": "Yes. Prevention costs are almost always lower than failure costs.\n"
+    },
+    {
+      "id": 28,
+      "category": " Cost of Quality (CoQ)",
+      "front": "Is Destructive Testing a cost of conformance or non-conformance?\n",
+      "back": "Conformance (Appraisal Cost). You planned to destroy the unit to prove it works (e.g., crash testing a car).\n"
+    },
+    {
+      "id": 29,
+      "category": " Cost of Quality (CoQ)",
+      "front": "What is the Optimal Cost of Quality?\n",
+      "back": "The balance point where investing more in prevention/appraisal no longer yields a significant reduction in failure costs (Law of Diminishing Returns).\n"
+    },
+    {
+      "id": 30,
+      "category": " Cost of Quality (CoQ)",
+      "front": "Does Agile reduce Cost of Quality?\n",
+      "back": "Typically Yes, by finding defects early (Shift Left) through TDD and CI/CD, reducing the cost of rework.\n\n\n"
+    },
+    {
+      "id": 31,
+      "category": " The 7 Basic Quality Tools",
+      "front": "What is a Cause-and-Effect Diagram (aka Fishbone or Ishikawa)?\n",
+      "back": "A tool that traces a problem's statement to its root cause using categories like Man, Machine, Material, Method, Mother Nature (Environment), and Measurement.\n"
+    },
+    {
+      "id": 32,
+      "category": " The 7 Basic Quality Tools",
+      "front": "What is a Flowchart (Quality)?\n",
+      "back": "A graphical representation of a process showing relationships among process steps. Helps identify where quality problems might occur.\n"
+    },
+    {
+      "id": 33,
+      "category": " The 7 Basic Quality Tools",
+      "front": "What is a Check Sheet (Tally Sheet)?\n",
+      "back": "A structured form for collecting and analyzing data (e.g., counting how many times a specific defect happens).\n"
+    },
+    {
+      "id": 34,
+      "category": " The 7 Basic Quality Tools",
+      "front": "What is a Pareto Diagram?\n",
+      "back": "A vertical bar chart used to identify the vital few sources that are responsible for the most effects. Based on the 80/20 rule.\n"
+    },
+    {
+      "id": 35,
+      "category": " The 7 Basic Quality Tools",
+      "front": "What is a Histogram?\n",
+      "back": "A bar chart that describes the central tendency, dispersion, and shape of a statistical distribution. (Does not rank causes like Pareto).\n"
+    },
+    {
+      "id": 36,
+      "category": " The 7 Basic Quality Tools",
+      "front": "What is a Control Chart?\n",
+      "back": "A graphic display of process data over time and against control limits, used to determine if a process is \"in control.\"\n"
+    },
+    {
+      "id": 37,
+      "category": " The 7 Basic Quality Tools",
+      "front": "What is the Rule of Seven in Control Charts?\n",
+      "back": "If seven consecutive data points fall on one side of the mean, the process is considered \"out of control\" and requires investigation (Assignal Cause), even if all points are within the control limits.\n"
+    },
+    {
+      "id": 38,
+      "category": " The 7 Basic Quality Tools",
+      "front": "What is a Scatter Diagram?\n",
+      "back": "A plot of ordered pairs (X, Y) showing the relationship between two variables (Correlation).\n"
+    },
+    {
+      "id": 39,
+      "category": " The 7 Basic Quality Tools",
+      "front": "Scenario: You want to focus your limited resources on fixing the defects that occur most frequently. Which tool do you use?\n",
+      "back": "Pareto Chart. (Focus on the \"Vital Few\").\n"
+    },
+    {
+      "id": 40,
+      "category": " The 7 Basic Quality Tools",
+      "front": "Scenario: You want to see if your manufacturing process is stable over time or if it's drifting. Which tool do you use?\n",
+      "back": "Control Chart.\n\n\n"
+    },
+    {
+      "id": 41,
+      "category": " Advanced Quality Tools",
+      "front": "What is Design of Experiments (DOE)?\n",
+      "back": "A statistical method for identifying which factors may influence specific variables of a product or process. It changes multiple factors at once to see their combined effect.\n"
+    },
+    {
+      "id": 42,
+      "category": " Advanced Quality Tools",
+      "front": "What is Statistical Sampling?\n",
+      "back": "Choosing part of a population of interest for inspection. Used when testing the whole population is too expensive, time-consuming, or destructive.\n"
+    },
+    {
+      "id": 43,
+      "category": " Advanced Quality Tools",
+      "front": "What is Benchmarking?\n",
+      "back": "Comparing actual or planned project practices to those of comparable projects (internal or external) to identify best practices.\n"
+    },
+    {
+      "id": 44,
+      "category": " Advanced Quality Tools",
+      "front": "What is Root Cause Analysis (RCA)?\n",
+      "back": "An analytical technique used to determine the basic underlying reason that causes a variance or defect or risk.\n"
+    },
+    {
+      "id": 45,
+      "category": " Advanced Quality Tools",
+      "front": "What is an Affinity Diagram?\n",
+      "back": "A technique that allows large numbers of ideas to be classified into groups for review and analysis. (Grouping sticky notes on a wall).\n"
+    },
+    {
+      "id": 46,
+      "category": " Advanced Quality Tools",
+      "front": "What are Control Limits?\n",
+      "back": "The area composed of three standard deviations on either side of the centerline (mean) of a normal distribution. They are calculated statistically.\n"
+    },
+    {
+      "id": 47,
+      "category": " Advanced Quality Tools",
+      "front": "What are Specification Limits?\n",
+      "back": "The limits defined by the Customer (requirements). They may be wider or narrower than control limits.\n"
+    },
+    {
+      "id": 48,
+      "category": " Advanced Quality Tools",
+      "front": "Scenario: A process is \"In Control\" but produces products outside \"Specification Limits.\" What does this mean?\n",
+      "back": "The process is stable/predictable, but it is not capable of meeting customer needs. You need to re-engineer the process (Manage Quality).\n"
+    },
+    {
+      "id": 49,
+      "category": " Advanced Quality Tools",
+      "front": "What is a SIPOC model?\n",
+      "back": "Suppliers, Inputs, Process, Outputs, Customers. A tool used in Six Sigma to map a process at a high level.\n"
+    },
+    {
+      "id": 50,
+      "category": " Advanced Quality Tools",
+      "front": "What is PDCA?\n",
+      "back": "Plan-Do-Check-Act. The cycle of continuous improvement defined by Shewhart and popularized by Deming.\n\n\n"
+    },
+    {
+      "id": 51,
+      "category": " Quick-Fire Quality Review",
+      "front": "True or False: Quality is planned, not inspected in.\n",
+      "back": "True. You cannot inspect quality into a product; it must be built in.\n"
+    },
+    {
+      "id": 52,
+      "category": " Quick-Fire Quality Review",
+      "front": "True or False: The Project Manager is responsible for the quality of the project.\n",
+      "back": "True. While everyone has a role, the PM holds ultimate accountability for the quality management plan.\n"
+    },
+    {
+      "id": 53,
+      "category": " Quick-Fire Quality Review",
+      "front": "True or False: Upper and Lower Control Limits are set by the Customer.\n",
+      "back": "False. Control Limits are statistical (process capability). Specification Limits are set by the Customer.\n"
+    },
+    {
+      "id": 54,
+      "category": " Quick-Fire Quality Review",
+      "front": "True or False: A datapoint outside the control limits indicates a \"Common Cause\" variation.\n",
+      "back": "False. It indicates a \"Special Cause\" variation (something unusual happened).\n"
+    },
+    {
+      "id": 55,
+      "category": " Quick-Fire Quality Review",
+      "front": "What is Mutually Exclusive?\n",
+      "back": "Two events that cannot happen at the same time (e.g., flipping a coin leads to heads or tails).\n"
+    },
+    {
+      "id": 56,
+      "category": " Quick-Fire Quality Review",
+      "front": "What is Normal Distribution?\n",
+      "back": "A bell curve. (68% of data within 1 sigma, 95% within 2 sigma, 99.7% within 3 sigma).\n"
+    },
+    {
+      "id": 57,
+      "category": " Quick-Fire Quality Review",
+      "front": "What is Just-in-Time (JIT)?\n",
+      "back": "An inventory management method that brings inventory down to zero (or near zero). It forces quality issues to surface immediately because there is no buffer stock to hide bad parts.\n"
+    },
+    {
+      "id": 58,
+      "category": " Quick-Fire Quality Review",
+      "front": "What are Mind Maps?\n",
+      "back": "Diagrams used to visually organize information. In Quality, they can link requirements to quality metrics.\n"
+    },
+    {
+      "id": 59,
+      "category": " Quick-Fire Quality Review",
+      "front": "What is Brainstorming?\n",
+      "back": "A data-gathering technique used to identify a list of ideas in a short period of time.\n"
+    },
+    {
+      "id": 60,
+      "category": " Quick-Fire Quality Review",
+      "front": "What is Nominal Group Technique?\n",
+      "back": "Brainstorming with a voting process to rank the most useful ideas.\n\n\n"
+    },
+    {
+      "id": 61,
+      "category": " Agile Quality",
+      "front": "What is Test-Driven Development (TDD)?\n",
+      "back": "Writing the test before writing the code. Ensures the code meets the requirement and nothing more.\n"
+    },
+    {
+      "id": 62,
+      "category": " Agile Quality",
+      "front": "What is Refactoring?\n",
+      "back": "Improving the internal structure of code without changing its external behavior. (Paying down technical debt).\n"
+    },
+    {
+      "id": 63,
+      "category": " Agile Quality",
+      "front": "What is Continuous Integration (CI)?\n",
+      "back": "Developers merge their changes back to the main branch as often as possible (daily). Automated tests run to detect defects immediately.\n"
+    },
+    {
+      "id": 64,
+      "category": " Agile Quality",
+      "front": "How does a Retrospective support Quality?\n",
+      "back": "It is a \"Manage Quality\" (process improvement) event. The team discusses what went wrong and how to improve the process for the next Sprint.\n"
+    },
+    {
+      "id": 65,
+      "category": " Agile Quality",
+      "front": "What is the Definition of Done (DoD)?\n",
+      "back": "A checklist of quality criteria that every User Story must meet to be considered complete.\n"
+    },
+    {
+      "id": 66,
+      "category": " Agile Quality",
+      "front": "Who approves the DoD?\n",
+      "back": "The Team and the Product Owner agree on it.\n"
+    },
+    {
+      "id": 67,
+      "category": " Agile Quality",
+      "front": "What is Technical Debt?\n",
+      "back": "The implied cost of additional rework caused by choosing an easy solution now instead of using a better approach that would take longer.\n"
+    },
+    {
+      "id": 68,
+      "category": " Agile Quality",
+      "front": "What is Pair Programming?\n",
+      "back": "Two developers working at one workstation. One writes code (Driver), the other reviews it in real-time (Navigator). It is a continuous Inspection technique.\n"
+    },
+    {
+      "id": 69,
+      "category": " Agile Quality",
+      "front": "What is Acceptance Test-Driven Development (ATDD)?\n",
+      "back": "Writing acceptance tests (from the user's perspective) before coding begins. Collaborative effort between PO, Dev, and QA.\n"
+    },
+    {
+      "id": 70,
+      "category": " Agile Quality",
+      "front": "What is Spike?\n",
+      "back": "A short, time-boxed research task in Agile to learn about a new technology or reduce risk (often related to quality/feasibility).\n\n\n"
+    },
+    {
+      "id": 71,
+      "category": " Closing Quality",
+      "front": "What is the output of Control Quality that goes into Validate Scope?\n",
+      "back": "Verified Deliverables. (Internal QC checks them first; then the Customer validates them).\n"
+    },
+    {
+      "id": 72,
+      "category": " Closing Quality",
+      "front": "What happens if the customer finds a defect during User Acceptance Testing (UAT)?\n",
+      "back": "The deliverable is rejected. A Change Request (Defect Repair) is logged. The team fixes it, and it goes back through Control Quality.\n"
+    },
+    {
+      "id": 73,
+      "category": " Closing Quality",
+      "front": "What defines the \"Standard of Quality\"?\n",
+      "back": "The Project Management Plan (specifically the Quality Management Plan) and the Requirements Documentation.\n"
+    },
+    {
+      "id": 74,
+      "category": " Closing Quality",
+      "front": "Scenario: A team member says \"Let's skip the code review to meet the deadline.\" What should the PM do?\n",
+      "back": "Refuse. Skipping quality checks typically leads to higher costs (rework) and missed deadlines later. (Grade can be cut; Quality cannot).\n"
+    },
+    {
+      "id": 75,
+      "category": " Closing Quality",
+      "front": "What is Standard Deviation?\n",
+      "back": "A measure of how spread out the numbers in a distribution are. (Sigma).\n"
+    },
+    {
+      "id": 76,
+      "category": " Closing Quality",
+      "front": "What is Common Cause Variation?\n",
+      "back": "Normal, expected variation inherent in the process (noise). (e.g., commute takes 20-25 mins).\n"
+    },
+    {
+      "id": 77,
+      "category": " Closing Quality",
+      "front": "What is Special Cause Variation?\n",
+      "back": "Unexpected variation due to a specific event. (e.g., commute takes 2 hours because of a flat tire).\n"
+    },
+    {
+      "id": 78,
+      "category": " Closing Quality",
+      "front": "What is Problem Solving?\n",
+      "back": "A structured element of Quality Assurance. Steps: Define -> Root Cause -> Generate Solutions -> Choose -> Implement -> Verify.\n"
+    },
+    {
+      "id": 79,
+      "category": " Closing Quality",
+      "front": "What is Force Field Analysis?\n",
+      "back": "Analysis of forces for and against a change. Used in quality improvement to understand barriers to better processes.\n"
+    },
+    {
+      "id": 80,
+      "category": " Closing Quality",
+      "front": "What is the core message of Modern Quality Management?\n",
+      "back": "Customer Satisfaction and Continuous Improvement.\n"
+    }
+  ]
 }

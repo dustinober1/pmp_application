@@ -12,19 +12,19 @@ The PMI Code of Ethics is built on four core values. Each has both **aspirationa
 
 ### The Four Core Values
 
-| Value | Definition | Aspirational | Mandatory |
-|-------|------------|--------------|-----------|
-| **Responsibility** | Owning your decisions and their consequences | Take responsibility for actions; seek continuous improvement | Report unethical conduct; comply with laws and regulations |
-| **Respect** | Valuing others, their time, and their diverse perspectives | Be inclusive; listen actively; value different viewpoints | Don't discriminate; protect confidential information |
-| **Fairness** | Making impartial decisions based on facts and merit | Show transparency in decision-making | Avoid conflicts of interest; don't use favoritism |
-| **Honesty** | Communicating truthfully, even when the news is bad | Build trust through transparency | Don't deceive others; disclose truth promptly |
+| Value              | Definition                                                 | Aspirational                                                 | Mandatory                                                  |
+| ------------------ | ---------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------- |
+| **Responsibility** | Owning your decisions and their consequences               | Take responsibility for actions; seek continuous improvement | Report unethical conduct; comply with laws and regulations |
+| **Respect**        | Valuing others, their time, and their diverse perspectives | Be inclusive; listen actively; value different viewpoints    | Don't discriminate; protect confidential information       |
+| **Fairness**       | Making impartial decisions based on facts and merit        | Show transparency in decision-making                         | Avoid conflicts of interest; don't use favoritism          |
+| **Honesty**        | Communicating truthfully, even when the news is bad        | Build trust through transparency                             | Don't deceive others; disclose truth promptly              |
 
 ### Aspirational vs. Mandatory Standards
 
-| Type | Description | Enforcement |
-|------|-------------|-------------|
-| **Aspirational** | Ideals we strive for; best practices | Character development; not enforced |
-| **Mandatory** | Required conduct; non-negotiable | Violations can result in PMI sanctions |
+| Type             | Description                          | Enforcement                            |
+| ---------------- | ------------------------------------ | -------------------------------------- |
+| **Aspirational** | Ideals we strive for; best practices | Character development; not enforced    |
+| **Mandatory**    | Required conduct; non-negotiable     | Violations can result in PMI sanctions |
 
 ::: warning Exam Critical
 On the PMP exam, **mandatory standards always apply**. If an answer choice violates a mandatory ethical standard, it is ALWAYS wrong, regardless of how practical it might seem.
@@ -39,12 +39,14 @@ On the PMP exam, **mandatory standards always apply**. If an answer choice viola
 A conflict of interest occurs when your personal interests could influence (or appear to influence) your professional judgment.
 
 **Examples:**
+
 - Your friend's company is bidding on a project contract
 - You own stock in a vendor being evaluated
 - A family member works for a competing organization
 - You could personally benefit from a project decision
 
 **Required Actions:**
+
 1. **Disclose** the relationship or interest immediately to relevant parties
 2. **Recuse** yourself from decision-making where appropriate
 3. **Document** the disclosure and any resulting arrangements
@@ -54,22 +56,22 @@ A conflict of interest occurs when your personal interests could influence (or a
 
 You have a professional obligation to report project status honestly, even when the news is bad.
 
-| Scenario | Unethical Action | Ethical Action |
-|----------|------------------|----------------|
-| Project is failing but sponsor wants good news | Report "Green" status | Report accurate "Red" status with mitigation plan |
-| Metrics show budget overrun | Hide the data | Disclose variance and explain cause |
-| Schedule slipping but deadline is political | Pretend it's on track | Be transparent; propose alternatives |
-| Vendor missed quality requirements | Accept anyway due to relationship | Document deficiency; follow contract terms |
+| Scenario                                       | Unethical Action                  | Ethical Action                                    |
+| ---------------------------------------------- | --------------------------------- | ------------------------------------------------- |
+| Project is failing but sponsor wants good news | Report "Green" status             | Report accurate "Red" status with mitigation plan |
+| Metrics show budget overrun                    | Hide the data                     | Disclose variance and explain cause               |
+| Schedule slipping but deadline is political    | Pretend it's on track             | Be transparent; propose alternatives              |
+| Vendor missed quality requirements             | Accept anyway due to relationship | Document deficiency; follow contract terms        |
 
 ### Respecting the Team
 
-| Principle | What It Means | What It Looks Like |
-|-----------|---------------|-------------------|
-| **Psychological Safety** | Team members feel safe to speak up | No blame for raising concerns; welcome diverse viewpoints |
-| **Sustainable Pace** | Don't enforce unsustainable work hours | Reasonable expectations; no unnecessary "crunch" |
-| **Confidentiality** | Handle personal or sensitive data with care | Protect private information; share only on need-to-know basis |
-| **Inclusion** | Value all team members equally | Fair treatment regardless of background, role, or location |
-| **Autonomy** | Respect professional judgment | Allow self-organization; don't micromanage |
+| Principle                | What It Means                               | What It Looks Like                                            |
+| ------------------------ | ------------------------------------------- | ------------------------------------------------------------- |
+| **Psychological Safety** | Team members feel safe to speak up          | No blame for raising concerns; welcome diverse viewpoints     |
+| **Sustainable Pace**     | Don't enforce unsustainable work hours      | Reasonable expectations; no unnecessary "crunch"              |
+| **Confidentiality**      | Handle personal or sensitive data with care | Protect private information; share only on need-to-know basis |
+| **Inclusion**            | Value all team members equally              | Fair treatment regardless of background, role, or location    |
+| **Autonomy**             | Respect professional judgment               | Allow self-organization; don't micromanage                    |
 
 ---
 
@@ -79,24 +81,24 @@ When you observe unethical or illegal behavior, you have a professional obligati
 
 ### The Escalation Path
 
-| Step | Action | When to Use |
-|------|--------|-------------|
-| 1 | **Gather facts** | Before making any accusations; document what you observed |
-| 2 | **Speak to the person directly** (if safe) | When it might be an honest mistake or misunderstanding |
-| 3 | **Report to supervisor** | When direct conversation isn't appropriate or didn't resolve |
-| 4 | **Report to management/sponsor** | When supervisor is involved or non-responsive |
-| 5 | **Report to HR/Ethics Hotline** | Formal organizational channels for serious matters |
-| 6 | **Report to external authority** | When laws are being broken and internal channels failed |
+| Step | Action                                     | When to Use                                                  |
+| ---- | ------------------------------------------ | ------------------------------------------------------------ |
+| 1    | **Gather facts**                           | Before making any accusations; document what you observed    |
+| 2    | **Speak to the person directly** (if safe) | When it might be an honest mistake or misunderstanding       |
+| 3    | **Report to supervisor**                   | When direct conversation isn't appropriate or didn't resolve |
+| 4    | **Report to management/sponsor**           | When supervisor is involved or non-responsive                |
+| 5    | **Report to HR/Ethics Hotline**            | Formal organizational channels for serious matters           |
+| 6    | **Report to external authority**           | When laws are being broken and internal channels failed      |
 
 ### What to Report
 
-| Report | Don't Report |
-|--------|--------------|
-| Safety violations | Personal disagreements |
-| Fraud or corruption | Matters of opinion |
-| Harassment or discrimination | Rumors or hearsay |
-| Illegal activities | Minor policy infractions (unless pattern) |
-| Serious ethics violations | Anonymous complaints without evidence |
+| Report                       | Don't Report                              |
+| ---------------------------- | ----------------------------------------- |
+| Safety violations            | Personal disagreements                    |
+| Fraud or corruption          | Matters of opinion                        |
+| Harassment or discrimination | Rumors or hearsay                         |
+| Illegal activities           | Minor policy infractions (unless pattern) |
+| Serious ethics violations    | Anonymous complaints without evidence     |
 
 ### Protection from Retaliation
 
@@ -112,13 +114,13 @@ Ethical practices can vary across cultures, but PMI standards are universal.
 
 ### Common Tensions
 
-| Area | Cultural Variation | PMI Standard |
-|------|-------------------|--------------|
-| **Gift-giving** | Normal business practice in some cultures | Avoid if it could be seen as bribery; follow organizational policy |
-| **Hierarchy** | Some cultures expect deference to authority | Speak up about concerns regardless of hierarchy |
-| **Communication** | Direct vs. indirect styles | Ensure truthful communication; adapt style, not substance |
-| **Relationships** | Personal relationships matter more in some cultures | Disclose conflicts; maintain professional boundaries |
-| **Time** | Flexible vs. strict time orientation | Honor commitments; communicate delays |
+| Area              | Cultural Variation                                  | PMI Standard                                                       |
+| ----------------- | --------------------------------------------------- | ------------------------------------------------------------------ |
+| **Gift-giving**   | Normal business practice in some cultures           | Avoid if it could be seen as bribery; follow organizational policy |
+| **Hierarchy**     | Some cultures expect deference to authority         | Speak up about concerns regardless of hierarchy                    |
+| **Communication** | Direct vs. indirect styles                          | Ensure truthful communication; adapt style, not substance          |
+| **Relationships** | Personal relationships matter more in some cultures | Disclose conflicts; maintain professional boundaries               |
+| **Time**          | Flexible vs. strict time orientation                | Honor commitments; communicate delays                              |
 
 ### Key Principles for Global Ethics
 
@@ -133,42 +135,49 @@ Ethical practices can vary across cultures, but PMI standards are universal.
 ## 1.4f.5 Ethical Dilemma Scenarios
 
 ### Scenario 1: The Generous Vendor
+
 > A vendor you're evaluating for a major contract invites you to an all-expenses-paid conference at a resort, saying it's "educational."
 
 **Analysis**: This could be perceived as a bribe to influence your decision.
 **Action**: Decline the invitation. Disclose the offer to your supervisor. Document the situation.
 
 ### Scenario 2: The Pressure to Cut Corners
+
 > Your sponsor insists you skip final testing to meet a deadline, saying "it's good enough" and the testing can happen after launch.
 
 **Analysis**: This compromises quality and could harm users.
 **Action**: Explain the risks clearly. Document the conversation. If overruled, document the decision and who made it.
 
 ### Scenario 3: The Hidden Scope Change
+
 > A key stakeholder asks you to add a small feature "off the books" to avoid the change control process.
 
 **Analysis**: This violates change management and is potentially fraudulent.
 **Action**: Decline. Explain the proper change request process. Offer to expedite if urgent.
 
 ### Scenario 4: The Inaccurate Resume
+
 > You discover a team member exaggerated their qualifications on their resume after they were hired.
 
 **Analysis**: This is a fraud matter; it's not your decision alone.
 **Action**: Report to HR. Don't ignore it or handle it yourself.
 
 ### Scenario 5: The Personal Relationship
+
 > Your best friend's company is one of three finalists for a project contract. You're on the selection committee.
 
 **Analysis**: Clear conflict of interest.
 **Action**: Disclose the relationship immediately. Recuse yourself from the evaluation.
 
 ### Scenario 6: The Cultural Gift
+
 > While working in a country where gift-giving is customary, a government official offers you an expensive watch.
 
 **Analysis**: Acceptance could be seen as bribery, even if culturally normal.
 **Action**: Politely decline. Explain your organization's policies. Offer a modest, compliant alternative exchange.
 
 ### Scenario 7: Data Privacy Breach
+
 > A team member uses a public AI tool to summarize confidential project data, improving efficiency.
 
 **Analysis**: Sensitive data is now in a public system—violation of data privacy.
@@ -179,6 +188,7 @@ Ethical practices can vary across cultures, but PMI standards are universal.
 ## 1.4f.6 On the Exam: Ethics Scenarios
 
 ### The Golden Rule
+
 **If an answer is legally or ethically questionable, it is NEVER the correct answer, no matter how much time or money it saves.**
 
 ### Decision Framework for Ethics Questions
@@ -191,24 +201,24 @@ Ethical practices can vary across cultures, but PMI standards are universal.
 
 ### Good Answers (Ethics Questions)
 
-| Situation | Best Answer |
-|-----------|-------------|
-| Conflict of interest discovered | Disclose and recuse |
-| Pressure to hide bad news | Report truthfully with analysis |
-| Unethical request from sponsor | Explain concerns; document decision |
-| Colleague behaving unethically | Gather facts; escalate appropriately |
-| Gift offered that could be bribe | Decline politely; follow policy |
-| Asked to bypass process | Follow established process |
+| Situation                        | Best Answer                          |
+| -------------------------------- | ------------------------------------ |
+| Conflict of interest discovered  | Disclose and recuse                  |
+| Pressure to hide bad news        | Report truthfully with analysis      |
+| Unethical request from sponsor   | Explain concerns; document decision  |
+| Colleague behaving unethically   | Gather facts; escalate appropriately |
+| Gift offered that could be bribe | Decline politely; follow policy      |
+| Asked to bypass process          | Follow established process           |
 
 ### Red Flags (Wrong Answers)
 
-| Pattern | Why It's Wrong |
-|---------|----------------|
-| "It'll save time/money" | Ethics > Efficiency |
-| "No one will know" | Integrity doesn't depend on detection |
-| "It's cultural" | PMI standards are universal |
+| Pattern                   | Why It's Wrong                         |
+| ------------------------- | -------------------------------------- |
+| "It'll save time/money"   | Ethics > Efficiency                    |
+| "No one will know"        | Integrity doesn't depend on detection  |
+| "It's cultural"           | PMI standards are universal            |
 | "The sponsor approved it" | Doesn't make unethical actions ethical |
-| "It's just this once" | Slippery slope; sets bad precedent |
+| "It's just this once"     | Slippery slope; sets bad precedent     |
 
 ---
 
@@ -216,14 +226,15 @@ Ethical practices can vary across cultures, but PMI standards are universal.
 
 If a PMP violates the Code of Ethics, PMI can take action:
 
-| Violation Level | Possible Consequences |
-|-----------------|----------------------|
-| Minor | Letter of reprimand |
-| Moderate | Probation; required ethics training |
-| Serious | Suspension of certification |
-| Severe | Revocation of certification |
+| Violation Level | Possible Consequences               |
+| --------------- | ----------------------------------- |
+| Minor           | Letter of reprimand                 |
+| Moderate        | Probation; required ethics training |
+| Serious         | Suspension of certification         |
+| Severe          | Revocation of certification         |
 
 ### How Complaints are Filed
+
 - Anyone can file a complaint with PMI's Ethics Review Committee
 - Complaints are investigated confidentially
 - Accused is given opportunity to respond

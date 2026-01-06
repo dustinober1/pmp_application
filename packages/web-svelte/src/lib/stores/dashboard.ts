@@ -9,20 +9,20 @@ const DOMAINS_2026 = [
     domainId: "people",
     domainName: "People",
     weighting: 33,
-    description: "Soft skills, leadership, team management"
+    description: "Soft skills, leadership, team management",
   },
   {
     domainId: "process",
     domainName: "Process",
     weighting: 41,
-    description: "Technical project management"
+    description: "Technical project management",
   },
   {
     domainId: "business",
     domainName: "Business Environment",
     weighting: 26,
-    description: "Strategic alignment, compliance, value"
-  }
+    description: "Strategic alignment, compliance, value",
+  },
 ];
 
 // Helper to safely access localStorage with Date reviving
@@ -74,13 +74,13 @@ function createDomainProgressStore() {
       flashcardsMastered: 0,
       flashcardsTotal: 0, // Initialize to 0, will be updated from manifest
       practiceAccuracy: 0,
-      questionsAttempted: 0
+      questionsAttempted: 0,
     })),
-    lastUpdated: null
+    lastUpdated: null,
   };
 
   const { subscribe, update, set } = writable<DomainProgressState>(
-    getStorageItem(STORAGE_KEYS.DOMAIN_PROGRESS, initialData)
+    getStorageItem(STORAGE_KEYS.DOMAIN_PROGRESS, initialData),
   );
 
   return {
@@ -90,12 +90,12 @@ function createDomainProgressStore() {
     updateDomain(domainId: string, updates: Partial<DomainProgressStats>) {
       update((state: DomainProgressState) => {
         const newDomains = state.domains.map((d: DomainProgressStats) =>
-          d.domainId === domainId ? { ...d, ...updates } : d
+          d.domainId === domainId ? { ...d, ...updates } : d,
         );
         const newState = {
           ...state,
           domains: newDomains,
-          lastUpdated: new Date().toISOString()
+          lastUpdated: new Date().toISOString(),
         };
         setStorageItem(STORAGE_KEYS.DOMAIN_PROGRESS, newState);
         return newState;
@@ -103,15 +103,19 @@ function createDomainProgressStore() {
     },
 
     // Update flashcard counts for all domains
-    updateFlashcards(domainUpdates: { domainId: string; mastered: number; total: number }[]) {
+    updateFlashcards(
+      domainUpdates: { domainId: string; mastered: number; total: number }[],
+    ) {
       update((state: DomainProgressState) => {
         const newDomains = state.domains.map((domain: DomainProgressStats) => {
-          const update = domainUpdates.find((u) => u.domainId === domain.domainId);
+          const update = domainUpdates.find(
+            (u) => u.domainId === domain.domainId,
+          );
           if (update) {
             return {
               ...domain,
               flashcardsMastered: update.mastered,
-              flashcardsTotal: update.total
+              flashcardsTotal: update.total,
             };
           }
           return domain;
@@ -119,7 +123,7 @@ function createDomainProgressStore() {
         const newState = {
           ...state,
           domains: newDomains,
-          lastUpdated: new Date().toISOString()
+          lastUpdated: new Date().toISOString(),
         };
         setStorageItem(STORAGE_KEYS.DOMAIN_PROGRESS, newState);
         return newState;
@@ -148,7 +152,11 @@ function createDomainProgressStore() {
 
       // 1. Get dynamic totals from manifest and testbank (async)
       let domainTotals: Record<string, number> = {};
-      let questionTotals: Record<string, number> = { people: 0, process: 0, business: 0 };
+      let questionTotals: Record<string, number> = {
+        people: 0,
+        process: 0,
+        business: 0,
+      };
 
       try {
         const { getFlashcardStats } = await import("../utils/flashcardsData");
@@ -157,14 +165,17 @@ function createDomainProgressStore() {
         // Fetch inputs in parallel
         const [flashcardStats, testbankResponse] = await Promise.all([
           getFlashcardStats(),
-          fetch(`${base}/data/testbank.json`)
+          fetch(`${base}/data/testbank.json`),
         ]);
 
         // Process Flashcard Totals
-        flashcardStats.domainBreakdown.forEach(d => {
-          const normalizedId = d.domainId.toLowerCase().includes('people') ? 'people'
-            : d.domainId.toLowerCase().includes('process') ? 'process'
-              : d.domainId.toLowerCase().includes('business') ? 'business'
+        flashcardStats.domainBreakdown.forEach((d) => {
+          const normalizedId = d.domainId.toLowerCase().includes("people")
+            ? "people"
+            : d.domainId.toLowerCase().includes("process")
+              ? "process"
+              : d.domainId.toLowerCase().includes("business")
+                ? "business"
                 : d.domainId.toLowerCase();
 
           domainTotals[normalizedId] = d.totalFlashcards;
@@ -179,24 +190,39 @@ function createDomainProgressStore() {
             questionTotals.business = testbank.domains.business?.questions || 0;
           }
         }
-
       } catch (error) {
-        console.warn("Failed to load data for dashboard totals, using fallbacks:", error);
+        console.warn(
+          "Failed to load data for dashboard totals, using fallbacks:",
+          error,
+        );
         // Fallback to approximate values if loading fails
         domainTotals = { people: 840, process: 830, business: 80 };
         // Fallbacks for questions based on known counts
         questionTotals = { people: 399, process: 491, business: 400 };
       }
 
-      const cardProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS, {});
-      const questionProgress = getStorageItem<Record<string, any>>(STORAGE_KEYS.QUESTIONS_CARD_PROGRESS, {});
+      const cardProgress = getStorageItem<Record<string, any>>(
+        STORAGE_KEYS.FLASHCARDS_CARD_PROGRESS,
+        {},
+      );
+      const questionProgress = getStorageItem<Record<string, any>>(
+        STORAGE_KEYS.QUESTIONS_CARD_PROGRESS,
+        {},
+      );
 
       update((state: DomainProgressState) => {
-        const fCounts: Record<string, number> = { people: 0, process: 0, business: 0 };
-        const qCounts: Record<string, { attempted: number; correct: number; mastered: number }> = {
+        const fCounts: Record<string, number> = {
+          people: 0,
+          process: 0,
+          business: 0,
+        };
+        const qCounts: Record<
+          string,
+          { attempted: number; correct: number; mastered: number }
+        > = {
           people: { attempted: 0, correct: 0, mastered: 0 },
           process: { attempted: 0, correct: 0, mastered: 0 },
-          business: { attempted: 0, correct: 0, mastered: 0 }
+          business: { attempted: 0, correct: 0, mastered: 0 },
         };
 
         // Count mastered flashcards per domain with robust parsing
@@ -206,11 +232,11 @@ function createDomainProgressStore() {
 
           // Robust domain detection from ID (usually index 0)
           let domainId = parts[0]?.toLowerCase() || "";
-          if (!['people', 'process', 'business'].includes(domainId)) {
+          if (!["people", "process", "business"].includes(domainId)) {
             // Try to fuzzy match if ID format is unexpected
-            if (cardId.includes('people')) domainId = 'people';
-            else if (cardId.includes('process')) domainId = 'process';
-            else if (cardId.includes('business')) domainId = 'business';
+            if (cardId.includes("people")) domainId = "people";
+            else if (cardId.includes("process")) domainId = "process";
+            else if (cardId.includes("business")) domainId = "business";
           }
 
           if (fCounts[domainId] !== undefined) {
@@ -222,7 +248,12 @@ function createDomainProgressStore() {
           }
         });
 
-        console.log('[DEBUG] Dashboard counts:', { fCounts, qCounts, domainTotals, questionTotals });
+        console.log("[DEBUG] Dashboard counts:", {
+          fCounts,
+          qCounts,
+          domainTotals,
+          questionTotals,
+        });
 
         // Count question stats per domain
         Object.keys(questionProgress).forEach((qId) => {
@@ -231,16 +262,18 @@ function createDomainProgressStore() {
           let domainId = parts[0]?.toLowerCase() || "";
 
           // Robust domain detection
-          if (!['people', 'process', 'business'].includes(domainId)) {
-            if (qId.includes('people')) domainId = 'people';
-            else if (qId.includes('process')) domainId = 'process';
-            else if (qId.includes('business')) domainId = 'business';
+          if (!["people", "process", "business"].includes(domainId)) {
+            if (qId.includes("people")) domainId = "people";
+            else if (qId.includes("process")) domainId = "process";
+            else if (qId.includes("business")) domainId = "business";
           }
 
           if (qCounts[domainId]) {
-            qCounts[domainId].attempted += (progress.repetitions || 0);
+            qCounts[domainId].attempted += progress.repetitions || 0;
             // ratingCounts tracks correctness
-            const correct = (progress.ratingCounts?.good || 0) + (progress.ratingCounts?.easy || 0);
+            const correct =
+              (progress.ratingCounts?.good || 0) +
+              (progress.ratingCounts?.easy || 0);
             qCounts[domainId].correct += correct;
 
             // Mastery for questions - reusing logic, or simple "correct at least once"
@@ -255,7 +288,10 @@ function createDomainProgressStore() {
         const newDomains = state.domains.map((d: DomainProgressStats) => {
           const domainId = d.domainId.toLowerCase();
           const qStat = qCounts[domainId];
-          const accuracy = qStat && qStat.attempted > 0 ? Math.round((qStat.correct / qStat.attempted) * 100) : 0;
+          const accuracy =
+            qStat && qStat.attempted > 0
+              ? Math.round((qStat.correct / qStat.attempted) * 100)
+              : 0;
 
           const fTotal = domainTotals[domainId] || d.flashcardsTotal || 100;
           const qTotal = questionTotals[domainId] || 0;
@@ -273,7 +309,7 @@ function createDomainProgressStore() {
             combinedProgress = (totalMastered / totalItems) * 100;
           }
 
-          // We currently use the `studyGuideProgress` field in the UI for the circle? 
+          // We currently use the `studyGuideProgress` field in the UI for the circle?
           // Actually the UI code does:
           // ((domain.studyGuideProgress || 0) + (domain.flashcardsTotal > 0 ? (domain.flashcardsMastered / domain.flashcardsTotal) * 100 : 0)) / 2
           // To make the UI reflect our NEW formula without changing the UI component logic deeply (which averages things),
@@ -283,18 +319,18 @@ function createDomainProgressStore() {
           // Let's store this new combined percentage in a way the UI can use, or we might need to edit +page.svelte again.
           // Wait, +page.svelte calculates it inline:
           /*
-            ((domain.studyGuideProgress || 0) +
-                (domain.flashcardsTotal > 0
-                    ? (domain.flashcardsMastered / domain.flashcardsTotal) * 100
-                    : 0)) /
-            2
-          */
+ ((domain.studyGuideProgress || 0) +
+ (domain.flashcardsTotal > 0
+ ? (domain.flashcardsMastered / domain.flashcardsTotal) * 100
+ : 0)) /
+ 2
+ */
 
           // This implies I need to update +page.svelte to use a single "progress" value if I want strict control,
           // OR I can "hack" it by setting `studyGuideProgress` to the same value and `flashcardsMastered/Total` to produce the same value,
           // but that's messy.
 
-          // Better approach: 
+          // Better approach:
           // 1. Update this store to calculate the `progress` property if it exists, or...
           // 2. Realize I need to edit `+page.svelte` to use the new formula.
 
@@ -313,21 +349,21 @@ function createDomainProgressStore() {
             flashcardsTotal: fTotal,
             // We can add a non-persisted or new field if we want, but `DomainProgressStats` is shared.
             // For now, I will return the data. I MUST update +page.svelte to use this new data correctly.
-            // I'll add `questionsTotal` and `questionsMastered` to the object if possible, casting to any if types restrict, 
+            // I'll add `questionsTotal` and `questionsMastered` to the object if possible, casting to any if types restrict,
             // or better, I will check if I can update the type definition.
-            // Since I cannot easily update shared types across packages in one go without potential verify issues, 
+            // Since I cannot easily update shared types across packages in one go without potential verify issues,
             // I will use existing fields where possible or add ad-hoc ones.
 
             // DomainProgressStats updated in shared package
             questionsTotal: qTotal,
-            questionsMastered: qMastered
+            questionsMastered: qMastered,
           };
         });
 
         const newState = {
           ...state,
           domains: newDomains,
-          lastUpdated: new Date().toISOString()
+          lastUpdated: new Date().toISOString(),
         };
         setStorageItem(STORAGE_KEYS.DOMAIN_PROGRESS, newState);
         return newState;
@@ -338,28 +374,32 @@ function createDomainProgressStore() {
     reset() {
       const resetState = {
         ...initialData,
-        lastUpdated: new Date().toISOString()
+        lastUpdated: new Date().toISOString(),
       };
       set(resetState);
       setStorageItem(STORAGE_KEYS.DOMAIN_PROGRESS, resetState);
-    }
+    },
   };
 }
 
 export const domainProgressStore = createDomainProgressStore();
 
 // Overall progress derived from domain progress
-export const overallProgress = derived(domainProgressStore, ($store: DomainProgressState) =>
-  $store.domains.length > 0
-    ? Math.round(
-      $store.domains.reduce((sum: number, d: DomainProgressStats) => {
-        const totalMastered = d.flashcardsMastered + (d.questionsMastered || 0);
-        const totalItems = d.flashcardsTotal + (d.questionsTotal || 0);
-        const domainProgress = totalItems > 0 ? (totalMastered / totalItems) * 100 : 0;
-        return sum + domainProgress;
-      }, 0) / $store.domains.length
-    )
-    : 0
+export const overallProgress = derived(
+  domainProgressStore,
+  ($store: DomainProgressState) =>
+    $store.domains.length > 0
+      ? Math.round(
+          $store.domains.reduce((sum: number, d: DomainProgressStats) => {
+            const totalMastered =
+              d.flashcardsMastered + (d.questionsMastered || 0);
+            const totalItems = d.flashcardsTotal + (d.questionsTotal || 0);
+            const domainProgress =
+              totalItems > 0 ? (totalMastered / totalItems) * 100 : 0;
+            return sum + domainProgress;
+          }, 0) / $store.domains.length,
+        )
+      : 0,
 );
 
 // Recent Activity Store
@@ -371,11 +411,11 @@ interface RecentActivityState {
 function createRecentActivityStore() {
   const initialState: RecentActivityState = {
     activities: [],
-    lastUpdated: null
+    lastUpdated: null,
   };
 
   const { subscribe, update, set } = writable<RecentActivityState>(
-    getStorageItem(STORAGE_KEYS.RECENT_ACTIVITY, initialState)
+    getStorageItem(STORAGE_KEYS.RECENT_ACTIVITY, initialState),
   );
 
   return {
@@ -387,7 +427,7 @@ function createRecentActivityStore() {
         const newActivity: RecentActivity = {
           ...activity,
           id: `activity-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
-          timestamp: new Date()
+          timestamp: new Date(),
         };
 
         // Keep only last 20 activities
@@ -406,10 +446,13 @@ function createRecentActivityStore() {
 
     // Clear all activities
     clear() {
-      const clearedState = { activities: [], lastUpdated: new Date().toISOString() };
+      const clearedState = {
+        activities: [],
+        lastUpdated: new Date().toISOString(),
+      };
       set(clearedState);
       setStorageItem(STORAGE_KEYS.RECENT_ACTIVITY, clearedState);
-    }
+    },
   };
 }
 

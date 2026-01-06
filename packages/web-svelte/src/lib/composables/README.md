@@ -20,33 +20,33 @@ Reactive offset-based pagination composable for array data.
 
 ```svelte
 <script lang="ts">
-  import { usePagination } from '$lib/composables';
+ import { usePagination } from '$lib/composables';
 
-  let items = $state([
-    /* your data array */
-  ]);
+ let items = $state([
+ /* your data array */
+ ]);
 
-  const pagination = usePagination({
-    items,
-    pageSize: 20
-  });
+ const pagination = usePagination({
+ items,
+ pageSize: 20
+ });
 </script>
 
 <!-- Display paginated items -->
 {#each pagination.displayItems as item}
-  <div>{item}</div>
+ <div>{item}</div>
 {/each}
 
 <!-- Pagination controls -->
 <button onclick={() => pagination.previous()} disabled={pagination.offset === 0}>
-  Previous
+ Previous
 </button>
 
 <span>{pagination.currentPageInfo}</span>
 <!-- "Showing 1 to 20 of 150" -->
 
 <button onclick={() => pagination.next()} disabled={!pagination.hasMore}>
-  Next
+ Next
 </button>
 ```
 
@@ -56,15 +56,15 @@ When items change (e.g., from filtering/searching), re-initialize the composable
 
 ```svelte
 <script lang="ts">
-  let allItems = $state<Item[]>([]);
-  let filteredItems = $state<Item[]>([]);
-  let pagination = $state(usePagination({ items: [], pageSize: 20 }));
+ let allItems = $state<Item[]>([]);
+ let filteredItems = $state<Item[]>([]);
+ let pagination = $state(usePagination({ items: [], pageSize: 20 }));
 
-  function applyFilter() {
-    filteredItems = allItems.filter(item => item.active);
-    // Reset and update pagination with new items
-    pagination = usePagination({ items: filteredItems, pageSize: 20 });
-  }
+ function applyFilter() {
+ filteredItems = allItems.filter(item => item.active);
+ // Reset and update pagination with new items
+ pagination = usePagination({ items: filteredItems, pageSize: 20 });
+ }
 </script>
 ```
 
@@ -72,8 +72,8 @@ When items change (e.g., from filtering/searching), re-initialize the composable
 
 ```typescript
 interface PaginationOptions<T> {
-  items: T[];          // The array of items to paginate
-  pageSize?: number;   // Items per page (default: 20)
+  items: T[]; // The array of items to paginate
+  pageSize?: number; // Items per page (default: 20)
   initialOffset?: number; // Starting offset (default: 0)
 }
 
@@ -83,17 +83,17 @@ interface PaginationState<T> {
   limit: number;
 
   // Computed values
-  displayItems: T[];          // Items for current page
-  hasMore: boolean;           // Whether more pages exist
-  currentPage: number;        // Current page (1-indexed)
-  totalPages: number;         // Total pages
-  currentPageInfo: string;    // Formatted page info string
+  displayItems: T[]; // Items for current page
+  hasMore: boolean; // Whether more pages exist
+  currentPage: number; // Current page (1-indexed)
+  totalPages: number; // Total pages
+  currentPageInfo: string; // Formatted page info string
 
   // Methods
-  previous(): void;           // Go to previous page
-  next(): void;               // Go to next page
+  previous(): void; // Go to previous page
+  next(): void; // Go to next page
   goToPage(page: number): void; // Jump to specific page (1-indexed)
-  reset(): void;              // Reset to first page
+  reset(): void; // Reset to first page
   setPageSize(size: number): void; // Change page size
 }
 ```
@@ -103,7 +103,7 @@ interface PaginationState<T> {
 `getPaginationInfo()` - Non-reactive helper for computed pagination info:
 
 ```typescript
-import { getPaginationInfo } from '$lib/composables';
+import { getPaginationInfo } from "$lib/composables";
 
 const info = getPaginationInfo(items, offset, limit);
 // { isFirstPage, isLastPage, startIndex, endIndex }
@@ -117,6 +117,7 @@ const info = getPaginationInfo(items, offset, limit);
 4. Document usage in this README
 
 Follow the pattern:
+
 - Use Svelte 5 runes (`$state`, `$derived`)
 - Provide full TypeScript types
 - Include JSDoc comments

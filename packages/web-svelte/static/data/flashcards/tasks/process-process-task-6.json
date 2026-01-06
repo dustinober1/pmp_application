@@ -1,492 +1,492 @@
 {
- "meta": {
- "title": " Process Task: Plan and Manage Finance",
- "domain": "Process",
- "task": "Plan and manage finance",
- "ecoReference": "Process Task 6",
- "description": "Flashcards for PMP Process Domain Task 6",
- "file": "guide/appendices/flashcards-process-task6-cost.md"
- },
- "flashcards": [
- {
- "id": 1,
- "category": " Cost Planning Fundamentals",
- "front": "What is the Cost Baseline?\n",
- "back": "The approved version of the time-phased project budget, excluding any management reserves, which can only be changed through formal change control procedures.\n"
- },
- {
- "id": 2,
- "category": " Cost Planning Fundamentals",
- "front": "What is the difference between Contingency Reserve and Management Reserve?\n",
- "back": "- Contingency Reserve: For \"Known Unknowns\" (Identified risks). Included in the Cost Baseline. Controlled by the PM.\n- Management Reserve: For \"Unknown Unknowns\" (Unforeseen risks). Not in the Baseline. Controlled by the Sponsor.\n"
- },
- {
- "id": 3,
- "category": " Cost Planning Fundamentals",
- "front": "What is Cost Aggregation?\n",
- "back": "Summing the lower-level cost estimates (work packages) to higher levels (control accounts) and finally to the entire project to create the budget.\n"
- },
- {
- "id": 4,
- "category": " Cost Planning Fundamentals",
- "front": "What is Funding Limit Reconciliation?\n",
- "back": "The process of comparing the planned expenditure of project funds against any limits on the commitment of funds for the project to determine if there are any variances between the funding limits and the planned costs.\n"
- },
- {
- "id": 5,
- "category": " Cost Planning Fundamentals",
- "front": "What is a Rough Order of Magnitude (ROM) estimate?\n",
- "back": "A high-level estimate made early in the project with a wide range of accuracy (typically -25% to +75%).\n"
- },
- {
- "id": 6,
- "category": " Cost Planning Fundamentals",
- "front": "What is Parametric Estimating?\n",
- "back": "Using a statistical relationship between historical data and other variables (e.g., square footage) to calculate an estimate. (e.g., $200 per sq ft * 2000 sq ft = $400,000).\n"
- },
- {
- "id": 7,
- "category": " Cost Planning Fundamentals",
- "front": "What is Analogous Estimating?\n",
- "back": "Using the actual cost of a previous, similar project as the basis for estimating the cost of the current project. It uses \"expert judgment\" and is less accurate.\n"
- },
- {
- "id": 8,
- "category": " Cost Planning Fundamentals",
- "front": "What is Bottom-Up Estimating?\n",
- "back": "Estimating the cost of individual work packages or activities with the greatest level of detail and then rolling them up to higher levels. It is the most accurate but time-consuming.\n"
- },
- {
- "id": 9,
- "category": " Cost Planning Fundamentals",
- "front": "What is Value Engineering?\n",
- "back": "An approach used to optimize project life cycle costs, save time, increase profits, improve quality, expand market share, solve problems, and/or use resources more effectively. (Getting the same function for less cost).\n"
- },
- {
- "id": 10,
- "category": " Cost Planning Fundamentals",
- "front": "What are Direct Costs vs. Indirect Costs?\n",
- "back": "- Direct: Expenses directly attributed to project work (e.g., team travel, materials).\n- Indirect: Overhead expenses shared across projects (e.g., electricity, janitorial services, executive salaries).\n\n\n"
- },
- {
- "id": 11,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "What is PV (Planned Value)?\n",
- "back": "The authorized budget assigned to scheduled work. (What we should have done by now, in dollar terms).\n"
- },
- {
- "id": 12,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "What is EV (Earned Value)?\n",
- "back": "The measure of work performed expressed in terms of the budget authorized for that work. (What we actually accomplished, in dollar terms).\n"
- },
- {
- "id": 13,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "What is AC (Actual Cost)?\n",
- "back": "The realized cost incurred for the work performed on an activity during a specific time period. (What we actually spent).\n"
- },
- {
- "id": 14,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "What is the formula for Cost Variance (CV)?\n",
- "back": "CV = EV - AC.\n(Negative is bad/over budget; Positive is good/under budget).\n"
- },
- {
- "id": 15,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "What is the formula for Schedule Variance (SV)?\n",
- "back": "SV = EV - PV.\n(Negative is bad/behind schedule; Positive is good/ahead of schedule).\n"
- },
- {
- "id": 16,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "What is the formula for Cost Performance Index (CPI)?\n",
- "back": "CPI = EV / AC.\n(Below 1.0 is bad/over budget; Above 1.0 is good/under budget).\n"
- },
- {
- "id": 17,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "What is the formula for Schedule Performance Index (SPI)?\n",
- "back": "SPI = EV / PV.\n(Below 1.0 is bad/behind schedule; Above 1.0 is good/ahead of schedule).\n"
- },
- {
- "id": 18,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "Scenario: CPI = 0.8. Interpret this.\n",
- "back": "For every $1.00 spent, the project is only getting $0.80 worth of work. The project is Over Budget.\n"
- },
- {
- "id": 19,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "Scenario: SPI = 1.1. Interpret this.\n",
- "back": "The project is progressing at 110% of the planned rate. The project is Ahead of Schedule.\n"
- },
- {
- "id": 20,
- "category": " Earned Value Management (EVM) Formulas",
- "front": "What is BAC (Budget at Completion)?\n",
- "back": "The sum of all budgets established for the work to be performed (The total Cost Baseline).\n\n\n"
- },
- {
- "id": 21,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "What is EAC (Estimate at Completion)?\n",
- "back": "The expected total cost of completing all work expressed as the sum of the actual cost to date and the estimate to complete. (What we think the total bill will be at the end).\n"
- },
- {
- "id": 22,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "What is the EAC formula if current variances are typical and expected to continue?\n",
- "back": "EAC = BAC / CPI.\n"
- },
- {
- "id": 23,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "What is the EAC formula if the variance was atypical (a one-time event) and future work will be on plan?\n",
- "back": "EAC = AC + (BAC - EV).\n"
- },
- {
- "id": 24,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "What is ETC (Estimate to Complete)?\n",
- "back": "The expected cost to finish all the remaining project work.\nFormula: ETC = EAC - AC.\n"
- },
- {
- "id": 25,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "What is VAC (Variance at Completion)?\n",
- "back": "A projection of the amount of budget deficit or surplus, expressed as the difference between the budget at completion and the estimate at completion.\nFormula: VAC = BAC - EAC.\n"
- },
- {
- "id": 26,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "What is TCPI (To-Complete Performance Index)?\n",
- "back": "A measure of the cost performance effectiveness that must be achieved on the remaining work to meet a specified management goal (BAC or EAC).\n"
- },
- {
- "id": 27,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "What is the TCPI formula to meet the original budget (BAC)?\n",
- "back": "TCPI = (BAC - EV) / (BAC - AC).\n(Work Remaining / Funds Remaining).\n"
- },
- {
- "id": 28,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "Scenario: TCPI is 1.2. Interpret this.\n",
- "back": "The team must complete the remaining work at a cost efficiency of 1.2 (getting $1.20 of value for every $1.00 spent) to hit the budget. This is difficult/aggressive.\n"
- },
- {
- "id": 29,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "Scenario: Your SPI is 0.7 and your CPI is 1.1. What is the status?\n",
- "back": "The project is Behind Schedule but Under Budget. (Maybe you haven't hired enough people yet).\n"
- },
- {
- "id": 30,
- "category": " Forecasting (EAC, ETC, TCPI)",
- "front": "Scenario: Which index is the most critical for forecasting the final project cost?\n",
- "back": "CPI (Cost Performance Index). It is historically the most stable predictor of final costs.\n\n\n"
- },
- {
- "id": 31,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: You identify a new risk that was not previously known. Mitigation costs $10k. Where do you get the money?\n",
- "back": "Ask the Sponsor to use the Management Reserve. Since it was an \"Unknown Unknown,\" it requires a change request to move money into the baseline.\n"
- },
- {
- "id": 32,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: A risk identified in the Risk Register occurs (price of steel goes up). Mitigation costs $5k. Where do you get the money?\n",
- "back": "Use the Contingency Reserve. This is under your (PM) authority and is already part of the Cost Baseline.\n"
- },
- {
- "id": 33,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: The project is 50% complete. You have spent 70% of the budget. What is likely true about your CPI?\n",
- "back": "CPI is likely < 1.0. You have spent more than you have earned.\n"
- },
- {
- "id": 34,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: Your project funding is cut by 10% mid-project. What do you do?\n",
- "back": "Evaluate the impact on Scope, Schedule, and Quality. You must likely reduce scope or reschedule work. You cannot just \"try harder.\"\n"
- },
- {
- "id": 35,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: The CFO asks for a cash flow forecast for next month. What document helps you?\n",
- "back": "The Cost Baseline (specifically the time-phased budget or S-Curve), typically reconciled with Funding Limits.\n"
- },
- {
- "id": 36,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: You are using a Fixed Price contract. The vendor's costs double. Does this affect your CPI?\n",
- "back": "No. In FFP, the price is set. The vendor absorbs the cost overrun. Your AC remains what you pay them (the fixed price).\n"
- },
- {
- "id": 37,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: You need to buy a server. Option A: $5k, lasts 2 years. Option B: $8k, lasts 5 years. Which analysis helps you decide?\n",
- "back": "Lifecycle Costing (or Total Cost of Ownership). Option B is cheaper per year ($1.6k/yr vs $2.5k/yr).\n"
- },
- {
- "id": 38,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: Your project is cancelled. You spent $2M. Expected value was $10M. Should you finish just to \"save\" the $2M investment?\n",
- "back": "No. That is the Sunk Cost Fallacy. Decisions should be based on future value vs. future cost only.\n"
- },
- {
- "id": 39,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: During a status meeting, a stakeholder asks \"How much money do we have left?\" Which variance tells them?\n",
- "back": "Technically Funds Remaining (BAC - AC), but ETC (Estimate to Complete) tells them how much more you need.\n"
- },
- {
- "id": 40,
- "category": " Scenarios: Financial Management",
- "front": "Scenario: Your Sponsor asks, \"Will we finish on budget?\" Which metric answers this?\n",
- "back": "VAC (Variance at Completion). If positive, Yes. If negative, No.\n\n\n"
- },
- {
- "id": 41,
- "category": " ITTOs of Cost Management",
- "front": "What is the Cost Management Plan?\n",
- "back": "A component of the project management plan that describes how costs will be planned, structured, and controlled (e.g., units of measure, control thresholds).\n"
- },
- {
- "id": 42,
- "category": " ITTOs of Cost Management",
- "front": "What is an S-Curve?\n",
- "back": "A graph displaying cumulative costs over a specific time period. It usually creates an 'S' shape (slow start, rapid execution, slow finish).\n"
- },
- {
- "id": 43,
- "category": " ITTOs of Cost Management",
- "front": "What are Control Thresholds?\n",
- "back": "Variance amounts (e.g., +/- 10%) defined in the Cost Management Plan. If performance passes the threshold, a report or action is required.\n"
- },
- {
- "id": 44,
- "category": " ITTOs of Cost Management",
- "front": "What is the Basis of Estimates?\n",
- "back": "Supporting documentation outlining the details used in establishing project estimates (assumptions, constraints, level of confidence, method used).\n"
- },
- {
- "id": 45,
- "category": " ITTOs of Cost Management",
- "front": "What is Cost of Quality (COQ)?\n",
- "back": "All costs incurred over the life of the product by investment in preventing nonconformance to requirements, appraising the product, and failing to meet requirements (Rework).\n"
- },
- {
- "id": 46,
- "category": " ITTOs of Cost Management",
- "front": "What is Triangular Distribution in 3-Point Estimating?\n",
- "back": "Simple average: (Optimistic + Most Likely + Pessimistic) / 3.\n"
- },
- {
- "id": 47,
- "category": " ITTOs of Cost Management",
- "front": "What is Beta Distribution (PERT) in 3-Point Estimating?\n",
- "back": "Weighted average: (Optimistic + 4(Most Likely) + Pessimistic) / 6. (More weight on the \"Most Likely\").\n"
- },
- {
- "id": 48,
- "category": " ITTOs of Cost Management",
- "front": "What are Exchange Rate fluctuations regarded as?\n",
- "back": "An Enterprise Environmental Factor (EEF). On international projects, this is a risk requiring reserve.\n"
- },
- {
- "id": 49,
- "category": " ITTOs of Cost Management",
- "front": "Why is Work Performance Data an input to Control Costs?\n",
- "back": "It contains the raw data (e.g., costs incurred, status of activities) needed to calculate CV, SV, CPI, and SPI.\n"
- },
- {
- "id": 50,
- "category": " ITTOs of Cost Management",
- "front": "What is Depreciation?\n",
- "back": "The allocation of the cost of a tangible asset over its useful life. Only relevant if the project involves capitalization of assets.\n\n\n"
- },
- {
- "id": 51,
- "category": " Quick-Fire Cost Review",
- "front": "True or False: The Project Manager creates the Management Reserve.\n",
- "back": "False. The Sponsor determines it, as it is outside the project baseline.\n"
- },
- {
- "id": 52,
- "category": " Quick-Fire Cost Review",
- "front": "True or False: If CPI is 1.0, you are exactly on budget.\n",
- "back": "True. You are getting exactly $1 of value for every $1 spent.\n"
- },
- {
- "id": 53,
- "category": " Quick-Fire Cost Review",
- "front": "True or False: \"Price\" and \"Cost\" are the same thing.\n",
- "back": "False. Cost is what you spend to create it. Price is what you charge the customer. (Generally, AC refers to Cost).\n"
- },
- {
- "id": 54,
- "category": " Quick-Fire Cost Review",
- "front": "Calculate: BAC = 100, EV = 40, AC = 50. Find CPI.\n",
- "back": "CPI = 40 / 50 = 0.8.\n"
- },
- {
- "id": 55,
- "category": " Quick-Fire Cost Review",
- "front": "Calculate: BAC = 100, EV = 40, AC = 50. Find CV.\n",
- "back": "CV = 40 - 50 = -10.\n"
- },
- {
- "id": 56,
- "category": " Quick-Fire Cost Review",
- "front": "Calculate: EV = 40, PV = 50. Find SPI.\n",
- "back": "SPI = 40 / 50 = 0.8.\n"
- },
- {
- "id": 57,
- "category": " Quick-Fire Cost Review",
- "front": "Calculate: CPI = 0.8, BAC = 100. Find EAC (Typical).\n",
- "back": "EAC = 100 / 0.8 = 125.\n"
- },
- {
- "id": 58,
- "category": " Quick-Fire Cost Review",
- "front": "What does a negative VAC mean?\n",
- "back": "You are forecasted to be Over Budget at the end of the project.\n"
- },
- {
- "id": 59,
- "category": " Quick-Fire Cost Review",
- "front": "What is the 50/50 Rule in EVM?\n",
- "back": "A heuristic where an activity is considered 50% complete when it starts, and gets the remaining 50% only when it finishes. (Used to simplify reporting).\n"
- },
- {
- "id": 60,
- "category": " Quick-Fire Cost Review",
- "front": "Does Resource Leveling typically increase cost?\n",
- "back": "It can. While it stabilizes resource usage, sticking to a specific resource limit might extend the schedule, increasing \"Cost of Money\" or overhead.\n\n\n"
- },
- {
- "id": 61,
- "category": " Closing & Auditing Finance",
- "front": "What happens to unused Contingency Reserve at project close?\n",
- "back": "It is returned to the organization (profit/savings). It implies the risks did not happen.\n"
- },
- {
- "id": 62,
- "category": " Closing & Auditing Finance",
- "front": "What is a Financial Audit?\n",
- "back": "A review to ensure that project funds were spent in accordance with the contract and organizational policies.\n"
- },
- {
- "id": 63,
- "category": " Closing & Auditing Finance",
- "front": "What is ROI?\n",
- "back": "Return on Investment. (Net Benefit / Cost) * 100.\n"
- },
- {
- "id": 64,
- "category": " Closing & Auditing Finance",
- "front": "What is NPV?\n",
- "back": "Net Present Value. The sum of the present values of incoming and outgoing cash flows. NPV > 0 is good.\n"
- },
- {
- "id": 65,
- "category": " Closing & Auditing Finance",
- "front": "What is IRR?\n",
- "back": "Internal Rate of Return. The discount rate that makes NPV zero. Higher is better.\n"
- },
- {
- "id": 66,
- "category": " Closing & Auditing Finance",
- "front": "What is Payback Period?\n",
- "back": "The time it takes to recover the initial investment. Shorter is better.\n"
- },
- {
- "id": 67,
- "category": " Closing & Auditing Finance",
- "front": "What is Benefit-Cost Ratio (BCR)?\n",
- "back": "Benefit / Cost. >1 is good.\n"
- },
- {
- "id": 68,
- "category": " Closing & Auditing Finance",
- "front": "Do you calculate EVM on Management Reserves?\n",
- "back": "No. EVM tracks performance against the Baseline. Management Reserve is not in the Baseline.\n"
- },
- {
- "id": 69,
- "category": " Closing & Auditing Finance",
- "front": "What is Variable Cost?\n",
- "back": "Cost that changes with the amount of production or work (e.g., material costs, hourly labor).\n"
- },
- {
- "id": 70,
- "category": " Closing & Auditing Finance",
- "front": "What is Fixed Cost?\n",
- "back": "Cost that remains constant regardless of production volume (e.g., rent, setup fee).\n\n\n"
- },
- {
- "id": 71,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: BAC = $200k. AC = $100k. EV = $80k. CPI = 0.8. Performance is expected to continue at this rate. Calculate EAC.\n",
- "back": "EAC = BAC / CPI = 200,000 / 0.8 = $250,000.\n"
- },
- {
- "id": 72,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: BAC = $200k. AC = $100k. EV = $80k. The variance was due to a one-time storm. Future work will be at budgeted rate. Calculate EAC.\n",
- "back": "EAC = AC + (BAC - EV) = 100,000 + (200,000 - 80,000) = 100,000 + 120,000 = $220,000.\n"
- },
- {
- "id": 73,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: BAC = $100k. EAC = $120k. Calculate VAC.\n",
- "back": "VAC = BAC - EAC = 100,000 - 120,000 = -$20,000. (Over budget).\n"
- },
- {
- "id": 74,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: BAC = $500k. EV = $200k. AC = $250k. Calculate TCPI (to BAC).\n",
- "back": "TCPI = (500k - 200k) / (500k - 250k) = 300k / 250k = 1.2.\n(Must be 20% more efficient to hit original budget).\n"
- },
- {
- "id": 75,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: BAC = $500k. EV = $200k. AC = $250k. Management approves a new budget (EAC) of $600k. Calculate TCPI (to EAC).\n",
- "back": "TCPI = (500k - 200k) / (600k - 250k) = 300k / 350k = 0.86.\n(Can be less efficient and still hit the new budget).\n"
- },
- {
- "id": 76,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: Why is Cost Variance (CV) expressed as a standard formula?\n",
- "back": "CV = EV - AC. It's standardized so that a negative number always means \"bad\" (cost exceeded value).\n"
- },
- {
- "id": 77,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: If SPI is 1.0 and CPI is 0.5, what does this tell you about the schedule?\n",
- "back": "The project is on schedule, but at a huge cost (we are spending double to stay on time). This is likely unsustainable (\"Crashing\").\n"
- },
- {
- "id": 78,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: Is \"Rent\" a direct or indirect cost?\n",
- "back": "Usually Indirect, unless the office was rented specifically and exclusively for this project.\n"
- },
- {
- "id": 79,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: What is the most precise estimating technique?\n",
- "back": "Bottom-Up.\n"
- },
- {
- "id": 80,
- "category": " Calculation Practice (EAC)",
- "front": "Problem: What is the PMP term for \"Profit\"?\n",
- "back": "Fee (in procurement contexts) or Margin.\n"
- }
- ]
+  "meta": {
+    "title": " Process Task: Plan and Manage Finance",
+    "domain": "Process",
+    "task": "Plan and manage finance",
+    "ecoReference": "Process Task 6",
+    "description": "Flashcards for PMP Process Domain Task 6",
+    "file": "guide/appendices/flashcards-process-task6-cost.md"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is the Cost Baseline?\n",
+      "back": "The approved version of the time-phased project budget, excluding any management reserves, which can only be changed through formal change control procedures.\n"
+    },
+    {
+      "id": 2,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is the difference between Contingency Reserve and Management Reserve?\n",
+      "back": "- Contingency Reserve: For \"Known Unknowns\" (Identified risks). Included in the Cost Baseline. Controlled by the PM.\n- Management Reserve: For \"Unknown Unknowns\" (Unforeseen risks). Not in the Baseline. Controlled by the Sponsor.\n"
+    },
+    {
+      "id": 3,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is Cost Aggregation?\n",
+      "back": "Summing the lower-level cost estimates (work packages) to higher levels (control accounts) and finally to the entire project to create the budget.\n"
+    },
+    {
+      "id": 4,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is Funding Limit Reconciliation?\n",
+      "back": "The process of comparing the planned expenditure of project funds against any limits on the commitment of funds for the project to determine if there are any variances between the funding limits and the planned costs.\n"
+    },
+    {
+      "id": 5,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is a Rough Order of Magnitude (ROM) estimate?\n",
+      "back": "A high-level estimate made early in the project with a wide range of accuracy (typically -25% to +75%).\n"
+    },
+    {
+      "id": 6,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is Parametric Estimating?\n",
+      "back": "Using a statistical relationship between historical data and other variables (e.g., square footage) to calculate an estimate. (e.g., $200 per sq ft * 2000 sq ft = $400,000).\n"
+    },
+    {
+      "id": 7,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is Analogous Estimating?\n",
+      "back": "Using the actual cost of a previous, similar project as the basis for estimating the cost of the current project. It uses \"expert judgment\" and is less accurate.\n"
+    },
+    {
+      "id": 8,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is Bottom-Up Estimating?\n",
+      "back": "Estimating the cost of individual work packages or activities with the greatest level of detail and then rolling them up to higher levels. It is the most accurate but time-consuming.\n"
+    },
+    {
+      "id": 9,
+      "category": " Cost Planning Fundamentals",
+      "front": "What is Value Engineering?\n",
+      "back": "An approach used to optimize project life cycle costs, save time, increase profits, improve quality, expand market share, solve problems, and/or use resources more effectively. (Getting the same function for less cost).\n"
+    },
+    {
+      "id": 10,
+      "category": " Cost Planning Fundamentals",
+      "front": "What are Direct Costs vs. Indirect Costs?\n",
+      "back": "- Direct: Expenses directly attributed to project work (e.g., team travel, materials).\n- Indirect: Overhead expenses shared across projects (e.g., electricity, janitorial services, executive salaries).\n\n\n"
+    },
+    {
+      "id": 11,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "What is PV (Planned Value)?\n",
+      "back": "The authorized budget assigned to scheduled work. (What we should have done by now, in dollar terms).\n"
+    },
+    {
+      "id": 12,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "What is EV (Earned Value)?\n",
+      "back": "The measure of work performed expressed in terms of the budget authorized for that work. (What we actually accomplished, in dollar terms).\n"
+    },
+    {
+      "id": 13,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "What is AC (Actual Cost)?\n",
+      "back": "The realized cost incurred for the work performed on an activity during a specific time period. (What we actually spent).\n"
+    },
+    {
+      "id": 14,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "What is the formula for Cost Variance (CV)?\n",
+      "back": "CV = EV - AC.\n(Negative is bad/over budget; Positive is good/under budget).\n"
+    },
+    {
+      "id": 15,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "What is the formula for Schedule Variance (SV)?\n",
+      "back": "SV = EV - PV.\n(Negative is bad/behind schedule; Positive is good/ahead of schedule).\n"
+    },
+    {
+      "id": 16,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "What is the formula for Cost Performance Index (CPI)?\n",
+      "back": "CPI = EV / AC.\n(Below 1.0 is bad/over budget; Above 1.0 is good/under budget).\n"
+    },
+    {
+      "id": 17,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "What is the formula for Schedule Performance Index (SPI)?\n",
+      "back": "SPI = EV / PV.\n(Below 1.0 is bad/behind schedule; Above 1.0 is good/ahead of schedule).\n"
+    },
+    {
+      "id": 18,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "Scenario: CPI = 0.8. Interpret this.\n",
+      "back": "For every $1.00 spent, the project is only getting $0.80 worth of work. The project is Over Budget.\n"
+    },
+    {
+      "id": 19,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "Scenario: SPI = 1.1. Interpret this.\n",
+      "back": "The project is progressing at 110% of the planned rate. The project is Ahead of Schedule.\n"
+    },
+    {
+      "id": 20,
+      "category": " Earned Value Management (EVM) Formulas",
+      "front": "What is BAC (Budget at Completion)?\n",
+      "back": "The sum of all budgets established for the work to be performed (The total Cost Baseline).\n\n\n"
+    },
+    {
+      "id": 21,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "What is EAC (Estimate at Completion)?\n",
+      "back": "The expected total cost of completing all work expressed as the sum of the actual cost to date and the estimate to complete. (What we think the total bill will be at the end).\n"
+    },
+    {
+      "id": 22,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "What is the EAC formula if current variances are typical and expected to continue?\n",
+      "back": "EAC = BAC / CPI.\n"
+    },
+    {
+      "id": 23,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "What is the EAC formula if the variance was atypical (a one-time event) and future work will be on plan?\n",
+      "back": "EAC = AC + (BAC - EV).\n"
+    },
+    {
+      "id": 24,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "What is ETC (Estimate to Complete)?\n",
+      "back": "The expected cost to finish all the remaining project work.\nFormula: ETC = EAC - AC.\n"
+    },
+    {
+      "id": 25,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "What is VAC (Variance at Completion)?\n",
+      "back": "A projection of the amount of budget deficit or surplus, expressed as the difference between the budget at completion and the estimate at completion.\nFormula: VAC = BAC - EAC.\n"
+    },
+    {
+      "id": 26,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "What is TCPI (To-Complete Performance Index)?\n",
+      "back": "A measure of the cost performance effectiveness that must be achieved on the remaining work to meet a specified management goal (BAC or EAC).\n"
+    },
+    {
+      "id": 27,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "What is the TCPI formula to meet the original budget (BAC)?\n",
+      "back": "TCPI = (BAC - EV) / (BAC - AC).\n(Work Remaining / Funds Remaining).\n"
+    },
+    {
+      "id": 28,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "Scenario: TCPI is 1.2. Interpret this.\n",
+      "back": "The team must complete the remaining work at a cost efficiency of 1.2 (getting $1.20 of value for every $1.00 spent) to hit the budget. This is difficult/aggressive.\n"
+    },
+    {
+      "id": 29,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "Scenario: Your SPI is 0.7 and your CPI is 1.1. What is the status?\n",
+      "back": "The project is Behind Schedule but Under Budget. (Maybe you haven't hired enough people yet).\n"
+    },
+    {
+      "id": 30,
+      "category": " Forecasting (EAC, ETC, TCPI)",
+      "front": "Scenario: Which index is the most critical for forecasting the final project cost?\n",
+      "back": "CPI (Cost Performance Index). It is historically the most stable predictor of final costs.\n\n\n"
+    },
+    {
+      "id": 31,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: You identify a new risk that was not previously known. Mitigation costs $10k. Where do you get the money?\n",
+      "back": "Ask the Sponsor to use the Management Reserve. Since it was an \"Unknown Unknown,\" it requires a change request to move money into the baseline.\n"
+    },
+    {
+      "id": 32,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: A risk identified in the Risk Register occurs (price of steel goes up). Mitigation costs $5k. Where do you get the money?\n",
+      "back": "Use the Contingency Reserve. This is under your (PM) authority and is already part of the Cost Baseline.\n"
+    },
+    {
+      "id": 33,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: The project is 50% complete. You have spent 70% of the budget. What is likely true about your CPI?\n",
+      "back": "CPI is likely < 1.0. You have spent more than you have earned.\n"
+    },
+    {
+      "id": 34,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: Your project funding is cut by 10% mid-project. What do you do?\n",
+      "back": "Evaluate the impact on Scope, Schedule, and Quality. You must likely reduce scope or reschedule work. You cannot just \"try harder.\"\n"
+    },
+    {
+      "id": 35,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: The CFO asks for a cash flow forecast for next month. What document helps you?\n",
+      "back": "The Cost Baseline (specifically the time-phased budget or S-Curve), typically reconciled with Funding Limits.\n"
+    },
+    {
+      "id": 36,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: You are using a Fixed Price contract. The vendor's costs double. Does this affect your CPI?\n",
+      "back": "No. In FFP, the price is set. The vendor absorbs the cost overrun. Your AC remains what you pay them (the fixed price).\n"
+    },
+    {
+      "id": 37,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: You need to buy a server. Option A: $5k, lasts 2 years. Option B: $8k, lasts 5 years. Which analysis helps you decide?\n",
+      "back": "Lifecycle Costing (or Total Cost of Ownership). Option B is cheaper per year ($1.6k/yr vs $2.5k/yr).\n"
+    },
+    {
+      "id": 38,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: Your project is cancelled. You spent $2M. Expected value was $10M. Should you finish just to \"save\" the $2M investment?\n",
+      "back": "No. That is the Sunk Cost Fallacy. Decisions should be based on future value vs. future cost only.\n"
+    },
+    {
+      "id": 39,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: During a status meeting, a stakeholder asks \"How much money do we have left?\" Which variance tells them?\n",
+      "back": "Technically Funds Remaining (BAC - AC), but ETC (Estimate to Complete) tells them how much more you need.\n"
+    },
+    {
+      "id": 40,
+      "category": " Scenarios: Financial Management",
+      "front": "Scenario: Your Sponsor asks, \"Will we finish on budget?\" Which metric answers this?\n",
+      "back": "VAC (Variance at Completion). If positive, Yes. If negative, No.\n\n\n"
+    },
+    {
+      "id": 41,
+      "category": " ITTOs of Cost Management",
+      "front": "What is the Cost Management Plan?\n",
+      "back": "A component of the project management plan that describes how costs will be planned, structured, and controlled (e.g., units of measure, control thresholds).\n"
+    },
+    {
+      "id": 42,
+      "category": " ITTOs of Cost Management",
+      "front": "What is an S-Curve?\n",
+      "back": "A graph displaying cumulative costs over a specific time period. It usually creates an 'S' shape (slow start, rapid execution, slow finish).\n"
+    },
+    {
+      "id": 43,
+      "category": " ITTOs of Cost Management",
+      "front": "What are Control Thresholds?\n",
+      "back": "Variance amounts (e.g., +/- 10%) defined in the Cost Management Plan. If performance passes the threshold, a report or action is required.\n"
+    },
+    {
+      "id": 44,
+      "category": " ITTOs of Cost Management",
+      "front": "What is the Basis of Estimates?\n",
+      "back": "Supporting documentation outlining the details used in establishing project estimates (assumptions, constraints, level of confidence, method used).\n"
+    },
+    {
+      "id": 45,
+      "category": " ITTOs of Cost Management",
+      "front": "What is Cost of Quality (COQ)?\n",
+      "back": "All costs incurred over the life of the product by investment in preventing nonconformance to requirements, appraising the product, and failing to meet requirements (Rework).\n"
+    },
+    {
+      "id": 46,
+      "category": " ITTOs of Cost Management",
+      "front": "What is Triangular Distribution in 3-Point Estimating?\n",
+      "back": "Simple average: (Optimistic + Most Likely + Pessimistic) / 3.\n"
+    },
+    {
+      "id": 47,
+      "category": " ITTOs of Cost Management",
+      "front": "What is Beta Distribution (PERT) in 3-Point Estimating?\n",
+      "back": "Weighted average: (Optimistic + 4(Most Likely) + Pessimistic) / 6. (More weight on the \"Most Likely\").\n"
+    },
+    {
+      "id": 48,
+      "category": " ITTOs of Cost Management",
+      "front": "What are Exchange Rate fluctuations regarded as?\n",
+      "back": "An Enterprise Environmental Factor (EEF). On international projects, this is a risk requiring reserve.\n"
+    },
+    {
+      "id": 49,
+      "category": " ITTOs of Cost Management",
+      "front": "Why is Work Performance Data an input to Control Costs?\n",
+      "back": "It contains the raw data (e.g., costs incurred, status of activities) needed to calculate CV, SV, CPI, and SPI.\n"
+    },
+    {
+      "id": 50,
+      "category": " ITTOs of Cost Management",
+      "front": "What is Depreciation?\n",
+      "back": "The allocation of the cost of a tangible asset over its useful life. Only relevant if the project involves capitalization of assets.\n\n\n"
+    },
+    {
+      "id": 51,
+      "category": " Quick-Fire Cost Review",
+      "front": "True or False: The Project Manager creates the Management Reserve.\n",
+      "back": "False. The Sponsor determines it, as it is outside the project baseline.\n"
+    },
+    {
+      "id": 52,
+      "category": " Quick-Fire Cost Review",
+      "front": "True or False: If CPI is 1.0, you are exactly on budget.\n",
+      "back": "True. You are getting exactly $1 of value for every $1 spent.\n"
+    },
+    {
+      "id": 53,
+      "category": " Quick-Fire Cost Review",
+      "front": "True or False: \"Price\" and \"Cost\" are the same thing.\n",
+      "back": "False. Cost is what you spend to create it. Price is what you charge the customer. (Generally, AC refers to Cost).\n"
+    },
+    {
+      "id": 54,
+      "category": " Quick-Fire Cost Review",
+      "front": "Calculate: BAC = 100, EV = 40, AC = 50. Find CPI.\n",
+      "back": "CPI = 40 / 50 = 0.8.\n"
+    },
+    {
+      "id": 55,
+      "category": " Quick-Fire Cost Review",
+      "front": "Calculate: BAC = 100, EV = 40, AC = 50. Find CV.\n",
+      "back": "CV = 40 - 50 = -10.\n"
+    },
+    {
+      "id": 56,
+      "category": " Quick-Fire Cost Review",
+      "front": "Calculate: EV = 40, PV = 50. Find SPI.\n",
+      "back": "SPI = 40 / 50 = 0.8.\n"
+    },
+    {
+      "id": 57,
+      "category": " Quick-Fire Cost Review",
+      "front": "Calculate: CPI = 0.8, BAC = 100. Find EAC (Typical).\n",
+      "back": "EAC = 100 / 0.8 = 125.\n"
+    },
+    {
+      "id": 58,
+      "category": " Quick-Fire Cost Review",
+      "front": "What does a negative VAC mean?\n",
+      "back": "You are forecasted to be Over Budget at the end of the project.\n"
+    },
+    {
+      "id": 59,
+      "category": " Quick-Fire Cost Review",
+      "front": "What is the 50/50 Rule in EVM?\n",
+      "back": "A heuristic where an activity is considered 50% complete when it starts, and gets the remaining 50% only when it finishes. (Used to simplify reporting).\n"
+    },
+    {
+      "id": 60,
+      "category": " Quick-Fire Cost Review",
+      "front": "Does Resource Leveling typically increase cost?\n",
+      "back": "It can. While it stabilizes resource usage, sticking to a specific resource limit might extend the schedule, increasing \"Cost of Money\" or overhead.\n\n\n"
+    },
+    {
+      "id": 61,
+      "category": " Closing & Auditing Finance",
+      "front": "What happens to unused Contingency Reserve at project close?\n",
+      "back": "It is returned to the organization (profit/savings). It implies the risks did not happen.\n"
+    },
+    {
+      "id": 62,
+      "category": " Closing & Auditing Finance",
+      "front": "What is a Financial Audit?\n",
+      "back": "A review to ensure that project funds were spent in accordance with the contract and organizational policies.\n"
+    },
+    {
+      "id": 63,
+      "category": " Closing & Auditing Finance",
+      "front": "What is ROI?\n",
+      "back": "Return on Investment. (Net Benefit / Cost) * 100.\n"
+    },
+    {
+      "id": 64,
+      "category": " Closing & Auditing Finance",
+      "front": "What is NPV?\n",
+      "back": "Net Present Value. The sum of the present values of incoming and outgoing cash flows. NPV > 0 is good.\n"
+    },
+    {
+      "id": 65,
+      "category": " Closing & Auditing Finance",
+      "front": "What is IRR?\n",
+      "back": "Internal Rate of Return. The discount rate that makes NPV zero. Higher is better.\n"
+    },
+    {
+      "id": 66,
+      "category": " Closing & Auditing Finance",
+      "front": "What is Payback Period?\n",
+      "back": "The time it takes to recover the initial investment. Shorter is better.\n"
+    },
+    {
+      "id": 67,
+      "category": " Closing & Auditing Finance",
+      "front": "What is Benefit-Cost Ratio (BCR)?\n",
+      "back": "Benefit / Cost. >1 is good.\n"
+    },
+    {
+      "id": 68,
+      "category": " Closing & Auditing Finance",
+      "front": "Do you calculate EVM on Management Reserves?\n",
+      "back": "No. EVM tracks performance against the Baseline. Management Reserve is not in the Baseline.\n"
+    },
+    {
+      "id": 69,
+      "category": " Closing & Auditing Finance",
+      "front": "What is Variable Cost?\n",
+      "back": "Cost that changes with the amount of production or work (e.g., material costs, hourly labor).\n"
+    },
+    {
+      "id": 70,
+      "category": " Closing & Auditing Finance",
+      "front": "What is Fixed Cost?\n",
+      "back": "Cost that remains constant regardless of production volume (e.g., rent, setup fee).\n\n\n"
+    },
+    {
+      "id": 71,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: BAC = $200k. AC = $100k. EV = $80k. CPI = 0.8. Performance is expected to continue at this rate. Calculate EAC.\n",
+      "back": "EAC = BAC / CPI = 200,000 / 0.8 = $250,000.\n"
+    },
+    {
+      "id": 72,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: BAC = $200k. AC = $100k. EV = $80k. The variance was due to a one-time storm. Future work will be at budgeted rate. Calculate EAC.\n",
+      "back": "EAC = AC + (BAC - EV) = 100,000 + (200,000 - 80,000) = 100,000 + 120,000 = $220,000.\n"
+    },
+    {
+      "id": 73,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: BAC = $100k. EAC = $120k. Calculate VAC.\n",
+      "back": "VAC = BAC - EAC = 100,000 - 120,000 = -$20,000. (Over budget).\n"
+    },
+    {
+      "id": 74,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: BAC = $500k. EV = $200k. AC = $250k. Calculate TCPI (to BAC).\n",
+      "back": "TCPI = (500k - 200k) / (500k - 250k) = 300k / 250k = 1.2.\n(Must be 20% more efficient to hit original budget).\n"
+    },
+    {
+      "id": 75,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: BAC = $500k. EV = $200k. AC = $250k. Management approves a new budget (EAC) of $600k. Calculate TCPI (to EAC).\n",
+      "back": "TCPI = (500k - 200k) / (600k - 250k) = 300k / 350k = 0.86.\n(Can be less efficient and still hit the new budget).\n"
+    },
+    {
+      "id": 76,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: Why is Cost Variance (CV) expressed as a standard formula?\n",
+      "back": "CV = EV - AC. It's standardized so that a negative number always means \"bad\" (cost exceeded value).\n"
+    },
+    {
+      "id": 77,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: If SPI is 1.0 and CPI is 0.5, what does this tell you about the schedule?\n",
+      "back": "The project is on schedule, but at a huge cost (we are spending double to stay on time). This is likely unsustainable (\"Crashing\").\n"
+    },
+    {
+      "id": 78,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: Is \"Rent\" a direct or indirect cost?\n",
+      "back": "Usually Indirect, unless the office was rented specifically and exclusively for this project.\n"
+    },
+    {
+      "id": 79,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: What is the most precise estimating technique?\n",
+      "back": "Bottom-Up.\n"
+    },
+    {
+      "id": 80,
+      "category": " Calculation Practice (EAC)",
+      "front": "Problem: What is the PMP term for \"Profit\"?\n",
+      "back": "Fee (in procurement contexts) or Margin.\n"
+    }
+  ]
 }

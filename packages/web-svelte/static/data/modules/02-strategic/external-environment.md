@@ -11,23 +11,23 @@ The external business environment is a dynamic force that can significantly infl
 **PESTLE Analysis**: A framework used to analyze the external macro-environmental factors that can impact a project.
 
 - **P**olitical: Government policies, regulations, political stability, trade policies, tax policies.
- - _Project Impact_: Funding availability, regulatory hurdles, license requirements.
- - _Response_: Lobbying, political risk assessment, compliance planning.
+- _Project Impact_: Funding availability, regulatory hurdles, license requirements.
+- _Response_: Lobbying, political risk assessment, compliance planning.
 - **E**conomic: Economic growth, interest rates, inflation, exchange rates, disposable income.
- - _Project Impact_: Budget changes, resource costs, market demand, funding certainty.
- - _Response_: Financial forecasting, contingency planning, contract renegotiation.
+- _Project Impact_: Budget changes, resource costs, market demand, funding certainty.
+- _Response_: Financial forecasting, contingency planning, contract renegotiation.
 - **S**ocial: Demographics, cultural trends, lifestyle changes, consumer attitudes, labor availability.
- - _Project Impact_: Stakeholder expectations, team dynamics, market acceptance, resource pool.
- - _Response_: Stakeholder analysis, communication strategy, HR planning, cultural sensitivity training.
+- _Project Impact_: Stakeholder expectations, team dynamics, market acceptance, resource pool.
+- _Response_: Stakeholder analysis, communication strategy, HR planning, cultural sensitivity training.
 - **T**echnological: New technologies, automation, innovation, R&D activity.
- - _Project Impact_: Tool selection, scope changes, competitive advantage, skill requirements.
- - _Response_: Technology watch, agile adaptation, continuous learning, vendor assessment.
+- _Project Impact_: Tool selection, scope changes, competitive advantage, skill requirements.
+- _Response_: Technology watch, agile adaptation, continuous learning, vendor assessment.
 - **L**egal: Laws, regulations (domestic and international), intellectual property rights, data protection.
- - _Project Impact_: Compliance requirements, legal risks, contractual obligations.
- - _Response_: Legal review, compliance audit, risk management, expert consultation.
+- _Project Impact_: Compliance requirements, legal risks, contractual obligations.
+- _Response_: Legal review, compliance audit, risk management, expert consultation.
 - **E**nvironmental: Climate change, natural disasters, resource scarcity, sustainability concerns.
- - _Project Impact_: Supply chain disruption, public perception, regulatory pressure, ESG criteria.
- - _Response_: Sustainability planning, disaster recovery, green procurement, CSR integration.
+- _Project Impact_: Supply chain disruption, public perception, regulatory pressure, ESG criteria.
+- _Response_: Sustainability planning, disaster recovery, green procurement, CSR integration.
 
 ### Practical Environmental Scanning
 
@@ -40,25 +40,25 @@ To make environmental scanning useful, it needs a system:
 
 #### Environmental Scanning Checklist
 
-| Activity | Frequency | Owner | Output |
+| Activity                      | Frequency  | Owner       | Output                             |
 | :---------------------------- | :--------- | :---------- | :--------------------------------- |
-| Review major news outlets | Daily | PM | Summary of relevant headlines |
-| Track legislative updates | Weekly | Legal | List of relevant new/proposed laws |
-| Monitor competitor activities | Monthly | Marketing | Competitor analysis report |
-| Follow technology trends | Bi-monthly | Architect | Technology watch brief |
-| Engage with industry groups | Quarterly | Stakeholder | Insights from industry discussions |
+| Review major news outlets     | Daily      | PM          | Summary of relevant headlines      |
+| Track legislative updates     | Weekly     | Legal       | List of relevant new/proposed laws |
+| Monitor competitor activities | Monthly    | Marketing   | Competitor analysis report         |
+| Follow technology trends      | Bi-monthly | Architect   | Technology watch brief             |
+| Engage with industry groups   | Quarterly  | Stakeholder | Insights from industry discussions |
 
 ## Early Warning Signals
 
 Monitor these for proactive risk management:
 
-| Signal Type | Examples | Response Window |
+| Signal Type              | Examples                                    | Response Window |
 | :----------------------- | :------------------------------------------ | :-------------- |
-| **Regulatory Proposals** | Draft bills, regulatory body announcements | 6-18 months |
-| **Competitive Intel** | New product launches, market share shifts | 3-12 months |
-| **Economic Indicators** | Interest rate changes, inflation data | 3-9 months |
-| **Technology Shifts** | New AI models, quantum computing progress | 6-24 months |
-| **Supply Chain Signals** | Commodity price spikes, geopolitical events | 1-6 months |
+| **Regulatory Proposals** | Draft bills, regulatory body announcements  | 6-18 months     |
+| **Competitive Intel**    | New product launches, market share shifts   | 3-12 months     |
+| **Economic Indicators**  | Interest rate changes, inflation data       | 3-9 months      |
+| **Technology Shifts**    | New AI models, quantum computing progress   | 6-24 months     |
+| **Supply Chain Signals** | Commodity price spikes, geopolitical events | 1-6 months      |
 
 ### Alert Categories
 
@@ -81,10 +81,10 @@ When an external change is identified, perform an impact assessment:
 
 #### Impact Assessment Template
 
-| External Change | Date Identified | PESTLE Category | Potential Impact (Scope, Cost, Schedule, Quality, Risk) | Severity | Likelihood | Response Strategy | Owner | Status |
+| External Change      | Date Identified | PESTLE Category | Potential Impact (Scope, Cost, Schedule, Quality, Risk) | Severity | Likelihood | Response Strategy                     | Owner     | Status      |
 | :------------------- | :-------------- | :-------------- | :------------------------------------------------------ | :------- | :--------- | :------------------------------------ | :-------- | :---------- |
-| New Data Privacy Law | 2026-01-15 | Legal | Major architectural changes, +3 months, +$500k | High | High | Re-plan, consult legal | PM | In Progress |
-| Competitor Launch | 2026-02-01 | Economic | Market share erosion, reduced ROI | Medium | Medium | Expedite launch, re-evaluate features | Marketing | Planned |
+| New Data Privacy Law | 2026-01-15      | Legal           | Major architectural changes, +3 months, +$500k          | High     | High       | Re-plan, consult legal                | PM        | In Progress |
+| Competitor Launch    | 2026-02-01      | Economic        | Market share erosion, reduced ROI                       | Medium   | Medium     | Expedite launch, re-evaluate features | Marketing | Planned     |
 
 ## Key External Changes to Monitor (2026 Exam)
 

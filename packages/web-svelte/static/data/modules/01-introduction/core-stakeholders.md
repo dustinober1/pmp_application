@@ -72,7 +72,7 @@ Sarah learns that _stakeholder engagement is not the same as stakeholder communi
 - **Keep Satisfied**: Provide regular updates. Solicit feedback and acknowledge it.
 - **Keep Informed**: Provide clear, accessible communication. Create forums for questions.
 - **Monitor**: Track their level of interest and influence. Re-classify if circumstances change.
- :::
+  :::
 
 ## 1.4a.5 Stakeholder Expectations: The Hidden Problem
 
@@ -99,7 +99,7 @@ If Sarah does not actively manage these expectations, she ends up disappointing 
 - **Mistake 3: Engaging too late.** (Fix: Engage early and often.)
 - **Mistake 4: Not addressing conflicts.** (Fix: Surface conflicts and facilitate trade-offs.)
 - **Mistake 5: Assuming engagement is a one-time event.** (Fix: Engagement is continuous.)
- :::
+  :::
 
 ## 1.4a.7 On the Exam: Stakeholder Scenarios
 

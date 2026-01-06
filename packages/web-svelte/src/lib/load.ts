@@ -18,13 +18,13 @@ export interface LoadData<T> {
  * @example
  * ```ts
  * export const load = async ({ fetch }) => {
- *   const user = await loadApi(() => authApi.me(fetch));
- *   const dashboard = await loadApi(() => dashboardApi.getDashboard(fetch));
+ * const user = await loadApi(() => authApi.me(fetch));
+ * const dashboard = await loadApi(() => dashboardApi.getDashboard(fetch));
  *
- *   return {
- *     user: user.data,
- *     dashboard: dashboard.data,
- *   };
+ * return {
+ * user: user.data,
+ * dashboard: dashboard.data,
+ * };
  * };
  * ```
  */
@@ -50,7 +50,7 @@ export async function loadApi<T>(
  * Type guard to check if error is an ApiError
  */
 function isApiError(error: unknown): error is ApiError {
-	return error instanceof ApiError;
+  return error instanceof ApiError;
 }
 
 /**
@@ -97,17 +97,17 @@ export function throwLoadError(
  * @example
  * ```ts
  * export const load = async ({ fetch }) => {
- *   const [user, dashboard, streak] = await loadParallel(
- *     () => authApi.me(fetch),
- *     () => dashboardApi.getDashboard(fetch),
- *     () => dashboardApi.getStreak(fetch),
- *   );
+ * const [user, dashboard, streak] = await loadParallel(
+ * () => authApi.me(fetch),
+ * () => dashboardApi.getDashboard(fetch),
+ * () => dashboardApi.getStreak(fetch),
+ * );
  *
- *   return {
- *     user: user.data,
- *     dashboard: dashboard.data,
- *     streak: streak.data,
- *   };
+ * return {
+ * user: user.data,
+ * dashboard: dashboard.data,
+ * streak: streak.data,
+ * };
  * };
  * ```
  */

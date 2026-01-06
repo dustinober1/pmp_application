@@ -76,7 +76,7 @@ export class Pagination<T> {
 
   /** Formatted string showing current page range */
   get currentPageInfo(): string {
-    if (this.#items.length === 0) return 'No items';
+    if (this.#items.length === 0) return "No items";
     return `Showing ${this.#offset + 1} to ${Math.min(this.#offset + this.#limit, this.#items.length)} of ${this.#items.length}`;
   }
 
@@ -87,7 +87,10 @@ export class Pagination<T> {
 
   /** Navigate to next page */
   next(): void {
-    this.#offset = Math.min(this.#offset + this.#limit, Math.max(0, this.#items.length - 1));
+    this.#offset = Math.min(
+      this.#offset + this.#limit,
+      Math.max(0, this.#items.length - 1),
+    );
   }
 
   /** Jump to specific page (1-indexed) */
@@ -105,7 +108,10 @@ export class Pagination<T> {
   setPageSize(size: number): void {
     const currentPage = this.currentPage;
     this.#limit = Math.max(1, size);
-    this.#offset = Math.min((currentPage - 1) * this.#limit, Math.max(0, this.#items.length - 1));
+    this.#offset = Math.min(
+      (currentPage - 1) * this.#limit,
+      Math.max(0, this.#items.length - 1),
+    );
   }
 
   /** Update items array */
@@ -126,9 +132,7 @@ export class Pagination<T> {
  * @param options - Pagination configuration options
  * @returns Pagination state and control methods
  */
-export function usePagination<T>(
-  options: PaginationOptions<T>
-): Pagination<T> {
+export function usePagination<T>(options: PaginationOptions<T>): Pagination<T> {
   return new Pagination(options);
 }
 
@@ -152,7 +156,7 @@ export function usePagination<T>(
 export function getPaginationInfo<T>(
   items: T[],
   offset: number,
-  limit: number
+  limit: number,
 ): PaginationComputedInfo {
   const isFirstPage = offset === 0;
   const isLastPage = offset + limit >= items.length;
@@ -163,6 +167,6 @@ export function getPaginationInfo<T>(
     isFirstPage,
     isLastPage,
     startIndex,
-    endIndex
+    endIndex,
   };
 }

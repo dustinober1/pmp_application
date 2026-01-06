@@ -34,7 +34,7 @@ export default {
         xl: "32px",
         "2xl": "40px",
         "3xl": "48px",
-        "blob": "60% 40% 30% 70% / 60% 30% 70% 40%",
+        blob: "60% 40% 30% 70% / 60% 30% 70% 40%",
       },
       boxShadow: {
         soft: "0 4px 20px -2px rgba(93, 112, 82, 0.15)", // Moss tinted

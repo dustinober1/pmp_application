@@ -9,9 +9,9 @@
  * Also supports prefetching for smooth user experience.
  */
 
-import { base } from '$app/paths';
-import { browser } from '$app/environment';
-import { z } from 'zod';
+import { base } from "$app/paths";
+import { browser } from "$app/environment";
+import { z } from "zod";
 
 // ============================================
 // RAW DATA TYPES (from JSON files)
@@ -192,20 +192,20 @@ export const FlashcardGroupSchema = z.object({
 
 // Domain name to ID mapping
 const DOMAIN_MAP: Record<string, string> = {
-  'Business Environment': 'business',
-  'People': 'people',
-  'People (33%)': 'people',
-  'People (42%)': 'people',
-  'Process': 'process',
+  "Business Environment": "business",
+  People: "people",
+  "People (33%)": "people",
+  "People (42%)": "people",
+  Process: "process",
 };
 
 // Sanitize ID (same as the split script)
 function sanitizeId(str: string): string {
   return str
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 // Cache for loaded data
@@ -239,18 +239,20 @@ export async function loadManifest(): Promise<FlashcardManifest> {
     return data;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.error('Flashcards manifest validation failed:', error.issues);
-      throw new Error('Invalid flashcards manifest data format');
+      console.error("Flashcards manifest validation failed:", error.issues);
+      throw new Error("Invalid flashcards manifest data format");
     }
-    console.error('Failed to load flashcards manifest:', error);
-    throw new Error('Failed to load flashcards');
+    console.error("Failed to load flashcards manifest:", error);
+    throw new Error("Failed to load flashcards");
   }
 }
 
 /**
  * Load flashcard groups for a specific domain (lazy loaded)
  */
-export async function loadDomainData(domainId: string): Promise<FlashcardGroup[]> {
+export async function loadDomainData(
+  domainId: string,
+): Promise<FlashcardGroup[]> {
   // Return cached if available
   if (cachedDomainData.has(domainId)) {
     return cachedDomainData.get(domainId)!;
@@ -259,7 +261,9 @@ export async function loadDomainData(domainId: string): Promise<FlashcardGroup[]
   try {
     const response = await fetch(`${base}/data/flashcards/${domainId}.json`);
     if (!response.ok) {
-      throw new Error(`Failed to load domain ${domainId}: ${response.statusText}`);
+      throw new Error(
+        `Failed to load domain ${domainId}: ${response.statusText}`,
+      );
     }
     const rawData = await response.json();
 
@@ -270,7 +274,10 @@ export async function loadDomainData(domainId: string): Promise<FlashcardGroup[]
     return data;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.error(`Flashcards data validation failed for domain ${domainId}:`, error.issues);
+      console.error(
+        `Flashcards data validation failed for domain ${domainId}:`,
+        error.issues,
+      );
       throw new Error(`Invalid flashcards data format for domain ${domainId}`);
     }
     console.error(`Failed to load flashcards for domain ${domainId}:`, error);
@@ -281,7 +288,10 @@ export async function loadDomainData(domainId: string): Promise<FlashcardGroup[]
 /**
  * Load a single task's flashcards (most granular loading)
  */
-export async function loadTaskData(domainId: string, taskId: string): Promise<FlashcardGroup> {
+export async function loadTaskData(
+  domainId: string,
+  taskId: string,
+): Promise<FlashcardGroup> {
   const cacheKey = `${domainId}-${taskId}`;
 
   if (cachedTaskData.has(cacheKey)) {
@@ -290,7 +300,9 @@ export async function loadTaskData(domainId: string, taskId: string): Promise<Fl
 
   try {
     const sanitizedTaskId = sanitizeId(taskId);
-    const response = await fetch(`${base}/data/flashcards/tasks/${domainId}-${sanitizedTaskId}.json`);
+    const response = await fetch(
+      `${base}/data/flashcards/tasks/${domainId}-${sanitizedTaskId}.json`,
+    );
     if (!response.ok) {
       throw new Error(`Failed to load task ${taskId}: ${response.statusText}`);
     }
@@ -302,7 +314,10 @@ export async function loadTaskData(domainId: string, taskId: string): Promise<Fl
     return data;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.error(`Flashcards data validation failed for task ${taskId}:`, error.issues);
+      console.error(
+        `Flashcards data validation failed for task ${taskId}:`,
+        error.issues,
+      );
       throw new Error(`Invalid flashcards data format for task ${taskId}`);
     }
     console.error(`Failed to load flashcards for task ${taskId}:`, error);
@@ -317,7 +332,9 @@ function processDomainFlashcards(groups: FlashcardGroup[]): Flashcard[] {
   const processed: Flashcard[] = [];
 
   for (const group of groups) {
-    const groupDomainId = DOMAIN_MAP[group.meta.domain] || group.meta.domain.toLowerCase().replace(/\s+/g, '-');
+    const groupDomainId =
+      DOMAIN_MAP[group.meta.domain] ||
+      group.meta.domain.toLowerCase().replace(/\s+/g, "-");
     const taskId = sanitizeId(group.meta.ecoReference);
 
     for (const raw of group.flashcards) {
@@ -341,7 +358,9 @@ function processDomainFlashcards(groups: FlashcardGroup[]): Flashcard[] {
 /**
  * Get flashcards for a specific domain (lazy loaded)
  */
-export async function getFlashcardsByDomain(domainId: string): Promise<Flashcard[]> {
+export async function getFlashcardsByDomain(
+  domainId: string,
+): Promise<Flashcard[]> {
   // Return cached processed flashcards if available
   if (cachedProcessedFlashcards.has(domainId)) {
     return cachedProcessedFlashcards.get(domainId)!;
@@ -356,7 +375,10 @@ export async function getFlashcardsByDomain(domainId: string): Promise<Flashcard
 /**
  * Get flashcards for a specific task (most granular)
  */
-export async function getFlashcardsByTask(domainId: string, taskId: string): Promise<Flashcard[]> {
+export async function getFlashcardsByTask(
+  domainId: string,
+  taskId: string,
+): Promise<Flashcard[]> {
   const group = await loadTaskData(domainId, taskId);
   return processDomainFlashcards([group]);
 }
@@ -368,7 +390,9 @@ export async function processFlashcards(): Promise<Flashcard[]> {
   const manifest = await loadManifest();
 
   // Load all domains in parallel
-  const domainPromises = manifest.domains.map(d => getFlashcardsByDomain(d.id));
+  const domainPromises = manifest.domains.map((d) =>
+    getFlashcardsByDomain(d.id),
+  );
   const allFlashcards = await Promise.all(domainPromises);
 
   return allFlashcards.flat();
@@ -398,16 +422,20 @@ export function prefetchDomains(exceptDomainId?: string): void {
         }
 
         // Use low priority fetch with requestIdleCallback if available
-        if ('requestIdleCallback' in window) {
-          (window as unknown as { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(() => {
+        if ("requestIdleCallback" in window) {
+          (
+            window as unknown as {
+              requestIdleCallback: (cb: () => void) => void;
+            }
+          ).requestIdleCallback(() => {
             loadDomainData(domain.id).catch(() => {
               // Silently fail prefetch - not critical
             });
           });
         } else {
           // Fallback: stagger fetches
-          await new Promise(resolve => setTimeout(resolve, 100));
-          loadDomainData(domain.id).catch(() => { });
+          await new Promise((resolve) => setTimeout(resolve, 100));
+          loadDomainData(domain.id).catch(() => {});
         }
       }
     } catch {
@@ -423,15 +451,18 @@ export async function getFlashcardStats(): Promise<FlashcardStats> {
   const manifest = await loadManifest();
 
   // Basic stats from manifest (fast!)
-  const totalFlashcards = manifest.domains.reduce((sum, d) => sum + d.cardCount, 0);
+  const totalFlashcards = manifest.domains.reduce(
+    (sum, d) => sum + d.cardCount,
+    0,
+  );
   const totalTasks = manifest.domains.reduce((sum, d) => sum + d.taskCount, 0);
 
   // Domain breakdown from manifest (no need to load full data!)
-  const domainBreakdown: DomainBreakdown[] = manifest.domains.map(domain => ({
+  const domainBreakdown: DomainBreakdown[] = manifest.domains.map((domain) => ({
     domainId: domain.id,
     domain: domain.name,
     totalFlashcards: domain.cardCount,
-    tasks: domain.tasks.map(task => ({
+    tasks: domain.tasks.map((task) => ({
       taskId: sanitizeId(task.ecoReference),
       task: task.name,
       ecoReference: task.ecoReference,
@@ -506,7 +537,7 @@ export async function getFlashcards(options: {
  */
 export async function getFlashcardById(id: string): Promise<Flashcard | null> {
   // Extract domain from ID (format: domain-task-id)
-  const parts = id.split('-');
+  const parts = id.split("-");
   if (parts.length >= 3) {
     const domainId = parts[0];
     const flashcards = await getFlashcardsByDomain(domainId);
@@ -521,23 +552,27 @@ export async function getFlashcardById(id: string): Promise<Flashcard | null> {
 /**
  * Get all unique domains from manifest (fast)
  */
-export async function getDomains(): Promise<Array<{ id: string; name: string }>> {
+export async function getDomains(): Promise<
+  Array<{ id: string; name: string }>
+> {
   const manifest = await loadManifest();
-  return manifest.domains.map(d => ({ id: d.id, name: d.name }));
+  return manifest.domains.map((d) => ({ id: d.id, name: d.name }));
 }
 
 /**
  * Get all unique tasks for a domain from manifest (fast, no data load)
  */
-export async function getTasksByDomain(domainId: string): Promise<Array<{ id: string; name: string; ecoReference: string }>> {
+export async function getTasksByDomain(
+  domainId: string,
+): Promise<Array<{ id: string; name: string; ecoReference: string }>> {
   const manifest = await loadManifest();
-  const domain = manifest.domains.find(d => d.id === domainId);
+  const domain = manifest.domains.find((d) => d.id === domainId);
 
   if (!domain) {
     return [];
   }
 
-  return domain.tasks.map(task => ({
+  return domain.tasks.map((task) => ({
     id: sanitizeId(task.ecoReference),
     name: task.name,
     ecoReference: task.ecoReference,

@@ -104,7 +104,7 @@
 			>
 				{i + 1}
 				{#if status === 'flagged'}
-					<span class="ml-1">★</span>
+					<span class="ml-1"></span>
 				{/if}
 			</button>
 		{/each}
