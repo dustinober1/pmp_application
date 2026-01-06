@@ -53,16 +53,14 @@ describe("studySession", () => {
     });
 
     it("should return empty array when window is undefined", () => {
-      // @ts-expect-error - testing undefined window
       const originalWindow = global.window;
-      // @ts-expect-error - testing undefined window
-      delete global.window;
+      delete (global as any).window;
 
       const sessions = getStudySessions();
       expect(sessions).toEqual([]);
 
       // Restore window
-      global.window = originalWindow;
+      (global as any).window = originalWindow;
     });
 
     it("should parse and return stored sessions", () => {
@@ -99,7 +97,7 @@ describe("studySession", () => {
 
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => {});
+        .mockImplementation(() => { });
 
       const sessions = getStudySessions();
       expect(sessions).toEqual([]);
@@ -170,7 +168,7 @@ describe("studySession", () => {
 
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => {});
+        .mockImplementation(() => { });
 
       // Should not throw, just log error
       expect(() => saveStudySession(session)).not.toThrow();
@@ -189,16 +187,14 @@ describe("studySession", () => {
         taskCompleted: true,
       };
 
-      // @ts-expect-error - testing undefined window
       const originalWindow = global.window;
-      // @ts-expect-error - testing undefined window
-      delete global.window;
+      delete (global as any).window;
 
       // Should not throw
       expect(() => saveStudySession(session)).not.toThrow();
 
       // Restore window
-      global.window = originalWindow;
+      (global as any).window = originalWindow;
     });
   });
 
@@ -225,7 +221,7 @@ describe("studySession", () => {
       const sessions = getStudySessions();
       expect(sessions).toHaveLength(1);
       expect(sessions[0].taskId).toBe("task-1");
-      expect(sessions[0].duration).toBeGreaterThan(0);
+      expect(sessions[0].duration).greaterThan(0);
       expect(sessions[0].taskCompleted).toBe(true);
     });
 
@@ -476,9 +472,9 @@ describe("studySession", () => {
       const task2Time = getTaskStudyTime("task-2");
       const task3Time = getTaskStudyTime("task-3");
 
-      expect(task1Time).toBeGreaterThan(0);
-      expect(task2Time).toBeGreaterThan(0);
-      expect(task3Time).toBeGreaterThan(0);
+      expect(task1Time).greaterThan(0);
+      expect(task2Time).greaterThan(0);
+      expect(task3Time).greaterThan(0);
     });
 
     it("should handle sessions with very long task IDs", () => {
@@ -556,7 +552,7 @@ describe("studySession", () => {
       // Should return empty array and log error
       const consoleSpy = vi
         .spyOn(console, "error")
-        .mockImplementation(() => {});
+        .mockImplementation(() => { });
       const sessions = getStudySessions();
 
       expect(sessions).toEqual([]);

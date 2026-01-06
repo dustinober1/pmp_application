@@ -1,5 +1,6 @@
 <script lang="ts">
  import { fade } from 'svelte/transition';
+	import { base } from '$app/paths';
 
  interface Question {
  text: string;
@@ -20,8 +21,14 @@
  let selectedOption = $state<number | null>(null);
  let showExplanation = $state(false);
  let score = $state(0);
- let quizComplete = $state(false);
- let answers = $state<({ selected: number; isCorrect: boolean } | null)[]>(new Array(questions.length).fill(null));
+ 	let quizComplete = $state(false);
+	let answers = $state<({ selected: number; isCorrect: boolean } | null)[]>([]);
+
+	$effect.pre(() => {
+		if (answers.length !== questions.length) {
+			answers = new Array(questions.length).fill(null);
+		}
+	});
 
  const currentQuestion = $derived(questions[currentQuestionIndex]);
 

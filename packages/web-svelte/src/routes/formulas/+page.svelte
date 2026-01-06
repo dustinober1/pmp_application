@@ -235,6 +235,7 @@
 					{#if searchQuery}
 						<button
 							onclick={clearSearch}
+							aria-label="Clear search"
 							class="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
 						>
 							<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -256,6 +257,9 @@
 					<div
 						class="bg-card rounded-2xl shadow-lg border border-border hover:shadow-hover transition-all duration-300 hover:scale-105 cursor-pointer"
 						onclick={() => openCalculator(formula)}
+						onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCalculator(formula); } }}
+						role="button"
+						tabindex="0"
 					>
 						<div class="p-6">
 							<!-- Category Badge -->
@@ -310,6 +314,10 @@
 				<div
 					class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
 					onclick={closeCalculator}
+					onkeydown={(e) => { if (e.key === 'Escape') closeCalculator(); }}
+					role="button"
+					tabindex="-1"
+					aria-label="Close calculator"
 				></div>
 
 				<!-- Modal Content -->
@@ -329,6 +337,7 @@
 							</div>
 							<button
 								onclick={closeCalculator}
+								aria-label="Close calculator"
 								class="text-muted-foreground hover:text-foreground transition-colors"
 							>
 								<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -398,7 +407,7 @@
 								{#if selectedFormula.id === 'npv' || selectedFormula.id === 'irr'}
 									<!-- Cash Flows Input -->
 									<div>
-										<label class="block text-sm font-medium text-foreground mb-1">
+										<label for="cashFlows" class="block text-sm font-medium text-foreground mb-1">
 											Cash Flows (comma-separated)
 											{#if selectedFormula.id === 'irr'}
 												<br />
@@ -408,6 +417,7 @@
 											{/if}
 										</label>
 										<input
+											id="cashFlows"
 											type="text"
 											bind:value={cashFlowsInput}
 											placeholder={selectedFormula.id === 'npv'
@@ -421,13 +431,14 @@
 								{#each selectedFormula.variables as variable}
 									{#if variable.id !== 'cashFlows'}
 										<div>
-											<label class="block text-sm font-medium text-foreground mb-1">
+											<label for="variable-{variable.id}" class="block text-sm font-medium text-foreground mb-1">
 												{variable.name}
 												{#if variable.unit}
 													<span class="text-muted-foreground">({variable.unit})</span>
 												{/if}
 											</label>
 											<input
+												id="variable-{variable.id}"
 												type="number"
 												step="any"
 												placeholder={variable.description}
@@ -504,6 +515,7 @@
 	.line-clamp-2 {
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

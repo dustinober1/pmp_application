@@ -1,0 +1,283 @@
+
+> @pmp/web-svelte@1.0.0 check
+> svelte-kit sync && svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /Users/dustinober/pmp_application/packages/web-svelte
+Getting Svelte diagnostics...
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/lib/components/CircularProgress.svelte:29:18
+Warn: This reference only captures the initial value of `size`. Did you mean to reference it inside a closure instead?
+https://svelte.dev/e/state_referenced_locally (svelte)
+
+	const radius = (size - strokeWidth) / 2;
+	const circumference = 2 * Math.PI * radius;
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/lib/components/CircularProgress.svelte:29:25
+Warn: This reference only captures the initial value of `strokeWidth`. Did you mean to reference it inside a closure instead?
+https://svelte.dev/e/state_referenced_locally (svelte)
+
+	const radius = (size - strokeWidth) / 2;
+	const circumference = 2 * Math.PI * radius;
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/lib/components/FlashcardStudyCard.svelte:39:2
+Warn: Visible, non-interactive elements with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events (svelte)
+
+ <div
+ class="flashcard"
+ class:flipped={isFlipped}
+ onclick={onFlip}
+ role="button"
+ tabindex="0"
+ aria-label="Flashcard, press Space or Enter to flip"
+ >
+ <div class="flashcard-inner">
+ <!-- Front side -->
+ <div class="flashcard-side flashcard-front">
+ <div class="flashcard-content">
+ <span class="card-label">Question</span>
+ <p class="card-text">{card.front}</p>
+ </div>
+ <div class="card-hint">
+ <span class="text-sm text-gray-400">Click card or press Space to flip • Press ? for more shortcuts</span>
+ </div>
+ </div>
+
+ <!-- Back side -->
+ <div class="flashcard-side flashcard-back">
+ <div class="flashcard-content">
+ <span class="card-label">Answer</span>
+ <p class="card-text">{card.back}</p>
+ </div>
+ <div class="card-hint">
+ <span class="text-sm text-gray-400">Press 1-4 to rate your recall</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ {:else}
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/lib/components/QuizComponent.svelte:25:86
+Warn: This reference only captures the initial value of `questions`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally (svelte)
+ let quizComplete = $state(false);
+ let answers = $state<({ selected: number; isCorrect: boolean } | null)[]>(new Array(questions.length).fill(null));
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:236:7
+Warn: Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label (svelte)
+					{#if searchQuery}
+						<button
+							onclick={clearSearch}
+							class="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+						>
+							<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M6 18L18 6M6 6l12 12"
+								/>
+							</svg>
+						</button>
+					{/if}
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:256:6
+Warn: Visible, non-interactive elements with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events (svelte)
+				{#each displayFormulas() as formula}
+					<div
+						class="bg-card rounded-2xl shadow-lg border border-border hover:shadow-hover transition-all duration-300 hover:scale-105 cursor-pointer"
+						onclick={() => openCalculator(formula)}
+					>
+						<div class="p-6">
+							<!-- Category Badge -->
+							<div class="mb-3">
+								<span
+									class="px-3 py-1 text-xs font-medium rounded-full border {getCategoryColor(
+										formula.category
+									)}"
+								>
+									{getCategoryName(formula.category)}
+								</span>
+							</div>
+
+							<!-- Formula Name -->
+							<h3 class="text-lg font-semibold text-foreground mb-2">
+								{formula.name}
+							</h3>
+
+							<!-- Expression -->
+							<div
+								class="bg-primary/10 rounded-lg px-3 py-2 mb-3 font-mono text-sm text-primary"
+							>
+								{formula.expression}
+							</div>
+
+							<!-- Description -->
+							<p class="text-sm text-muted-foreground line-clamp-2">
+								{formula.description}
+							</p>
+
+							<!-- Open Calculator Button -->
+							<button class="mt-4 w-full py-2 px-4 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium rounded-lg transition-colors duration-300">
+								Open Calculator
+							</button>
+						</div>
+					</div>
+				{:else}
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:256:6
+Warn: `<div>` with a click handler must have an ARIA role
+https://svelte.dev/e/a11y_no_static_element_interactions (svelte)
+				{#each displayFormulas() as formula}
+					<div
+						class="bg-card rounded-2xl shadow-lg border border-border hover:shadow-hover transition-all duration-300 hover:scale-105 cursor-pointer"
+						onclick={() => openCalculator(formula)}
+					>
+						<div class="p-6">
+							<!-- Category Badge -->
+							<div class="mb-3">
+								<span
+									class="px-3 py-1 text-xs font-medium rounded-full border {getCategoryColor(
+										formula.category
+									)}"
+								>
+									{getCategoryName(formula.category)}
+								</span>
+							</div>
+
+							<!-- Formula Name -->
+							<h3 class="text-lg font-semibold text-foreground mb-2">
+								{formula.name}
+							</h3>
+
+							<!-- Expression -->
+							<div
+								class="bg-primary/10 rounded-lg px-3 py-2 mb-3 font-mono text-sm text-primary"
+							>
+								{formula.expression}
+							</div>
+
+							<!-- Description -->
+							<p class="text-sm text-muted-foreground line-clamp-2">
+								{formula.description}
+							</p>
+
+							<!-- Open Calculator Button -->
+							<button class="mt-4 w-full py-2 px-4 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium rounded-lg transition-colors duration-300">
+								Open Calculator
+							</button>
+						</div>
+					</div>
+				{:else}
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:310:5
+Warn: Visible, non-interactive elements with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events (svelte)
+				<!-- Backdrop -->
+				<div
+					class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+					onclick={closeCalculator}
+				></div>
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:310:5
+Warn: `<div>` with a click handler must have an ARIA role
+https://svelte.dev/e/a11y_no_static_element_interactions (svelte)
+				<!-- Backdrop -->
+				<div
+					class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+					onclick={closeCalculator}
+				></div>
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:330:8
+Warn: Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label (svelte)
+							</div>
+							<button
+								onclick={closeCalculator}
+								class="text-muted-foreground hover:text-foreground transition-colors"
+							>
+								<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M6 18L18 6M6 6l12 12"
+									/>
+								</svg>
+							</button>
+						</div>
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:401:11
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+									<div>
+										<label class="block text-sm font-medium text-foreground mb-1">
+											Cash Flows (comma-separated)
+											{#if selectedFormula.id === 'irr'}
+												<br />
+												<span class="text-xs text-muted-foreground"
+													>First value should be negative (initial investment)</span
+												>
+											{/if}
+										</label>
+										<input
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:424:12
+Warn: A form label must be associated with a control
+https://svelte.dev/e/a11y_label_has_associated_control (svelte)
+										<div>
+											<label class="block text-sm font-medium text-foreground mb-1">
+												{variable.name}
+												{#if variable.unit}
+													<span class="text-muted-foreground">({variable.unit})</span>
+												{/if}
+											</label>
+											<input
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:506:3
+Warn: Also define the standard property 'line-clamp' for compatibility (css)
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/practice/+page.svelte:118:37
+Error: Property 'sessionId' does not exist on type '{}'. (ts)
+			});
+			const sessionId = response.data?.sessionId;
+			if (sessionId) {
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/study/+page.svelte:106:23
+Error: Property 'sessionId' does not exist on type '{}'. (ts)
+			});
+			if (response.data?.sessionId) {
+				goto(`${base}/flashcards/practice?sessionId=${response.data.sessionId}`);
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/study/+page.svelte:107:65
+Error: Property 'sessionId' does not exist on type '{}'. (ts)
+			if (response.data?.sessionId) {
+				goto(`${base}/flashcards/practice?sessionId=${response.data.sessionId}`);
+			}
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/study/+page.svelte:124:23
+Error: Property 'sessionId' does not exist on type '{}'. (ts)
+			});
+			if (response.data?.sessionId) {
+				goto(`${base}/practice/${response.data.sessionId}`);
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/study/+page.svelte:125:44
+Error: Property 'sessionId' does not exist on type '{}'. (ts)
+			if (response.data?.sessionId) {
+				goto(`${base}/practice/${response.data.sessionId}`);
+			}
+
+====================================
+svelte-check found 5 errors and 13 warnings in 6 files
+npm error Lifecycle script `check` failed with error:
+npm error code 1
+npm error path /Users/dustinober/pmp_application/packages/web-svelte
+npm error workspace @pmp/web-svelte@1.0.0
+npm error location /Users/dustinober/pmp_application/packages/web-svelte
+npm error command failed
+npm error command sh -c svelte-kit sync && svelte-check --tsconfig ./tsconfig.json

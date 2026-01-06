@@ -141,7 +141,7 @@ export const flashcardApi = {
     },
     fetchFn?: typeof fetch,
   ) =>
-    apiRequest(
+    apiRequest<{ sessionId: string }>(
       "/flashcards/sessions",
       { method: "POST", body: options },
       fetchFn || fetch,
@@ -187,14 +187,14 @@ export const practiceApi = {
 
         return {
           success: true,
-          data: { id: sessionId },
+          data: { sessionId },
         };
       }
     } catch (e) {
       console.warn("Static session start failed", e);
     }
 
-    return apiRequest(
+    return apiRequest<{ sessionId: string }>(
       "/practice/sessions",
       { method: "POST", body: options },
       fetchFn || fetch,
@@ -302,5 +302,5 @@ export const practiceApi = {
    * Start a mock exam session
    */
   startMockExam: (fetchFn?: typeof fetch) =>
-    apiRequest("/practice/mock-exams", { method: "POST" }, fetchFn || fetch),
+    apiRequest<{ sessionId: string }>("/practice/mock-exams", { method: "POST" }, fetchFn || fetch),
 };

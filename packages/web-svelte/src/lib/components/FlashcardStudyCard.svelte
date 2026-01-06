@@ -20,7 +20,7 @@
  }
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+
 
 <div class="flashcard-container">
  {#if card}
@@ -40,6 +40,7 @@
  class="flashcard"
  class:flipped={isFlipped}
  onclick={onFlip}
+ onkeydown={handleKeydown}
  role="button"
  tabindex="0"
  aria-label="Flashcard, press Space or Enter to flip"

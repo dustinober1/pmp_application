@@ -10,17 +10,25 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import { getModuleNumber, getModuleShortTitle } from '$lib/utils/moduleFormatting';
 
-	export let data;
+	interface Props {
+		data: {
+			domains?: any[];
+			modules?: any[];
+			error?: string;
+		};
+	}
 
-	let loading = true;
-	let domains = [];
-	let selectedDomain = null;
-	let selectedDomainData = null;
-	let loadingDomainDetails = false;
-	let expandedTask = null;
-	let activeTab = {};
-	let startingSession = null;
-	let error = null;
+	let { data }: Props = $props();
+
+	let loading = $state(true);
+	let domains = $state<any[]>([]);
+	let selectedDomain = $state<string | null>(null);
+	let selectedDomainData = $state<any>(null);
+	let loadingDomainDetails = $state(false);
+	let expandedTask = $state<string | null>(null);
+	let activeTab = $state<Record<string, string>>({});
+	let startingSession = $state<string | null>(null);
+	let error = $state<string | null>(null);
 
 	// ECO 2026 Updates
 	const ecoInfo = {
@@ -51,7 +59,7 @@
 		loading = false;
 	});
 
-	async function toggleSelectedDomain(domainId) {
+	async function toggleSelectedDomain(domainId: string) {
 		const isDeselecting = selectedDomain === domainId;
 		selectedDomain = selectedDomain === domainId ? null : domainId;
 
@@ -78,16 +86,16 @@
 		}
 	}
 
-	function toggleTaskExpanded(taskId) {
+	function toggleTaskExpanded(taskId: string) {
 		expandedTask = expandedTask === taskId ? null : taskId;
 		activeTab = { ...activeTab, [taskId]: 'study' };
 	}
 
-	function setTaskTab(taskId, tab) {
+	function setTaskTab(taskId: string, tab: string) {
 		activeTab = { ...activeTab, [taskId]: tab };
 	}
 
-	async function startFlashcardSession(domainId, taskId) {
+	async function startFlashcardSession(domainId: string, taskId: string) {
 		try {
 			startingSession = `flashcard-${taskId}`;
 			const response = await flashcardApi.startSession({
@@ -105,7 +113,7 @@
 		}
 	}
 
-	async function startPracticeSession(domainId, taskId) {
+	async function startPracticeSession(domainId: string, taskId: string) {
 		try {
 			startingSession = `practice-${taskId}`;
 			const response = await practiceApi.startSession({
@@ -303,7 +311,7 @@
 							>
 								<!-- Task Header -->
 								<button
-									on:click={() => toggleTaskExpanded(task.id)}
+									onclick={() => toggleTaskExpanded(task.id)}
 									class="w-full text-left p-6 focus:outline-none"
 								>
 									<div class="flex items-start justify-between gap-4">
@@ -329,7 +337,7 @@
 										<div class="flex border-b border-border bg-muted/30">
 											{#each tabs as tab}
 												<button
-													on:click={() => setTaskTab(task.id, tab.id)}
+													onclick={() => setTaskTab(task.id, tab.id)}
 													class="flex items-center gap-2 px-6 py-4 text-sm font-bold transition-all relative {currentTab === tab.id ? 'text-primary bg-background' : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'}"
 												>
 													{@html tab.icon}
@@ -364,7 +372,7 @@
 													</p>
 													<Button
 														variant="primary"
-														on:click={() => startFlashcardSession(selectedDomainData.id, task.id)}
+														onclick={() => startFlashcardSession(selectedDomainData.id, task.id)}
 														disabled={startingSession === `flashcard-${task.id}`}
 													>
 														{#if startingSession === `flashcard-${task.id}`}
@@ -388,7 +396,7 @@
 													</p>
 													<Button
 														variant="secondary"
-														on:click={() => startPracticeSession(selectedDomainData.id, task.id)}
+														onclick={() => startPracticeSession(selectedDomainData.id, task.id)}
 														disabled={startingSession === `practice-${task.id}`}
 													>
 														{#if startingSession === `practice-${task.id}`}

@@ -2,19 +2,26 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
 	import { createStudySessionTracker } from '$lib/utils/studySession';
 	import LoadingState from '$lib/components/LoadingState.svelte';
-	import ErrorState from '$lib/components/ErrorState.svelte';
 	import DOMPurify from 'isomorphic-dompurify';
+	import type { Task, StudyGuide } from '@pmp/shared';
 
-	export let data;
+	interface Props {
+		data: {
+			task?: Task;
+			studyGuide?: StudyGuide;
+			error?: string;
+		};
+	}
 
-	let loading = true;
-	let task = null;
-	let studyGuide = null;
-	let activeSection = '';
-	let error = null;
+	let { data }: Props = $props();
+
+	let loading = $state(true);
+	let task = $state<Task | null>(null);
+	let studyGuide = $state<StudyGuide | null>(null);
+	let activeSection = $state('');
+	let error = $state<string | null>(null);
 
 	onMount(() => {
 		// Use data from load function if available
@@ -23,7 +30,7 @@
 		}
 		if (data.studyGuide) {
 			studyGuide = data.studyGuide;
-			if (studyGuide.sections.length > 0) {
+			if (studyGuide.sections && studyGuide.sections.length > 0) {
 				activeSection = studyGuide.sections[0].id;
 			}
 		}
@@ -64,7 +71,7 @@
 		}
 	});
 
-	function scrollToSection(sectionId) {
+	function scrollToSection(sectionId: string) {
 		activeSection = sectionId;
 		const element = document.getElementById(sectionId);
 		if (element) {
@@ -80,7 +87,7 @@
 		<h1 class="text-2xl font-bold text-white mb-2">Task Not Found</h1>
 		<p class="text-gray-400 mb-6">The requested task could not be found.</p>
 		<button
-			on:click={() => goto(`${base}/study`)}
+			onclick={() => goto(`${base}/study`)}
 			class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
 		>
 			Back to Study Guide
@@ -91,7 +98,7 @@
 		<!-- Header -->
 		<div class="mb-8">
 			<div class="flex items-center space-x-2 text-sm text-gray-400 mb-2">
-				<button on:click={() => goto(`${base}/study`)} class="hover:text-white transition">
+				<button onclick={() => goto(`${base}/study`)} class="hover:text-white transition">
 					Study Guide
 				</button>
 				<span>/</span>
@@ -118,7 +125,7 @@
 						{:else}
 							{#each studyGuide.sections as section}
 								<button
-									on:click={() => scrollToSection(section.id)}
+									onclick={() => scrollToSection(section.id)}
 									class="w-full text-left px-3 py-2 text-sm rounded-md transition-colors {activeSection ===
 									section.id
 										? 'bg-indigo-900/30 text-indigo-400 border-l-2 border-indigo-500'
@@ -138,13 +145,13 @@
 						</h3>
 						<div class="space-y-2">
 							<button
-								on:click={() => goto(`${base}/flashcards`)}
+								onclick={() => goto(`${base}/flashcards`)}
 								class="w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center"
 							>
 								<span class="mr-2"></span> Related Flashcards
 							</button>
 							<button
-								on:click={() => goto(`${base}/formulas`)}
+								onclick={() => goto(`${base}/formulas`)}
 								class="w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center"
 							>
 								<span class="mr-2">∑</span> Related Formulas
@@ -169,7 +176,7 @@
 						</p>
 						<div class="mt-6 flex justify-center space-x-4">
 							<button
-								on:click={() => goto(`${base}/flashcards`)}
+								onclick={() => goto(`${base}/flashcards`)}
 								class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
 							>
 								Start Flashcards

@@ -276,7 +276,7 @@ describe("StudyStatsGrid Component", () => {
 
       // Should show 0 for missing data
       const zeros = screen.getAllByText("0");
-      expect(zeros.length).beGreaterThan(0);
+      expect(zeros.length).greaterThan(0);
     });
 
     it("should round exam average to nearest integer", () => {
@@ -489,7 +489,7 @@ describe("StudyStatsGrid Component", () => {
     });
 
     it("should reload stats when TOTAL_STUDY_TIME changes", () => {
-      let storageHandler: ((e: StorageEvent) => void) | null = null;
+      let storageHandler: any = null;
       const addEventListenerSpy = vi.fn((event, handler) => {
         if (event === "storage") {
           storageHandler = handler as (e: StorageEvent) => void;
@@ -522,7 +522,7 @@ describe("StudyStatsGrid Component", () => {
     });
 
     it("should reload stats when FLASHCARDS_MASTERED changes", () => {
-      let storageHandler: ((e: StorageEvent) => void) | null = null;
+      let storageHandler: any = null;
       const addEventListenerSpy = vi.fn((event, handler) => {
         if (event === "storage") {
           storageHandler = handler as (e: StorageEvent) => void;
@@ -543,7 +543,7 @@ describe("StudyStatsGrid Component", () => {
     });
 
     it("should reload stats when MOCK_EXAMS changes", () => {
-      let storageHandler: ((e: StorageEvent) => void) | null = null;
+      let storageHandler: any = null;
       const addEventListenerSpy = vi.fn((event, handler) => {
         if (event === "storage") {
           storageHandler = handler as (e: StorageEvent) => void;
@@ -566,7 +566,7 @@ describe("StudyStatsGrid Component", () => {
     });
 
     it("should reload stats when STUDY_STREAK changes", () => {
-      let storageHandler: ((e: StorageEvent) => void) | null = null;
+      let storageHandler: any = null;
       const addEventListenerSpy = vi.fn((event, handler) => {
         if (event === "storage") {
           storageHandler = handler as (e: StorageEvent) => void;
@@ -584,7 +584,7 @@ describe("StudyStatsGrid Component", () => {
     });
 
     it("should ignore storage events for unrelated keys", () => {
-      let storageHandler: ((e: StorageEvent) => void) | null = null;
+      let storageHandler: any = null;
       let loadStatsCallCount = 0;
       const addEventListenerSpy = vi.fn((event, handler) => {
         if (event === "storage") {
@@ -729,7 +729,7 @@ describe("StudyStatsGrid Component", () => {
 
       // Should show 0 for empty array
       const zeros = screen.getAllByText("0");
-      expect(zeros.length).beGreaterThan(0);
+      expect(zeros.length).greaterThan(0);
     });
 
     it("should handle non-array value for mock exams", () => {
@@ -739,7 +739,7 @@ describe("StudyStatsGrid Component", () => {
 
       // Should show 0 for non-array
       const zeros = screen.getAllByText("0");
-      expect(zeros.length).beGreaterThan(0);
+      expect(zeros.length).greaterThan(0);
     });
 
     it("should handle exam scores at boundaries (0 and 100)", () => {

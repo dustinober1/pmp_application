@@ -20,9 +20,9 @@
 
 	let loading = $state(true);
 	let stats: CombinedPracticeStats | null = $state(null);
-	let domains: Domain[] = $state([]);
-	let mockExams = [];
-	let error = $state(null);
+	let domains = $state<Domain[]>([]);
+	let mockExams = $state<any[]>([]);
+	let error = $state<string | null>(null);
 	let selectedDomains = $state<string[]>([]);
 	let questionCount = $state(25);
 	let startMode = $state<'srs' | 'shuffle'>('srs');

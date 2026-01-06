@@ -85,6 +85,10 @@ function createDomainProgressStore() {
 
   return {
     subscribe,
+    set(value: DomainProgressState) {
+      set(value);
+      setStorageItem(STORAGE_KEYS.DOMAIN_PROGRESS, value);
+    },
 
     // Update progress for a specific domain
     updateDomain(domainId: string, updates: Partial<DomainProgressStats>) {
@@ -390,15 +394,15 @@ export const overallProgress = derived(
   ($store: DomainProgressState) =>
     $store.domains.length > 0
       ? Math.round(
-          $store.domains.reduce((sum: number, d: DomainProgressStats) => {
-            const totalMastered =
-              d.flashcardsMastered + (d.questionsMastered || 0);
-            const totalItems = d.flashcardsTotal + (d.questionsTotal || 0);
-            const domainProgress =
-              totalItems > 0 ? (totalMastered / totalItems) * 100 : 0;
-            return sum + domainProgress;
-          }, 0) / $store.domains.length,
-        )
+        $store.domains.reduce((sum: number, d: DomainProgressStats) => {
+          const totalMastered =
+            d.flashcardsMastered + (d.questionsMastered || 0);
+          const totalItems = d.flashcardsTotal + (d.questionsTotal || 0);
+          const domainProgress =
+            totalItems > 0 ? (totalMastered / totalItems) * 100 : 0;
+          return sum + domainProgress;
+        }, 0) / $store.domains.length,
+      )
       : 0,
 );
 
@@ -420,6 +424,10 @@ function createRecentActivityStore() {
 
   return {
     subscribe,
+    set(value: RecentActivityState) {
+      set(value);
+      setStorageItem(STORAGE_KEYS.RECENT_ACTIVITY, value);
+    },
 
     // Add a new activity
     addActivity(activity: Omit<RecentActivity, "id" | "timestamp">) {

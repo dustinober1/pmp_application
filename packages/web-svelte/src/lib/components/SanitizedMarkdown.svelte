@@ -35,10 +35,7 @@
 	// Sanitize and parse markdown
 	const html = $derived.by(() => {
 		const processed = preProcess(content);
-		const rawHtml = marked.parse(processed, {
-			headerIds: false,
-			mangle: false
-		}) as string;
+		const rawHtml = marked.parse(processed) as string;
 		
 		return DOMPurify.sanitize(rawHtml, {
 			USE_PROFILES: { html: true },

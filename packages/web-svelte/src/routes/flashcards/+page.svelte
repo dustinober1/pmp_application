@@ -17,6 +17,7 @@
  } from "$lib/utils/flashcardsData";
  import { goto } from '$app/navigation';
  import { base } from '$app/paths';
+ import Card from '$lib/components/ui/Card.svelte';
 
  // Domain filter options
  interface DomainFilter {

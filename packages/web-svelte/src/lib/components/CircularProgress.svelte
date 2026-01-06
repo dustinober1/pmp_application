@@ -26,8 +26,8 @@
 	let currentProgress = $state(0);
 	let isVisible = $state(false);
 
-	const radius = (size - strokeWidth) / 2;
-	const circumference = 2 * Math.PI * radius;
+	const radius = $derived((size - strokeWidth) / 2);
+	const circumference = $derived(2 * Math.PI * radius);
 	const offset = $derived(circumference - (currentProgress / 100) * circumference);
 
 	const colorClasses = {

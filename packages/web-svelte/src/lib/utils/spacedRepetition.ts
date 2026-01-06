@@ -11,6 +11,7 @@
  */
 
 import { SM2_DEFAULTS, type CardProgress, type SM2Rating } from "@pmp/shared";
+export type { SM2Rating };
 import * as cardProgressStorage from "./cardProgressStorage";
 
 // Re-export storage functions for convenience

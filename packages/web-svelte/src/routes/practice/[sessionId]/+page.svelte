@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { savePracticeSession } from '$lib/utils/practiceSessionStorage';
@@ -9,16 +9,18 @@
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
 
-	let selectedOptionId = null;
-	let showExplanation = false;
-	let submitting = false;
-	let error = null;
-	let isFlagged = false;
+	let selectedOptionId = $state<string | null>(null);
+	let showExplanation = $state(false);
+	let submitting = $state(false);
+	let error = $state<string | null>(null);
+	let isFlagged = $state(false);
 
 	// Update flagged status when question changes
-	$: if ($currentQuestion) {
-		isFlagged = isQuestionFlagged($currentQuestion.id);
-	}
+	$effect(() => {
+		if ($currentQuestion) {
+			isFlagged = isQuestionFlagged($currentQuestion.id);
+		}
+	});
 
 	function handleToggleFlag() {
 		if ($currentQuestion) {
@@ -105,14 +107,16 @@
 		}
 	});
 
-	$: isLastQuestion = $practiceMode.currentIndex === $practiceMode.questions.length - 1;
-	$: isComplete = $practiceMode.isComplete;
+	const isLastQuestion = $derived($practiceMode.currentIndex === $practiceMode.questions.length - 1);
+	const isComplete = $derived($practiceMode.isComplete);
 
 	// Automatically complete session when store marks it as complete
-	$: if (isComplete && !saved) {
-		// We can just navigate, onDestroy will save.
-		goto(`${base}/dashboard`);
-	}
+	$effect(() => {
+		if (isComplete && !saved) {
+			// We can just navigate, onDestroy will save.
+			goto(`${base}/dashboard`);
+		}
+	});
 </script>
 
 {#if !error && !$currentQuestion && !isComplete}

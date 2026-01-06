@@ -1,0 +1,15 @@
+
+> @pmp/web-svelte@1.0.0 check
+> svelte-kit sync && svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /Users/dustinober/pmp_application/packages/web-svelte
+Getting Svelte diagnostics...
+
+/Users/dustinober/pmp_application/packages/web-svelte/src/routes/formulas/+page.svelte:517:3
+Warn: Also define the standard property 'line-clamp' for compatibility (css)
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+
+====================================
+svelte-check found 0 errors and 1 warning in 1 file

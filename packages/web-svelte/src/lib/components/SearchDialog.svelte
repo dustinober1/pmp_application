@@ -16,8 +16,8 @@
 	let query = $state('');
 	let results = $state<SearchResult[]>([]);
 	let loading = $state(false);
-	let inputElement: HTMLInputElement | undefined;
-	let dialogElement: HTMLDivElement | undefined;
+	let inputElement = $state<HTMLInputElement | undefined>();
+	let dialogElement = $state<HTMLDivElement | undefined>();
 	let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 	let lastPathname = $state('');
 
