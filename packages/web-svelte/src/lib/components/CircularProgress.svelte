@@ -32,24 +32,24 @@
 
 	const colorClasses = {
 		blue: {
-			stroke: '#3b82f6',
-			text: 'text-blue-600 dark:text-blue-400',
-			bg: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30'
+			text: 'text-primary',
+			bg: 'from-primary/10 to-primary/20',
+			ring: 'text-primary'
 		},
 		purple: {
-			stroke: '#8b5cf6',
-			text: 'text-purple-600 dark:text-purple-400',
-			bg: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30'
+			text: 'text-secondary',
+			bg: 'from-secondary/10 to-secondary/20',
+			ring: 'text-secondary'
 		},
 		emerald: {
-			stroke: '#10b981',
-			text: 'text-emerald-600 dark:text-emerald-400',
-			bg: 'from-emerald-50 to-emerald-100 dark:from-emerald-900/30 dark:to-emerald-800/30'
+			text: 'text-primary',
+			bg: 'from-primary/20 to-primary/30',
+			ring: 'text-primary'
 		},
 		amber: {
-			stroke: '#f59e0b',
-			text: 'text-amber-600 dark:text-amber-400',
-			bg: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30'
+			text: 'text-secondary',
+			bg: 'from-secondary/20 to-secondary/30',
+			ring: 'text-secondary'
 		}
 	};
 
@@ -86,7 +86,7 @@
 			class="transform -rotate-90"
 			width={size}
 			height={size}
-			style="filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));"
+			style="filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));"
 		>
 			<!-- Background circle -->
 			<circle
@@ -96,7 +96,7 @@
 				fill="none"
 				stroke="currentColor"
 				stroke-width={strokeWidth}
-				class="text-gray-200 dark:text-gray-700"
+				class="text-muted/30"
 				stroke-linecap="round"
 			/>
 
@@ -106,12 +106,12 @@
 				cy={size / 2}
 				r={radius}
 				fill="none"
-				stroke={selectedColor.stroke}
+				stroke="currentColor"
 				stroke-width={strokeWidth}
 				stroke-linecap="round"
 				stroke-dasharray={circumference}
 				stroke-dashoffset={offset}
-				class="transition-all duration-300 ease-out"
+				class="transition-all duration-300 ease-out {selectedColor.ring}"
 				style:transition-stroke-dashoffset={animate ? 'stroke-dashoffset 1.5s ease-out' : 'none'}
 			/>
 		</svg>
@@ -121,7 +121,7 @@
 				class="absolute inset-0 flex flex-col items-center justify-center"
 				style="font-size: {size * 0.2}px;"
 			>
-				<span class="font-bold {selectedColor.text} leading-none">
+				<span class="font-bold font-serif {selectedColor.text} leading-none">
 					{Math.round(currentProgress)}%
 				</span>
 			</div>
@@ -129,9 +129,9 @@
 	</div>
 
 	<div class="text-center">
-		<h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">{label}</h3>
+		<h3 class="text-sm font-bold font-serif text-foreground">{label}</h3>
 		{#if description}
-			<p class="text-xs text-gray-600 dark:text-gray-400 mt-0.5">{description}</p>
+			<p class="text-xs text-muted-foreground mt-0.5">{description}</p>
 		{/if}
 	</div>
 </div>

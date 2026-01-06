@@ -1,143 +1,159 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { t } from '$lib/stores/i18n';
+	import Button from '$lib/components/ui/Button.svelte';
+	import Card from '$lib/components/ui/Card.svelte';
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
-	<div class="max-w-3xl w-full text-center space-y-12">
-		<!-- Privacy & Progress Warning -->
-		<div class="group bg-gradient-to-r from-amber-100/90 to-orange-100/90 dark:from-amber-900/40 dark:to-orange-900/40 backdrop-blur-sm p-5 rounded-2xl border-2 border-amber-400/70 dark:border-amber-600/70 shadow-lg hover:shadow-xl hover:shadow-amber-500/20 transition-all duration-300">
-			<div class="flex items-center justify-center gap-2 mb-2">
-				<span class="text-3xl group-hover:scale-110 transition-transform duration-300">⚠️</span>
-				<span class="font-bold text-amber-900 dark:text-amber-100 text-lg">IMPORTANT</span>
+<div class="relative min-h-screen overflow-hidden bg-background">
+	<!-- Organic Blob Backgrounds -->
+	<div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/20 rounded-blob blur-3xl animate-float opacity-70"></div>
+	<div class="absolute top-40 -right-20 w-80 h-80 bg-secondary/15 rounded-blob blur-3xl animate-float delay-1000 opacity-60"></div>
+	<div class="absolute bottom-0 left-1/3 w-full h-96 bg-accent/30 rounded-t-[50%] blur-3xl opacity-40"></div>
+
+	<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+		<div class="text-center space-y-12 max-w-4xl mx-auto">
+			
+			<!-- Privacy Notice -->
+			<div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-secondary/10 border border-secondary/20 text-secondary-foreground shadow-soft transition-transform hover:scale-105">
+				<span class="text-lg">⚠️</span>
+				<span class="text-sm font-medium">Progress stored locally in your browser</span>
 			</div>
-			<p class="text-amber-900 dark:text-amber-100 font-medium text-sm leading-relaxed">
-				This is a free, open-source static site. Your progress is stored locally in your browser's cache.
-				If you clear your browser cache or site data, all your tracking and progress will be permanently lost.
-			</p>
-		</div>
 
-		<div class="space-y-4">
-			<h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
-				PMP Study Pro
-			</h1>
-			<p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300">
-				Free, open-source PMP certification preparation.
-			</p>
-		</div>
-
-		<!-- July 2026 ECO Notice Banner -->
-		<div class="group mb-10 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-800 backdrop-blur-sm hover:shadow-blue-500/20 transition-all duration-300 hover:scale-[1.02]">
-			<div class="flex items-center justify-center gap-2">
-				<span class="text-2xl group-hover:scale-110 transition-transform duration-300">🎯</span>
-				<span class="font-semibold text-blue-900 dark:text-blue-100">Updated for July 2026 ECO</span>
+			<div class="space-y-6">
+				<h1 class="text-5xl md:text-7xl font-bold font-serif text-foreground leading-tight">
+					PMP Study <span class="text-primary italic">Pro</span>
+				</h1>
+				<p class="text-xl md:text-2xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
+					Free, open-source preparation for the 2026 PMP® certification. <br class="hidden sm:block"/>
+					Rooted in simplicity, grown for success.
+				</p>
 			</div>
-			<p class="text-sm text-blue-700 dark:text-blue-300 mt-1">New domain percentages, AI & Sustainability themes, 60/40 methodology focus</p>
+
+            <!-- Action Buttons -->
+			<div class="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+				<Button href="{base}/dashboard" size="lg" variant="primary">
+					Start Studying
+					<span class="ml-2 transition-transform group-hover:translate-x-1">→</span>
+				</Button>
+				<Button href="{base}/study" size="lg" variant="outline">
+					View Guide
+				</Button>
+			</div>
+
+			<!-- ECO Update Notice -->
+			<div class="mt-16 inline-flex flex-col gap-2 p-6 rounded-3xl bg-white/40 backdrop-blur-sm border border-border/50 shadow-soft max-w-2xl mx-auto transform rotate-1 hover:rotate-0 transition-transform duration-500">
+				<div class="flex items-center justify-center gap-2 text-primary">
+					<span class="text-2xl">🌿</span>
+					<span class="font-bold font-serif text-lg">Cultivated for July 2026 ECO</span>
+				</div>
+				<p class="text-sm text-foreground/80">Updated domain percentages, AI integration, and sustainability focus.</p>
+			</div>
 		</div>
 
-		<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-10 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-			<h2 class="text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
-				2026 PMP Exam Content Outline
+		<!-- ECO Domains Grid -->
+		<div class="mt-24">
+			<h2 class="text-3xl md:text-4xl font-bold font-serif text-center mb-12 text-foreground">
+				Examination Content <span class="text-secondary">Outline</span>
 			</h2>
-			<p class="text-gray-600 dark:text-gray-400 mb-10 text-lg">
-				Access practice questions, flashcards, and study guides without any subscription or login required.
-			</p>
-
-			<!-- Domain Percentages with Glassmorphism -->
-			<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-				<div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 dark:from-indigo-400/10 dark:to-indigo-500/10 backdrop-blur-md border border-indigo-200/50 dark:border-indigo-700/50 shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-105 cursor-default">
-					<div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2 group-hover:scale-110 transition-transform duration-300">33%</div>
-					<div class="font-semibold text-gray-800 dark:text-gray-200 mb-2">People</div>
-					<p class="text-xs text-gray-600 dark:text-gray-400 leading-snug">Focus on soft skills and leadership</p>
-				</div>
-				<div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-600/10 dark:from-purple-400/10 dark:to-purple-500/10 backdrop-blur-md border border-purple-200/50 dark:border-purple-700/50 shadow-lg hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 cursor-default">
-					<div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2 group-hover:scale-110 transition-transform duration-300">41%</div>
-					<div class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Process</div>
-					<p class="text-xs text-gray-600 dark:text-gray-400 leading-snug">Technical management of projects</p>
-				</div>
-				<div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-pink-500/10 to-pink-600/10 dark:from-pink-400/10 dark:to-pink-500/10 backdrop-blur-md border border-pink-200/50 dark:border-pink-700/50 shadow-lg hover:shadow-pink-500/25 transition-all duration-300 hover:scale-105 cursor-default">
-					<div class="text-4xl font-bold text-pink-600 dark:text-pink-400 mb-2 group-hover:scale-110 transition-transform duration-300">26%</div>
-					<div class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Business Environment</div>
-					<p class="text-xs text-gray-600 dark:text-gray-400 leading-snug">Major Increase — strategic alignment, compliance, and organizational value</p>
-				</div>
-			</div>
-
-			<!-- 2026 Key Themes Grid -->
-			<div class="mt-12 mb-10">
-				<h3 class="text-2xl md:text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">2026 Key Themes</h3>
-				<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-					<!-- AI Integration -->
-					<div class="group p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-600/10 dark:from-emerald-400/10 dark:to-teal-500/10 backdrop-blur-md border border-emerald-200/50 dark:border-emerald-700/50 shadow-lg hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105 cursor-default">
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-3xl group-hover:scale-110 transition-transform duration-300">🤖</span>
-							<div class="font-bold text-emerald-700 dark:text-emerald-300 text-lg">AI Integration</div>
-						</div>
-						<p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">Use of GenAI for scheduling, risk, and data analysis</p>
-					</div>
-
-					<!-- Sustainability & ESG -->
-					<div class="group p-5 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-600/10 dark:from-green-400/10 dark:to-emerald-500/10 backdrop-blur-md border border-green-200/50 dark:border-green-700/50 shadow-lg hover:shadow-green-500/25 transition-all duration-300 hover:scale-105 cursor-default">
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-3xl group-hover:scale-110 transition-transform duration-300">🌱</span>
-							<div class="font-bold text-green-700 dark:text-green-300 text-lg">Sustainability & ESG</div>
-						</div>
-						<p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">Environmental and social governance considerations</p>
-					</div>
-
-					<!-- Methodology Shift -->
-					<div class="group p-5 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-600/10 dark:from-blue-400/10 dark:to-cyan-500/10 backdrop-blur-md border border-blue-200/50 dark:border-blue-700/50 shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105 cursor-default">
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-3xl group-hover:scale-110 transition-transform duration-300">📊</span>
-							<div class="font-bold text-blue-700 dark:text-blue-300 text-lg">Methodology Shift</div>
-						</div>
-						<p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">60% Adaptive/Hybrid vs 40% Predictive/Waterfall</p>
-					</div>
-
-					<!-- Exam Logistics -->
-					<div class="group p-5 rounded-2xl bg-gradient-to-br from-orange-500/10 to-amber-600/10 dark:from-orange-400/10 dark:to-amber-500/10 backdrop-blur-md border border-orange-200/50 dark:border-orange-700/50 shadow-lg hover:shadow-orange-500/25 transition-all duration-300 hover:scale-105 cursor-default">
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-3xl group-hover:scale-110 transition-transform duration-300">⏱️</span>
-							<div class="font-bold text-orange-700 dark:text-orange-300 text-lg">Exam Logistics</div>
-						</div>
-						<p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">185 Questions over 240 Minutes</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="flex flex-col sm:flex-row gap-4 justify-center mt-12">
-				<a
-					href="{base}/dashboard"
-					class="group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-indigo-500/40 hover:scale-105 transition-all duration-300"
-				>
-					<span>Start Studying</span>
-					<span class="group-hover:translate-x-1 transition-transform duration-300">→</span>
-				</a>
-				<a
-					href="{base}/study"
-					class="group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-medium text-indigo-700 dark:text-indigo-300 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl hover:from-indigo-100 hover:to-purple-100 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/50 hover:scale-105 transition-all duration-300"
-				>
-					<span>View Guide</span>
-					<span class="group-hover:translate-x-1 transition-transform duration-300">→</span>
-				</a>
+			
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				<Card variant="feature" class="p-8 text-center rounded-tl-[4rem] rounded-br-[4rem]">
+					<div class="text-5xl font-bold font-serif text-primary mb-2">33%</div>
+					<div class="text-xl font-bold text-foreground mb-2">People</div>
+					<p class="text-muted-foreground leading-relaxed">Soft skills, leadership, and team development.</p>
+				</Card>
+				
+				<Card variant="feature" class="p-8 text-center rounded-[2.5rem]">
+					<div class="text-5xl font-bold font-serif text-secondary mb-2">41%</div>
+					<div class="text-xl font-bold text-foreground mb-2">Process</div>
+					<p class="text-muted-foreground leading-relaxed">Technical project management methodologies.</p>
+				</Card>
+				
+				<Card variant="feature" class="p-8 text-center rounded-tr-[4rem] rounded-bl-[4rem]">
+					<div class="text-5xl font-bold font-serif text-destructive mb-2">26%</div>
+					<div class="text-xl font-bold text-foreground mb-2">Business Env.</div>
+					<p class="text-muted-foreground leading-relaxed">Strategic alignment and compliance.</p>
+				</Card>
 			</div>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-			<div class="group p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl hover:shadow-indigo-500/20 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-				<div class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">📚</div>
-				<h3 class="font-semibold text-gray-900 dark:text-white mb-1">Study Guide</h3>
-				<p class="text-sm text-gray-500 dark:text-gray-400">Comprehensive summary of key concepts.</p>
+		<!-- Key Themes -->
+		<div class="mt-32">
+			<h3 class="text-3xl font-bold font-serif text-center mb-12">Natural Progression</h3>
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+				<Card variant="default" class="p-6 flex items-start gap-4 hover:rotate-1 transition-transform">
+					<div class="text-3xl bg-accent/20 w-12 h-12 rounded-full flex items-center justify-center">🤖</div>
+					<div>
+						<h4 class="font-bold text-lg mb-1">AI Integration</h4>
+						<p class="text-muted-foreground text-sm">Leveraging GenAI for risk and data analysis.</p>
+					</div>
+				</Card>
+
+				<Card variant="default" class="p-6 flex items-start gap-4 hover:-rotate-1 transition-transform">
+					<div class="text-3xl bg-primary/20 w-12 h-12 rounded-full flex items-center justify-center">🌱</div>
+					<div>
+						<h4 class="font-bold text-lg mb-1">Sustainability & ESG</h4>
+						<p class="text-muted-foreground text-sm">Environmental and social governance impact.</p>
+					</div>
+				</Card>
+
+				<Card variant="default" class="p-6 flex items-start gap-4 hover:rotate-1 transition-transform">
+					<div class="text-3xl bg-secondary/20 w-12 h-12 rounded-full flex items-center justify-center">📊</div>
+					<div>
+						<h4 class="font-bold text-lg mb-1">Methodology Shift</h4>
+						<p class="text-muted-foreground text-sm">60% Adaptive/Hybrid vs 40% Predictive.</p>
+					</div>
+				</Card>
+
+				<Card variant="default" class="p-6 flex items-start gap-4 hover:-rotate-1 transition-transform">
+					<div class="text-3xl bg-destructive/10 w-12 h-12 rounded-full flex items-center justify-center">⏱️</div>
+					<div>
+						<h4 class="font-bold text-lg mb-1">Exam Logistics</h4>
+						<p class="text-muted-foreground text-sm">180 Questions over 230 Minutes.</p>
+					</div>
+				</Card>
 			</div>
-			<div class="group p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl hover:shadow-purple-500/20 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-				<div class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">⚡️</div>
-				<h3 class="font-semibold text-gray-900 dark:text-white mb-1">Flashcards</h3>
-				<p class="text-sm text-gray-500 dark:text-gray-400">Memorize terms and definitions.</p>
-			</div>
-			<div class="group p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl hover:shadow-pink-500/20 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-				<div class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">🎯</div>
-				<h3 class="font-semibold text-gray-900 dark:text-white mb-1">Practice</h3>
-				<p class="text-sm text-gray-500 dark:text-gray-400">Test your knowledge with quizzes.</p>
-			</div>
+		</div>
+
+		<!-- Feature Links -->
+		<div class="mt-32 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <!-- Using Card for these as well for consistency -->
+			<a href="{base}/study" class="group block">
+				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
+					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left">📚</div>
+					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Study Guide</h3>
+					<p class="text-muted-foreground">Comprehensive summary of key concepts.</p>
+				</Card>
+			</a>
+			
+			<a href="{base}/flashcards" class="group block">
+				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
+					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left">⚡️</div>
+					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Flashcards</h3>
+					<p class="text-muted-foreground">Memorize terms and definitions naturally.</p>
+				</Card>
+			</a>
+			
+			<a href="{base}/practice" class="group block">
+				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
+					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left">🎯</div>
+					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Practice</h3>
+					<p class="text-muted-foreground">Test your knowledge with quizzes.</p>
+				</Card>
+			</a>
 		</div>
 	</div>
 </div>
+
+<style>
+    /* Custom animations for organic feel */
+    @keyframes float {
+        0% { transform: translate(0px, 0px); }
+        50% { transform: translate(10px, -20px); }
+        100% { transform: translate(0px, 0px); }
+    }
+    .animate-float {
+        animation: float 8s ease-in-out infinite;
+    }
+</style>
