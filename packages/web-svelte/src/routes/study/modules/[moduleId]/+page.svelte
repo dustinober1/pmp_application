@@ -6,6 +6,7 @@
 	import ConceptCard from '$lib/components/ConceptCard.svelte';
 	import TriangleViz from '$lib/components/TriangleViz.svelte';
 	import PowerInterestGrid from '$lib/components/PowerInterestGrid.svelte';
+	import { getModuleNumber, getModuleShortTitle } from '$lib/utils/moduleFormatting';
 
 	export let data;
 
@@ -98,7 +99,10 @@
  return content.replace(/href="\.\/([^"]+)"/g, `href="${base}/study/modules/${data.module.id}/$1"`);
  }
 
- $: processedBlocks = blocks.map(b => b.type === 'markdown' ? { ...b, content: fixLinks(b.content) } : b);
+	$: processedBlocks = blocks.map(b => b.type === 'markdown' ? { ...b, content: fixLinks(b.content) } : b);
+
+	$: moduleNumber = getModuleNumber(data.module.id);
+	$: moduleShortTitle = getModuleShortTitle(data.module.title);
 </script>
 
 <div class="min-h-screen bg-stone-50 dark:bg-stone-950 pb-20">
@@ -115,14 +119,19 @@
  <span class="text-stone-300">/</span>
  <span class="text-stone-400">Modules</span>
  <span class="text-stone-300">/</span>
- <span class="text-primary">{data.module.title}</span>
+ <span class="text-primary">{moduleNumber ? `Module ${moduleNumber}` : data.module.title}</span>
  </nav>
 
+ <div class="mb-4">
+ <span class="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wide text-primary bg-primary/10 rounded-full">
+ {moduleNumber ? `Module ${moduleNumber}` : 'Module'}
+ </span>
+ </div>
  <h1 class="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-100 mb-4 font-serif leading-tight">
- {data.module.title}
+ {moduleShortTitle}
  </h1>
  <p class="text-xl text-stone-600 dark:text-stone-400 max-w-2xl leading-relaxed">
- Foundational concepts and detailed study material for PMP exam success.
+ {data.module.description}
  </p>
  </div>
  </header>

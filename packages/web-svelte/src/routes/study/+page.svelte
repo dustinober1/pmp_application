@@ -8,6 +8,7 @@
 	import ErrorState from '$lib/components/ErrorState.svelte';
 	import Card from '$lib/components/ui/Card.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
+	import { getModuleNumber, getModuleShortTitle } from '$lib/utils/moduleFormatting';
 
 	export let data;
 
@@ -236,10 +237,10 @@
 									<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-blob -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
 									<div class="relative z-10">
 										<span class="inline-block px-3 py-1 text-xs font-bold text-primary bg-primary/10 rounded-full mb-3">
-											Module {module.id.split('-')[0]}
+											Module {getModuleNumber(module.id) ?? module.id.split('-')[0]}
 										</span>
 										<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">
-											{module.title}
+											{getModuleShortTitle(module.title)}
 										</h3>
 										<p class="text-sm text-muted-foreground mb-4 line-clamp-2">
 											{module.description}

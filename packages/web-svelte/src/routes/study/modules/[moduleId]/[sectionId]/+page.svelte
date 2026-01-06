@@ -6,6 +6,7 @@
  import ConceptCard from '$lib/components/ConceptCard.svelte';
  import TriangleViz from '$lib/components/TriangleViz.svelte';
  import PowerInterestGrid from '$lib/components/PowerInterestGrid.svelte';
+ import { getModuleBreadcrumbLabel } from '$lib/utils/moduleFormatting';
 
  export let data;
 
@@ -120,7 +121,7 @@
  </a>
  <span class="text-stone-300">/</span>
  <a href="{base}/study/modules/{data.module.id}" class="text-stone-500 hover:text-primary transition-colors">
- {data.module.title}
+ {getModuleBreadcrumbLabel(data.module.id, data.module.title)}
  </a>
  <span class="text-stone-300">/</span>
  <span class="text-primary truncate">{data.title}</span>
