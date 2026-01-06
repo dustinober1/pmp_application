@@ -75,6 +75,34 @@ const MODULES: StudyModule[] = [
         ]
     },
     {
+        id: '04-stakeholder',
+        title: 'Module 4: Stakeholder & Communication',
+        description: 'Understand the "Why" behind every "What." Success isn\'t just delivering a product; it\'s delivering Value that stakeholders accept and support.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'stakeholder-analysis', title: 'Stakeholder Analysis', description: 'Finding hidden stakeholders', path: 'stakeholder-analysis.md' },
+            { id: 'stakeholder-mapping', title: 'Stakeholder Mapping', description: 'Power/Interest and Salience models', path: 'stakeholder-mapping.md' },
+            { id: 'stakeholder-classification', title: 'Classification & Register', description: 'Building the Stakeholder Register', path: 'stakeholder-classification.md' },
+            { id: 'communication-planning', title: 'Communication Planning', description: 'Push/Pull/Interactive communication', path: 'communication-planning.md' },
+            { id: 'stakeholder-engagement', title: 'Active Engagement', description: 'Building trust and influence', path: 'stakeholder-engagement.md' },
+            { id: 'conflict-negotiation', title: 'Conflict & Negotiation', description: 'Interest-based negotiation and BATNA', path: 'conflict-negotiation.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your stakeholder management skills', path: 'knowledge-check.md' }
+        ]
+    },
+    {
+        id: '05-initiation',
+        title: 'Module 5: Project Initiation',
+        description: 'Where an idea transforms into a formal project. Strategic justification, formal authorization, and selecting the right context for delivery.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'business-case', title: 'Business Case', description: 'The "Why" – market demand and strategic opportunity', path: 'business-case.md' },
+            { id: 'project-charter', title: 'Project Charter', description: 'Formal authorization – the PM\'s license to operate', path: 'project-charter.md' },
+            { id: 'delivery-strategy', title: 'Delivery Strategy', description: 'Choosing the "How" – Predictive, Agile, or Hybrid', path: 'delivery-strategy.md' },
+            { id: 'constraints-assumptions', title: 'Constraints & Assumptions', description: 'Identifying boundaries and what must be true', path: 'constraints-assumptions.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your initiation knowledge', path: 'knowledge-check.md' }
+        ]
+    },
+    {
         id: '06-project-planning',
         title: 'Module 6: Project Planning',
         description: 'Developing the integrated project management plan and subsidiary plans (Scope, Schedule, Cost, Quality, Resources, Communications, Risk, Procurement).',
@@ -101,6 +129,19 @@ const MODULES: StudyModule[] = [
             { id: 'navigating-complexity', title: 'Navigating Complexity', description: 'Cynefin, systems thinking, and adaptation', path: 'navigating-complexity.md' },
             { id: 'toolkit', title: 'Tools & Templates', description: 'Reference guide for tools and calculations', path: 'toolkit.md' },
             { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your mastery of Module 7', path: 'knowledge-check.md' }
+        ]
+    },
+    {
+        id: '08-execution',
+        title: 'Module 8: Execution & Value Delivery',
+        description: 'Coordinate people, vendors, and resources to create deliverables and protect value across Predictive, Agile, and Hybrid models.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'executing-work', title: 'Executing Project Work', description: 'Leading teams, managing knowledge, and coordinating efforts', path: 'executing-work.md' },
+            { id: 'value-delivery', title: 'Value Delivery', description: 'Moving from Outputs to Outcomes', path: 'value-delivery.md' },
+            { id: 'engagement-procurement', title: 'Engagement & Procurements', description: 'Navigating stakeholders and managing vendors', path: 'engagement-procurement.md' },
+            { id: 'toolkit', title: 'Tools & Templates', description: 'Copy/paste-ready logs and agendas', path: 'toolkit.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your mastery of execution and value delivery', path: 'knowledge-check.md' }
         ]
     },
     {

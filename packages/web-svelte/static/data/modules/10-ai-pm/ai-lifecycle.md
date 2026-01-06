@@ -1,0 +1,13 @@
+- Business Case: Analyze market trends to validate ROI assumptions.
+- Charter: Draft the initial Project Charter from meeting transcripts.
+- Stakeholders: Identify potential stakeholders by scanning org charts and email threads.
+- WBS: Suggest a breakdown of tasks based on similar past projects.
+- Risk: "Pre-mortem" brainstorming to identify 50 potential risks in seconds.
+- User Stories: Convert rough notes into formatted stories with Acceptance Criteria.
+- Communication: Rewrite a technical update into an Executive Summary.
+- Meetings: Transcribe audio to action items automatically.
+- Knowledge: Search the entire project documentation instantly to answer team questions.
+- Sentiment: Scan team chats/emails to detect burnout or frustration early.
+- Forecasting: Predict the "real" finish date based on team velocity trends, not just the plan.
+- Lessons: Cluster 100s of retrospective notes into 3 key themes.
+- Report: Auto-generate the Final Report from status updates.
