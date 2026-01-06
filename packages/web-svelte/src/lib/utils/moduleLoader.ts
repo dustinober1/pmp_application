@@ -155,6 +155,20 @@ const MODULES: StudyModule[] = [
             { id: 'toolkit', title: 'Tools & Templates', description: 'Copy/paste templates: status reporting, EVM worksheet, variance/issue logs, change requests, decision log, and closure artifacts.', path: 'toolkit.md' },
             { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your mastery of Module 9', path: 'knowledge-check.md' }
         ]
+    },
+    {
+        id: '10-ai-pm',
+        title: 'Module 10: AI in Project Management',
+        description: 'Master the new era of project leadership. Understand AI ethics, prompt engineering, and how to automate busywork to focus on value.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'ai-essentials', title: 'AI Essentials', description: 'Meet Your Co-Pilot', path: 'ai-essentials.md' },
+            { id: 'responsible-ai', title: 'Responsible AI', description: 'Ethics, privacy, bias, and guardrails', path: 'responsible-ai.md' },
+            { id: 'ai-lifecycle', title: 'AI in the Lifecycle', description: 'Practical use cases across process groups', path: 'ai-lifecycle.md' },
+            { id: 'toolkit', title: 'AI PM Toolkit', description: 'Templates, checklists, and prompt library', path: 'toolkit.md' },
+            { id: 'change-management', title: 'Change Management', description: 'Leading AI adoption and addressing resistance', path: 'change-management.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your AI literacy and judgment', path: 'knowledge-check.md' }
+        ]
     }
 ];
 
