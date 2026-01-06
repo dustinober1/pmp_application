@@ -169,6 +169,19 @@ const MODULES: StudyModule[] = [
             { id: 'change-management', title: 'Change Management', description: 'Leading AI adoption and addressing resistance', path: 'change-management.md' },
             { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your AI literacy and judgment', path: 'knowledge-check.md' }
         ]
+    },
+    {
+        id: 'appendices',
+        title: 'Appendices & Resources',
+        description: 'Key references including formulas, glossary, tools, and the 2026 ECO task map.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Appendices Overview', path: 'index.md' },
+            { id: 'formulas-definitions', title: 'Formulas & Definitions', description: 'Master the Math', path: 'formulas-definitions.md' },
+            { id: 'tools-artifacts', title: 'Tools & Artifacts', description: 'Logs, Registers, and Dashboards', path: 'tools-artifacts.md' },
+            { id: 'glossary', title: 'Glossary', description: 'PMP Global Glossary', path: 'glossary.md' },
+            { id: 'eco-2026-task-map', title: 'ECO 2026 Task Map', description: 'Exam Content Outline Crosswalk', path: 'eco-2026-task-map.md' },
+            { id: 'pmbok8-process-map', title: 'PMBOK 8 Process Map', description: 'Process Groups & Domains', path: 'pmbok8-process-map.md' }
+        ]
     }
 ];
 
