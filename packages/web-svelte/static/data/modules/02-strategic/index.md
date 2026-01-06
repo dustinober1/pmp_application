@@ -99,10 +99,6 @@ Upon completion of this module, students will be able to:
 - Apply business acumen to project decision-making.
 - Ensure project compliance and adapt to future trends.
 
-<div class="action-bar">
- <a href="./strategy-alignment" class="action-button primary">Start Module 2</a>
-</div>
-
 <style>
 .section-grid {
  display: grid;

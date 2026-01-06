@@ -208,7 +208,3 @@ This section has given you a practical framework for using this guide:
 *   You know how to integrate **practice questions** and **real-world experience**.
 
 In the next section, **1.3 Ways of Working**, we will dive into the fundamental approaches—Predictive, Agile, and Hybrid—that underpin all project management.
-
-<div class="flex justify-center my-12">
- <a href="./ways-of-working" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Ways of Working →</a>
-</div>

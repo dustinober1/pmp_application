@@ -348,14 +348,6 @@ A single data point can be an outlier. Always look for **trends** (3+ data point
 | VAC     | BAC - EAC               | Variance At Completion                             |
 | TCPI    | (BAC - EV) ÷ (BAC - AC) | To-Complete Performance Index                      |
 
-::: info Quick Memory Check
-
-- **Variance**: Negative = Bad
-- **Index**: Less than 1.0 = Bad
 - EV is always in the numerator of indices
 - EV is always on the left side of variance formulas
-  :::
-
-<div class="flex justify-center my-12">
- <a href="./core-ethics" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Ethics →</a>
-</div>
+:::

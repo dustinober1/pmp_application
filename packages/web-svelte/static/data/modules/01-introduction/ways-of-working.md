@@ -426,10 +426,6 @@ On the exam, if a scenario describes a highly uncertain product with a fixed bud
  <strong>Exam Insight:</strong> There is no "perfect" methodology. The correct answer is the one that minimizes risk and maximizes value for the <em>specific</em> scenario provided.
 </div>
 
-<div class="flex justify-center my-12">
- <a href="./pmbok8-principles" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: PMBOK 8 Principles →</a>
-</div>
-
 <style>
 .study-tip {
  background: var(--vp-c-brand-soft);

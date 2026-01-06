@@ -70,10 +70,6 @@ The People domain constitutes 42% of the PMP exam, emphasizing that the ability 
 - **Don't Blame, Learn**: Retrospectives are for process improvement, not finger-pointing.
 - **Don't Ignore, Engage**: Conflict is healthy if it's task-based. Emotional conflict must be defused proactively.
 
-<div class="action-bar">
- <a href="./team-formation" class="action-button primary">Start Module 3</a>
-</div>
-
 <style>
 .section-grid {
  display: grid;

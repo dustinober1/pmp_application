@@ -66,9 +66,3 @@ By the end of this chapter, you will be able to:
 - **Decode the ECO**: Understand exactly what is being tested in People, Process, and Business.
 - **Think Like a PMP**: Apply the "Proactive Leader" mindset to situational questions.
 - **Tailor the Approach**: Identify when a project requires a rigid vs. adaptive structure.
-
-<div class="flex justify-center my-12">
- <a href="./understanding-exam" class="px-8 py-4 bg-primary text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
- Begin Foundation
- </a>
-</div>
