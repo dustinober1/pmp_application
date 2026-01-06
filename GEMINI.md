@@ -112,6 +112,7 @@ npm run test:web-svelte
     - **Interactive Checkboxes:** Enhanced markdown rendering to make `[ ]` task lists interactive, persisting their state to `localStorage`.
     - **Dynamic Components:** Added capability to mount Svelte components (like `ProgressTable`) directly into markdown content using placeholder elements.
     - **Using Guide Updates:** Refined Module 1 "Using This Guide" with a proper Table of Contents, a responsive "Study Path" comparison table, and an interactive domain progress tracker.
+- **Study Navigation:** Implemented "Previous" and "Next" navigation buttons at the bottom of study material sections, allowing users to seamlessly move through the curriculum across module boundaries.
 
 ## Current Status & Roadmap
 

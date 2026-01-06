@@ -163,13 +163,53 @@
  {/each}
  </article>
 
- <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 flex justify-between">
- <a href="{base}/study/modules/{data.module.id}" class="inline-flex items-center gap-2 text-stone-500 hover:text-primary font-medium transition-colors">
+ <footer class="mt-16 pt-12 border-t border-stone-200 dark:border-stone-800">
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+ {#if data.prevSection}
+ <a 
+ href="{base}/study/modules/{data.prevSection.moduleId}/{data.prevSection.sectionId}" 
+ class="group flex flex-col p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-primary/50 hover:shadow-lg transition-all"
+ >
+ <span class="text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 mb-2 flex items-center gap-1">
+ <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+ <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+ </svg>
+ Previous
+ </span>
+ <span class="text-lg font-serif font-black text-stone-900 dark:text-stone-100 group-hover:text-primary transition-colors">
+ {data.prevSection.title}
+ </span>
+ </a>
+ {:else}
+ <div></div>
+ {/if}
+
+ {#if data.nextSection}
+ <a 
+ href="{base}/study/modules/{data.nextSection.moduleId}/{data.nextSection.sectionId}" 
+ class="group flex flex-col p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-primary/50 hover:shadow-lg transition-all text-right items-end"
+ >
+ <span class="text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 mb-2 flex items-center gap-1">
+ Next
+ <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+ <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+ </svg>
+ </span>
+ <span class="text-lg font-serif font-black text-stone-900 dark:text-stone-100 group-hover:text-primary transition-colors">
+ {data.nextSection.title}
+ </span>
+ </a>
+ {/if}
+ </div>
+
+ <div class="mt-12 flex justify-center">
+ <a href="{base}/study/modules/{data.module.id}" class="inline-flex items-center gap-2 text-stone-500 hover:text-primary font-medium transition-colors py-2 px-4 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800">
  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
  </svg>
  Back to Module Overview
  </a>
+ </div>
  </footer>
  </div>
 </div>
