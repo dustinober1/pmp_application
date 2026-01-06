@@ -66,23 +66,12 @@
 
 			<!-- User Menu -->
 			<div class="flex items-center gap-2">
-                <!-- ECO Badge (Moving here for better balance or keep in nav? keeping hidden for now or standard) -->
-                 <!-- Keeping ECOBadge roughly where it was or simplifying? The original had it separate. I'll omit for clean organic look or place it if critical. I'll leave it out for this simplified pass as it wasn't in the spec explicitly but I should be careful. I'll verify if ECOBadge style is compatible. I'll comment it out for now to focus on core design or add it as an icon. -->
-
-				<button
-					type="button"
-					onclick={handleLocaleToggle}
-					class="w-8 h-8 rounded-full bg-muted/30 flex items-center justify-center text-xs font-bold text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-					aria-label="Change language"
-					title={nextLocale.toUpperCase()}
-				>
-					{currentLocale.toUpperCase()}
-				</button>
-
-				<button
-					type="button"
-					onclick={toggleDarkMode}
-					class="w-8 h-8 rounded-full bg-muted/30 flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                				<!-- ECO Badge (Moving here for better balance or keep in nav? keeping hidden for now or standard) -->
+                                 <!-- Keeping ECOBadge roughly where it was or simplifying? The original had it separate. I'll omit for clean organic look or place it if critical. I'll leave it out for this simplified pass as it wasn't in the spec explicitly but I should be careful. I'll verify if ECOBadge style is compatible. I'll comment it out for now to focus on core design or add it as an icon. -->
+                
+                				<button
+                					type="button"
+                					onclick={toggleDarkMode}					class="w-8 h-8 rounded-full bg-muted/30 flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300"
 					aria-label={darkMode ? $t('Switch to light mode') : $t('Switch to dark mode')}
 				>
 					{#if darkMode}

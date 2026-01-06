@@ -161,7 +161,7 @@
 							<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
 							<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
 						</span>
-						<span class="text-sm font-bold font-serif text-primary-foreground text-foreground">Updated for {ecoInfo.version}</span>
+						<span class="text-sm font-bold font-serif text-gray-900 dark:text-white">Updated for {ecoInfo.version}</span>
 					</div>
 				</div>
 
