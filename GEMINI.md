@@ -92,7 +92,7 @@ npm run test:web-svelte
 *   **Question Flagging & Review:** Implemented full support for flagging questions during practice sessions and a dedicated "Review Flagged" mode to revisit them. Added persistent storage for flags and updated the UI with toggle controls.
 *   **UI Improvements:** Updated the dashboard to display flashcards progress as a percentage instead of a raw count.
 *   **Dashboard Reliability:** Refactored dashboard store to dynamically load flashcard totals from manifest, resolving "NaN cards" issues and improving count accuracy. Added unit tests for dashboard logic.
-*   **Study Page Cleanup:** Removed "ECO Info Cards" and "Study Modules" sections from the main Study page to simplify the interface and focus on Domain navigation, as per user request.
+*   **Study Page Cleanup:** Removed "Domain Cards" section from the main Study page to simplify the interface, keeping the ECO Info Cards and Study Modules, as per user correction.
 
 ## Current Status & Roadmap
 
