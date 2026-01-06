@@ -107,31 +107,50 @@
         $: processedBlocks = blocks.map(b => b.type === 'markdown' ? { ...b, content: fixLinks(b.content) } : b);
     </script>
     
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-    	<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    		<nav class="mb-8 flex items-center gap-4 text-sm">
-    			<a href="{base}/study" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-    				Study Hub
-    			</a>
-    			<span class="text-gray-400">/</span>
-    			<a href="{base}/study/modules/{data.module.id}" class="text-indigo-600 dark:text-indigo-400 hover:underline">
-    				{data.module.title}
-    			</a>
-                <span class="text-gray-400">/</span>
-                <span class="text-gray-600 dark:text-gray-300 truncate">{data.title}</span>
-    		</nav>
-    
-    		<article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 sm:p-12 border border-gray-100 dark:border-gray-700">
-    			{#each processedBlocks as block}
-                    {#if block.type === 'markdown'}
-                        <SanitizedMarkdown content={block.content} />
-                    {:else if block.type === 'quiz'}
+<div class="min-h-screen bg-stone-50 dark:bg-stone-950 pb-20">
+    <!-- Hero Header Section -->
+    <header class="bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 pt-12 pb-16 mb-12">
+        <div class="max-w-4xl mx-auto px-6">
+            <nav class="mb-8 flex items-center gap-3 text-sm font-medium">
+                <a href="{base}/study" class="text-stone-500 hover:text-primary transition-colors flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    Study Hub
+                </a>
+                <span class="text-stone-300">/</span>
+                <a href="{base}/study/modules/{data.module.id}" class="text-stone-500 hover:text-primary transition-colors">
+                    {data.module.title}
+                </a>
+                <span class="text-stone-300">/</span>
+                <span class="text-primary truncate">{data.title}</span>
+            </nav>
+
+            <h1 class="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-100 mb-4 font-serif leading-tight">
+                {data.title}
+            </h1>
+        </div>
+    </header>
+
+    <div class="max-w-4xl mx-auto px-6">
+        <article class="prose prose-stone prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-black prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl prose-img:shadow-lg">
+            {#each processedBlocks as block}
+                {#if block.type === 'markdown'}
+                    <SanitizedMarkdown content={block.content} />
+                {:else if block.type === 'quiz'}
+                    <div class="my-12">
                         <QuizComponent title={block.title} questions={block.questions} />
-                    {:else if block.type === 'triangle-viz'}
+                    </div>
+                {:else if block.type === 'triangle-viz'}
+                    <div class="my-12">
                         <TriangleViz />
-                    {:else if block.type === 'power-interest-grid'}
+                    </div>
+                {:else if block.type === 'power-interest-grid'}
+                    <div class="my-12">
                         <PowerInterestGrid htmlContent={block.htmlContent} />
-                    {:else if block.type === 'concept-grid'}
+                    </div>
+                {:else if block.type === 'concept-grid'}
+                    <div class="my-12">
                         <ConceptGrid>
                             {#each block.cards as card}
                                 <ConceptCard title={card.title} link={card.link} linkText={card.linkText}>
@@ -139,13 +158,18 @@
                                 </ConceptCard>
                             {/each}
                         </ConceptGrid>
-                    {/if}
-                {/each}
-    		</article>
-            <div class="mt-8 flex justify-between">
-            <a href="{base}/study/modules/{data.module.id}" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
-                ← Back to Module Overview
+                    </div>
+                {/if}
+            {/each}
+        </article>
+
+        <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 flex justify-between">
+            <a href="{base}/study/modules/{data.module.id}" class="inline-flex items-center gap-2 text-stone-500 hover:text-primary font-medium transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back to Module Overview
             </a>
-        </div>
-	</div>
+        </footer>
+    </div>
 </div>

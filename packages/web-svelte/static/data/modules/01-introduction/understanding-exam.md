@@ -7,20 +7,17 @@ The 2026 PMP exam is not a memory test; it is an **immersion test**. It simulate
 ## 🏔️ The 2026 Shift
 The exam refreshed in July 2026 to mirror the reality of "Hybrid Everything" and the rise of AI in project leadership.
 
-<div class="shift-grid">
-  <div class="shift-card">
-    <div class="shift-title">Outcome Over Output</div>
-    <p>Success isn't just "finishing the task"; it is realizing the strategic <strong>Business Value</strong> of the project.</p>
-  </div>
-  <div class="shift-card">
-    <div class="shift-title">AI-Augmented PM</div>
-    <p>Understanding how to leverage AI tools for better estimation, risk detection, and stakeholder reporting.</p>
-  </div>
-  <div class="shift-card">
-    <div class="shift-title">Sustainability (ESG)</div>
-    <p>Projects must now consider Environmental, Social, and Governance impacts as core constraints.</p>
-  </div>
-</div>
+<ConceptGrid>
+  <ConceptCard title="Outcome Over Output" link="" linkText="Strategic Value">
+    Success isn't just "finishing the task"; it is realizing the strategic **Business Value** of the project.
+  </ConceptCard>
+  <ConceptCard title="AI-Augmented PM" link="" linkText="AI Tools">
+    Understanding how to leverage AI tools for better estimation, risk detection, and stakeholder reporting.
+  </ConceptCard>
+  <ConceptCard title="Sustainability (ESG)" link="" linkText="Core Constraints">
+    Projects must now consider Environmental, Social, and Governance impacts as core constraints.
+  </ConceptCard>
+</ConceptGrid>
 
 ---
 
@@ -49,23 +46,17 @@ The July 2026 exam includes a **case-study section**, followed by independent qu
 ## 🎯 The Three Scoring Domains
 The 2026 ECO (Exam Content Outline) places high importance on the environment surrounding the project.
 
-<div class="domain-grid">
-  <div class="domain-card people">
-    <div class="domain-pct">33%</div>
-    <div class="domain-name">PEOPLE</div>
-    <p>Managing conflict, leading teams, and supporting virtual collaboration.</p>
-  </div>
-  <div class="domain-card process">
-    <div class="domain-pct">41%</div>
-    <div class="domain-name">PROCESS</div>
-    <p>The "How": Planning, risk management, and delivery across methodologies.</p>
-  </div>
-  <div class="domain-card business">
-    <div class="domain-pct">26%</div>
-    <div class="domain-name">BUSINESS</div>
-    <p>Strategy alignment, compliance, and organizational change management.</p>
-  </div>
-</div>
+<ConceptGrid>
+  <ConceptCard title="33% PEOPLE" link="" linkText="Lead Teams">
+    Managing conflict, leading teams, and supporting virtual collaboration.
+  </ConceptCard>
+  <ConceptCard title="41% PROCESS" link="" linkText="Deliver Value">
+    The "How": Planning, risk management, and delivery across methodologies.
+  </ConceptCard>
+  <ConceptCard title="26% BUSINESS" link="" linkText="Strategic Alignment">
+    Strategy alignment, compliance, and organizational change management.
+  </ConceptCard>
+</ConceptGrid>
 
 ### Domain Task Breakdown
 
