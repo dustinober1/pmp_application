@@ -114,6 +114,7 @@ npm run test:web-svelte
     - **Using Guide Updates:** Refined Module 1 "Using This Guide" with a proper Table of Contents, a responsive "Study Path" comparison table, and an interactive domain progress tracker.
 - **Study Navigation:** Implemented "Previous" and "Next" navigation buttons at the bottom of study material sections, allowing users to seamlessly move through the curriculum across module boundaries.
 - **Content Accuracy:** Corrected the Table of Contents in the "How to Use This Guide" section to accurately match the actual module list and descriptions used in the application.
+- **Direct URL Navigation:** Fixed 404 errors when navigating directly to study module URLs (e.g., `/study/modules/01-introduction/using-guide`). Added prerendering with `entries()` function to generate static HTML pages for all module/section combinations, enabling proper deep linking on GitHub Pages.
 
 ## Current Status & Roadmap
 
