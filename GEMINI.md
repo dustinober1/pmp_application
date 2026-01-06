@@ -94,6 +94,7 @@ npm run test:web-svelte
 *   **Dashboard Reliability:** Refactored dashboard store to dynamically load flashcard totals from manifest, resolving "NaN cards" issues and improving count accuracy. Added unit tests for dashboard logic.
 *   **Study Page Cleanup:** Removed "Domain Cards" section from the main Study page to simplify the interface, keeping the ECO Info Cards and Study Modules, as per user correction.
 *   **Module Content:** Added configuration for Module 2 (Strategic Business Management) and Module 3 (Team Leadership & Development) to the study page, enabling access to new study materials.
+*   **Professional Formatting:** Removed emojis from study content headings (understanding-exam.md) to maintain professional appearance. Improved table styling in SanitizedMarkdown component with theme-aware borders, backgrounds, and hover states for better visibility in both light and dark modes.
 
 ## Current Status & Roadmap
 
