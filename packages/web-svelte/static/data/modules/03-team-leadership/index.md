@@ -4,32 +4,63 @@ In 2026, leading a project isn't about "command and control"—it's about orches
 
 The People domain constitutes 42% of the PMP exam, emphasizing that the ability to resolve conflict is more critical than technical skills like calculating EVM.
 
-## 🎯 What You'll Master (PMP-Style Skills)
-By the end of this chapter, you should be able to:
+<div class="section-grid">
+  <div class="section-card">
+    <div class="section-title">3.1 Team Formation</div>
+    <p class="section-description">Skills matrix, gap analysis, RACI, resource negotiation, and DEI considerations.</p>
+    <a href="./team-formation" class="section-link">Build the Team →</a>
+  </div>
 
-*   Build a team using a skills matrix and clarify ownership with RACI.
-*   Understand organizational structures and how they affect PM authority.
-*   Create a team charter with comprehensive working agreements.
-*   Navigate Tuckman's stages and recognize when regression occurs.
-*   Match leadership style to team readiness using Situational Leadership II.
-*   Build psychological safety based on Google's Project Aristotle research.
-*   Select the best conflict resolution mode using the Thomas-Kilmann framework.
-*   Apply integrative negotiation with BATNA and ZOPA.
-*   Motivate knowledge workers with intrinsic drivers (Herzberg, Vroom, McClelland, Pink).
-*   Lead distributed and hybrid teams with explicit remote working agreements.
-*   Apply Hofstede's cultural dimensions for global team effectiveness.
+  <div class="section-card">
+    <div class="section-title">3.2 Team Development</div>
+    <p class="section-description">Tuckman's model, psychological safety, Project Aristotle, and performance assessments.</p>
+    <a href="./team-development" class="section-link">Develop Talent →</a>
+  </div>
 
-## 🧭 The Leadership Compass
-This section covers various aspects of team leadership:
+  <div class="section-card">
+    <div class="section-title">3.3 Team Charter</div>
+    <p class="section-description">Working agreements, ground rules, Definition of Done, decision models, and escalation paths.</p>
+    <a href="./team-charter" class="section-link">Set Rules →</a>
+  </div>
 
-*   **3.1a Team Formation:** Skills matrix, gap analysis, RACI, resource negotiation, and DEI considerations.
-*   **3.1b Team Development:** Tuckman's model, psychological safety, Project Aristotle, and performance assessments.
-*   **3.1c Team Charter:** Working agreements, ground rules, Definition of Done, decision models, and escalation paths.
-*   **3.1d Virtual Teams:** Hofstede's dimensions, async-first communication, hybrid challenges, and remote working agreements.
-*   **3.2 Servant Leadership:** SLII, coaching with GROW, EQ competencies, leadership styles, and power types.
-*   **3.3 Conflict Management:** Thomas-Kilmann modes, BATNA/ZOPA, de-escalation, and negotiation strategies.
-*   **3.4 Motivation & EQ:** Herzberg, Vroom, McClelland, Maslow, Pink, Equity Theory, and performance management.
-*   **Knowledge Check:** 25 scenario-based questions covering all chapter topics.
+  <div class="section-card">
+    <div class="section-title">3.4 Building Teams</div>
+    <p class="section-description">Techniques for creating cohesion and unified purpose.</p>
+    <a href="./building-teams" class="section-link">Unify Team →</a>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">3.5 Virtual Teams</div>
+    <p class="section-description">Hofstede's dimensions, async-first communication, hybrid challenges, and remote working agreements.</p>
+    <a href="./virtual-teams" class="section-link">Lead Remotely →</a>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">3.6 Coaching & Mentoring</div>
+    <p class="section-description">Developing team members using the GROW model and emotional intelligence.</p>
+    <a href="./coaching-mentoring" class="section-link">Coach & Mentor →</a>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">3.7 Conflict Management</div>
+    <p class="section-description">Thomas-Kilmann modes, BATNA/ZOPA, de-escalation, and negotiation strategies.</p>
+    <a href="./conflict-management" class="section-link">Resolve Conflict →</a>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">3.8 Motivation & Performance</div>
+    <p class="section-description">Herzberg, Vroom, McClelland, Maslow, Pink, Equity Theory, and performance management.</p>
+    <a href="./motivation-performance" class="section-link">Motivate Team →</a>
+  </div>
+
+  <div class="section-card knowledge-check">
+    <div class="section-title">Module 3 Knowledge Check</div>
+    <p class="section-description">Test your leadership knowledge with 25 scenario-based questions.</p>
+    <a href="./knowledge-check" class="section-link">Verify Skills →</a>
+  </div>
+</div>
+
+---
 
 ## 2026 Mindset: The "Servant PM"
 
@@ -38,33 +69,82 @@ This section covers various aspects of team leadership:
 *   **Don't Blame, Learn**: Retrospectives are for process improvement, not finger-pointing.
 *   **Don't Ignore, Engage**: Conflict is healthy if it's task-based. Emotional conflict must be defused proactively.
 
-### Key Concepts at a Glance
+<div class="action-bar">
+  <a href="./team-formation" class="action-button primary">Start Module 3</a>
+</div>
 
-| Topic            | Core Concept                                    | PMI Preference                             |
-| :--------------- | :---------------------------------------------- | :----------------------------------------- |
-| **Team Stages**  | Tuckman's model: Forming → Storming → Norming → Performing | Regression happens when team changes         |
-| **Leadership Style** | Situational Leadership II (SLII)                | Match style to development level             |
-| **Conflict**     | Thomas-Kilmann 5 modes                          | Collaborate > Compromise; Force for emergencies |
-| **Motivation**   | Herzberg's Two-Factor                           | Fix hygiene first, then add motivators     |
-| **Virtual Teams** | Distance Tax mitigation                         | Explicit agreements; async-first             |
-| **EQ**           | Goleman's 5 competencies                        | Self-Awareness → Empathy → Action          |
+<style>
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
 
-## 📊 Chapter Coverage Map
+.section-card {
+  padding: 1.5rem;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
 
-This chapter directly supports these PMP Exam Content Outline tasks:
+.section-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--vp-c-brand);
+  background: var(--vp-c-bg-mute);
+}
 
-| ECO Task | Topic                                | Section                     |
-| :------- | :----------------------------------- | :-------------------------- |
-| **Task 2** | Lead a team                          | 3.2 Servant Leadership      |
-| **Task 3** | Support team performance             | 3.1b Development, 3.4 Motivation |
-| **Task 4** | Empower team members                 | 3.2 Coaching, 3.4 Motivation |
-| **Task 5** | Ensure training and development      | 3.2 Training Needs Analysis |
-| **Task 6** | Build a team                         | 3.1a Formation, 3.1c Charter |
-| **Task 7** | Address impediments                  | 3.2 Servant Leadership      |
-| **Task 8** | Negotiate project agreements         | 3.3 Negotiation (BATNA/ZOPA) |
-| **Task 9** | Collaborate with stakeholders        | 3.1d Virtual Teams          |
-| **Task 10** | Build shared understanding           | 3.1c Charter, 3.1a RACI     |
-| **Task 11** | Engage stakeholders                  | 3.1d Hofstede, Communication |
-| **Task 12** | Address conflict                     | 3.3 Conflict Management     |
-| **Task 13** | Mentoring and coaching               | 3.2 GROW Model              |
-| **Task 14** | Apply EI                             | 3.2 Emotional Intelligence  |
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--vp-c-text-1);
+}
+
+.section-description {
+  font-size: 0.95rem;
+  color: var(--vp-c-text-2);
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.section-link {
+  font-weight: 600;
+  color: var(--vp-c-brand);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-link:hover {
+  text-decoration: underline;
+}
+
+.knowledge-check {
+  background: var(--vp-c-brand-soft);
+}
+
+.action-bar {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 0;
+}
+
+.action-button.primary {
+  padding: 0.75rem 2rem;
+  background: var(--vp-c-brand);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.action-button.primary:hover {
+  opacity: 0.9;
+}
+</style>
