@@ -172,6 +172,12 @@
 												>{Math.round((domain.flashcardsTotal > 0 ? (domain.flashcardsMastered / domain.flashcardsTotal) * 100 : 0))}%</span
 											>
 										</div>
+										<div class="flex justify-between border-b border-border/50 pb-1">
+											<span class="text-muted-foreground">Questions:</span>
+											<span class="font-bold text-foreground"
+												>{Math.round((domain.questionsTotal && domain.questionsTotal > 0 ? ((domain.questionsMastered || 0) / domain.questionsTotal) * 100 : 0))}%</span
+											>
+										</div>
 										<div class="flex justify-between pt-1">
 											<span class="text-muted-foreground">Accuracy:</span>
 											<span class="font-bold text-foreground">{domain.practiceAccuracy || 0}%</span>

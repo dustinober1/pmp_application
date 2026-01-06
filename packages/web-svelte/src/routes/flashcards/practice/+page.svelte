@@ -5,6 +5,7 @@
   import { page } from '$app/stores';
   import { studyMode } from '$lib/stores/studyMode';
   import { getFlashcardsByDomain, prefetchDomains, type Flashcard } from '$lib/utils/flashcardsData';
+  import { updateStudyStreak } from '$lib/utils/studySession';
   import FlashcardStudyCard from '$lib/components/FlashcardStudyCard.svelte';
   import FlashcardRatingButtons from '$lib/components/FlashcardRatingButtons.svelte';
   import LoadingState from '$lib/components/LoadingState.svelte';
@@ -92,6 +93,7 @@
   // Handle card rating
   function handleRate(rating: 'again' | 'hard' | 'good' | 'easy') {
     studyMode.rateCard(rating);
+    updateStudyStreak();
   }
 
   // End session early

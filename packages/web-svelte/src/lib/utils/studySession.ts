@@ -104,3 +104,50 @@ export function getTotalStudyTime(): number {
 	const sessions = getStudySessions();
 	return sessions.reduce((total, s) => total + s.duration, 0);
 }
+
+/**
+ * Updates the daily study streak.
+ * Should be called whenever a significant study action is completed (e.g., answering a question).
+ */
+export function updateStudyStreak(): void {
+	if (typeof window === 'undefined') return;
+
+	try {
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+
+		const lastStudyDateStr = localStorage.getItem(STORAGE_KEYS.LAST_STUDY_DATE);
+		let currentStreak = parseInt(localStorage.getItem(STORAGE_KEYS.STUDY_STREAK) || '0', 10);
+
+		if (!lastStudyDateStr) {
+			// First ever study session
+			currentStreak = 1;
+			localStorage.setItem(STORAGE_KEYS.STUDY_STREAK, '1');
+			localStorage.setItem(STORAGE_KEYS.LAST_STUDY_DATE, today.toISOString());
+			return;
+		}
+
+		const lastStudyDate = new Date(lastStudyDateStr);
+		lastStudyDate.setHours(0, 0, 0, 0);
+
+		const diffTime = Math.abs(today.getTime() - lastStudyDate.getTime());
+		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+		if (diffDays === 0) {
+			// Already studied today, do nothing to streak
+			// But ensure date is current (though it matches)
+		} else if (diffDays === 1) {
+			// Consecutive day
+			currentStreak += 1;
+			localStorage.setItem(STORAGE_KEYS.STUDY_STREAK, currentStreak.toString());
+			localStorage.setItem(STORAGE_KEYS.LAST_STUDY_DATE, today.toISOString());
+		} else {
+			// Streak broken
+			currentStreak = 1;
+			localStorage.setItem(STORAGE_KEYS.STUDY_STREAK, '1');
+			localStorage.setItem(STORAGE_KEYS.LAST_STUDY_DATE, today.toISOString());
+		}
+	} catch (error) {
+		console.error('Failed to update study streak:', error);
+	}
+}

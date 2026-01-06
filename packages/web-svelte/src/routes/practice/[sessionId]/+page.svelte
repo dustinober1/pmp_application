@@ -4,6 +4,7 @@
 	import { base } from '$app/paths';
 	import { savePracticeSession } from '$lib/utils/practiceSessionStorage';
 	import { toggleQuestionFlag, isQuestionFlagged } from '$lib/utils/questionProgressStorage';
+	import { updateStudyStreak } from '$lib/utils/studySession';
 	import { practiceMode, currentQuestion, practiceProgress, sessionStats } from '$lib/stores/practiceMode';
 	import LoadingState from '$lib/components/LoadingState.svelte';
 	import ErrorState from '$lib/components/ErrorState.svelte';
@@ -37,6 +38,7 @@
 		submitting = true;
 		try {
 			practiceMode.submitAnswer(selectedOptionId);
+			updateStudyStreak();
 			showExplanation = true;
 		} catch (err) {
 			console.error('Failed to submit answer:', err);
