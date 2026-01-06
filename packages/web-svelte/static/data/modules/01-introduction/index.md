@@ -2,9 +2,7 @@
 
 Welcome to the foundation of your PMP® journey. Before diving into tools and techniques, you must understand the "Rules of the Game"—the structure of the 2026 exam, the core mental models of modern project leadership, and how to navigate this guide for maximum throughput.
 
-::: info 🚀 The 2026 Update
-The PMP exam was refreshed in July 2026. It now places a massive **26% weight** on the Business Environment, emphasizing AI integration, sustainability (ESG), and strategic value delivery.
-:::
+
 
 ## Your Learning Path
 This chapter is structured in four core sections, each building your foundation:
@@ -18,9 +16,7 @@ This chapter is structured in four core sections, each building your foundation:
 
 Welcome to the foundation of your PMP® journey. Before diving into tools and techniques, you must understand the "Rules of the Game"—the structure of the 2026 exam, the core mental models of modern project leadership, and how to navigate this guide for maximum throughput.
 
-::: info 🚀 The 2026 Update
-The PMP exam was refreshed in July 2026. It now places a massive **26% weight** on the Business Environment, emphasizing AI integration, sustainability (ESG), and strategic value delivery.
-:::
+
 
 ## Your Learning Path
 This chapter is structured in core sections, each building your foundation:
