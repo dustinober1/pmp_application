@@ -51,11 +51,11 @@
 			</div>
 
 			<!-- Desktop Navigation -->
-			<div class="hidden md:flex items-center gap-4">
+			<div class="hidden md:flex items-center gap-6">
 				{#each ['dashboard', 'study', 'flashcards', 'practice', 'exams', 'formulas'] as item}
 					<a
 						href="{base}/{item}"
-						class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 {isActive(`/${item}`)
+						class="px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 {isActive(`/${item}`)
 							? 'bg-primary text-primary-foreground shadow-md'
 							: 'text-muted-foreground hover:text-foreground hover:bg-muted/50'}"
 					>
