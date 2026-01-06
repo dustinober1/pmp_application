@@ -6,28 +6,28 @@ Communication is the **oil that keeps the project machine running**. The PM spen
 
 ---
 
-## 🎯 Communication Concepts for PMP
+## Communication Concepts for PMP
 
 Effective communication is about getting the **right information** to the **right people** at the **right time** in the **right format**.
 
 <div class="comm-grid">
-  <div class="comm-card interactive">
-    <div class="comm-title">Interactive</div>
-    <p>Real-time, two-way exchange. Best for complex or sensitive topics. <strong>Meetings, calls, video conferencing</strong>.</p>
-  </div>
-  <div class="comm-card push">
-    <div class="comm-title">Push</div>
-    <p>Sender distributes, recipient receives. Does not guarantee understanding. <strong>Email, reports, memos</strong>.</p>
-  </div>
-  <div class="comm-card pull">
-    <div class="comm-title">Pull</div>
-    <p>Recipient retrieves when needed. Best for reference material. <strong>Intranet, wiki, document repository</strong>.</p>
-  </div>
+ <div class="comm-card interactive">
+ <div class="comm-title">Interactive</div>
+ <p>Real-time, two-way exchange. Best for complex or sensitive topics. <strong>Meetings, calls, video conferencing</strong>.</p>
+ </div>
+ <div class="comm-card push">
+ <div class="comm-title">Push</div>
+ <p>Sender distributes, recipient receives. Does not guarantee understanding. <strong>Email, reports, memos</strong>.</p>
+ </div>
+ <div class="comm-card pull">
+ <div class="comm-title">Pull</div>
+ <p>Recipient retrieves when needed. Best for reference material. <strong>Intranet, wiki, document repository</strong>.</p>
+ </div>
 </div>
 
 ---
 
-## 🧭 The Communications Planning Flow
+## The Communications Planning Flow
 
 ### Step 1: Plan Communications Management
 **Purpose**: Determine stakeholder information needs and define communication approach
@@ -47,7 +47,7 @@ Effective communication is about getting the **right information** to the **righ
 
 ---
 
-## 📋 Communications Management Plan
+## Communications Management Plan
 
 The Communications Management Plan documents:
 
@@ -98,24 +98,24 @@ Where n = number of people
 | 15 | 105 | High |
 | 20 | 190 | Very High |
 
-::: warning ⚠️ Exam Trap
+::: warning Exam Trap
 When a question says "a new team member is added," calculate the NEW number of channels, not the additional channels. If n goes from 5 to 6: new channels = 6(5)/2 = **15** (not 5 more).
 :::
 
 ---
 
-## 🎭 Communication Models
+## Communication Models
 
 ### Basic Communication Model
 
 ```
-┌──────────┐    Encode    ┌───────────┐    Decode    ┌──────────┐
-│  Sender  │ ──────────→  │  Message  │ ──────────→  │ Receiver │
-└──────────┘              └───────────┘              └──────────┘
-     ↑                                                     │
-     │              ← ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─             │
-     └─────────────────  Feedback/Response  ──────────────┘
-                              Noise
+ Encode Decode 
+ Sender → Message → Receiver 
+ 
+ ↑ 
+ ← 
+ Feedback/Response 
+ Noise
 ```
 
 ### Model Components
@@ -143,7 +143,7 @@ When a question says "a new team member is added," calculate the NEW number of c
 
 ---
 
-## 🌐 Communication in Virtual/Distributed Teams
+## Communication in Virtual/Distributed Teams
 
 ### Virtual Team Communication Challenges
 
@@ -166,7 +166,7 @@ When a question says "a new team member is added," calculate the NEW number of c
 
 ---
 
-## 📈 Communication Stakeholder Analysis
+## Communication Stakeholder Analysis
 
 ### Communication Requirements by Stakeholder
 
@@ -191,7 +191,7 @@ When a question says "a new team member is added," calculate the NEW number of c
 
 ---
 
-## 📋 Communication Artifacts
+## Communication Artifacts
 
 ### Status Reports
 
@@ -222,7 +222,7 @@ Typical status report structure:
 
 ---
 
-## 🔧 Effective Communication Techniques
+## Effective Communication Techniques
 
 ### Active Listening
 
@@ -292,7 +292,7 @@ Typical status report structure:
 
 ---
 
-## 🧠 Communication Planning Scenarios (Exam Practice)
+## Communication Planning Scenarios (Exam Practice)
 
 ### Scenario 1: New Team Member
 **Situation**: A 10-person project adds one new team member. How many communication channels now exist?
@@ -342,29 +342,29 @@ Typical status report structure:
 
 <style>
 .comm-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
 }
 
 .comm-card {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .comm-title {
-  font-weight: 700;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.75rem;
+ font-weight: 700;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.75rem;
 }
 
 .comm-card p {
-  font-size: 0.9rem;
-  margin: 0;
-  line-height: 1.6;
+ font-size: 0.9rem;
+ margin: 0;
+ line-height: 1.6;
 }
 
 .interactive { border-left: 4px solid #3b82f6; }
@@ -375,15 +375,15 @@ Typical status report structure:
 ---
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> Know the communication channel formula: <strong>n(n-1)/2</strong>. For communication type selection: <strong>Interactive</strong> is best for complex/sensitive topics, <strong>Push</strong> for updates, <strong>Pull</strong> for reference material. The PM spends approximately <strong>90%</strong> of their time communicating!
+ <strong> Exam Insight:</strong> Know the communication channel formula: <strong>n(n-1)/2</strong>. For communication type selection: <strong>Interactive</strong> is best for complex/sensitive topics, <strong>Push</strong> for updates, <strong>Pull</strong> for reference material. The PM spends approximately <strong>90%</strong> of their time communicating!
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

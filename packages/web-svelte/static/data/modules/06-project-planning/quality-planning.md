@@ -6,28 +6,28 @@ Quality management ensures that the project meets the requirements and delivers 
 
 ---
 
-## 🎯 Quality Concepts for PMP
+## Quality Concepts for PMP
 
 The PMP exam tests your understanding of quality principles, not just tools. Master these core concepts:
 
 <div class="quality-grid">
-  <div class="quality-card prevention">
-    <div class="quality-title">Prevention over Inspection</div>
-    <p>Building quality in from the start is cheaper than finding defects later. <strong>Cost of prevention < Cost of failure</strong>.</p>
-  </div>
-  <div class="quality-card continuous">
-    <div class="quality-title">Continuous Improvement</div>
-    <p>Quality is never "done." Use <strong>Kaizen</strong> (small improvements) and retrospectives to keep improving.</p>
-  </div>
-  <div class="quality-card customer">
-    <div class="quality-title">Customer Focus</div>
-    <p>Quality is defined by the <strong>customer</strong>, not the team. Meet requirements, not just specs.</p>
-  </div>
+ <div class="quality-card prevention">
+ <div class="quality-title">Prevention over Inspection</div>
+ <p>Building quality in from the start is cheaper than finding defects later. <strong>Cost of prevention < Cost of failure</strong>.</p>
+ </div>
+ <div class="quality-card continuous">
+ <div class="quality-title">Continuous Improvement</div>
+ <p>Quality is never "done." Use <strong>Kaizen</strong> (small improvements) and retrospectives to keep improving.</p>
+ </div>
+ <div class="quality-card customer">
+ <div class="quality-title">Customer Focus</div>
+ <p>Quality is defined by the <strong>customer</strong>, not the team. Meet requirements, not just specs.</p>
+ </div>
 </div>
 
 ---
 
-## 🧭 The Quality Planning Flow
+## The Quality Planning Flow
 
 ### Step 1: Plan Quality Management
 **Purpose**: Identify quality requirements and standards; document compliance approach
@@ -45,7 +45,7 @@ The PMP exam tests your understanding of quality principles, not just tools. Mas
 | **Manage Quality** (QA) | Executing | Process effectiveness | "Are we using the right processes?" |
 | **Control Quality** (QC) | Monitoring | Product correctness | "Did we build it correctly?" |
 
-::: tip 💡 Key Distinction
+::: tip Key Distinction
 - **Quality Assurance (QA)** = Process-focused (are we building it right way?)
 - **Quality Control (QC)** = Product-focused (did we build it correctly?)
 - **Plan Quality** = Standards and metrics definition
@@ -70,7 +70,7 @@ The exam loves to test this distinction:
 
 ---
 
-## 🔧 Quality Planning Tools & Techniques
+## Quality Planning Tools & Techniques
 
 ### Cost of Quality (CoQ)
 
@@ -86,20 +86,20 @@ The **Cost of Quality** represents the total cost of conformance and non-conform
 ### Cost of Quality Relationship
 
 ```
-            Cost
-              │
-              │    \   Total CoQ
-              │     \    /\ 
-              │      \  /  \
-              │       \/    \
-              │       /\     \_______
-              │      /  \
-              │     /    \
-              │    /      Prevention +
-              │   /       Appraisal Costs
-              │  /  Failure Costs
-              │ /___________________ Quality Level
-           Low                    High
+ Cost
+ 
+ \ Total CoQ
+ \ /\ 
+ \ / \
+ \/ \
+ /\ \_______
+ / \
+ / \
+ / Prevention +
+ / Appraisal Costs
+ / Failure Costs
+ /___________________ Quality Level
+ Low High
 ```
 
 **Key Insight**: Investing in prevention and appraisal reduces total CoQ by preventing expensive failures.
@@ -125,18 +125,18 @@ The exam expects you to know when to use each quality tool:
 
 **Example**:
 ```
-                    ┌──────────────────┐
-    Man ──────────┬─┤                  │
-                  │ │   SOFTWARE       │
-    Machine ──────┼─┤   DEFECTS        │
-                  │ │                  │
-    Method ───────┼─┤   (Problem)      │
-                  │ │                  │
-    Material ─────┼─┤                  │
-                  │ └──────────────────┘
-    Measurement ──┤
-                  │
-    Environment ──┘
+ 
+ Man 
+ SOFTWARE 
+ Machine DEFECTS 
+ 
+ Method (Problem) 
+ 
+ Material 
+ 
+ Measurement 
+ 
+ Environment 
 ```
 
 **When to Use**: Brainstorming root causes, quality improvement teams
@@ -184,15 +184,15 @@ The exam expects you to know when to use each quality tool:
 **Example**:
 ```
 Defect Count
-│
-│ ████████████ (45%) 
-│ ████████     (75% cumulative)
-│ ████         (88%)
-│ ██           (95%)
-│ █            (100%)
-│___________________________
-  Missing  Format  Logic  Other
-   Data    Error   Error
+
+ (45%) 
+ (75% cumulative)
+ (88%)
+ (95%)
+ (100%)
+___________________________
+ Missing Format Logic Other
+ Data Error Error
 ```
 
 **When to Use**: Focusing improvement efforts on highest-impact issues
@@ -207,14 +207,14 @@ Defect Count
 **Example**: Distribution of defects per module
 ```
 Frequency
-│
-│      ████
-│    ████████
-│  ████████████
-│████████████████
-│________________________
-  0-2   3-5   6-8   9+
-    Defects per Module
+
+ 
+ 
+ 
+
+________________________
+ 0-2 3-5 6-8 9+
+ Defects per Module
 ```
 
 **When to Use**: Understanding data distribution, identifying patterns
@@ -235,15 +235,15 @@ Frequency
 **Example**:
 ```
 Value
-│ - - - - - - - - - - UCL
-│        ×     ×
-│    ×      ×     ×
-│ ─────────────────── CL (Mean)
-│  ×    ×       ×
-│         ×
-│ - - - - - - - - - - LCL
-│________________________
-  Time →
+ - - - - - - - - - - UCL
+ × ×
+ × × ×
+ CL (Mean)
+ × × ×
+ ×
+ - - - - - - - - - - LCL
+________________________
+ Time →
 ```
 
 **Interpretation**:
@@ -268,13 +268,13 @@ Value
 **Example**:
 ```
 Defects
-│ ×
-│    × ×
-│       × ×
-│          × ×
-│              × ×
-│___________________
-  Lines of Code →
+ ×
+ × ×
+ × ×
+ × ×
+ × ×
+___________________
+ Lines of Code →
 ```
 
 **When to Use**: Understanding relationships between variables
@@ -375,7 +375,7 @@ A comprehensive DoD for a software team:
 ---
 
 
-## 📋 Quality Management Plan Components
+## Quality Management Plan Components
 
 A comprehensive Quality Management Plan includes:
 
@@ -393,7 +393,7 @@ A comprehensive Quality Management Plan includes:
 ---
 
 
-## 🧠 Quality Planning Scenarios (Exam Practice)
+## Quality Planning Scenarios (Exam Practice)
 
 ### Scenario 1: Root Cause Analysis
 **Situation**: Defects are increasing but the team doesn\'t know why.
@@ -422,7 +422,7 @@ A comprehensive Quality Management Plan includes:
 ---
 
 
-## 🔑 Key Quality Principles (Exam Must-Know)
+## Key Quality Principles (Exam Must-Know)
 
 1. **Quality is planned in, not inspected in**
 2. **Prevention costs less than inspection/failure**
@@ -463,29 +463,29 @@ A comprehensive Quality Management Plan includes:
 
 <style>
 .quality-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
 }
 
 .quality-card {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .quality-title {
-  font-weight: 700;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.75rem;
+ font-weight: 700;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.75rem;
 }
 
 .quality-card p {
-  font-size: 0.9rem;
-  margin: 0;
-  line-height: 1.6;
+ font-size: 0.9rem;
+ margin: 0;
+ line-height: 1.6;
 }
 
 .prevention { border-left: 4px solid #10b981; }
@@ -496,15 +496,15 @@ A comprehensive Quality Management Plan includes:
 ---
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> When a question mentions finding the "root cause" of defects, think <strong>Cause-and-Effect Diagram</strong>. When it mentions "prioritizing which defects to fix first," think <strong>Pareto Chart</strong>. When it mentions "monitoring process stability," think <strong>Control Chart</strong>. Prevention is always preferred over inspection!
+ <strong> Exam Insight:</strong> When a question mentions finding the "root cause" of defects, think <strong>Cause-and-Effect Diagram</strong>. When it mentions "prioritizing which defects to fix first," think <strong>Pareto Chart</strong>. When it mentions "monitoring process stability," think <strong>Control Chart</strong>. Prevention is always preferred over inspection!
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

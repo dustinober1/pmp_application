@@ -7,31 +7,31 @@ Scope defines the boundaries of the mission. It is the "What" the team will buil
 
 ---
 
-## 🛠️ The Scope Toolbox
+## The Scope Toolbox
 The way you define scope depends on the stability of your requirements.
 
 <div class="scope-grid">
-  <div class="scope-card predictive">
-    <div class="scope-title">Predictive Tools</div>
-    <ul>
-      <li><strong>WBS (Work Breakdown Structure)</strong>: Decomposing work into manageable "Work Packages."</li>
-      <li><strong>WBS Dictionary</strong>: Detailed specs for every WBS element.</li>
-      <li><strong>Project Scope Statement</strong>: Written description of deliverables and exclusions.</li>
-    </ul>
-  </div>
-  <div class="scope-card agile">
-    <div class="scope-title">Agile Tools</div>
-    <ul>
-      <li><strong>Product Backlog</strong>: A dynamic, prioritized list of User Stories.</li>
-      <li><strong>User Stories</strong>: "As a [role], I want [action], so that [value]."</li>
-      <li><strong>Definition of Done (DoD)</strong>: The non-negotiable checklist for every story.</li>
-    </ul>
-  </div>
+ <div class="scope-card predictive">
+ <div class="scope-title">Predictive Tools</div>
+ <ul>
+ <li><strong>WBS (Work Breakdown Structure)</strong>: Decomposing work into manageable "Work Packages."</li>
+ <li><strong>WBS Dictionary</strong>: Detailed specs for every WBS element.</li>
+ <li><strong>Project Scope Statement</strong>: Written description of deliverables and exclusions.</li>
+ </ul>
+ </div>
+ <div class="scope-card agile">
+ <div class="scope-title">Agile Tools</div>
+ <ul>
+ <li><strong>Product Backlog</strong>: A dynamic, prioritized list of User Stories.</li>
+ <li><strong>User Stories</strong>: "As a [role], I want [action], so that [value]."</li>
+ <li><strong>Definition of Done (DoD)</strong>: The non-negotiable checklist for every story.</li>
+ </ul>
+ </div>
 </div>
 
 ---
 
-## 🎯 Product Scope vs. Project Scope
+## Product Scope vs. Project Scope
 The exam loves to test whether you understand these two scope concepts:
 
 | Aspect | Product Scope | Project Scope |
@@ -44,7 +44,7 @@ The exam loves to test whether you understand these two scope concepts:
 
 **Key Insight**: Scope problems often begin when stakeholders request product features without acknowledging the extra project work (time/cost/resources) required to deliver them.
 
-::: warning ⚠️ Exam Alert
+::: warning Exam Alert
 If a question asks whether something is "product scope" or "project scope," think:
 - **Product scope**: Features the customer experiences
 - **Project scope**: Work the team performs (including PM activities, training, deployment)
@@ -52,7 +52,7 @@ If a question asks whether something is "product scope" or "project scope," thin
 
 ---
 
-## 🧭 The Predictive Scope Flow (In Order)
+## The Predictive Scope Flow (In Order)
 
 ### Step 1: Plan Scope Management
 **Purpose**: Defines how scope will be defined, validated, and controlled
@@ -72,13 +72,13 @@ If a question asks whether something is "product scope" or "project scope," thin
 **Purpose**: Produces the WBS and WBS Dictionary
 **Result**: Scope Baseline (approved)
 
-::: tip 💡 Baseline Reality
+::: tip Baseline Reality
 The **Scope Baseline** is the approved version of: **Scope Statement + WBS + WBS Dictionary**. Any changes to these require formal change control.
 :::
 
 ---
 
-## 🗂️ Collect Requirements: Comprehensive Techniques Guide
+## Collect Requirements: Comprehensive Techniques Guide
 
 When a question asks "how do we get clear requirements," think facilitation and discovery:
 
@@ -153,7 +153,7 @@ When a question asks "how do we get clear requirements," think facilitation and 
 
 ---
 
-## 📋 Requirements Classification Framework
+## Requirements Classification Framework
 
 ### By Type
 
@@ -222,7 +222,7 @@ So that I can share results with executives in a professional format.
 
 ---
 
-## 🏗️ The WBS: Foundation of Control
+## The WBS: Foundation of Control
 
 In the PMP world, the **WBS** follows the **100% rule**: it represents 100% of the project work (and only the project work). If it isn't in the WBS, it isn't in the project.
 
@@ -247,36 +247,36 @@ In the PMP world, the **WBS** follows the **100% rule**: it represents 100% of t
 
 ```
 1.0 E-Commerce Platform Project
-├── 1.1 Project Management
-│   ├── 1.1.1 Initiation & Planning
-│   ├── 1.1.2 Monitoring & Control
-│   └── 1.1.3 Closure & Lessons Learned
-├── 1.2 Requirements & Design
-│   ├── 1.2.1 Business Requirements
-│   ├── 1.2.2 Technical Architecture
-│   └── 1.2.3 UI/UX Design
-├── 1.3 Development
-│   ├── 1.3.1 Frontend Development
-│   │   ├── 1.3.1.1 Product Catalog (Work Package)
-│   │   ├── 1.3.1.2 Shopping Cart (Work Package)
-│   │   └── 1.3.1.3 Checkout Flow (Work Package)
-│   ├── 1.3.2 Backend Development
-│   │   ├── 1.3.2.1 User Authentication (Work Package)
-│   │   ├── 1.3.2.2 Payment Processing (Work Package)
-│   │   └── 1.3.2.3 Inventory Management (Work Package)
-│   └── 1.3.3 Database Design & Implementation (Work Package)
-├── 1.4 Testing & Quality Assurance
-│   ├── 1.4.1 Unit Testing (Work Package)
-│   ├── 1.4.2 Integration Testing (Work Package)
-│   ├── 1.4.3 User Acceptance Testing (Work Package)
-│   └── 1.4.4 Performance Testing (Work Package)
-├── 1.5 Deployment & Training
-│   ├── 1.5.1 Production Deployment (Work Package)
-│   ├── 1.5.2 User Training (Work Package)
-│   └── 1.5.3 Documentation (Work Package)
-└── 1.6 Procurement
-    ├── 1.6.1 Payment Gateway Integration
-    └── 1.6.2 Hosting Infrastructure
+ 1.1 Project Management
+ 1.1.1 Initiation & Planning
+ 1.1.2 Monitoring & Control
+ 1.1.3 Closure & Lessons Learned
+ 1.2 Requirements & Design
+ 1.2.1 Business Requirements
+ 1.2.2 Technical Architecture
+ 1.2.3 UI/UX Design
+ 1.3 Development
+ 1.3.1 Frontend Development
+ 1.3.1.1 Product Catalog (Work Package)
+ 1.3.1.2 Shopping Cart (Work Package)
+ 1.3.1.3 Checkout Flow (Work Package)
+ 1.3.2 Backend Development
+ 1.3.2.1 User Authentication (Work Package)
+ 1.3.2.2 Payment Processing (Work Package)
+ 1.3.2.3 Inventory Management (Work Package)
+ 1.3.3 Database Design & Implementation (Work Package)
+ 1.4 Testing & Quality Assurance
+ 1.4.1 Unit Testing (Work Package)
+ 1.4.2 Integration Testing (Work Package)
+ 1.4.3 User Acceptance Testing (Work Package)
+ 1.4.4 Performance Testing (Work Package)
+ 1.5 Deployment & Training
+ 1.5.1 Production Deployment (Work Package)
+ 1.5.2 User Training (Work Package)
+ 1.5.3 Documentation (Work Package)
+ 1.6 Procurement
+ 1.6.1 Payment Gateway Integration
+ 1.6.2 Hosting Infrastructure
 ```
 
 ### WBS Dictionary Content
@@ -299,7 +299,7 @@ For each WBS element, the dictionary provides:
 
 ---
 
-## 🎯 MoSCoW Prioritization (Requirements Management)
+## MoSCoW Prioritization (Requirements Management)
 
 When managing scope, especially in agile or hybrid environments, **MoSCoW** helps prioritize requirements:
 
@@ -323,7 +323,7 @@ When managing scope, especially in agile or hybrid environments, **MoSCoW** help
 | Multi-language support | Won't | Planned for Phase 2 |
 | AR product preview | Won't | Future roadmap item |
 
-::: tip 💡 Exam Insight
+::: tip Exam Insight
 When a scenario mentions "the team is running out of time and needs to reduce scope," look for **Could Have** items to defer. Never cut **Must Have** items without sponsor approval and formal change control.
 :::
 
@@ -352,7 +352,7 @@ The **RTM** is a table that links requirements to their origin and the deliverab
 
 ---
 
-## 🚦 Scope Creep vs. Gold Plating
+## Scope Creep vs. Gold Plating
 
 Two major risks every PM must fight:
 
@@ -361,11 +361,11 @@ Two major risks every PM must fight:
 | **Scope Creep** | Uncontrolled expansion of scope without adjustments to time or cost | "Can we just add this small feature?" without formal change | Formal change control, baseline discipline |
 | **Gold Plating** | Team adding "extra" features that weren't requested | Developer adds animation effects "because they're cool" | Clear DoD, regular reviews, team education |
 
-::: warning ⚠️ Both Are Harmful
+::: warning Both Are Harmful
 Even if gold plating is "free" in terms of direct cost, it wastes resources that could be used on approved work, may introduce bugs, and delays delivery of actual requirements.
 :::
 
-::: info 🛠️ 2026 Shift: Continuous Backlog Refinement
+::: info 2026 Shift: Continuous Backlog Refinement
 In modern practice, the Product Owner and Team perform **Backlog Refinement** (Grooming) continuously. They break down "Epics" into "User Stories" just-in-time for the next sprint, ensuring the team always works on the highest value items.
 :::
 
@@ -406,7 +406,7 @@ For User Story: "As a user, I want to filter products by price range"
 
 ---
 
-## 🔍 Validate Scope vs. Control Scope
+## Validate Scope vs. Control Scope
 
 It is crucial to distinguish between these two monitoring processes:
 
@@ -434,40 +434,40 @@ Build → Control Quality → Validate Scope → Close
 
 ---
 
-## 🔁 Controlling Scope Changes (Predictive vs. Agile)
+## Controlling Scope Changes (Predictive vs. Agile)
 
 ### Predictive (Change Control Board)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                 INTEGRATED CHANGE CONTROL                    │
-├─────────────────────────────────────────────────────────────┤
-│  1. Change Request Submitted                                 │
-│           ↓                                                  │
-│  2. Impact Analysis (Scope, Schedule, Cost, Risk, Quality)  │
-│           ↓                                                  │
-│  3. CCB Review (or PM if delegated)                         │
-│           ↓                                                  │
-│  4. Approve / Reject / Defer                                 │
-│           ↓                                                  │
-│  5. Update Baselines & Communicate                           │
-└─────────────────────────────────────────────────────────────┘
+
+ INTEGRATED CHANGE CONTROL 
+
+ 1. Change Request Submitted 
+ ↓ 
+ 2. Impact Analysis (Scope, Schedule, Cost, Risk, Quality) 
+ ↓ 
+ 3. CCB Review (or PM if delegated) 
+ ↓ 
+ 4. Approve / Reject / Defer 
+ ↓ 
+ 5. Update Baselines & Communicate 
+
 ```
 
 ### Agile (Backlog Refinement)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                 AGILE SCOPE MANAGEMENT                       │
-├─────────────────────────────────────────────────────────────┤
-│  Sprint Scope: FIXED (protected once sprint starts)         │
-│           ↓                                                  │
-│  New Request? → Add to Product Backlog                       │
-│           ↓                                                  │
-│  Product Owner prioritizes in next refinement                │
-│           ↓                                                  │
-│  Team pulls into Sprint Planning when ready                  │
-└─────────────────────────────────────────────────────────────┘
+
+ AGILE SCOPE MANAGEMENT 
+
+ Sprint Scope: FIXED (protected once sprint starts) 
+ ↓ 
+ New Request? → Add to Product Backlog 
+ ↓ 
+ Product Owner prioritizes in next refinement 
+ ↓ 
+ Team pulls into Sprint Planning when ready 
+
 ```
 
 ### Hybrid Approach
@@ -482,7 +482,7 @@ Many organizations use a tiered change authority:
 
 ---
 
-## 🧠 Scope Planning Scenarios (Exam Practice)
+## Scope Planning Scenarios (Exam Practice)
 
 ### Scenario 1: Confused Team Member
 **Situation**: A developer is unsure about what exactly is included in a work package.
@@ -522,28 +522,28 @@ Many organizations use a tiered change authority:
 
 <style>
 .scope-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
 }
 
 .scope-card {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .scope-title {
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--vp-c-brand);
+ font-weight: 700;
+ margin-bottom: 1rem;
+ color: var(--vp-c-brand);
 }
 
 .scope-card ul {
-  padding-left: 1.25rem;
-  font-size: 0.9rem;
+ padding-left: 1.25rem;
+ font-size: 0.9rem;
 }
 
 .scope-card li { margin-bottom: 0.5rem; }
@@ -555,15 +555,15 @@ Many organizations use a tiered change authority:
 ---
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> If the team is confused about what a specific work package requires, refer to the <strong>WBS Dictionary</strong>. If stakeholders are debating whether something is in scope, use the <strong>Scope Statement</strong> / <strong>WBS</strong>. If you need to prove where a requirement came from (or what deliverable satisfies it), use the <strong>RTM</strong>. If the team is debating whether a story is "finished," refer to the <strong>Definition of Done</strong> and the story's <strong>Acceptance Criteria</strong>.
+ <strong> Exam Insight:</strong> If the team is confused about what a specific work package requires, refer to the <strong>WBS Dictionary</strong>. If stakeholders are debating whether something is in scope, use the <strong>Scope Statement</strong> / <strong>WBS</strong>. If you need to prove where a requirement came from (or what deliverable satisfies it), use the <strong>RTM</strong>. If the team is debating whether a story is "finished," refer to the <strong>Definition of Done</strong> and the story's <strong>Acceptance Criteria</strong>.
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

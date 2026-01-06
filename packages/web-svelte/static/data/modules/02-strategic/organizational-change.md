@@ -60,7 +60,7 @@ You must know the language of change dynamics.
 - ❄️ **Refreeze:** Lock in the new state—stabilize and reinforce new behaviors
   **Use when:** Understanding the overall change journey
 
-### 📊 Framework Comparison
+### Framework Comparison
 
 | Framework            | Focus        | Best For                                      | Key Question It Answers                    |
 | :------------------- | :----------- | :-------------------------------------------- | :----------------------------------------- |
@@ -70,7 +70,7 @@ You must know the language of change dynamics.
 
 ---
 
-## 📋 ADKAR Deep Dive (Exam Favorite)
+## ADKAR Deep Dive (Exam Favorite)
 
 ADKAR is the most commonly tested change framework. Understanding each element helps you diagnose and address resistance.
 
@@ -90,13 +90,13 @@ ADKAR is the most commonly tested change framework. Understanding each element h
   - Barrier Signs: Reverting to old ways / "Just this once" / Gradual regression
   - Intervention: Recognition programs; performance metrics; remove old options; celebrate wins
 
-::: tip 💡 ADKAR Diagnosis Shortcut
+::: tip ADKAR Diagnosis Shortcut
 If training is excellent but adoption is still low, you usually have a **Desire** problem (motivation, fear, incentives), not a Knowledge problem. Training solves K and A, but it cannot solve D.
 :::
 
 ---
 
-## 📄 The Change Management Plan (What It Typically Contains)
+## The Change Management Plan (What It Typically Contains)
 
 In practice (and on the exam), change is supported by a set of coordinated plans:
 

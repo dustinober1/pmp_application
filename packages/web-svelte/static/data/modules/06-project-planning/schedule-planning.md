@@ -6,30 +6,30 @@ Scheduling is the "Pulse" of the project. It defines the sequence of activities 
 
 ---
 
-## 🏗️ Building the Timeline
+## Building the Timeline
 Modern scheduling requires a balance between mathematical precision and human flexibility.
 
 <div class="schedule-grid">
-  <div class="schedule-card">
-    <div class="schedule-title">Critical Path Method</div>
-    <div class="schedule-subtitle">The Math</div>
-    <p>Finding the longest sequence of tasks with <strong>Zero Float</strong>. This determines the earliest project finish date.</p>
-  </div>
-  <div class="schedule-card">
-    <div class="schedule-title">Agile Cadence</div>
-    <div class="schedule-subtitle">The Rhythm</div>
-    <p>Using fixed-length <strong>Sprints</strong> and <strong>Releases</strong> to create a predictable flow of value.</p>
-  </div>
-  <div class="schedule-card">
-    <div class="schedule-title">Lead & Lag</div>
-    <div class="schedule-subtitle">The Nuance</div>
-    <p><strong>Lead</strong>: Accelerating a task. <strong>Lag</strong>: Adding mandatory wait time (e.g., waiting for paint to dry).</p>
-  </div>
+ <div class="schedule-card">
+ <div class="schedule-title">Critical Path Method</div>
+ <div class="schedule-subtitle">The Math</div>
+ <p>Finding the longest sequence of tasks with <strong>Zero Float</strong>. This determines the earliest project finish date.</p>
+ </div>
+ <div class="schedule-card">
+ <div class="schedule-title">Agile Cadence</div>
+ <div class="schedule-subtitle">The Rhythm</div>
+ <p>Using fixed-length <strong>Sprints</strong> and <strong>Releases</strong> to create a predictable flow of value.</p>
+ </div>
+ <div class="schedule-card">
+ <div class="schedule-title">Lead & Lag</div>
+ <div class="schedule-subtitle">The Nuance</div>
+ <p><strong>Lead</strong>: Accelerating a task. <strong>Lag</strong>: Adding mandatory wait time (e.g., waiting for paint to dry).</p>
+ </div>
 </div>
 
 ---
 
-## 🧭 The Predictive Schedule Flow (In Order)
+## The Predictive Schedule Flow (In Order)
 
 ### Step 1: Plan Schedule Management
 **Purpose**: Defines how the schedule will be developed, approved, and controlled
@@ -65,7 +65,7 @@ Modern scheduling requires a balance between mathematical precision and human fl
 
 ---
 
-## 🔗 Dependencies (Precedence Diagramming Method)
+## Dependencies (Precedence Diagramming Method)
 
 Most exam questions use these dependency types:
 
@@ -85,7 +85,7 @@ Most exam questions use these dependency types:
 | **External** | Driven by outside factors | Negotiate with external parties |
 | **Internal** | Within project team's control | Yes, PM has authority |
 
-::: tip 💡 Lead vs. Lag
+::: tip Lead vs. Lag
 **Lead** accelerates a successor (e.g., FS with -2 days means successor starts 2 days before predecessor finishes).
 **Lag** adds wait time (e.g., paint must dry for 2 days before next coat).
 :::
@@ -113,8 +113,8 @@ The Critical Path Method identifies the longest path through the network—the m
 **Given Network:**
 ```
 Start → A(3d) → B(4d) → E(2d) → End
-          ↓
-        C(5d) → D(3d) ↗
+ ↓
+ C(5d) → D(3d) ↗
 ```
 
 **Step 1: Forward Pass (Calculate Early Start and Early Finish)**
@@ -162,8 +162,8 @@ Starting from the end, work backward:
 **Network:**
 ```
 Start → X(4d) → Y(6d) → End
-          ↓
-        Z(8d) ↗
+ ↓
+ Z(8d) ↗
 ```
 
 **Calculate:**
@@ -198,7 +198,7 @@ Start → X(4d) → Y(6d) → End
 
 ---
 
-## 📈 Managing Float (Slack)
+## Managing Float (Slack)
 
 Float is the amount of time an activity can be delayed without affecting the end date or successor activities.
 
@@ -218,7 +218,7 @@ Float is the amount of time an activity can be delayed without affecting the end
 | **Positive (>0)** | Has flexibility | Can use for resource leveling |
 | **Negative (<0)** | Project already late | Requires compression or scope change |
 
-::: tip 💡 Quick Math Reference
+::: tip Quick Math Reference
 - **Total Float = LS − ES** or **LF − EF**
 - **Free Float = ES(next) − EF(current)**
 - **Negative Float** signals the project must finish earlier than the network allows (sponsor imposed deadline before natural completion)
@@ -306,18 +306,18 @@ When calculating uncertainty for the entire critical path:
 
 ```
 σ_project = √(1² + 2² + 1.5² + 2.5²)
-          = √(1 + 4 + 2.25 + 6.25)
-          = √13.5
-          = 3.67 days
+ = √(1 + 4 + 2.25 + 6.25)
+ = √13.5
+ = 3.67 days
 ```
 
-::: tip 💡 Exam Tip
+::: tip Exam Tip
 The PMP exam typically uses **PERT (weighted)** unless explicitly stated otherwise. If you see "(O + 4M + P) / 6," it's PERT. If you see "(O + M + P) / 3," it's Triangular.
 :::
 
 ---
 
-## 🌊 Rolling Wave Planning
+## Rolling Wave Planning
 
 Planning is an iterative process. You don't need to plan the entire project in detail on Day 1.
 
@@ -364,7 +364,7 @@ Different stakeholders need different views:
 
 ---
 
-## 📅 Agile Scheduling: Cadence + Forecasting
+## Agile Scheduling: Cadence + Forecasting
 
 In agile, time is often fixed and scope flexes:
 
@@ -392,7 +392,7 @@ Sprints Required = Backlog Story Points / Average Velocity
 - Sprints Needed: 120 / 20 = 6 sprints
 - With 2-week sprints: 12 weeks to complete backlog
 
-::: warning ⚠️ Velocity Guidelines
+::: warning Velocity Guidelines
 - Use velocity for planning, not for judging individuals/teams
 - Track team velocity, not individual velocity
 - Expect variance; use ranges not single numbers
@@ -412,7 +412,7 @@ Agile release planning provides a high-level summary timeline of the release sch
 
 ---
 
-## 🏎️ Schedule Compression
+## Schedule Compression
 
 When you are behind, you have two primary levers:
 
@@ -450,7 +450,7 @@ When you are behind, you have two primary levers:
 
 ---
 
-## ⚖️ Resource Optimization
+## Resource Optimization
 
 ### Resource Leveling vs. Resource Smoothing
 
@@ -475,14 +475,14 @@ A resource histogram shows resource allocation over time:
 
 ```
 Resources
-   │
- 3 │     ████████
-   │  ██████████████  ████
- 2 │██████████████████████████
-   │██████████████████████████
- 1 │██████████████████████████
-   │________________________________
-      Week 1  Week 2  Week 3  Week 4
+ 
+ 3 
+ 
+ 2 
+ 
+ 1 
+ ________________________________
+ Week 1 Week 2 Week 3 Week 4
 ```
 
 Use histograms to identify:
@@ -492,7 +492,7 @@ Use histograms to identify:
 
 ---
 
-## 📐 Schedule Network Analysis Techniques
+## Schedule Network Analysis Techniques
 
 ### Critical Chain Method (CCM)
 
@@ -522,7 +522,7 @@ For complex projects, use simulation to:
 
 ---
 
-## 📋 Schedule Management Artifacts
+## Schedule Management Artifacts
 
 ### Key Schedule Documents
 
@@ -538,7 +538,7 @@ For complex projects, use simulation to:
 
 ---
 
-## 🧠 Schedule Planning Scenarios (Exam Practice)
+## Schedule Planning Scenarios (Exam Practice)
 
 ### Scenario 1: No Extra Budget
 **Situation**: Project is 3 weeks behind schedule. No additional budget available.
@@ -560,7 +560,7 @@ For complex projects, use simulation to:
 **Situation**: Activity X has 5 days of total float. What does this mean?
 **Answer**: Activity X can be delayed up to 5 days without impacting the project end date. It is **not** on the critical path.
 
-::: info 🛠️ 2026 Focus: AI in Estimation
+::: info 2026 Focus: AI in Estimation
 In 2026, PMs use **AI-Augmented Estimation** to analyze historical performance and identify "True" task durations. However, the PM must still facilitate **Bottom-Up Estimation** with the team to ensure buy-in and accuracy.
 :::
 
@@ -593,52 +593,52 @@ In 2026, PMs use **AI-Augmented Estimation** to analyze historical performance a
 
 <style>
 .schedule-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
 }
 
 .schedule-card {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .schedule-title {
-  font-weight: 700;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.25rem;
+ font-weight: 700;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.25rem;
 }
 
 .schedule-subtitle {
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--vp-c-text-2);
-  margin-bottom: 1rem;
+ font-size: 0.75rem;
+ font-weight: 800;
+ text-transform: uppercase;
+ color: var(--vp-c-text-2);
+ margin-bottom: 1rem;
 }
 
 .schedule-card p {
-  font-size: 0.85rem;
-  margin: 0;
-  line-height: 1.5;
+ font-size: 0.85rem;
+ margin: 0;
+ line-height: 1.5;
 }
 </style>
 
 ---
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> If an exam scenario asks how to fix a delay with "no extra budget," choose <strong>Fast Tracking</strong>. If they say "the end date is firm and budget is available," choose <strong>Crashing</strong>. If the schedule must be updated because resources are overallocated, think <strong>Resource Leveling</strong> (usually delays the project) or <strong>Resource Smoothing</strong> (uses float; does not change the finish date).
+ <strong> Exam Insight:</strong> If an exam scenario asks how to fix a delay with "no extra budget," choose <strong>Fast Tracking</strong>. If they say "the end date is firm and budget is available," choose <strong>Crashing</strong>. If the schedule must be updated because resources are overallocated, think <strong>Resource Leveling</strong> (usually delays the project) or <strong>Resource Smoothing</strong> (uses float; does not change the finish date).
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

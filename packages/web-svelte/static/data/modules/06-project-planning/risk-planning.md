@@ -6,28 +6,28 @@ Risk management is about **proactive uncertainty management**—identifying what
 
 ---
 
-## 🎯 Risk Concepts for PMP
+## Risk Concepts for PMP
 
 The PMP exam heavily tests risk management. Master these foundational concepts:
 
 <div class="risk-grid">
-  <div class="risk-card threat">
-    <div class="risk-title">Threats</div>
-    <p>Negative risks that could harm the project. Goal: <strong>Minimize impact or probability</strong>.</p>
-  </div>
-  <div class="risk-card opportunity">
-    <div class="risk-title">Opportunities</div>
-    <p>Positive risks that could benefit the project. Goal: <strong>Maximize impact or probability</strong>.</p>
-  </div>
-  <div class="risk-card overall">
-    <div class="risk-title">Overall Project Risk</div>
-    <p>Net effect of all uncertainties on project objectives. More than sum of individual risks.</p>
-  </div>
+ <div class="risk-card threat">
+ <div class="risk-title">Threats</div>
+ <p>Negative risks that could harm the project. Goal: <strong>Minimize impact or probability</strong>.</p>
+ </div>
+ <div class="risk-card opportunity">
+ <div class="risk-title">Opportunities</div>
+ <p>Positive risks that could benefit the project. Goal: <strong>Maximize impact or probability</strong>.</p>
+ </div>
+ <div class="risk-card overall">
+ <div class="risk-title">Overall Project Risk</div>
+ <p>Net effect of all uncertainties on project objectives. More than sum of individual risks.</p>
+ </div>
 </div>
 
 ---
 
-## 🧭 The Risk Planning Flow
+## The Risk Planning Flow
 
 ### Step 1: Plan Risk Management
 **Purpose**: Define how risk activities will be conducted
@@ -64,7 +64,7 @@ The PMP exam heavily tests risk management. Master these foundational concepts:
 
 ---
 
-## 📋 The Risk Register
+## The Risk Register
 
 The Risk Register is the primary artifact for tracking risks throughout the project.
 
@@ -87,7 +87,7 @@ The Risk Register is the primary artifact for tracking risks throughout the proj
 
 ---
 
-## 🔍 Risk Identification Techniques
+## Risk Identification Techniques
 
 ### Identification Methods
 
@@ -116,22 +116,22 @@ Organize risks by category for comprehensive coverage:
 
 ```
 1.0 Project Risks
-├── 1.1 Technical Risks
-│   ├── 1.1.1 Technology maturity
-│   ├── 1.1.2 System integration
-│   └── 1.1.3 Performance requirements
-├── 1.2 External Risks
-│   ├── 1.2.1 Vendor/supplier
-│   ├── 1.2.2 Regulatory changes
-│   └── 1.2.3 Market conditions
-├── 1.3 Organizational Risks
-│   ├── 1.3.1 Resource availability
-│   ├── 1.3.2 Funding stability
-│   └── 1.3.3 Organizational changes
-└── 1.4 Project Management Risks
-    ├── 1.4.1 Estimation uncertainty
-    ├── 1.4.2 Scope definition
-    └── 1.4.3 Communication gaps
+ 1.1 Technical Risks
+ 1.1.1 Technology maturity
+ 1.1.2 System integration
+ 1.1.3 Performance requirements
+ 1.2 External Risks
+ 1.2.1 Vendor/supplier
+ 1.2.2 Regulatory changes
+ 1.2.3 Market conditions
+ 1.3 Organizational Risks
+ 1.3.1 Resource availability
+ 1.3.2 Funding stability
+ 1.3.3 Organizational changes
+ 1.4 Project Management Risks
+ 1.4.1 Estimation uncertainty
+ 1.4.2 Scope definition
+ 1.4.3 Communication gaps
 ```
 
 ---
@@ -165,15 +165,15 @@ Define probability and impact scales:
 ### Probability-Impact Matrix
 
 ```
-               IMPACT
-          Low    Med    High
-       ┌───────┬───────┬───────┐
-High   │ Med   │ High  │ V.High│
-       ├───────┼───────┼───────┤  P
-Med    │ Low   │ Med   │ High  │  R
-       ├───────┼───────┼───────┤  O
-Low    │ V.Low │ Low   │ Med   │  B
-       └───────┴───────┴───────┘
+ IMPACT
+ Low Med High
+ 
+High Med High V.High
+ P
+Med Low Med High R
+ O
+Low V.Low Low Med B
+ 
 ```
 
 ### Risk Score Calculation
@@ -187,13 +187,13 @@ Low    │ V.Low │ Low   │ Med   │  B
 | R-003 | 0.30 | 0.20 | 0.06 | Low |
 | R-004 | 0.90 | 0.10 | 0.09 | Low |
 
-::: tip 💡 Watch List
+::: tip Watch List
 Low-priority risks go on a "watch list" for periodic review. Don't create detailed responses, but monitor for changes in probability or impact.
 :::
 
 ---
 
-## 📈 Quantitative Risk Analysis
+## Quantitative Risk Analysis
 
 Quantitative analysis assigns **numerical values** to prioritized risks. Used for large/complex projects or high-stakes decisions.
 
@@ -231,16 +231,16 @@ Visual tool for evaluating decisions under uncertainty.
 **Example: Build vs. Buy Decision**
 
 ```
-                                    EMV
-                              ┌─ Success (70%): +$500k  │ = $350k
-            ┌─ Build ($200k) ─┤                         │
-            │                 └─ Failure (30%): -$200k  │ = -$60k
-Decision ───┤                       Build EMV = $290k - $200k = $90k
-            │
-            │                 ┌─ Works (80%): +$300k    │ = $240k
-            └─ Buy ($150k) ───┤                         │
-                              └─ Issues (20%): +$50k    │ = $10k
-                                    Buy EMV = $250k - $150k = $100k
+ EMV
+ Success (70%): +$500k = $350k
+ Build ($200k) 
+ Failure (30%): -$200k = -$60k
+Decision Build EMV = $290k - $200k = $90k
+ 
+ Works (80%): +$300k = $240k
+ Buy ($150k) 
+ Issues (20%): +$50k = $10k
+ Buy EMV = $250k - $150k = $100k
 
 Decision: Buy (EMV = $100k) > Build (EMV = $90k)
 ```
@@ -253,14 +253,14 @@ Identifies which risks have the greatest impact on project outcomes.
 
 **Tornado Diagram:**
 ```
-                    Project Cost Variance
-                    -$100k        0      +$100k
-                    ├────────────┼────────────┤
-Vendor Pricing      ████████████████████████████
-Resource Costs      ██████████████████
-Scope Changes       ████████████
-Timeline Slip       ████████
-Exchange Rate       ████
+ Project Cost Variance
+ -$100k 0 +$100k
+ 
+Vendor Pricing 
+Resource Costs 
+Scope Changes 
+Timeline Slip 
+Exchange Rate 
 ```
 
 **Interpretation**: Vendor pricing has the greatest potential impact on cost variance.
@@ -275,18 +275,18 @@ Runs thousands of project simulations to generate probability distributions.
 ```
 Probability of Completion
 
-100%│                    ___________
-    │                ___/
- 80%│            ___/
-    │        ___/
- 60%│    ___/
-    │ __/
- 40%│/
-    │
- 20%│
-    │
-    └───────────────────────────────────
-       $900k  $950k  $1M   $1.05M  $1.1M
+100% ___________
+ ___/
+ 80% ___/
+ ___/
+ 60% ___/
+ __/
+ 40%/
+ 
+ 20%
+ 
+ 
+ $900k $950k $1M $1.05M $1.1M
 
 P50 (50% confidence): $980,000
 P80 (80% confidence): $1,030,000
@@ -299,7 +299,7 @@ P90 (90% confidence): $1,050,000
 
 ---
 
-## 🛡️ Risk Response Strategies
+## Risk Response Strategies
 
 ### Strategies for Threats (Negative Risks)
 
@@ -335,7 +335,7 @@ P90 (90% confidence): $1,050,000
 
 ---
 
-## 💰 Risk Reserves
+## Risk Reserves
 
 ### Contingency Reserve vs. Management Reserve
 
@@ -366,7 +366,7 @@ Difference between P50 and desired confidence level (e.g., P80)
 
 ---
 
-## 🔄 Risk Monitoring & Control
+## Risk Monitoring & Control
 
 ### Monitor Risks Process
 
@@ -399,7 +399,7 @@ Difference between P50 and desired confidence level (e.g., P80)
 
 ---
 
-## 🧠 Risk Planning Scenarios (Exam Practice)
+## Risk Planning Scenarios (Exam Practice)
 
 ### Scenario 1: High-Probability, High-Impact Threat
 **Situation**: There's a 70% chance of a critical resource leaving the project.
@@ -453,29 +453,29 @@ Difference between P50 and desired confidence level (e.g., P80)
 
 <style>
 .risk-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
 }
 
 .risk-card {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .risk-title {
-  font-weight: 700;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.75rem;
+ font-weight: 700;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.75rem;
 }
 
 .risk-card p {
-  font-size: 0.9rem;
-  margin: 0;
-  line-height: 1.6;
+ font-size: 0.9rem;
+ margin: 0;
+ line-height: 1.6;
 }
 
 .threat { border-left: 4px solid #ef4444; }
@@ -486,15 +486,15 @@ Difference between P50 and desired confidence level (e.g., P80)
 ---
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> For threats: <strong>Avoid</strong> eliminates, <strong>Mitigate</strong> reduces, <strong>Transfer</strong> shifts (insurance, contracts), <strong>Accept</strong> acknowledges. For opportunities, the matching strategies are <strong>Exploit</strong>, <strong>Enhance</strong>, <strong>Share</strong>, and <strong>Accept</strong>. Use <strong>Contingency Reserve</strong> for identified risks (PM authority) and <strong>Management Reserve</strong> for unknown risks (sponsor approval).
+ <strong> Exam Insight:</strong> For threats: <strong>Avoid</strong> eliminates, <strong>Mitigate</strong> reduces, <strong>Transfer</strong> shifts (insurance, contracts), <strong>Accept</strong> acknowledges. For opportunities, the matching strategies are <strong>Exploit</strong>, <strong>Enhance</strong>, <strong>Share</strong>, and <strong>Accept</strong>. Use <strong>Contingency Reserve</strong> for identified risks (PM authority) and <strong>Management Reserve</strong> for unknown risks (sponsor approval).
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

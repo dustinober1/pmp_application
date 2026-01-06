@@ -7,7 +7,7 @@ Cost management ensures that the project is delivered within the approved budget
 
 ---
 
-## 🧭 The Cost Planning Flow (In Order)
+## The Cost Planning Flow (In Order)
 
 ### Step 1: Plan Cost Management
 **Purpose**: Defines how costs will be estimated, budgeted, and controlled
@@ -33,57 +33,57 @@ Cost management ensures that the project is delivered within the approved budget
 
 ---
 
-## 🏗️ The Budget Architecture
+## The Budget Architecture
 
 A PMP budget is built from the bottom up, with layers of protection.
 
 <div class="cost-grid">
-  <div class="cost-card activity">
-    <div class="cost-title">Activity Estimates</div>
-    <p>The base cost of work packages, including labor, materials, equipment, and services.</p>
-  </div>
-  <div class="cost-card contingency">
-    <div class="cost-title">Contingency Reserve</div>
-    <p>For "Known Unknowns". Part of the <strong>Cost Baseline</strong>. Under PM control.</p>
-  </div>
-  <div class="cost-card baseline">
-    <div class="cost-title">Cost Baseline</div>
-    <div class="cost-subtitle">The Performance Mark</div>
-    <p>A time-phased budget used to measure EVM (Earned Value Management) performance.</p>
-  </div>
-  <div class="cost-card management">
-    <div class="cost-title">Management Reserve</div>
-    <p>For "Unknown Unknowns". NOT part of the baseline. Under Sponsor control.</p>
-  </div>
+ <div class="cost-card activity">
+ <div class="cost-title">Activity Estimates</div>
+ <p>The base cost of work packages, including labor, materials, equipment, and services.</p>
+ </div>
+ <div class="cost-card contingency">
+ <div class="cost-title">Contingency Reserve</div>
+ <p>For "Known Unknowns". Part of the <strong>Cost Baseline</strong>. Under PM control.</p>
+ </div>
+ <div class="cost-card baseline">
+ <div class="cost-title">Cost Baseline</div>
+ <div class="cost-subtitle">The Performance Mark</div>
+ <p>A time-phased budget used to measure EVM (Earned Value Management) performance.</p>
+ </div>
+ <div class="cost-card management">
+ <div class="cost-title">Management Reserve</div>
+ <p>For "Unknown Unknowns". NOT part of the baseline. Under Sponsor control.</p>
+ </div>
 </div>
 
 ### Budget Component Structure
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    TOTAL PROJECT BUDGET                      │
-├─────────────────────────────────────────────────────────────┤
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │                    COST BASELINE                       │  │
-│  │  ┌─────────────────────────────────────────────────┐  │  │
-│  │  │   Work Package Cost Estimates                   │  │  │
-│  │  │   (Labor + Materials + Equipment + Services)    │  │  │
-│  │  └─────────────────────────────────────────────────┘  │  │
-│  │  ┌─────────────────────────────────────────────────┐  │  │
-│  │  │   CONTINGENCY RESERVE (Known Unknowns)          │  │  │
-│  │  │   PM Authority - Based on identified risks      │  │  │
-│  │  └─────────────────────────────────────────────────┘  │  │
-│  └───────────────────────────────────────────────────────┘  │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │   MANAGEMENT RESERVE (Unknown Unknowns)               │  │
-│  │   Sponsor Authority - For unidentified risks          │  │
-│  └───────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
+
+ TOTAL PROJECT BUDGET 
+
+ 
+ COST BASELINE 
+ 
+ Work Package Cost Estimates 
+ (Labor + Materials + Equipment + Services) 
+ 
+ 
+ CONTINGENCY RESERVE (Known Unknowns) 
+ PM Authority - Based on identified risks 
+ 
+ 
+ 
+ MANAGEMENT RESERVE (Unknown Unknowns) 
+ Sponsor Authority - For unidentified risks 
+ 
+
 ```
 
 ---
 
-## 📦 Cost Types You Should Recognize
+## Cost Types You Should Recognize
 
 ### Direct vs. Indirect Costs
 
@@ -106,7 +106,7 @@ A PMP budget is built from the bottom up, with layers of protection.
 | **Sunk Cost** | Money already spent (cannot recover) | **Ignore** when making future decisions |
 | **Opportunity Cost** | Value of next best alternative not chosen | **Consider** when comparing options |
 
-::: warning ⚠️ Sunk Cost Trap
+::: warning Sunk Cost Trap
 The exam often tests whether you understand that **sunk costs should not influence future decisions**. If $1M has been spent on a failing project, that $1M is irrelevant to the decision of whether to continue or cancel.
 :::
 
@@ -176,15 +176,15 @@ Standard Deviation (σ) = (P - O) / 6
 
 ```
 Cₑ = (80,000 + 4×100,000 + 150,000) / 6
-   = (80,000 + 400,000 + 150,000) / 6
-   = 630,000 / 6 = $105,000
+ = (80,000 + 400,000 + 150,000) / 6
+ = 630,000 / 6 = $105,000
 
 σ = (150,000 - 80,000) / 6 = $11,667
 ```
 
 ---
 
-## 💰 The Total Project Budget
+## The Total Project Budget
 
 **Total Budget = Cost Baseline + Management Reserve**
 
@@ -215,7 +215,7 @@ Just because you have the *budget* doesn't mean you have the *cash*.
 
 ---
 
-## 💎 Value Engineering
+## Value Engineering
 
 **Definition**: Finding ways to deliver the same or better value at lower cost without sacrificing quality, performance, or sustainability.
 
@@ -237,7 +237,7 @@ Just because you have the *budget* doesn't mean you have the *cash*.
 | Premium materials | Standard materials | 25% | Verify quality meets requirements |
 | Senior consultants | Mix of senior + junior | 30% | More oversight needed |
 
-::: info 🛠️ 2026 Focus: ESG and Value Engineering
+::: info 2026 Focus: ESG and Value Engineering
 Modern value engineering considers not just cost but **sustainability (ESG)**:
 - Environmental impact of materials and operations
 - Social responsibility in supply chain
@@ -246,7 +246,7 @@ Modern value engineering considers not just cost but **sustainability (ESG)**:
 
 ---
 
-## 📈 Lifecycle Costing (Total Cost of Ownership)
+## Lifecycle Costing (Total Cost of Ownership)
 
 Project decisions should consider the "Total Cost of Ownership," not just the project build cost.
 
@@ -271,7 +271,7 @@ Project decisions should consider the "Total Cost of Ownership," not just the pr
 
 ---
 
-## 📈 Earned Value Management (EVM): Complete Guide
+## Earned Value Management (EVM): Complete Guide
 
 EVM is the exam's favorite way to test integrated planning (scope + schedule + cost). It compares planned progress vs. actual progress and cost.
 
@@ -306,8 +306,8 @@ EVM is the exam's favorite way to test integrated planning (scope + schedule + c
 ### Memory Aid for Variances
 ```
 All variance formulas start with EV:
-  SV = EV - PV  (Schedule Variance)
-  CV = EV - AC  (Cost Variance)
+ SV = EV - PV (Schedule Variance)
+ CV = EV - AC (Cost Variance)
 
 Positive = Good, Negative = Bad
 ```
@@ -331,13 +331,13 @@ Positive = Good, Negative = Bad
 ### Memory Aid for Indices
 ```
 All index formulas have EV on top:
-  SPI = EV / PV  (Schedule Performance Index)
-  CPI = EV / AC  (Cost Performance Index)
+ SPI = EV / PV (Schedule Performance Index)
+ CPI = EV / AC (Cost Performance Index)
 
 > 1.0 = Good, < 1.0 = Bad
 ```
 
-::: tip 💡 Quick Interpretation
+::: tip Quick Interpretation
 If someone asks "Are we over or under budget?" → Check **CPI**
 If they ask "Are we ahead or behind schedule?" → Check **SPI**
 :::
@@ -459,8 +459,8 @@ ETC = EAC - AC = $583,430 - $210,000 = $373,430
 **Step 5: Calculate TCPI to finish at BAC**
 ```
 TCPI = (BAC - EV) / (BAC - AC)
-     = ($500,000 - $180,000) / ($500,000 - $210,000)
-     = $320,000 / $290,000 = 1.10
+ = ($500,000 - $180,000) / ($500,000 - $210,000)
+ = $320,000 / $290,000 = 1.10
 ```
 
 **Assessment**: With required TCPI of 1.10 (10% more efficient than planned), finishing at original budget is very challenging. Consider:
@@ -491,18 +491,18 @@ The cost baseline is often shown as an S-curve—cumulative planned expenditure 
 
 ```
 $ Cumulative Cost
-│
-│                             ╭───── BAC (Budget at Completion)
-│                         ╱───╯
-│                     ╱───╯
-│                 ╱───╯
-│             ╱───╯
-│         ╱───╯
-│     ╱───╯
-│ ╱───╯
-│──────────────────────────────→ Time
-        Early    Middle    Late
-      (Slow)   (Fast)   (Slow)
+
+ BAC (Budget at Completion)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+→ Time
+ Early Middle Late
+ (Slow) (Fast) (Slow)
 ```
 
 **S-Curve Characteristics**:
@@ -512,7 +512,7 @@ $ Cumulative Cost
 
 ---
 
-## 🧠 Cost Planning Scenarios (Exam Practice)
+## Cost Planning Scenarios (Exam Practice)
 
 ### Scenario 1: Identified Risk Occurs
 **Situation**: A risk from the risk register (equipment delay) triggers a $10,000 cost.
@@ -566,37 +566,37 @@ $ Cumulative Cost
 
 <style>
 .cost-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
-  margin: 1.5rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 1.25rem;
+ margin: 1.5rem 0;
 }
 
 .cost-card {
-  padding: 1.25rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.25rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .cost-title {
-  font-weight: 700;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.5rem;
+ font-weight: 700;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.5rem;
 }
 
 .cost-subtitle {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--vp-c-text-2);
-  margin-bottom: 0.5rem;
+ font-size: 0.75rem;
+ font-weight: 600;
+ text-transform: uppercase;
+ color: var(--vp-c-text-2);
+ margin-bottom: 0.5rem;
 }
 
 .cost-card p {
-  font-size: 0.85rem;
-  margin: 0;
-  line-height: 1.5;
+ font-size: 0.85rem;
+ margin: 0;
+ line-height: 1.5;
 }
 
 .activity { border-bottom: 4px solid #94a3b8; }
@@ -608,15 +608,15 @@ $ Cumulative Cost
 ---
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> If an unforeseen disaster (not in the risk register) occurs, you need <strong>Management Reserve</strong>. This requires a formal change request and <strong>Sponsor approval</strong>. For identified risks that occur, use <strong>Contingency Reserve</strong> under PM authority.
+ <strong> Exam Insight:</strong> If an unforeseen disaster (not in the risk register) occurs, you need <strong>Management Reserve</strong>. This requires a formal change request and <strong>Sponsor approval</strong>. For identified risks that occur, use <strong>Contingency Reserve</strong> under PM authority.
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>
