@@ -310,26 +310,27 @@ Test your ability to connect project decisions to business strategy, value, and 
 
 ---
 
-## 🏆 Key Takeaways
+## Key Takeaways
 
-| Concept | The PMI Way |
-| :-- | :-- |
-| **Selection** | Use objective criteria (value, fit, risk, capacity). Sunk costs are irrelevant. Compliance is mandatory regardless of NPV. |
-| **Financial Analysis** | Know NPV, ROI, IRR, BCR, Payback. Higher NPV/IRR is better. Compare using weighted criteria when mixed factors matter. |
-| **Portfolio** | Optimize the whole system (prioritize, rebalance, stop low-value work). Apply WIP limits. Accept strategic decisions. |
-| **Benefits** | Outputs are not enough. Track adoption and value; benefits are owned by the business, not the PM. |
-| **Environment** | Scan PESTLE signals early and respond with impact assessment and governance decisions. Regulatory changes are mandatory. |
-| **Compliance** | Laws and ethics are non-negotiable; update baselines via change control when needed. Safety always wins. |
-| **Change** | Adoption is part of done. Diagnose resistance with ADKAR. Build momentum with Kotter. Address culture proactively. |
-| **PMO** | Use standards, templates, and governance support. Know when to go to PMO vs. Sponsor vs. Steering Committee vs. CCB. |
+| Concept                | The PMI Way                                                                                                                |
+| :--------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| **Selection**          | Use objective criteria (value, fit, risk, capacity). Sunk costs are irrelevant. Compliance is mandatory regardless of NPV. |
+| **Financial Analysis** | Know NPV, ROI, IRR, BCR, Payback. Higher NPV/IRR is better. Compare using weighted criteria when mixed factors matter.     |
+| **Portfolio**          | Optimize the whole system (prioritize, rebalance, stop low-value work). Apply WIP limits. Accept strategic decisions.      |
+| **Benefits**           | Outputs are not enough. Track adoption and value; benefits are owned by the business, not the PM.                          |
+| **Environment**        | Scan PESTLE signals early and respond with impact assessment and governance decisions. Regulatory changes are mandatory.   |
+| **Compliance**         | Laws and ethics are non-negotiable; update baselines via change control when needed. Safety always wins.                   |
+| **Change**             | Adoption is part of done. Diagnose resistance with ADKAR. Build momentum with Kotter. Address culture proactively.         |
+| **PMO**                | Use standards, templates, and governance support. Know when to go to PMO vs. Sponsor vs. Steering Committee vs. CCB.       |
 
 ---
 
-## 📚 Comprehensive Review Topics
+## Comprehensive Review Topics
 
 Use these as a quick one-stop review before the exam:
 
 ### Financial & Selection
+
 1. **NPV, ROI, IRR, BCR, Payback** — Know formulas and decision rules (higher NPV/IRR/ROI = better)
 2. **Sunk Cost Fallacy** — Past spending is irrelevant to future decisions
 3. **Opportunity Cost** — Value of the option NOT chosen
@@ -337,6 +338,7 @@ Use these as a quick one-stop review before the exam:
 5. **Selection Categories** — Operational (maintain), Strategic (grow), Compliance (mandatory)
 
 ### Portfolio & Program
+
 6. **Portfolio vs. Program vs. Project** — Strategy → Benefits → Output hierarchy
 7. **Portfolio Governance Cycle** — Intake, Evaluate, Prioritize, Authorize, Monitor, Rebalance, Retire
 8. **WIP Limits** — Reduce concurrent work to improve throughput
@@ -344,6 +346,7 @@ Use these as a quick one-stop review before the exam:
 10. **Dependency Types** — Finish-to-start, resource, external, technical interface
 
 ### Benefits & Value
+
 11. **Output → Outcome → Benefit** — The value chain (deliverable → behavior change → measurable value)
 12. **Benefits Owner** — Business role accountable for long-term value realization
 13. **MVP vs. MBI** — Learning vs. releasable value
@@ -351,22 +354,26 @@ Use these as a quick one-stop review before the exam:
 15. **Triple Bottom Line** — Profit, People, Planet (ESG integration)
 
 ### External Environment
+
 16. **PESTLE** — Political, Economic, Social, Technological, Legal, Environmental scanning
 17. **Impact Assessment Process** — Identify, Evaluate, Escalate, Respond, Update
 18. **Regulatory Response** — Compliance is mandatory; cannot ignore new laws mid-project
 
 ### Governance & Compliance
+
 19. **Governance Bodies** — Sponsor, Steering Committee, CCB, PMO, Legal/Compliance
 20. **Agile vs. Traditional Governance** — Empirical control vs. predictive documentation
 21. **Ethics (RRFH)** — Responsibility, Respect, Fairness, Honesty
 22. **Data Privacy Principles** — Minimize, Consent, Secure, Retention, Document
 
 ### Organizational Change
+
 23. **ADKAR** — Awareness, Desire, Knowledge, Ability, Reinforcement (individual change)
 24. **Kotter 8 Steps** — Organizational change sequence
 25. **Culture vs. Strategy** — Strategy fails if it conflicts with culture; address culture first
 
 ### PMO
+
 26. **PMO Types** — Supportive, Controlling, Directive (know the differences)
 27. **PMO Services** — Guidance, templates, coaching, centralized data
 
