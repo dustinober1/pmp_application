@@ -107,6 +107,11 @@ npm run test:web-svelte
 - **Study Page Cleanup:** Removed "Domain Cards" section from the main Study page to simplify the interface, keeping the ECO Info Cards and Study Modules, as per user correction.
 - **Module Content:** Added configuration for Module 2 (Strategic Business Management) and Module 3 (Team Leadership & Development) to the study page, enabling access to new study materials.
 - **Professional Formatting:** Removed emojis from all study content (markdown), data (JSON) files, and UI components across the entire application to maintain a professional, state-of-the-art aesthetic. Improved table styling in SanitizedMarkdown component with theme-aware borders, backgrounds, and hover states for better visibility in both light and dark modes.
+- **Advanced Markdown Features:**
+    - **Custom Alerts:** Implemented support for `::: tip/info/warning/caution` syntax to render professionally styled callout blocks.
+    - **Interactive Checkboxes:** Enhanced markdown rendering to make `[ ]` task lists interactive, persisting their state to `localStorage`.
+    - **Dynamic Components:** Added capability to mount Svelte components (like `ProgressTable`) directly into markdown content using placeholder elements.
+    - **Using Guide Updates:** Refined Module 1 "Using This Guide" with a proper Table of Contents, a responsive "Study Path" comparison table, and an interactive domain progress tracker.
 
 ## Current Status & Roadmap
 

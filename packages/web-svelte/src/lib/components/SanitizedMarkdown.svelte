@@ -1,26 +1,126 @@
 <script lang="ts">
 	import { marked } from 'marked';
 	import DOMPurify from 'isomorphic-dompurify';
+	import { onMount, onDestroy, mount, unmount } from 'svelte';
+	import { page } from '$app/stores';
+	import ProgressTable from './ProgressTable.svelte';
 
 	interface Props {
 		content: string;
 		className?: string;
+		id?: string; // Optional ID context for persistence
 	}
 
-	let { content, className = '' }: Props = $props();
+	let { content, className = '', id = '' }: Props = $props();
+
+	// Process custom syntax before markdown parsing
+	function preProcess(text: string): string {
+		// Replace ::: type Title ::: syntax
+		// Matches: ::: type Title \n content \n :::
+		// We use a non-greedy match for the content
+		let processed = text.replace(
+			/:::\s*(tip|info|warning|caution)\s*(.*?)\n([\s\S]*?)\n:::/gm,
+			(_, type, title, body) => {
+				const titleHtml = title ? `<p class="font-bold mb-2 block-title">${title}</p>` : '';
+				return `<div class="callout callout-${type} my-4 p-4 rounded-lg border-l-4">
+					${titleHtml}
+					<div class="block-content">${body}</div>
+				</div>`;
+			}
+		);
+		
+		return processed;
+	}
 
 	// Sanitize and parse markdown
-	const html = $derived(
-		DOMPurify.sanitize(marked.parse(content, {
+	const html = $derived.by(() => {
+		const processed = preProcess(content);
+		const rawHtml = marked.parse(processed, {
 			headerIds: false,
 			mangle: false
-		}) as string, {
-			USE_PROFILES: { html: true }
-		})
-	);
+		}) as string;
+		
+		return DOMPurify.sanitize(rawHtml, {
+			USE_PROFILES: { html: true },
+			ADD_TAGS: ['input'], // Build-in sanitize removes input attributes sometimes
+			ADD_ATTR: ['checked', 'type', 'disabled', 'class', 'onclick', 'data-component']
+		});
+	});
+
+	// Handle interactive elements
+	let container: HTMLDivElement;
+	let mountedComponents: any[] = [];
+
+	function handleCheckboxChange(index: number, checked: boolean) {
+		const key = `pmp_progress_${id || $page.url.pathname}_checkbox_${index}`;
+		localStorage.setItem(key, checked.toString());
+	}
+
+	function hydrateInteractiveElements() {
+		if (!container) return;
+
+		// 1. Hydrate Checkboxes
+		const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+		checkboxes.forEach((cb, index) => {
+			const checkbox = cb as HTMLInputElement;
+			checkbox.disabled = false; // Enable interaction
+			checkbox.classList.add('cursor-pointer', 'accent-indigo-600', 'h-4', 'w-4');
+
+			// Restore state
+			const key = `pmp_progress_${id || $page.url.pathname}_checkbox_${index}`;
+			const saved = localStorage.getItem(key);
+			if (saved !== null) {
+				checkbox.checked = saved === 'true';
+			}
+
+			// Add interaction
+			checkbox.onchange = (e) => {
+				handleCheckboxChange(index, (e.target as HTMLInputElement).checked);
+			};
+		});
+
+		// 2. Hydrate Components
+		const componentPlaceholders = container.querySelectorAll('[data-component="ProgressTable"]');
+		componentPlaceholders.forEach((placeholder) => {
+			// Clear existing content if any
+			placeholder.innerHTML = '';
+			const component = mount(ProgressTable, {
+				target: placeholder,
+				props: {
+					key: id || $page.url.pathname
+				}
+			});
+			mountedComponents.push(component);
+		});
+	}
+
+	// Cleanup mounted components
+	function cleanup() {
+		mountedComponents.forEach((comp) => {
+			try {
+				unmount(comp);
+			} catch (e) {
+				// Ignore if already unmounted
+			}
+		});
+		mountedComponents = [];
+	}
+
+	$effect(() => {
+		if (html && container) {
+			cleanup();
+			// Small timeout to allow DOM update
+			setTimeout(hydrateInteractiveElements, 0);
+		}
+	});
+
+	onDestroy(() => {
+		cleanup();
+	});
+
 </script>
 
-<div class="prose prose-invert max-w-none {className}">
+<div bind:this={container} class="prose prose-invert max-w-none {className}">
 	{@html html}
 </div>
 
@@ -30,6 +130,36 @@
 		color: var(--foreground);
 		max-width: none;
 	}
+
+	/* Callout Styles */
+	:global(.callout) {
+		background-color: rgb(31, 41, 55); /* Default dark bg */
+	}
+
+	:global(.callout-tip) {
+		border-left-color: #10b981; /* Emerald 500 */
+		background-color: rgba(16, 185, 129, 0.1);
+	}
+	:global(.callout-tip .block-title) { color: #10b981; }
+
+	:global(.callout-info) {
+		border-left-color: #3b82f6; /* Blue 500 */
+		background-color: rgba(59, 130, 246, 0.1);
+	}
+	:global(.callout-info .block-title) { color: #3b82f6; }
+
+	:global(.callout-warning) {
+		border-left-color: #f59e0b; /* Amber 500 */
+		background-color: rgba(245, 158, 11, 0.1);
+	}
+	:global(.callout-warning .block-title) { color: #f59e0b; }
+
+	:global(.callout-caution) {
+		border-left-color: #ef4444; /* Red 500 */
+		background-color: rgba(239, 68, 68, 0.1);
+	}
+	:global(.callout-caution .block-title) { color: #ef4444; }
+
 
 	:global(.prose h1) {
 		font-size: 1.5rem;
@@ -103,6 +233,15 @@
 
 	:global(.prose li) {
 		margin-bottom: 0.25rem;
+	}
+	
+	/* Style checkboxed list items */
+	:global(.prose li:has(input[type="checkbox"])) {
+		list-style-type: none;
+		margin-left: -1rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
 	:global(.prose blockquote) {

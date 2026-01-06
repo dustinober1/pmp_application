@@ -11,12 +11,6 @@ This chapter is structured in four core sections, each building your foundation:
 3. **Ways of Working** - Master Predictive, Agile, and Hybrid delivery approaches
 4. **Core Concepts** - Master the "Big 6" foundational frameworks (Stakeholders, Triple Constraint, Quality, Risk, Data & AI, Ethics)
 
-# Chapter 1: Fundamentals & Exam Overview
-
-Welcome to the foundation of your PMP® journey. Before diving into tools and techniques, you must understand the "Rules of the Game"—the structure of the 2026 exam, the core mental models of modern project leadership, and how to navigate this guide for maximum throughput.
-
-## Your Learning Path
-
 This chapter is structured in core sections, each building your foundation:
 
 <ConceptGrid>
