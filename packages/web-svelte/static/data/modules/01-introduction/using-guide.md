@@ -26,16 +26,16 @@ The July 2026 exam includes a case-study section, followed by independent questi
 
 At a high level, the book is organized into 10 logical chapters:
 
-*   **Chapter 01 – Introduction and Fundamentals:** The exam, study strategies, and core project management concepts.
-*   **Chapter 02 – Strategic Alignment and Business Environment:** Strategy, portfolios, benefits, compliance, and organizational change.
-*   **Chapter 03 – Team Leadership and Development:** Building teams, servant leadership, and conflict resolution.
-*   **Chapter 04 – Stakeholder Engagement and Communication:** Managing stakeholders and communication strategies.
-*   **Chapter 05 – Initiation and Requirements:** Starting projects, charters, and business analysis.
+*   **Chapter 01 – Fundamentals & Exam Overview:** The exam, study strategies, and core project management concepts.
+*   **Chapter 02 – Strategic Business Management:** Strategy, portfolios, benefits, compliance, and organizational change.
+*   **Chapter 03 – Team Leadership & Development:** Building teams, servant leadership, and conflict resolution.
+*   **Chapter 04 – Stakeholder & Communication:** Managing stakeholders and communication strategies.
+*   **Chapter 05 – Project Initiation:** Starting projects, charters, and business analysis.
 *   **Chapter 06 – Project Planning:** Scope, schedule, cost, and resource planning.
-*   **Chapter 07 – Risk, Quality, and Complexity:** Managing uncertainty, quality standards, and complex environments.
-*   **Chapter 08 – Execution and Value Delivery:** Directing work, managing vendors, and delivering value.
-*   **Chapter 09 – Monitoring and Closing:** Tracking performance, change control, and project closure.
-*   **Chapter 10 – Exam Preparation and Future Trends:** Test-taking strategies, AI in project management, and practice exams.
+*   **Chapter 07 – Risk & Quality Management:** Managing uncertainty, quality standards, and complex environments.
+*   **Chapter 08 – Execution & Value Delivery:** Directing work, managing vendors, and delivering value.
+*   **Chapter 09 – Project Monitoring, Control & Closure:** Tracking performance, change control, and project closure.
+*   **Chapter 10 – AI in Project Management:** Ethics, prompt engineering, and automating project workflows.
 
 ### How Chapters Map to the ECO
 
@@ -133,7 +133,7 @@ This guide supports different preparation timelines. Choose the plan that matche
     </tr>
     <tr>
       <td class="p-4 font-semibold text-gray-900 dark:text-gray-100">Final Push</td>
-      <td class="p-4"><strong>Week 5 (Exam Prep):</strong> Ch 10, Full Practice Exam.</td>
+      <td class="p-4"><strong>Week 5 (Modern Tools):</strong> Ch 10 (AI), Full Practice Exam.</td>
       <td class="p-4"><strong>Week 10 (Full Practice):</strong> Full mock exams (4h), simulation.</td>
     </tr>
   </tbody>

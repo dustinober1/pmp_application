@@ -113,6 +113,7 @@ npm run test:web-svelte
     - **Dynamic Components:** Added capability to mount Svelte components (like `ProgressTable`) directly into markdown content using placeholder elements.
     - **Using Guide Updates:** Refined Module 1 "Using This Guide" with a proper Table of Contents, a responsive "Study Path" comparison table, and an interactive domain progress tracker.
 - **Study Navigation:** Implemented "Previous" and "Next" navigation buttons at the bottom of study material sections, allowing users to seamlessly move through the curriculum across module boundaries.
+- **Content Accuracy:** Corrected the Table of Contents in the "How to Use This Guide" section to accurately match the actual module list and descriptions used in the application.
 
 ## Current Status & Roadmap
 
