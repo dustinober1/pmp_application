@@ -73,6 +73,47 @@ const MODULES: StudyModule[] = [
             { id: 'motivation-performance', title: 'Motivation & Performance', description: 'Driving high performance', path: 'motivation-performance.md' },
             { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your leadership knowledge', path: 'knowledge-check.md' }
         ]
+    },
+    {
+        id: '06-project-planning',
+        title: 'Module 6: Project Planning',
+        description: 'Developing the integrated project management plan and subsidiary plans (Scope, Schedule, Cost, Quality, Resources, Communications, Risk, Procurement).',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'scope-planning', title: 'Scope Planning', description: 'Defining the work (WBS, Requirements)', path: 'scope-planning.md' },
+            { id: 'schedule-planning', title: 'Schedule Planning', description: 'Defining the timeline (CPM, Float)', path: 'schedule-planning.md' },
+            { id: 'cost-planning', title: 'Cost Planning', description: 'Budgeting and Reserves', path: 'cost-planning.md' },
+            { id: 'quality-planning', title: 'Quality Planning', description: 'Standards and Metrics', path: 'quality-planning.md' },
+            { id: 'resource-planning', title: 'Resource & Procurement', description: 'Team, Physical Resources, and Contracts', path: 'resource-planning.md' },
+            { id: 'communications-planning', title: 'Communications Planning', description: 'Stakeholder Information Needs', path: 'communications-planning.md' },
+            { id: 'risk-planning', title: 'Risk Planning', description: 'Threats and Opportunities', path: 'risk-planning.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your planning knowledge', path: 'knowledge-check.md' }
+        ]
+    },
+    {
+        id: '07-risk-quality',
+        title: 'Module 7: Risk & Quality Management',
+        description: 'Master the art of managing uncertainty and ensuring excellence. Covers Risk, Quality, and Complexity.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'risk-management', title: 'Risk Management', description: 'Identify, analyze, and respond to uncertainty', path: 'risk-management.md' },
+            { id: 'quality-management', title: 'Quality Management', description: 'Plan, manage, and control quality', path: 'quality-management.md' },
+            { id: 'navigating-complexity', title: 'Navigating Complexity', description: 'Cynefin, systems thinking, and adaptation', path: 'navigating-complexity.md' },
+            { id: 'toolkit', title: 'Tools & Templates', description: 'Reference guide for tools and calculations', path: 'toolkit.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your mastery of Module 7', path: 'knowledge-check.md' }
+        ]
+    },
+    {
+        id: '09-monitoring',
+        title: 'Module 9: Project Monitoring, Control & Closure',
+        description: 'Turn data into decisions and harvest value. Covers measurement, change control, and closure.',
+        sections: [
+            { id: 'index', title: 'Overview', description: 'Module Overview', path: 'index.md' },
+            { id: 'monitoring-closing', title: 'Manage Deviation', description: 'Turn data into decisions: EVM, critical path & schedule compression, reserves, and Integrated Change Control.', path: 'monitoring-closing.md' },
+            { id: 'project-closure', title: 'Harvest Value', description: 'Formal acceptance, transition readiness, procurement closure/claims, and turning project work into reusable OPAs.', path: 'project-closure.md' },
+            { id: 'toolkit', title: 'Tools & Templates', description: 'Copy/paste templates: status reporting, EVM worksheet, variance/issue logs, change requests, decision log, and closure artifacts.', path: 'toolkit.md' },
+            { id: 'knowledge-check', title: 'Knowledge Check', description: 'Test your mastery of Module 9', path: 'knowledge-check.md' }
+        ]
     }
 ];
 
