@@ -38,7 +38,7 @@ To master value delivery, you must understand the distinction between these four
 
 ---
 
-## ✅ Defining Value (So You Can Prove It Later)
+## Defining Value (So You Can Prove It Later)
 Value is not a vibe—it needs a measurable definition.
 
 ### Success criteria checklist
@@ -130,7 +130,7 @@ Quantify value to justify continued investment during execution.
 - **ROI** = (Net Benefits ÷ Costs) × 100%
 - **Payback Period** = Initial Investment ÷ Annual Net Cash Flow
 
-::: info 📊 Decision Criteria
+::: info Decision Criteria
 - BCR > 1.0: Benefits exceed costs (favorable)
 - ROI > 15%: Common organizational threshold for project approval
 - Payback < 3 years: Typical acceptance for business cases
@@ -277,7 +277,7 @@ WSJF = Cost of Delay ÷ Job Duration (Size)
 
 **Interpretation**: Feature C and B have the highest WSJF (deliver value quickly relative to effort). Feature D, despite high user value, is deprioritized because of long duration.
 
-::: info 📊 WSJF Best Practices
+::: info WSJF Best Practices
 - Use **relative sizing** (Fibonacci: 1, 2, 3, 5, 8, 13) rather than absolute numbers
 - Compare features **within the same context** (don't compare across products)
 - Re-calculate periodically as time criticality changes
@@ -498,7 +498,7 @@ To make the "tail" real, confirm readiness across people, process, and technolog
 
 ---
 
-## 📊 Value Measurement Techniques
+## Value Measurement Techniques
 
 Measuring value requires a balanced approach across multiple dimensions and timeframes.
 
@@ -987,7 +987,7 @@ Adaptive Approach:  Month 1-2: MVP with product catalog and checkout
 
 ---
 
-## 📊 Measuring Value After Delivery
+## Measuring Value After Delivery
 Benefits may appear after the project is "done." Strong answers ensure:
 - A scheduled **benefits review cadence** (post go-live at 30/60/90 days, then quarterly)
 - Clear **ownership** (who reports value—typically operational leaders, not PM)

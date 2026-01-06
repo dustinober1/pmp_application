@@ -39,7 +39,7 @@ If there is a problem, you usually (1) analyze it, (2) decide an action, and (3)
 
 ---
 
-## 📊 EVM Worksheet (Mini Template)
+## EVM Worksheet (Mini Template)
 
 Fill in the inputs, then compute the metrics.
 
@@ -207,7 +207,7 @@ Use this to prevent “it works, so we are done” thinking.
 
 ---
 
-## ✅ Close Project or Phase Checklist
+## Close Project or Phase Checklist
 
 - [ ] Deliverables accepted (Validate Scope)
 - [ ] Open change requests closed (approved/rejected/deferred)
@@ -293,7 +293,7 @@ Track changes to configuration items (documents, code, deliverables).
 
 ---
 
-## 📊 Performance Review Template (Team/Vendor)
+## Performance Review Template (Team/Vendor)
 
 Use for periodic performance reviews during monitoring.
 
@@ -421,7 +421,7 @@ Use for agile project monitoring cadence.
 
 ---
 
-## 📊 Monte Carlo Summary Template
+## Monte Carlo Summary Template
 
 Use this template to document probabilistic forecasting results for stakeholder communication.
 

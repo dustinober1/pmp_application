@@ -4,12 +4,12 @@ A **100% free and open-source** study platform for the 2026 PMP (Project Managem
 
 ## Features
 
-- 📚 **Study Guides** - Comprehensive content organized by PMI domains and tasks
-- 🎴 **Flashcards** - Spaced repetition learning with Leitner box system (1,800+ cards)
-- ✅ **Practice Questions** - Exam-style questions with detailed explanations (1,200+ questions)
-- 📊 **Analytics Dashboard** - Track progress with local storage
-- 🧮 **Formula Calculator** - Practice EVM and other calculations
-- 💾 **Offline-First** - Works offline after loading, data stored locally
+- **Study Guides** - Comprehensive content organized by PMI domains and tasks
+- **Flashcards** - Spaced repetition learning with Leitner box system (1,800+ cards)
+- **Practice Questions** - Exam-style questions with detailed explanations (1,200+ questions)
+- **Analytics Dashboard** - Track progress with local storage
+- **Formula Calculator** - Practice EVM and other calculations
+- **Offline-First** - Works offline after loading, data stored locally
 
 ## What Changed?
 

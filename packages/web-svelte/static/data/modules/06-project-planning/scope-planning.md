@@ -329,7 +329,7 @@ When a scenario mentions "the team is running out of time and needs to reduce sc
 
 ---
 
-## 📊 RTM: Requirements Traceability Matrix
+## RTM: Requirements Traceability Matrix
 
 The **RTM** is a table that links requirements to their origin and the deliverables/tests that satisfy them. It is a powerful defense against missed requirements and helps with compliance and audits.
 
@@ -371,7 +371,7 @@ In modern practice, the Product Owner and Team perform **Backlog Refinement** (G
 
 ---
 
-## ✅ Acceptance Criteria vs. Definition of Done (DoD)
+## Acceptance Criteria vs. Definition of Done (DoD)
 
 These get confused on the exam:
 
@@ -506,7 +506,7 @@ Many organizations use a tiered change authority:
 
 ---
 
-## 📚 Key Formulas & Quick Reference
+## Key Formulas & Quick Reference
 
 ### Scope Planning Quick Reference
 

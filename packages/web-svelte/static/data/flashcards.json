@@ -11,61 +11,61 @@
     "flashcards": [
       {
         "id": 1,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "What is Project Governance?\n",
         "back": "The framework, functions, and processes that guide project management activities in order to create a unique product, service, or result to meet organizational, strategic, and operational goals. (The \"Rules of the Road\").\n"
       },
       {
         "id": 2,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "What is the difference between Governance and Management?\n",
         "back": "- Governance: Oversight, Strategic Direction, \"doing the right things\" (Steering Committee).\n- Management: Execution, Day-to-Day Operations, \"doing things right\" (Project Manager).\n"
       },
       {
         "id": 3,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "What is a Steering Committee?\n",
         "back": "A governance body of key stakeholders (Sponsor, Execs) that provides strategic direction, resolves escalated issues, and makes \"Go/No-Go\" decisions.\n"
       },
       {
         "id": 4,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "What is the Sponsor's primary governance role?\n",
         "back": "Providing funding (resources), championing the project, and acting as the final escalation point for issues the PM cannot resolve.\n"
       },
       {
         "id": 5,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "What is the Change Control Board (CCB)?\n",
         "back": "A formally chartered group responsible for reviewing, evaluating, approving, delaying, or rejecting changes to the project baselines.\n"
       },
       {
         "id": 6,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "Scenario: You need a template for a Project Charter. Who do you contact?\n",
         "back": "The Project Management Office (PMO).\n"
       },
       {
         "id": 7,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "Scenario: You need more budget (Funding) because costs increased. Who do you contact?\n",
         "back": "The Sponsor (or Steering Committee). The PMO cannot grant budget.\n"
       },
       {
         "id": 8,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "Scenario: A new law is passed that makes your product illegal. Who decides whether to cancel the project?\n",
         "back": "Governance (Steering Committee / Sponsor). The PM provides the impact analysis, but Governance makes the \"Kill\" decision.\n"
       },
       {
         "id": 9,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "What is a Phase Gate (Kill Point)?\n",
         "back": "A review at the end of a phase in which a decision is made to continue to the next phase, to continue with modification, or to end a project or program.\n"
       },
       {
         "id": 10,
-        "category": "🏛️ Governance Structures",
+        "category": "Governance Structures",
         "front": "What is Organizational Project Management (OPM)?\n",
         "back": "A strategy execution framework utilizing project, program, and portfolio management as well as organizational enablers (e.g., PMO) to consistently deliver better performance/results.\n\n\n"
       },
@@ -6136,61 +6136,61 @@
       },
       {
         "id": 71,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "What is Earned Value Management (EVM)?\n",
         "back": "A methodology that combines scope, schedule, and resource measurements to assess project performance and progress.\nKey Metrics: CPI, SPI.\n"
       },
       {
         "id": 72,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "If your SPI (Schedule Performance Index) is 0.8, what does that mean?\n",
         "back": "You are behind schedule. You are effectively accomplishing only 80% of the work you planned to do in the given time.\n"
       },
       {
         "id": 73,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "If your CPI (Cost Performance Index) is 1.2, what does that mean?\n",
         "back": "You are under budget. For every $1 spent, you are getting $1.20 worth of planned value.\n"
       },
       {
         "id": 74,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "What is Variance Analysis?\n",
         "back": "The technique of determining the cause and degree of difference between the Baseline (Plan) and Actual performance (Reality).\n"
       },
       {
         "id": 75,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "What is a Burndown Chart?\n",
         "back": "A graphical representation of work left to do versus time. It is used in Agile/Scrum to track progress toward the Sprint Goal.\n"
       },
       {
         "id": 76,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "What is a Burnup Chart?\n",
         "back": "A chart showing the total scope (work to do) and the work completed over time. It is useful for showing scope creep (if the total scope line moves up).\n"
       },
       {
         "id": 77,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "What is Throughput in Kanban?\n",
         "back": "The number of items (cards) passing through a process (to \"Done\") within a specific period of time.\n"
       },
       {
         "id": 78,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "What is Cycle Time?\n",
         "back": "The time elapsed from when work actually starts on an item until it is ready for delivery.\n"
       },
       {
         "id": 79,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "What is Lead Time?\n",
         "back": "The time elapsed from when a request is made (created) until it is delivered to the customer.\n"
       },
       {
         "id": 80,
-        "category": "📊 Performance Measurement",
+        "category": "Performance Measurement",
         "front": "What is WIP Limit (Work In Progress)?\n",
         "back": "A policy in Kanban that restricts the number of items that can exist in a workflow stage at one time. It exposes bottlenecks and improves flow.\n\n\n"
       },
@@ -6688,61 +6688,61 @@
       },
       {
         "id": 61,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "What is a Work Authorization System?\n",
         "back": "A subsystem (in predictive projects) used to ensure that work is done at the right time and in the right sequence. It prevents \"Cowboy Coding\" or working out of order.\n"
       },
       {
         "id": 62,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "How does Direct and Manage Project Work relate to Scope?\n",
         "back": "This is the process where the team actually executes the WBS. The PM ensures only approved work (Scope Baseline) is being performed.\n"
       },
       {
         "id": 63,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "What is the role of Tacit Knowledge in executing scope?\n",
         "back": "Sharing \"know-how\" and experience (via pairing or shadowing) helps the team deliver complex scope that might not be fully documented in written specs.\n"
       },
       {
         "id": 64,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "What happens to a Risk when it occurs during execution?\n",
         "back": "It becomes an Issue. You must execute the response plan and update the Issue Log.\n"
       },
       {
         "id": 65,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "Who is responsible for Executing the scope in an Agile team?\n",
         "back": "The Development Team (Developers). They self-organize to turn the backlog items into a potentially shippable increment.\n"
       },
       {
         "id": 66,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "What is the Daily Standup's role in scope management?\n",
         "back": "It coordinates the day's work to ensure the team remains focused on the Sprint Goal (the scope commitment for that iteration).\n"
       },
       {
         "id": 67,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "When does the client formally accept the scope deliverables?\n",
         "back": "During the Validate Scope process (Predictive) or the Sprint Review (Agile).\n"
       },
       {
         "id": 68,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "What is the difference between \"Work Performance Data\" and \"Information\"?\n",
         "back": "- Data: Raw facts (e.g., \"3 stories completed\").\n- Information: Contextualized analysis (e.g., \"We are 2 stories behind planned velocity\").\n"
       },
       {
         "id": 69,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "What is Managed Project Knowledge?\n",
         "back": "The process of using existing knowledge and creating new knowledge to achieve the project's objectives and contribute to organizational learning.\n"
       },
       {
         "id": 70,
-        "category": "📊 Executing Work & Scope",
+        "category": "Executing Work & Scope",
         "front": "What is the Issue Log?\n",
         "back": "A document where you track problems (that have already happened) and their resolution status. It is a key tool during execution.\n\n\n"
       },
@@ -7432,61 +7432,61 @@
       },
       {
         "id": 11,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is Resource Leveling?\n",
         "back": "A technique to resolve resource conflicts (over-allocations) by adjusting start/end dates. It often extends the critical path (changes the project end date).\n"
       },
       {
         "id": 12,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is Resource Smoothing?\n",
         "back": "A technique to balance resource demand that adjusts activities only within their free and total float. It does not change the project end date.\n"
       },
       {
         "id": 13,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "Which technique typically changes the critical path: Resource Leveling or Smoothing?\n",
         "back": "Resource Leveling.\n"
       },
       {
         "id": 14,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is the primary constraint in Resource Smoothing?\n",
         "back": "The Schedule (Time). You cannot delay the project completion date.\n"
       },
       {
         "id": 15,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is the primary constraint in Resource Leveling?\n",
         "back": "The Resources. You cannot exceed the available resource limit, so time must slip.\n"
       },
       {
         "id": 16,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is a Resource Histogram?\n",
         "back": "A bar chart that shows the amount of time that a resource is scheduled to work over a series of time periods. It visually highlights over-allocation (peaks).\n"
       },
       {
         "id": 17,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is Analogous Estimating?\n",
         "back": "Using a previous, similar project as a basis for estimating the resources/duration of the current project. It is fast but less accurate (Gross value estimation).\n"
       },
       {
         "id": 18,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is Parametric Estimating?\n",
         "back": "Using a statistical relationship between historical data and other variables (e.g., sq. ft. of construction) to calculate resource needs (e.g., \"We need 2 painters per 1,000 sq. ft.\").\n"
       },
       {
         "id": 19,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is Data Analysis in resource planning?\n",
         "back": "Reviewing alternatives (e.g., Make-or-Buy analysis) to determine the best way to acquire resources.\n"
       },
       {
         "id": 20,
-        "category": "📊 Resource Optimization",
+        "category": "Resource Optimization",
         "front": "What is the purpose of Control Resources?\n",
         "back": "To ensure that the physical resources assigned and allocated are available as planned, and to monitor the planned vs. actual utilization. (Note: \"Manage Team\" is for people; \"Control Resources\" is for things).\n\n\n"
       },
@@ -9832,61 +9832,61 @@
     "flashcards": [
       {
         "id": 1,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "What is Work Performance Data (WPD)?\n",
         "back": "Raw observations and measurements identified during activities being performed (e.g., % complete, start/finish dates, actual costs). Output of Direct and Manage Project Work.\n"
       },
       {
         "id": 2,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "What is Work Performance Information (WPI)?\n",
         "back": "The performance data collected from various controlling processes, analyzed in context and integrated based on relationships across areas (e.g., SPI, CPI, Forecasts).\n"
       },
       {
         "id": 3,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "What are Work Performance Reports (WPR)?\n",
         "back": "The physical or electronic representation of work performance information compiled in project documents, intended to generate decisions (e.g., Status Reports, Memos, Dashboards).\n"
       },
       {
         "id": 4,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "What is the correct flow of performance data?\n",
         "back": "Data (WPD) -> Information (WPI) -> Reports (WPR).\n"
       },
       {
         "id": 5,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "Which process outputs Work Performance Data?\n",
         "back": "Direct and Manage Project Work. (Executing).\n"
       },
       {
         "id": 6,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "Which process group generates Work Performance Information?\n",
         "back": "Monitoring and Controlling (e.g., Control Schedule, Control Scope, Control Costs).\n"
       },
       {
         "id": 7,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "Which process outputs Work Performance Reports?\n",
         "back": "Monitor and Control Project Work.\n"
       },
       {
         "id": 8,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "What is a Dashboard?\n",
         "back": "A visual display of the most important information needed to achieve one or more objectives, consolidated and arranged on a single screen so the information can be monitored at a glance.\n"
       },
       {
         "id": 9,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "What is a Status Report?\n",
         "back": "A report that describes where the project stands at a specific point in time (Snapshpot).\n"
       },
       {
         "id": 10,
-        "category": "📊 Work Performance Data Flow",
+        "category": "Work Performance Data Flow",
         "front": "What is a Progress Report?\n",
         "back": "A report that describes what the project team has accomplished (Historic).\n\n\n"
       },

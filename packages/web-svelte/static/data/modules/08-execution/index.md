@@ -6,7 +6,7 @@ Execution is where strategy meets reality. In the 2026 PMP exam, a Project Manag
 The 2026 ECO doesn’t have a separate “Execution” domain, but many **Process (41%)** and **Business Environment (26%)** questions are set during execution—where blockers, change requests, vendor delays, and quality issues surface.
 :::
 
-::: info 📊 What the Exam Tests
+::: info What the Exam Tests
 Most exam scenarios are execution scenarios: blocked team members, changing stakeholder expectations, quality defects, vendor delays, and "small" change requests. The test is usually about **what you do first** to protect flow and value, not just recognizing the problem.
 :::
 
@@ -301,7 +301,7 @@ Execution is where you turn plans and backlogs into real deliverables. It requir
 
 ---
 
-## 📊 Predictive vs. Adaptive Execution (Detailed Comparison)
+## Predictive vs. Adaptive Execution (Detailed Comparison)
 
 The 2026 PMP exam expects you to recognize the appropriate execution approach based on project context: uncertainty, requirements stability, stakeholder availability, and organizational culture.
 

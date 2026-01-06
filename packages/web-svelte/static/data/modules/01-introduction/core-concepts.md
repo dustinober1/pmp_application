@@ -4,7 +4,8 @@ Beyond methodology choice, every project leader must master a set of fundamental
 
 ---
 
-## 🧱 The Fundamental Block
+## The Fundamental Block
+
 Master the "Big 6" concepts that underpin every successful delivery in the 2026 era.
 
 <ConceptGrid>
@@ -35,13 +36,14 @@ Master the "Big 6" concepts that underpin every successful delivery in the 2026 
 
 ---
 
-## 🏗️ The PM Mindset: Integration
-Success on the 2026 exam isn't about knowing these concepts in isolation—it's about **Integration**. 
+## The PM Mindset: Integration
 
-*   **Scenario**: A risk materializes (1.4d), forcing a change to the scope (1.4b), which triggers a stakeholder concern (1.4a) about quality (1.4c).
-*   **Action**: A PMP doesn't panic; they use data (1.4e) and ethical conduct (1.4f) to facilitate a transparent resolution.
+Success on the 2026 exam isn't about knowing these concepts in isolation—it's about **Integration**.
 
-::: tip 🚀 Sarah's Lesson
+- **Scenario**: A risk materializes (1.4d), forcing a change to the scope (1.4b), which triggers a stakeholder concern (1.4a) about quality (1.4c).
+- **Action**: A PMP doesn't panic; they use data (1.4e) and ethical conduct (1.4f) to facilitate a transparent resolution.
+
+::: tip Sarah's Lesson
 By month three, Sarah realized that a change in the office floor plan (Scope) wasn't just a technical update—it was a social risk that required stakeholder empathy and data-driven communication.
 :::
 

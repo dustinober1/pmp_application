@@ -525,7 +525,7 @@ Monitoring & Controlling touches every knowledge area. Think in terms of *what y
 
 ---
 
-## 📊 Agile & Hybrid Visibility
+## Agile & Hybrid Visibility
 
 In adaptive environments, control focuses on **value flow and predictability**, not variance from a fixed scope baseline.
 
@@ -653,7 +653,7 @@ If a question describes a hybrid environment and asks about monitoring, look for
 
 ---
 
-## 📊 Probabilistic Forecasting (Monte Carlo Simulation)
+## Probabilistic Forecasting (Monte Carlo Simulation)
 
 Traditional EVM provides a **deterministic** forecast (single-point estimate). **Monte Carlo simulation** provides a **probabilistic** forecast (range of outcomes with confidence levels).
 
@@ -765,7 +765,7 @@ If stakeholders complain about "too much data" or "can't make decisions," the PM
 
 ---
 
-## 🧮 Advanced EVM: Multi-Period Worked Example
+## Advanced EVM: Multi-Period Worked Example
 
 This example demonstrates how to track a project across multiple reporting periods and make recovery decisions.
 

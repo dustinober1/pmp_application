@@ -70,61 +70,61 @@
     },
     {
       "id": 11,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is Resource Leveling?\n",
       "back": "A technique to resolve resource conflicts (over-allocations) by adjusting start/end dates. It often extends the critical path (changes the project end date).\n"
     },
     {
       "id": 12,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is Resource Smoothing?\n",
       "back": "A technique to balance resource demand that adjusts activities only within their free and total float. It does not change the project end date.\n"
     },
     {
       "id": 13,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "Which technique typically changes the critical path: Resource Leveling or Smoothing?\n",
       "back": "Resource Leveling.\n"
     },
     {
       "id": 14,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is the primary constraint in Resource Smoothing?\n",
       "back": "The Schedule (Time). You cannot delay the project completion date.\n"
     },
     {
       "id": 15,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is the primary constraint in Resource Leveling?\n",
       "back": "The Resources. You cannot exceed the available resource limit, so time must slip.\n"
     },
     {
       "id": 16,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is a Resource Histogram?\n",
       "back": "A bar chart that shows the amount of time that a resource is scheduled to work over a series of time periods. It visually highlights over-allocation (peaks).\n"
     },
     {
       "id": 17,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is Analogous Estimating?\n",
       "back": "Using a previous, similar project as a basis for estimating the resources/duration of the current project. It is fast but less accurate (Gross value estimation).\n"
     },
     {
       "id": 18,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is Parametric Estimating?\n",
       "back": "Using a statistical relationship between historical data and other variables (e.g., sq. ft. of construction) to calculate resource needs (e.g., \"We need 2 painters per 1,000 sq. ft.\").\n"
     },
     {
       "id": 19,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is Data Analysis in resource planning?\n",
       "back": "Reviewing alternatives (e.g., Make-or-Buy analysis) to determine the best way to acquire resources.\n"
     },
     {
       "id": 20,
-      "category": "📊 Resource Optimization",
+      "category": "Resource Optimization",
       "front": "What is the purpose of Control Resources?\n",
       "back": "To ensure that the physical resources assigned and allocated are available as planned, and to monitor the planned vs. actual utilization. (Note: \"Manage Team\" is for people; \"Control Resources\" is for things).\n\n\n"
     },

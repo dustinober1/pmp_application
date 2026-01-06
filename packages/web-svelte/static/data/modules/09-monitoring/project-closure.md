@@ -215,7 +215,7 @@ Archiving typically includes: plans/baselines, registers/logs, change history, a
 
 ---
 
-## 📊 Post-Project Review (The Governance Checkpoint)
+## Post-Project Review (The Governance Checkpoint)
 
 A **Post-Project Review** is a formal governance event that occurs after project closure to evaluate overall project success and organizational learning. While **Lessons Learned** focus on process improvement, the **Post-Project Review** evaluates strategic outcomes.
 

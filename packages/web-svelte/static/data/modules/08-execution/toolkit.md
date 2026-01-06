@@ -305,7 +305,7 @@ If sprint planning takes too long (>4 hours for 2-week sprint) or ends without a
 
 ---
 
-## 📊 Team Performance Assessment Template
+## Team Performance Assessment Template
 
 Use quarterly or after major milestones to assess team effectiveness.
 
@@ -709,7 +709,7 @@ START: Concern about value delivery
 
 ---
 
-## 📊 EVM During Execution (Monitoring Example)
+## EVM During Execution (Monitoring Example)
 Use EVM to detect variances early and forecast final outcomes.
 
 ### Scenario

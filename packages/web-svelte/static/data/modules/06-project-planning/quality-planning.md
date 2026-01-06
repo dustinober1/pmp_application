@@ -53,7 +53,7 @@ The PMP exam tests your understanding of quality principles, not just tools. Mas
 
 ---
 
-## 📊 Quality vs. Grade
+## Quality vs. Grade
 
 The exam loves to test this distinction:
 
@@ -342,7 +342,7 @@ Quality metrics must be **specific**, **measurable**, and tied to requirements:
 ---
 
 
-## ✅ Quality in Agile
+## Quality in Agile
 
 Agile integrates quality throughout the development cycle:
 
@@ -435,7 +435,7 @@ A comprehensive Quality Management Plan includes:
 ---
 
 
-## 📚 Key Terms & Quick Reference
+## Key Terms & Quick Reference
 
 ### Quality Terminology
 

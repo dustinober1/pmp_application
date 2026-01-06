@@ -65,7 +65,7 @@ The Communications Management Plan documents:
 
 ---
 
-## 📊 Communication Methods
+## Communication Methods
 
 ### By Communication Type
 
@@ -266,7 +266,7 @@ Typical status report structure:
 
 ---
 
-## 📊 Communication Technologies
+## Communication Technologies
 
 ### Tool Selection Criteria
 
@@ -320,7 +320,7 @@ Typical status report structure:
 
 ---
 
-## 📚 Key Formulas & Quick Reference
+## Key Formulas & Quick Reference
 
 ### Communication Formula
 

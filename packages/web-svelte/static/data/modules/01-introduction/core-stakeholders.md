@@ -2,7 +2,7 @@
 
 **ECO Task**: Engage stakeholders
 
-Sarah quickly learns that the technical side of project management (creating schedules, tracking budgets) is only part of the job. The harder part is understanding *people*: who cares about this project, what do they care about, how much influence do they have, and how do I keep them engaged and aligned?
+Sarah quickly learns that the technical side of project management (creating schedules, tracking budgets) is only part of the job. The harder part is understanding _people_: who cares about this project, what do they care about, how much influence do they have, and how do I keep them engaged and aligned?
 
 ## 1.4a.1 Who Are Stakeholders?
 
@@ -22,7 +22,7 @@ This sounds simple, but it is deceptively broad. Stakeholders include:
 
 ## 1.4a.2 Sarah's Stakeholder Challenge: The Office Renovation
 
-In the office renovation project, Sarah initially thinks: *"The key stakeholders are the facilities team, the CFO, and the department heads."*
+In the office renovation project, Sarah initially thinks: _"The key stakeholders are the facilities team, the CFO, and the department heads."_
 
 But in her second week, reality hits. She gets pulled into conversations with:
 
@@ -34,7 +34,7 @@ But in her second week, reality hits. She gets pulled into conversations with:
 - **The building contractor** – who has their own timeline and constraints
 - **Regulatory inspectors** – who will sign off on compliance
 
-Sarah realizes: *Different stakeholders care about completely different things. The CFO cares about cost. The CEO cares about the launch date. Employees care about their workspace. IT cares about infrastructure. Regulators care about compliance. If I do not understand what each group cares about, I will disappoint someone.*
+Sarah realizes: _Different stakeholders care about completely different things. The CFO cares about cost. The CEO cares about the launch date. Employees care about their workspace. IT cares about infrastructure. Regulators care about compliance. If I do not understand what each group cares about, I will disappoint someone._
 
 ## 1.4a.3 Stakeholder Analysis: Understanding Power and Interest
 
@@ -46,36 +46,37 @@ Sarah learns a framework for thinking about stakeholders systematically: **The P
     <em>Example: CFO, CEO, VP of Facilities, General Contractor</em>
   </template>
 
-  <template #satisfy>
-    <strong>Sarah must keep them informed so they do not become blockers.</strong><br><br>
-    <em>Example: VP of IT, Facilities manager's team, Major department heads</em>
-  </template>
+<template #satisfy>
+<strong>Sarah must keep them informed so they do not become blockers.</strong><br><br>
+<em>Example: VP of IT, Facilities manager's team, Major department heads</em>
+</template>
 
-  <template #inform>
-    <strong>Sarah should listen to them and communicate transparently.</strong><br><br>
-    <em>Example: Individual employees, Regulatory inspectors</em>
-  </template>
+<template #inform>
+<strong>Sarah should listen to them and communicate transparently.</strong><br><br>
+<em>Example: Individual employees, Regulatory inspectors</em>
+</template>
 
-  <template #monitor>
-    <strong>Sarah monitors them to catch any changes.</strong><br><br>
-    <em>Example: Current landlord, Competitors, Future employees</em>
-  </template>
+<template #monitor>
+<strong>Sarah monitors them to catch any changes.</strong><br><br>
+<em>Example: Current landlord, Competitors, Future employees</em>
+</template>
 </PowerInterestGrid>
 
 ## 1.4a.4 Stakeholder Engagement: Beyond Just Informing
 
-Sarah learns that *stakeholder engagement is not the same as stakeholder communication*. Communication is one-way: you tell them something. Engagement is two-way: you involve them, listen to them, and respond to them.
+Sarah learns that _stakeholder engagement is not the same as stakeholder communication_. Communication is one-way: you tell them something. Engagement is two-way: you involve them, listen to them, and respond to them.
 
 ::: info Engagement Strategies
+
 - **Manage Closely**: Involve them in planning and decision-making. Seek input before finalizing major decisions.
 - **Keep Satisfied**: Provide regular updates. Solicit feedback and acknowledge it.
 - **Keep Informed**: Provide clear, accessible communication. Create forums for questions.
 - **Monitor**: Track their level of interest and influence. Re-classify if circumstances change.
-:::
+  :::
 
 ## 1.4a.5 Stakeholder Expectations: The Hidden Problem
 
-Sarah encounters a subtle but critical issue: *Different stakeholders have different expectations about what success looks like.*
+Sarah encounters a subtle but critical issue: _Different stakeholders have different expectations about what success looks like._
 
 - **CEO**: Success = move-in on the announced date
 - **CFO**: Success = stay within budget
@@ -91,19 +92,21 @@ If Sarah does not actively manage these expectations, she ends up disappointing 
 
 ## 1.4a.6 Common Stakeholder Engagement Mistakes
 
-::: warning ⚠️ Common Pitfalls
+::: warning Common Pitfalls
+
 - **Mistake 1: Assuming you know what stakeholders care about.** (Fix: Ask them directly!)
 - **Mistake 2: Treating all stakeholders the same.** (Fix: Tailor communication.)
 - **Mistake 3: Engaging too late.** (Fix: Engage early and often.)
 - **Mistake 4: Not addressing conflicts.** (Fix: Surface conflicts and facilitate trade-offs.)
 - **Mistake 5: Assuming engagement is a one-time event.** (Fix: Engagement is continuous.)
-:::
+  :::
 
 ## 1.4a.7 On the Exam: Stakeholder Scenarios
 
 Exam questions test stakeholder engagement by presenting conflict or misalignment.
 
 **Good answers typically involve:**
+
 - Engaging the stakeholder directly to understand their concern
 - Identifying the root cause of the issue
 - Facilitating a discussion with all affected stakeholders

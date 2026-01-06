@@ -430,61 +430,61 @@
     },
     {
       "id": 71,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "What is Earned Value Management (EVM)?\n",
       "back": "A methodology that combines scope, schedule, and resource measurements to assess project performance and progress.\nKey Metrics: CPI, SPI.\n"
     },
     {
       "id": 72,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "If your SPI (Schedule Performance Index) is 0.8, what does that mean?\n",
       "back": "You are behind schedule. You are effectively accomplishing only 80% of the work you planned to do in the given time.\n"
     },
     {
       "id": 73,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "If your CPI (Cost Performance Index) is 1.2, what does that mean?\n",
       "back": "You are under budget. For every $1 spent, you are getting $1.20 worth of planned value.\n"
     },
     {
       "id": 74,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "What is Variance Analysis?\n",
       "back": "The technique of determining the cause and degree of difference between the Baseline (Plan) and Actual performance (Reality).\n"
     },
     {
       "id": 75,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "What is a Burndown Chart?\n",
       "back": "A graphical representation of work left to do versus time. It is used in Agile/Scrum to track progress toward the Sprint Goal.\n"
     },
     {
       "id": 76,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "What is a Burnup Chart?\n",
       "back": "A chart showing the total scope (work to do) and the work completed over time. It is useful for showing scope creep (if the total scope line moves up).\n"
     },
     {
       "id": 77,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "What is Throughput in Kanban?\n",
       "back": "The number of items (cards) passing through a process (to \"Done\") within a specific period of time.\n"
     },
     {
       "id": 78,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "What is Cycle Time?\n",
       "back": "The time elapsed from when work actually starts on an item until it is ready for delivery.\n"
     },
     {
       "id": 79,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "What is Lead Time?\n",
       "back": "The time elapsed from when a request is made (created) until it is delivered to the customer.\n"
     },
     {
       "id": 80,
-      "category": "📊 Performance Measurement",
+      "category": "Performance Measurement",
       "front": "What is WIP Limit (Work In Progress)?\n",
       "back": "A policy in Kanban that restricts the number of items that can exist in a workflow stage at one time. It exposes bottlenecks and improves flow.\n\n\n"
     },

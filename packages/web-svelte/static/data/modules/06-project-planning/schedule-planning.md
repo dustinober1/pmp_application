@@ -92,7 +92,7 @@ Most exam questions use these dependency types:
 
 ---
 
-## 🧮 Critical Path Method (CPM): Complete Calculation
+## Critical Path Method (CPM): Complete Calculation
 
 The Critical Path Method identifies the longest path through the network—the minimum time to complete the project.
 
@@ -226,7 +226,7 @@ Float is the amount of time an activity can be delayed without affecting the end
 
 ---
 
-## 📊 Duration Estimation Techniques
+## Duration Estimation Techniques
 
 ### Estimation Methods Comparison
 
@@ -343,7 +343,7 @@ Planning is an iterative process. You don't need to plan the entire project in d
 
 ---
 
-## 📊 Visualizing the Schedule
+## Visualizing the Schedule
 
 Different stakeholders need different views:
 
@@ -566,7 +566,7 @@ In 2026, PMs use **AI-Augmented Estimation** to analyze historical performance a
 
 ---
 
-## 📚 Key Formulas & Quick Reference
+## Key Formulas & Quick Reference
 
 ### Schedule Formulas
 

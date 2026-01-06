@@ -790,7 +790,7 @@ Both must occur to fully close the procurement.
 
 ---
 
-## 📊 Procurement Execution Scenario
+## Procurement Execution Scenario
 
 **Scenario**: You're managing a project to build a data center. You've awarded a $2M contract to BuildCo to construct the facility. The contract is **Fixed-Price (FP)**, with a 12-month delivery schedule. Here's how procurement execution unfolds:
 

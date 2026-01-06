@@ -478,7 +478,7 @@ Organizational culture significantly affects how execution happens. The PM must 
 If a scenario describes an organization struggling with agile adoption, look for **cultural barriers** (lack of trust, fear of failure, siloed teams) and answers that address these through **change management** (training, executive sponsorship, pilot programs).
 :::
 
-## ✅ Implementing Approved Changes (Step-by-Step)
+## Implementing Approved Changes (Step-by-Step)
 
 Changes are inevitable. The key is to implement them **systematically** so you don't lose control of scope, schedule, or budget.
 
@@ -515,7 +515,7 @@ If a scenario says "The sponsor approved a change verbally," the best answer is 
 
 ---
 
-## 📊 Work Performance Data Collection Framework
+## Work Performance Data Collection Framework
 
 **Work Performance Data** is raw, unanalyzed observations collected during execution. It becomes **Work Performance Information** when analyzed and contextualized.
 
@@ -592,10 +592,10 @@ Work Performance REPORTS
 6. **Retrospective**: Team captures lesson: "Security review earlier in sprint would prevent last-minute rework"
 
 **Quality Execution Practices Applied**:
-- ✅ Peer review (catches defects early)
-- ✅ Automated testing (ensures functionality)
-- ✅ Definition of Done (enforces quality standards)
-- ✅ Continuous integration (detects integration issues immediately)
+- Peer review (catches defects early)
+- Automated testing (ensures functionality)
+- Definition of Done (enforces quality standards)
+- Continuous integration (detects integration issues immediately)
 
 ---
 
@@ -617,10 +617,10 @@ Work Performance REPORTS
 6. **Lessons Learned**: "Lesson: Rain delay added 2 days. Action: Add weather contingency to future outdoor work packages."
 
 **Quality Execution Practices Applied**:
-- ✅ Inspections (prevents defects)
-- ✅ Testing (validates specifications met)
-- ✅ Acceptance criteria (clear definition of success)
-- ✅ Expert validation (third-party approval)
+- Inspections (prevents defects)
+- Testing (validates specifications met)
+- Acceptance criteria (clear definition of success)
+- Expert validation (third-party approval)
 
 ---
 

@@ -112,7 +112,7 @@ The exam often tests whether you understand that **sunk costs should not influen
 
 ---
 
-## 📊 Estimation Techniques
+## Estimation Techniques
 
 ### Estimation Methods Comparison
 
@@ -485,7 +485,7 @@ TCPI = (BAC - EV) / (BAC - AC)
 
 ---
 
-## 📊 S-Curve and Cost Baseline Visualization
+## S-Curve and Cost Baseline Visualization
 
 The cost baseline is often shown as an S-curve—cumulative planned expenditure over time.
 
@@ -536,7 +536,7 @@ $ Cumulative Cost
 
 ---
 
-## 📚 Key Formulas & Quick Reference
+## Key Formulas & Quick Reference
 
 ### Cost Formulas
 

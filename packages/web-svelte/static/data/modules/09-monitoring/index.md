@@ -13,7 +13,7 @@ Most questions in this chapter are about **control discipline**: interpreting me
 
 ---
 
-## 📊 The Process of Control
+## The Process of Control
 Monitoring isn't just about watching; it's about **Proactive Adjustment**. It’s the constant refinement of the project's path to ensure you arrive at the intended strategic destination.
 
 <div class="section-grid">

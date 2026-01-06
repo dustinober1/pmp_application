@@ -136,7 +136,7 @@ Organize risks by category for comprehensive coverage:
 
 ---
 
-## 📊 Qualitative Risk Analysis
+## Qualitative Risk Analysis
 
 Qualitative analysis **prioritizes risks** quickly using probability and impact assessment.
 
@@ -430,7 +430,7 @@ Difference between P50 and desired confidence level (e.g., P80)
 
 ---
 
-## 📚 Key Formulas & Quick Reference
+## Key Formulas & Quick Reference
 
 ### Risk Formulas
 

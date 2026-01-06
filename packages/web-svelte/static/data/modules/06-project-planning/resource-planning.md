@@ -243,7 +243,7 @@ When you cannot source resources internally, procurement planning helps you get 
 
 ---
 
-## 📊 Make-or-Buy Analysis
+## Make-or-Buy Analysis
 
 When deciding whether to build internally or procure externally, consider:
 
@@ -502,7 +502,7 @@ PTA = $100,000 + $12,500 = $112,500
 
 ---
 
-## 📚 Key Formulas & Quick Reference
+## Key Formulas & Quick Reference
 
 ### FPIF Formulas
 
