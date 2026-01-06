@@ -4,7 +4,7 @@ The 2026 PMP exam is not a memory test; it is an **immersion test**. It simulate
 
 ---
 
-## 🏔️ The 2026 Shift
+## The 2026 Shift
 The exam refreshed in July 2026 to mirror the reality of "Hybrid Everything" and the rise of AI in project leadership.
 
 <ConceptGrid>
@@ -21,7 +21,7 @@ The exam refreshed in July 2026 to mirror the reality of "Hybrid Everything" and
 
 ---
 
-## 📊 Exam Structure at a Glance
+## Exam Structure at a Glance
 The exam is designed to test your mental stamina and situational judgment over a 4-hour window.
 
 | Feature             | Specification                              |
@@ -33,17 +33,17 @@ The exam is designed to test your mental stamina and situational judgment over a
 | **Languages**       | Distributed globally in multiple languages |
 | **Passing Score**   | Not disclosed; competency-based scoring    |
 
-::: tip 💡 The "Review" Rule
+::: tip The "Review" Rule
 Once you finish a section and start your break, you **cannot** go back to those questions. You must complete your review before hitting the break button.
 :::
 
-::: info 🧩 New Section Structure (2026)
+::: info New Section Structure (2026)
 The July 2026 exam includes a **case-study section**, followed by independent questions. The first 5-minute break occurs after the case-study section; the second break occurs about halfway through the independent question portion.
 :::
 
 ---
 
-## 🎯 The Three Scoring Domains
+## The Three Scoring Domains
 The 2026 ECO (Exam Content Outline) places high importance on the environment surrounding the project.
 
 <ConceptGrid>
@@ -68,7 +68,7 @@ The 2026 ECO (Exam Content Outline) places high importance on the environment su
 
 ---
 
-## 📝 Modern Question Formats
+## Modern Question Formats
 Forget simple multiple-choice. The 2026 exam uses **Interactive Simulations**:
 
 ### Question Types You'll Encounter
@@ -134,7 +134,7 @@ Questions then test different aspects:
 
 ---
 
-## 🧠 The PMP Mindset
+## The PMP Mindset
 Passing the exam requires adopting a specific "Servant Leader" mental model. When answering questions, always filter your choices through these principles:
 
 ### The "FIRST" Test
@@ -146,7 +146,7 @@ When a question asks "What should you do FIRST?":
 
 ### The Servant Leader Framework
 
-| Traditional Manager 🚫 | Servant Leader ✅ |
+| Traditional Manager | Servant Leader |
 |------------------------|-------------------|
 | Directs and controls | Coaches and facilitates |
 | Punishes mistakes | Creates learning opportunities |
@@ -176,7 +176,7 @@ When a question asks "What should you do FIRST?":
 
 ---
 
-## ⏱️ Time Management Strategy
+## Time Management Strategy
 
 You have **240 minutes** for **185 questions** = ~1.3 minutes per question.
 
@@ -202,7 +202,7 @@ You have **240 minutes** for **185 questions** = ~1.3 minutes per question.
 
 ---
 
-## 🏛️ Eligibility: 10-Year Window
+## Eligibility: 10-Year Window
 PMI has expanded the window for qualifying experience:
 
 | Pathway | Education | Experience Required | Training |
@@ -218,7 +218,7 @@ PMI has expanded the window for qualifying experience:
 
 ---
 
-## 🎓 Exam Day Logistics
+## Exam Day Logistics
 
 ### Before the Exam
 - **ID**: Government-issued photo ID required

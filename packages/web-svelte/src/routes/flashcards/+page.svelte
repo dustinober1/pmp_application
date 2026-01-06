@@ -134,14 +134,19 @@
     message={error}
   />
 {:else}
-  <div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="relative min-h-screen overflow-hidden bg-background">
+    <!-- Organic Blob Backgrounds -->
+    <div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/20 rounded-blob blur-3xl animate-float opacity-70"></div>
+    <div class="absolute top-40 -right-20 w-80 h-80 bg-secondary/15 rounded-blob blur-3xl animate-float delay-1000 opacity-60"></div>
+    <div class="absolute bottom-0 left-1/3 w-full h-96 bg-accent/30 rounded-t-[50%] blur-3xl opacity-40"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
       <!-- ECO Badge -->
       <div class="mb-6">
         <ECOBadge variant="compact" />
       </div>
 
-      <h1 class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-6">Flashcards</h1>
+      <h1 class="text-3xl md:text-4xl font-bold font-serif text-foreground mb-6">Flashcards</h1>
 
       <!-- Session selection is now via the practice session grid below -->
 
@@ -150,47 +155,51 @@
         {#each [25, 50, 75, 100] as limit}
           <a
             href="{base}/flashcards/practice?limit={limit}"
-            class="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border-2 border-transparent hover:border-indigo-600/50 dark:hover:border-indigo-400/50 p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-indigo-500/20"
+            class="group block"
+            aria-label="Practice {limit} flashcards"
           >
-            <div class="flex items-center justify-between mb-4">
-              <div class="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                </svg>
+            <Card class="p-6 h-full transition-all hover:scale-[1.03] hover:shadow-hover">
+              <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-primary/10 rounded-xl text-primary group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                </div>
+                <span class="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded-lg">SRS</span>
               </div>
-              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/50 px-2 py-1 rounded-lg">SRS</span>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Practice {limit}</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Random {limit} cards from your SRS queue</p>
+              <h3 class="text-xl font-bold text-foreground mb-1">Practice {limit}</h3>
+              <p class="text-sm text-muted-foreground">Random {limit} cards from your SRS queue</p>
+            </Card>
           </a>
         {/each}
       </div>
 
       <!-- Recent Reviews -->
       {#if recentReviews && recentReviews.length > 0}
-        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 mb-8 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300">
-          <div class="px-6 py-4 border-b border-gray-200/50 dark:border-gray-700/50 flex items-center justify-between">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <Card class="mb-8">
+          <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+            <h2 class="text-lg font-medium text-foreground">
               Recent Reviews ({recentReviews.length})
             </h2>
             <button
               onclick={() => showRecentReviews = !showRecentReviews}
-              class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:scale-105 hover:shadow-md hover:shadow-indigo-500/20 transition-all duration-300"
+              class="text-sm text-primary hover:text-primary/80 hover:scale-105 transition-all duration-300"
+              aria-expanded={showRecentReviews}
             >
               {showRecentReviews ? 'Hide' : 'Show'}
             </button>
           </div>
 
           {#if showRecentReviews}
-            <div class="divide-y divide-gray-200/50 dark:divide-gray-700/50">
+            <div class="divide-y divide-border">
               {#each recentReviews as review}
-                <div class="group px-6 py-3 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors duration-300">
+                <div class="px-6 py-3 hover:bg-muted/50 transition-colors duration-300">
                   <div class="flex items-start justify-between gap-4">
                     <div class="flex-1 min-w-0">
-                      <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate group-hover:translate-x-1 transition-transform duration-300">
+                      <p class="text-sm font-medium text-foreground truncate">
                         {review.cardFront}
                       </p>
-                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <p class="text-xs text-muted-foreground mt-1">
                         {formatReviewDate(review.timestamp)}
                       </p>
                     </div>
@@ -204,20 +213,20 @@
               {/each}
             </div>
           {/if}
-        </div>
+        </Card>
       {/if}
 
       <!-- Quick Stats -->
       {#if quickStats}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 cursor-default">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Total Cards</h2>
-            <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{quickStats.totalFlashcards || 0}</p>
-          </div>
-          <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 cursor-default">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Mastered</h2>
-            <p class="text-3xl font-bold text-purple-600 dark:text-purple-400">{localMasteredCount || 0}</p>
-          </div>
+          <Card class="p-6 cursor-default">
+            <h2 class="text-lg font-medium text-foreground mb-2">Total Cards</h2>
+            <p class="text-3xl font-bold text-primary">{quickStats.totalFlashcards || 0}</p>
+          </Card>
+          <Card class="p-6 cursor-default">
+            <h2 class="text-lg font-medium text-foreground mb-2">Mastered</h2>
+            <p class="text-3xl font-bold text-secondary">{localMasteredCount || 0}</p>
+          </Card>
         </div>
       {/if}
     </div>

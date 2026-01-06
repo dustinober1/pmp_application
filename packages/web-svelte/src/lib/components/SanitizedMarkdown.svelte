@@ -130,18 +130,56 @@
 	:global(.prose table) {
 		width: 100%;
 		border-collapse: collapse;
-		margin-bottom: 0.75rem;
+		margin: 1.5rem 0;
+		font-size: 0.95rem;
+		display: block;
+		overflow-x: auto;
+	}
+
+	:global(.prose thead) {
+		position: sticky;
+		top: 0;
 	}
 
 	:global(.prose th),
 	:global(.prose td) {
-		border: 1px solid rgb(75, 85, 99);
-		padding: 0.5rem;
+		border: 1px solid #d1d5db;
+		padding: 0.75rem 1rem;
+		text-align: left;
+		vertical-align: top;
+	}
+
+	:global(.dark .prose th),
+	:global(.dark .prose td) {
+		border-color: rgb(75, 85, 99);
 	}
 
 	:global(.prose th) {
+		background-color: #f3f4f6;
+		font-weight: 600;
+		color: #1f2937;
+		white-space: nowrap;
+	}
+
+	:global(.dark .prose th) {
 		background-color: rgb(31, 41, 55);
-		font-weight: bold;
+		color: #f9fafb;
+	}
+
+	:global(.prose tr:nth-child(even) td) {
+		background-color: #fafafa;
+	}
+
+	:global(.dark .prose tr:nth-child(even) td) {
+		background-color: rgba(31, 41, 55, 0.5);
+	}
+
+	:global(.prose tr:hover td) {
+		background-color: #f0f9ff;
+	}
+
+	:global(.dark .prose tr:hover td) {
+		background-color: rgba(59, 130, 246, 0.1);
 	}
 
 	:global(.prose img) {

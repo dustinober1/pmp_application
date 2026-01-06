@@ -12,36 +12,39 @@
 	/>
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6">
-	<div class="max-w-4xl mx-auto space-y-12">
-		<!-- Back to Home Link -->
-		<div>
-			<a
-				href="{base}/"
-				class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors duration-200 group"
-			>
-				<span class="group-hover:-translate-x-1 transition-transform duration-200">←</span>
-				<span>Back to Home</span>
-			</a>
-		</div>
+<div class="relative min-h-screen overflow-hidden bg-background">
+	<!-- Organic Blob Backgrounds -->
+	<div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/20 rounded-blob blur-3xl animate-float opacity-70"></div>
+	<div class="absolute top-40 -right-20 w-80 h-80 bg-secondary/15 rounded-blob blur-3xl animate-float delay-1000 opacity-60"></div>
+	<div class="absolute bottom-0 left-1/3 w-full h-96 bg-accent/30 rounded-t-[50%] blur-3xl opacity-40"></div>
 
-		<!-- Page Header -->
-		<div class="text-center space-y-4">
-			<h1
-				class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400"
-			>
-				Frequently Asked Questions
-			</h1>
-			<p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-				Everything you need to know about the PMP exam and using PMP Study Pro
-			</p>
-		</div>
+	<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+		<div class="max-w-4xl mx-auto space-y-12">
+			<!-- Back to Home Link -->
+			<div>
+				<a
+					href="{base}/"
+					class="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors duration-200 group"
+				>
+					<span class="group-hover:-translate-x-1 transition-transform duration-200">←</span>
+					<span>Back to Home</span>
+				</a>
+			</div>
 
-		<!-- FAQ Content in Glassmorphism Card -->
-		<div
-			class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-8 md:p-12 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300"
-		>
-			<SanitizedMarkdown content={faqContent} className="faq-content" />
+			<!-- Page Header -->
+			<div class="text-center space-y-4">
+				<h1 class="text-4xl md:text-5xl font-bold font-serif text-foreground">
+					Frequently Asked Questions
+				</h1>
+				<p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+					Everything you need to know about the PMP exam and using PMP Study Pro
+				</p>
+			</div>
+
+			<!-- FAQ Content in Glassmorphism Card -->
+			<div class="bg-card rounded-2xl shadow-lg border border-border p-8 md:p-12 hover:shadow-hover transition-all duration-300">
+				<SanitizedMarkdown content={faqContent} className="faq-content" />
+			</div>
 		</div>
 	</div>
 </div>

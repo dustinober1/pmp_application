@@ -146,97 +146,92 @@
 {:else if error && domains.length === 0}
 	<ErrorState title="Study Error" message={error} />
 {:else}
-	<div class="min-h-screen flex flex-col bg-background relative overflow-hidden">
-		<!-- Subtle blobs for background -->
-		<div class="absolute top-0 left-0 w-full h-96 bg-primary/5 rounded-b-blob blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2"></div>
-		<div class="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl opacity-40 pointer-events-none translate-y-1/4"></div>
+	<div class="relative min-h-screen overflow-hidden bg-background">
+		<!-- Organic Blob Backgrounds -->
+		<div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/20 rounded-blob blur-3xl animate-float opacity-70"></div>
+		<div class="absolute top-40 -right-20 w-80 h-80 bg-secondary/15 rounded-blob blur-3xl animate-float delay-1000 opacity-60"></div>
+		<div class="absolute bottom-0 left-1/3 w-full h-96 bg-accent/30 rounded-t-[50%] blur-3xl opacity-40"></div>
 
-		<!-- Hero Section -->
-		<section class="relative py-12 sm:py-16 z-10">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<!-- ECO Notice -->
-				<div class="mb-6 flex justify-center">
-					<div class="inline-flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-black/20 border border-primary/20 rounded-full backdrop-blur-sm shadow-sm">
-						<span class="relative flex h-3 w-3">
-							<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-							<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-						</span>
-						<span class="text-sm font-bold font-serif text-gray-900 dark:text-white">Updated for {ecoInfo.version}</span>
-					</div>
-				</div>
-
-				<div class="text-center mb-12">
-					<h1 class="text-4xl sm:text-5xl font-bold font-serif text-foreground mb-4">
-						PMP Study Hub
-					</h1>
-					<p class="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-						Master all three domains with integrated study guides, flashcards, and
-						practice questions for each task.
-					</p>
-				</div>
-				
-				<!-- ECO Info Cards -->
-				<div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-					<!-- Domain Weighting -->
-					<Card variant="default" class="p-6 text-center hover:shadow-lg transition-transform hover:-translate-y-1">
-						<div class="flex items-center justify-center gap-2 mb-3 text-primary">
-							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-							</svg>
-							<span class="text-sm font-bold font-serif text-foreground">Domain Weighting</span>
-						</div>
-						<div class="space-y-2 text-sm text-muted-foreground">
-							<div class="flex justify-between border-b border-border/50 pb-1"><span>People</span><span class="font-bold text-foreground">{ecoInfo.domains[0].weight}%</span></div>
-							<div class="flex justify-between border-b border-border/50 pb-1"><span>Process</span><span class="font-bold text-foreground">{ecoInfo.domains[1].weight}%</span></div>
-							<div class="flex justify-between pt-1"><span>Business Env.</span><span class="font-bold text-foreground">{ecoInfo.domains[2].weight}%</span></div>
-						</div>
-					</Card>
-
-					<!-- Methodology Distribution -->
-					<Card variant="default" class="p-6 text-center hover:shadow-lg transition-transform hover:-translate-y-1">
-						<div class="flex items-center justify-center gap-2 mb-3 text-secondary">
-							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-							</svg>
-							<span class="text-sm font-bold font-serif text-foreground">Methodology</span>
-						</div>
-						<div class="space-y-2 text-sm text-muted-foreground">
-							<div class="flex justify-between border-b border-border/50 pb-1"><span>Adaptive/Hybrid</span><span class="font-bold text-foreground">{ecoInfo.methodology.adaptiveHybrid}%</span></div>
-							<div class="flex justify-between border-b border-border/50 pb-1"><span>Predictive</span><span class="font-bold text-foreground">{ecoInfo.methodology.predictive}%</span></div>
-							<div class="pt-1 text-xs italic text-secondary">60/40 split for ECO 2026</div>
-						</div>
-					</Card>
-
-					<!-- Exam Format -->
-					<Card variant="default" class="p-6 text-center hover:shadow-lg transition-transform hover:-translate-y-1">
-						<div class="flex items-center justify-center gap-2 mb-3 text-primary">
-							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-							</svg>
-							<span class="text-sm font-bold font-serif text-foreground">Exam Format</span>
-						</div>
-						<div class="space-y-2 text-sm text-muted-foreground">
-							<div class="flex justify-between border-b border-border/50 pb-1"><span>Questions</span><span class="font-bold text-foreground">{ecoInfo.examFormat.questions}</span></div>
-							<div class="flex justify-between border-b border-border/50 pb-1"><span>Time Limit</span><span class="font-bold text-foreground">{ecoInfo.examFormat.minutes}m</span></div>
-							<div class="pt-1 text-xs text-primary font-bold">~{Math.round(ecoInfo.examFormat.minutes / (ecoInfo.examFormat.questions / 60))} sec/question</div>
-						</div>
-					</Card>
+		<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+			<!-- ECO Notice -->
+			<div class="mb-6 flex justify-center">
+				<div class="inline-flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-black/20 border border-primary/20 rounded-full backdrop-blur-sm shadow-sm">
+					<span class="relative flex h-3 w-3">
+						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+						<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+					</span>
+					<span class="text-sm font-bold font-serif text-gray-900 dark:text-white">Updated for {ecoInfo.version}</span>
 				</div>
 			</div>
-		</section>
 
-		<main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full z-10">
+			<div class="text-center mb-12">
+				<h1 class="text-4xl sm:text-5xl font-bold font-serif text-foreground mb-4">
+					PMP Study Hub
+				</h1>
+				<p class="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
+					Master all three domains with integrated study guides, flashcards, and
+					practice questions for each task.
+				</p>
+			</div>
+
+			<!-- ECO Info Cards -->
+			<div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+				<!-- Domain Weighting -->
+				<Card variant="default" class="p-6 text-center hover:shadow-lg transition-transform hover:-translate-y-1">
+					<div class="flex items-center justify-center gap-2 mb-3 text-primary">
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+						</svg>
+						<span class="text-sm font-bold font-serif text-foreground">Domain Weighting</span>
+					</div>
+					<div class="space-y-2 text-sm text-muted-foreground">
+						<div class="flex justify-between border-b border-border/50 pb-1"><span>People</span><span class="font-bold text-foreground">{ecoInfo.domains[0].weight}%</span></div>
+						<div class="flex justify-between border-b border-border/50 pb-1"><span>Process</span><span class="font-bold text-foreground">{ecoInfo.domains[1].weight}%</span></div>
+						<div class="flex justify-between pt-1"><span>Business Env.</span><span class="font-bold text-foreground">{ecoInfo.domains[2].weight}%</span></div>
+					</div>
+				</Card>
+
+				<!-- Methodology Distribution -->
+				<Card variant="default" class="p-6 text-center hover:shadow-lg transition-transform hover:-translate-y-1">
+					<div class="flex items-center justify-center gap-2 mb-3 text-secondary">
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+						</svg>
+						<span class="text-sm font-bold font-serif text-foreground">Methodology</span>
+					</div>
+					<div class="space-y-2 text-sm text-muted-foreground">
+						<div class="flex justify-between border-b border-border/50 pb-1"><span>Adaptive/Hybrid</span><span class="font-bold text-foreground">{ecoInfo.methodology.adaptiveHybrid}%</span></div>
+						<div class="flex justify-between border-b border-border/50 pb-1"><span>Predictive</span><span class="font-bold text-foreground">{ecoInfo.methodology.predictive}%</span></div>
+						<div class="pt-1 text-xs italic text-secondary">60/40 split for ECO 2026</div>
+					</div>
+				</Card>
+
+				<!-- Exam Format -->
+				<Card variant="default" class="p-6 text-center hover:shadow-lg transition-transform hover:-translate-y-1">
+					<div class="flex items-center justify-center gap-2 mb-3 text-primary">
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						</svg>
+						<span class="text-sm font-bold font-serif text-foreground">Exam Format</span>
+					</div>
+					<div class="space-y-2 text-sm text-muted-foreground">
+						<div class="flex justify-between border-b border-border/50 pb-1"><span>Questions</span><span class="font-bold text-foreground">{ecoInfo.examFormat.questions}</span></div>
+						<div class="flex justify-between border-b border-border/50 pb-1"><span>Time Limit</span><span class="font-bold text-foreground">{ecoInfo.examFormat.minutes}m</span></div>
+						<div class="pt-1 text-xs text-primary font-bold">~{Math.round(ecoInfo.examFormat.minutes / (ecoInfo.examFormat.questions / 60))} sec/question</div>
+					</div>
+				</Card>
+			</div>
 			
 			<!-- Study Modules -->
 			{#if data.modules && data.modules.length > 0}
-				<div class="mb-12">
+				<div class="mb-12 mt-24">
 					<h2 class="text-2xl font-bold font-serif text-foreground mb-6 flex items-center gap-2">
-						<span class="text-primary">📚</span> 
+						<span class="text-primary">📚</span>
 						Study Modules
 					</h2>
 					<div class="grid md:grid-cols-2 gap-6">
 						{#each data.modules as module}
-							<a href="{base}/study/modules/{module.id}" class="group block no-underline text-foreground">
+							<a href="{base}/study/modules/{module.id}" class="group block no-underline text-foreground" aria-label="Access {module.title} study module">
 								<Card variant="feature" class="p-6 h-full transition-all hover:border-primary/50 hover:shadow-lg relative overflow-hidden group">
 									<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-blob -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
 									<div class="relative z-10">
@@ -418,6 +413,6 @@
 					<p class="text-muted-foreground italic">No study content available yet.</p>
 				</div>
 			{/if}
-		</main>
+		</div>
 	</div>
 {/if}

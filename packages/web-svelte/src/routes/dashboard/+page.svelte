@@ -70,12 +70,13 @@
 {#if loading}
 	<LoadingState message="Loading dashboard..." />
 {:else}
-	<div class="min-h-screen bg-background relative overflow-hidden">
-		<!-- Subtle blobs for dashboard -->
-		<div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-blob blur-3xl opacity-50 pointer-events-none"></div>
-		<div class="absolute bottom-0 left-0 w-80 h-80 bg-secondary/5 rounded-blob blur-3xl opacity-50 pointer-events-none"></div>
+	<div class="relative min-h-screen overflow-hidden bg-background">
+		<!-- Organic Blob Backgrounds -->
+		<div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/20 rounded-blob blur-3xl animate-float opacity-70"></div>
+		<div class="absolute top-40 -right-20 w-80 h-80 bg-secondary/15 rounded-blob blur-3xl animate-float delay-1000 opacity-60"></div>
+		<div class="absolute bottom-0 left-1/3 w-full h-96 bg-accent/30 rounded-t-[50%] blur-3xl opacity-40"></div>
 
-		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+		<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
 			<!-- Cache Warning Banner -->
 			<CacheWarningBanner variant="full" />
 
@@ -132,13 +133,13 @@
 							<h2 class="text-2xl font-bold font-serif text-foreground">2026 Domain Progress</h2>
 							<p class="text-sm text-muted-foreground hidden sm:block">Track your mastery</p>
 						</div>
-						
+
 						<div class="grid md:grid-cols-3 gap-6">
 							{#each $domainProgressStore.domains as domain}
 								{@const domainInfo = domains2026.find((d) => d.domainId === domain.domainId)}
 								<!-- Map domains to color variants manually for now to match organic palette -->
 								{@const color = domain.domainId === "people" ? "blue" : domain.domainId === "process" ? "purple" : "emerald"}
-								
+
 								<Card variant="default" class="p-6 transition-transform hover:scale-105 hover:shadow-hover cursor-default">
 									<div class="flex justify-between items-center mb-4">
 										<div>
@@ -193,9 +194,9 @@
 				<div class="space-y-8">
 					<Card class="p-6">
 						<h2 class="text-xl font-bold font-serif text-foreground mb-6">Study Hub</h2>
-						
+
 						<div class="space-y-4 mb-8">
-							<a href="{base}/flashcards" class="group block">
+							<a href="{base}/flashcards" class="group block" aria-label="Access flashcards for smart review">
 								<Card variant="feature" class="p-4 flex items-center justify-between transition-all hover:bg-primary/5">
 									<div>
 										<p class="text-sm font-medium text-muted-foreground">Flashcards</p>
@@ -207,7 +208,7 @@
 								</Card>
 							</a>
 
-							<a href="{base}/study" class="group block">
+							<a href="{base}/study" class="group block" aria-label="Access study guide to continue reading">
 								<Card variant="feature" class="p-4 flex items-center justify-between transition-all hover:bg-secondary/5">
 									<div>
 										<p class="text-sm font-medium text-muted-foreground">Study Guide</p>
@@ -252,6 +253,6 @@
 					</div>
 				</div>
 			</div>
-		</main>
+		</div>
 	</div>
 {/if}
