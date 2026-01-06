@@ -1,612 +1,612 @@
 {
-  "meta": {
-    "title": "PMP 2026 Flashcards: People Domain – Task 1",
-    "domain": "People (33%)",
-    "task": "Develop a common vision",
-    "ecoReference": "Domain I, Task 1",
-    "description": "",
-    "file": "guide/appendices/flashcards-people-task1-vision.md"
-  },
-  "flashcards": [
-    {
-      "id": 1,
-      "category": "Project Charter Fundamentals",
-      "front": "What is the Project Charter?",
-      "back": "The \"Birth Certificate\" of the project—the formal document that authorizes the project to exist and allows the PM to use company resources."
-    },
-    {
-      "id": 2,
-      "category": "Project Charter Fundamentals",
-      "front": "Why is the Project Charter the PM's source of power?",
-      "back": "Without an approved charter, you are just a person with an idea, not a Project Manager. The charter proves you are authorized by Senior Management to lead the project and request resources."
-    },
-    {
-      "id": 3,
-      "category": "Project Charter Fundamentals",
-      "front": "Who signs off on (authorizes) the Project Charter?",
-      "back": "The Sponsor—the person providing the money and resources for the project."
-    },
-    {
-      "id": 4,
-      "category": "Project Charter Fundamentals",
-      "front": "What does \"PM Appointment\" in a charter mean?",
-      "back": "The charter explicitly names the Project Manager and defines their level of authority (e.g., \"approve expenditures up to $10,000 without sponsor approval\")."
-    },
-    {
-      "id": 5,
-      "category": "Project Charter Fundamentals",
-      "front": "What is the \"Strategic Anchor\" element of a charter?",
-      "back": "The high-level goals, success criteria, and summary milestones that connect the project to organizational strategy."
-    },
-    {
-      "id": 6,
-      "category": "Project Charter Fundamentals",
-      "front": "What does \"Resource Commitment\" in a charter represent?",
-      "back": "The budget envelope and organizational commitment to provide the resources needed for the project."
-    },
-    {
-      "id": 7,
-      "category": "Project Charter Fundamentals",
-      "front": "In the project lifecycle, where does the Charter fit?",
-      "back": "Business Need → Needs Assessment → Business Case → PROJECT CHARTER → Project Planning. The Charter is the \"authorization gate\" where work legally begins."
-    },
-    {
-      "id": 8,
-      "category": "Project Charter Fundamentals",
-      "front": "If asked to begin project execution without an approved charter, what should you do?",
-      "back": "Work with the sponsor to finalize and approve the charter first. Never start execution (hire vendors, build deliverables, spend budget) without authorization."
-    },
-    {
-      "id": 9,
-      "category": "Charter Inputs",
-      "front": "What are the two main Business Documents that feed the Project Charter?",
-      "back": "1) Business Case / Benefits Management Plan (value justification and benefit measurement), 2) Agreements (Contracts, MOUs, SLAs—especially if doing work for an external customer)."
-    },
-    {
-      "id": 10,
-      "category": "Charter Inputs",
-      "front": "What are Enterprise Environmental Factors (EEF)?",
-      "back": "Conditions not under your control—external and internal factors that influence, constrain, or direct the project."
-    },
-    {
-      "id": 11,
-      "category": "Charter Inputs",
-      "front": "Give 4 examples of External EEFs.",
-      "back": "1) Market conditions and trends, 2) Government regulations and laws, 3) Industry standards, 4) Economic conditions (inflation, interest rates)."
-    },
-    {
-      "id": 12,
-      "category": "Charter Inputs",
-      "front": "Give 4 examples of Internal EEFs.",
-      "back": "1) Organizational culture and structure, 2) Geographic distribution of facilities, 3) Infrastructure (IT systems, tools), 4) Human resource policies."
-    },
-    {
-      "id": 13,
-      "category": "Charter Inputs",
-      "front": "What are Organizational Process Assets (OPA)?",
-      "back": "Processes and knowledge bases you can use—the organization's intellectual capital (templates, lessons learned, procedures)."
-    },
-    {
-      "id": 14,
-      "category": "Charter Inputs",
-      "front": "How do you distinguish EEF from OPA?",
-      "back": "If it constrains you (laws, culture, systems) → EEF. If it helps you (templates, prior project files) → OPA."
-    },
-    {
-      "id": 15,
-      "category": "Charter Inputs",
-      "front": "Is \"company's project management methodology\" an EEF or OPA?",
-      "back": "OPA—it's an internal process asset you can use."
-    },
-    {
-      "id": 16,
-      "category": "Charter Inputs",
-      "front": "Is \"organizational culture (risk-averse)\" an EEF or OPA?",
-      "back": "EEF—it's an internal condition you can't directly change."
-    },
-    {
-      "id": 17,
-      "category": "Charter Inputs",
-      "front": "Is \"lessons learned from past projects\" an EEF or OPA?",
-      "back": "OPA—it's part of the corporate knowledge base."
-    },
-    {
-      "id": 18,
-      "category": "Essential Charter Components",
-      "front": "List the 10 essential elements of a Project Charter.",
-      "back": "1) Project Purpose/Justification, 2) Measurable Success Criteria, 3) High-Level Requirements, 4) High-Level Risks, 5) Summary Milestone Schedule, 6) Pre-approved Budget, 7) Key Stakeholder List, 8) Assumptions & Constraints, 9) PM Assignment with Authority Level, 10) Sponsor Name/Authority."
-    },
-    {
-      "id": 19,
-      "category": "Essential Charter Components",
-      "front": "What should the \"Project Purpose/Justification\" section of a charter contain?",
-      "back": "The \"Why\"—linked to the Business Case. Example: \"Enable 40% faster customer onboarding to reduce churn.\""
-    },
-    {
-      "id": 20,
-      "category": "Essential Charter Components",
-      "front": "What are \"Measurable Success Criteria\" in a charter?",
-      "back": "How we know the project succeeded. Example: \"Launch by Q3 with <5% defect rate, 90% user adoption within 60 days.\""
-    },
-    {
-      "id": 21,
-      "category": "Essential Charter Components",
-      "front": "What are \"High-Level Requirements\" in a charter?",
-      "back": "The \"Big Picture\" needs and boundaries. Example: \"Must integrate with existing CRM, support mobile devices.\""
-    },
-    {
-      "id": 22,
-      "category": "Essential Charter Components",
-      "front": "What are \"High-Level Risks\" in a charter?",
-      "back": "Known threats identified during initiation. Example: \"Vendor dependency, skills gap, regulatory approval.\""
-    },
-    {
-      "id": 23,
-      "category": "Essential Charter Components",
-      "front": "What is a \"Summary Milestone Schedule\" in a charter?",
-      "back": "Major phase endpoints. Example: \"Design Complete: Feb, UAT Start: May, Go-Live: July.\""
-    },
-    {
-      "id": 24,
-      "category": "Essential Charter Components",
-      "front": "What does \"Pre-approved Budget\" in a charter include?",
-      "back": "The high-level funding envelope. Example: \"$1.2M with contingency reserve of $150K.\""
-    },
-    {
-      "id": 25,
-      "category": "Essential Charter Components",
-      "front": "What is a \"Key Stakeholder List\" in a charter?",
-      "back": "Who cares about the project. Example: \"Sponsor: CFO, Customer: Sales VP, Functional: IT Director.\""
-    },
-    {
-      "id": 26,
-      "category": "Essential Charter Components",
-      "front": "What are Assumptions vs. Constraints in a charter?",
-      "back": "Assumptions = beliefs about uncertain factors that may prove false. Constraints = known limitations that restrict options (budget, timeline, resources)."
-    },
-    {
-      "id": 27,
-      "category": "Essential Charter Components",
-      "front": "What should the PM Assignment section of a charter include?",
-      "back": "The PM's name AND their authority level. Example: \"Jane Smith, PM with authority to approve scope changes <$10K.\""
-    },
-    {
-      "id": 28,
-      "category": "PM Authority Levels",
-      "front": "What four areas should PM authority levels be defined for in a charter?",
-      "back": "1) Budget (spending limits), 2) Scope (change approval limits), 3) Resources (assignment authority), 4) Procurement (vendor selection limits)."
-    },
-    {
-      "id": 29,
-      "category": "PM Authority Levels",
-      "front": "Example of Budget authority in a charter?",
-      "back": "\"Approve expenditures up to $10,000 without sponsor approval.\""
-    },
-    {
-      "id": 30,
-      "category": "PM Authority Levels",
-      "front": "Example of Scope authority in a charter?",
-      "back": "\"Handle scope changes impacting <2 weeks without CCB approval.\""
-    },
-    {
-      "id": 31,
-      "category": "PM Authority Levels",
-      "front": "Example of Resource authority in a charter?",
-      "back": "\"Assign and reassign team members within the project.\""
-    },
-    {
-      "id": 32,
-      "category": "PM Authority Levels",
-      "front": "Example of Procurement authority in a charter?",
-      "back": "\"Select vendors for contracts <$50,000.\""
-    },
-    {
-      "id": 33,
-      "category": "Charter vs. Other Documents",
-      "front": "What is the difference between a Project Charter and Project Management Plan?",
-      "back": "Charter = Authorization + high-level guardrails. PM Plan = Execution strategy + baselines. The Charter is NOT a detailed plan."
-    },
-    {
-      "id": 34,
-      "category": "Charter vs. Other Documents",
-      "front": "What is the difference between a Project Charter and Business Case?",
-      "back": "Charter = Authorization and PM assignment. Business Case = Investment justification (value). The Business Case does NOT assign PM authority."
-    },
-    {
-      "id": 35,
-      "category": "Charter vs. Other Documents",
-      "front": "What is the difference between a Project Charter and Contract/SOW?",
-      "back": "Charter = Internal governance and PM authority. Contract/SOW = External deliverables and legal obligations."
-    },
-    {
-      "id": 36,
-      "category": "Charter vs. Other Documents",
-      "front": "What is a Charter NOT?",
-      "back": "1) A detailed plan (no task lists), 2) A contract, 3) Static (can be reassessed), 4) The PM's solo creation (needs sponsor collaboration), 5) A guarantee of success."
-    },
-    {
-      "id": 37,
-      "category": "Agile Vision and Chartering",
-      "front": "How is chartering different in Agile/Adaptive environments?",
-      "back": "The charter is often lighter and focused on Vision rather than detailed requirements. Uses Product Vision statements instead of detailed scope."
-    },
-    {
-      "id": 38,
-      "category": "Agile Vision and Chartering",
-      "front": "What is the Agile Vision Statement template (elevator pitch)?",
-      "back": "\"For [target customer], who [statement of need/problem], the [product name] is a [product category] that [key benefit]. Unlike [primary competitive alternative], our product [key differentiation].\""
-    },
-    {
-      "id": 39,
-      "category": "Agile Vision and Chartering",
-      "front": "In Agile, what replaces \"Detailed Scope\" from traditional chartering?",
-      "back": "Product Vision & Initial Backlog."
-    },
-    {
-      "id": 40,
-      "category": "Agile Vision and Chartering",
-      "front": "In Agile, what replaces \"Fixed Budget\" from traditional chartering?",
-      "back": "Budget per iteration + release ceiling."
-    },
-    {
-      "id": 41,
-      "category": "Agile Vision and Chartering",
-      "front": "In Agile, what replaces \"Milestone Schedule\" from traditional chartering?",
-      "back": "Release roadmap with flexibility."
-    },
-    {
-      "id": 42,
-      "category": "Agile Vision and Chartering",
-      "front": "In Agile, what replaces \"Success Criteria\" from traditional chartering?",
-      "back": "OKRs (Objectives and Key Results)."
-    },
-    {
-      "id": 43,
-      "category": "Agile Vision and Chartering",
-      "front": "In Agile, what replaces \"Documented Assumptions\" from traditional chartering?",
-      "back": "Hypotheses to validate."
-    },
-    {
-      "id": 44,
-      "category": "Expert Judgment and Charter Approval",
-      "front": "What six expert sources provide input during charter development?",
-      "back": "1) Sponsor (business context, priorities), 2) SMEs (technical feasibility), 3) Similar Project PMs (lessons learned), 4) PMO (templates, standards), 5) Legal/Compliance (regulatory requirements), 6) Finance (budget constraints)."
-    },
-    {
-      "id": 45,
-      "category": "Expert Judgment and Charter Approval",
-      "front": "What is the charter approval process flow?",
-      "back": "PM Drafts Charter → Stakeholder Review & Input → Revision Based on Feedback → Sponsor Review → Approved? (If No, Revise) → Signed Charter Distributed → PROJECT OFFICIALLY BEGINS."
-    },
-    {
-      "id": 46,
-      "category": "Expert Judgment and Charter Approval",
-      "front": "What are 6 warning signs of a weak charter?",
-      "back": "1) No named sponsor, 2) Vague success criteria, 3) Missing PM authority, 4) No high-level risks, 5) Unrealistic constraints, 6) No stakeholder list."
-    },
-    {
-      "id": 47,
-      "category": "Team Charter Fundamentals",
-      "front": "What is a Team Charter?",
-      "back": "A living document created BY the team, FOR the team. It sets the guardrails for high-trust culture and defines how the team will work together."
-    },
-    {
-      "id": 48,
-      "category": "Team Charter Fundamentals",
-      "front": "What are the 4 main elements of a Team Charter?",
-      "back": "1) Team Values (what we stand for), 2) Ground Rules (behavioral \"laws\"), 3) Communication norms (tools and response times), 4) Decision Making (how we decide)."
-    },
-    {
-      "id": 49,
-      "category": "Team Charter Fundamentals",
-      "front": "What are Ground Rules in a Team Charter?",
-      "back": "Behavioral \"laws\" that govern team behavior. Examples: \"Always have cameras on,\" \"No phones during standups,\" \"Assume positive intent.\""
-    },
-    {
-      "id": 50,
-      "category": "Team Charter Fundamentals",
-      "front": "What 3 principles make Ground Rules effective?",
-      "back": "1) Collaborative (team must write them to own them), 2) Visible (displayed prominently), 3) Self-Policing (team calls out violations without PM playing \"police\")."
-    },
-    {
-      "id": 51,
-      "category": "Team Charter Fundamentals",
-      "front": "What 7 sections should a comprehensive Team Charter include?",
-      "back": "1) Purpose & Context, 2) Team Composition & Roles, 3) Communication Norms, 4) Meeting Norms, 5) Decision Making, 6) Quality Standards, 7) Conflict & Escalation Path."
-    },
-    {
-      "id": 52,
-      "category": "Definition of Done vs. Acceptance Criteria",
-      "front": "What is the difference between Definition of Done (DoD) and Acceptance Criteria (AC)?",
-      "back": "DoD = applies to ALL items, created by team once, quality gate for everything. AC = applies to ONE specific item, created by Product Owner per story, specific requirements for one deliverable."
-    },
-    {
-      "id": 53,
-      "category": "Definition of Done vs. Acceptance Criteria",
-      "front": "Give an example of Definition of Done (DoD).",
-      "back": "\"Code reviewed, unit tests passed, documentation updated, security scan completed.\""
-    },
-    {
-      "id": 54,
-      "category": "Definition of Done vs. Acceptance Criteria",
-      "front": "Give an example of Acceptance Criteria (AC).",
-      "back": "\"Login button is blue, page loads in <2 seconds.\""
-    },
-    {
-      "id": 55,
-      "category": "Definition of Done vs. Acceptance Criteria",
-      "front": "What 9 items might be on a Definition of Done checklist?",
-      "back": "1) Code peer-reviewed, 2) Unit tests passing, 3) Integration tests passing, 4) No critical bugs open, 5) Documentation updated, 6) Security scan completed, 7) Performance baseline met, 8) Deployed to staging, 9) PO sign-off."
-    },
-    {
-      "id": 56,
-      "category": "Decision Models",
-      "front": "When should you use Consensus decision-making?",
-      "back": "For high-impact decisions that require buy-in. Everyone agrees (or consents). Risk: Slow if not time-boxed; may water down bold ideas."
-    },
-    {
-      "id": 57,
-      "category": "Decision Models",
-      "front": "When should you use Majority Vote decision-making?",
-      "back": "For time-boxed decisions with moderate impact. 50%+1 wins. Risk: Minority may disengage; doesn't resolve root disagreement."
-    },
-    {
-      "id": 58,
-      "category": "Decision Models",
-      "front": "When should you use Expert/Delegated decision-making?",
-      "back": "For specialized technical decisions. One trusted person decides. Risk: Others may feel excluded; expert may have blind spots."
-    },
-    {
-      "id": 59,
-      "category": "Decision Models",
-      "front": "What is the Consent Model (Sociocracy) for decision-making?",
-      "back": "Ask: \"Do you have a principled objection to this proposal?\" If no one has a substantive blocker, the proposal passes. Faster than consensus but still collaborative."
-    },
-    {
-      "id": 60,
-      "category": "Decision Models",
-      "front": "What should a Decision Log include?",
-      "back": "Decision ID, Date, Decision, Context, Alternatives Considered, Decider, Status."
-    },
-    {
-      "id": 61,
-      "category": "Conflict and Escalation",
-      "front": "What are the 4 steps in an Escalation Ladder?",
-      "back": "1) Self-resolution (parties address directly), 2) Facilitated session (PM/SM helps), 3) Wider alignment (involve functional managers), 4) Escalate (sponsor decides—last resort)."
-    },
-    {
-      "id": 62,
-      "category": "Conflict and Escalation",
-      "front": "When SHOULD you escalate a conflict?",
-      "back": "When: decision is outside team authority, conflict impacts project viability, resource constraint can't be negotiated, or safety/compliance is at risk."
-    },
-    {
-      "id": 63,
-      "category": "Conflict and Escalation",
-      "front": "When should you NOT escalate a conflict?",
-      "back": "When: team can resolve with facilitation, conflict is healthy technical debate, negotiation hasn't been tried, or issue is preference not principle."
-    },
-    {
-      "id": 64,
-      "category": "Conflict and Escalation",
-      "front": "What is the \"24-Hour Rule\" for conflicts?",
-      "back": "If a conflict isn't resolved within 24 hours of surfacing, escalate to the next level. This prevents issues from festering."
-    },
-    {
-      "id": 65,
-      "category": "Charter Maintenance",
-      "front": "When should a Team Charter be reviewed?",
-      "back": "1) After every retrospective, 2) When team membership changes, 3) After major project phase transitions, 4) When recurring problems indicate a gap."
-    },
-    {
-      "id": 66,
-      "category": "Charter Maintenance",
-      "front": "What 4 questions assess \"Charter Health\"?",
-      "back": "1) Are we following our own ground rules? 2) Is our decision model working? 3) Are communication norms creating clarity? 4) Does our DoD still reflect quality expectations?"
-    },
-    {
-      "id": 67,
-      "category": "Charter Maintenance",
-      "front": "If a team has constant minor behavioral issues (people interrupting), what is the correct action?",
-      "back": "Refer the team to the Ground Rules or facilitate a session to update the Team Charter."
-    },
-    {
-      "id": 68,
-      "category": "Charter Maintenance",
-      "front": "If a team is confused about what \"done\" means, what do they need?",
-      "back": "A Definition of Done (DoD)."
-    },
-    {
-      "id": 69,
-      "category": "Strategic Alignment",
-      "front": "What is Strategic Alignment?",
-      "back": "The discipline of ensuring that the RIGHT work gets done in the first place and stays relevant as the business environment shifts."
-    },
-    {
-      "id": 70,
-      "category": "Strategic Alignment",
-      "front": "When do you use Strategic Alignment as a decision filter?",
-      "back": "When you: approve/reject/re-prioritize work, recommend scope changes (or refuse them), escalate major risks, or recommend a project be paused/closed because value is gone."
-    },
-    {
-      "id": 71,
-      "category": "Strategic Alignment",
-      "front": "What should you do if a project is \"green\" (on time/budget) but is no longer valuable or compliant?",
-      "back": "Raise it to governance and recommend a strategic decision. A project that's on time but no longer valuable is NOT successful."
-    },
-    {
-      "id": 72,
-      "category": "Strategic Alignment",
-      "front": "What are the 3 levels of the Strategic Hierarchy?",
-      "back": "1) Portfolio (The Strategy—selecting the right mix, doing the right work), 2) Program (The Benefits—coordinating for synergistic benefits), 3) Project (The Output—delivering specific deliverables, doing the work right)."
-    },
-    {
-      "id": 73,
-      "category": "Strategic Alignment",
-      "front": "What does the Business Case artifact answer?",
-      "back": "\"Should we invest, and why?\" Owned by Sponsor/Business. Used for selection and funding decisions."
-    },
-    {
-      "id": 74,
-      "category": "Strategic Alignment",
-      "front": "What does the Project Charter artifact answer?",
-      "back": "\"Are we authorized to start?\" Owned by Sponsor (authorizes), PM (uses). Used in Initiating as formal start."
-    },
-    {
-      "id": 75,
-      "category": "Strategic Alignment",
-      "front": "What does the Benefits Realization Plan answer?",
-      "back": "\"How will value be measured and sustained?\" Owned by Benefits Owner/Business. Used from Planning through sustainment."
-    },
-    {
-      "id": 76,
-      "category": "Strategic Alignment",
-      "front": "What does a Product/Program Roadmap answer?",
-      "back": "\"What outcomes come when?\" Owned by Product Owner/Program. Used for coordinating delivery and dependencies."
-    },
-    {
-      "id": 77,
-      "category": "Strategic Alignment",
-      "front": "What do KPIs/OKRs answer?",
-      "back": "\"How do we know we are winning?\" Owned by Business leadership. Used for ongoing value validation."
-    },
-    {
-      "id": 78,
-      "category": "Strategic Alignment",
-      "front": "What do Governance Reviews decide?",
-      "back": "\"Continue, pivot, pause, or stop?\" Owned by Steering committee/Portfolio. Used at stage gates and periodic reviews."
-    },
-    {
-      "id": 79,
-      "category": "Continuous Alignment Loop",
-      "front": "What are the 5 steps in the Continuous Alignment Loop?",
-      "back": "1) Detect (identify change/trigger), 2) Assess (evaluate impacts to scope/cost/schedule AND value/benefits), 3) Escalate (bring options to governance), 4) Decide (governance chooses, PM executes), 5) Update (baselines, risks, communications)."
-    },
-    {
-      "id": 80,
-      "category": "Continuous Alignment Loop",
-      "front": "Should a PM \"self-cancel\" a project when the strategic value evaporates?",
-      "back": "No. Do not self-cancel unless you have explicit authority. The PMI-aligned move is to RECOMMEND cancellation and support an orderly closure."
-    },
-    {
-      "id": 81,
-      "category": "Continuous Alignment Loop",
-      "front": "What is \"Pivot or Persevere\" in strategic alignment?",
-      "back": "Having the courage to recommend project cancellation if the strategic value evaporates—a key 2026 focus area."
-    },
-    {
-      "id": 82,
-      "category": "Continuous Alignment Loop",
-      "front": "What is PESTLE Scanning?",
-      "back": "Watching the horizon for Political, Economic, Social, Technological, Legal, and Environmental shifts that impact project viability."
-    },
-    {
-      "id": 83,
-      "category": "2026 Exam Focus Areas",
-      "front": "In 2026 practice, who often drafts the Project Charter?",
-      "back": "The Project Manager drafts it in collaboration with the Sponsor. This ensures the PM has empathy for the business goals before planning starts."
-    },
-    {
-      "id": 84,
-      "category": "2026 Exam Focus Areas",
-      "front": "How often is the Team Charter reviewed in Agile/Hybrid contexts?",
-      "back": "Every Retrospective. It is not static—if a rule causes friction, the team changes it immediately to optimize flow."
-    },
-    {
-      "id": 85,
-      "category": "2026 Exam Focus Areas",
-      "front": "What is \"Continuous Validation\" in strategic alignment?",
-      "back": "Strategic alignment is not \"set it and forget it\"—it requires ongoing validation that the project still delivers value."
-    },
-    {
-      "id": 86,
-      "category": "2026 Exam Focus Areas",
-      "front": "If a Functional Manager refuses to release a resource because they \"don't report to you,\" what should you do?",
-      "back": "Show them the Project Charter. This document proves you are authorized by Senior Management to request those resources."
-    },
-    {
-      "id": 87,
-      "category": "Meeting Norms (Part of Shared Vision)",
-      "front": "What 4 meeting best practices should be in a Team Charter?",
-      "back": "1) No meeting without an agenda shared 24h in advance, 2) Start on time even if people are missing, 3) Capture decisions and actions in writing, 4) End with clarity on next steps."
-    },
-    {
-      "id": 88,
-      "category": "Meeting Norms (Part of Shared Vision)",
-      "front": "What are typical Communication Channel norms in a Team Charter?",
-      "back": "Slack/Teams = quick questions (2-4 hour response), Email = formal updates (24 hour response), Video Call = complex discussions (scheduled), Task Board = status updates (real-time)."
-    },
-    {
-      "id": 89,
-      "category": "Meeting Norms (Part of Shared Vision)",
-      "front": "What typical meetings are defined in a Team Charter?",
-      "back": "Daily Standup (15 min, rotating facilitator), Sprint Planning (2 hours), Retrospective (1 hour), Stakeholder Review (30 min weekly)."
-    },
-    {
-      "id": 90,
-      "category": "Meeting Norms (Part of Shared Vision)",
-      "front": "What is the primary purpose of defining meeting norms in a Team Charter?",
-      "back": "To create shared understanding of how the team collaborates, prevent wasted time, and ensure productive meetings that support the common vision."
-    },
-    {
-      "id": 91,
-      "category": "Additional Vision Concepts",
-      "front": "What makes a group a \"team\" (key elements)?",
-      "back": "1) Common goal (same outcome), 2) Interdependent roles (rely on each other), 3) Shared accountability (collective success/failure)."
-    },
-    {
-      "id": 92,
-      "category": "Additional Vision Concepts",
-      "front": "What is the difference between Portfolio and Program?",
-      "back": "Portfolio = selecting the right mix of projects to achieve high-level goals (doing the right work). Program = coordinating related projects to realize synergistic benefits."
-    },
-    {
-      "id": 93,
-      "category": "Additional Vision Concepts",
-      "front": "What does \"Authorization Gate\" mean for a Project Charter?",
-      "back": "The point where work legally begins. Before the charter is approved, no formal project work should be initiated."
-    },
-    {
-      "id": 94,
-      "category": "Additional Vision Concepts",
-      "front": "How does the Project Charter support the \"common vision\"?",
-      "back": "It aligns stakeholders on purpose, success criteria, constraints, and authority—creating shared understanding of what the project will achieve and how."
-    },
-    {
-      "id": 95,
-      "category": "Additional Vision Concepts",
-      "front": "How does the Team Charter support the \"common vision\"?",
-      "back": "It defines how the team will work together, communicate, make decisions, and resolve conflicts—creating shared understanding of team culture and norms."
-    },
-    {
-      "id": 96,
-      "category": "Additional Vision Concepts",
-      "front": "How does Strategic Alignment support the \"common vision\"?",
-      "back": "It ensures everyone understands WHY the project exists and how it connects to organizational goals—creating shared understanding of purpose and value."
-    },
-    {
-      "id": 97,
-      "category": "Additional Vision Concepts",
-      "front": "What are the \"2026 Exam Blueprint\" domain weights?",
-      "back": "People 33%, Process 41%, Business Environment 26%."
-    },
-    {
-      "id": 98,
-      "category": "Additional Vision Concepts",
-      "front": "What is the 2026 PMP exam format?",
-      "back": "185 questions (175 scored + 10 unscored pretest), 240 minutes, two 5-minute breaks (center-based exam)."
-    },
-    {
-      "id": 99,
-      "category": "Additional Vision Concepts",
-      "front": "What is the approach split for the 2026 PMP exam?",
-      "back": "~40% predictive, ~60% split between adaptive/agile + hybrid."
-    },
-    {
-      "id": 100,
-      "category": "Additional Vision Concepts",
-      "front": "What question types appear on the 2026 PMP exam?",
-      "back": "Case/scenario sets, graphic-based interpretation, enhanced matching/drag-and-drop, point-and-click, multiple choice/multiple response, and practicum-style items with tools/data."
-    }
-  ]
+ "meta": {
+ "title": "PMP 2026 Flashcards: People Domain – Task 1",
+ "domain": "People (33%)",
+ "task": "Develop a common vision",
+ "ecoReference": "Domain I, Task 1",
+ "description": "",
+ "file": "guide/appendices/flashcards-people-task1-vision.md"
+ },
+ "flashcards": [
+ {
+ "id": 1,
+ "category": "Project Charter Fundamentals",
+ "front": "What is the Project Charter?",
+ "back": "The \"Birth Certificate\" of the project—the formal document that authorizes the project to exist and allows the PM to use company resources."
+ },
+ {
+ "id": 2,
+ "category": "Project Charter Fundamentals",
+ "front": "Why is the Project Charter the PM's source of power?",
+ "back": "Without an approved charter, you are just a person with an idea, not a Project Manager. The charter proves you are authorized by Senior Management to lead the project and request resources."
+ },
+ {
+ "id": 3,
+ "category": "Project Charter Fundamentals",
+ "front": "Who signs off on (authorizes) the Project Charter?",
+ "back": "The Sponsor—the person providing the money and resources for the project."
+ },
+ {
+ "id": 4,
+ "category": "Project Charter Fundamentals",
+ "front": "What does \"PM Appointment\" in a charter mean?",
+ "back": "The charter explicitly names the Project Manager and defines their level of authority (e.g., \"approve expenditures up to $10,000 without sponsor approval\")."
+ },
+ {
+ "id": 5,
+ "category": "Project Charter Fundamentals",
+ "front": "What is the \"Strategic Anchor\" element of a charter?",
+ "back": "The high-level goals, success criteria, and summary milestones that connect the project to organizational strategy."
+ },
+ {
+ "id": 6,
+ "category": "Project Charter Fundamentals",
+ "front": "What does \"Resource Commitment\" in a charter represent?",
+ "back": "The budget envelope and organizational commitment to provide the resources needed for the project."
+ },
+ {
+ "id": 7,
+ "category": "Project Charter Fundamentals",
+ "front": "In the project lifecycle, where does the Charter fit?",
+ "back": "Business Need → Needs Assessment → Business Case → PROJECT CHARTER → Project Planning. The Charter is the \"authorization gate\" where work legally begins."
+ },
+ {
+ "id": 8,
+ "category": "Project Charter Fundamentals",
+ "front": "If asked to begin project execution without an approved charter, what should you do?",
+ "back": "Work with the sponsor to finalize and approve the charter first. Never start execution (hire vendors, build deliverables, spend budget) without authorization."
+ },
+ {
+ "id": 9,
+ "category": "Charter Inputs",
+ "front": "What are the two main Business Documents that feed the Project Charter?",
+ "back": "1) Business Case / Benefits Management Plan (value justification and benefit measurement), 2) Agreements (Contracts, MOUs, SLAs—especially if doing work for an external customer)."
+ },
+ {
+ "id": 10,
+ "category": "Charter Inputs",
+ "front": "What are Enterprise Environmental Factors (EEF)?",
+ "back": "Conditions not under your control—external and internal factors that influence, constrain, or direct the project."
+ },
+ {
+ "id": 11,
+ "category": "Charter Inputs",
+ "front": "Give 4 examples of External EEFs.",
+ "back": "1) Market conditions and trends, 2) Government regulations and laws, 3) Industry standards, 4) Economic conditions (inflation, interest rates)."
+ },
+ {
+ "id": 12,
+ "category": "Charter Inputs",
+ "front": "Give 4 examples of Internal EEFs.",
+ "back": "1) Organizational culture and structure, 2) Geographic distribution of facilities, 3) Infrastructure (IT systems, tools), 4) Human resource policies."
+ },
+ {
+ "id": 13,
+ "category": "Charter Inputs",
+ "front": "What are Organizational Process Assets (OPA)?",
+ "back": "Processes and knowledge bases you can use—the organization's intellectual capital (templates, lessons learned, procedures)."
+ },
+ {
+ "id": 14,
+ "category": "Charter Inputs",
+ "front": "How do you distinguish EEF from OPA?",
+ "back": "If it constrains you (laws, culture, systems) → EEF. If it helps you (templates, prior project files) → OPA."
+ },
+ {
+ "id": 15,
+ "category": "Charter Inputs",
+ "front": "Is \"company's project management methodology\" an EEF or OPA?",
+ "back": "OPA—it's an internal process asset you can use."
+ },
+ {
+ "id": 16,
+ "category": "Charter Inputs",
+ "front": "Is \"organizational culture (risk-averse)\" an EEF or OPA?",
+ "back": "EEF—it's an internal condition you can't directly change."
+ },
+ {
+ "id": 17,
+ "category": "Charter Inputs",
+ "front": "Is \"lessons learned from past projects\" an EEF or OPA?",
+ "back": "OPA—it's part of the corporate knowledge base."
+ },
+ {
+ "id": 18,
+ "category": "Essential Charter Components",
+ "front": "List the 10 essential elements of a Project Charter.",
+ "back": "1) Project Purpose/Justification, 2) Measurable Success Criteria, 3) High-Level Requirements, 4) High-Level Risks, 5) Summary Milestone Schedule, 6) Pre-approved Budget, 7) Key Stakeholder List, 8) Assumptions & Constraints, 9) PM Assignment with Authority Level, 10) Sponsor Name/Authority."
+ },
+ {
+ "id": 19,
+ "category": "Essential Charter Components",
+ "front": "What should the \"Project Purpose/Justification\" section of a charter contain?",
+ "back": "The \"Why\"—linked to the Business Case. Example: \"Enable 40% faster customer onboarding to reduce churn.\""
+ },
+ {
+ "id": 20,
+ "category": "Essential Charter Components",
+ "front": "What are \"Measurable Success Criteria\" in a charter?",
+ "back": "How we know the project succeeded. Example: \"Launch by Q3 with <5% defect rate, 90% user adoption within 60 days.\""
+ },
+ {
+ "id": 21,
+ "category": "Essential Charter Components",
+ "front": "What are \"High-Level Requirements\" in a charter?",
+ "back": "The \"Big Picture\" needs and boundaries. Example: \"Must integrate with existing CRM, support mobile devices.\""
+ },
+ {
+ "id": 22,
+ "category": "Essential Charter Components",
+ "front": "What are \"High-Level Risks\" in a charter?",
+ "back": "Known threats identified during initiation. Example: \"Vendor dependency, skills gap, regulatory approval.\""
+ },
+ {
+ "id": 23,
+ "category": "Essential Charter Components",
+ "front": "What is a \"Summary Milestone Schedule\" in a charter?",
+ "back": "Major phase endpoints. Example: \"Design Complete: Feb, UAT Start: May, Go-Live: July.\""
+ },
+ {
+ "id": 24,
+ "category": "Essential Charter Components",
+ "front": "What does \"Pre-approved Budget\" in a charter include?",
+ "back": "The high-level funding envelope. Example: \"$1.2M with contingency reserve of $150K.\""
+ },
+ {
+ "id": 25,
+ "category": "Essential Charter Components",
+ "front": "What is a \"Key Stakeholder List\" in a charter?",
+ "back": "Who cares about the project. Example: \"Sponsor: CFO, Customer: Sales VP, Functional: IT Director.\""
+ },
+ {
+ "id": 26,
+ "category": "Essential Charter Components",
+ "front": "What are Assumptions vs. Constraints in a charter?",
+ "back": "Assumptions = beliefs about uncertain factors that may prove false. Constraints = known limitations that restrict options (budget, timeline, resources)."
+ },
+ {
+ "id": 27,
+ "category": "Essential Charter Components",
+ "front": "What should the PM Assignment section of a charter include?",
+ "back": "The PM's name AND their authority level. Example: \"Jane Smith, PM with authority to approve scope changes <$10K.\""
+ },
+ {
+ "id": 28,
+ "category": "PM Authority Levels",
+ "front": "What four areas should PM authority levels be defined for in a charter?",
+ "back": "1) Budget (spending limits), 2) Scope (change approval limits), 3) Resources (assignment authority), 4) Procurement (vendor selection limits)."
+ },
+ {
+ "id": 29,
+ "category": "PM Authority Levels",
+ "front": "Example of Budget authority in a charter?",
+ "back": "\"Approve expenditures up to $10,000 without sponsor approval.\""
+ },
+ {
+ "id": 30,
+ "category": "PM Authority Levels",
+ "front": "Example of Scope authority in a charter?",
+ "back": "\"Handle scope changes impacting <2 weeks without CCB approval.\""
+ },
+ {
+ "id": 31,
+ "category": "PM Authority Levels",
+ "front": "Example of Resource authority in a charter?",
+ "back": "\"Assign and reassign team members within the project.\""
+ },
+ {
+ "id": 32,
+ "category": "PM Authority Levels",
+ "front": "Example of Procurement authority in a charter?",
+ "back": "\"Select vendors for contracts <$50,000.\""
+ },
+ {
+ "id": 33,
+ "category": "Charter vs. Other Documents",
+ "front": "What is the difference between a Project Charter and Project Management Plan?",
+ "back": "Charter = Authorization + high-level guardrails. PM Plan = Execution strategy + baselines. The Charter is NOT a detailed plan."
+ },
+ {
+ "id": 34,
+ "category": "Charter vs. Other Documents",
+ "front": "What is the difference between a Project Charter and Business Case?",
+ "back": "Charter = Authorization and PM assignment. Business Case = Investment justification (value). The Business Case does NOT assign PM authority."
+ },
+ {
+ "id": 35,
+ "category": "Charter vs. Other Documents",
+ "front": "What is the difference between a Project Charter and Contract/SOW?",
+ "back": "Charter = Internal governance and PM authority. Contract/SOW = External deliverables and legal obligations."
+ },
+ {
+ "id": 36,
+ "category": "Charter vs. Other Documents",
+ "front": "What is a Charter NOT?",
+ "back": "1) A detailed plan (no task lists), 2) A contract, 3) Static (can be reassessed), 4) The PM's solo creation (needs sponsor collaboration), 5) A guarantee of success."
+ },
+ {
+ "id": 37,
+ "category": "Agile Vision and Chartering",
+ "front": "How is chartering different in Agile/Adaptive environments?",
+ "back": "The charter is often lighter and focused on Vision rather than detailed requirements. Uses Product Vision statements instead of detailed scope."
+ },
+ {
+ "id": 38,
+ "category": "Agile Vision and Chartering",
+ "front": "What is the Agile Vision Statement template (elevator pitch)?",
+ "back": "\"For [target customer], who [statement of need/problem], the [product name] is a [product category] that [key benefit]. Unlike [primary competitive alternative], our product [key differentiation].\""
+ },
+ {
+ "id": 39,
+ "category": "Agile Vision and Chartering",
+ "front": "In Agile, what replaces \"Detailed Scope\" from traditional chartering?",
+ "back": "Product Vision & Initial Backlog."
+ },
+ {
+ "id": 40,
+ "category": "Agile Vision and Chartering",
+ "front": "In Agile, what replaces \"Fixed Budget\" from traditional chartering?",
+ "back": "Budget per iteration + release ceiling."
+ },
+ {
+ "id": 41,
+ "category": "Agile Vision and Chartering",
+ "front": "In Agile, what replaces \"Milestone Schedule\" from traditional chartering?",
+ "back": "Release roadmap with flexibility."
+ },
+ {
+ "id": 42,
+ "category": "Agile Vision and Chartering",
+ "front": "In Agile, what replaces \"Success Criteria\" from traditional chartering?",
+ "back": "OKRs (Objectives and Key Results)."
+ },
+ {
+ "id": 43,
+ "category": "Agile Vision and Chartering",
+ "front": "In Agile, what replaces \"Documented Assumptions\" from traditional chartering?",
+ "back": "Hypotheses to validate."
+ },
+ {
+ "id": 44,
+ "category": "Expert Judgment and Charter Approval",
+ "front": "What six expert sources provide input during charter development?",
+ "back": "1) Sponsor (business context, priorities), 2) SMEs (technical feasibility), 3) Similar Project PMs (lessons learned), 4) PMO (templates, standards), 5) Legal/Compliance (regulatory requirements), 6) Finance (budget constraints)."
+ },
+ {
+ "id": 45,
+ "category": "Expert Judgment and Charter Approval",
+ "front": "What is the charter approval process flow?",
+ "back": "PM Drafts Charter → Stakeholder Review & Input → Revision Based on Feedback → Sponsor Review → Approved? (If No, Revise) → Signed Charter Distributed → PROJECT OFFICIALLY BEGINS."
+ },
+ {
+ "id": 46,
+ "category": "Expert Judgment and Charter Approval",
+ "front": "What are 6 warning signs of a weak charter?",
+ "back": "1) No named sponsor, 2) Vague success criteria, 3) Missing PM authority, 4) No high-level risks, 5) Unrealistic constraints, 6) No stakeholder list."
+ },
+ {
+ "id": 47,
+ "category": "Team Charter Fundamentals",
+ "front": "What is a Team Charter?",
+ "back": "A living document created BY the team, FOR the team. It sets the guardrails for high-trust culture and defines how the team will work together."
+ },
+ {
+ "id": 48,
+ "category": "Team Charter Fundamentals",
+ "front": "What are the 4 main elements of a Team Charter?",
+ "back": "1) Team Values (what we stand for), 2) Ground Rules (behavioral \"laws\"), 3) Communication norms (tools and response times), 4) Decision Making (how we decide)."
+ },
+ {
+ "id": 49,
+ "category": "Team Charter Fundamentals",
+ "front": "What are Ground Rules in a Team Charter?",
+ "back": "Behavioral \"laws\" that govern team behavior. Examples: \"Always have cameras on,\" \"No phones during standups,\" \"Assume positive intent.\""
+ },
+ {
+ "id": 50,
+ "category": "Team Charter Fundamentals",
+ "front": "What 3 principles make Ground Rules effective?",
+ "back": "1) Collaborative (team must write them to own them), 2) Visible (displayed prominently), 3) Self-Policing (team calls out violations without PM playing \"police\")."
+ },
+ {
+ "id": 51,
+ "category": "Team Charter Fundamentals",
+ "front": "What 7 sections should a comprehensive Team Charter include?",
+ "back": "1) Purpose & Context, 2) Team Composition & Roles, 3) Communication Norms, 4) Meeting Norms, 5) Decision Making, 6) Quality Standards, 7) Conflict & Escalation Path."
+ },
+ {
+ "id": 52,
+ "category": "Definition of Done vs. Acceptance Criteria",
+ "front": "What is the difference between Definition of Done (DoD) and Acceptance Criteria (AC)?",
+ "back": "DoD = applies to ALL items, created by team once, quality gate for everything. AC = applies to ONE specific item, created by Product Owner per story, specific requirements for one deliverable."
+ },
+ {
+ "id": 53,
+ "category": "Definition of Done vs. Acceptance Criteria",
+ "front": "Give an example of Definition of Done (DoD).",
+ "back": "\"Code reviewed, unit tests passed, documentation updated, security scan completed.\""
+ },
+ {
+ "id": 54,
+ "category": "Definition of Done vs. Acceptance Criteria",
+ "front": "Give an example of Acceptance Criteria (AC).",
+ "back": "\"Login button is blue, page loads in <2 seconds.\""
+ },
+ {
+ "id": 55,
+ "category": "Definition of Done vs. Acceptance Criteria",
+ "front": "What 9 items might be on a Definition of Done checklist?",
+ "back": "1) Code peer-reviewed, 2) Unit tests passing, 3) Integration tests passing, 4) No critical bugs open, 5) Documentation updated, 6) Security scan completed, 7) Performance baseline met, 8) Deployed to staging, 9) PO sign-off."
+ },
+ {
+ "id": 56,
+ "category": "Decision Models",
+ "front": "When should you use Consensus decision-making?",
+ "back": "For high-impact decisions that require buy-in. Everyone agrees (or consents). Risk: Slow if not time-boxed; may water down bold ideas."
+ },
+ {
+ "id": 57,
+ "category": "Decision Models",
+ "front": "When should you use Majority Vote decision-making?",
+ "back": "For time-boxed decisions with moderate impact. 50%+1 wins. Risk: Minority may disengage; doesn't resolve root disagreement."
+ },
+ {
+ "id": 58,
+ "category": "Decision Models",
+ "front": "When should you use Expert/Delegated decision-making?",
+ "back": "For specialized technical decisions. One trusted person decides. Risk: Others may feel excluded; expert may have blind spots."
+ },
+ {
+ "id": 59,
+ "category": "Decision Models",
+ "front": "What is the Consent Model (Sociocracy) for decision-making?",
+ "back": "Ask: \"Do you have a principled objection to this proposal?\" If no one has a substantive blocker, the proposal passes. Faster than consensus but still collaborative."
+ },
+ {
+ "id": 60,
+ "category": "Decision Models",
+ "front": "What should a Decision Log include?",
+ "back": "Decision ID, Date, Decision, Context, Alternatives Considered, Decider, Status."
+ },
+ {
+ "id": 61,
+ "category": "Conflict and Escalation",
+ "front": "What are the 4 steps in an Escalation Ladder?",
+ "back": "1) Self-resolution (parties address directly), 2) Facilitated session (PM/SM helps), 3) Wider alignment (involve functional managers), 4) Escalate (sponsor decides—last resort)."
+ },
+ {
+ "id": 62,
+ "category": "Conflict and Escalation",
+ "front": "When SHOULD you escalate a conflict?",
+ "back": "When: decision is outside team authority, conflict impacts project viability, resource constraint can't be negotiated, or safety/compliance is at risk."
+ },
+ {
+ "id": 63,
+ "category": "Conflict and Escalation",
+ "front": "When should you NOT escalate a conflict?",
+ "back": "When: team can resolve with facilitation, conflict is healthy technical debate, negotiation hasn't been tried, or issue is preference not principle."
+ },
+ {
+ "id": 64,
+ "category": "Conflict and Escalation",
+ "front": "What is the \"24-Hour Rule\" for conflicts?",
+ "back": "If a conflict isn't resolved within 24 hours of surfacing, escalate to the next level. This prevents issues from festering."
+ },
+ {
+ "id": 65,
+ "category": "Charter Maintenance",
+ "front": "When should a Team Charter be reviewed?",
+ "back": "1) After every retrospective, 2) When team membership changes, 3) After major project phase transitions, 4) When recurring problems indicate a gap."
+ },
+ {
+ "id": 66,
+ "category": "Charter Maintenance",
+ "front": "What 4 questions assess \"Charter Health\"?",
+ "back": "1) Are we following our own ground rules? 2) Is our decision model working? 3) Are communication norms creating clarity? 4) Does our DoD still reflect quality expectations?"
+ },
+ {
+ "id": 67,
+ "category": "Charter Maintenance",
+ "front": "If a team has constant minor behavioral issues (people interrupting), what is the correct action?",
+ "back": "Refer the team to the Ground Rules or facilitate a session to update the Team Charter."
+ },
+ {
+ "id": 68,
+ "category": "Charter Maintenance",
+ "front": "If a team is confused about what \"done\" means, what do they need?",
+ "back": "A Definition of Done (DoD)."
+ },
+ {
+ "id": 69,
+ "category": "Strategic Alignment",
+ "front": "What is Strategic Alignment?",
+ "back": "The discipline of ensuring that the RIGHT work gets done in the first place and stays relevant as the business environment shifts."
+ },
+ {
+ "id": 70,
+ "category": "Strategic Alignment",
+ "front": "When do you use Strategic Alignment as a decision filter?",
+ "back": "When you: approve/reject/re-prioritize work, recommend scope changes (or refuse them), escalate major risks, or recommend a project be paused/closed because value is gone."
+ },
+ {
+ "id": 71,
+ "category": "Strategic Alignment",
+ "front": "What should you do if a project is \"green\" (on time/budget) but is no longer valuable or compliant?",
+ "back": "Raise it to governance and recommend a strategic decision. A project that's on time but no longer valuable is NOT successful."
+ },
+ {
+ "id": 72,
+ "category": "Strategic Alignment",
+ "front": "What are the 3 levels of the Strategic Hierarchy?",
+ "back": "1) Portfolio (The Strategy—selecting the right mix, doing the right work), 2) Program (The Benefits—coordinating for synergistic benefits), 3) Project (The Output—delivering specific deliverables, doing the work right)."
+ },
+ {
+ "id": 73,
+ "category": "Strategic Alignment",
+ "front": "What does the Business Case artifact answer?",
+ "back": "\"Should we invest, and why?\" Owned by Sponsor/Business. Used for selection and funding decisions."
+ },
+ {
+ "id": 74,
+ "category": "Strategic Alignment",
+ "front": "What does the Project Charter artifact answer?",
+ "back": "\"Are we authorized to start?\" Owned by Sponsor (authorizes), PM (uses). Used in Initiating as formal start."
+ },
+ {
+ "id": 75,
+ "category": "Strategic Alignment",
+ "front": "What does the Benefits Realization Plan answer?",
+ "back": "\"How will value be measured and sustained?\" Owned by Benefits Owner/Business. Used from Planning through sustainment."
+ },
+ {
+ "id": 76,
+ "category": "Strategic Alignment",
+ "front": "What does a Product/Program Roadmap answer?",
+ "back": "\"What outcomes come when?\" Owned by Product Owner/Program. Used for coordinating delivery and dependencies."
+ },
+ {
+ "id": 77,
+ "category": "Strategic Alignment",
+ "front": "What do KPIs/OKRs answer?",
+ "back": "\"How do we know we are winning?\" Owned by Business leadership. Used for ongoing value validation."
+ },
+ {
+ "id": 78,
+ "category": "Strategic Alignment",
+ "front": "What do Governance Reviews decide?",
+ "back": "\"Continue, pivot, pause, or stop?\" Owned by Steering committee/Portfolio. Used at stage gates and periodic reviews."
+ },
+ {
+ "id": 79,
+ "category": "Continuous Alignment Loop",
+ "front": "What are the 5 steps in the Continuous Alignment Loop?",
+ "back": "1) Detect (identify change/trigger), 2) Assess (evaluate impacts to scope/cost/schedule AND value/benefits), 3) Escalate (bring options to governance), 4) Decide (governance chooses, PM executes), 5) Update (baselines, risks, communications)."
+ },
+ {
+ "id": 80,
+ "category": "Continuous Alignment Loop",
+ "front": "Should a PM \"self-cancel\" a project when the strategic value evaporates?",
+ "back": "No. Do not self-cancel unless you have explicit authority. The PMI-aligned move is to RECOMMEND cancellation and support an orderly closure."
+ },
+ {
+ "id": 81,
+ "category": "Continuous Alignment Loop",
+ "front": "What is \"Pivot or Persevere\" in strategic alignment?",
+ "back": "Having the courage to recommend project cancellation if the strategic value evaporates—a key 2026 focus area."
+ },
+ {
+ "id": 82,
+ "category": "Continuous Alignment Loop",
+ "front": "What is PESTLE Scanning?",
+ "back": "Watching the horizon for Political, Economic, Social, Technological, Legal, and Environmental shifts that impact project viability."
+ },
+ {
+ "id": 83,
+ "category": "2026 Exam Focus Areas",
+ "front": "In 2026 practice, who often drafts the Project Charter?",
+ "back": "The Project Manager drafts it in collaboration with the Sponsor. This ensures the PM has empathy for the business goals before planning starts."
+ },
+ {
+ "id": 84,
+ "category": "2026 Exam Focus Areas",
+ "front": "How often is the Team Charter reviewed in Agile/Hybrid contexts?",
+ "back": "Every Retrospective. It is not static—if a rule causes friction, the team changes it immediately to optimize flow."
+ },
+ {
+ "id": 85,
+ "category": "2026 Exam Focus Areas",
+ "front": "What is \"Continuous Validation\" in strategic alignment?",
+ "back": "Strategic alignment is not \"set it and forget it\"—it requires ongoing validation that the project still delivers value."
+ },
+ {
+ "id": 86,
+ "category": "2026 Exam Focus Areas",
+ "front": "If a Functional Manager refuses to release a resource because they \"don't report to you,\" what should you do?",
+ "back": "Show them the Project Charter. This document proves you are authorized by Senior Management to request those resources."
+ },
+ {
+ "id": 87,
+ "category": "Meeting Norms (Part of Shared Vision)",
+ "front": "What 4 meeting best practices should be in a Team Charter?",
+ "back": "1) No meeting without an agenda shared 24h in advance, 2) Start on time even if people are missing, 3) Capture decisions and actions in writing, 4) End with clarity on next steps."
+ },
+ {
+ "id": 88,
+ "category": "Meeting Norms (Part of Shared Vision)",
+ "front": "What are typical Communication Channel norms in a Team Charter?",
+ "back": "Slack/Teams = quick questions (2-4 hour response), Email = formal updates (24 hour response), Video Call = complex discussions (scheduled), Task Board = status updates (real-time)."
+ },
+ {
+ "id": 89,
+ "category": "Meeting Norms (Part of Shared Vision)",
+ "front": "What typical meetings are defined in a Team Charter?",
+ "back": "Daily Standup (15 min, rotating facilitator), Sprint Planning (2 hours), Retrospective (1 hour), Stakeholder Review (30 min weekly)."
+ },
+ {
+ "id": 90,
+ "category": "Meeting Norms (Part of Shared Vision)",
+ "front": "What is the primary purpose of defining meeting norms in a Team Charter?",
+ "back": "To create shared understanding of how the team collaborates, prevent wasted time, and ensure productive meetings that support the common vision."
+ },
+ {
+ "id": 91,
+ "category": "Additional Vision Concepts",
+ "front": "What makes a group a \"team\" (key elements)?",
+ "back": "1) Common goal (same outcome), 2) Interdependent roles (rely on each other), 3) Shared accountability (collective success/failure)."
+ },
+ {
+ "id": 92,
+ "category": "Additional Vision Concepts",
+ "front": "What is the difference between Portfolio and Program?",
+ "back": "Portfolio = selecting the right mix of projects to achieve high-level goals (doing the right work). Program = coordinating related projects to realize synergistic benefits."
+ },
+ {
+ "id": 93,
+ "category": "Additional Vision Concepts",
+ "front": "What does \"Authorization Gate\" mean for a Project Charter?",
+ "back": "The point where work legally begins. Before the charter is approved, no formal project work should be initiated."
+ },
+ {
+ "id": 94,
+ "category": "Additional Vision Concepts",
+ "front": "How does the Project Charter support the \"common vision\"?",
+ "back": "It aligns stakeholders on purpose, success criteria, constraints, and authority—creating shared understanding of what the project will achieve and how."
+ },
+ {
+ "id": 95,
+ "category": "Additional Vision Concepts",
+ "front": "How does the Team Charter support the \"common vision\"?",
+ "back": "It defines how the team will work together, communicate, make decisions, and resolve conflicts—creating shared understanding of team culture and norms."
+ },
+ {
+ "id": 96,
+ "category": "Additional Vision Concepts",
+ "front": "How does Strategic Alignment support the \"common vision\"?",
+ "back": "It ensures everyone understands WHY the project exists and how it connects to organizational goals—creating shared understanding of purpose and value."
+ },
+ {
+ "id": 97,
+ "category": "Additional Vision Concepts",
+ "front": "What are the \"2026 Exam Blueprint\" domain weights?",
+ "back": "People 33%, Process 41%, Business Environment 26%."
+ },
+ {
+ "id": 98,
+ "category": "Additional Vision Concepts",
+ "front": "What is the 2026 PMP exam format?",
+ "back": "185 questions (175 scored + 10 unscored pretest), 240 minutes, two 5-minute breaks (center-based exam)."
+ },
+ {
+ "id": 99,
+ "category": "Additional Vision Concepts",
+ "front": "What is the approach split for the 2026 PMP exam?",
+ "back": "~40% predictive, ~60% split between adaptive/agile + hybrid."
+ },
+ {
+ "id": 100,
+ "category": "Additional Vision Concepts",
+ "front": "What question types appear on the 2026 PMP exam?",
+ "back": "Case/scenario sets, graphic-based interpretation, enhanced matching/drag-and-drop, point-and-click, multiple choice/multiple response, and practicum-style items with tools/data."
+ }
+ ]
 }

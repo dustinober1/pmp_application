@@ -109,25 +109,25 @@ Best for:
 **Sample Schedule:**
 
 - **Week 1: Fundamentals & Strategy**
-  - Read Chapter 01 (Intro) and Chapter 02 (Strategy/Business Env).
-  - Do practice questions for these chapters.
+ - Read Chapter 01 (Intro) and Chapter 02 (Strategy/Business Env).
+ - Do practice questions for these chapters.
 
 - **Week 2: People & Stakeholders**
-  - Read Chapter 03 (Teams) and Chapter 04 (Stakeholders).
-  - Focus on conflict resolution and leadership styles.
+ - Read Chapter 03 (Teams) and Chapter 04 (Stakeholders).
+ - Focus on conflict resolution and leadership styles.
 
 - **Week 3: Process – Start to Plan**
-  - Read Chapter 05 (Initiation) and Chapter 06 (Planning).
-  - Focus on the flow from Charter to PMP.
+ - Read Chapter 05 (Initiation) and Chapter 06 (Planning).
+ - Focus on the flow from Charter to PMP.
 
 - **Week 4: Process – Do, Check, Act**
-  - Read Chapter 07 (Risk/Quality), Chapter 08 (Execution), and Chapter 09 (Monitoring).
-  - This is a heavy week; focus on key differentiators (e.g., QA vs QC).
+ - Read Chapter 07 (Risk/Quality), Chapter 08 (Execution), and Chapter 09 (Monitoring).
+ - This is a heavy week; focus on key differentiators (e.g., QA vs QC).
 
 - **Week 5: Exam Prep & Practice**
-  - Read Chapter 10 (Exam Strategy).
-  - Take Practice Exam 1 (full-length).
-  - Review weak areas.
+ - Read Chapter 10 (Exam Strategy).
+ - Take Practice Exam 1 (full-length).
+ - Review weak areas.
 
 Even on a fast track, make sure you leave at least one week for full-length practice and review, not just more reading.
 
@@ -141,32 +141,32 @@ Best for:
 **Sample Schedule:**
 
 - **Week 1: Foundations**
-  - Read Chapter 01. Set up your study schedule.
-  - Understand the exam format deeply.
+ - Read Chapter 01. Set up your study schedule.
+ - Understand the exam format deeply.
 
 - **Week 2-3: Business Environment**
-  - Read Chapter 02.
-  - Focus on strategy, compliance, and organizational change.
+ - Read Chapter 02.
+ - Focus on strategy, compliance, and organizational change.
 
 - **Week 4-5: People Domain**
-  - Read Chapter 03 and Chapter 04.
-  - Relate scenarios to your own team experiences.
+ - Read Chapter 03 and Chapter 04.
+ - Relate scenarios to your own team experiences.
 
 - **Week 6-7: Planning Process**
-  - Read Chapter 05 and Chapter 06.
-  - Practice identifying inputs and outputs logically (don't memorize).
+ - Read Chapter 05 and Chapter 06.
+ - Practice identifying inputs and outputs logically (don't memorize).
 
 - **Week 8: Executing & Controlling**
-  - Read Chapter 07, 08, and 09.
-  - Focus on Earned Value, Risk Responses, and Change Control.
+ - Read Chapter 07, 08, and 09.
+ - Focus on Earned Value, Risk Responses, and Change Control.
 
 - **Week 9: Review & Gap Filling**
-  - Review your "mistake log".
-  - Re-read sections where you scored low.
+ - Review your "mistake log".
+ - Re-read sections where you scored low.
 
 - **Week 10: Full Practice**
-  - Take Practice Exams from Chapter 10.
-  - Simulate real exam conditions (4 hours, no phone).
+ - Take Practice Exams from Chapter 10.
+ - Simulate real exam conditions (4 hours, no phone).
 
 ---
 
@@ -195,9 +195,9 @@ Use them to:
 **Good habits:**
 - Always review explanations, even for questions you answered correctly.
 - Keep a “mistake log” where you note:
-  - What the question was testing
-  - Why your original reasoning was off
-  - What principle you should apply next time
+ - What the question was testing
+ - Why your original reasoning was off
+ - What principle you should apply next time
 
 ### Your Own Project Experience
 
@@ -221,11 +221,11 @@ Regardless of which study path you follow, a simple, repeatable weekly rhythm wo
 
 Create a simple tracking table to monitor your coverage of the domains.
 
-| Date       | Activity                     | People | Process | Bus Env | Notes                         |
+| Date | Activity | People | Process | Bus Env | Notes |
 |-----------:|------------------------------|:------:|:-------:|:-------:|-------------------------------|
-| 2026-03-01 | Read Ch. 03 + questions      |   ✓    |         |         | Struggled with conflict modes |
-| 2026-03-04 | Read Ch. 06 + questions      |        |    ✓    |         | Need to review EVM formulas   |
-| 2026-03-07 | Read Ch. 02 + questions      |        |         |    ✓    | Compliance concepts clear     |
+| 2026-03-01 | Read Ch. 03 + questions | | | | Struggled with conflict modes |
+| 2026-03-04 | Read Ch. 06 + questions | | | | Need to review EVM formulas |
+| 2026-03-07 | Read Ch. 02 + questions | | | | Compliance concepts clear |
 
 Every 1–2 weeks, ask yourself: “Which domain have I neglected?”
 
@@ -254,5 +254,5 @@ This section has given you a practical framework for using this guide:
 In the next section, **1.3 Ways of Working**, we will dive into the fundamental approaches—Predictive, Agile, and Hybrid—that underpin all project management.
 
 <div class="flex justify-center my-12">
-  <a href="./ways-of-working" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Ways of Working →</a>
+ <a href="./ways-of-working" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Ways of Working →</a>
 </div>

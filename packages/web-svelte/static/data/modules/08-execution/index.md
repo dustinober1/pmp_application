@@ -2,7 +2,7 @@
 
 Execution is where strategy meets reality. In the 2026 PMP exam, a Project Manager doesn't just "execute tasks"—they **steward value**. Success is measured not just by a finished product, but by the meaningful outcomes it creates for the customer and the organization.
 
-::: tip 🎯 PMP Exam Reality (2026)
+::: tip PMP Exam Reality (2026)
 The 2026 ECO doesn’t have a separate “Execution” domain, but many **Process (41%)** and **Business Environment (26%)** questions are set during execution—where blockers, change requests, vendor delays, and quality issues surface.
 :::
 
@@ -12,7 +12,7 @@ Most exam scenarios are execution scenarios: blocked team members, changing stak
 
 ---
 
-## 📋 Execution Process Groups Overview
+## Execution Process Groups Overview
 
 The Executing Process Group includes **10 processes** from the PMBOK® Guide, making it the largest process group by count. These processes transform plans into deliverables while managing people, knowledge, quality, resources, communications, stakeholders, risks, and procurements.
 
@@ -42,43 +42,43 @@ The Executing Process Group includes **10 processes** from the PMBOK® Guide, ma
 | **Conduct Procurements** | Procurement | Obtain seller responses, select sellers, award contracts |
 | **Implement Risk Responses** | Risk | Execute agreed-upon risk response plans when triggers occur |
 
-::: info 🔍 Execution vs. Monitoring & Controlling
+::: info Execution vs. Monitoring & Controlling
 These processes don't happen in isolation—they're constantly informed by Monitoring & Controlling processes. For example, you **Direct and Manage Project Work** (Executing) while simultaneously **Monitoring and Controlling Project Work** (M&C) to detect variances and decide whether corrective action is needed.
 :::
 
 ---
 
-## 🔗 How Execution Processes Work Together
+## How Execution Processes Work Together
 
 Execution is highly integrated—these processes don't happen in isolation. Understanding the relationships between processes helps you answer "what should I do first" questions on the exam.
 
 ### The Execution Flow (Typical Sequence)
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 1. ACQUIRE RESOURCES                                        │
-│    Get the team, equipment, facilities needed               │
-└──────────────────┬──────────────────────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 2. DEVELOP TEAM                                             │
-│    Build skills, trust, collaboration                       │
-└──────────────────┬──────────────────────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 3. DIRECT AND MANAGE PROJECT WORK (continuous)              │
-│    Coordinate all execution activities                      │
-│    ├─ Manage Communications (keep stakeholders informed)    │
-│    ├─ Manage Stakeholder Engagement (work with people)      │
-│    ├─ Manage Quality (perform quality activities)           │
-│    ├─ Conduct Procurements (select and contract vendors)    │
-│    ├─ Implement Risk Responses (execute when triggered)     │
-│    └─ Manage Team (address issues, provide feedback)        │
-└──────────────────┬──────────────────────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 4. MANAGE PROJECT KNOWLEDGE (continuous)                    │
-│    Capture lessons learned, share knowledge                 │
-└─────────────────────────────────────────────────────────────┘
+
+ 1. ACQUIRE RESOURCES 
+ Get the team, equipment, facilities needed 
+
+ ↓
+
+ 2. DEVELOP TEAM 
+ Build skills, trust, collaboration 
+
+ ↓
+
+ 3. DIRECT AND MANAGE PROJECT WORK (continuous) 
+ Coordinate all execution activities 
+ Manage Communications (keep stakeholders informed) 
+ Manage Stakeholder Engagement (work with people) 
+ Manage Quality (perform quality activities) 
+ Conduct Procurements (select and contract vendors) 
+ Implement Risk Responses (execute when triggered) 
+ Manage Team (address issues, provide feedback) 
+
+ ↓
+
+ 4. MANAGE PROJECT KNOWLEDGE (continuous) 
+ Capture lessons learned, share knowledge 
+
 ```
 
 ### Critical Interdependencies
@@ -88,13 +88,13 @@ Execution is highly integrated—these processes don't happen in isolation. Unde
 - **Can't conduct procurements without requirements**: Plan Procurement Management → Conduct Procurements
 - **Quality activities execute the quality plan**: Plan Quality Management → Manage Quality
 
-::: warning ⚠️ Common Exam Trap
+::: warning Common Exam Trap
 If a question asks "What should the PM do first?" and multiple answers seem reasonable, choose the one that follows the **logical dependency chain**. For example, you can't "develop the team" before you "acquire resources" to get the team members assigned.
 :::
 
 ---
 
-## 🎯 Key Execution Concepts (Exam-Critical)
+## Key Execution Concepts (Exam-Critical)
 
 Understanding these concepts will help you decode execution scenarios and choose the best answer quickly.
 
@@ -140,7 +140,7 @@ Execution often reveals new information that requires re-planning:
 - **Iterative development**: Build incrementally, learn from each iteration, adapt
 - **Continuous planning**: Adjust scope/schedule/priorities based on validated learning
 
-::: info 🔍 Predictive vs. Adaptive Execution
+::: info Predictive vs. Adaptive Execution
 - **Predictive**: Execute according to the plan; changes require formal change control
 - **Adaptive**: Execute the highest-value work; adapt continuously based on feedback
 - **Hybrid**: Core deliverables follow predictive governance; component work uses adaptive cycles
@@ -148,7 +148,7 @@ Execution often reveals new information that requires re-planning:
 
 ---
 
-## 🧠 Emotional Intelligence (EQ) in Execution
+## Emotional Intelligence (EQ) in Execution
 
 Emotional Intelligence is **critical** for project success during execution. Research shows EQ is often a better predictor of PM effectiveness than technical skills.
 
@@ -162,7 +162,7 @@ Emotional Intelligence is **critical** for project success during execution. Res
 | **Empathy** | Understanding others' emotional makeup; treating people according to their reactions | Listen to stakeholder concerns; recognize team stress; adapt communication style |
 | **Social Skills** | Building rapport; finding common ground; building networks | Influence without authority; resolve conflicts; build coalitions for decisions |
 
-::: tip 💡 Exam Pattern
+::: tip Exam Pattern
 If a scenario describes a PM who reacts emotionally, makes decisions without listening, or fails to recognize team stress, the answer often involves applying **emotional intelligence skills** (self-regulation, empathy, active listening).
 :::
 
@@ -178,7 +178,7 @@ If a scenario describes a PM who reacts emotionally, makes decisions without lis
 
 ---
 
-## ⚡ Power Types in Project Execution
+## Power Types in Project Execution
 
 PMs often have **responsibility without authority**. Understanding power types helps you influence effectively.
 
@@ -192,7 +192,7 @@ PMs often have **responsibility without authority**. Understanding power types h
 | **Expert** | Knowledge and skills | "I've done this 10 times successfully" | High | Builds respect |
 | **Referent** | Personal relationships; charisma | "People trust and like me" | Highest | Builds loyalty |
 
-::: warning ⚠️ PMP Best Practice
+::: warning PMP Best Practice
 Rely on **Expert** and **Referent** power rather than **Coercive** power. Coercive power damages relationships and team morale. The best PMs influence through competence and trust, not threats.
 :::
 
@@ -208,7 +208,7 @@ Rely on **Expert** and **Referent** power rather than **Coercive** power. Coerci
 
 ---
 
-## 📐 Communications Channels Formula
+## Communications Channels Formula
 
 During execution, communication complexity increases with team size. The **Communications Channels Formula** helps you plan communication overhead.
 
@@ -228,7 +228,7 @@ Where **n** = number of stakeholders/team members
 | 20 | 20 × 19 ÷ 2 | 190 | Very high complexity |
 | 50 | 50 × 49 ÷ 2 | 1,225 | Requires structured communication |
 
-::: tip 💡 Exam Application
+::: tip Exam Application
 If a question asks about communication complexity when **adding team members**, calculate the before/after channel count:
 - Team of 10: 45 channels
 - Add 2 members (now 12): 12 × 11 ÷ 2 = **66 channels** (47% increase!)
@@ -245,7 +245,7 @@ When channels become unwieldy:
 
 ---
 
-## 🚀 Driving Performance (Without Losing Value)
+## Driving Performance (Without Losing Value)
 Execution is where you turn plans and backlogs into real deliverables. It requires balancing:
 
 - **Discipline** (baselines, policies, governance, quality standards)
@@ -268,35 +268,35 @@ Execution is where you turn plans and backlogs into real deliverables. It requir
 | “Operations won’t accept handoff” | Transition risk | Close readiness gaps (training, support, documentation) before closure |
 
 <div class="section-grid">
-  <div class="section-card">
-    <div class="section-title">8.1 Executing Project Work</div>
-    <p class="section-description">Leading teams, managing knowledge, and coordinating efforts across Predictive, Agile, and Hybrid models.</p>
-    <a href="./executing-work" class="section-link">Drive Momentum →</a>
-  </div>
+ <div class="section-card">
+ <div class="section-title">8.1 Executing Project Work</div>
+ <p class="section-description">Leading teams, managing knowledge, and coordinating efforts across Predictive, Agile, and Hybrid models.</p>
+ <a href="./executing-work" class="section-link">Drive Momentum →</a>
+ </div>
 
-  <div class="section-card">
-    <div class="section-title">8.2 Value Delivery</div>
-    <p class="section-description">Moving from "Outputs" to "Outcomes." Ensuring the project actually solves the business problem.</p>
-    <a href="./value-delivery" class="section-link">Deliver Results →</a>
-  </div>
+ <div class="section-card">
+ <div class="section-title">8.2 Value Delivery</div>
+ <p class="section-description">Moving from "Outputs" to "Outcomes." Ensuring the project actually solves the business problem.</p>
+ <a href="./value-delivery" class="section-link">Deliver Results →</a>
+ </div>
 
-  <div class="section-card">
-    <div class="section-title">8.3 Engagement & Procurements</div>
-    <p class="section-description">Navigating stakeholder relationships, managing communications, and conducting procurements.</p>
-    <a href="./engagement-procurement" class="section-link">Connect & Contract →</a>
-  </div>
+ <div class="section-card">
+ <div class="section-title">8.3 Engagement & Procurements</div>
+ <p class="section-description">Navigating stakeholder relationships, managing communications, and conducting procurements.</p>
+ <a href="./engagement-procurement" class="section-link">Connect & Contract →</a>
+ </div>
 
-  <div class="section-card">
-    <div class="section-title">8.4 Tools & Templates</div>
-    <p class="section-description">Copy/paste-ready logs, agendas, and checklists for real execution scenarios.</p>
-    <a href="./toolkit" class="section-link">Open Toolkit →</a>
-  </div>
+ <div class="section-card">
+ <div class="section-title">8.4 Tools & Templates</div>
+ <p class="section-description">Copy/paste-ready logs, agendas, and checklists for real execution scenarios.</p>
+ <a href="./toolkit" class="section-link">Open Toolkit →</a>
+ </div>
 
-  <div class="section-card knowledge-check">
-    <div class="section-title">Knowledge Check</div>
-    <p class="section-description">Test your ability to handle execution challenges and value-based dilemmas.</p>
-    <a href="./knowledge-check" class="section-link">Verify Impact →</a>
-  </div>
+ <div class="section-card knowledge-check">
+ <div class="section-title">Knowledge Check</div>
+ <p class="section-description">Test your ability to handle execution challenges and value-based dilemmas.</p>
+ <a href="./knowledge-check" class="section-link">Verify Impact →</a>
+ </div>
 </div>
 
 ---
@@ -341,13 +341,13 @@ The 2026 PMP exam expects you to recognize the appropriate execution approach ba
 | Quality defect found | Log defect → assess impact → fix or defer via CCB | Fix in current sprint if DoD broken; backlog if not | Critical defects fixed immediately; minor to backlog |
 | Risk occurs (becomes issue) | Execute risk response plan → log as issue → assess variance | Adapt priority/scope → collaborate on solution → continue | Execute response + assess if re-planning needed |
 
-::: tip 💡 Exam Strategy: Match the Approach to the Context
+::: tip Exam Strategy: Match the Approach to the Context
 If a scenario describes **changing requirements, user feedback, innovation**, lean toward **adaptive** answers (collaborate, iterate, demos). If it describes **contracts, fixed budgets, compliance**, lean toward **predictive** answers (CCB, baselines, formal approvals).
 :::
 
 ---
 
-## 🔄 Integration with Other Process Groups
+## Integration with Other Process Groups
 
 Execution doesn't happen in isolation—it's constantly informed by and feeding back to other process groups. Understanding these connections helps you answer integration questions on the exam.
 
@@ -375,25 +375,25 @@ Execution doesn't happen in isolation—it's constantly informed by and feeding 
 This is the most critical integration—execution and monitoring happen **simultaneously**.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    EXECUTING PROCESS GROUP                   │
-│  Direct and Manage Project Work                             │
-│  └─ Produces: Deliverables, Work Performance Data           │
-└──────────────────┬──────────────────────────────────────────┘
-                   ↓ (Work Performance Data)
-┌─────────────────────────────────────────────────────────────┐
-│              MONITORING & CONTROLLING PROCESS GROUP          │
-│  Monitor and Control Project Work                           │
-│  └─ Analyzes data → Creates Work Performance Information    │
-│  └─ Compares to baselines → Identifies variances            │
-│  └─ Recommends: Corrective/Preventive Actions, Changes      │
-└──────────────────┬──────────────────────────────────────────┘
-                   ↓ (Approved Change Requests, Corrective Actions)
-┌─────────────────────────────────────────────────────────────┐
-│                    EXECUTING PROCESS GROUP                   │
-│  Direct and Manage Project Work                             │
-│  └─ Implements approved changes and corrective actions      │
-└─────────────────────────────────────────────────────────────┘
+
+ EXECUTING PROCESS GROUP 
+ Direct and Manage Project Work 
+ Produces: Deliverables, Work Performance Data 
+
+ ↓ (Work Performance Data)
+
+ MONITORING & CONTROLLING PROCESS GROUP 
+ Monitor and Control Project Work 
+ Analyzes data → Creates Work Performance Information 
+ Compares to baselines → Identifies variances 
+ Recommends: Corrective/Preventive Actions, Changes 
+
+ ↓ (Approved Change Requests, Corrective Actions)
+
+ EXECUTING PROCESS GROUP 
+ Direct and Manage Project Work 
+ Implements approved changes and corrective actions 
+
 ```
 
 | Monitoring & Controlling Process | What It Measures | Executing Process Response |
@@ -436,7 +436,7 @@ This is the most critical integration—execution and monitoring happen **simult
 7. **Monitoring & Controlling**: Re-validate with stakeholder (Validate Scope - accepted)
 8. **Closing**: Formally accept and close (Close Project or Phase)
 
-::: tip 💡 Exam Pattern
+::: tip Exam Pattern
 Questions that say "during execution, you discover..." often test whether you know to **stop, assess, and potentially update the plan** (via M&C processes) before continuing execution. Don't just "push through" when the plan is wrong.
 :::
 
@@ -452,56 +452,56 @@ On the exam, execution questions often hide a simple truth: **value is threatene
 
 <style>
 .section-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
 }
 
 .section-card {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
+ transition: all 0.3s ease;
+ display: flex;
+ flex-direction: column;
 }
 
 .section-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--vp-c-brand);
-  background: var(--vp-c-bg-mute);
+ transform: translateY(-4px);
+ border-color: var(--vp-c-brand);
+ background: var(--vp-c-bg-mute);
 }
 
 .section-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: var(--vp-c-text-1);
+ font-size: 1.25rem;
+ font-weight: 700;
+ margin-bottom: 0.75rem;
+ color: var(--vp-c-text-1);
 }
 
 .section-description {
-  font-size: 0.95rem;
-  color: var(--vp-c-text-2);
-  margin-bottom: 1.5rem;
-  flex-grow: 1;
+ font-size: 0.95rem;
+ color: var(--vp-c-text-2);
+ margin-bottom: 1.5rem;
+ flex-grow: 1;
 }
 
 .section-link {
-  font-weight: 600;
-  color: var(--vp-c-brand);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+ font-weight: 600;
+ color: var(--vp-c-brand);
+ text-decoration: none;
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
 }
 
 .section-link:hover {
-  text-decoration: underline;
+ text-decoration: underline;
 }
 
 .knowledge-check {
-  background: var(--vp-c-brand-soft);
+ background: var(--vp-c-brand-soft);
 }
 </style>

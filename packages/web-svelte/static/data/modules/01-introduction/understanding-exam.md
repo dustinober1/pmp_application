@@ -8,15 +8,15 @@ The 2026 PMP exam is not a memory test; it is an **immersion test**. It simulate
 The exam refreshed in July 2026 to mirror the reality of "Hybrid Everything" and the rise of AI in project leadership.
 
 <ConceptGrid>
-  <ConceptCard title="Outcome Over Output" link="" linkText="Strategic Value">
-    Success isn't just "finishing the task"; it is realizing the strategic **Business Value** of the project.
-  </ConceptCard>
-  <ConceptCard title="AI-Augmented PM" link="" linkText="AI Tools">
-    Understanding how to leverage AI tools for better estimation, risk detection, and stakeholder reporting.
-  </ConceptCard>
-  <ConceptCard title="Sustainability (ESG)" link="" linkText="Core Constraints">
-    Projects must now consider Environmental, Social, and Governance impacts as core constraints.
-  </ConceptCard>
+ <ConceptCard title="Outcome Over Output" link="" linkText="Strategic Value">
+ Success isn't just "finishing the task"; it is realizing the strategic **Business Value** of the project.
+ </ConceptCard>
+ <ConceptCard title="AI-Augmented PM" link="" linkText="AI Tools">
+ Understanding how to leverage AI tools for better estimation, risk detection, and stakeholder reporting.
+ </ConceptCard>
+ <ConceptCard title="Sustainability (ESG)" link="" linkText="Core Constraints">
+ Projects must now consider Environmental, Social, and Governance impacts as core constraints.
+ </ConceptCard>
 </ConceptGrid>
 
 ---
@@ -24,14 +24,14 @@ The exam refreshed in July 2026 to mirror the reality of "Hybrid Everything" and
 ## Exam Structure at a Glance
 The exam is designed to test your mental stamina and situational judgment over a 4-hour window.
 
-| Feature             | Specification                              |
+| Feature | Specification |
 | :------------------ | :----------------------------------------- |
-| **Total Questions** | 185 (175 scored, 10 unscored pretest)      |
-| **Total Time**      | 240 Minutes (4 Hours)                      |
-| **Breaks**          | Two 5-minute breaks (center-based exam)    |
-| **Sections**        | Case-study section + independent questions |
-| **Languages**       | Distributed globally in multiple languages |
-| **Passing Score**   | Not disclosed; competency-based scoring    |
+| **Total Questions** | 185 (175 scored, 10 unscored pretest) |
+| **Total Time** | 240 Minutes (4 Hours) |
+| **Breaks** | Two 5-minute breaks (center-based exam) |
+| **Sections** | Case-study section + independent questions |
+| **Languages** | Distributed globally in multiple languages |
+| **Passing Score** | Not disclosed; competency-based scoring |
 
 ::: tip The "Review" Rule
 Once you finish a section and start your break, you **cannot** go back to those questions. You must complete your review before hitting the break button.
@@ -47,15 +47,15 @@ The July 2026 exam includes a **case-study section**, followed by independent qu
 The 2026 ECO (Exam Content Outline) places high importance on the environment surrounding the project.
 
 <ConceptGrid>
-  <ConceptCard title="33% PEOPLE" link="" linkText="Lead Teams">
-    Managing conflict, leading teams, and supporting virtual collaboration.
-  </ConceptCard>
-  <ConceptCard title="41% PROCESS" link="" linkText="Deliver Value">
-    The "How": Planning, risk management, and delivery across methodologies.
-  </ConceptCard>
-  <ConceptCard title="26% BUSINESS" link="" linkText="Strategic Alignment">
-    Strategy alignment, compliance, and organizational change management.
-  </ConceptCard>
+ <ConceptCard title="33% PEOPLE" link="" linkText="Lead Teams">
+ Managing conflict, leading teams, and supporting virtual collaboration.
+ </ConceptCard>
+ <ConceptCard title="41% PROCESS" link="" linkText="Deliver Value">
+ The "How": Planning, risk management, and delivery across methodologies.
+ </ConceptCard>
+ <ConceptCard title="26% BUSINESS" link="" linkText="Strategic Alignment">
+ Strategy alignment, compliance, and organizational change management.
+ </ConceptCard>
 </ConceptGrid>
 
 ### Domain Task Breakdown
@@ -98,9 +98,9 @@ Questions then test different aspects:
 **Standard Multiple Choice:**
 > A project manager discovers the project is 15% over budget at the 50% completion point. The CPI is 0.87. What should the project manager do FIRST?
 > 
-> A. Inform the sponsor and request additional funding  
-> B. Reduce scope to bring costs back in line  
-> C. Analyze the root cause of the cost variance  
+> A. Inform the sponsor and request additional funding 
+> B. Reduce scope to bring costs back in line 
+> C. Analyze the root cause of the cost variance 
 > D. Document the variance and update the risk register
 
 *Correct: C - Always analyze before taking action.*
@@ -108,10 +108,10 @@ Questions then test different aspects:
 **Multiple Response (Select Two):**
 > A Scrum Master notices that the team's velocity has declined for three consecutive sprints. Which TWO actions should the Scrum Master take?
 > 
-> A. Assign additional resources to the team  
-> B. Facilitate a retrospective to identify root causes  
-> C. Report the decline to the Product Owner immediately  
-> D. Observe the Daily Scrum for impediments  
+> A. Assign additional resources to the team 
+> B. Facilitate a retrospective to identify root causes 
+> C. Report the decline to the Product Owner immediately 
+> D. Observe the Daily Scrum for impediments 
 > E. Increase the sprint duration to allow more work
 
 *Correct: B and D - Facilitate discussion and observe before acting.*
@@ -157,11 +157,11 @@ When a question asks "What should you do FIRST?":
 
 ### The 5 Pillars of the PMP Mindset
 
-1.  **Analyze First**: Never take action (like firing a vendor or crashing a schedule) before assessing the impact. If "Analyze" or "Assess" is an option, it is usually the first step.
-2.  **Servant Leadership**: Empower the team. Remove blockers. Don't "direct" or "punish."
-3.  **Face-to-Face**: Direct collaboration is better than emails or rigid documents.
-4.  **Be Proactive**: Don't wait for a risk to happen. Don't escalate a problem to the sponsor until you have a solution or have exhausted your authority.
-5.  **Integrity**: Never lie, hide info, or cut corners on quality/safety.
+1. **Analyze First**: Never take action (like firing a vendor or crashing a schedule) before assessing the impact. If "Analyze" or "Assess" is an option, it is usually the first step.
+2. **Servant Leadership**: Empower the team. Remove blockers. Don't "direct" or "punish."
+3. **Face-to-Face**: Direct collaboration is better than emails or rigid documents.
+4. **Be Proactive**: Don't wait for a risk to happen. Don't escalate a problem to the sponsor until you have a solution or have exhausted your authority.
+5. **Integrity**: Never lie, hide info, or cut corners on quality/safety.
 
 ### Common Exam Traps
 
@@ -238,45 +238,45 @@ PMI has expanded the window for qualifying experience:
 - **Certification**: Certificate mailed within 4-6 weeks
 
 <div class="flex justify-center my-12">
-  <a href="./using-guide" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: How To Use This Guide →</a>
+ <a href="./using-guide" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: How To Use This Guide →</a>
 </div>
 
 <style>
 .shift-grid, .domain-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
 }
 
 .shift-card, .domain-card {
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid var(--vp-c-border);
-  background: var(--vp-c-bg-soft);
+ padding: 1.5rem;
+ border-radius: 12px;
+ border: 1px solid var(--vp-c-border);
+ background: var(--vp-c-bg-soft);
 }
 
 .shift-title {
-  font-weight: 700;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.5rem;
+ font-weight: 700;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.5rem;
 }
 
 .shift-card p { font-size: 0.9rem; margin: 0; color: var(--vp-c-text-2); }
 
 .domain-pct {
-  font-size: 2.25rem;
-  font-weight: 800;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.25rem;
+ font-size: 2.25rem;
+ font-weight: 800;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.25rem;
 }
 
 .domain-name {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+ font-size: 0.9rem;
+ margin-bottom: 0.75rem;
 }
 
 .domain-card p { font-size: 0.85rem; margin: 0; line-height: 1.4; }

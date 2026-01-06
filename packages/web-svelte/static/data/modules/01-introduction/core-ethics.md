@@ -236,5 +236,5 @@ On the PMP exam, if an answer is legally or ethically questionable, it is **neve
 :::
 
 <div class="flex justify-center my-12">
-  <a href="./knowledge-check" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Knowledge Check →</a>
+ <a href="./knowledge-check" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Knowledge Check →</a>
 </div>

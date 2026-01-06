@@ -1,612 +1,612 @@
 {
-  "meta": {
-    "title": "PMP 2026 Flashcards: People Domain – Task 7",
-    "domain": "People (42%)",
-    "task": "Help ensure knowledge transfer (Project Closure)",
-    "ecoReference": "Domain I, Task 7 (Often touches Process Domain \"Manage Project Closure\")",
-    "description": "",
-    "file": "guide/appendices/flashcards-people-task7-knowledge-transfer.md"
-  },
-  "flashcards": [
-    {
-      "id": 1,
-      "category": "Defining Knowledge Transfer & Closure",
-      "front": "What is the primary goal of \"Project Closure\" in the PMP 2026 mindset?",
-      "back": "Not just ending work, but Transferring Value (to Operations/Users) and Transferring Knowledge (to the Organization)."
-    },
-    {
-      "id": 2,
-      "category": "Defining Knowledge Transfer & Closure",
-      "front": "When does \"Knowledge Transfer\" effectively begin?",
-      "back": "Throughout the project lifecycle (via reviews, documentation), but it is finalized at Closure."
-    },
-    {
-      "id": 3,
-      "category": "Defining Knowledge Transfer & Closure",
-      "front": "What defines a project as \"Closed\"?",
-      "back": "1) Deliverables accepted, 2) Contracts closed, 3) Records archived (OPAs), 4) Resources released."
-    },
-    {
-      "id": 4,
-      "category": "Defining Knowledge Transfer & Closure",
-      "front": "Who is responsible for ensuring knowledge transfer occurs?",
-      "back": "The Project Manager. It is a mandatory part of the Project Integration Management."
-    },
-    {
-      "id": 5,
-      "category": "Defining Knowledge Transfer & Closure",
-      "front": "What is the \"Final Report\"?",
-      "back": "The formal document summarizing project performance (Objectives met, Schedule/Cost actuals, Lessons Learned) for stakeholders."
-    },
-    {
-      "id": 6,
-      "category": "Lessons Learned (The Knowledge Engine)",
-      "front": "What is a \"Lessons Learned Register\"?",
-      "back": "A document capturing what went well, what went wrong, and recommendations for future projects."
-    },
-    {
-      "id": 7,
-      "category": "Lessons Learned (The Knowledge Engine)",
-      "front": "What happens to the Lessons Learned Register at the end of the project?",
-      "back": "It is transferred to the Organizational Process Assets (OPA) library for reuse by the whole company."
-    },
-    {
-      "id": 8,
-      "category": "Lessons Learned (The Knowledge Engine)",
-      "front": "What is the difference between a \"Retrospective\" and \"Lessons Learned\"?",
-      "back": "Retrospectives are for the Team (Process improvement during the project). Lessons Learned are for the Organization (Future projects)."
-    },
-    {
-      "id": 9,
-      "category": "Lessons Learned (The Knowledge Engine)",
-      "front": "A lesson learned should always be...",
-      "back": "Actionable and Blameless. Focus on the process, not the person."
-    },
-    {
-      "id": 10,
-      "category": "Lessons Learned (The Knowledge Engine)",
-      "front": "When should Lessons Learned be captured?",
-      "back": "Throughout the project (after every phase/milestone), so details haven't faded from memory at the end."
-    },
-    {
-      "id": 11,
-      "category": "Lessons Learned (The Knowledge Engine)",
-      "front": "What is \"Explicit Knowledge\"?",
-      "back": "Knowledge that can be easily documented (manuals, specs)."
-    },
-    {
-      "id": 12,
-      "category": "Lessons Learned (The Knowledge Engine)",
-      "front": "What is \"Tacit Knowledge\"?",
-      "back": "Knowledge difficult to document (beliefs, insights, \"muscle memory\"). Requires shadowing or mentoring to transfer."
-    },
-    {
-      "id": 13,
-      "category": "Transition to Operations (Handoff)",
-      "front": "What needs to be transferred to the Operations/Support team?",
-      "back": "The Deliverable itself AND the means to support it (Training, Runbooks, FAQs, Access)."
-    },
-    {
-      "id": 14,
-      "category": "Transition to Operations (Handoff)",
-      "front": "A project delivers software, but the Help Desk doesn't know how to troubleshoot it. Is the project done?",
-      "back": "No. The \"Transition\" is incomplete. Scope includes operational readiness."
-    },
-    {
-      "id": 15,
-      "category": "Transition to Operations (Handoff)",
-      "front": "What is a \"Warranty Period\"?",
-      "back": "A defined time after closure where the project team (or vendor) remains responsible for fixing defects."
-    },
-    {
-      "id": 16,
-      "category": "Transition to Operations (Handoff)",
-      "front": "Who owns \"Benefits Realization\" after closure?",
-      "back": "Typically the Business Owner, Product Owner, or Operations. The PM hands off the measurement plan."
-    },
-    {
-      "id": 17,
-      "category": "Transition to Operations (Handoff)",
-      "front": "If operations refuses to accept the handoff, what should the PM do?",
-      "back": "Determine the gap (e.g., missing training) and fix it. Do not force the closure."
-    },
-    {
-      "id": 18,
-      "category": "Resource Release & People Aspects",
-      "front": "When do you release project team members?",
-      "back": "Only after their specific tasks (including documentation and knowledge transfer) are complete."
-    },
-    {
-      "id": 19,
-      "category": "Resource Release & People Aspects",
-      "front": "Why is \"Celebrating Success\" a formal closure activity?",
-      "back": "It provides closure for the people, boosts morale, and acknowledges the effort. It is part of \"Leading the Team.\""
-    },
-    {
-      "id": 20,
-      "category": "Resource Release & People Aspects",
-      "front": "How do you handle a team member who is anxious about the project ending?",
-      "back": "Communicate the transition plan early. Help them network for their next role. (Demonstrates Empathy)."
-    },
-    {
-      "id": 21,
-      "category": "Resource Release & People Aspects",
-      "front": "What documentation must a team member complete before release?",
-      "back": "Functional specs, code comments, contact lists, and contributions to the Lessons Learned."
-    },
-    {
-      "id": 22,
-      "category": "Resource Release & People Aspects",
-      "front": "Does the PM write the performance reviews for the team?",
-      "back": "In many organizations (especially Matrix), yes. Providing input on performance is part of closing the people manageement loop."
-    },
-    {
-      "id": 23,
-      "category": "Administrative Closure (Contracts & Records)",
-      "front": "What is \"Administrative Closure\"?",
-      "back": "The procedural steps to formally close the project (archiving records, closing financial accounts, updating PMIS)."
-    },
-    {
-      "id": 24,
-      "category": "Administrative Closure (Contracts & Records)",
-      "front": "Can you close a project with an open Claims/Dispute?",
-      "back": "Generally No. You must resolve it or formally transfer the legal responsibility to a specific department."
-    },
-    {
-      "id": 25,
-      "category": "Administrative Closure (Contracts & Records)",
-      "front": "What is the FIRST step in closing a Procurement?",
-      "back": "Verify that all deliverables met acceptance criteria and all payments/invoices are reconciled."
-    },
-    {
-      "id": 26,
-      "category": "Administrative Closure (Contracts & Records)",
-      "front": "Why update the \"PMIS\" (Project Management Information System) at closure?",
-      "back": "To ensure \"Accuracy of Record.\" Future projects will use your data (costs, duration) for estimation."
-    },
-    {
-      "id": 27,
-      "category": "Administrative Closure (Contracts & Records)",
-      "front": "What is \"Indexing\" in archiving?",
-      "back": "Organizing files so they can be retrieved later. An unsearchable archive is useless for knowledge transfer."
-    },
-    {
-      "id": 28,
-      "category": "Scenarios: Canceled Projects",
-      "front": "Scenario: The project is canceled due to budget cuts. Do you just stop working?",
-      "back": "No. You must perform Administrative Closure. (Archive work, Pay vendors, Document reason)."
-    },
-    {
-      "id": 29,
-      "category": "Scenarios: Canceled Projects",
-      "front": "Scenario: A project is canceled because the market changed. Is this a \"failure\"?",
-      "back": "Not necessarily. It is a strategic decision to save resources. \"Sunk Cost\" should not drive continuation."
-    },
-    {
-      "id": 30,
-      "category": "Scenarios: Canceled Projects",
-      "front": "What is the most important output of a Canceled Project?",
-      "back": "Lessons Learned (Why was it canceled?) and Archived Partial Deliverables (Can we reuse this code?)."
-    },
-    {
-      "id": 31,
-      "category": "Scenarios: Canceled Projects",
-      "front": "How do you handle the Team's disappointment in a canceled project?",
-      "back": "Be transparent about the business reason. Focus on what was achieved/learned. Protect their morale for the next project."
-    },
-    {
-      "id": 32,
-      "category": "Scenarios: Acceptance & Sign-off",
-      "front": "Scenario: The customer refuses to sign off because they \"don't like the color,\" but the color meets the specific requirement.",
-      "back": "Refer to the Acceptance Criteria. If it meets spec, it is done. Negotiate or treat the color change as a new Project/Change Request."
-    },
-    {
-      "id": 33,
-      "category": "Scenarios: Acceptance & Sign-off",
-      "front": "Scenario: The customer finds a \"Major\" bug during User Acceptance Testing (UAT).",
-      "back": "Log it. Fix it (Defect Repair). You cannot close until meaningful acceptance criteria are met."
-    },
-    {
-      "id": 34,
-      "category": "Scenarios: Acceptance & Sign-off",
-      "front": "Scenario: The customer finds a \"Minor\" typo during final sign-off.",
-      "back": "Create a Punch List. Get \"Conditional Acceptance\" agreeing these minor items will be fixed in the warranty period."
-    },
-    {
-      "id": 35,
-      "category": "Scenarios: Acceptance & Sign-off",
-      "front": "Scenario: You are closing a \"Phase\" (Phase 1). What happens to the Lessons Learned?",
-      "back": "They are captured now and used to improve Phase 2 immediately."
-    },
-    {
-      "id": 36,
-      "category": "Knowledge Transfer Techniques",
-      "front": "What is \"Job Shadowing\"?",
-      "back": "A technique where the Operations staff watches the Project Team perform tasks to learn Tacit Knowledge."
-    },
-    {
-      "id": 37,
-      "category": "Knowledge Transfer Techniques",
-      "front": "What is a \"Reverse Demo\"?",
-      "back": "Having the Operations team demo the product back to the Project Team to prove they know how to use/support it."
-    },
-    {
-      "id": 38,
-      "category": "Knowledge Transfer Techniques",
-      "front": "What is the risk of \"Brain Drain\"?",
-      "back": "Valuable knowledge leaving the organization when contractors/employees depart. Mitigation: Mandatory Documentation/Pairing."
-    },
-    {
-      "id": 39,
-      "category": "Knowledge Transfer Techniques",
-      "front": "How does a \"Searchable Knowledge Base\" help?",
-      "back": "It converts \"Push\" knowledge (Training) into \"Pull\" knowledge (Self-service help) for long-term sustainability."
-    },
-    {
-      "id": 40,
-      "category": "Knowledge Transfer Techniques",
-      "front": "What is \"Wiki-style\" documentation?",
-      "back": "Collaborative, living documentation. Often better than static PDFs for evolving knowledge transfer."
-    },
-    {
-      "id": 41,
-      "category": "Hard Drill: Order of Operations",
-      "front": "Sequence: Release Team vs Archives Records. Which comes first?",
-      "back": "Archive Records. Only release the team once the work (including archiving) is done."
-    },
-    {
-      "id": 42,
-      "category": "Hard Drill: Order of Operations",
-      "front": "Sequence: Validate Scope vs Close Project. Which comes first?",
-      "back": "Validate Scope. The customer must accept the deliverables before you can administratively close the project."
-    },
-    {
-      "id": 43,
-      "category": "Hard Drill: Order of Operations",
-      "front": "Sequence: Close Procurements vs Close Project. Which comes first?",
-      "back": "Close Procurements. All sub-contracts must be finalized before the main project can be declared closed."
-    },
-    {
-      "id": 44,
-      "category": "Hard Drill: Order of Operations",
-      "front": "Sequence: Handover to Ops vs Final Report. Which comes first?",
-      "back": "Usually Handover. The Final Report confirms that handover was successful."
-    },
-    {
-      "id": 45,
-      "category": "2026 Skills: Digital & Remote",
-      "front": "How do you do \"Lessons Learned\" with a distributed global team?",
-      "back": "Use digital whiteboards (Miro/Mural) for anonymous brainstorming. Asynchronous inputs before the live session help participation."
-    },
-    {
-      "id": 46,
-      "category": "2026 Skills: Digital & Remote",
-      "front": "What is \"Digital Archiving\"?",
-      "back": "Ensuring all Slack channels, Git repos, and cloud drives are indexed/frozen/preserved, not just the PDF documents."
-    },
-    {
-      "id": 47,
-      "category": "2026 Skills: Digital & Remote",
-      "front": "How does AI impact \"Knowledge Transfer\"?",
-      "back": "AI can summarize meetings and documents into a Knowledge Base automatically, reducing the documentation burden."
-    },
-    {
-      "id": 48,
-      "category": "2026 Skills: Digital & Remote",
-      "front": "What is \"Video Documentation\"?",
-      "back": "Recording \"How-to\" screen-shares. Often more effective for Knowledge Transfer than written manuals."
-    },
-    {
-      "id": 49,
-      "category": "Exam \"Traps\" to Avoid",
-      "front": "Trap: \"The project ran out of money so we stopped.\" Is it closed?",
-      "back": "Not until you do the paperwork (Administrative Closure). Otherwise it is \"Abandoned,\" which is bad practice."
-    },
-    {
-      "id": 50,
-      "category": "Exam \"Traps\" to Avoid",
-      "front": "Trap: \"Everyone is busy, let's skip the final meeting.\"",
-      "back": "Closure is mandatory. If you skip it, you never formally transfer ownership/liability."
-    },
-    {
-      "id": 51,
-      "category": "Exam \"Traps\" to Avoid",
-      "front": "Trap: \"PM writes the Lessons Learned alone to save time.\"",
-      "back": "Wrong. Lessons Learned must be a team effort to capture diverse perspectives (Dev, QA, Business)."
-    },
-    {
-      "id": 52,
-      "category": "Exam \"Traps\" to Avoid",
-      "front": "Trap: \"The final product has a bug, but we are out of time. Just close it.\"",
-      "back": "Unethical. You must either fix it or get the customer to sign off on the \"Known Issue\" (Accepted Defect)."
-    },
-    {
-      "id": 53,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Validate Scope\".",
-      "back": "The process of formalizing acceptance of the completed project deliverables. (Customer signs off)."
-    },
-    {
-      "id": 54,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Phase Gate\".",
-      "back": "A review at the end of a phase to decide if the project should continue to the next phase (Go/No-Go)."
-    },
-    {
-      "id": 55,
-      "category": "Vocabulary Drill",
-      "front": "Define \"OPA (Organizational Process Assets)\".",
-      "back": "Plans, processes, policies, procedures, and knowledge bases specific to and used by the performing organization."
-    },
-    {
-      "id": 56,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Transition Plan\".",
-      "back": "A document describing how the deliverable will be moved from the project state to the operational state."
-    },
-    {
-      "id": 57,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Regression Analysis\" (in closure).",
-      "back": "Analyzing interrelationships between variables to understand why performance differed from the plan."
-    },
-    {
-      "id": 58,
-      "category": "Value & Strategy",
-      "front": "The project was a \"Technical Success\" but a \"Business Failure.\" Why?",
-      "back": "The deliverables worked, but they didn't solve the business problem or achieve the ROI. (Failure of \"Benefits Realization\")."
-    },
-    {
-      "id": 59,
-      "category": "Value & Strategy",
-      "front": "Who confirms the \"Business Value\" actually exists?",
-      "back": "Usually not the PM (who leaves). The Business/Product Owner confirms value months after closure."
-    },
-    {
-      "id": 60,
-      "category": "Value & Strategy",
-      "front": "A \"Post-Implementation Review\" happens...",
-      "back": "...Months after the project closes. It checks if benefits were realized."
-    },
-    {
-      "id": 61,
-      "category": "Agile Closure Nuances",
-      "front": "Does an Agile project have a \"Closure Phase\"?",
-      "back": "Not exactly a phase, but a \"Closure Activity.\" When the backlog is empty or value is maximized, the team performs closure steps (Retrospective, Archive)."
-    },
-    {
-      "id": 62,
-      "category": "Agile Closure Nuances",
-      "front": "In Agile, \"Knowledge Transfer\" happens...",
-      "back": "...Continuously via Pair Programming, Daily Standups, and Reviews. It is less dependent on \"Final Docs.\""
-    },
-    {
-      "id": 63,
-      "category": "Agile Closure Nuances",
-      "front": "What is the \"Definition of Done\" role in closure?",
-      "back": "It ensures that every increment was potentially shippable, making final closure easier (no huge \"integration/fix\" phase at the end)."
-    },
-    {
-      "id": 64,
-      "category": "Advanced Scenarios II",
-      "front": "Scenario: A vendor claims they did extra work 6 months ago and wants payment now (at closure).",
-      "back": "Check the Change Log. If no Change Order exists, the claim is likely invalid. \"Constructive Changes\" must be documented when they happen."
-    },
-    {
-      "id": 65,
-      "category": "Advanced Scenarios II",
-      "front": "Scenario: You find a box of confidential physical files during office cleanup.",
-      "back": "Compliance issue. Destroy or Archive them according to the document retention policy. Do not throw in trash."
-    },
-    {
-      "id": 66,
-      "category": "Advanced Scenarios II",
-      "front": "Scenario: The Sponsor has left the company right before sign-off.",
-      "back": "Identify the new Sponsor or someone with delegated authority immediately. You cannot close without a signature."
-    },
-    {
-      "id": 67,
-      "category": "Advanced Scenarios II",
-      "front": "Scenario: The team wants to keep the test servers running \"just in case.\"",
-      "back": "Cost waste. Decommissioning resources (hardware/software) is part of closure to stop the billing meter."
-    },
-    {
-      "id": 68,
-      "category": "Advanced Scenarios II",
-      "front": "Scenario: A stakeholder wants to \"Wait and see\" before signing off.",
-      "back": "Negotiation needed. Define a specific \"Observation Period\" (e.g., 2 weeks in Prod) after which acceptance is automatic if no critical bugs found."
-    },
-    {
-      "id": 69,
-      "category": "Final Review Drill",
-      "front": "Which document authorizes the Project Manager to release resources?",
-      "back": "The Project Management Plan (specifically the Resource Management Plan) and the formal Closure approval."
-    },
-    {
-      "id": 70,
-      "category": "Final Review Drill",
-      "front": "\"Closing the books.\" Who does the PM work with?",
-      "back": "The Finance/Accounting department, to ensure no more invoices can be charged to the project code."
-    },
-    {
-      "id": 71,
-      "category": "Final Review Drill",
-      "front": "Is \"Updates to the Project Management Plan\" an output of Closure?",
-      "back": "No. The plan is done. You output \"Updates to Organizational Process Assets.\""
-    },
-    {
-      "id": 72,
-      "category": "Final Review Drill",
-      "front": "If a project was \"Fast Tracked,\" what Lesson Learned might you expect?",
-      "back": "\"Rework was higher than planned due to parallel tasks.\""
-    },
-    {
-      "id": 73,
-      "category": "Final Review Drill",
-      "front": "If a project used \"Crashing,\" what Lesson Learned might you expect?",
-      "back": "\"Team burnout occurred\" or \"Cost per unit was higher.\""
-    },
-    {
-      "id": 74,
-      "category": "Final Review Drill",
-      "front": "Does \"Validate Scope\" happen before or after \"Control Strength\"?",
-      "back": "It happens after Control Quality (Internal check) but before Closure (Final Admin)."
-    },
-    {
-      "id": 75,
-      "category": "Final Review Drill",
-      "front": "Can you do \"Validate Scope\" in the middle of a project?",
-      "back": "Yes! At the end of every Phase or Sprint (Agile Review)."
-    },
-    {
-      "id": 76,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "What is the PM's last act on a project?",
-      "back": "Releasing the resources (and themselves)."
-    },
-    {
-      "id": 77,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Who signs the Final Report?",
-      "back": "The Sponsor or Initiator."
-    },
-    {
-      "id": 78,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Why measure \"Stakeholder Satisfaction\" at closure?",
-      "back": "To measure the \"Intangible\" success. You can be on time/budget and still be hated (Failure)."
-    },
-    {
-      "id": 79,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Where do you look to see what criteria satisfy closure?",
-      "back": "The Project Charter (Success Criteria) and Requirements Documentation."
-    },
-    {
-      "id": 80,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "\"Gold Plating\" found during audit. Result?",
-      "back": "Document it as a Lesson Learned (Process Failure). Don't remove it if the customer likes it, but note the cost waste."
-    },
-    {
-      "id": 81,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Scenario: You are moving to a new project tomorrow.",
-      "back": "Ensure your files are indexed. Don't leave a \"Mystery Drive\" for the next person."
-    },
-    {
-      "id": 82,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "What is \"Incremental Delivery\"?",
-      "back": "Delivering value / closed deliverables throughout the project, reducing the \"Big Bang\" risk at the end."
-    },
-    {
-      "id": 83,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Why involve the Team in closure?",
-      "back": "They know the details (Tacit knowledge). A PM-only closure misses the technical reality."
-    },
-    {
-      "id": 84,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "\"Orphaned Project\" meaning?",
-      "back": "A project without a Sponsor. You cannot close it properly without someone to accept it. Find a new Sponsor first."
-    },
-    {
-      "id": 85,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Compliance: \"Data sanitization\".",
-      "back": "Cleaning test data from production environments before handover. Security requirement."
-    },
-    {
-      "id": 86,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Compliance: \"Audit Trail\".",
-      "back": "Preserving the chain of evidence (Who approved what) for future legal/regulatory checks."
-    },
-    {
-      "id": 87,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "How long do you keep project records?",
-      "back": "It depends on the Document Retention Policy (EEF). Could be 7 years or forever."
-    },
-    {
-      "id": 88,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "\"Zombie Project\".",
-      "back": "A project that keeps going despite having no value. Closure (killing it) is a mercy and a success."
-    },
-    {
-      "id": 89,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "\"Death March\".",
-      "back": "A project destined to fail with overworked team. Closure/Termination is often the only ethical choice."
-    },
-    {
-      "id": 90,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Tool: \"Regression Testing\" at closure.",
-      "back": "Running tests to ensure new features didn't break old ones before final handover."
-    },
-    {
-      "id": 91,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Tool: \"Performance Reviews\" (Procurement).",
-      "back": "Rating the vendor. Essential knowledge capture for future procurement officers."
-    },
-    {
-      "id": 92,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Metric: \"Net Promoter Score\" (NPS).",
-      "back": "Measured at closure. \"Would you recommend this team/process to others?\""
-    },
-    {
-      "id": 93,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Metric: \"Escaped Defects\".",
-      "back": "Defects found by user after closure. High number = Failed Knowledge Transfer/Testing."
-    },
-    {
-      "id": 94,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Why document \"Assumptions\" at closure?",
-      "back": "To validate which provided true and which were false (Learning)."
-    },
-    {
-      "id": 95,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "The \"Handover Meeting\".",
-      "back": "The formal event where Ops accepts responsibility. Make it ceremonial."
-    },
-    {
-      "id": 96,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Does \"Continuous Improvement\" stop at closure?",
-      "back": "No. The product enters the \"Product Lifecycle\" where Ops continues to improve it (Kaizen)."
-    },
-    {
-      "id": 97,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "\"Operational Level Agreement\" (OLA).",
-      "back": "Internal agreement (like an SLA, but internal) established during transition."
-    },
-    {
-      "id": 98,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Scenario: Team member refuses to document code.",
-      "back": "\"If it isn't documented, it isn't done.\" Refuse to mark their task complete. Escalate if needed."
-    },
-    {
-      "id": 99,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Scenario: You forgot to pay a vendor invoices.",
-      "back": "The project cannot close. Re-open financial code, pay, and document the admin error (Lesson Learned)."
-    },
-    {
-      "id": 100,
-      "category": "25 More Quick Fire: Closure & Knowledge",
-      "front": "Final Flashcard: Why do we do all this?",
-      "back": "To ensure the Value created endures long after the project team is gone."
-    }
-  ]
+ "meta": {
+ "title": "PMP 2026 Flashcards: People Domain – Task 7",
+ "domain": "People (42%)",
+ "task": "Help ensure knowledge transfer (Project Closure)",
+ "ecoReference": "Domain I, Task 7 (Often touches Process Domain \"Manage Project Closure\")",
+ "description": "",
+ "file": "guide/appendices/flashcards-people-task7-knowledge-transfer.md"
+ },
+ "flashcards": [
+ {
+ "id": 1,
+ "category": "Defining Knowledge Transfer & Closure",
+ "front": "What is the primary goal of \"Project Closure\" in the PMP 2026 mindset?",
+ "back": "Not just ending work, but Transferring Value (to Operations/Users) and Transferring Knowledge (to the Organization)."
+ },
+ {
+ "id": 2,
+ "category": "Defining Knowledge Transfer & Closure",
+ "front": "When does \"Knowledge Transfer\" effectively begin?",
+ "back": "Throughout the project lifecycle (via reviews, documentation), but it is finalized at Closure."
+ },
+ {
+ "id": 3,
+ "category": "Defining Knowledge Transfer & Closure",
+ "front": "What defines a project as \"Closed\"?",
+ "back": "1) Deliverables accepted, 2) Contracts closed, 3) Records archived (OPAs), 4) Resources released."
+ },
+ {
+ "id": 4,
+ "category": "Defining Knowledge Transfer & Closure",
+ "front": "Who is responsible for ensuring knowledge transfer occurs?",
+ "back": "The Project Manager. It is a mandatory part of the Project Integration Management."
+ },
+ {
+ "id": 5,
+ "category": "Defining Knowledge Transfer & Closure",
+ "front": "What is the \"Final Report\"?",
+ "back": "The formal document summarizing project performance (Objectives met, Schedule/Cost actuals, Lessons Learned) for stakeholders."
+ },
+ {
+ "id": 6,
+ "category": "Lessons Learned (The Knowledge Engine)",
+ "front": "What is a \"Lessons Learned Register\"?",
+ "back": "A document capturing what went well, what went wrong, and recommendations for future projects."
+ },
+ {
+ "id": 7,
+ "category": "Lessons Learned (The Knowledge Engine)",
+ "front": "What happens to the Lessons Learned Register at the end of the project?",
+ "back": "It is transferred to the Organizational Process Assets (OPA) library for reuse by the whole company."
+ },
+ {
+ "id": 8,
+ "category": "Lessons Learned (The Knowledge Engine)",
+ "front": "What is the difference between a \"Retrospective\" and \"Lessons Learned\"?",
+ "back": "Retrospectives are for the Team (Process improvement during the project). Lessons Learned are for the Organization (Future projects)."
+ },
+ {
+ "id": 9,
+ "category": "Lessons Learned (The Knowledge Engine)",
+ "front": "A lesson learned should always be...",
+ "back": "Actionable and Blameless. Focus on the process, not the person."
+ },
+ {
+ "id": 10,
+ "category": "Lessons Learned (The Knowledge Engine)",
+ "front": "When should Lessons Learned be captured?",
+ "back": "Throughout the project (after every phase/milestone), so details haven't faded from memory at the end."
+ },
+ {
+ "id": 11,
+ "category": "Lessons Learned (The Knowledge Engine)",
+ "front": "What is \"Explicit Knowledge\"?",
+ "back": "Knowledge that can be easily documented (manuals, specs)."
+ },
+ {
+ "id": 12,
+ "category": "Lessons Learned (The Knowledge Engine)",
+ "front": "What is \"Tacit Knowledge\"?",
+ "back": "Knowledge difficult to document (beliefs, insights, \"muscle memory\"). Requires shadowing or mentoring to transfer."
+ },
+ {
+ "id": 13,
+ "category": "Transition to Operations (Handoff)",
+ "front": "What needs to be transferred to the Operations/Support team?",
+ "back": "The Deliverable itself AND the means to support it (Training, Runbooks, FAQs, Access)."
+ },
+ {
+ "id": 14,
+ "category": "Transition to Operations (Handoff)",
+ "front": "A project delivers software, but the Help Desk doesn't know how to troubleshoot it. Is the project done?",
+ "back": "No. The \"Transition\" is incomplete. Scope includes operational readiness."
+ },
+ {
+ "id": 15,
+ "category": "Transition to Operations (Handoff)",
+ "front": "What is a \"Warranty Period\"?",
+ "back": "A defined time after closure where the project team (or vendor) remains responsible for fixing defects."
+ },
+ {
+ "id": 16,
+ "category": "Transition to Operations (Handoff)",
+ "front": "Who owns \"Benefits Realization\" after closure?",
+ "back": "Typically the Business Owner, Product Owner, or Operations. The PM hands off the measurement plan."
+ },
+ {
+ "id": 17,
+ "category": "Transition to Operations (Handoff)",
+ "front": "If operations refuses to accept the handoff, what should the PM do?",
+ "back": "Determine the gap (e.g., missing training) and fix it. Do not force the closure."
+ },
+ {
+ "id": 18,
+ "category": "Resource Release & People Aspects",
+ "front": "When do you release project team members?",
+ "back": "Only after their specific tasks (including documentation and knowledge transfer) are complete."
+ },
+ {
+ "id": 19,
+ "category": "Resource Release & People Aspects",
+ "front": "Why is \"Celebrating Success\" a formal closure activity?",
+ "back": "It provides closure for the people, boosts morale, and acknowledges the effort. It is part of \"Leading the Team.\""
+ },
+ {
+ "id": 20,
+ "category": "Resource Release & People Aspects",
+ "front": "How do you handle a team member who is anxious about the project ending?",
+ "back": "Communicate the transition plan early. Help them network for their next role. (Demonstrates Empathy)."
+ },
+ {
+ "id": 21,
+ "category": "Resource Release & People Aspects",
+ "front": "What documentation must a team member complete before release?",
+ "back": "Functional specs, code comments, contact lists, and contributions to the Lessons Learned."
+ },
+ {
+ "id": 22,
+ "category": "Resource Release & People Aspects",
+ "front": "Does the PM write the performance reviews for the team?",
+ "back": "In many organizations (especially Matrix), yes. Providing input on performance is part of closing the people manageement loop."
+ },
+ {
+ "id": 23,
+ "category": "Administrative Closure (Contracts & Records)",
+ "front": "What is \"Administrative Closure\"?",
+ "back": "The procedural steps to formally close the project (archiving records, closing financial accounts, updating PMIS)."
+ },
+ {
+ "id": 24,
+ "category": "Administrative Closure (Contracts & Records)",
+ "front": "Can you close a project with an open Claims/Dispute?",
+ "back": "Generally No. You must resolve it or formally transfer the legal responsibility to a specific department."
+ },
+ {
+ "id": 25,
+ "category": "Administrative Closure (Contracts & Records)",
+ "front": "What is the FIRST step in closing a Procurement?",
+ "back": "Verify that all deliverables met acceptance criteria and all payments/invoices are reconciled."
+ },
+ {
+ "id": 26,
+ "category": "Administrative Closure (Contracts & Records)",
+ "front": "Why update the \"PMIS\" (Project Management Information System) at closure?",
+ "back": "To ensure \"Accuracy of Record.\" Future projects will use your data (costs, duration) for estimation."
+ },
+ {
+ "id": 27,
+ "category": "Administrative Closure (Contracts & Records)",
+ "front": "What is \"Indexing\" in archiving?",
+ "back": "Organizing files so they can be retrieved later. An unsearchable archive is useless for knowledge transfer."
+ },
+ {
+ "id": 28,
+ "category": "Scenarios: Canceled Projects",
+ "front": "Scenario: The project is canceled due to budget cuts. Do you just stop working?",
+ "back": "No. You must perform Administrative Closure. (Archive work, Pay vendors, Document reason)."
+ },
+ {
+ "id": 29,
+ "category": "Scenarios: Canceled Projects",
+ "front": "Scenario: A project is canceled because the market changed. Is this a \"failure\"?",
+ "back": "Not necessarily. It is a strategic decision to save resources. \"Sunk Cost\" should not drive continuation."
+ },
+ {
+ "id": 30,
+ "category": "Scenarios: Canceled Projects",
+ "front": "What is the most important output of a Canceled Project?",
+ "back": "Lessons Learned (Why was it canceled?) and Archived Partial Deliverables (Can we reuse this code?)."
+ },
+ {
+ "id": 31,
+ "category": "Scenarios: Canceled Projects",
+ "front": "How do you handle the Team's disappointment in a canceled project?",
+ "back": "Be transparent about the business reason. Focus on what was achieved/learned. Protect their morale for the next project."
+ },
+ {
+ "id": 32,
+ "category": "Scenarios: Acceptance & Sign-off",
+ "front": "Scenario: The customer refuses to sign off because they \"don't like the color,\" but the color meets the specific requirement.",
+ "back": "Refer to the Acceptance Criteria. If it meets spec, it is done. Negotiate or treat the color change as a new Project/Change Request."
+ },
+ {
+ "id": 33,
+ "category": "Scenarios: Acceptance & Sign-off",
+ "front": "Scenario: The customer finds a \"Major\" bug during User Acceptance Testing (UAT).",
+ "back": "Log it. Fix it (Defect Repair). You cannot close until meaningful acceptance criteria are met."
+ },
+ {
+ "id": 34,
+ "category": "Scenarios: Acceptance & Sign-off",
+ "front": "Scenario: The customer finds a \"Minor\" typo during final sign-off.",
+ "back": "Create a Punch List. Get \"Conditional Acceptance\" agreeing these minor items will be fixed in the warranty period."
+ },
+ {
+ "id": 35,
+ "category": "Scenarios: Acceptance & Sign-off",
+ "front": "Scenario: You are closing a \"Phase\" (Phase 1). What happens to the Lessons Learned?",
+ "back": "They are captured now and used to improve Phase 2 immediately."
+ },
+ {
+ "id": 36,
+ "category": "Knowledge Transfer Techniques",
+ "front": "What is \"Job Shadowing\"?",
+ "back": "A technique where the Operations staff watches the Project Team perform tasks to learn Tacit Knowledge."
+ },
+ {
+ "id": 37,
+ "category": "Knowledge Transfer Techniques",
+ "front": "What is a \"Reverse Demo\"?",
+ "back": "Having the Operations team demo the product back to the Project Team to prove they know how to use/support it."
+ },
+ {
+ "id": 38,
+ "category": "Knowledge Transfer Techniques",
+ "front": "What is the risk of \"Brain Drain\"?",
+ "back": "Valuable knowledge leaving the organization when contractors/employees depart. Mitigation: Mandatory Documentation/Pairing."
+ },
+ {
+ "id": 39,
+ "category": "Knowledge Transfer Techniques",
+ "front": "How does a \"Searchable Knowledge Base\" help?",
+ "back": "It converts \"Push\" knowledge (Training) into \"Pull\" knowledge (Self-service help) for long-term sustainability."
+ },
+ {
+ "id": 40,
+ "category": "Knowledge Transfer Techniques",
+ "front": "What is \"Wiki-style\" documentation?",
+ "back": "Collaborative, living documentation. Often better than static PDFs for evolving knowledge transfer."
+ },
+ {
+ "id": 41,
+ "category": "Hard Drill: Order of Operations",
+ "front": "Sequence: Release Team vs Archives Records. Which comes first?",
+ "back": "Archive Records. Only release the team once the work (including archiving) is done."
+ },
+ {
+ "id": 42,
+ "category": "Hard Drill: Order of Operations",
+ "front": "Sequence: Validate Scope vs Close Project. Which comes first?",
+ "back": "Validate Scope. The customer must accept the deliverables before you can administratively close the project."
+ },
+ {
+ "id": 43,
+ "category": "Hard Drill: Order of Operations",
+ "front": "Sequence: Close Procurements vs Close Project. Which comes first?",
+ "back": "Close Procurements. All sub-contracts must be finalized before the main project can be declared closed."
+ },
+ {
+ "id": 44,
+ "category": "Hard Drill: Order of Operations",
+ "front": "Sequence: Handover to Ops vs Final Report. Which comes first?",
+ "back": "Usually Handover. The Final Report confirms that handover was successful."
+ },
+ {
+ "id": 45,
+ "category": "2026 Skills: Digital & Remote",
+ "front": "How do you do \"Lessons Learned\" with a distributed global team?",
+ "back": "Use digital whiteboards (Miro/Mural) for anonymous brainstorming. Asynchronous inputs before the live session help participation."
+ },
+ {
+ "id": 46,
+ "category": "2026 Skills: Digital & Remote",
+ "front": "What is \"Digital Archiving\"?",
+ "back": "Ensuring all Slack channels, Git repos, and cloud drives are indexed/frozen/preserved, not just the PDF documents."
+ },
+ {
+ "id": 47,
+ "category": "2026 Skills: Digital & Remote",
+ "front": "How does AI impact \"Knowledge Transfer\"?",
+ "back": "AI can summarize meetings and documents into a Knowledge Base automatically, reducing the documentation burden."
+ },
+ {
+ "id": 48,
+ "category": "2026 Skills: Digital & Remote",
+ "front": "What is \"Video Documentation\"?",
+ "back": "Recording \"How-to\" screen-shares. Often more effective for Knowledge Transfer than written manuals."
+ },
+ {
+ "id": 49,
+ "category": "Exam \"Traps\" to Avoid",
+ "front": "Trap: \"The project ran out of money so we stopped.\" Is it closed?",
+ "back": "Not until you do the paperwork (Administrative Closure). Otherwise it is \"Abandoned,\" which is bad practice."
+ },
+ {
+ "id": 50,
+ "category": "Exam \"Traps\" to Avoid",
+ "front": "Trap: \"Everyone is busy, let's skip the final meeting.\"",
+ "back": "Closure is mandatory. If you skip it, you never formally transfer ownership/liability."
+ },
+ {
+ "id": 51,
+ "category": "Exam \"Traps\" to Avoid",
+ "front": "Trap: \"PM writes the Lessons Learned alone to save time.\"",
+ "back": "Wrong. Lessons Learned must be a team effort to capture diverse perspectives (Dev, QA, Business)."
+ },
+ {
+ "id": 52,
+ "category": "Exam \"Traps\" to Avoid",
+ "front": "Trap: \"The final product has a bug, but we are out of time. Just close it.\"",
+ "back": "Unethical. You must either fix it or get the customer to sign off on the \"Known Issue\" (Accepted Defect)."
+ },
+ {
+ "id": 53,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Validate Scope\".",
+ "back": "The process of formalizing acceptance of the completed project deliverables. (Customer signs off)."
+ },
+ {
+ "id": 54,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Phase Gate\".",
+ "back": "A review at the end of a phase to decide if the project should continue to the next phase (Go/No-Go)."
+ },
+ {
+ "id": 55,
+ "category": "Vocabulary Drill",
+ "front": "Define \"OPA (Organizational Process Assets)\".",
+ "back": "Plans, processes, policies, procedures, and knowledge bases specific to and used by the performing organization."
+ },
+ {
+ "id": 56,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Transition Plan\".",
+ "back": "A document describing how the deliverable will be moved from the project state to the operational state."
+ },
+ {
+ "id": 57,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Regression Analysis\" (in closure).",
+ "back": "Analyzing interrelationships between variables to understand why performance differed from the plan."
+ },
+ {
+ "id": 58,
+ "category": "Value & Strategy",
+ "front": "The project was a \"Technical Success\" but a \"Business Failure.\" Why?",
+ "back": "The deliverables worked, but they didn't solve the business problem or achieve the ROI. (Failure of \"Benefits Realization\")."
+ },
+ {
+ "id": 59,
+ "category": "Value & Strategy",
+ "front": "Who confirms the \"Business Value\" actually exists?",
+ "back": "Usually not the PM (who leaves). The Business/Product Owner confirms value months after closure."
+ },
+ {
+ "id": 60,
+ "category": "Value & Strategy",
+ "front": "A \"Post-Implementation Review\" happens...",
+ "back": "...Months after the project closes. It checks if benefits were realized."
+ },
+ {
+ "id": 61,
+ "category": "Agile Closure Nuances",
+ "front": "Does an Agile project have a \"Closure Phase\"?",
+ "back": "Not exactly a phase, but a \"Closure Activity.\" When the backlog is empty or value is maximized, the team performs closure steps (Retrospective, Archive)."
+ },
+ {
+ "id": 62,
+ "category": "Agile Closure Nuances",
+ "front": "In Agile, \"Knowledge Transfer\" happens...",
+ "back": "...Continuously via Pair Programming, Daily Standups, and Reviews. It is less dependent on \"Final Docs.\""
+ },
+ {
+ "id": 63,
+ "category": "Agile Closure Nuances",
+ "front": "What is the \"Definition of Done\" role in closure?",
+ "back": "It ensures that every increment was potentially shippable, making final closure easier (no huge \"integration/fix\" phase at the end)."
+ },
+ {
+ "id": 64,
+ "category": "Advanced Scenarios II",
+ "front": "Scenario: A vendor claims they did extra work 6 months ago and wants payment now (at closure).",
+ "back": "Check the Change Log. If no Change Order exists, the claim is likely invalid. \"Constructive Changes\" must be documented when they happen."
+ },
+ {
+ "id": 65,
+ "category": "Advanced Scenarios II",
+ "front": "Scenario: You find a box of confidential physical files during office cleanup.",
+ "back": "Compliance issue. Destroy or Archive them according to the document retention policy. Do not throw in trash."
+ },
+ {
+ "id": 66,
+ "category": "Advanced Scenarios II",
+ "front": "Scenario: The Sponsor has left the company right before sign-off.",
+ "back": "Identify the new Sponsor or someone with delegated authority immediately. You cannot close without a signature."
+ },
+ {
+ "id": 67,
+ "category": "Advanced Scenarios II",
+ "front": "Scenario: The team wants to keep the test servers running \"just in case.\"",
+ "back": "Cost waste. Decommissioning resources (hardware/software) is part of closure to stop the billing meter."
+ },
+ {
+ "id": 68,
+ "category": "Advanced Scenarios II",
+ "front": "Scenario: A stakeholder wants to \"Wait and see\" before signing off.",
+ "back": "Negotiation needed. Define a specific \"Observation Period\" (e.g., 2 weeks in Prod) after which acceptance is automatic if no critical bugs found."
+ },
+ {
+ "id": 69,
+ "category": "Final Review Drill",
+ "front": "Which document authorizes the Project Manager to release resources?",
+ "back": "The Project Management Plan (specifically the Resource Management Plan) and the formal Closure approval."
+ },
+ {
+ "id": 70,
+ "category": "Final Review Drill",
+ "front": "\"Closing the books.\" Who does the PM work with?",
+ "back": "The Finance/Accounting department, to ensure no more invoices can be charged to the project code."
+ },
+ {
+ "id": 71,
+ "category": "Final Review Drill",
+ "front": "Is \"Updates to the Project Management Plan\" an output of Closure?",
+ "back": "No. The plan is done. You output \"Updates to Organizational Process Assets.\""
+ },
+ {
+ "id": 72,
+ "category": "Final Review Drill",
+ "front": "If a project was \"Fast Tracked,\" what Lesson Learned might you expect?",
+ "back": "\"Rework was higher than planned due to parallel tasks.\""
+ },
+ {
+ "id": 73,
+ "category": "Final Review Drill",
+ "front": "If a project used \"Crashing,\" what Lesson Learned might you expect?",
+ "back": "\"Team burnout occurred\" or \"Cost per unit was higher.\""
+ },
+ {
+ "id": 74,
+ "category": "Final Review Drill",
+ "front": "Does \"Validate Scope\" happen before or after \"Control Strength\"?",
+ "back": "It happens after Control Quality (Internal check) but before Closure (Final Admin)."
+ },
+ {
+ "id": 75,
+ "category": "Final Review Drill",
+ "front": "Can you do \"Validate Scope\" in the middle of a project?",
+ "back": "Yes! At the end of every Phase or Sprint (Agile Review)."
+ },
+ {
+ "id": 76,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "What is the PM's last act on a project?",
+ "back": "Releasing the resources (and themselves)."
+ },
+ {
+ "id": 77,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Who signs the Final Report?",
+ "back": "The Sponsor or Initiator."
+ },
+ {
+ "id": 78,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Why measure \"Stakeholder Satisfaction\" at closure?",
+ "back": "To measure the \"Intangible\" success. You can be on time/budget and still be hated (Failure)."
+ },
+ {
+ "id": 79,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Where do you look to see what criteria satisfy closure?",
+ "back": "The Project Charter (Success Criteria) and Requirements Documentation."
+ },
+ {
+ "id": 80,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "\"Gold Plating\" found during audit. Result?",
+ "back": "Document it as a Lesson Learned (Process Failure). Don't remove it if the customer likes it, but note the cost waste."
+ },
+ {
+ "id": 81,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Scenario: You are moving to a new project tomorrow.",
+ "back": "Ensure your files are indexed. Don't leave a \"Mystery Drive\" for the next person."
+ },
+ {
+ "id": 82,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "What is \"Incremental Delivery\"?",
+ "back": "Delivering value / closed deliverables throughout the project, reducing the \"Big Bang\" risk at the end."
+ },
+ {
+ "id": 83,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Why involve the Team in closure?",
+ "back": "They know the details (Tacit knowledge). A PM-only closure misses the technical reality."
+ },
+ {
+ "id": 84,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "\"Orphaned Project\" meaning?",
+ "back": "A project without a Sponsor. You cannot close it properly without someone to accept it. Find a new Sponsor first."
+ },
+ {
+ "id": 85,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Compliance: \"Data sanitization\".",
+ "back": "Cleaning test data from production environments before handover. Security requirement."
+ },
+ {
+ "id": 86,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Compliance: \"Audit Trail\".",
+ "back": "Preserving the chain of evidence (Who approved what) for future legal/regulatory checks."
+ },
+ {
+ "id": 87,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "How long do you keep project records?",
+ "back": "It depends on the Document Retention Policy (EEF). Could be 7 years or forever."
+ },
+ {
+ "id": 88,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "\"Zombie Project\".",
+ "back": "A project that keeps going despite having no value. Closure (killing it) is a mercy and a success."
+ },
+ {
+ "id": 89,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "\"Death March\".",
+ "back": "A project destined to fail with overworked team. Closure/Termination is often the only ethical choice."
+ },
+ {
+ "id": 90,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Tool: \"Regression Testing\" at closure.",
+ "back": "Running tests to ensure new features didn't break old ones before final handover."
+ },
+ {
+ "id": 91,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Tool: \"Performance Reviews\" (Procurement).",
+ "back": "Rating the vendor. Essential knowledge capture for future procurement officers."
+ },
+ {
+ "id": 92,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Metric: \"Net Promoter Score\" (NPS).",
+ "back": "Measured at closure. \"Would you recommend this team/process to others?\""
+ },
+ {
+ "id": 93,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Metric: \"Escaped Defects\".",
+ "back": "Defects found by user after closure. High number = Failed Knowledge Transfer/Testing."
+ },
+ {
+ "id": 94,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Why document \"Assumptions\" at closure?",
+ "back": "To validate which provided true and which were false (Learning)."
+ },
+ {
+ "id": 95,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "The \"Handover Meeting\".",
+ "back": "The formal event where Ops accepts responsibility. Make it ceremonial."
+ },
+ {
+ "id": 96,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Does \"Continuous Improvement\" stop at closure?",
+ "back": "No. The product enters the \"Product Lifecycle\" where Ops continues to improve it (Kaizen)."
+ },
+ {
+ "id": 97,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "\"Operational Level Agreement\" (OLA).",
+ "back": "Internal agreement (like an SLA, but internal) established during transition."
+ },
+ {
+ "id": 98,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Scenario: Team member refuses to document code.",
+ "back": "\"If it isn't documented, it isn't done.\" Refuse to mark their task complete. Escalate if needed."
+ },
+ {
+ "id": 99,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Scenario: You forgot to pay a vendor invoices.",
+ "back": "The project cannot close. Re-open financial code, pay, and document the admin error (Lesson Learned)."
+ },
+ {
+ "id": 100,
+ "category": "25 More Quick Fire: Closure & Knowledge",
+ "front": "Final Flashcard: Why do we do all this?",
+ "back": "To ensure the Value created endures long after the project team is gone."
+ }
+ ]
 }

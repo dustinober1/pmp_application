@@ -1,492 +1,492 @@
 {
-  "meta": {
-    "title": "⚡ Process Task: Plan and Manage Schedule",
-    "domain": "Process",
-    "task": "Plan and manage schedule",
-    "ecoReference": "Process Task 8",
-    "description": "Flashcards for PMP Process Domain Task 8",
-    "file": "guide/appendices/flashcards-process-task8-schedule.md"
-  },
-  "flashcards": [
-    {
-      "id": 1,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What is the Critical Path?\n",
-      "back": "The sequence of activities that represents the longest path through the project, which determines the shortest possible duration. It has Zero Total Float.\n"
-    },
-    {
-      "id": 2,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What is Total Float (Slack)?\n",
-      "back": "The amount of time an activity can be delayed from its early start without delaying the planned project finish date.\nFormula: LS - ES or LF - EF.\n"
-    },
-    {
-      "id": 3,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What is Free Float?\n",
-      "back": "The amount of time an activity can be delayed without delaying the Early Start of any successor activity.\n"
-    },
-    {
-      "id": 4,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What is a Milestone?\n",
-      "back": "A significant point or event in a project. It has Zero Duration.\n"
-    },
-    {
-      "id": 5,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What is the Precedence Diagramming Method (PDM)?\n",
-      "back": "A technique used for constructing a schedule model in which activities are represented by nodes and are graphically linked by one or more logical relationships to show the sequence. (Activity-on-Node).\n"
-    },
-    {
-      "id": 6,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What is Rolling Wave Planning?\n",
-      "back": "An iterative planning technique in which the work to be accomplished in the near term is planned in detail, while the work in the future is planned at a higher level.\n"
-    },
-    {
-      "id": 7,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What does FS (Finish-to-Start) mean?\n",
-      "back": "A logical relationship in which potential work cannot start until a predecessor activity finishes. (The most common type).\n"
-    },
-    {
-      "id": 8,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What does SS (Start-to-Start) mean?\n",
-      "back": "A relationship where a successor activity cannot start until a predecessor activity has started.\n"
-    },
-    {
-      "id": 9,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What does FF (Finish-to-Finish) mean?\n",
-      "back": "A relationship where a successor activity cannot finish until a predecessor activity has finished.\n"
-    },
-    {
-      "id": 10,
-      "category": "📅 Schedule Fundamentals",
-      "front": "What does SF (Start-to-Finish) mean?\n",
-      "back": "A relationship where a successor activity cannot finish until a predecessor activity has started. (Rare; e.g., the first shift cannot finish until the second shift starts).\n\n\n"
-    },
-    {
-      "id": 11,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "What is Lag?\n",
-      "back": "The amount of time a successor activity will be delayed with respect to a predecessor activity. (Waiting time, e.g., paint drying).\n"
-    },
-    {
-      "id": 12,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "What is Lead?\n",
-      "back": "The amount of time a successor activity can be advanced with respect to a predecessor activity. (Overlap, e.g., starting to write Chapter 2 before Chapter 1 is 100% finished).\n"
-    },
-    {
-      "id": 13,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "What is Mandatory Dependency (Hard Logic)?\n",
-      "back": "A relationship that is contractually required or inherent in the nature of the work (e.g., must pour foundation before building walls).\n"
-    },
-    {
-      "id": 14,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "What is Discretionary Dependency (Soft Logic)?\n",
-      "back": "A relationship that is established based on knowledge of best practices or some unusual aspect of the project. (e.g., \"We prefer to paint the walls before installing the carpet\").\n"
-    },
-    {
-      "id": 15,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "What is External Dependency?\n",
-      "back": "A relationship between project activities and non-project activities (e.g., waiting for a government hearing). Usually outside the control of the team.\n"
-    },
-    {
-      "id": 16,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "What is Internal Dependency?\n",
-      "back": "A relationship between project activities that are generally inside the project team's control.\n"
-    },
-    {
-      "id": 17,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "What is the Forward Pass?\n",
-      "back": "A critical path method for calculating the Early Start and Early Finish dates by working forward through the schedule model.\n"
-    },
-    {
-      "id": 18,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "What is the Backward Pass?\n",
-      "back": "A critical path method for calculating the Late Start and Late Finish dates by working backward through the schedule model.\n"
-    },
-    {
-      "id": 19,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "How do you calculate Project Diagram Duration?\n",
-      "back": "It is equal to the duration of the Critical Path.\n"
-    },
-    {
-      "id": 20,
-      "category": "⏩ Schedule Logic & Leads/Lags",
-      "front": "If an activity has Negative Float, what does it mean?\n",
-      "back": "The planned finish date is after the imposed deadline (e.g., the Customer requires it by Dec 1, but the schedule says Dec 5). The project is late before it starts.\n\n\n"
-    },
-    {
-      "id": 21,
-      "category": "🏎️ Schedule Compression",
-      "front": "What is Crashing?\n",
-      "back": "Adding resources to critical path activities to shorten the schedule. It usually increases Cost (e.g., paying overtime).\n"
-    },
-    {
-      "id": 22,
-      "category": "🏎️ Schedule Compression",
-      "front": "What is Fast Tracking?\n",
-      "back": "Performing activities in parallel that were originally planned in sequence. It usually increases Risk (of rework).\n"
-    },
-    {
-      "id": 23,
-      "category": "🏎️ Schedule Compression",
-      "front": "Does Crashing work on non-critical activities?\n",
-      "back": "No. Shortening a non-critical task does not shorten the project duration; it just increases the float of that task.\n"
-    },
-    {
-      "id": 24,
-      "category": "🏎️ Schedule Compression",
-      "front": "What is the main risk of Fast Tracking?\n",
-      "back": "Rework. If you start the foundation before the blueprints are approved, you might have to tear it up later.\n"
-    },
-    {
-      "id": 25,
-      "category": "🏎️ Schedule Compression",
-      "front": "Scenario: You are behind schedule. You have no extra money. Which compression technique is viable?\n",
-      "back": "Fast Tracking. (Crashing requires money).\n"
-    },
-    {
-      "id": 26,
-      "category": "🏎️ Schedule Compression",
-      "front": "Scenario: You are behind schedule. The deadline is firm. You have budget reserves. Which technique is viable?\n",
-      "back": "Crashing. (It's safer than Fast Tracking if you have the cash).\n"
-    },
-    {
-      "id": 27,
-      "category": "🏎️ Schedule Compression",
-      "front": "What is Resource Leveling?\n",
-      "back": "A technique in which start and finish dates are adjusted based on resource constraints. It typically lengthens the schedule.\n"
-    },
-    {
-      "id": 28,
-      "category": "🏎️ Schedule Compression",
-      "front": "What is Resource Smoothing?\n",
-      "back": "A technique that adjusts the activities of a schedule model such that the requirements for resources on the project do not exceed certain predefined resource limits. It operates only within the limits of Float, so it does not change the project end date.\n"
-    },
-    {
-      "id": 29,
-      "category": "🏎️ Schedule Compression",
-      "front": "What is the Law of Diminishing Returns in Crashing?\n",
-      "back": "Adding more resources eventually yields less output per unit (e.g., too many cooks in the kitchen). Crashing isn't linear.\n"
-    },
-    {
-      "id": 30,
-      "category": "🏎️ Schedule Compression",
-      "front": "What is Monte Carlo Analysis for Schedule?\n",
-      "back": "A simulation that runs thousands of possible project scenarios to calculate the probability of finishing by a certain date.\n\n\n"
-    },
-    {
-      "id": 31,
-      "category": "🧙 Agile Scheduling",
-      "front": "What is the primary unit of schedule planning in Scrum?\n",
-      "back": "The Sprint (or Iteration), typically 1-4 weeks long.\n"
-    },
-    {
-      "id": 32,
-      "category": "🧙 Agile Scheduling",
-      "front": "What is Velocity?\n",
-      "back": "A measure of the amount of work a team can tackle during a single Sprint (e.g., 20 Story Points).\n"
-    },
-    {
-      "id": 33,
-      "category": "🧙 Agile Scheduling",
-      "front": "What is a Release Plan?\n",
-      "back": "A high-level schedule that indicates which features will be available at the end of each release (which may span multiple Sprints).\n"
-    },
-    {
-      "id": 34,
-      "category": "🧙 Agile Scheduling",
-      "front": "What is a Burndown Chart?\n",
-      "back": "A graphical representation of work left to do versus time. Ideally, it trends down to zero by the end of the Sprint/Project.\n"
-    },
-    {
-      "id": 35,
-      "category": "🧙 Agile Scheduling",
-      "front": "What is a Burnup Chart?\n",
-      "back": "A chart showing the total scope (work to be done) and the work completed. It is useful for showing when scope is added (the total scope line rises).\n"
-    },
-    {
-      "id": 36,
-      "category": "🧙 Agile Scheduling",
-      "front": "What is Timeboxing?\n",
-      "back": "Setting a fixed time period for an activity (e.g., a one-hour meeting, a two-week sprint). If work isn't done, the box still closes.\n"
-    },
-    {
-      "id": 37,
-      "category": "🧙 Agile Scheduling",
-      "front": "What is Adaptive Planning?\n",
-      "back": "Changing the plan as new information becomes available (Agile Principle: Responding to change over following a plan).\n"
-    },
-    {
-      "id": 38,
-      "category": "🧙 Agile Scheduling",
-      "front": "How do you calculate Sprints Required?\n",
-      "back": "Total Story Points in Backlog / Average Velocity. (e.g., 100 points / 20 points per sprint = 5 Sprints).\n"
-    },
-    {
-      "id": 39,
-      "category": "🧙 Agile Scheduling",
-      "front": "What is the Daily Scrum?\n",
-      "back": "A 15-minute timeboxed event for the Development Team to synchronize activities and create a plan for the next 24 hours.\n"
-    },
-    {
-      "id": 40,
-      "category": "🧙 Agile Scheduling",
-      "front": "Does Agile use Critical Path?\n",
-      "back": "Generally No. Agile focuses on flow and prioritizing the backlog rather than a strict dependency network, although dependencies still exist.\n\n\n"
-    },
-    {
-      "id": 41,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: An activity has Total Float of 5 days and Free Float of 2 days. If you delay it by 4 days, what happens?\n",
-      "back": "It creates a delay for the successor, but the Project End Date is safe. (Passed Free Float limit, but within Total Float limit).\n"
-    },
-    {
-      "id": 42,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: The client demands a change that adds 2 days to a critical path activity. What is the impact?\n",
-      "back": "The project end date acts delayed by 2 days (unless you Compress).\n"
-    },
-    {
-      "id": 43,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: A team member suggests doing two tasks at once to catch up. What is this called?\n",
-      "back": "Fast Tracking.\n"
-    },
-    {
-      "id": 44,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: You are estimating a task where you have no historical data. Which method is best?\n",
-      "back": "Three-Point Estimating (or Expert Judgment).\n"
-    },
-    {
-      "id": 45,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: You are estimating a task where you have tons of data and it's very repetitive (e.g., installing 1000 standard windows). Which method is best?\n",
-      "back": "Parametric Estimating.\n"
-    },
-    {
-      "id": 46,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: A resource is over-allocated, but you cannot delay the project finish date. Which optimization technique do you use?\n",
-      "back": "Resource Smoothing. (It only adjusts non-critical activities).\n"
-    },
-    {
-      "id": 47,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: Your Burndown chart has a \"flat line\" for 5 days. What does this mean?\n",
-      "back": "No work was completed/closed during those 5 days.\n"
-    },
-    {
-      "id": 48,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: The customer wants to move the deadline up by 2 weeks. What is the first thing you check?\n",
-      "back": "The Critical Path. You need to see which activities drive the duration to know if it's feasible.\n"
-    },
-    {
-      "id": 49,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: An activity on the Critical Path is completed 2 days early. What happens to the project float?\n",
-      "back": "The project now has 2 days of positive float (or forces an earlier finish).\n"
-    },
-    {
-      "id": 50,
-      "category": "🧠 Scenarios: Managing the Timeline",
-      "front": "Scenario: You are managing a software project. A developer says \"I can't start the UI until the API is done.\" What dependency is this?\n",
-      "back": "Finish-to-Start (FS). It is likely a Mandatory dependency (Hard Logic).\n\n\n"
-    },
-    {
-      "id": 51,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Calculate PERT (Beta): O=2, M=5, P=14.\n",
-      "back": "(2 + 4(5) + 14) / 6 = (36) / 6 = 6.\n"
-    },
-    {
-      "id": 52,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Calculate Standard Deviation (Sigma): O=2, M=5, P=14.\n",
-      "back": "(P - O) / 6 = (14 - 2) / 6 = 12 / 6 = 2.\n"
-    },
-    {
-      "id": 53,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Calculate Total Float: LS=10, ES=4.\n",
-      "back": "10 - 4 = 6.\n"
-    },
-    {
-      "id": 54,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Calculate Early Finish (EF): ES=5, Duration=3.\n",
-      "back": "5 + 3 = 8.\n"
-    },
-    {
-      "id": 55,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Network: A (3 days) -> B (4 days). What is the duration?\n",
-      "back": "3 + 4 = 7 days.\n"
-    },
-    {
-      "id": 56,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Network: Start connects to A (5 days) and B (7 days). Both connect to End. What is the Critical Path duration?\n",
-      "back": "7 days (Path B is longer).\n"
-    },
-    {
-      "id": 57,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Using the previous card (A=5, B=7), what is the Float of Activity A?\n",
-      "back": "7 - 5 = 2 days.\n"
-    },
-    {
-      "id": 58,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Calculate Late Start (LS): LF=20, Duration=5.\n",
-      "back": "20 - 5 = 15.\n"
-    },
-    {
-      "id": 59,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Estimate Range: If Mean is 20 and Sigma is 2. What is the range for 95% confidence? (2 Sigma).\n",
-      "back": "20 +/- (2 * 2) = 16 to 24.\n"
-    },
-    {
-      "id": 60,
-      "category": "🔢 Calculation Practice (CPM/PERT)",
-      "front": "Triangular Distribution: O=2, M=5, P=14.\n",
-      "back": "(2 + 5 + 14) / 3 = 21 / 3 = 7.\n\n\n"
-    },
-    {
-      "id": 61,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is the Schedule Management Plan?\n",
-      "back": "A component of the project management plan that establishes the criteria and the activities for developing, monitoring, and controlling the schedule.\n"
-    },
-    {
-      "id": 62,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is the Schedule Baseline?\n",
-      "back": "The approved version of a schedule model that can be changed only through formal change control procedures and is used as a basis for comparison to actual results.\n"
-    },
-    {
-      "id": 63,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is the Activity List?\n",
-      "back": "A documented tabulation of schedule activities that shows the activity description, activity identifier, and a sufficiently detailed scope of work description.\n"
-    },
-    {
-      "id": 64,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What are Activity Attributes?\n",
-      "back": "Data about the activity (e.g., codes, predecessor activities, successor activities, logical relationships, leads and lags, resource requirements, imposed dates, constraints).\n"
-    },
-    {
-      "id": 65,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is a Network Diagram?\n",
-      "back": "A graphical representation of the logical relationships, also referred to as dependencies, among the project schedule activities.\n"
-    },
-    {
-      "id": 66,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is Bottom-Up Estimating (Schedule)?\n",
-      "back": "Aggregating the estimates of the lower-level components of the WBS (activity durations) to get the total project duration.\n"
-    },
-    {
-      "id": 67,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is Parkinson's Law?\n",
-      "back": "\"Work expands to fill the time available for its completion.\" (Reason to avoid padding estimates).\n"
-    },
-    {
-      "id": 68,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is Student Syndrome?\n",
-      "back": "Planned procrastination. People start to apply themselves only at the last possible moment before the deadline.\n"
-    },
-    {
-      "id": 69,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is the Critical Chain Method?\n",
-      "back": "A schedule method that allows the project team to place buffers on any project schedule path to account for limited resources and project uncertainties. (Focuses on Resource constraints, not just Logic).\n"
-    },
-    {
-      "id": 70,
-      "category": "🛠️ ITTOs of Schedule Management",
-      "front": "What is Reserve Analysis (Schedule)?\n",
-      "back": "Adding buffers (Contingency Reserves) to the schedule to account for uncertainty/risk.\n\n\n"
-    },
-    {
-      "id": 71,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "True or False: A project can have multiple Critical Paths.\n",
-      "back": "True. If two paths have the exact same duration and are the longest, both are critical. (This increases Risk).\n"
-    },
-    {
-      "id": 72,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "True or False: Milestones have duration.\n",
-      "back": "False. Milestones are zero-duration points in time.\n"
-    },
-    {
-      "id": 73,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "True or False: Backward Pass calculates Early Start.\n",
-      "back": "False. Backward Pass calculates Late Start (LS) and Late Finish (LF).\n"
-    },
-    {
-      "id": 74,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "True or False: A Fast-Tracked schedule usually has higher cost.\n",
-      "back": "False. It has higher Risk. Crashing has higher Cost.\n"
-    },
-    {
-      "id": 75,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "What is Fist of Five?\n",
-      "back": "An Agile voting technique to gauge consensus/confidence in an estimate (1 finger = no way, 5 fingers = easy).\n"
-    },
-    {
-      "id": 76,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "What is Planning Poker?\n",
-      "back": "An Agile estimation technique using cards (Fibonacci sequence) to estimate effort/relative size of user stories.\n"
-    },
-    {
-      "id": 77,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "What is Relative Estimation?\n",
-      "back": "Estimating tasks in comparison to one another (e.g., Story Points, T-Shirt Sizes) rather than absolute time (Hours).\n"
-    },
-    {
-      "id": 78,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "What is a Gantt Chart?\n",
-      "back": "A bar chart that tracks tasks across time. Good for tracking progress.\n"
-    },
-    {
-      "id": 79,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "What is Agile Release Planning?\n",
-      "back": "Looking 3-6 months out to determine when product increments will be released to customers.\n"
-    },
-    {
-      "id": 80,
-      "category": "⚡ Quick-Fire Schedule Review",
-      "front": "What is On-Demand Scheduling?\n",
-      "back": "A Pull-based system (like Kanban) where work is pulled from a backlog only when resources are available, rather than being scheduled in advance.\n"
-    }
-  ]
+ "meta": {
+ "title": " Process Task: Plan and Manage Schedule",
+ "domain": "Process",
+ "task": "Plan and manage schedule",
+ "ecoReference": "Process Task 8",
+ "description": "Flashcards for PMP Process Domain Task 8",
+ "file": "guide/appendices/flashcards-process-task8-schedule.md"
+ },
+ "flashcards": [
+ {
+ "id": 1,
+ "category": " Schedule Fundamentals",
+ "front": "What is the Critical Path?\n",
+ "back": "The sequence of activities that represents the longest path through the project, which determines the shortest possible duration. It has Zero Total Float.\n"
+ },
+ {
+ "id": 2,
+ "category": " Schedule Fundamentals",
+ "front": "What is Total Float (Slack)?\n",
+ "back": "The amount of time an activity can be delayed from its early start without delaying the planned project finish date.\nFormula: LS - ES or LF - EF.\n"
+ },
+ {
+ "id": 3,
+ "category": " Schedule Fundamentals",
+ "front": "What is Free Float?\n",
+ "back": "The amount of time an activity can be delayed without delaying the Early Start of any successor activity.\n"
+ },
+ {
+ "id": 4,
+ "category": " Schedule Fundamentals",
+ "front": "What is a Milestone?\n",
+ "back": "A significant point or event in a project. It has Zero Duration.\n"
+ },
+ {
+ "id": 5,
+ "category": " Schedule Fundamentals",
+ "front": "What is the Precedence Diagramming Method (PDM)?\n",
+ "back": "A technique used for constructing a schedule model in which activities are represented by nodes and are graphically linked by one or more logical relationships to show the sequence. (Activity-on-Node).\n"
+ },
+ {
+ "id": 6,
+ "category": " Schedule Fundamentals",
+ "front": "What is Rolling Wave Planning?\n",
+ "back": "An iterative planning technique in which the work to be accomplished in the near term is planned in detail, while the work in the future is planned at a higher level.\n"
+ },
+ {
+ "id": 7,
+ "category": " Schedule Fundamentals",
+ "front": "What does FS (Finish-to-Start) mean?\n",
+ "back": "A logical relationship in which potential work cannot start until a predecessor activity finishes. (The most common type).\n"
+ },
+ {
+ "id": 8,
+ "category": " Schedule Fundamentals",
+ "front": "What does SS (Start-to-Start) mean?\n",
+ "back": "A relationship where a successor activity cannot start until a predecessor activity has started.\n"
+ },
+ {
+ "id": 9,
+ "category": " Schedule Fundamentals",
+ "front": "What does FF (Finish-to-Finish) mean?\n",
+ "back": "A relationship where a successor activity cannot finish until a predecessor activity has finished.\n"
+ },
+ {
+ "id": 10,
+ "category": " Schedule Fundamentals",
+ "front": "What does SF (Start-to-Finish) mean?\n",
+ "back": "A relationship where a successor activity cannot finish until a predecessor activity has started. (Rare; e.g., the first shift cannot finish until the second shift starts).\n\n\n"
+ },
+ {
+ "id": 11,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "What is Lag?\n",
+ "back": "The amount of time a successor activity will be delayed with respect to a predecessor activity. (Waiting time, e.g., paint drying).\n"
+ },
+ {
+ "id": 12,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "What is Lead?\n",
+ "back": "The amount of time a successor activity can be advanced with respect to a predecessor activity. (Overlap, e.g., starting to write Chapter 2 before Chapter 1 is 100% finished).\n"
+ },
+ {
+ "id": 13,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "What is Mandatory Dependency (Hard Logic)?\n",
+ "back": "A relationship that is contractually required or inherent in the nature of the work (e.g., must pour foundation before building walls).\n"
+ },
+ {
+ "id": 14,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "What is Discretionary Dependency (Soft Logic)?\n",
+ "back": "A relationship that is established based on knowledge of best practices or some unusual aspect of the project. (e.g., \"We prefer to paint the walls before installing the carpet\").\n"
+ },
+ {
+ "id": 15,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "What is External Dependency?\n",
+ "back": "A relationship between project activities and non-project activities (e.g., waiting for a government hearing). Usually outside the control of the team.\n"
+ },
+ {
+ "id": 16,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "What is Internal Dependency?\n",
+ "back": "A relationship between project activities that are generally inside the project team's control.\n"
+ },
+ {
+ "id": 17,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "What is the Forward Pass?\n",
+ "back": "A critical path method for calculating the Early Start and Early Finish dates by working forward through the schedule model.\n"
+ },
+ {
+ "id": 18,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "What is the Backward Pass?\n",
+ "back": "A critical path method for calculating the Late Start and Late Finish dates by working backward through the schedule model.\n"
+ },
+ {
+ "id": 19,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "How do you calculate Project Diagram Duration?\n",
+ "back": "It is equal to the duration of the Critical Path.\n"
+ },
+ {
+ "id": 20,
+ "category": " Schedule Logic & Leads/Lags",
+ "front": "If an activity has Negative Float, what does it mean?\n",
+ "back": "The planned finish date is after the imposed deadline (e.g., the Customer requires it by Dec 1, but the schedule says Dec 5). The project is late before it starts.\n\n\n"
+ },
+ {
+ "id": 21,
+ "category": " Schedule Compression",
+ "front": "What is Crashing?\n",
+ "back": "Adding resources to critical path activities to shorten the schedule. It usually increases Cost (e.g., paying overtime).\n"
+ },
+ {
+ "id": 22,
+ "category": " Schedule Compression",
+ "front": "What is Fast Tracking?\n",
+ "back": "Performing activities in parallel that were originally planned in sequence. It usually increases Risk (of rework).\n"
+ },
+ {
+ "id": 23,
+ "category": " Schedule Compression",
+ "front": "Does Crashing work on non-critical activities?\n",
+ "back": "No. Shortening a non-critical task does not shorten the project duration; it just increases the float of that task.\n"
+ },
+ {
+ "id": 24,
+ "category": " Schedule Compression",
+ "front": "What is the main risk of Fast Tracking?\n",
+ "back": "Rework. If you start the foundation before the blueprints are approved, you might have to tear it up later.\n"
+ },
+ {
+ "id": 25,
+ "category": " Schedule Compression",
+ "front": "Scenario: You are behind schedule. You have no extra money. Which compression technique is viable?\n",
+ "back": "Fast Tracking. (Crashing requires money).\n"
+ },
+ {
+ "id": 26,
+ "category": " Schedule Compression",
+ "front": "Scenario: You are behind schedule. The deadline is firm. You have budget reserves. Which technique is viable?\n",
+ "back": "Crashing. (It's safer than Fast Tracking if you have the cash).\n"
+ },
+ {
+ "id": 27,
+ "category": " Schedule Compression",
+ "front": "What is Resource Leveling?\n",
+ "back": "A technique in which start and finish dates are adjusted based on resource constraints. It typically lengthens the schedule.\n"
+ },
+ {
+ "id": 28,
+ "category": " Schedule Compression",
+ "front": "What is Resource Smoothing?\n",
+ "back": "A technique that adjusts the activities of a schedule model such that the requirements for resources on the project do not exceed certain predefined resource limits. It operates only within the limits of Float, so it does not change the project end date.\n"
+ },
+ {
+ "id": 29,
+ "category": " Schedule Compression",
+ "front": "What is the Law of Diminishing Returns in Crashing?\n",
+ "back": "Adding more resources eventually yields less output per unit (e.g., too many cooks in the kitchen). Crashing isn't linear.\n"
+ },
+ {
+ "id": 30,
+ "category": " Schedule Compression",
+ "front": "What is Monte Carlo Analysis for Schedule?\n",
+ "back": "A simulation that runs thousands of possible project scenarios to calculate the probability of finishing by a certain date.\n\n\n"
+ },
+ {
+ "id": 31,
+ "category": " Agile Scheduling",
+ "front": "What is the primary unit of schedule planning in Scrum?\n",
+ "back": "The Sprint (or Iteration), typically 1-4 weeks long.\n"
+ },
+ {
+ "id": 32,
+ "category": " Agile Scheduling",
+ "front": "What is Velocity?\n",
+ "back": "A measure of the amount of work a team can tackle during a single Sprint (e.g., 20 Story Points).\n"
+ },
+ {
+ "id": 33,
+ "category": " Agile Scheduling",
+ "front": "What is a Release Plan?\n",
+ "back": "A high-level schedule that indicates which features will be available at the end of each release (which may span multiple Sprints).\n"
+ },
+ {
+ "id": 34,
+ "category": " Agile Scheduling",
+ "front": "What is a Burndown Chart?\n",
+ "back": "A graphical representation of work left to do versus time. Ideally, it trends down to zero by the end of the Sprint/Project.\n"
+ },
+ {
+ "id": 35,
+ "category": " Agile Scheduling",
+ "front": "What is a Burnup Chart?\n",
+ "back": "A chart showing the total scope (work to be done) and the work completed. It is useful for showing when scope is added (the total scope line rises).\n"
+ },
+ {
+ "id": 36,
+ "category": " Agile Scheduling",
+ "front": "What is Timeboxing?\n",
+ "back": "Setting a fixed time period for an activity (e.g., a one-hour meeting, a two-week sprint). If work isn't done, the box still closes.\n"
+ },
+ {
+ "id": 37,
+ "category": " Agile Scheduling",
+ "front": "What is Adaptive Planning?\n",
+ "back": "Changing the plan as new information becomes available (Agile Principle: Responding to change over following a plan).\n"
+ },
+ {
+ "id": 38,
+ "category": " Agile Scheduling",
+ "front": "How do you calculate Sprints Required?\n",
+ "back": "Total Story Points in Backlog / Average Velocity. (e.g., 100 points / 20 points per sprint = 5 Sprints).\n"
+ },
+ {
+ "id": 39,
+ "category": " Agile Scheduling",
+ "front": "What is the Daily Scrum?\n",
+ "back": "A 15-minute timeboxed event for the Development Team to synchronize activities and create a plan for the next 24 hours.\n"
+ },
+ {
+ "id": 40,
+ "category": " Agile Scheduling",
+ "front": "Does Agile use Critical Path?\n",
+ "back": "Generally No. Agile focuses on flow and prioritizing the backlog rather than a strict dependency network, although dependencies still exist.\n\n\n"
+ },
+ {
+ "id": 41,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: An activity has Total Float of 5 days and Free Float of 2 days. If you delay it by 4 days, what happens?\n",
+ "back": "It creates a delay for the successor, but the Project End Date is safe. (Passed Free Float limit, but within Total Float limit).\n"
+ },
+ {
+ "id": 42,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: The client demands a change that adds 2 days to a critical path activity. What is the impact?\n",
+ "back": "The project end date acts delayed by 2 days (unless you Compress).\n"
+ },
+ {
+ "id": 43,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: A team member suggests doing two tasks at once to catch up. What is this called?\n",
+ "back": "Fast Tracking.\n"
+ },
+ {
+ "id": 44,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: You are estimating a task where you have no historical data. Which method is best?\n",
+ "back": "Three-Point Estimating (or Expert Judgment).\n"
+ },
+ {
+ "id": 45,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: You are estimating a task where you have tons of data and it's very repetitive (e.g., installing 1000 standard windows). Which method is best?\n",
+ "back": "Parametric Estimating.\n"
+ },
+ {
+ "id": 46,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: A resource is over-allocated, but you cannot delay the project finish date. Which optimization technique do you use?\n",
+ "back": "Resource Smoothing. (It only adjusts non-critical activities).\n"
+ },
+ {
+ "id": 47,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: Your Burndown chart has a \"flat line\" for 5 days. What does this mean?\n",
+ "back": "No work was completed/closed during those 5 days.\n"
+ },
+ {
+ "id": 48,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: The customer wants to move the deadline up by 2 weeks. What is the first thing you check?\n",
+ "back": "The Critical Path. You need to see which activities drive the duration to know if it's feasible.\n"
+ },
+ {
+ "id": 49,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: An activity on the Critical Path is completed 2 days early. What happens to the project float?\n",
+ "back": "The project now has 2 days of positive float (or forces an earlier finish).\n"
+ },
+ {
+ "id": 50,
+ "category": " Scenarios: Managing the Timeline",
+ "front": "Scenario: You are managing a software project. A developer says \"I can't start the UI until the API is done.\" What dependency is this?\n",
+ "back": "Finish-to-Start (FS). It is likely a Mandatory dependency (Hard Logic).\n\n\n"
+ },
+ {
+ "id": 51,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Calculate PERT (Beta): O=2, M=5, P=14.\n",
+ "back": "(2 + 4(5) + 14) / 6 = (36) / 6 = 6.\n"
+ },
+ {
+ "id": 52,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Calculate Standard Deviation (Sigma): O=2, M=5, P=14.\n",
+ "back": "(P - O) / 6 = (14 - 2) / 6 = 12 / 6 = 2.\n"
+ },
+ {
+ "id": 53,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Calculate Total Float: LS=10, ES=4.\n",
+ "back": "10 - 4 = 6.\n"
+ },
+ {
+ "id": 54,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Calculate Early Finish (EF): ES=5, Duration=3.\n",
+ "back": "5 + 3 = 8.\n"
+ },
+ {
+ "id": 55,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Network: A (3 days) -> B (4 days). What is the duration?\n",
+ "back": "3 + 4 = 7 days.\n"
+ },
+ {
+ "id": 56,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Network: Start connects to A (5 days) and B (7 days). Both connect to End. What is the Critical Path duration?\n",
+ "back": "7 days (Path B is longer).\n"
+ },
+ {
+ "id": 57,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Using the previous card (A=5, B=7), what is the Float of Activity A?\n",
+ "back": "7 - 5 = 2 days.\n"
+ },
+ {
+ "id": 58,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Calculate Late Start (LS): LF=20, Duration=5.\n",
+ "back": "20 - 5 = 15.\n"
+ },
+ {
+ "id": 59,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Estimate Range: If Mean is 20 and Sigma is 2. What is the range for 95% confidence? (2 Sigma).\n",
+ "back": "20 +/- (2 * 2) = 16 to 24.\n"
+ },
+ {
+ "id": 60,
+ "category": " Calculation Practice (CPM/PERT)",
+ "front": "Triangular Distribution: O=2, M=5, P=14.\n",
+ "back": "(2 + 5 + 14) / 3 = 21 / 3 = 7.\n\n\n"
+ },
+ {
+ "id": 61,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is the Schedule Management Plan?\n",
+ "back": "A component of the project management plan that establishes the criteria and the activities for developing, monitoring, and controlling the schedule.\n"
+ },
+ {
+ "id": 62,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is the Schedule Baseline?\n",
+ "back": "The approved version of a schedule model that can be changed only through formal change control procedures and is used as a basis for comparison to actual results.\n"
+ },
+ {
+ "id": 63,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is the Activity List?\n",
+ "back": "A documented tabulation of schedule activities that shows the activity description, activity identifier, and a sufficiently detailed scope of work description.\n"
+ },
+ {
+ "id": 64,
+ "category": " ITTOs of Schedule Management",
+ "front": "What are Activity Attributes?\n",
+ "back": "Data about the activity (e.g., codes, predecessor activities, successor activities, logical relationships, leads and lags, resource requirements, imposed dates, constraints).\n"
+ },
+ {
+ "id": 65,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is a Network Diagram?\n",
+ "back": "A graphical representation of the logical relationships, also referred to as dependencies, among the project schedule activities.\n"
+ },
+ {
+ "id": 66,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is Bottom-Up Estimating (Schedule)?\n",
+ "back": "Aggregating the estimates of the lower-level components of the WBS (activity durations) to get the total project duration.\n"
+ },
+ {
+ "id": 67,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is Parkinson's Law?\n",
+ "back": "\"Work expands to fill the time available for its completion.\" (Reason to avoid padding estimates).\n"
+ },
+ {
+ "id": 68,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is Student Syndrome?\n",
+ "back": "Planned procrastination. People start to apply themselves only at the last possible moment before the deadline.\n"
+ },
+ {
+ "id": 69,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is the Critical Chain Method?\n",
+ "back": "A schedule method that allows the project team to place buffers on any project schedule path to account for limited resources and project uncertainties. (Focuses on Resource constraints, not just Logic).\n"
+ },
+ {
+ "id": 70,
+ "category": " ITTOs of Schedule Management",
+ "front": "What is Reserve Analysis (Schedule)?\n",
+ "back": "Adding buffers (Contingency Reserves) to the schedule to account for uncertainty/risk.\n\n\n"
+ },
+ {
+ "id": 71,
+ "category": " Quick-Fire Schedule Review",
+ "front": "True or False: A project can have multiple Critical Paths.\n",
+ "back": "True. If two paths have the exact same duration and are the longest, both are critical. (This increases Risk).\n"
+ },
+ {
+ "id": 72,
+ "category": " Quick-Fire Schedule Review",
+ "front": "True or False: Milestones have duration.\n",
+ "back": "False. Milestones are zero-duration points in time.\n"
+ },
+ {
+ "id": 73,
+ "category": " Quick-Fire Schedule Review",
+ "front": "True or False: Backward Pass calculates Early Start.\n",
+ "back": "False. Backward Pass calculates Late Start (LS) and Late Finish (LF).\n"
+ },
+ {
+ "id": 74,
+ "category": " Quick-Fire Schedule Review",
+ "front": "True or False: A Fast-Tracked schedule usually has higher cost.\n",
+ "back": "False. It has higher Risk. Crashing has higher Cost.\n"
+ },
+ {
+ "id": 75,
+ "category": " Quick-Fire Schedule Review",
+ "front": "What is Fist of Five?\n",
+ "back": "An Agile voting technique to gauge consensus/confidence in an estimate (1 finger = no way, 5 fingers = easy).\n"
+ },
+ {
+ "id": 76,
+ "category": " Quick-Fire Schedule Review",
+ "front": "What is Planning Poker?\n",
+ "back": "An Agile estimation technique using cards (Fibonacci sequence) to estimate effort/relative size of user stories.\n"
+ },
+ {
+ "id": 77,
+ "category": " Quick-Fire Schedule Review",
+ "front": "What is Relative Estimation?\n",
+ "back": "Estimating tasks in comparison to one another (e.g., Story Points, T-Shirt Sizes) rather than absolute time (Hours).\n"
+ },
+ {
+ "id": 78,
+ "category": " Quick-Fire Schedule Review",
+ "front": "What is a Gantt Chart?\n",
+ "back": "A bar chart that tracks tasks across time. Good for tracking progress.\n"
+ },
+ {
+ "id": 79,
+ "category": " Quick-Fire Schedule Review",
+ "front": "What is Agile Release Planning?\n",
+ "back": "Looking 3-6 months out to determine when product increments will be released to customers.\n"
+ },
+ {
+ "id": 80,
+ "category": " Quick-Fire Schedule Review",
+ "front": "What is On-Demand Scheduling?\n",
+ "back": "A Pull-based system (like Kanban) where work is pulled from a backlog only when resources are available, rather than being scheduled in advance.\n"
+ }
+ ]
 }

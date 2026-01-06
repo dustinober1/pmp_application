@@ -4,7 +4,7 @@ Use this page as a copy/paste toolkit for risk, quality, and complexity scenario
 
 ---
 
-## 📋 Risk Register (Copy/Paste Template)
+## Risk Register (Copy/Paste Template)
 Minimum fields that make risk management actionable:
 
 | Field | Example |
@@ -23,7 +23,7 @@ Minimum fields that make risk management actionable:
 | **Fallback plan** | Re-sequence work; expedite shipping |
 | **Status** | Active / watchlist / closed / realized |
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 If a risk response requires effort, it belongs in the **schedule/backlog** with an owner. “We have a plan” is meaningless if no work is planned.
 :::
 
@@ -39,7 +39,7 @@ Use this logic to prioritize (qualitative analysis):
 
 ---
 
-## 🛡️ Risk Response “Mini-Plan” (Fast Template)
+## Risk Response “Mini-Plan” (Fast Template)
 When you choose a strategy (avoid/mitigate/transfer/accept/escalate), make it executable:
 
 1. **Owner**: Who is accountable?
@@ -51,7 +51,7 @@ When you choose a strategy (avoid/mitigate/transfer/accept/escalate), make it ex
 
 ---
 
-## 💰 Reserves Cheat Sheet
+## Reserves Cheat Sheet
 | Reserve | Used for | In cost baseline? | Typical approval |
 |---|---|---:|---|
 | **Contingency reserve** | Identified risks (known-unknowns) | Yes | PM (within limits) |
@@ -59,7 +59,7 @@ When you choose a strategy (avoid/mitigate/transfer/accept/escalate), make it ex
 
 ---
 
-## ✅ Quality Metrics (Practical Examples)
+## Quality Metrics (Practical Examples)
 Pick metrics that are observable and tied to requirements.
 
 | Metric | What it tells you | Common use |
@@ -73,7 +73,7 @@ Pick metrics that are observable and tied to requirements.
 
 ---
 
-## 🧾 Definition of Done (Starter Checklist)
+## Definition of Done (Starter Checklist)
 Use this as a baseline and tailor to your domain:
 
 - Acceptance criteria met (validated with product owner/customer)
@@ -83,17 +83,17 @@ Use this as a baseline and tailor to your domain:
 - Documentation updated (user + technical as needed)
 - No critical defects open for the story/release
 
-### 📋 Quality Audit Checklist (Are we doing the right thing?)
+### Quality Audit Checklist (Are we doing the right thing?)
 Use for **Manage Quality (QA)**:
-1.  [ ] Are we using the correct document templates?
-2.  [ ] Are code reviews happening for every PR?
-3.  [ ] Is the "Definition of Done" being respected?
-4.  [ ] Are safety/compliance checks being skipped?
-5.  [ ] Is the defect log up to date?
+1. [ ] Are we using the correct document templates?
+2. [ ] Are code reviews happening for every PR?
+3. [ ] Is the "Definition of Done" being respected?
+4. [ ] Are safety/compliance checks being skipped?
+5. [ ] Is the defect log up to date?
 
 ---
 
-## 🛠️ 7 Quality Tools: Quick Pick
+## 7 Quality Tools: Quick Pick
 | If you need to… | Use… |
 |---|---|
 | Find root causes | **Fishbone** + **5 Whys** |
@@ -106,7 +106,7 @@ Use for **Manage Quality (QA)**:
 
 ---
 
-## 📈 Control Chart Cheat Sheet (Simplified)
+## Control Chart Cheat Sheet (Simplified)
 Common “investigate” signals:
 
 - Any point **outside** UCL/LCL
@@ -119,7 +119,7 @@ Key concept pair:
 
 ---
 
-## 🧭 Cynefin Quick Pick
+## Cynefin Quick Pick
 | Domain | Environment feels like… | Best move |
 |---|---|---|
 | **Clear** | Known rules, repeatable work | Standardize, automate, follow best practice |
@@ -129,7 +129,7 @@ Key concept pair:
 
 ---
 
-## 🗓️ Weekly "Risk + Quality" Review Agenda (10 Minutes)
+## Weekly "Risk + Quality" Review Agenda (10 Minutes)
 - New risks/opportunities since last review
 - Top risks: triggers, actions progress, owner updates
 - Recent defects: trend, root cause themes, corrective actions
@@ -138,7 +138,7 @@ Key concept pair:
 
 ---
 
-## 🎯 Risk Response Decision Matrix
+## Risk Response Decision Matrix
 Use this to quickly select the best response strategy:
 
 | If the risk… | And you have… | Best Strategy |
@@ -153,19 +153,19 @@ Use this to quickly select the best response strategy:
 
 ---
 
-## 📊 Quality vs. Grade Decision Table
+## Quality vs. Grade Decision Table
 | Scenario | Quality | Grade | Acceptable? |
 |---|---|---|---|
-| Economy car with no defects, meets all specs | High | Low | ✅ Yes |
-| Luxury car with defects, doesn't meet specs | Low | High | ❌ No |
-| Economy car with defects | Low | Low | ❌ No |
-| Luxury car with no defects, exceeds specs | High | High | ✅ Yes |
+| Economy car with no defects, meets all specs | High | Low | Yes |
+| Luxury car with defects, doesn't meet specs | Low | High | No |
+| Economy car with defects | Low | Low | No |
+| Luxury car with no defects, exceeds specs | High | High | Yes |
 
 **Key Takeaway**: Low grade can be acceptable (if that's what was purchased). Low quality is never acceptable.
 
 ---
 
-## 🔍 Root Cause Analysis Template (5 Whys)
+## Root Cause Analysis Template (5 Whys)
 
 **Problem Statement**: Deliverable was rejected by customer
 
@@ -181,7 +181,7 @@ Use this to quickly select the best response strategy:
 
 ---
 
-## 🧭 Complexity Decision Framework
+## Complexity Decision Framework
 
 | Question | Answer | Implication |
 |---|---|---|
@@ -193,7 +193,7 @@ Use this to quickly select the best response strategy:
 
 ---
 
-## 📋 Risk Audit Checklist
+## Risk Audit Checklist
 Use this to verify risk management effectiveness:
 
 - [ ] Is the Risk Register reviewed at least monthly (or every sprint)?
@@ -207,7 +207,7 @@ Use this to verify risk management effectiveness:
 
 ---
 
-## 🎯 When to Use Which Quality Tool (Quick Reference)
+## When to Use Which Quality Tool (Quick Reference)
 
 | Situation | Tool | Why |
 |---|---|---|
@@ -221,7 +221,7 @@ Use this to verify risk management effectiveness:
 
 ---
 
-## 📈 Monte Carlo Interpretation Guide
+## Monte Carlo Interpretation Guide
 
 How to read and use Monte Carlo simulation outputs:
 
@@ -246,7 +246,7 @@ How to read and use Monte Carlo simulation outputs:
 
 ---
 
-## 📐 PERT Formulas Quick Reference
+## PERT Formulas Quick Reference
 
 | Formula | Purpose | Calculation |
 |---|---|---|
@@ -272,43 +272,43 @@ How to read and use Monte Carlo simulation outputs:
 
 ---
 
-## 🎯 Risk Response Selection Flowchart
+## Risk Response Selection Flowchart
 
 Use this decision tree to select the best response strategy for threats:
 
 ```
 Is the risk OUTSIDE your authority?
-├── YES → ESCALATE to program/portfolio level
-└── NO → Is the impact SEVERE and probability HIGH?
-         ├── YES → Can you ELIMINATE the cause?
-         │         ├── YES → AVOID (change approach/scope)
-         │         └── NO → Can you REDUCE impact OR probability?
-         │                  ├── YES → MITIGATE (reduce exposure)
-         │                  └── NO → Can you TRANSFER to third party?
-         │                           ├── YES → TRANSFER (insurance/contract)
-         │                           └── NO → ACCEPT (active: plan contingency)
-         └── NO → Is monitoring cost-effective?
-                  ├── YES → ACCEPT (active: monitor with triggers)
-                  └── NO → ACCEPT (passive: acknowledge only)
+ YES → ESCALATE to program/portfolio level
+ NO → Is the impact SEVERE and probability HIGH?
+ YES → Can you ELIMINATE the cause?
+ YES → AVOID (change approach/scope)
+ NO → Can you REDUCE impact OR probability?
+ YES → MITIGATE (reduce exposure)
+ NO → Can you TRANSFER to third party?
+ YES → TRANSFER (insurance/contract)
+ NO → ACCEPT (active: plan contingency)
+ NO → Is monitoring cost-effective?
+ YES → ACCEPT (active: monitor with triggers)
+ NO → ACCEPT (passive: acknowledge only)
 ```
 
 ### Opportunity Response Selection
 
 ```
 Is the opportunity OUTSIDE your control?
-├── YES → ESCALATE (let higher-ups pursue it)
-└── NO → Can you GUARANTEE the opportunity happens?
-         ├── YES → EXPLOIT (eliminate uncertainty, make it certain)
-         └── NO → Can you INCREASE the probability or impact?
-                  ├── YES → ENHANCE (take actions to boost it)
-                  └── NO → Can you PARTNER with others to realize it?
-                           ├── YES → SHARE (joint venture)
-                           └── NO → ACCEPT (take advantage if it occurs)
+ YES → ESCALATE (let higher-ups pursue it)
+ NO → Can you GUARANTEE the opportunity happens?
+ YES → EXPLOIT (eliminate uncertainty, make it certain)
+ NO → Can you INCREASE the probability or impact?
+ YES → ENHANCE (take actions to boost it)
+ NO → Can you PARTNER with others to realize it?
+ YES → SHARE (joint venture)
+ NO → ACCEPT (take advantage if it occurs)
 ```
 
 ---
 
-## 📊 Process Capability Quick Reference
+## Process Capability Quick Reference
 
 ### Interpreting Cp and Cpk
 
@@ -332,7 +332,7 @@ Is the opportunity OUTSIDE your control?
 
 ---
 
-## 💰 EMV and Decision Tree Calculator
+## EMV and Decision Tree Calculator
 
 ### Single Risk EMV
 ```
@@ -355,22 +355,22 @@ EMV = 0.30 × (-$100,000) = -$30,000
 ### Decision Tree EMV Template
 ```
 Decision: [Your Choice]
-├── Option A (Cost: $X)
-│   ├── Success (P%): Net Value = $Y × P% = $_
-│   └── Failure (1-P%): Net Value = $Z × (1-P%) = $_
-│   EMV(A) = Sum of above = $_
-│
-├── Option B (Cost: $X)
-│   ├── Success (P%): Net Value = $Y × P% = $_
-│   └── Failure (1-P%): Net Value = $Z × (1-P%) = $_
-│   EMV(B) = Sum of above = $_
+ Option A (Cost: $X)
+ Success (P%): Net Value = $Y × P% = $_
+ Failure (1-P%): Net Value = $Z × (1-P%) = $_
+ EMV(A) = Sum of above = $_
+
+ Option B (Cost: $X)
+ Success (P%): Net Value = $Y × P% = $_
+ Failure (1-P%): Net Value = $Z × (1-P%) = $_
+ EMV(B) = Sum of above = $_
 
 BEST CHOICE: Option with highest EMV
 ```
 
 ---
 
-## 📋 Integrated Risk-Quality-Complexity Review Template
+## Integrated Risk-Quality-Complexity Review Template
 
 ### Weekly Combined Review (15 minutes)
 
@@ -400,7 +400,7 @@ BEST CHOICE: Option with highest EMV
 
 ---
 
-## 🧭 Cynefin Quick Decision Guide
+## Cynefin Quick Decision Guide
 
 | If the situation feels... | You're in... | Do this... |
 |---|---|---|
@@ -412,7 +412,7 @@ BEST CHOICE: Option with highest EMV
 
 ---
 
-## 📊 Sigma Level Quick Reference
+## Sigma Level Quick Reference
 
 | Sigma | DPMO | Yield | Is it good? |
 |---|---|---|---|
@@ -425,7 +425,7 @@ BEST CHOICE: Option with highest EMV
 
 ---
 
-## ✅ Pre-Flight Checklists
+## Pre-Flight Checklists
 
 ### Before Risk Planning Session
 - [ ] Risk Register template ready

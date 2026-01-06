@@ -1,612 +1,612 @@
 {
-  "meta": {
-    "title": "PMP 2026 Flashcards: People Domain – Task 4",
-    "domain": "People (33%)",
-    "task": "Engage stakeholders",
-    "ecoReference": "Domain I, Task 4",
-    "description": "",
-    "file": "guide/appendices/flashcards-people-task4-stakeholders.md"
-  },
-  "flashcards": [
-    {
-      "id": 1,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "What is the \"Snowball Technique\" for stakeholder identification?",
-      "back": "Asking every identified stakeholder: \"Who else should I be talking to?\" to uncover shadow stakeholders."
-    },
-    {
-      "id": 2,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "When does Stakeholder Analysis happen?",
-      "back": "It is a continuous cycle throughout the project, not just a one-time initiation activity."
-    },
-    {
-      "id": 3,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "What is a \"Power/Interest Grid\"?",
-      "back": "A tool to classify stakeholders based on their authority (Power) and level of concern (Interest) to determine engagement strategy."
-    },
-    {
-      "id": 4,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "How should you treat a stakeholder with High Power and High Interest?",
-      "back": "Manage Closely. They are key players who must be fully engaged and satisfied."
-    },
-    {
-      "id": 5,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "How should you treat a stakeholder with High Power and Low Interest?",
-      "back": "Keep Satisfied. Meet their needs but don't over-communicate. Watch out for them becoming resistant."
-    },
-    {
-      "id": 6,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "How should you treat a stakeholder with Low Power and High Interest?",
-      "back": "Keep Informed. They can be valuable allies or sources of noise."
-    },
-    {
-      "id": 7,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "How should you treat a stakeholder with Low Power and Low Interest?",
-      "back": "Monitor. Spend minimal effort but check in periodically."
-    },
-    {
-      "id": 8,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "What is the Salience Model?",
-      "back": "Classifies stakeholders based on Power, Urgency, and Legitimacy. Used for complex stakeholder environments."
-    },
-    {
-      "id": 9,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "What are \"Shadow Stakeholders\"?",
-      "back": "People who have informal influence but do not appear on the official org chart. You must identify them to avoid surprises."
-    },
-    {
-      "id": 10,
-      "category": "Stakeholder Identification & Analysis",
-      "front": "What is the primary output of the Identity Stakeholders process?",
-      "back": "The Stakeholder Register."
-    },
-    {
-      "id": 11,
-      "category": "Stakeholder Register & Plans",
-      "front": "What information goes into the Stakeholder Register?",
-      "back": "Identification info (Name, Role), Assessment info (Requirements, Expectations, Influence), and Classification (Internal/External, Supporter/Resistor)."
-    },
-    {
-      "id": 12,
-      "category": "Stakeholder Register & Plans",
-      "front": "What is the Stakeholder Engagement Plan?",
-      "back": "A strategy document detailing how you will move stakeholders from their current engagement level to the desired level."
-    },
-    {
-      "id": 13,
-      "category": "Stakeholder Register & Plans",
-      "front": "What is the Stakeholder Engagement Assessment Matrix?",
-      "back": "A table comparing Current (C) vs. Desired (D) engagement levels (Unaware, Resistant, Neutral, Supportive, Leading)."
-    },
-    {
-      "id": 14,
-      "category": "Stakeholder Register & Plans",
-      "front": "If a stakeholder's attitude changes from Supportive to Resistant, what is your first action?",
-      "back": "Update the Stakeholder Register and Re-analyze the root cause. (Do not ignore it)."
-    },
-    {
-      "id": 15,
-      "category": "Stakeholder Register & Plans",
-      "front": "What is the difference between the Stakeholder Register and the Stakeholder Engagement Plan?",
-      "back": "Register = \"Who they are\" (List). Plan = \"What we will do\" (Strategy)."
-    },
-    {
-      "id": 16,
-      "category": "RACI Matrix",
-      "front": "What does RACI stand for?",
-      "back": "Responsible, Accountable, Consulted, Informed."
-    },
-    {
-      "id": 17,
-      "category": "RACI Matrix",
-      "front": "In a RACI matrix, who is \"Responsible\"?",
-      "back": "The person who does the work."
-    },
-    {
-      "id": 18,
-      "category": "RACI Matrix",
-      "front": "In a RACI matrix, who is \"Accountable\"?",
-      "back": "The \"one throat to choke.\" The person with final decision authority. (Only 1 per task)."
-    },
-    {
-      "id": 19,
-      "category": "RACI Matrix",
-      "front": "In a RACI matrix, who is \"Consulted\"?",
-      "back": "SMEs or stakeholders who provide input before a decision is made. Two-way communication."
-    },
-    {
-      "id": 20,
-      "category": "RACI Matrix",
-      "front": "In a RACI matrix, who is \"Informed\"?",
-      "back": "Stakeholders who need to know after a decision is made. One-way communication."
-    },
-    {
-      "id": 21,
-      "category": "RACI Matrix",
-      "front": "What is a common error in RACI assignments?",
-      "back": "Assigning more than one \"Accountable\" person (causes confusion) or having no \"Accountable\" person (no ownership)."
-    },
-    {
-      "id": 22,
-      "category": "Engagement Strategy & Influence",
-      "front": "What is \"Reciprocity\" in Cialdini's influence principles?",
-      "back": "People feel obliged to give back if you have given to them first. (Give value to build influence)."
-    },
-    {
-      "id": 23,
-      "category": "Engagement Strategy & Influence",
-      "front": "What is \"Social Proof\"?",
-      "back": "People follow the lead of others similar to them. \"Peer pressure\" used positively."
-    },
-    {
-      "id": 24,
-      "category": "Engagement Strategy & Influence",
-      "front": "What is the Trust Equation?",
-      "back": "Trust = (Credibility + Reliability + Intimacy) / Self-Orientation."
-    },
-    {
-      "id": 25,
-      "category": "Engagement Strategy & Influence",
-      "front": "High \"Self-Orientation\" generally does what to trust?",
-      "back": "Destroys it. If people think you only care about yourself, they won't trust you even if you are competent."
-    },
-    {
-      "id": 26,
-      "category": "Engagement Strategy & Influence",
-      "front": "What is the best way to handle a Resistant stakeholder?",
-      "back": "Find out \"Why\" (WIIFM). Meet privately using Active Listening to understand their fear or concern."
-    },
-    {
-      "id": 27,
-      "category": "Engagement Strategy & Influence",
-      "front": "What is \"Radical Transparency\"?",
-      "back": "Sharing bad news as quickly as good news. It builds credibility and trust."
-    },
-    {
-      "id": 28,
-      "category": "Engagement Strategy & Influence",
-      "front": "If you lack formal authority, what type of power is most effective?",
-      "back": "Expert Power or Referent Power (Relationship/Influence)."
-    },
-    {
-      "id": 29,
-      "category": "Engagement Strategy & Influence",
-      "front": "What is a \"Champion\" stakeholder?",
-      "back": "A supportive stakeholder with influence who advocates for the project when you are not in the room."
-    },
-    {
-      "id": 30,
-      "category": "Engagement Strategy & Influence",
-      "front": "How do you deal with a stakeholder who says \"I don't have time\"?",
-      "back": "Make it easy for them. Summarize data, ask specific questions, and show the risk of their non-participation."
-    },
-    {
-      "id": 31,
-      "category": "Agile vs. Predictive Engagement",
-      "front": "In Agile, do stakeholders only attend the beginning and end of the project?",
-      "back": "No. Engagement is continuous. They attend Sprint Reviews and are invited to collaborate daily if needed."
-    },
-    {
-      "id": 32,
-      "category": "Agile vs. Predictive Engagement",
-      "front": "What is the primary stakeholder event in Scrum?",
-      "back": "The Sprint Review (Demo)."
-    },
-    {
-      "id": 33,
-      "category": "Agile vs. Predictive Engagement",
-      "front": "Can stakeholders speak during the Daily Standup?",
-      "back": "generally No (or only as observers). The meeting is for the Development Team."
-    },
-    {
-      "id": 34,
-      "category": "Agile vs. Predictive Engagement",
-      "front": "In Predictive projects, how is feedback typically handled?",
-      "back": "Through formal Change Requests or phase gate reviews."
-    },
-    {
-      "id": 35,
-      "category": "Agile vs. Predictive Engagement",
-      "front": "In Agile, how is feedback handled?",
-      "back": "Immediate feedback on working software during the Sprint Review, leading to Backlog updates."
-    },
-    {
-      "id": 36,
-      "category": "Agile vs. Predictive Engagement",
-      "front": "Who represents the stakeholders' voice in a Scrum team?",
-      "back": "The Product Owner."
-    },
-    {
-      "id": 37,
-      "category": "Agile vs. Predictive Engagement",
-      "front": "What is \"Co-creation\"?",
-      "back": "Involving stakeholders in the design process (Agile) rather than just having them approve the final output."
-    },
-    {
-      "id": 38,
-      "category": "Communication & Expectations",
-      "front": "What is the difference between \"Communication\" and \"Engagement\"?",
-      "back": "Communication is sending a message. Engagement is the result (buy-in, support, trust)."
-    },
-    {
-      "id": 39,
-      "category": "Communication & Expectations",
-      "front": "What is the #1 rule of Expectation Management?",
-      "back": "No Surprises."
-    },
-    {
-      "id": 40,
-      "category": "Communication & Expectations",
-      "front": "How do you prevent \"Expectation Drift\"?",
-      "back": "Document agreements, regular demos to visualize progress, and definition of done."
-    },
-    {
-      "id": 41,
-      "category": "Communication & Expectations",
-      "front": "What defines the \"What, When, and How\" of stakeholder information?",
-      "back": "The Communications Management Plan."
-    },
-    {
-      "id": 42,
-      "category": "Communication & Expectations",
-      "front": "What is \"Pull Communication\"?",
-      "back": "Information placed in a central location (e.g., SharePoint, Wiki) for stakeholders to access at their own pace."
-    },
-    {
-      "id": 43,
-      "category": "Communication & Expectations",
-      "front": "What is \"Push Communication\"?",
-      "back": "Information sent directly to specific recipients (e.g., Email, Reports). Ensures they receive it."
-    },
-    {
-      "id": 44,
-      "category": "Communication & Expectations",
-      "front": "What is \"Interactive Communication\"?",
-      "back": "Real-time exchange (e.g., Meetings, Calls). Best for consensus building and resolving conflict."
-    },
-    {
-      "id": 45,
-      "category": "Communication & Expectations",
-      "front": "If a stakeholder complains about \"too many emails,\" what do you do?",
-      "back": "Check the Communications Management Plan. Adjust the channel (maybe switch to Pull communication or a weekly summary)."
-    },
-    {
-      "id": 46,
-      "category": "2026 Focus Areas",
-      "front": "Who are \"Digital Stakeholders\"?",
-      "back": "AI systems, Data Privacy Officers, Cybersecurity teams. Non-human or technical roles that have requirements."
-    },
-    {
-      "id": 47,
-      "category": "2026 Focus Areas",
-      "front": "How does \"Diversity\" impact Stakeholder Engagement?",
-      "back": "You must adapt communication styles for culture, language, and neurodiversity."
-    },
-    {
-      "id": 48,
-      "category": "2026 Focus Areas",
-      "front": "What is \"Asynchronous Communication\"?",
-      "back": "Communication that doesn't happen in real-time (e.g., Slack, Email). essential for global/timezone-distributed teams."
-    },
-    {
-      "id": 49,
-      "category": "2026 Focus Areas",
-      "front": "Why is \"Sustainability\" a stakeholder concern in 2026?",
-      "back": "ESG (Environmental, Social, Governance) goals are now key project constraints. Identify sustainability officers early."
-    },
-    {
-      "id": 50,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: You are new to a project. What is your first step regarding stakeholders?",
-      "back": "Review the Project Charter and existing documents to Identify Stakeholders and create the Register."
-    },
-    {
-      "id": 51,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: A key stakeholder refuses to approve the requirements.",
-      "back": "Meet privately to understand their concerns (Needs/Expectations). Do not just escalate."
-    },
-    {
-      "id": 52,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: Stakeholders are arguing in a meeting about direction.",
-      "back": "Facilitate. Remind them of the Project Vision/Charter. Use a decision-making model."
-    },
-    {
-      "id": 53,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: You discover a stakeholder midway through execution.",
-      "back": "Add them to the register immediately. Assess their impact. Update plans. (Do not ignore or blame)."
-    },
-    {
-      "id": 54,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: A low-power stakeholder is very vocal and negative on social media.",
-      "back": "Manage them. Even \"Low Power\" stakeholders can gain influence (social proof). Monitor and engage to neutralize."
-    },
-    {
-      "id": 55,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: The Sponsor is not responding to your emails.",
-      "back": "Change the method. Try a phone call or \"Interactive\" meeting. Don't just keep emailing."
-    },
-    {
-      "id": 56,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: Team members are bypassing you and talking directly to the client.",
-      "back": "If Agile: This is good! Encouraged. If Predictive: Check the Comm Plan to see if this violates protocol, but generally encourage direct collaboration if controlled."
-    },
-    {
-      "id": 57,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: A stakeholder wants a change.",
-      "back": "Log it. Assess impact. Follow Change Control (or Backlog Refinement)."
-    },
-    {
-      "id": 58,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: Stakeholder satisfaction is low despite meeting all deadlines.",
-      "back": "You missed \"Expectation Management.\" You delivered the Output but not the Outcome/Value. Engage to realign."
-    },
-    {
-      "id": 59,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: Dealing with a \"Bureaucratic\" stakeholder.",
-      "back": "Respect their process. Provide the data/compliance they need. Don't fight the structure; navigate it."
-    },
-    {
-      "id": 60,
-      "category": "Exam Scenarios: Engage Stakeholders",
-      "front": "Exam Scenario: Dealing with a \"Visionary\" stakeholder who changes their mind often.",
-      "back": "Use Agile/Iterative approaches. Show demos frequently. Use short cycles to limit the cost of changes."
-    },
-    {
-      "id": 61,
-      "category": "Tools & Vocabulary Drill",
-      "front": "Define \"Sender-Receiver Model\".",
-      "back": "Communication loop: Enroll -> Transmit -> Decode -> Acknowledge -> Feedback. Noise can interrupt any step."
-    },
-    {
-      "id": 62,
-      "category": "Tools & Vocabulary Drill",
-      "front": "Define \"Noise\" in communication.",
-      "back": "Anything that interferes with the message (Language, culture, distance, technology issues, bias)."
-    },
-    {
-      "id": 63,
-      "category": "Tools & Vocabulary Drill",
-      "front": "Define \"Active Listening\".",
-      "back": "Listening to understand, reflecting back what was heard, and confirming meaning (not just waiting to speak)."
-    },
-    {
-      "id": 64,
-      "category": "Tools & Vocabulary Drill",
-      "front": "Define \"Stakeholder Cube\".",
-      "back": "A 3D model (Power, Interest, Attitude) used for more complex analysis than a 2D grid."
-    },
-    {
-      "id": 65,
-      "category": "Tools & Vocabulary Drill",
-      "front": "Define \"Brainstorming\" in identification.",
-      "back": "A group creativity technique to list all possible stakeholders without judgement."
-    },
-    {
-      "id": 66,
-      "category": "Tools & Vocabulary Drill",
-      "front": "Define \"Directions of Influence\".",
-      "back": "Upward (Senior), Downward (Team), Outward (External), Sideward (Peers). You must manage all directions."
-    },
-    {
-      "id": 67,
-      "category": "Tools & Vocabulary Drill",
-      "front": "What is the most effective form of communication for complex problems?",
-      "back": "Face-to-Face (Interactive)."
-    },
-    {
-      "id": 68,
-      "category": "Tools & Vocabulary Drill",
-      "front": "How much of a PM's time is spent communicating?",
-      "back": "~90%."
-    },
-    {
-      "id": 69,
-      "category": "Tools & Vocabulary Drill",
-      "front": "What shows the reporting relationships in the project?",
-      "back": "The Project Organization Chart."
-    },
-    {
-      "id": 70,
-      "category": "Tools & Vocabulary Drill",
-      "front": "What document contains stakeholder contact details and \"sensitive\" notes?",
-      "back": "The Stakeholder Register (Warning: Keep sensitive notes private or separate; the Register is often public to the team)."
-    },
-    {
-      "id": 71,
-      "category": "Advanced Scenarios",
-      "front": "A functional manager is withholding resources because they don't value the project.",
-      "back": "This is a \"Resistant\" stakeholder. Use \"Upward\" influence (Sponsor) or \"Reciprocity\" to align goals."
-    },
-    {
-      "id": 72,
-      "category": "Advanced Scenarios",
-      "front": "You have a stakeholder who is a \"Subject Matter Expert\" but has no decision power.",
-      "back": "Consult them (C in RACI). Use their expertise to build Credibility."
-    },
-    {
-      "id": 73,
-      "category": "Advanced Scenarios",
-      "front": "Stakeholders are geographically dispersed and speak different languages.",
-      "back": "Update Comm Plan. Use translation, visuals, and asynchronous tools. Account for time zones."
-    },
-    {
-      "id": 74,
-      "category": "Advanced Scenarios",
-      "front": "A stakeholder says \"I don't trust the data.\"",
-      "back": "Involve them in the data collection/creation. \"Shared Ownership\" builds trust."
-    },
-    {
-      "id": 75,
-      "category": "Advanced Scenarios",
-      "front": "The project is politically sensitive. How do you manage the Stakeholder Register?",
-      "back": "Be careful with written classification labels (e.g., \"Resistant\"). Consider keeping sensitive analysis confidential."
-    },
-    {
-      "id": 76,
-      "category": "Advanced Scenarios",
-      "front": "What is \"Stakeholder Analysis\" vs \"Stakeholder Engagement\"?",
-      "back": "Analysis = Thinking/Planning. Engagement = Doing/Acting."
-    },
-    {
-      "id": 77,
-      "category": "Advanced Scenarios",
-      "front": "Why is \"Early Involvement\" a key principle?",
-      "back": "People support what they help create. Early involvement reduces resistance later."
-    },
-    {
-      "id": 78,
-      "category": "Advanced Scenarios",
-      "front": "What is the risk of \"Over-Engaging\" a stakeholder?",
-      "back": "Fatigue, annoyance, micromanagement focused on the wrong level."
-    },
-    {
-      "id": 79,
-      "category": "Advanced Scenarios",
-      "front": "What is the risk of \"Under-Engaging\"?",
-      "back": "Surprise resistance, lack of support, missed requirements, project failure."
-    },
-    {
-      "id": 80,
-      "category": "Advanced Scenarios",
-      "front": "When should you use \"Push\" communication?",
-      "back": "When you need to send information to a large audience but don't need immediate feedback (e.g., Newsletters)."
-    },
-    {
-      "id": 81,
-      "category": "Stakeholder Monitoring",
-      "front": "How do you know if your engagement strategy is working?",
-      "back": "Check feedback validity, participation rates, and whether stakeholder actions align with project needs."
-    },
-    {
-      "id": 82,
-      "category": "Stakeholder Monitoring",
-      "front": "What is a \"Leading Indicator\" of poor engagement?",
-      "back": "Missed meetings, silence, delayed approvals."
-    },
-    {
-      "id": 83,
-      "category": "Stakeholder Monitoring",
-      "front": "What is a \"Lagging Indicator\" of poor engagement?",
-      "back": "Formal complaints, rejected deliverables. (Too late)."
-    },
-    {
-      "id": 84,
-      "category": "Stakeholder Monitoring",
-      "front": "Can a stakeholder be \"Neutral\"?",
-      "back": "Yes. They neither support nor resist. Your goal might be to keep them Neutral or move them to Supportive."
-    },
-    {
-      "id": 85,
-      "category": "Stakeholder Monitoring",
-      "front": "Why must you identify \"External\" stakeholders (like Regulators)?",
-      "back": "They often have statutory power to shut down a project, even if they don't pay for it."
-    },
-    {
-      "id": 86,
-      "category": "2026 Mindset",
-      "front": "Mindset: Stakeholders are Partners, not...",
-      "back": "...Customers (in the transactional sense) or Enemies."
-    },
-    {
-      "id": 87,
-      "category": "2026 Mindset",
-      "front": "Mindset: Engagement is about Value Exchange. What does this mean?",
-      "back": "You must provide value to the stakeholder (even if just information or respect) to get their support."
-    },
-    {
-      "id": 88,
-      "category": "2026 Mindset",
-      "front": "Mindset: Is it the PM's job to make everyone happy?",
-      "back": "No. It is the PM's job to manage expectations and balance constraints. You cannot satisfy everyone."
-    },
-    {
-      "id": 89,
-      "category": "2026 Mindset",
-      "front": "Mindset: Conflict with stakeholders is...",
-      "back": "...Inevitable and manageable. It is not necessarily bad."
-    },
-    {
-      "id": 90,
-      "category": "2026 Mindset",
-      "front": "Mindset: Trust is hard to gain and...",
-      "back": "...Easy to lose."
-    },
-    {
-      "id": 91,
-      "category": "Summary Concepts",
-      "front": "What tool visualizes the gap between current and desired engagement?",
-      "back": "Stakeholder Engagement Assessment Matrix."
-    },
-    {
-      "id": 92,
-      "category": "Summary Concepts",
-      "front": "What tool details the strategies to close that gap?",
-      "back": "Stakeholder Engagement Plan."
-    },
-    {
-      "id": 93,
-      "category": "Summary Concepts",
-      "front": "What tool lists all the people?",
-      "back": "Stakeholder Register."
-    },
-    {
-      "id": 94,
-      "category": "Summary Concepts",
-      "front": "What tool defines who does what task?",
-      "back": "RACI Matrix."
-    },
-    {
-      "id": 95,
-      "category": "Summary Concepts",
-      "front": "What tool maps Power vs Interest?",
-      "back": "Power/Interest Grid."
-    },
-    {
-      "id": 96,
-      "category": "Summary Concepts",
-      "front": "What influence tactic relies on \"Expertise\"?",
-      "back": "Authority."
-    },
-    {
-      "id": 97,
-      "category": "Summary Concepts",
-      "front": "What influence tactic relies on \"Relationships\"?",
-      "back": "Liking / Referent Power."
-    },
-    {
-      "id": 98,
-      "category": "Summary Concepts",
-      "front": "What influence tactic relies on \"Giving First\"?",
-      "back": "Reciprocity."
-    },
-    {
-      "id": 99,
-      "category": "Summary Concepts",
-      "front": "Why is \"Consistency\" important in engagement?",
-      "back": "It builds Reliability (Trust)."
-    },
-    {
-      "id": 100,
-      "category": "Summary Concepts",
-      "front": "The ultimate goal of Stakeholder Engagement is...",
-      "back": "To ensure stakeholders support the project objectives and do not impede progress."
-    }
-  ]
+ "meta": {
+ "title": "PMP 2026 Flashcards: People Domain – Task 4",
+ "domain": "People (33%)",
+ "task": "Engage stakeholders",
+ "ecoReference": "Domain I, Task 4",
+ "description": "",
+ "file": "guide/appendices/flashcards-people-task4-stakeholders.md"
+ },
+ "flashcards": [
+ {
+ "id": 1,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "What is the \"Snowball Technique\" for stakeholder identification?",
+ "back": "Asking every identified stakeholder: \"Who else should I be talking to?\" to uncover shadow stakeholders."
+ },
+ {
+ "id": 2,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "When does Stakeholder Analysis happen?",
+ "back": "It is a continuous cycle throughout the project, not just a one-time initiation activity."
+ },
+ {
+ "id": 3,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "What is a \"Power/Interest Grid\"?",
+ "back": "A tool to classify stakeholders based on their authority (Power) and level of concern (Interest) to determine engagement strategy."
+ },
+ {
+ "id": 4,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "How should you treat a stakeholder with High Power and High Interest?",
+ "back": "Manage Closely. They are key players who must be fully engaged and satisfied."
+ },
+ {
+ "id": 5,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "How should you treat a stakeholder with High Power and Low Interest?",
+ "back": "Keep Satisfied. Meet their needs but don't over-communicate. Watch out for them becoming resistant."
+ },
+ {
+ "id": 6,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "How should you treat a stakeholder with Low Power and High Interest?",
+ "back": "Keep Informed. They can be valuable allies or sources of noise."
+ },
+ {
+ "id": 7,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "How should you treat a stakeholder with Low Power and Low Interest?",
+ "back": "Monitor. Spend minimal effort but check in periodically."
+ },
+ {
+ "id": 8,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "What is the Salience Model?",
+ "back": "Classifies stakeholders based on Power, Urgency, and Legitimacy. Used for complex stakeholder environments."
+ },
+ {
+ "id": 9,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "What are \"Shadow Stakeholders\"?",
+ "back": "People who have informal influence but do not appear on the official org chart. You must identify them to avoid surprises."
+ },
+ {
+ "id": 10,
+ "category": "Stakeholder Identification & Analysis",
+ "front": "What is the primary output of the Identity Stakeholders process?",
+ "back": "The Stakeholder Register."
+ },
+ {
+ "id": 11,
+ "category": "Stakeholder Register & Plans",
+ "front": "What information goes into the Stakeholder Register?",
+ "back": "Identification info (Name, Role), Assessment info (Requirements, Expectations, Influence), and Classification (Internal/External, Supporter/Resistor)."
+ },
+ {
+ "id": 12,
+ "category": "Stakeholder Register & Plans",
+ "front": "What is the Stakeholder Engagement Plan?",
+ "back": "A strategy document detailing how you will move stakeholders from their current engagement level to the desired level."
+ },
+ {
+ "id": 13,
+ "category": "Stakeholder Register & Plans",
+ "front": "What is the Stakeholder Engagement Assessment Matrix?",
+ "back": "A table comparing Current (C) vs. Desired (D) engagement levels (Unaware, Resistant, Neutral, Supportive, Leading)."
+ },
+ {
+ "id": 14,
+ "category": "Stakeholder Register & Plans",
+ "front": "If a stakeholder's attitude changes from Supportive to Resistant, what is your first action?",
+ "back": "Update the Stakeholder Register and Re-analyze the root cause. (Do not ignore it)."
+ },
+ {
+ "id": 15,
+ "category": "Stakeholder Register & Plans",
+ "front": "What is the difference between the Stakeholder Register and the Stakeholder Engagement Plan?",
+ "back": "Register = \"Who they are\" (List). Plan = \"What we will do\" (Strategy)."
+ },
+ {
+ "id": 16,
+ "category": "RACI Matrix",
+ "front": "What does RACI stand for?",
+ "back": "Responsible, Accountable, Consulted, Informed."
+ },
+ {
+ "id": 17,
+ "category": "RACI Matrix",
+ "front": "In a RACI matrix, who is \"Responsible\"?",
+ "back": "The person who does the work."
+ },
+ {
+ "id": 18,
+ "category": "RACI Matrix",
+ "front": "In a RACI matrix, who is \"Accountable\"?",
+ "back": "The \"one throat to choke.\" The person with final decision authority. (Only 1 per task)."
+ },
+ {
+ "id": 19,
+ "category": "RACI Matrix",
+ "front": "In a RACI matrix, who is \"Consulted\"?",
+ "back": "SMEs or stakeholders who provide input before a decision is made. Two-way communication."
+ },
+ {
+ "id": 20,
+ "category": "RACI Matrix",
+ "front": "In a RACI matrix, who is \"Informed\"?",
+ "back": "Stakeholders who need to know after a decision is made. One-way communication."
+ },
+ {
+ "id": 21,
+ "category": "RACI Matrix",
+ "front": "What is a common error in RACI assignments?",
+ "back": "Assigning more than one \"Accountable\" person (causes confusion) or having no \"Accountable\" person (no ownership)."
+ },
+ {
+ "id": 22,
+ "category": "Engagement Strategy & Influence",
+ "front": "What is \"Reciprocity\" in Cialdini's influence principles?",
+ "back": "People feel obliged to give back if you have given to them first. (Give value to build influence)."
+ },
+ {
+ "id": 23,
+ "category": "Engagement Strategy & Influence",
+ "front": "What is \"Social Proof\"?",
+ "back": "People follow the lead of others similar to them. \"Peer pressure\" used positively."
+ },
+ {
+ "id": 24,
+ "category": "Engagement Strategy & Influence",
+ "front": "What is the Trust Equation?",
+ "back": "Trust = (Credibility + Reliability + Intimacy) / Self-Orientation."
+ },
+ {
+ "id": 25,
+ "category": "Engagement Strategy & Influence",
+ "front": "High \"Self-Orientation\" generally does what to trust?",
+ "back": "Destroys it. If people think you only care about yourself, they won't trust you even if you are competent."
+ },
+ {
+ "id": 26,
+ "category": "Engagement Strategy & Influence",
+ "front": "What is the best way to handle a Resistant stakeholder?",
+ "back": "Find out \"Why\" (WIIFM). Meet privately using Active Listening to understand their fear or concern."
+ },
+ {
+ "id": 27,
+ "category": "Engagement Strategy & Influence",
+ "front": "What is \"Radical Transparency\"?",
+ "back": "Sharing bad news as quickly as good news. It builds credibility and trust."
+ },
+ {
+ "id": 28,
+ "category": "Engagement Strategy & Influence",
+ "front": "If you lack formal authority, what type of power is most effective?",
+ "back": "Expert Power or Referent Power (Relationship/Influence)."
+ },
+ {
+ "id": 29,
+ "category": "Engagement Strategy & Influence",
+ "front": "What is a \"Champion\" stakeholder?",
+ "back": "A supportive stakeholder with influence who advocates for the project when you are not in the room."
+ },
+ {
+ "id": 30,
+ "category": "Engagement Strategy & Influence",
+ "front": "How do you deal with a stakeholder who says \"I don't have time\"?",
+ "back": "Make it easy for them. Summarize data, ask specific questions, and show the risk of their non-participation."
+ },
+ {
+ "id": 31,
+ "category": "Agile vs. Predictive Engagement",
+ "front": "In Agile, do stakeholders only attend the beginning and end of the project?",
+ "back": "No. Engagement is continuous. They attend Sprint Reviews and are invited to collaborate daily if needed."
+ },
+ {
+ "id": 32,
+ "category": "Agile vs. Predictive Engagement",
+ "front": "What is the primary stakeholder event in Scrum?",
+ "back": "The Sprint Review (Demo)."
+ },
+ {
+ "id": 33,
+ "category": "Agile vs. Predictive Engagement",
+ "front": "Can stakeholders speak during the Daily Standup?",
+ "back": "generally No (or only as observers). The meeting is for the Development Team."
+ },
+ {
+ "id": 34,
+ "category": "Agile vs. Predictive Engagement",
+ "front": "In Predictive projects, how is feedback typically handled?",
+ "back": "Through formal Change Requests or phase gate reviews."
+ },
+ {
+ "id": 35,
+ "category": "Agile vs. Predictive Engagement",
+ "front": "In Agile, how is feedback handled?",
+ "back": "Immediate feedback on working software during the Sprint Review, leading to Backlog updates."
+ },
+ {
+ "id": 36,
+ "category": "Agile vs. Predictive Engagement",
+ "front": "Who represents the stakeholders' voice in a Scrum team?",
+ "back": "The Product Owner."
+ },
+ {
+ "id": 37,
+ "category": "Agile vs. Predictive Engagement",
+ "front": "What is \"Co-creation\"?",
+ "back": "Involving stakeholders in the design process (Agile) rather than just having them approve the final output."
+ },
+ {
+ "id": 38,
+ "category": "Communication & Expectations",
+ "front": "What is the difference between \"Communication\" and \"Engagement\"?",
+ "back": "Communication is sending a message. Engagement is the result (buy-in, support, trust)."
+ },
+ {
+ "id": 39,
+ "category": "Communication & Expectations",
+ "front": "What is the #1 rule of Expectation Management?",
+ "back": "No Surprises."
+ },
+ {
+ "id": 40,
+ "category": "Communication & Expectations",
+ "front": "How do you prevent \"Expectation Drift\"?",
+ "back": "Document agreements, regular demos to visualize progress, and definition of done."
+ },
+ {
+ "id": 41,
+ "category": "Communication & Expectations",
+ "front": "What defines the \"What, When, and How\" of stakeholder information?",
+ "back": "The Communications Management Plan."
+ },
+ {
+ "id": 42,
+ "category": "Communication & Expectations",
+ "front": "What is \"Pull Communication\"?",
+ "back": "Information placed in a central location (e.g., SharePoint, Wiki) for stakeholders to access at their own pace."
+ },
+ {
+ "id": 43,
+ "category": "Communication & Expectations",
+ "front": "What is \"Push Communication\"?",
+ "back": "Information sent directly to specific recipients (e.g., Email, Reports). Ensures they receive it."
+ },
+ {
+ "id": 44,
+ "category": "Communication & Expectations",
+ "front": "What is \"Interactive Communication\"?",
+ "back": "Real-time exchange (e.g., Meetings, Calls). Best for consensus building and resolving conflict."
+ },
+ {
+ "id": 45,
+ "category": "Communication & Expectations",
+ "front": "If a stakeholder complains about \"too many emails,\" what do you do?",
+ "back": "Check the Communications Management Plan. Adjust the channel (maybe switch to Pull communication or a weekly summary)."
+ },
+ {
+ "id": 46,
+ "category": "2026 Focus Areas",
+ "front": "Who are \"Digital Stakeholders\"?",
+ "back": "AI systems, Data Privacy Officers, Cybersecurity teams. Non-human or technical roles that have requirements."
+ },
+ {
+ "id": 47,
+ "category": "2026 Focus Areas",
+ "front": "How does \"Diversity\" impact Stakeholder Engagement?",
+ "back": "You must adapt communication styles for culture, language, and neurodiversity."
+ },
+ {
+ "id": 48,
+ "category": "2026 Focus Areas",
+ "front": "What is \"Asynchronous Communication\"?",
+ "back": "Communication that doesn't happen in real-time (e.g., Slack, Email). essential for global/timezone-distributed teams."
+ },
+ {
+ "id": 49,
+ "category": "2026 Focus Areas",
+ "front": "Why is \"Sustainability\" a stakeholder concern in 2026?",
+ "back": "ESG (Environmental, Social, Governance) goals are now key project constraints. Identify sustainability officers early."
+ },
+ {
+ "id": 50,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: You are new to a project. What is your first step regarding stakeholders?",
+ "back": "Review the Project Charter and existing documents to Identify Stakeholders and create the Register."
+ },
+ {
+ "id": 51,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: A key stakeholder refuses to approve the requirements.",
+ "back": "Meet privately to understand their concerns (Needs/Expectations). Do not just escalate."
+ },
+ {
+ "id": 52,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: Stakeholders are arguing in a meeting about direction.",
+ "back": "Facilitate. Remind them of the Project Vision/Charter. Use a decision-making model."
+ },
+ {
+ "id": 53,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: You discover a stakeholder midway through execution.",
+ "back": "Add them to the register immediately. Assess their impact. Update plans. (Do not ignore or blame)."
+ },
+ {
+ "id": 54,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: A low-power stakeholder is very vocal and negative on social media.",
+ "back": "Manage them. Even \"Low Power\" stakeholders can gain influence (social proof). Monitor and engage to neutralize."
+ },
+ {
+ "id": 55,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: The Sponsor is not responding to your emails.",
+ "back": "Change the method. Try a phone call or \"Interactive\" meeting. Don't just keep emailing."
+ },
+ {
+ "id": 56,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: Team members are bypassing you and talking directly to the client.",
+ "back": "If Agile: This is good! Encouraged. If Predictive: Check the Comm Plan to see if this violates protocol, but generally encourage direct collaboration if controlled."
+ },
+ {
+ "id": 57,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: A stakeholder wants a change.",
+ "back": "Log it. Assess impact. Follow Change Control (or Backlog Refinement)."
+ },
+ {
+ "id": 58,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: Stakeholder satisfaction is low despite meeting all deadlines.",
+ "back": "You missed \"Expectation Management.\" You delivered the Output but not the Outcome/Value. Engage to realign."
+ },
+ {
+ "id": 59,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: Dealing with a \"Bureaucratic\" stakeholder.",
+ "back": "Respect their process. Provide the data/compliance they need. Don't fight the structure; navigate it."
+ },
+ {
+ "id": 60,
+ "category": "Exam Scenarios: Engage Stakeholders",
+ "front": "Exam Scenario: Dealing with a \"Visionary\" stakeholder who changes their mind often.",
+ "back": "Use Agile/Iterative approaches. Show demos frequently. Use short cycles to limit the cost of changes."
+ },
+ {
+ "id": 61,
+ "category": "Tools & Vocabulary Drill",
+ "front": "Define \"Sender-Receiver Model\".",
+ "back": "Communication loop: Enroll -> Transmit -> Decode -> Acknowledge -> Feedback. Noise can interrupt any step."
+ },
+ {
+ "id": 62,
+ "category": "Tools & Vocabulary Drill",
+ "front": "Define \"Noise\" in communication.",
+ "back": "Anything that interferes with the message (Language, culture, distance, technology issues, bias)."
+ },
+ {
+ "id": 63,
+ "category": "Tools & Vocabulary Drill",
+ "front": "Define \"Active Listening\".",
+ "back": "Listening to understand, reflecting back what was heard, and confirming meaning (not just waiting to speak)."
+ },
+ {
+ "id": 64,
+ "category": "Tools & Vocabulary Drill",
+ "front": "Define \"Stakeholder Cube\".",
+ "back": "A 3D model (Power, Interest, Attitude) used for more complex analysis than a 2D grid."
+ },
+ {
+ "id": 65,
+ "category": "Tools & Vocabulary Drill",
+ "front": "Define \"Brainstorming\" in identification.",
+ "back": "A group creativity technique to list all possible stakeholders without judgement."
+ },
+ {
+ "id": 66,
+ "category": "Tools & Vocabulary Drill",
+ "front": "Define \"Directions of Influence\".",
+ "back": "Upward (Senior), Downward (Team), Outward (External), Sideward (Peers). You must manage all directions."
+ },
+ {
+ "id": 67,
+ "category": "Tools & Vocabulary Drill",
+ "front": "What is the most effective form of communication for complex problems?",
+ "back": "Face-to-Face (Interactive)."
+ },
+ {
+ "id": 68,
+ "category": "Tools & Vocabulary Drill",
+ "front": "How much of a PM's time is spent communicating?",
+ "back": "~90%."
+ },
+ {
+ "id": 69,
+ "category": "Tools & Vocabulary Drill",
+ "front": "What shows the reporting relationships in the project?",
+ "back": "The Project Organization Chart."
+ },
+ {
+ "id": 70,
+ "category": "Tools & Vocabulary Drill",
+ "front": "What document contains stakeholder contact details and \"sensitive\" notes?",
+ "back": "The Stakeholder Register (Warning: Keep sensitive notes private or separate; the Register is often public to the team)."
+ },
+ {
+ "id": 71,
+ "category": "Advanced Scenarios",
+ "front": "A functional manager is withholding resources because they don't value the project.",
+ "back": "This is a \"Resistant\" stakeholder. Use \"Upward\" influence (Sponsor) or \"Reciprocity\" to align goals."
+ },
+ {
+ "id": 72,
+ "category": "Advanced Scenarios",
+ "front": "You have a stakeholder who is a \"Subject Matter Expert\" but has no decision power.",
+ "back": "Consult them (C in RACI). Use their expertise to build Credibility."
+ },
+ {
+ "id": 73,
+ "category": "Advanced Scenarios",
+ "front": "Stakeholders are geographically dispersed and speak different languages.",
+ "back": "Update Comm Plan. Use translation, visuals, and asynchronous tools. Account for time zones."
+ },
+ {
+ "id": 74,
+ "category": "Advanced Scenarios",
+ "front": "A stakeholder says \"I don't trust the data.\"",
+ "back": "Involve them in the data collection/creation. \"Shared Ownership\" builds trust."
+ },
+ {
+ "id": 75,
+ "category": "Advanced Scenarios",
+ "front": "The project is politically sensitive. How do you manage the Stakeholder Register?",
+ "back": "Be careful with written classification labels (e.g., \"Resistant\"). Consider keeping sensitive analysis confidential."
+ },
+ {
+ "id": 76,
+ "category": "Advanced Scenarios",
+ "front": "What is \"Stakeholder Analysis\" vs \"Stakeholder Engagement\"?",
+ "back": "Analysis = Thinking/Planning. Engagement = Doing/Acting."
+ },
+ {
+ "id": 77,
+ "category": "Advanced Scenarios",
+ "front": "Why is \"Early Involvement\" a key principle?",
+ "back": "People support what they help create. Early involvement reduces resistance later."
+ },
+ {
+ "id": 78,
+ "category": "Advanced Scenarios",
+ "front": "What is the risk of \"Over-Engaging\" a stakeholder?",
+ "back": "Fatigue, annoyance, micromanagement focused on the wrong level."
+ },
+ {
+ "id": 79,
+ "category": "Advanced Scenarios",
+ "front": "What is the risk of \"Under-Engaging\"?",
+ "back": "Surprise resistance, lack of support, missed requirements, project failure."
+ },
+ {
+ "id": 80,
+ "category": "Advanced Scenarios",
+ "front": "When should you use \"Push\" communication?",
+ "back": "When you need to send information to a large audience but don't need immediate feedback (e.g., Newsletters)."
+ },
+ {
+ "id": 81,
+ "category": "Stakeholder Monitoring",
+ "front": "How do you know if your engagement strategy is working?",
+ "back": "Check feedback validity, participation rates, and whether stakeholder actions align with project needs."
+ },
+ {
+ "id": 82,
+ "category": "Stakeholder Monitoring",
+ "front": "What is a \"Leading Indicator\" of poor engagement?",
+ "back": "Missed meetings, silence, delayed approvals."
+ },
+ {
+ "id": 83,
+ "category": "Stakeholder Monitoring",
+ "front": "What is a \"Lagging Indicator\" of poor engagement?",
+ "back": "Formal complaints, rejected deliverables. (Too late)."
+ },
+ {
+ "id": 84,
+ "category": "Stakeholder Monitoring",
+ "front": "Can a stakeholder be \"Neutral\"?",
+ "back": "Yes. They neither support nor resist. Your goal might be to keep them Neutral or move them to Supportive."
+ },
+ {
+ "id": 85,
+ "category": "Stakeholder Monitoring",
+ "front": "Why must you identify \"External\" stakeholders (like Regulators)?",
+ "back": "They often have statutory power to shut down a project, even if they don't pay for it."
+ },
+ {
+ "id": 86,
+ "category": "2026 Mindset",
+ "front": "Mindset: Stakeholders are Partners, not...",
+ "back": "...Customers (in the transactional sense) or Enemies."
+ },
+ {
+ "id": 87,
+ "category": "2026 Mindset",
+ "front": "Mindset: Engagement is about Value Exchange. What does this mean?",
+ "back": "You must provide value to the stakeholder (even if just information or respect) to get their support."
+ },
+ {
+ "id": 88,
+ "category": "2026 Mindset",
+ "front": "Mindset: Is it the PM's job to make everyone happy?",
+ "back": "No. It is the PM's job to manage expectations and balance constraints. You cannot satisfy everyone."
+ },
+ {
+ "id": 89,
+ "category": "2026 Mindset",
+ "front": "Mindset: Conflict with stakeholders is...",
+ "back": "...Inevitable and manageable. It is not necessarily bad."
+ },
+ {
+ "id": 90,
+ "category": "2026 Mindset",
+ "front": "Mindset: Trust is hard to gain and...",
+ "back": "...Easy to lose."
+ },
+ {
+ "id": 91,
+ "category": "Summary Concepts",
+ "front": "What tool visualizes the gap between current and desired engagement?",
+ "back": "Stakeholder Engagement Assessment Matrix."
+ },
+ {
+ "id": 92,
+ "category": "Summary Concepts",
+ "front": "What tool details the strategies to close that gap?",
+ "back": "Stakeholder Engagement Plan."
+ },
+ {
+ "id": 93,
+ "category": "Summary Concepts",
+ "front": "What tool lists all the people?",
+ "back": "Stakeholder Register."
+ },
+ {
+ "id": 94,
+ "category": "Summary Concepts",
+ "front": "What tool defines who does what task?",
+ "back": "RACI Matrix."
+ },
+ {
+ "id": 95,
+ "category": "Summary Concepts",
+ "front": "What tool maps Power vs Interest?",
+ "back": "Power/Interest Grid."
+ },
+ {
+ "id": 96,
+ "category": "Summary Concepts",
+ "front": "What influence tactic relies on \"Expertise\"?",
+ "back": "Authority."
+ },
+ {
+ "id": 97,
+ "category": "Summary Concepts",
+ "front": "What influence tactic relies on \"Relationships\"?",
+ "back": "Liking / Referent Power."
+ },
+ {
+ "id": 98,
+ "category": "Summary Concepts",
+ "front": "What influence tactic relies on \"Giving First\"?",
+ "back": "Reciprocity."
+ },
+ {
+ "id": 99,
+ "category": "Summary Concepts",
+ "front": "Why is \"Consistency\" important in engagement?",
+ "back": "It builds Reliability (Trust)."
+ },
+ {
+ "id": 100,
+ "category": "Summary Concepts",
+ "front": "The ultimate goal of Stakeholder Engagement is...",
+ "back": "To ensure stakeholders support the project objectives and do not impede progress."
+ }
+ ]
 }

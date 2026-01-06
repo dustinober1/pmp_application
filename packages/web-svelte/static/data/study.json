@@ -1,704 +1,704 @@
 [
-  {
-    "id": "people",
-    "code": "PEOPLE",
-    "name": "People",
-    "description": "People domain covers the skills and activities associated with effectively leading a project team. This includes topics such as conflict management, team building, negotiation, emotional intelligence, and virtual teams.",
-    "weightPercentage": 33,
-    "orderIndex": 1,
-    "tasks": [
-      {
-        "id": "people-task-1",
-        "domainId": "people",
-        "code": "1",
-        "name": "Manage Conflict",
-        "description": "Conflict management involves resolving disagreements to prevent escalation and maintain positive team dynamics. Understand the different conflict resolution styles and when to apply each.",
-        "enablers": [
-          "Active listening",
-          "Emotional intelligence",
-          "Problem-solving techniques",
-          "Collaborative mindset"
-        ],
-        "orderIndex": 1
-      },
-      {
-        "id": "people-task-2",
-        "domainId": "people",
-        "code": "2",
-        "name": "Lead Team",
-        "description": "Leading a team involves setting direction, inspiring team members, and creating an environment where everyone can contribute their best work.",
-        "enablers": [
-          "Vision setting",
-          "Motivation techniques",
-          "Coaching and mentoring",
-          "Performance feedback"
-        ],
-        "orderIndex": 2
-      },
-      {
-        "id": "people-task-3",
-        "domainId": "people",
-        "code": "3",
-        "name": "Support Team Performance",
-        "description": "Supporting team performance involves removing obstacles, providing resources, and creating conditions for the team to succeed.",
-        "enablers": [
-          "Resource allocation",
-          "Impediment removal",
-          "Process optimization",
-          "Continuous improvement"
-        ],
-        "orderIndex": 3
-      },
-      {
-        "id": "people-task-4",
-        "domainId": "people",
-        "code": "4",
-        "name": "Empower Team Members and Stakeholders",
-        "description": "Empowerment involves giving team members and stakeholders the authority, autonomy, and resources they need to make decisions and take action.",
-        "enablers": [
-          "Delegation",
-          "Trust building",
-          "Decision-making authority",
-          "Accountability"
-        ],
-        "orderIndex": 4
-      },
-      {
-        "id": "people-task-5",
-        "domainId": "people",
-        "code": "5",
-        "name": "Ensure Team Members/Stakeholders are Adequately Trained",
-        "description": "Training involves identifying skill gaps and ensuring team members and stakeholders have the knowledge and skills needed to succeed.",
-        "enablers": [
-          "Training needs analysis",
-          "Learning and development plans",
-          "Knowledge sharing",
-          "Skills transfer"
-        ],
-        "orderIndex": 5
-      },
-      {
-        "id": "people-task-6",
-        "domainId": "people",
-        "code": "6",
-        "name": "Build a Team",
-        "description": "Team building involves creating a cohesive group that works together effectively to achieve project goals.",
-        "enablers": [
-          "Team formation stages",
-          "Role clarity",
-          "Team culture",
-          "Collaboration tools"
-        ],
-        "orderIndex": 6
-      },
-      {
-        "id": "people-task-7",
-        "domainId": "people",
-        "code": "7",
-        "name": "Address and Remove Impediments, Obstacles, and Blockers",
-        "description": "Addressing impediments involves identifying and removing anything that prevents the team from working effectively.",
-        "enablers": [
-          "Problem identification",
-          "Root cause analysis",
-          "Solution implementation",
-          "Preventive measures"
-        ],
-        "orderIndex": 7
-      },
-      {
-        "id": "people-task-8",
-        "domainId": "people",
-        "code": "8",
-        "name": "Negotiate",
-        "description": "Negotiation involves reaching agreements through discussion and compromise while maintaining positive relationships.",
-        "enablers": [
-          "Preparation and planning",
-          "Active listening",
-          "Win-win mindset",
-          "Alternative identification"
-        ],
-        "orderIndex": 8
-      },
-      {
-        "id": "people-task-9",
-        "domainId": "people",
-        "code": "9",
-        "name": "Collaborate with Stakeholders",
-        "description": "Collaboration involves working closely with stakeholders to ensure their needs are met and they remain engaged throughout the project.",
-        "enablers": [
-          "Stakeholder engagement",
-          "Communication",
-          "Relationship building",
-          "Expectation management"
-        ],
-        "orderIndex": 9
-      },
-      {
-        "id": "people-task-10",
-        "domainId": "people",
-        "code": "10",
-        "name": "Lead a Virtual Team",
-        "description": "Leading virtual teams involves managing team members who are geographically dispersed and may work across different time zones and cultures.",
-        "enablers": [
-          "Virtual communication tools",
-          "Cultural awareness",
-          "Trust building without physical presence",
-          "Time zone management"
-        ],
-        "orderIndex": 10
-      },
-      {
-        "id": "people-task-11",
-        "domainId": "people",
-        "code": "11",
-        "name": "Define Ground Rules",
-        "description": "Ground rules are the guidelines that establish acceptable behavior and working agreements for the team.",
-        "enablers": [
-          "Facilitation",
-          "Team consensus",
-          "Clear expectations",
-          "Conflict prevention"
-        ],
-        "orderIndex": 11
-      },
-      {
-        "id": "people-task-12",
-        "domainId": "people",
-        "code": "12",
-        "name": "Manage Emotional Intelligence",
-        "description": "Emotional intelligence involves understanding and managing your own emotions and those of others to build better working relationships.",
-        "enablers": [
-          "Self-awareness",
-          "Self-regulation",
-          "Empathy",
-          "Social skills"
-        ],
-        "orderIndex": 12
-      }
-    ]
-  },
-  {
-    "id": "process",
-    "code": "PROCESS",
-    "name": "Process",
-    "description": "Process domain covers the technical and management activities associated with effectively executing a project. This includes topics such as scope management, schedule management, cost management, quality management, and risk management.",
-    "weightPercentage": 41,
-    "orderIndex": 2,
-    "tasks": [
-      {
-        "id": "process-task-1",
-        "domainId": "process",
-        "code": "1",
-        "name": "Execute Communication with Stakeholders",
-        "description": "Communication execution involves ensuring timely and appropriate generation, collection, dissemination, storage, and ultimate disposition of project information.",
-        "enablers": [
-          "Communication planning",
-          "Information distribution",
-          "Feedback mechanisms",
-          "Communication effectiveness monitoring"
-        ],
-        "orderIndex": 1
-      },
-      {
-        "id": "process-task-2",
-        "domainId": "process",
-        "code": "2",
-        "name": "Manage Scope",
-        "description": "Scope management involves ensuring the project includes all the work required, and only the work required, to complete the project successfully.",
-        "enablers": [
-          "Requirements analysis",
-          "Work breakdown structure",
-          "Change control",
-          "Scope validation"
-        ],
-        "orderIndex": 2
-      },
-      {
-        "id": "process-task-3",
-        "domainId": "process",
-        "code": "3",
-        "name": "Schedule Management",
-        "description": "Schedule management involves planning, executing, and controlling the project timeline to ensure timely completion.",
-        "enablers": [
-          "Activity definition and sequencing",
-          "Duration estimation",
-          "Schedule development",
-          "Schedule control"
-        ],
-        "orderIndex": 3
-      },
-      {
-        "id": "process-task-4",
-        "domainId": "process",
-        "code": "4",
-        "name": "Manage Budget and Costs",
-        "description": "Budget and cost management involves planning, estimating, budgeting, financing, funding, managing, and controlling costs.",
-        "enablers": [
-          "Cost estimation",
-          "Budget preparation",
-          "Cost control",
-          "Earned value management"
-        ],
-        "orderIndex": 4
-      },
-      {
-        "id": "process-task-5",
-        "domainId": "process",
-        "code": "5",
-        "name": "Manage Quality",
-        "description": "Quality management involves ensuring the project will satisfy the needs for which it was undertaken.",
-        "enablers": [
-          "Quality planning",
-          "Quality assurance",
-          "Quality control",
-          "Continuous improvement"
-        ],
-        "orderIndex": 5
-      },
-      {
-        "id": "process-task-6",
-        "domainId": "process",
-        "code": "6",
-        "name": "Manage Resources",
-        "description": "Resource management involves identifying, acquiring, and managing the resources needed for project completion.",
-        "enablers": [
-          "Resource planning",
-          "Resource acquisition",
-          "Team development",
-          "Resource control"
-        ],
-        "orderIndex": 6
-      },
-      {
-        "id": "process-task-7",
-        "domainId": "process",
-        "code": "7",
-        "name": "Manage Procurement",
-        "description": "Procurement management involves buying or acquiring products, services, or results from outside the project team.",
-        "enablers": [
-          "Procurement planning",
-          "Seller selection",
-          "Contract administration",
-          "Contract closure"
-        ],
-        "orderIndex": 7
-      },
-      {
-        "id": "process-task-8",
-        "domainId": "process",
-        "code": "8",
-        "name": "Manage Changes in a Project",
-        "description": "Change management involves controlling and documenting changes to project baselines.",
-        "enablers": [
-          "Change control process",
-          "Impact analysis",
-          "Change approval",
-          "Baseline updates"
-        ],
-        "orderIndex": 8
-      },
-      {
-        "id": "process-task-9",
-        "domainId": "process",
-        "code": "9",
-        "name": "Manage Project Knowledge",
-        "description": "Knowledge management involves using existing knowledge and creating new knowledge to achieve project objectives.",
-        "enablers": [
-          "Knowledge capture",
-          "Knowledge sharing",
-          "Lessons learned",
-          "Information management"
-        ],
-        "orderIndex": 9
-      },
-      {
-        "id": "process-task-10",
-        "domainId": "process",
-        "code": "10",
-        "name": "Plan and Manage Project/Project Deliverables",
-        "description": "Deliverable management involves defining, creating, and ensuring quality of project outputs.",
-        "enablers": [
-          "Deliverable definition",
-          "Deliverable creation",
-          "Deliverable review",
-          "Deliverable acceptance"
-        ],
-        "orderIndex": 10
-      },
-      {
-        "id": "process-task-11",
-        "domainId": "process",
-        "code": "11",
-        "name": "Assess and Manage Project and Product Risks",
-        "description": "Risk management involves identifying, analyzing, and responding to risk factors throughout the project life cycle.",
-        "enablers": [
-          "Risk identification",
-          "Risk analysis",
-          "Risk response planning",
-          "Risk monitoring"
-        ],
-        "orderIndex": 11
-      },
-      {
-        "id": "process-task-12",
-        "domainId": "process",
-        "code": "12",
-        "name": "Manage Project Work",
-        "description": "Project work management involves directing and executing the planned project activities.",
-        "enablers": [
-          "Work authorization",
-          "Work execution",
-          "Work coordination",
-          "Performance reporting"
-        ],
-        "orderIndex": 12
-      },
-      {
-        "id": "process-task-13",
-        "domainId": "process",
-        "code": "13",
-        "name": "Ensure Accountability",
-        "description": "Accountability involves ensuring team members take ownership of their responsibilities and deliver on commitments.",
-        "enablers": [
-          "Clear responsibility assignment",
-          "Performance tracking",
-          "Feedback loops",
-          "Consequence management"
-        ],
-        "orderIndex": 13
-      },
-      {
-        "id": "process-task-14",
-        "domainId": "process",
-        "code": "14",
-        "name": "Manage Project Dependencies",
-        "description": "Dependency management involves identifying and managing relationships between tasks, resources, and stakeholders.",
-        "enablers": [
-          "Dependency identification",
-          "Dependency analysis",
-          "Dependency coordination",
-          "Dependency monitoring"
-        ],
-        "orderIndex": 14
-      },
-      {
-        "id": "process-task-15",
-        "domainId": "process",
-        "code": "15",
-        "name": "Manage Project Transitions",
-        "description": "Transition management involves ensuring smooth handoffs between project phases and to operations.",
-        "enablers": [
-          "Transition planning",
-          "Stakeholder communication",
-          "Knowledge transfer",
-          "Operational readiness"
-        ],
-        "orderIndex": 15
-      },
-      {
-        "id": "process-task-16",
-        "domainId": "process",
-        "code": "16",
-        "name": "Plan Project Scope",
-        "description": "Scope planning involves defining what is included in and excluded from the project.",
-        "enablers": [
-          "Requirements collection",
-          "Scope statement development",
-          "WBS creation",
-          "Scope baseline"
-        ],
-        "orderIndex": 16
-      },
-      {
-        "id": "process-task-17",
-        "domainId": "process",
-        "code": "17",
-        "name": "Plan Project Schedule",
-        "description": "Schedule planning involves developing the timeline for project completion.",
-        "enablers": [
-          "Activity definition",
-          "Activity sequencing",
-          "Duration estimation",
-          "Schedule development"
-        ],
-        "orderIndex": 17
-      },
-      {
-        "id": "process-task-18",
-        "domainId": "process",
-        "code": "18",
-        "name": "Plan Project Budget and Costs",
-        "description": "Budget planning involves estimating costs and establishing the project budget.",
-        "enablers": [
-          "Cost estimation",
-          "Budget aggregation",
-          "Contingency reserves",
-          "Funding limits"
-        ],
-        "orderIndex": 18
-      },
-      {
-        "id": "process-task-19",
-        "domainId": "process",
-        "code": "19",
-        "name": "Plan Management of Quality",
-        "description": "Quality planning involves identifying quality standards and requirements for the project and its deliverables.",
-        "enablers": [
-          "Quality standards identification",
-          "Quality metrics definition",
-          "Quality improvement planning",
-          "Quality assurance approach"
-        ],
-        "orderIndex": 19
-      },
-      {
-        "id": "process-task-20",
-        "domainId": "process",
-        "code": "20",
-        "name": "Plan Resources for the Project",
-        "description": "Resource planning involves identifying and acquiring the resources needed for project completion.",
-        "enablers": [
-          "Resource requirements identification",
-          "Resource estimation",
-          "Resource acquisition planning",
-          "Team structure planning"
-        ],
-        "orderIndex": 20
-      },
-      {
-        "id": "process-task-21",
-        "domainId": "process",
-        "code": "21",
-        "name": "Plan Procurement",
-        "description": "Procurement planning involves determining what to procure, when, and how.",
-        "enablers": [
-          "Make-or-buy analysis",
-          "Procurement statement of work",
-          "Source selection criteria",
-          "Procurement documents"
-        ],
-        "orderIndex": 21
-      },
-      {
-        "id": "process-task-22",
-        "domainId": "process",
-        "code": "22",
-        "name": "Plan for Project Improvements",
-        "description": "Improvement planning involves identifying opportunities to enhance project performance.",
-        "enablers": [
-          "Process analysis",
-          "Benchmarking",
-          "Continuous improvement culture",
-          "Innovation opportunities"
-        ],
-        "orderIndex": 22
-      },
-      {
-        "id": "process-task-23",
-        "domainId": "process",
-        "code": "23",
-        "name": "Plan Stakeholder Engagement",
-        "description": "Stakeholder engagement planning involves developing strategies to effectively engage stakeholders.",
-        "enablers": [
-          "Stakeholder analysis",
-          "Engagement strategies",
-          "Communication planning",
-          "Relationship building"
-        ],
-        "orderIndex": 23
-      }
-    ]
-  },
-  {
-    "id": "business",
-    "code": "BUSINESS_ENVIRONMENT",
-    "name": "Business Environment",
-    "description": "Business Environment domain covers the understanding of the project's organizational context and ensuring alignment with business goals and strategy. This includes topics such as compliance, governance, organizational structure, and business value.",
-    "weightPercentage": 26,
-    "orderIndex": 3,
-    "tasks": [
-      {
-        "id": "business-task-1",
-        "domainId": "business",
-        "code": "1",
-        "name": "Define and Establish Project Governance",
-        "description": "Project governance establishes the framework, functions, and processes that guide project management activities to create a unique product, service, or result to meet organizational goals.",
-        "enablers": [
-          "Governance framework",
-          "Steering committee establishment",
-          "Decision rights",
-          "Oversight mechanisms"
-        ],
-        "orderIndex": 1
-      },
-      {
-        "id": "business-task-2",
-        "domainId": "business",
-        "code": "2",
-        "name": "Determine Project Feasibility",
-        "description": "Feasibility assessment involves evaluating whether a project is viable and worth pursuing based on technical, economic, legal, operational, and scheduling factors.",
-        "enablers": [
-          "Feasibility analysis",
-          "Business case development",
-          "Cost-benefit analysis",
-          "Risk assessment"
-        ],
-        "orderIndex": 2
-      },
-      {
-        "id": "business-task-3",
-        "domainId": "business",
-        "code": "3",
-        "name": "Determine and Champion Project Business Value",
-        "description": "Business value determination involves identifying and articulating the value the project will deliver to the organization.",
-        "enablers": [
-          "Value proposition",
-          "Benefits identification",
-          "Value measurement",
-          "Value communication"
-        ],
-        "orderIndex": 3
-      },
-      {
-        "id": "business-task-4",
-        "domainId": "business",
-        "code": "4",
-        "name": "Analyze and Document External Business Environment Factors",
-        "description": "External environment analysis involves understanding factors outside the organization that may affect the project.",
-        "enablers": [
-          "PESTLE analysis",
-          "Market analysis",
-          "Competitive landscape",
-          "Regulatory environment"
-        ],
-        "orderIndex": 4
-      },
-      {
-        "id": "business-task-5",
-        "domainId": "business",
-        "code": "5",
-        "name": "Analyze and Document Internal Business Environment Factors",
-        "description": "Internal environment analysis involves understanding factors within the organization that may affect the project.",
-        "enablers": [
-          "Organizational culture",
-          "Organizational structure",
-          "Internal capabilities",
-          "Resource availability"
-        ],
-        "orderIndex": 5
-      },
-      {
-        "id": "business-task-6",
-        "domainId": "business",
-        "code": "6",
-        "name": "Evaluate and Address Organizational Culture",
-        "description": "Culture evaluation involves understanding how organizational culture affects the project and adapting approaches accordingly.",
-        "enablers": [
-          "Culture assessment",
-          "Cultural alignment",
-          "Change management",
-          "Stakeholder adaptation"
-        ],
-        "orderIndex": 6
-      },
-      {
-        "id": "business-task-7",
-        "domainId": "business",
-        "code": "7",
-        "name": "Identify and Leverage Key Organizational Resources",
-        "description": "Resource identification involves finding and utilizing the organization's assets to support the project.",
-        "enablers": [
-          "Resource inventory",
-          "Resource allocation",
-          "Resource optimization",
-          "Knowledge management"
-        ],
-        "orderIndex": 7
-      },
-      {
-        "id": "business-task-8",
-        "domainId": "business",
-        "code": "8",
-        "name": "Evaluate and Align with Project Compliance Requirements",
-        "description": "Compliance management involves ensuring the project meets all legal, regulatory, and contractual requirements.",
-        "enablers": [
-          "Regulatory identification",
-          "Compliance planning",
-          "Compliance monitoring",
-          "Audit preparation"
-        ],
-        "orderIndex": 8
-      },
-      {
-        "id": "business-task-9",
-        "domainId": "business",
-        "code": "9",
-        "name": "Evaluate and Support Organizational Change Management",
-        "description": "Change management evaluation involves understanding and supporting organizational change initiatives related to the project.",
-        "enablers": [
-          "Change impact analysis",
-          "Stakeholder readiness assessment",
-          "Change strategy",
-          "Change execution"
-        ],
-        "orderIndex": 9
-      },
-      {
-        "id": "business-task-10",
-        "domainId": "business",
-        "code": "10",
-        "name": "Evaluate Continuous Support and Operations",
-        "description": "Operations evaluation involves planning for how project deliverables will be supported and maintained after project completion.",
-        "enablers": [
-          "Operations planning",
-          "Support structure",
-          "Maintenance requirements",
-          "Transition planning"
-        ],
-        "orderIndex": 10
-      },
-      {
-        "id": "business-task-11",
-        "domainId": "business",
-        "code": "11",
-        "name": "Maintain Awareness of Trends in the Industry and Marketplace",
-        "description": "Trend awareness involves staying informed about industry developments that may affect the project.",
-        "enablers": [
-          "Market research",
-          "Industry monitoring",
-          "Competitive intelligence",
-          "Technology trends"
-        ],
-        "orderIndex": 11
-      },
-      {
-        "id": "business-task-12",
-        "domainId": "business",
-        "code": "12",
-        "name": "Consider ESG (Environmental, Social, and Governance) Factors",
-        "description": "ESG consideration involves integrating environmental, social, and governance factors into project decisions.",
-        "enablers": [
-          "Environmental impact assessment",
-          "Social responsibility",
-          "Governance compliance",
-          "Sustainability reporting"
-        ],
-        "orderIndex": 12
-      },
-      {
-        "id": "business-task-13",
-        "domainId": "business",
-        "code": "13",
-        "name": "Consider AI and Emerging Technology",
-        "description": "Technology consideration involves evaluating how AI and emerging technologies can support or impact the project.",
-        "enablers": [
-          "Technology assessment",
-          "AI adoption strategy",
-          "Innovation opportunities",
-          "Risk evaluation"
-        ],
-        "orderIndex": 13
-      }
-    ]
-  }
+ {
+ "id": "people",
+ "code": "PEOPLE",
+ "name": "People",
+ "description": "People domain covers the skills and activities associated with effectively leading a project team. This includes topics such as conflict management, team building, negotiation, emotional intelligence, and virtual teams.",
+ "weightPercentage": 33,
+ "orderIndex": 1,
+ "tasks": [
+ {
+ "id": "people-task-1",
+ "domainId": "people",
+ "code": "1",
+ "name": "Manage Conflict",
+ "description": "Conflict management involves resolving disagreements to prevent escalation and maintain positive team dynamics. Understand the different conflict resolution styles and when to apply each.",
+ "enablers": [
+ "Active listening",
+ "Emotional intelligence",
+ "Problem-solving techniques",
+ "Collaborative mindset"
+ ],
+ "orderIndex": 1
+ },
+ {
+ "id": "people-task-2",
+ "domainId": "people",
+ "code": "2",
+ "name": "Lead Team",
+ "description": "Leading a team involves setting direction, inspiring team members, and creating an environment where everyone can contribute their best work.",
+ "enablers": [
+ "Vision setting",
+ "Motivation techniques",
+ "Coaching and mentoring",
+ "Performance feedback"
+ ],
+ "orderIndex": 2
+ },
+ {
+ "id": "people-task-3",
+ "domainId": "people",
+ "code": "3",
+ "name": "Support Team Performance",
+ "description": "Supporting team performance involves removing obstacles, providing resources, and creating conditions for the team to succeed.",
+ "enablers": [
+ "Resource allocation",
+ "Impediment removal",
+ "Process optimization",
+ "Continuous improvement"
+ ],
+ "orderIndex": 3
+ },
+ {
+ "id": "people-task-4",
+ "domainId": "people",
+ "code": "4",
+ "name": "Empower Team Members and Stakeholders",
+ "description": "Empowerment involves giving team members and stakeholders the authority, autonomy, and resources they need to make decisions and take action.",
+ "enablers": [
+ "Delegation",
+ "Trust building",
+ "Decision-making authority",
+ "Accountability"
+ ],
+ "orderIndex": 4
+ },
+ {
+ "id": "people-task-5",
+ "domainId": "people",
+ "code": "5",
+ "name": "Ensure Team Members/Stakeholders are Adequately Trained",
+ "description": "Training involves identifying skill gaps and ensuring team members and stakeholders have the knowledge and skills needed to succeed.",
+ "enablers": [
+ "Training needs analysis",
+ "Learning and development plans",
+ "Knowledge sharing",
+ "Skills transfer"
+ ],
+ "orderIndex": 5
+ },
+ {
+ "id": "people-task-6",
+ "domainId": "people",
+ "code": "6",
+ "name": "Build a Team",
+ "description": "Team building involves creating a cohesive group that works together effectively to achieve project goals.",
+ "enablers": [
+ "Team formation stages",
+ "Role clarity",
+ "Team culture",
+ "Collaboration tools"
+ ],
+ "orderIndex": 6
+ },
+ {
+ "id": "people-task-7",
+ "domainId": "people",
+ "code": "7",
+ "name": "Address and Remove Impediments, Obstacles, and Blockers",
+ "description": "Addressing impediments involves identifying and removing anything that prevents the team from working effectively.",
+ "enablers": [
+ "Problem identification",
+ "Root cause analysis",
+ "Solution implementation",
+ "Preventive measures"
+ ],
+ "orderIndex": 7
+ },
+ {
+ "id": "people-task-8",
+ "domainId": "people",
+ "code": "8",
+ "name": "Negotiate",
+ "description": "Negotiation involves reaching agreements through discussion and compromise while maintaining positive relationships.",
+ "enablers": [
+ "Preparation and planning",
+ "Active listening",
+ "Win-win mindset",
+ "Alternative identification"
+ ],
+ "orderIndex": 8
+ },
+ {
+ "id": "people-task-9",
+ "domainId": "people",
+ "code": "9",
+ "name": "Collaborate with Stakeholders",
+ "description": "Collaboration involves working closely with stakeholders to ensure their needs are met and they remain engaged throughout the project.",
+ "enablers": [
+ "Stakeholder engagement",
+ "Communication",
+ "Relationship building",
+ "Expectation management"
+ ],
+ "orderIndex": 9
+ },
+ {
+ "id": "people-task-10",
+ "domainId": "people",
+ "code": "10",
+ "name": "Lead a Virtual Team",
+ "description": "Leading virtual teams involves managing team members who are geographically dispersed and may work across different time zones and cultures.",
+ "enablers": [
+ "Virtual communication tools",
+ "Cultural awareness",
+ "Trust building without physical presence",
+ "Time zone management"
+ ],
+ "orderIndex": 10
+ },
+ {
+ "id": "people-task-11",
+ "domainId": "people",
+ "code": "11",
+ "name": "Define Ground Rules",
+ "description": "Ground rules are the guidelines that establish acceptable behavior and working agreements for the team.",
+ "enablers": [
+ "Facilitation",
+ "Team consensus",
+ "Clear expectations",
+ "Conflict prevention"
+ ],
+ "orderIndex": 11
+ },
+ {
+ "id": "people-task-12",
+ "domainId": "people",
+ "code": "12",
+ "name": "Manage Emotional Intelligence",
+ "description": "Emotional intelligence involves understanding and managing your own emotions and those of others to build better working relationships.",
+ "enablers": [
+ "Self-awareness",
+ "Self-regulation",
+ "Empathy",
+ "Social skills"
+ ],
+ "orderIndex": 12
+ }
+ ]
+ },
+ {
+ "id": "process",
+ "code": "PROCESS",
+ "name": "Process",
+ "description": "Process domain covers the technical and management activities associated with effectively executing a project. This includes topics such as scope management, schedule management, cost management, quality management, and risk management.",
+ "weightPercentage": 41,
+ "orderIndex": 2,
+ "tasks": [
+ {
+ "id": "process-task-1",
+ "domainId": "process",
+ "code": "1",
+ "name": "Execute Communication with Stakeholders",
+ "description": "Communication execution involves ensuring timely and appropriate generation, collection, dissemination, storage, and ultimate disposition of project information.",
+ "enablers": [
+ "Communication planning",
+ "Information distribution",
+ "Feedback mechanisms",
+ "Communication effectiveness monitoring"
+ ],
+ "orderIndex": 1
+ },
+ {
+ "id": "process-task-2",
+ "domainId": "process",
+ "code": "2",
+ "name": "Manage Scope",
+ "description": "Scope management involves ensuring the project includes all the work required, and only the work required, to complete the project successfully.",
+ "enablers": [
+ "Requirements analysis",
+ "Work breakdown structure",
+ "Change control",
+ "Scope validation"
+ ],
+ "orderIndex": 2
+ },
+ {
+ "id": "process-task-3",
+ "domainId": "process",
+ "code": "3",
+ "name": "Schedule Management",
+ "description": "Schedule management involves planning, executing, and controlling the project timeline to ensure timely completion.",
+ "enablers": [
+ "Activity definition and sequencing",
+ "Duration estimation",
+ "Schedule development",
+ "Schedule control"
+ ],
+ "orderIndex": 3
+ },
+ {
+ "id": "process-task-4",
+ "domainId": "process",
+ "code": "4",
+ "name": "Manage Budget and Costs",
+ "description": "Budget and cost management involves planning, estimating, budgeting, financing, funding, managing, and controlling costs.",
+ "enablers": [
+ "Cost estimation",
+ "Budget preparation",
+ "Cost control",
+ "Earned value management"
+ ],
+ "orderIndex": 4
+ },
+ {
+ "id": "process-task-5",
+ "domainId": "process",
+ "code": "5",
+ "name": "Manage Quality",
+ "description": "Quality management involves ensuring the project will satisfy the needs for which it was undertaken.",
+ "enablers": [
+ "Quality planning",
+ "Quality assurance",
+ "Quality control",
+ "Continuous improvement"
+ ],
+ "orderIndex": 5
+ },
+ {
+ "id": "process-task-6",
+ "domainId": "process",
+ "code": "6",
+ "name": "Manage Resources",
+ "description": "Resource management involves identifying, acquiring, and managing the resources needed for project completion.",
+ "enablers": [
+ "Resource planning",
+ "Resource acquisition",
+ "Team development",
+ "Resource control"
+ ],
+ "orderIndex": 6
+ },
+ {
+ "id": "process-task-7",
+ "domainId": "process",
+ "code": "7",
+ "name": "Manage Procurement",
+ "description": "Procurement management involves buying or acquiring products, services, or results from outside the project team.",
+ "enablers": [
+ "Procurement planning",
+ "Seller selection",
+ "Contract administration",
+ "Contract closure"
+ ],
+ "orderIndex": 7
+ },
+ {
+ "id": "process-task-8",
+ "domainId": "process",
+ "code": "8",
+ "name": "Manage Changes in a Project",
+ "description": "Change management involves controlling and documenting changes to project baselines.",
+ "enablers": [
+ "Change control process",
+ "Impact analysis",
+ "Change approval",
+ "Baseline updates"
+ ],
+ "orderIndex": 8
+ },
+ {
+ "id": "process-task-9",
+ "domainId": "process",
+ "code": "9",
+ "name": "Manage Project Knowledge",
+ "description": "Knowledge management involves using existing knowledge and creating new knowledge to achieve project objectives.",
+ "enablers": [
+ "Knowledge capture",
+ "Knowledge sharing",
+ "Lessons learned",
+ "Information management"
+ ],
+ "orderIndex": 9
+ },
+ {
+ "id": "process-task-10",
+ "domainId": "process",
+ "code": "10",
+ "name": "Plan and Manage Project/Project Deliverables",
+ "description": "Deliverable management involves defining, creating, and ensuring quality of project outputs.",
+ "enablers": [
+ "Deliverable definition",
+ "Deliverable creation",
+ "Deliverable review",
+ "Deliverable acceptance"
+ ],
+ "orderIndex": 10
+ },
+ {
+ "id": "process-task-11",
+ "domainId": "process",
+ "code": "11",
+ "name": "Assess and Manage Project and Product Risks",
+ "description": "Risk management involves identifying, analyzing, and responding to risk factors throughout the project life cycle.",
+ "enablers": [
+ "Risk identification",
+ "Risk analysis",
+ "Risk response planning",
+ "Risk monitoring"
+ ],
+ "orderIndex": 11
+ },
+ {
+ "id": "process-task-12",
+ "domainId": "process",
+ "code": "12",
+ "name": "Manage Project Work",
+ "description": "Project work management involves directing and executing the planned project activities.",
+ "enablers": [
+ "Work authorization",
+ "Work execution",
+ "Work coordination",
+ "Performance reporting"
+ ],
+ "orderIndex": 12
+ },
+ {
+ "id": "process-task-13",
+ "domainId": "process",
+ "code": "13",
+ "name": "Ensure Accountability",
+ "description": "Accountability involves ensuring team members take ownership of their responsibilities and deliver on commitments.",
+ "enablers": [
+ "Clear responsibility assignment",
+ "Performance tracking",
+ "Feedback loops",
+ "Consequence management"
+ ],
+ "orderIndex": 13
+ },
+ {
+ "id": "process-task-14",
+ "domainId": "process",
+ "code": "14",
+ "name": "Manage Project Dependencies",
+ "description": "Dependency management involves identifying and managing relationships between tasks, resources, and stakeholders.",
+ "enablers": [
+ "Dependency identification",
+ "Dependency analysis",
+ "Dependency coordination",
+ "Dependency monitoring"
+ ],
+ "orderIndex": 14
+ },
+ {
+ "id": "process-task-15",
+ "domainId": "process",
+ "code": "15",
+ "name": "Manage Project Transitions",
+ "description": "Transition management involves ensuring smooth handoffs between project phases and to operations.",
+ "enablers": [
+ "Transition planning",
+ "Stakeholder communication",
+ "Knowledge transfer",
+ "Operational readiness"
+ ],
+ "orderIndex": 15
+ },
+ {
+ "id": "process-task-16",
+ "domainId": "process",
+ "code": "16",
+ "name": "Plan Project Scope",
+ "description": "Scope planning involves defining what is included in and excluded from the project.",
+ "enablers": [
+ "Requirements collection",
+ "Scope statement development",
+ "WBS creation",
+ "Scope baseline"
+ ],
+ "orderIndex": 16
+ },
+ {
+ "id": "process-task-17",
+ "domainId": "process",
+ "code": "17",
+ "name": "Plan Project Schedule",
+ "description": "Schedule planning involves developing the timeline for project completion.",
+ "enablers": [
+ "Activity definition",
+ "Activity sequencing",
+ "Duration estimation",
+ "Schedule development"
+ ],
+ "orderIndex": 17
+ },
+ {
+ "id": "process-task-18",
+ "domainId": "process",
+ "code": "18",
+ "name": "Plan Project Budget and Costs",
+ "description": "Budget planning involves estimating costs and establishing the project budget.",
+ "enablers": [
+ "Cost estimation",
+ "Budget aggregation",
+ "Contingency reserves",
+ "Funding limits"
+ ],
+ "orderIndex": 18
+ },
+ {
+ "id": "process-task-19",
+ "domainId": "process",
+ "code": "19",
+ "name": "Plan Management of Quality",
+ "description": "Quality planning involves identifying quality standards and requirements for the project and its deliverables.",
+ "enablers": [
+ "Quality standards identification",
+ "Quality metrics definition",
+ "Quality improvement planning",
+ "Quality assurance approach"
+ ],
+ "orderIndex": 19
+ },
+ {
+ "id": "process-task-20",
+ "domainId": "process",
+ "code": "20",
+ "name": "Plan Resources for the Project",
+ "description": "Resource planning involves identifying and acquiring the resources needed for project completion.",
+ "enablers": [
+ "Resource requirements identification",
+ "Resource estimation",
+ "Resource acquisition planning",
+ "Team structure planning"
+ ],
+ "orderIndex": 20
+ },
+ {
+ "id": "process-task-21",
+ "domainId": "process",
+ "code": "21",
+ "name": "Plan Procurement",
+ "description": "Procurement planning involves determining what to procure, when, and how.",
+ "enablers": [
+ "Make-or-buy analysis",
+ "Procurement statement of work",
+ "Source selection criteria",
+ "Procurement documents"
+ ],
+ "orderIndex": 21
+ },
+ {
+ "id": "process-task-22",
+ "domainId": "process",
+ "code": "22",
+ "name": "Plan for Project Improvements",
+ "description": "Improvement planning involves identifying opportunities to enhance project performance.",
+ "enablers": [
+ "Process analysis",
+ "Benchmarking",
+ "Continuous improvement culture",
+ "Innovation opportunities"
+ ],
+ "orderIndex": 22
+ },
+ {
+ "id": "process-task-23",
+ "domainId": "process",
+ "code": "23",
+ "name": "Plan Stakeholder Engagement",
+ "description": "Stakeholder engagement planning involves developing strategies to effectively engage stakeholders.",
+ "enablers": [
+ "Stakeholder analysis",
+ "Engagement strategies",
+ "Communication planning",
+ "Relationship building"
+ ],
+ "orderIndex": 23
+ }
+ ]
+ },
+ {
+ "id": "business",
+ "code": "BUSINESS_ENVIRONMENT",
+ "name": "Business Environment",
+ "description": "Business Environment domain covers the understanding of the project's organizational context and ensuring alignment with business goals and strategy. This includes topics such as compliance, governance, organizational structure, and business value.",
+ "weightPercentage": 26,
+ "orderIndex": 3,
+ "tasks": [
+ {
+ "id": "business-task-1",
+ "domainId": "business",
+ "code": "1",
+ "name": "Define and Establish Project Governance",
+ "description": "Project governance establishes the framework, functions, and processes that guide project management activities to create a unique product, service, or result to meet organizational goals.",
+ "enablers": [
+ "Governance framework",
+ "Steering committee establishment",
+ "Decision rights",
+ "Oversight mechanisms"
+ ],
+ "orderIndex": 1
+ },
+ {
+ "id": "business-task-2",
+ "domainId": "business",
+ "code": "2",
+ "name": "Determine Project Feasibility",
+ "description": "Feasibility assessment involves evaluating whether a project is viable and worth pursuing based on technical, economic, legal, operational, and scheduling factors.",
+ "enablers": [
+ "Feasibility analysis",
+ "Business case development",
+ "Cost-benefit analysis",
+ "Risk assessment"
+ ],
+ "orderIndex": 2
+ },
+ {
+ "id": "business-task-3",
+ "domainId": "business",
+ "code": "3",
+ "name": "Determine and Champion Project Business Value",
+ "description": "Business value determination involves identifying and articulating the value the project will deliver to the organization.",
+ "enablers": [
+ "Value proposition",
+ "Benefits identification",
+ "Value measurement",
+ "Value communication"
+ ],
+ "orderIndex": 3
+ },
+ {
+ "id": "business-task-4",
+ "domainId": "business",
+ "code": "4",
+ "name": "Analyze and Document External Business Environment Factors",
+ "description": "External environment analysis involves understanding factors outside the organization that may affect the project.",
+ "enablers": [
+ "PESTLE analysis",
+ "Market analysis",
+ "Competitive landscape",
+ "Regulatory environment"
+ ],
+ "orderIndex": 4
+ },
+ {
+ "id": "business-task-5",
+ "domainId": "business",
+ "code": "5",
+ "name": "Analyze and Document Internal Business Environment Factors",
+ "description": "Internal environment analysis involves understanding factors within the organization that may affect the project.",
+ "enablers": [
+ "Organizational culture",
+ "Organizational structure",
+ "Internal capabilities",
+ "Resource availability"
+ ],
+ "orderIndex": 5
+ },
+ {
+ "id": "business-task-6",
+ "domainId": "business",
+ "code": "6",
+ "name": "Evaluate and Address Organizational Culture",
+ "description": "Culture evaluation involves understanding how organizational culture affects the project and adapting approaches accordingly.",
+ "enablers": [
+ "Culture assessment",
+ "Cultural alignment",
+ "Change management",
+ "Stakeholder adaptation"
+ ],
+ "orderIndex": 6
+ },
+ {
+ "id": "business-task-7",
+ "domainId": "business",
+ "code": "7",
+ "name": "Identify and Leverage Key Organizational Resources",
+ "description": "Resource identification involves finding and utilizing the organization's assets to support the project.",
+ "enablers": [
+ "Resource inventory",
+ "Resource allocation",
+ "Resource optimization",
+ "Knowledge management"
+ ],
+ "orderIndex": 7
+ },
+ {
+ "id": "business-task-8",
+ "domainId": "business",
+ "code": "8",
+ "name": "Evaluate and Align with Project Compliance Requirements",
+ "description": "Compliance management involves ensuring the project meets all legal, regulatory, and contractual requirements.",
+ "enablers": [
+ "Regulatory identification",
+ "Compliance planning",
+ "Compliance monitoring",
+ "Audit preparation"
+ ],
+ "orderIndex": 8
+ },
+ {
+ "id": "business-task-9",
+ "domainId": "business",
+ "code": "9",
+ "name": "Evaluate and Support Organizational Change Management",
+ "description": "Change management evaluation involves understanding and supporting organizational change initiatives related to the project.",
+ "enablers": [
+ "Change impact analysis",
+ "Stakeholder readiness assessment",
+ "Change strategy",
+ "Change execution"
+ ],
+ "orderIndex": 9
+ },
+ {
+ "id": "business-task-10",
+ "domainId": "business",
+ "code": "10",
+ "name": "Evaluate Continuous Support and Operations",
+ "description": "Operations evaluation involves planning for how project deliverables will be supported and maintained after project completion.",
+ "enablers": [
+ "Operations planning",
+ "Support structure",
+ "Maintenance requirements",
+ "Transition planning"
+ ],
+ "orderIndex": 10
+ },
+ {
+ "id": "business-task-11",
+ "domainId": "business",
+ "code": "11",
+ "name": "Maintain Awareness of Trends in the Industry and Marketplace",
+ "description": "Trend awareness involves staying informed about industry developments that may affect the project.",
+ "enablers": [
+ "Market research",
+ "Industry monitoring",
+ "Competitive intelligence",
+ "Technology trends"
+ ],
+ "orderIndex": 11
+ },
+ {
+ "id": "business-task-12",
+ "domainId": "business",
+ "code": "12",
+ "name": "Consider ESG (Environmental, Social, and Governance) Factors",
+ "description": "ESG consideration involves integrating environmental, social, and governance factors into project decisions.",
+ "enablers": [
+ "Environmental impact assessment",
+ "Social responsibility",
+ "Governance compliance",
+ "Sustainability reporting"
+ ],
+ "orderIndex": 12
+ },
+ {
+ "id": "business-task-13",
+ "domainId": "business",
+ "code": "13",
+ "name": "Consider AI and Emerging Technology",
+ "description": "Technology consideration involves evaluating how AI and emerging technologies can support or impact the project.",
+ "enablers": [
+ "Technology assessment",
+ "AI adoption strategy",
+ "Innovation opportunities",
+ "Risk evaluation"
+ ],
+ "orderIndex": 13
+ }
+ ]
+ }
 ]

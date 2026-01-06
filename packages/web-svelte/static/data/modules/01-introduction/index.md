@@ -20,45 +20,45 @@ Welcome to the foundation of your PMP® journey. Before diving into tools and te
 This chapter is structured in core sections, each building your foundation:
 
 <ConceptGrid>
-  <ConceptCard 
-    title="1.1 Understanding the New PMP Exam" 
-    link="./understanding-exam" 
-    linkText="Explore the Exam">
-    Breakdown of the 185 questions, 2026 domain distribution (People 33%, Process 41%, Business 26%), scoring, and the new interactive case-study format.
-  </ConceptCard>
+ <ConceptCard 
+ title="1.1 Understanding the New PMP Exam" 
+ link="./understanding-exam" 
+ linkText="Explore the Exam">
+ Breakdown of the 185 questions, 2026 domain distribution (People 33%, Process 41%, Business 26%), scoring, and the new interactive case-study format.
+ </ConceptCard>
 
 <ConceptCard 
-    title="1.2 How To Use This Study Guide" 
-    link="./using-guide" 
-    linkText="Plan Your Path">
+ title="1.2 How To Use This Study Guide" 
+ link="./using-guide" 
+ linkText="Plan Your Path">
 Strategic study paths based on your background: Predictive veteran, Agile native, or Hybrid practitioner. Maximize your study ROI.
 </ConceptCard>
 
 <ConceptCard 
-    title="1.3 Ways of Working & Tailoring" 
-    link="./ways-of-working" 
-    linkText="Select Approach">
+ title="1.3 Ways of Working & Tailoring" 
+ link="./ways-of-working" 
+ linkText="Select Approach">
 Master the full spectrum: Predictive (plan-driven), Agile (adaptive), and Hybrid approaches. When to pivot, why, and how to tailor based on context.
 </ConceptCard>
 
 <ConceptCard 
-    title="1.4 PMBOK 8th Edition Principles" 
-    link="./pmbok8-principles" 
-    linkText="Learn Principles">
+ title="1.4 PMBOK 8th Edition Principles" 
+ link="./pmbok8-principles" 
+ linkText="Learn Principles">
 Master the 6 new consolidated principles: Adopt a Holistic View, Focus on Value, Embed Quality, Be an Accountable Leader, Integrate Sustainability, Build an Empowered Culture.
 </ConceptCard>
 
 <ConceptCard 
-    title="1.5 Core Concepts & Tools" 
-    link="./core-concepts" 
-    linkText="Master Fundamentals">
+ title="1.5 Core Concepts & Tools" 
+ link="./core-concepts" 
+ linkText="Master Fundamentals">
 The "Big 6" mental models that apply to every project: Stakeholders, Triple Constraint, Quality, Risk, Data & AI, and Professional Ethics.
 </ConceptCard>
 
 <ConceptCard 
-    title="Chapter 1 Knowledge Check" 
-    link="./knowledge-check" 
-    linkText="Verify Basics">
+ title="Chapter 1 Knowledge Check" 
+ link="./knowledge-check" 
+ linkText="Verify Basics">
 Test your foundational knowledge with scenario-based practice questions covering the 2026 exam landscape and core concepts.
 </ConceptCard>
 </ConceptGrid>
@@ -74,7 +74,7 @@ By the end of this chapter, you will be able to:
 - **Tailor the Approach**: Identify when a project requires a rigid vs. adaptive structure.
 
 <div class="flex justify-center my-12">
-  <a href="./understanding-exam" class="px-8 py-4 bg-primary text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-    Begin Foundation
-  </a>
+ <a href="./understanding-exam" class="px-8 py-4 bg-primary text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+ Begin Foundation
+ </a>
 </div>

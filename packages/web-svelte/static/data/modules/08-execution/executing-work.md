@@ -9,7 +9,7 @@ Execution is where project leaders coordinate people, vendors, and resources to 
 
 ---
 
-## 🧭 “Direct and Manage Project Work” (In Plain English)
+## “Direct and Manage Project Work” (In Plain English)
 This is the integration heartbeat of execution. You’re coordinating work so the team can produce deliverables while you keep stakeholders aligned and the project under control.
 
 What it includes (predictive, agile, and hybrid):
@@ -21,36 +21,36 @@ What it includes (predictive, agile, and hybrid):
 ### Execution in one line
 **Run the system so work keeps flowing and value keeps rising.**
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 If a scenario mentions a baseline and someone wants to change scope/schedule/cost, your “execution move” is usually to **assess impact and follow the change approach** (CCB/change control in predictive, backlog rules in agile/hybrid).
 :::
 
 ---
 
-## 🏗️ Leading the Flow (Predictive, Agile, Hybrid)
+## Leading the Flow (Predictive, Agile, Hybrid)
 The way you execute should match the level of uncertainty and the organization’s governance.
 
 <div class="exec-grid">
-  <div class="exec-card predictive">
-    <div class="exec-title">Predictive Execution</div>
-    <div class="exec-tag">Control-Oriented</div>
-    <p>Using a <strong>Work Authorization System</strong> to ensure tasks start strictly according to the schedule and budget baselines.</p>
-  </div>
-  <div class="exec-card agile">
-    <div class="exec-title">Agile Execution</div>
-    <div class="exec-tag">Flow-Oriented</div>
-    <p>Using <strong>Daily Standups</strong> and <strong>Kanban Boards</strong> to visualize progress and remove impediments in real-time.</p>
-  </div>
-  <div class="exec-card hybrid">
-    <div class="exec-title">Hybrid Execution</div>
-    <div class="exec-tag">Bridge-Oriented</div>
-    <p>Using <strong>predictive governance</strong> (milestones, budgets, approvals) while agile teams deliver <strong>iterative increments</strong> and re-prioritize for value.</p>
-  </div>
+ <div class="exec-card predictive">
+ <div class="exec-title">Predictive Execution</div>
+ <div class="exec-tag">Control-Oriented</div>
+ <p>Using a <strong>Work Authorization System</strong> to ensure tasks start strictly according to the schedule and budget baselines.</p>
+ </div>
+ <div class="exec-card agile">
+ <div class="exec-title">Agile Execution</div>
+ <div class="exec-tag">Flow-Oriented</div>
+ <p>Using <strong>Daily Standups</strong> and <strong>Kanban Boards</strong> to visualize progress and remove impediments in real-time.</p>
+ </div>
+ <div class="exec-card hybrid">
+ <div class="exec-title">Hybrid Execution</div>
+ <div class="exec-tag">Bridge-Oriented</div>
+ <p>Using <strong>predictive governance</strong> (milestones, budgets, approvals) while agile teams deliver <strong>iterative increments</strong> and re-prioritize for value.</p>
+ </div>
 </div>
 
 ---
 
-## 🔁 Execution Cadences (Your Control System)
+## Execution Cadences (Your Control System)
 Execution runs on repeatable cadences so problems surface early and decisions happen quickly.
 
 | Cadence | Purpose | Typical outputs |
@@ -61,13 +61,13 @@ Execution runs on repeatable cadences so problems surface early and decisions ha
 | **Retrospective / lessons learned** | Improve the system of work | Improvement actions, lessons learned register updates |
 | **Phase gate / steering meeting** | Governance + continued alignment | Go/no-go, approvals, escalations, changes |
 
-::: info 🔍 PMP nuance
+::: info PMP nuance
 The PMP often rewards answers that use the **right cadence** and the **right stakeholder touchpoint** (per the communications plan) instead of “waiting until the next meeting.”
 :::
 
 ---
 
-## 🧱 Impediment vs. Issue vs. Risk vs. Change (Don’t Mix These Up)
+## Impediment vs. Issue vs. Risk vs. Change (Don’t Mix These Up)
 Execution questions frequently test whether you put the problem in the right “bucket” and then take the right first action.
 
 | Term | What it is | Where it goes | Best first move |
@@ -81,18 +81,18 @@ Execution questions frequently test whether you put the problem in the right “
 
 ---
 
-## 🧠 Knowledge Management
+## Knowledge Management
 Projects produce two distinct types of value: **Deliverables** and **Knowledge**.
 
 <div class="knowledge-grid">
-  <div class="knowledge-card">
-    <div class="knowledge-title">Explicit Knowledge</div>
-    <p>Facts, blueprints, and data that can be written down and easily shared (e.g., Code, Manuals).</p>
-  </div>
-  <div class="knowledge-card">
-    <div class="knowledge-title">Tacit Knowledge</div>
-    <p>Experience, "know-how," and intuition. Shared through **Social Interaction** and **Collaboration**.</p>
-  </div>
+ <div class="knowledge-card">
+ <div class="knowledge-title">Explicit Knowledge</div>
+ <p>Facts, blueprints, and data that can be written down and easily shared (e.g., Code, Manuals).</p>
+ </div>
+ <div class="knowledge-card">
+ <div class="knowledge-title">Tacit Knowledge</div>
+ <p>Experience, "know-how," and intuition. Shared through **Social Interaction** and **Collaboration**.</p>
+ </div>
 </div>
 
 ### How to capture knowledge without slowing delivery
@@ -101,24 +101,24 @@ Projects produce two distinct types of value: **Deliverables** and **Knowledge**
 - Use **retrospectives / after-action reviews** to turn experience into repeatable guidance
 - Promote tacit transfer via **pairing, shadowing, communities of practice**, and demo-based learning
 
-::: tip 💡 2026 Shift: Continuous Learning
+::: tip 2026 Shift: Continuous Learning
 Do not wait for the "End of Project" party to capture lessons. Update the **Lessons Learned Register** at every sprint retrospective or phase gate to avoid repeating mistakes in the very next work cycle.
 :::
 
 ---
 
-## 📈 Data → Information → Reports (How PMs Communicate)
+## Data → Information → Reports (How PMs Communicate)
 A core PM skill is translating raw noise into actionable insight for the right audience.
 
-1.  **Work Performance Data**: Raw observations (counts, dates, defects, hours, story points, test results).
-2.  **Work Performance Information**: Analyzed meaning (variance, trend, forecast, root cause themes).
-3.  **Work Performance Reports**: Packaged communication (dashboards, stakeholder status updates, steering deck).
+1. **Work Performance Data**: Raw observations (counts, dates, defects, hours, story points, test results).
+2. **Work Performance Information**: Analyzed meaning (variance, trend, forecast, root cause themes).
+3. **Work Performance Reports**: Packaged communication (dashboards, stakeholder status updates, steering deck).
 
 **Exam pattern**: If stakeholders are surprised late, you likely had data but failed to convert it into **information** and communicate it via the planned cadence.
 
 ---
 
-## 🧑‍🤝‍🧑 Leading People During Execution
+## Leading People During Execution
 Execution is where leadership becomes observable. Typical “best answers” emphasize coaching, clarity, and respectful escalation.
 
 - **Performance issue**: Meet privately → understand root cause → clarify expectations → remove blockers → coach/train → document and escalate if needed
@@ -128,7 +128,7 @@ Execution is where leadership becomes observable. Typical “best answers” emp
 
 ---
 
-## 🛠️ Execution Toolbox (High-Yield)
+## Execution Toolbox (High-Yield)
 - **Issue / Impediment Log**: Track current problems; assign owners; follow up relentlessly.
 - **Change Requests / Change Log**: Formal “gear shift” when baselines/contract terms must change.
 - **Visual management**: Kanban board, burnup/burnown, cumulative flow diagram (make work visible).
@@ -140,30 +140,30 @@ See `guide/08-execution/toolkit.md` for copy/paste templates.
 
 <style>
 .exec-grid, .knowledge-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  margin: 1.5rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+ gap: 1.5rem;
+ margin: 1.5rem 0;
 }
 
 .exec-card, .knowledge-card {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .exec-title, .knowledge-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 0.25rem;
+ font-weight: 700;
+ font-size: 1.1rem;
+ margin-bottom: 0.25rem;
 }
 
 .exec-tag {
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
+ font-size: 0.75rem;
+ font-weight: 800;
+ text-transform: uppercase;
+ margin-bottom: 1rem;
 }
 
 .predictive { border-top: 4px solid #3b82f6; }
@@ -171,15 +171,15 @@ See `guide/08-execution/toolkit.md` for copy/paste templates.
 .hybrid { border-top: 4px solid #f59e0b; }
 
 .exec-card p, .knowledge-card p {
-  font-size: 0.85rem;
-  margin: 0;
-  line-height: 1.5;
+ font-size: 0.85rem;
+ margin: 0;
+ line-height: 1.5;
 }
 </style>
 
 ---
 
-## 🔐 Work Authorization System (Predictive Control)
+## Work Authorization System (Predictive Control)
 In predictive projects, a **Work Authorization System** ensures that work begins only when predecessors are complete, resources are available, and funding is approved.
 
 ### Key Components
@@ -195,146 +195,146 @@ In predictive projects, a **Work Authorization System** ensures that work begins
 ### Work Authorization Process Flow
 ```
 1. Work Package Ready
-   ↓
+ ↓
 2. Verify Prerequisites Complete
-   ↓
+ ↓
 3. Confirm Resources Available
-   ↓
+ ↓
 4. Verify Budget Allocated
-   ↓
+ ↓
 5. Issue Work Authorization
-   ↓
+ ↓
 6. Team Begins Work
-   ↓
+ ↓
 7. Collect Work Performance Data
-   ↓
+ ↓
 8. Complete & Close Work Package
 ```
 
-::: warning ⚠️ Common Mistake
+::: warning Common Mistake
 Do not allow work to start "informally" because "we have time" or "we can get a head start." Unauthorized work creates **scope creep**, budget overruns, and accountability gaps. Always follow the authorization process.
 :::
 
 ---
 
-## 🔄 Work Execution Process Flows
+## Work Execution Process Flows
 
 ### Predictive Work Execution Flow
 ```
-┌─────────────────────────────────────────────────────────┐
-│ 1. Authorize Work (Work Authorization System)          │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ 2. Assign Resources & Communicate Expectations          │
-│    • Review work package scope, quality criteria        │
-│    • Confirm schedule & budget constraints              │
-│    • Clarify Definition of Done                         │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ 3. Execute Work & Monitor Progress                      │
-│    • Daily/weekly status updates                        │
-│    • Track actual vs. planned (EVM if applicable)       │
-│    • Identify issues/risks early                        │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ 4. Implement Approved Changes                           │
-│    • Follow change control process (CCB)                │
-│    • Update baselines if approved                       │
-│    • Communicate impacts to stakeholders                │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ 5. Perform Quality Control                              │
-│    • Verify deliverable meets acceptance criteria       │
-│    • Conduct inspections, reviews, testing              │
-│    • Log defects; implement corrections                 │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ 6. Validate Deliverable with Customer/Sponsor           │
-│    • Formal acceptance or rejection                     │
-│    • Document feedback and action items                 │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ 7. Capture Lessons Learned & Update Knowledge           │
-│    • What worked? What didn't?                          │
-│    • Update Lessons Learned Register                    │
-└─────────────────────────────────────────────────────────┘
+
+ 1. Authorize Work (Work Authorization System) 
+
+ ↓
+
+ 2. Assign Resources & Communicate Expectations 
+ • Review work package scope, quality criteria 
+ • Confirm schedule & budget constraints 
+ • Clarify Definition of Done 
+
+ ↓
+
+ 3. Execute Work & Monitor Progress 
+ • Daily/weekly status updates 
+ • Track actual vs. planned (EVM if applicable) 
+ • Identify issues/risks early 
+
+ ↓
+
+ 4. Implement Approved Changes 
+ • Follow change control process (CCB) 
+ • Update baselines if approved 
+ • Communicate impacts to stakeholders 
+
+ ↓
+
+ 5. Perform Quality Control 
+ • Verify deliverable meets acceptance criteria 
+ • Conduct inspections, reviews, testing 
+ • Log defects; implement corrections 
+
+ ↓
+
+ 6. Validate Deliverable with Customer/Sponsor 
+ • Formal acceptance or rejection 
+ • Document feedback and action items 
+
+ ↓
+
+ 7. Capture Lessons Learned & Update Knowledge 
+ • What worked? What didn't? 
+ • Update Lessons Learned Register 
+
 ```
 
 ### Agile Work Execution Flow (Sprint-Based)
 ```
-┌─────────────────────────────────────────────────────────┐
-│ Sprint Planning                                         │
-│ • Product Owner presents prioritized backlog           │
-│ • Team selects stories for sprint                      │
-│ • Team defines sprint goal & commits to work           │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ Daily Standup (Every Day)                               │
-│ • What did I do yesterday?                              │
-│ • What will I do today?                                 │
-│ • What blockers do I have?                              │
-│ → PM/Scrum Master removes impediments immediately       │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ Execute User Stories                                    │
-│ • Break stories into tasks                              │
-│ • Work collaboratively; pair/mob if needed              │
-│ • Move tasks across board: To Do → In Progress → Done  │
-│ • Continuous integration & testing                      │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ Sprint Review/Demo (End of Sprint)                      │
-│ • Demonstrate working increment to stakeholders         │
-│ • Gather feedback                                       │
-│ • Accept or reject stories (Definition of Done)        │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ Sprint Retrospective                                    │
-│ • What went well?                                       │
-│ • What could be improved?                               │
-│ • What actions will we take next sprint?               │
-│ → Update Lessons Learned Register                      │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-            Next Sprint Planning
+
+ Sprint Planning 
+ • Product Owner presents prioritized backlog 
+ • Team selects stories for sprint 
+ • Team defines sprint goal & commits to work 
+
+ ↓
+
+ Daily Standup (Every Day) 
+ • What did I do yesterday? 
+ • What will I do today? 
+ • What blockers do I have? 
+ → PM/Scrum Master removes impediments immediately 
+
+ ↓
+
+ Execute User Stories 
+ • Break stories into tasks 
+ • Work collaboratively; pair/mob if needed 
+ • Move tasks across board: To Do → In Progress → Done 
+ • Continuous integration & testing 
+
+ ↓
+
+ Sprint Review/Demo (End of Sprint) 
+ • Demonstrate working increment to stakeholders 
+ • Gather feedback 
+ • Accept or reject stories (Definition of Done) 
+
+ ↓
+
+ Sprint Retrospective 
+ • What went well? 
+ • What could be improved? 
+ • What actions will we take next sprint? 
+ → Update Lessons Learned Register 
+
+ ↓
+ Next Sprint Planning
 ```
 
 ### Hybrid Work Execution Flow
 ```
-┌─────────────────────────────────────────────────────────┐
-│ Portfolio/Program Governance (Predictive Layer)         │
-│ • Phase gates, milestone reviews, budget approvals      │
-│ • Strategic alignment & risk oversight                  │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ Agile Team Execution (Adaptive Layer)                   │
-│ • Teams work in sprints/iterations                      │
-│ • Deliver incremental value                             │
-│ • Re-prioritize backlog based on feedback               │
-└───────────────────┬─────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────┐
-│ Integration Points (Bridge)                             │
-│ • Teams demo to governance at milestones                │
-│ • Portfolio adjusts funding/priorities if needed        │
-│ • Teams adjust execution based on strategic guidance    │
-└─────────────────────────────────────────────────────────┘
+
+ Portfolio/Program Governance (Predictive Layer) 
+ • Phase gates, milestone reviews, budget approvals 
+ • Strategic alignment & risk oversight 
+
+ ↓
+
+ Agile Team Execution (Adaptive Layer) 
+ • Teams work in sprints/iterations 
+ • Deliver incremental value 
+ • Re-prioritize backlog based on feedback 
+
+ ↓
+
+ Integration Points (Bridge) 
+ • Teams demo to governance at milestones 
+ • Portfolio adjusts funding/priorities if needed 
+ • Teams adjust execution based on strategic guidance 
+
 ```
 
 ---
 
-## 🏃 Agile Ceremonies Deep Dive (Exam-Critical)
+## Agile Ceremonies Deep Dive (Exam-Critical)
 
 The PMP exam tests your understanding of agile ceremonies—not just what they are, but how to run them effectively and diagnose problems.
 
@@ -359,7 +359,7 @@ The PMP exam tests your understanding of agile ceremonies—not just what they a
 - Overcommitting based on pressure → Unsustainable; leads to burnout
 - Skipping technical planning → Team doesn't know HOW to deliver
 
-::: tip 💡 Exam Tip
+::: tip Exam Tip
 If a scenario describes a team that consistently misses sprint commitments, look for answers that address **capacity planning** (right-sizing commitments) or **Definition of Ready** (stories aren't clear enough to estimate).
 :::
 
@@ -385,7 +385,7 @@ If a scenario describes a team that consistently misses sprint commitments, look
 - Skipping standups → Team loses visibility and alignment
 - PM assigns work during standup → Violates self-organization
 
-::: warning ⚠️ Key Principle
+::: warning Key Principle
 The Daily Scrum is FOR the team, BY the team. The PM/Scrum Master removes impediments raised but does NOT run the meeting or assign tasks.
 :::
 
@@ -435,7 +435,7 @@ The Daily Scrum is FOR the team, BY the team. The PM/Scrum Master removes impedi
 - Same issues sprint after sprint → Not implementing improvements
 - Blaming individuals → Retrospectives should be blameless; focus on system
 
-::: tip 💡 Exam Pattern
+::: tip Exam Pattern
 If a scenario describes recurring team problems (missed deadlines, low morale, quality issues), the answer often involves **implementing or improving retrospectives** to identify root causes and improvements.
 :::
 
@@ -450,7 +450,7 @@ If a scenario describes recurring team problems (missed deadlines, low morale, q
 
 ---
 
-## 🏛️ Organizational Culture Impact on Execution
+## Organizational Culture Impact on Execution
 
 Organizational culture significantly affects how execution happens. The PM must adapt their approach based on the culture while gently influencing toward better practices.
 
@@ -474,7 +474,7 @@ Organizational culture significantly affects how execution happens. The PM must 
 | **Flexibility** | Rigid processes; "we've always done it this way" | Willingness to experiment; continuous improvement |
 | **Collaboration** | Siloed departments; "throw over the wall" mentality | Cross-functional teams; shared accountability |
 
-::: warning ⚠️ Exam Insight
+::: warning Exam Insight
 If a scenario describes an organization struggling with agile adoption, look for **cultural barriers** (lack of trust, fear of failure, siloed teams) and answers that address these through **change management** (training, executive sponsorship, pilot programs).
 :::
 
@@ -495,7 +495,7 @@ Changes are inevitable. The key is to implement them **systematically** so you d
 | **7. Verify Change Completion** | Confirm the change deliverable meets acceptance criteria | 2FA module passes security review and integration testing |
 | **8. Update Lessons Learned** | Capture what worked and what didn't during change implementation | "Lesson: Early security team involvement reduced rework. Action: Invite security to all design reviews." |
 
-::: tip 💡 Exam Insight
+::: tip Exam Insight
 If a scenario says "The sponsor approved a change verbally," the best answer is usually to **formalize the approval** (get it in writing, log it in the change log, update baselines) before implementing. Verbal approvals create accountability gaps.
 :::
 
@@ -549,16 +549,16 @@ If a scenario says "The sponsor approved a change verbally," the best answer is 
 ```
 Work Performance DATA
 (Raw observations)
-    ↓
+ ↓
 ANALYSIS
 (Compare to baselines, identify trends, calculate variances)
-    ↓
+ ↓
 Work Performance INFORMATION
 (Meaningful insights)
-    ↓
+ ↓
 PACKAGING
 (Tailor to audience, add context, recommend actions)
-    ↓
+ ↓
 Work Performance REPORTS
 (Stakeholder communications)
 ```
@@ -570,7 +570,7 @@ Work Performance REPORTS
 
 ---
 
-## 🏗️ Deliverable Production Examples & Quality Execution Practices
+## Deliverable Production Examples & Quality Execution Practices
 
 ### Example 1: Producing a Software Module (Agile)
 **Deliverable**: User Authentication Module
@@ -578,16 +578,16 @@ Work Performance REPORTS
 **Execution Steps**:
 1. **Sprint Planning**: Product Owner presents User Story: "As a user, I want to log in securely so that my data is protected."
 2. **Team Breakdown**: Team decomposes story into tasks:
-   - Design login UI
-   - Implement backend authentication logic
-   - Write unit tests
-   - Perform integration testing
-   - Conduct security review
+ - Design login UI
+ - Implement backend authentication logic
+ - Write unit tests
+ - Perform integration testing
+ - Conduct security review
 3. **Daily Execution**: Team works on tasks; updates Kanban board; removes blockers at daily standup
 4. **Quality Practices**:
-   - **Peer Code Review**: All code reviewed by at least one other developer
-   - **Automated Testing**: Unit tests achieve 95% code coverage
-   - **Definition of Done**: Story is not "Done" until all tests pass, code is reviewed, and security scan shows no critical vulnerabilities
+ - **Peer Code Review**: All code reviewed by at least one other developer
+ - **Automated Testing**: Unit tests achieve 95% code coverage
+ - **Definition of Done**: Story is not "Done" until all tests pass, code is reviewed, and security scan shows no critical vulnerabilities
 5. **Sprint Review**: Product Owner validates the module; provides feedback: "Login works, but add 'Forgot Password' link"
 6. **Retrospective**: Team captures lesson: "Security review earlier in sprint would prevent last-minute rework"
 
@@ -606,13 +606,13 @@ Work Performance REPORTS
 1. **Work Authorization**: Issue Work Authorization #WA-210 for WBS 2.1 (Foundation)
 2. **Resource Assignment**: Assign Foundation Crew (8 workers) and Concrete Supplier (Vendor #V-012)
 3. **Execution**:
-   - Pour concrete per engineering specifications
-   - Monitor curing process (7 days)
-   - Conduct daily inspections
+ - Pour concrete per engineering specifications
+ - Monitor curing process (7 days)
+ - Conduct daily inspections
 4. **Quality Practices**:
-   - **Inspection**: Structural engineer inspects formwork before concrete pour
-   - **Testing**: Concrete samples tested for compressive strength (meets 4000 PSI requirement)
-   - **Acceptance Criteria**: Foundation must be level within 1/4 inch tolerance
+ - **Inspection**: Structural engineer inspects formwork before concrete pour
+ - **Testing**: Concrete samples tested for compressive strength (meets 4000 PSI requirement)
+ - **Acceptance Criteria**: Foundation must be level within 1/4 inch tolerance
 5. **Validation**: City building inspector approves foundation; issues permit for next phase
 6. **Lessons Learned**: "Lesson: Rain delay added 2 days. Action: Add weather contingency to future outdoor work packages."
 
@@ -635,7 +635,7 @@ Before marking any deliverable "complete," verify:
 
 ---
 
-## ⚠️ Common Execution Challenges & Solutions
+## Common Execution Challenges & Solutions
 
 | Challenge | Root Cause | Best First Move | Example Solution |
 |---|---|---|---|
@@ -652,7 +652,7 @@ Before marking any deliverable "complete," verify:
 
 ---
 
-## 🎯 Real-World Execution Scenarios
+## Real-World Execution Scenarios
 
 ### Scenario 1: The "Small" Change Request
 **Situation**: A key stakeholder approaches you at the coffee machine and says, "Can you just add a small button to the dashboard? It'll only take 30 minutes."
@@ -722,7 +722,7 @@ Before marking any deliverable "complete," verify:
 
 ---
 
-## 🎯 Implement Risk Responses (Risk Execution)
+## Implement Risk Responses (Risk Execution)
 
 While risk identification and planning happen earlier, **Implement Risk Responses** is an Executing process. When risk triggers occur, the PM must execute the planned response and manage the transition from risk to issue.
 
@@ -746,7 +746,7 @@ While risk identification and planning happen earlier, **Implement Risk Response
 | "Technology may not scale" | Performance tests show 50% of target capacity | Execute fallback to alternative technology per plan |
 | "Regulatory approval may be delayed" | Regulator requests additional documentation | Execute parallel path (continue work while pursuing approval) |
 
-::: tip 💡 Exam Insight
+::: tip Exam Insight
 The PMP exam often presents scenarios where a risk has "just happened." The best first action is usually to **execute the pre-planned risk response**, not to start analyzing or creating a new response. That's why risk planning matters.
 :::
 
@@ -756,28 +756,28 @@ When a risk occurs, it becomes an **issue**. Follow this process:
 
 ```
 1. TRIGGER DETECTED
-   ↓
+ ↓
 2. VERIFY: Is this the planned trigger? Has the risk actually occurred?
-   ↓
+ ↓
 3. EXECUTE RESPONSE: Implement the risk response plan immediately
-   ↓
+ ↓
 4. LOG AS ISSUE: Move from Risk Register to Issue Log
-   • Record: Issue ID, description, actual impact, response taken
-   ↓
+ • Record: Issue ID, description, actual impact, response taken
+ ↓
 5. ASSESS ACTUAL IMPACT: Compare to planned impact
-   • Did the response work as expected?
-   • Is actual impact larger/smaller than planned?
-   ↓
+ • Did the response work as expected?
+ • Is actual impact larger/smaller than planned?
+ ↓
 6. COMMUNICATE: Notify stakeholders per communications plan
-   • Report: What happened, what you did, current status, next steps
-   ↓
+ • Report: What happened, what you did, current status, next steps
+ ↓
 7. UPDATE DOCUMENTS:
-   • Risk Register: Mark risk as "Occurred" or close it
-   • Issue Log: Track resolution
-   • Lessons Learned: What worked? What didn't?
-   ↓
+ • Risk Register: Mark risk as "Occurred" or close it
+ • Issue Log: Track resolution
+ • Lessons Learned: What worked? What didn't?
+ ↓
 8. ADJUST BASELINES (if needed):
-   • If impact exceeds contingency, follow change control process
+ • If impact exceeds contingency, follow change control process
 ```
 
 ### Risk Response Execution Scenarios
@@ -807,7 +807,7 @@ When a risk occurs, it becomes an **issue**. Follow this process:
 
 ---
 
-## 🌐 Virtual Team Leadership
+## Virtual Team Leadership
 
 With the shift toward distributed and hybrid work, the 2026 PMP exam emphasizes **virtual team leadership**. The same team development principles apply, but with additional challenges.
 
@@ -864,7 +864,7 @@ With the shift toward distributed and hybrid work, the 2026 PMP exam emphasizes 
 | **Performing** | Risk of isolation even when productive | Maintain social connection; celebrate wins; watch for burnout |
 | **Adjourning** | Transition feels abrupt without final gathering | Virtual celebration; recognition; formal closure activities |
 
-::: warning ⚠️ Common Virtual Team Mistake
+::: warning Common Virtual Team Mistake
 Don't assume "no news is good news" when team members go quiet. In virtual environments, silence often indicates disengagement, confusion, or being overwhelmed. **Proactively check in.**
 :::
 
@@ -872,15 +872,15 @@ Don't assume "no news is good news" when team members go quiet. In virtual envir
 
 <div class="study-tip">
 
-  <strong>📝 Exam Insight:</strong> If a team member is blocked by a technical issue or an overbearing functional manager, the PM acting as a <strong>Servant Leader</strong> must prioritize removing that impediment. If you can't fix it yourself, escalate it.
+ <strong> Exam Insight:</strong> If a team member is blocked by a technical issue or an overbearing functional manager, the PM acting as a <strong>Servant Leader</strong> must prioritize removing that impediment. If you can't fix it yourself, escalate it.
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

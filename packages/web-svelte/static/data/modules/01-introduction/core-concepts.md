@@ -9,29 +9,29 @@ Beyond methodology choice, every project leader must master a set of fundamental
 Master the "Big 6" concepts that underpin every successful delivery in the 2026 era.
 
 <ConceptGrid>
-  <ConceptCard title="1.4a Stakeholders" link="./core-stakeholders" linkText="Analyze Stakeholders →">
-    Managing the people who can make or break your vision.
-  </ConceptCard>
+ <ConceptCard title="1.4a Stakeholders" link="./core-stakeholders" linkText="Analyze Stakeholders →">
+ Managing the people who can make or break your vision.
+ </ConceptCard>
 
-  <ConceptCard title="1.4b Triple Constraint" link="./core-triple-constraint" linkText="Manage Constraints →">
-    Balancing Scope, Schedule, and Cost in a volatile world.
-  </ConceptCard>
+ <ConceptCard title="1.4b Triple Constraint" link="./core-triple-constraint" linkText="Manage Constraints →">
+ Balancing Scope, Schedule, and Cost in a volatile world.
+ </ConceptCard>
 
-  <ConceptCard title="1.4c Quality" link="./core-quality" linkText="Verify Quality →">
-    Ensuring "Fit for Purpose" and adherence to ESG standards.
-  </ConceptCard>
+ <ConceptCard title="1.4c Quality" link="./core-quality" linkText="Verify Quality →">
+ Ensuring "Fit for Purpose" and adherence to ESG standards.
+ </ConceptCard>
 
-  <ConceptCard title="1.4d Risk" link="./core-risk" linkText="Mitigate Risk →">
-    Proactively identifying threats and spotting opportunities.
-  </ConceptCard>
+ <ConceptCard title="1.4d Risk" link="./core-risk" linkText="Mitigate Risk →">
+ Proactively identifying threats and spotting opportunities.
+ </ConceptCard>
 
-  <ConceptCard title="1.4e Data & AI" link="./core-data" linkText="Leverage Data →">
-    Using metrics and AI insights to drive decision-making.
-  </ConceptCard>
+ <ConceptCard title="1.4e Data & AI" link="./core-data" linkText="Leverage Data →">
+ Using metrics and AI insights to drive decision-making.
+ </ConceptCard>
 
-  <ConceptCard title="1.4f Ethics" link="./core-ethics" linkText="Uphold Integrity →">
-    The PMI Code of Ethics: Responsibility, Respect, Fairness, Honesty.
-  </ConceptCard>
+ <ConceptCard title="1.4f Ethics" link="./core-ethics" linkText="Uphold Integrity →">
+ The PMI Code of Ethics: Responsibility, Respect, Fairness, Honesty.
+ </ConceptCard>
 </ConceptGrid>
 
 ---
@@ -48,5 +48,5 @@ By month three, Sarah realized that a change in the office floor plan (Scope) wa
 :::
 
 <div class="flex justify-center my-12">
-  <a href="./knowledge-check" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Knowledge Check →</a>
+ <a href="./knowledge-check" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Knowledge Check →</a>
 </div>

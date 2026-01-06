@@ -345,6 +345,6 @@ A single data point can be an outlier. Always look for **trends** (3+ data point
 :::
 
 <div class="flex justify-center my-12">
-  <a href="./core-ethics" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Ethics →</a>
+ <a href="./core-ethics" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Ethics →</a>
 </div>
 

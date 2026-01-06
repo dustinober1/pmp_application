@@ -1,263 +1,263 @@
 {
-  "version": 2,
-  "generatedAt": "2026-01-05T10:44:17.250Z",
-  "domains": [
-    {
-      "id": "business",
-      "name": "Business Environment",
-      "file": "flashcards/business.json",
-      "taskCount": 1,
-      "cardCount": 80,
-      "tasks": [
-        {
-          "taskId": "business-task-1",
-          "name": "Define and establish project governance",
-          "ecoReference": "Business Task 1",
-          "cardCount": 80,
-          "file": "flashcards/tasks/business-business-task-1.json"
-        }
-      ]
-    },
-    {
-      "id": "people",
-      "name": "People",
-      "file": "flashcards/people.json",
-      "taskCount": 8,
-      "cardCount": 840,
-      "tasks": [
-        {
-          "taskId": "domain-i-task-1",
-          "name": "Develop a common vision",
-          "ecoReference": "Domain I, Task 1",
-          "cardCount": 100,
-          "file": "flashcards/tasks/people-domain-i-task-1.json"
-        },
-        {
-          "taskId": "domain-i-task-2",
-          "name": "Manage conflicts",
-          "ecoReference": "Domain I, Task 2",
-          "cardCount": 100,
-          "file": "flashcards/tasks/people-domain-i-task-2.json"
-        },
-        {
-          "taskId": "domain-i-task-3",
-          "name": "Lead the project team",
-          "ecoReference": "Domain I, Task 3",
-          "cardCount": 100,
-          "file": "flashcards/tasks/people-domain-i-task-3.json"
-        },
-        {
-          "taskId": "domain-i-task-4",
-          "name": "Engage stakeholders",
-          "ecoReference": "Domain I, Task 4",
-          "cardCount": 100,
-          "file": "flashcards/tasks/people-domain-i-task-4.json"
-        },
-        {
-          "taskId": "domain-i-task-5",
-          "name": "Align stakeholder expectations",
-          "ecoReference": "Domain I, Task 5",
-          "cardCount": 140,
-          "file": "flashcards/tasks/people-domain-i-task-5.json"
-        },
-        {
-          "taskId": "domain-ii-task-6-note-eco-2026-places-this-heavily-in-people-process-intersection",
-          "name": "Manage stakeholder expectations",
-          "ecoReference": "Domain II, Task 6 (Note: ECO 2026 places this heavily in People/Process intersection)",
-          "cardCount": 100,
-          "file": "flashcards/tasks/people-domain-ii-task-6-note-eco-2026-places-this-heavily-in-people-process-intersection.json"
-        },
-        {
-          "taskId": "domain-i-task-7-often-touches-process-domain-manage-project-closure",
-          "name": "Help ensure knowledge transfer (Project Closure)",
-          "ecoReference": "Domain I, Task 7 (Often touches Process Domain \"Manage Project Closure\")",
-          "cardCount": 100,
-          "file": "flashcards/tasks/people-domain-i-task-7-often-touches-process-domain-manage-project-closure.json"
-        },
-        {
-          "taskId": "domain-i-task-8-also-touches-process-communications-management",
-          "name": "Plan and manage communication",
-          "ecoReference": "Domain I, Task 8 (Also touches Process - Communications Management)",
-          "cardCount": 100,
-          "file": "flashcards/tasks/people-domain-i-task-8-also-touches-process-communications-management.json"
-        }
-      ]
-    },
-    {
-      "id": "process",
-      "name": "Process",
-      "file": "flashcards/process.json",
-      "taskCount": 10,
-      "cardCount": 830,
-      "tasks": [
-        {
-          "taskId": "process-task-1",
-          "name": "Develop an integrated project management plan and plan delivery",
-          "ecoReference": "Process Task 1",
-          "cardCount": 100,
-          "file": "flashcards/tasks/process-process-task-1.json"
-        },
-        {
-          "taskId": "process-task-2",
-          "name": "Develop and manage project scope",
-          "ecoReference": "Process Task 2",
-          "cardCount": 90,
-          "file": "flashcards/tasks/process-process-task-2.json"
-        },
-        {
-          "taskId": "process-task-3",
-          "name": "Help ensure value-based delivery",
-          "ecoReference": "Process Task 3",
-          "cardCount": 80,
-          "file": "flashcards/tasks/process-process-task-3.json"
-        },
-        {
-          "taskId": "process-task-4",
-          "name": "Plan and manage resources",
-          "ecoReference": "Process Task 4",
-          "cardCount": 80,
-          "file": "flashcards/tasks/process-process-task-4.json"
-        },
-        {
-          "taskId": "process-task-5",
-          "name": "Plan and manage procurement",
-          "ecoReference": "Process Task 5",
-          "cardCount": 80,
-          "file": "flashcards/tasks/process-process-task-5.json"
-        },
-        {
-          "taskId": "process-task-6",
-          "name": "Plan and manage finance",
-          "ecoReference": "Process Task 6",
-          "cardCount": 80,
-          "file": "flashcards/tasks/process-process-task-6.json"
-        },
-        {
-          "taskId": "process-task-7",
-          "name": "Plan and optimize quality",
-          "ecoReference": "Process Task 7",
-          "cardCount": 80,
-          "file": "flashcards/tasks/process-process-task-7.json"
-        },
-        {
-          "taskId": "process-task-8",
-          "name": "Plan and manage schedule",
-          "ecoReference": "Process Task 8",
-          "cardCount": 80,
-          "file": "flashcards/tasks/process-process-task-8.json"
-        },
-        {
-          "taskId": "process-task-9",
-          "name": "Evaluate project status",
-          "ecoReference": "Process Task 9",
-          "cardCount": 80,
-          "file": "flashcards/tasks/process-process-task-9.json"
-        },
-        {
-          "taskId": "process-task-10",
-          "name": "Manage project closure",
-          "ecoReference": "Process Task 10",
-          "cardCount": 80,
-          "file": "flashcards/tasks/process-process-task-10.json"
-        }
-      ]
-    }
-  ],
-  "taskIndex": {
-    "business-task-1": {
-      "domainId": "business",
-      "file": "flashcards/tasks/business-business-task-1.json",
-      "cardCount": 80
-    },
-    "domain-i-task-1": {
-      "domainId": "people",
-      "file": "flashcards/tasks/people-domain-i-task-1.json",
-      "cardCount": 100
-    },
-    "domain-i-task-2": {
-      "domainId": "people",
-      "file": "flashcards/tasks/people-domain-i-task-2.json",
-      "cardCount": 100
-    },
-    "domain-i-task-3": {
-      "domainId": "people",
-      "file": "flashcards/tasks/people-domain-i-task-3.json",
-      "cardCount": 100
-    },
-    "domain-i-task-4": {
-      "domainId": "people",
-      "file": "flashcards/tasks/people-domain-i-task-4.json",
-      "cardCount": 100
-    },
-    "domain-i-task-5": {
-      "domainId": "people",
-      "file": "flashcards/tasks/people-domain-i-task-5.json",
-      "cardCount": 140
-    },
-    "domain-ii-task-6-note-eco-2026-places-this-heavily-in-people-process-intersection": {
-      "domainId": "people",
-      "file": "flashcards/tasks/people-domain-ii-task-6-note-eco-2026-places-this-heavily-in-people-process-intersection.json",
-      "cardCount": 100
-    },
-    "domain-i-task-7-often-touches-process-domain-manage-project-closure": {
-      "domainId": "people",
-      "file": "flashcards/tasks/people-domain-i-task-7-often-touches-process-domain-manage-project-closure.json",
-      "cardCount": 100
-    },
-    "domain-i-task-8-also-touches-process-communications-management": {
-      "domainId": "people",
-      "file": "flashcards/tasks/people-domain-i-task-8-also-touches-process-communications-management.json",
-      "cardCount": 100
-    },
-    "process-task-1": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-1.json",
-      "cardCount": 100
-    },
-    "process-task-2": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-2.json",
-      "cardCount": 90
-    },
-    "process-task-3": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-3.json",
-      "cardCount": 80
-    },
-    "process-task-4": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-4.json",
-      "cardCount": 80
-    },
-    "process-task-5": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-5.json",
-      "cardCount": 80
-    },
-    "process-task-6": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-6.json",
-      "cardCount": 80
-    },
-    "process-task-7": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-7.json",
-      "cardCount": 80
-    },
-    "process-task-8": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-8.json",
-      "cardCount": 80
-    },
-    "process-task-9": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-9.json",
-      "cardCount": 80
-    },
-    "process-task-10": {
-      "domainId": "process",
-      "file": "flashcards/tasks/process-process-task-10.json",
-      "cardCount": 80
-    }
-  }
+ "version": 2,
+ "generatedAt": "2026-01-05T10:44:17.250Z",
+ "domains": [
+ {
+ "id": "business",
+ "name": "Business Environment",
+ "file": "flashcards/business.json",
+ "taskCount": 1,
+ "cardCount": 80,
+ "tasks": [
+ {
+ "taskId": "business-task-1",
+ "name": "Define and establish project governance",
+ "ecoReference": "Business Task 1",
+ "cardCount": 80,
+ "file": "flashcards/tasks/business-business-task-1.json"
+ }
+ ]
+ },
+ {
+ "id": "people",
+ "name": "People",
+ "file": "flashcards/people.json",
+ "taskCount": 8,
+ "cardCount": 840,
+ "tasks": [
+ {
+ "taskId": "domain-i-task-1",
+ "name": "Develop a common vision",
+ "ecoReference": "Domain I, Task 1",
+ "cardCount": 100,
+ "file": "flashcards/tasks/people-domain-i-task-1.json"
+ },
+ {
+ "taskId": "domain-i-task-2",
+ "name": "Manage conflicts",
+ "ecoReference": "Domain I, Task 2",
+ "cardCount": 100,
+ "file": "flashcards/tasks/people-domain-i-task-2.json"
+ },
+ {
+ "taskId": "domain-i-task-3",
+ "name": "Lead the project team",
+ "ecoReference": "Domain I, Task 3",
+ "cardCount": 100,
+ "file": "flashcards/tasks/people-domain-i-task-3.json"
+ },
+ {
+ "taskId": "domain-i-task-4",
+ "name": "Engage stakeholders",
+ "ecoReference": "Domain I, Task 4",
+ "cardCount": 100,
+ "file": "flashcards/tasks/people-domain-i-task-4.json"
+ },
+ {
+ "taskId": "domain-i-task-5",
+ "name": "Align stakeholder expectations",
+ "ecoReference": "Domain I, Task 5",
+ "cardCount": 140,
+ "file": "flashcards/tasks/people-domain-i-task-5.json"
+ },
+ {
+ "taskId": "domain-ii-task-6-note-eco-2026-places-this-heavily-in-people-process-intersection",
+ "name": "Manage stakeholder expectations",
+ "ecoReference": "Domain II, Task 6 (Note: ECO 2026 places this heavily in People/Process intersection)",
+ "cardCount": 100,
+ "file": "flashcards/tasks/people-domain-ii-task-6-note-eco-2026-places-this-heavily-in-people-process-intersection.json"
+ },
+ {
+ "taskId": "domain-i-task-7-often-touches-process-domain-manage-project-closure",
+ "name": "Help ensure knowledge transfer (Project Closure)",
+ "ecoReference": "Domain I, Task 7 (Often touches Process Domain \"Manage Project Closure\")",
+ "cardCount": 100,
+ "file": "flashcards/tasks/people-domain-i-task-7-often-touches-process-domain-manage-project-closure.json"
+ },
+ {
+ "taskId": "domain-i-task-8-also-touches-process-communications-management",
+ "name": "Plan and manage communication",
+ "ecoReference": "Domain I, Task 8 (Also touches Process - Communications Management)",
+ "cardCount": 100,
+ "file": "flashcards/tasks/people-domain-i-task-8-also-touches-process-communications-management.json"
+ }
+ ]
+ },
+ {
+ "id": "process",
+ "name": "Process",
+ "file": "flashcards/process.json",
+ "taskCount": 10,
+ "cardCount": 830,
+ "tasks": [
+ {
+ "taskId": "process-task-1",
+ "name": "Develop an integrated project management plan and plan delivery",
+ "ecoReference": "Process Task 1",
+ "cardCount": 100,
+ "file": "flashcards/tasks/process-process-task-1.json"
+ },
+ {
+ "taskId": "process-task-2",
+ "name": "Develop and manage project scope",
+ "ecoReference": "Process Task 2",
+ "cardCount": 90,
+ "file": "flashcards/tasks/process-process-task-2.json"
+ },
+ {
+ "taskId": "process-task-3",
+ "name": "Help ensure value-based delivery",
+ "ecoReference": "Process Task 3",
+ "cardCount": 80,
+ "file": "flashcards/tasks/process-process-task-3.json"
+ },
+ {
+ "taskId": "process-task-4",
+ "name": "Plan and manage resources",
+ "ecoReference": "Process Task 4",
+ "cardCount": 80,
+ "file": "flashcards/tasks/process-process-task-4.json"
+ },
+ {
+ "taskId": "process-task-5",
+ "name": "Plan and manage procurement",
+ "ecoReference": "Process Task 5",
+ "cardCount": 80,
+ "file": "flashcards/tasks/process-process-task-5.json"
+ },
+ {
+ "taskId": "process-task-6",
+ "name": "Plan and manage finance",
+ "ecoReference": "Process Task 6",
+ "cardCount": 80,
+ "file": "flashcards/tasks/process-process-task-6.json"
+ },
+ {
+ "taskId": "process-task-7",
+ "name": "Plan and optimize quality",
+ "ecoReference": "Process Task 7",
+ "cardCount": 80,
+ "file": "flashcards/tasks/process-process-task-7.json"
+ },
+ {
+ "taskId": "process-task-8",
+ "name": "Plan and manage schedule",
+ "ecoReference": "Process Task 8",
+ "cardCount": 80,
+ "file": "flashcards/tasks/process-process-task-8.json"
+ },
+ {
+ "taskId": "process-task-9",
+ "name": "Evaluate project status",
+ "ecoReference": "Process Task 9",
+ "cardCount": 80,
+ "file": "flashcards/tasks/process-process-task-9.json"
+ },
+ {
+ "taskId": "process-task-10",
+ "name": "Manage project closure",
+ "ecoReference": "Process Task 10",
+ "cardCount": 80,
+ "file": "flashcards/tasks/process-process-task-10.json"
+ }
+ ]
+ }
+ ],
+ "taskIndex": {
+ "business-task-1": {
+ "domainId": "business",
+ "file": "flashcards/tasks/business-business-task-1.json",
+ "cardCount": 80
+ },
+ "domain-i-task-1": {
+ "domainId": "people",
+ "file": "flashcards/tasks/people-domain-i-task-1.json",
+ "cardCount": 100
+ },
+ "domain-i-task-2": {
+ "domainId": "people",
+ "file": "flashcards/tasks/people-domain-i-task-2.json",
+ "cardCount": 100
+ },
+ "domain-i-task-3": {
+ "domainId": "people",
+ "file": "flashcards/tasks/people-domain-i-task-3.json",
+ "cardCount": 100
+ },
+ "domain-i-task-4": {
+ "domainId": "people",
+ "file": "flashcards/tasks/people-domain-i-task-4.json",
+ "cardCount": 100
+ },
+ "domain-i-task-5": {
+ "domainId": "people",
+ "file": "flashcards/tasks/people-domain-i-task-5.json",
+ "cardCount": 140
+ },
+ "domain-ii-task-6-note-eco-2026-places-this-heavily-in-people-process-intersection": {
+ "domainId": "people",
+ "file": "flashcards/tasks/people-domain-ii-task-6-note-eco-2026-places-this-heavily-in-people-process-intersection.json",
+ "cardCount": 100
+ },
+ "domain-i-task-7-often-touches-process-domain-manage-project-closure": {
+ "domainId": "people",
+ "file": "flashcards/tasks/people-domain-i-task-7-often-touches-process-domain-manage-project-closure.json",
+ "cardCount": 100
+ },
+ "domain-i-task-8-also-touches-process-communications-management": {
+ "domainId": "people",
+ "file": "flashcards/tasks/people-domain-i-task-8-also-touches-process-communications-management.json",
+ "cardCount": 100
+ },
+ "process-task-1": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-1.json",
+ "cardCount": 100
+ },
+ "process-task-2": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-2.json",
+ "cardCount": 90
+ },
+ "process-task-3": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-3.json",
+ "cardCount": 80
+ },
+ "process-task-4": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-4.json",
+ "cardCount": 80
+ },
+ "process-task-5": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-5.json",
+ "cardCount": 80
+ },
+ "process-task-6": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-6.json",
+ "cardCount": 80
+ },
+ "process-task-7": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-7.json",
+ "cardCount": 80
+ },
+ "process-task-8": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-8.json",
+ "cardCount": 80
+ },
+ "process-task-9": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-9.json",
+ "cardCount": 80
+ },
+ "process-task-10": {
+ "domainId": "process",
+ "file": "flashcards/tasks/process-process-task-10.json",
+ "cardCount": 80
+ }
+ }
 }

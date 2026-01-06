@@ -4,7 +4,7 @@ Introducing AI into your project is a **change initiative**. Like any change, it
 
 ---
 
-## 🎯 The Adoption Curve (Why People Resist AI)
+## The Adoption Curve (Why People Resist AI)
 People move through predictable stages when new tools arrive. Understanding where your team is helps you tailor your approach.
 
 | Stage | Mindset | Your Response |
@@ -16,7 +16,7 @@ People move through predictable stages when new tools arrive. Understanding wher
 
 ---
 
-## 🚨 The 5 Fear Archetypes (And What to Say)
+## The 5 Fear Archetypes (And What to Say)
 Use this to defuse concerns when rolling out AI:
 
 ### 1. **"I'll lose my job"**
@@ -69,7 +69,7 @@ Use this to defuse concerns when rolling out AI:
 
 ---
 
-## 📋 The 4-Week Adoption Playbook
+## The 4-Week Adoption Playbook
 Use this to roll out AI to a team with minimal friction.
 
 ### **Week 1: Awareness & Interest**
@@ -88,10 +88,10 @@ Use this to roll out AI to a team with minimal friction.
 **Goal:** Enable skeptics to try safely.
 
 - **Group training session (1 hour):**
-  - Walkthrough: Data redaction checklist
-  - Live demo: Writing a good prompt (and a bad one)
-  - Hands-on: Team writes a prompt together, runs it, reviews output
-  - Q&A
+ - Walkthrough: Data redaction checklist
+ - Live demo: Writing a good prompt (and a bad one)
+ - Hands-on: Team writes a prompt together, runs it, reviews output
+ - Q&A
 
 - **Office hours:** PM available for 1-on-1 questions
 - **Provide templates:** Copy/paste prompts for common tasks (charter, risk, email)
@@ -104,14 +104,14 @@ Use this to roll out AI to a team with minimal friction.
 **Goal:** Build confidence with low-risk tasks.
 
 - Ask for **2-3 volunteers** to pilot AI on:
-  - Drafting meeting minutes
-  - Summarizing a long email thread
-  - Creating an initial WBS
+ - Drafting meeting minutes
+ - Summarizing a long email thread
+ - Creating an initial WBS
 
 - **Rules:**
-  - Low-stakes deliverables only
-  - Must be reviewed by PM/SME before external use
-  - Log what works and what doesn't
+ - Low-stakes deliverables only
+ - Must be reviewed by PM/SME before external use
+ - Log what works and what doesn't
 
 - **Celebrate wins:** "Sarah used AI to draft the charter outline in 15 minutes instead of 2 hours. Then she refined it with her expertise. Saved a full day!"
 
@@ -124,10 +124,10 @@ Use this to roll out AI to a team with minimal friction.
 
 - **Update the Team Charter/Working Agreement** to formalize AI usage
 - **Establish standards:**
-  - Approved tools (name them)
-  - Which tasks use AI (meeting minutes, drafts, analysis)
-  - Mandatory review checklist before external sharing
-  - Redaction rules
+ - Approved tools (name them)
+ - Which tasks use AI (meeting minutes, drafts, analysis)
+ - Mandatory review checklist before external sharing
+ - Redaction rules
 
 - **Metrics:** Track time saved, rework rate, team satisfaction
 - **Celebrate:** Acknowledge adopters; show ROI data
@@ -136,7 +136,7 @@ Use this to roll out AI to a team with minimal friction.
 
 ---
 
-## 🎓 Addressing Resistance During Execution
+## Addressing Resistance During Execution
 Even after adoption starts, you'll encounter pushback. Here's how to respond:
 
 ### **Scenario 1: "AI-Generated Artifact Has an Error"**
@@ -177,7 +177,7 @@ Even after adoption starts, you'll encounter pushback. Here's how to respond:
 
 ---
 
-## 💬 The Emotional Intelligence Playbook
+## The Emotional Intelligence Playbook
 Project managers who succeed with AI do these things:
 
 | Action | Why | Example |
@@ -190,7 +190,7 @@ Project managers who succeed with AI do these things:
 
 ---
 
-## 🎯 Measuring Adoption Success
+## Measuring Adoption Success
 Track these metrics to know if adoption is working:
 
 | Metric | Target | What It Means |
@@ -204,7 +204,7 @@ Track these metrics to know if adoption is working:
 
 ---
 
-## 🔄 The Feedback Loop: Iterate & Improve
+## The Feedback Loop: Iterate & Improve
 AI adoption is not a one-time event; it's continuous improvement.
 
 **Monthly Check-In (30 min team meeting):**
@@ -220,7 +220,7 @@ AI adoption is not a one-time event; it's continuous improvement.
 
 ---
 
-## 🧯 Crisis Response: When AI Goes Wrong
+## Crisis Response: When AI Goes Wrong
 If something goes badly wrong (data breach, bias incident, major hallucination), you must act fast.
 
 ### **The "Red Alert" Protocol**
@@ -236,7 +236,7 @@ If something goes badly wrong (data breach, bias incident, major hallucination),
 
 ---
 
-## 📊 Resistance Metrics Dashboard
+## Resistance Metrics Dashboard
 Track these quantitative indicators to detect adoption problems early.
 
 ### Leading Indicators (Early Warning)
@@ -267,7 +267,7 @@ Track these quantitative indicators to detect adoption problems early.
 
 ---
 
-## 🏆 Success Case Studies (Anonymized)
+## Success Case Studies (Anonymized)
 
 ### Case Study 1: Manufacturing PMO
 **Context:** 8 project managers, skeptical culture, highly regulated industry
@@ -336,7 +336,7 @@ Track these quantitative indicators to detect adoption problems early.
 
 ---
 
-## ❌ Failure Mode Analysis (Why AI Rollouts Fail)
+## Failure Mode Analysis (Why AI Rollouts Fail)
 Learn from common patterns of failure.
 
 ### Failure Mode 1: "Mandate Without Support"
@@ -422,7 +422,7 @@ Learn from common patterns of failure.
 
 ---
 
-## 🎖️ Leadership Commitment Framework
+## Leadership Commitment Framework
 Executive sponsorship is critical for AI adoption. Here's how to secure and maintain it.
 
 ### Getting Sponsor Buy-In
@@ -448,7 +448,7 @@ Provide these to executives for consistent messaging:
 
 ---
 
-## 🧪 Cultural Readiness Assessment (Pre-Rollout Survey)
+## Cultural Readiness Assessment (Pre-Rollout Survey)
 Administer this survey before rolling out AI tools to identify adoption risks.
 
 ### Survey Questions (1-5 Scale: Strongly Disagree to Strongly Agree)
@@ -489,15 +489,15 @@ Administer this survey before rolling out AI tools to identify adoption risks.
 | Support & Resources (Q10-12) | Provide protected learning time; create templates; assign mentors |
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> A question may ask: "Your team is resisting a new AI tool because they fear job loss. What do you do FIRST?" The answer combines <strong>Emotional Intelligence + Transparency</strong>. Listen to their concerns, explain the tool's purpose (removing drudgery, not eliminating jobs), show examples, and offer training. Mandates create resentment; partnerships create adoption.
+ <strong> Exam Insight:</strong> A question may ask: "Your team is resisting a new AI tool because they fear job loss. What do you do FIRST?" The answer combines <strong>Emotional Intelligence + Transparency</strong>. Listen to their concerns, explain the tool's purpose (removing drudgery, not eliminating jobs), show examples, and offer training. Mandates create resentment; partnerships create adoption.
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

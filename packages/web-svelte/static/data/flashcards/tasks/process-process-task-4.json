@@ -1,492 +1,492 @@
 {
-  "meta": {
-    "title": "⚡ Process Task: Plan and Manage Resources",
-    "domain": "Process",
-    "task": "Plan and manage resources",
-    "ecoReference": "Process Task 4",
-    "description": "Flashcards for PMP Process Domain Task 4",
-    "file": "guide/appendices/flashcards-process-task4-resources.md"
-  },
-  "flashcards": [
-    {
-      "id": 1,
-      "category": "🎯 Resource Fundamentals",
-      "front": "What are the two main categories of \"Resources\" in project management?\n",
-      "back": "1. Team Resources (Human: skills, people).\n2. Physical Resources (Material: equipment, materials, facilities, infrastructure).\n"
-    },
-    {
-      "id": 2,
-      "category": "🎯 Resource Fundamentals",
-      "front": "What is a Resource Breakdown Structure (RBS)?\n",
-      "back": "A hierarchical representation of resources by category and type. It helps in organizing and reporting on resource costs and utilization.\n"
-    },
-    {
-      "id": 3,
-      "category": "🎯 Resource Fundamentals",
-      "front": "What is the key output of the Plan Resource Management process?\n",
-      "back": "The Resource Management Plan. It defines how to categorize, allocate, manage, and release resources.\n"
-    },
-    {
-      "id": 4,
-      "category": "🎯 Resource Fundamentals",
-      "front": "What is a Resource Calendar?\n",
-      "back": "A calendar that identifies the working days, shifts, start/end dates, and holidays for specific resources (people or equipment).\n"
-    },
-    {
-      "id": 5,
-      "category": "🎯 Resource Fundamentals",
-      "front": "What is the difference between a RACI Chart and a RAM?\n",
-      "back": "A RACI chart is a specific type of RAM (Responsibility Assignment Matrix) that uses the roles Responsible, Accountable, Consulted, and Informed. RAM is the generic term.\n"
-    },
-    {
-      "id": 6,
-      "category": "🎯 Resource Fundamentals",
-      "front": "In a RACI chart, what does Accountable (A) mean?\n",
-      "back": "The person who is ultimately answerable for the correct and thorough completion of the deliverable or task. There must be only one \"A\" per task.\n"
-    },
-    {
-      "id": 7,
-      "category": "🎯 Resource Fundamentals",
-      "front": "In a RACI chart, what does Responsible (R) mean?\n",
-      "back": "The person who actually does the work. There can be multiple \"R\"s for a single task.\n"
-    },
-    {
-      "id": 8,
-      "category": "🎯 Resource Fundamentals",
-      "front": "What is Consulted (C) in RACI?\n",
-      "back": "Subject Matter Experts (SMEs) whose opinions are sought before and during the work. It implies two-way communication.\n"
-    },
-    {
-      "id": 9,
-      "category": "🎯 Resource Fundamentals",
-      "front": "What is Informed (I) in RACI?\n",
-      "back": "Stakeholders who are kept up-to-date on progress or completion, often after the fact. It implies one-way communication.\n"
-    },
-    {
-      "id": 10,
-      "category": "🎯 Resource Fundamentals",
-      "front": "What is Bottom-Up Estimating for resources?\n",
-      "back": "Estimating team/physical resources at the lowest level of the WBS (Work Packages) and aggregating them up to get the total project resource needs. It is the most accurate but time-consuming method.\n\n\n"
-    },
-    {
-      "id": 11,
-      "category": "Resource Optimization",
-      "front": "What is Resource Leveling?\n",
-      "back": "A technique to resolve resource conflicts (over-allocations) by adjusting start/end dates. It often extends the critical path (changes the project end date).\n"
-    },
-    {
-      "id": 12,
-      "category": "Resource Optimization",
-      "front": "What is Resource Smoothing?\n",
-      "back": "A technique to balance resource demand that adjusts activities only within their free and total float. It does not change the project end date.\n"
-    },
-    {
-      "id": 13,
-      "category": "Resource Optimization",
-      "front": "Which technique typically changes the critical path: Resource Leveling or Smoothing?\n",
-      "back": "Resource Leveling.\n"
-    },
-    {
-      "id": 14,
-      "category": "Resource Optimization",
-      "front": "What is the primary constraint in Resource Smoothing?\n",
-      "back": "The Schedule (Time). You cannot delay the project completion date.\n"
-    },
-    {
-      "id": 15,
-      "category": "Resource Optimization",
-      "front": "What is the primary constraint in Resource Leveling?\n",
-      "back": "The Resources. You cannot exceed the available resource limit, so time must slip.\n"
-    },
-    {
-      "id": 16,
-      "category": "Resource Optimization",
-      "front": "What is a Resource Histogram?\n",
-      "back": "A bar chart that shows the amount of time that a resource is scheduled to work over a series of time periods. It visually highlights over-allocation (peaks).\n"
-    },
-    {
-      "id": 17,
-      "category": "Resource Optimization",
-      "front": "What is Analogous Estimating?\n",
-      "back": "Using a previous, similar project as a basis for estimating the resources/duration of the current project. It is fast but less accurate (Gross value estimation).\n"
-    },
-    {
-      "id": 18,
-      "category": "Resource Optimization",
-      "front": "What is Parametric Estimating?\n",
-      "back": "Using a statistical relationship between historical data and other variables (e.g., sq. ft. of construction) to calculate resource needs (e.g., \"We need 2 painters per 1,000 sq. ft.\").\n"
-    },
-    {
-      "id": 19,
-      "category": "Resource Optimization",
-      "front": "What is Data Analysis in resource planning?\n",
-      "back": "Reviewing alternatives (e.g., Make-or-Buy analysis) to determine the best way to acquire resources.\n"
-    },
-    {
-      "id": 20,
-      "category": "Resource Optimization",
-      "front": "What is the purpose of Control Resources?\n",
-      "back": "To ensure that the physical resources assigned and allocated are available as planned, and to monitor the planned vs. actual utilization. (Note: \"Manage Team\" is for people; \"Control Resources\" is for things).\n\n\n"
-    },
-    {
-      "id": 21,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is Pre-Assignment?\n",
-      "back": "When specific resources are guaranteed or promised in the Project Charter or Contract before the comprehensive planning begins.\n"
-    },
-    {
-      "id": 22,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is the key challenge in a Matrix Organization regarding resource acquisition?\n",
-      "back": "The PM must negotiate with Functional Managers to secure resources, as the PM does not have full authority over them.\n"
-    },
-    {
-      "id": 23,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is a Virtual Team?\n",
-      "back": "A group of people with a shared goal who fulfill their roles with little or no time spent meeting face-to-face.\n"
-    },
-    {
-      "id": 24,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is the biggest risk for Virtual Teams?\n",
-      "back": "Communication breakdown and feelings of isolation.\n"
-    },
-    {
-      "id": 25,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is Multi-Criteria Decision Analysis in acquiring resources?\n",
-      "back": "Using a weighted matrix to rate potential team members or vendors based on criteria like experience, cost, availability, and location to choose the best fit.\n"
-    },
-    {
-      "id": 26,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is Negotiation in resource management?\n",
-      "back": "The dialogue between the PM and Functional Managers (or vendors) to reach an agreement on resource assignments and terms.\n"
-    },
-    {
-      "id": 27,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is a Generalizing Specialist (or T-Shaped person)?\n",
-      "back": "An Agile team member who has deep skill in one area (the vertical bar) but broad ability to help in other areas (the horizontal bar). Preferred in Agile to reduce bottlenecks.\n"
-    },
-    {
-      "id": 28,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is Acquire Resources focused on?\n",
-      "back": "Obtaining team members, facilities, equipment, materials, supplies, and other resources necessary to complete project work.\n"
-    },
-    {
-      "id": 29,
-      "category": "🤝 Acquiring Resources",
-      "front": "What happens if you fail to acquire the necessary resources?\n",
-      "back": "It impacts the schedule, budget, customer satisfaction, quality, and risks. It may require re-baselining or project cancellation.\n"
-    },
-    {
-      "id": 30,
-      "category": "🤝 Acquiring Resources",
-      "front": "What is Just-in-Time (JIT) manufacturing?\n",
-      "back": "A resource management strategy to receive materials only as they are needed in the production process, reducing inventory costs (Physical Resources).\n\n\n"
-    },
-    {
-      "id": 31,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: A functional manager pulls a critical resource off your project for \"higher priority\" operational work. What do you do?\n",
-      "back": "Analyze the impact. Negotiate with the manager explaining the consequences. If unresolved, refer to the Resource Management Plan (governance) or escalate to the Sponsor.\n"
-    },
-    {
-      "id": 32,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: You have two team members who are both \"Responsible\" (R) for the same task, and they are conflicting. What is the root cause?\n",
-      "back": "Ambiguous roles. Clarify who is doing what. While multiple 'R's are allowed, clear divisions of labor are needed. Check the RACI.\n"
-    },
-    {
-      "id": 33,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: Equipment ordered for the project has been delayed by 2 weeks due to customs. This delays the critical path. What do you do?\n",
-      "back": "Log an Issue. Communicate the delay. Look for alternatives (rent locally? fast track?). If unavoidable, submit a Change Request to update the schedule baseline.\n"
-    },
-    {
-      "id": 34,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: You notice that the actual usage of concrete is 20% higher than planned. What process helps you catch this?\n",
-      "back": "Control Resources. You are monitoring planned vs. actual utilization of physical resources.\n"
-    },
-    {
-      "id": 35,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: Your team is working 60 hours a week to meet a deadline and morale is dropping. What resource technique should you use?\n",
-      "back": "Resource Leveling. It helps smooth out the peaks in workload to prevent burnout, even if it means extending the schedule (or negotiating scope reduction).\n"
-    },
-    {
-      "id": 36,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: A specialized architect is only available for 2 days next month, but your plan requires 5 days. What do you do?\n",
-      "back": "Update the Resource Calendar to reflect reality and adjust the schedule (Task sequencing or splitting) to accommodate their limited window.\n"
-    },
-    {
-      "id": 37,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: A virtual team member in a different completion time zone is consistently missing meetings. What is the first step?\n",
-      "back": "Review the Team Charter or communication plan to see if meeting times were agreed upon. Have a private discussion to understand constraints and find a compromise.\n"
-    },
-    {
-      "id": 38,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: The client asks for a change. You realize you don't have the internal skills to implement it. What is this analysis called?\n",
-      "back": "Make-or-Buy Analysis. You are deciding whether to train/hire (Make) or contract out (Buy).\n"
-    },
-    {
-      "id": 39,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: You are managing a large construction project. You need to ensure the crane is available only when the steel arrives to save rental costs. What are you doing?\n",
-      "back": "Managing logistics and using Resource Calendars to optimize physical resource utilization/costs.\n"
-    },
-    {
-      "id": 40,
-      "category": "🧠 Scenarios: Managing Resources",
-      "front": "Scenario: An Agile team is constantly blocked because only one person knows how to test the database. What is the solution?\n",
-      "back": "Encourage cross-training to create T-Shaped skills (Generalizing Specialists). This reduces the single point of failure.\n\n\n"
-    },
-    {
-      "id": 41,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is the Resource Management Plan's relationship to the Training Plan?\n",
-      "back": "The Training Plan is often a component or subsidiary of the Resource Management Plan, detailing how team members will be up-skilled.\n"
-    },
-    {
-      "id": 42,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What are Basis of Estimates?\n",
-      "back": "Documentation outlining the details used to establish project estimates (assumptions, constraints, level of confidence). Crucial for defending resource requests.\n"
-    },
-    {
-      "id": 43,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is Organizational Theory?\n",
-      "back": "The study of how people, teams, and organizations behave. PMs use it to structure the team effectively (e.g., Maslow's hierarchy, McGregor's X/Y).\n"
-    },
-    {
-      "id": 44,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is a Project Organization Chart?\n",
-      "back": "A graphic display of project team members and their reporting relationships.\n"
-    },
-    {
-      "id": 45,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is Colocation (Tight Matrix)?\n",
-      "back": "Placing many or all of the most active project team members in the same physical location to enhance their ability to perform as a team.\n"
-    },
-    {
-      "id": 46,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is the key Output of \"Estimate Activity Resources\"?\n",
-      "back": "Resource Requirements. It specifies exactly what you need for each activity.\n"
-    },
-    {
-      "id": 47,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is Physical Resource Assignment?\n",
-      "back": "The documentation recording the material, equipment, supplies, etc., that have been assigned to specific project activities.\n"
-    },
-    {
-      "id": 48,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is a Release Plan (Resource)?\n",
-      "back": "Part of the Resource Management Plan that details when and how team members and physical resources will be released from the project (reducing costs).\n"
-    },
-    {
-      "id": 49,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is Lean Management regarding resources?\n",
-      "back": "Minimizing waste (time, materials, effort) while maximizing value. \"Doing more with less.\"\n"
-    },
-    {
-      "id": 50,
-      "category": "🛠️ ITTOs of Resource Management",
-      "front": "What is Kaizen?\n",
-      "back": "Continuous improvement. Small, ongoing positive changes to resource usage and processes.\n\n\n"
-    },
-    {
-      "id": 51,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "True or False: Resource Leveling never changes the critical path.\n",
-      "back": "False. It often extends it because it delays tasks to wait for resources.\n"
-    },
-    {
-      "id": 52,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "True or False: You should assign the \"Accountable\" role to the whole team to build ownership.\n",
-      "back": "False. \"Accountable\" should belong to one person to ensure clarity. The whole team can be \"Responsible.\"\n"
-    },
-    {
-      "id": 53,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "True or False: Physical resources include software licenses.\n",
-      "back": "True. Software licenses are considered material/infrastructure assets (non-human).\n"
-    },
-    {
-      "id": 54,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "True or False: Soft skills negotiation is part of \"Acquire Resources.\"\n",
-      "back": "True. You must negotiate with functional managers to get the people you want.\n"
-    },
-    {
-      "id": 55,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "True or False: A resource histogram shows who is responsible for a task.\n",
-      "back": "False. A histogram shows usage/hours over time. A RAM/RACI shows responsibility.\n"
-    },
-    {
-      "id": 56,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "What does Halo Effect often lead to?\n",
-      "back": "Promoting a good technical expert to a Project Manager role without checking if they have PM skills (a common resource selection error).\n"
-    },
-    {
-      "id": 57,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "What is Self-Organization in Agile resources?\n",
-      "back": "The team decides how to do the work and who does which task, rather than being assigned by a manager.\n"
-    },
-    {
-      "id": 58,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "What is resource Utilization Rate?\n",
-      "back": "The percentage of time a resource is billable or working on project tasks vs. idle or administration.\n"
-    },
-    {
-      "id": 59,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "When do you release resources?\n",
-      "back": "As defined in the Resource Management Plan. Releasing them too early creates unfinished work; too late burns budget.\n"
-    },
-    {
-      "id": 60,
-      "category": "⚡ Quick-Fire Resource Review",
-      "front": "What is Plan-Do-Check-Act (PDCA) applied to resources?\n",
-      "back": "A cycle for control. Plan resource use -> Use them -> Check actuals vs plan -> Adjust usage or plan.\n\n\n"
-    },
-    {
-      "id": 61,
-      "category": "🚧 Physical Resource Control",
-      "front": "Why distinguish between \"Manage Team\" and \"Control Resources\"?\n",
-      "back": "People (Team) require leadership, EQ, and feedback (\"Manage\"). Physical things require logistics, tracking, and inventory (\"Control\").\n"
-    },
-    {
-      "id": 62,
-      "category": "🚧 Physical Resource Control",
-      "front": "What is the risk of \"Hoarding\" resources?\n",
-      "back": "Managers keeping resources they don't currently need \"just in case,\" which artificially inflates shortages for other projects.\n"
-    },
-    {
-      "id": 63,
-      "category": "🚧 Physical Resource Control",
-      "front": "What is Inventory Management?\n",
-      "back": "Tracking materials to ensure you have enough to work, but not so much that you pay high storage/spoilage costs (Lean).\n"
-    },
-    {
-      "id": 64,
-      "category": "🚧 Physical Resource Control",
-      "front": "What is the impact of Supply Chain issues on a project?\n",
-      "back": "Delays in physical resource acquisition can halt execution. Requires Risk Management and contingency buffers.\n"
-    },
-    {
-      "id": 65,
-      "category": "🚧 Physical Resource Control",
-      "front": "How does Quality relate to Resource Management?\n",
-      "back": "Using low-quality resources (untrained staff or cheap materials) often leads to high defect rates and rework (Cost of Quality).\n"
-    },
-    {
-      "id": 66,
-      "category": "🚧 Physical Resource Control",
-      "front": "What is Reverse Logistics?\n",
-      "back": "The process of moving goods key from their typical final destination for the purpose of capturing value, or proper disposal (e.g., returning rented equipment).\n"
-    },
-    {
-      "id": 67,
-      "category": "🚧 Physical Resource Control",
-      "front": "What is Life Cycle Costing for physical resources?\n",
-      "back": "Looking at the cost of acquisition + operation + disposal. Buying a cheap machine that breaks often may cost more long-term.\n"
-    },
-    {
-      "id": 68,
-      "category": "🚧 Physical Resource Control",
-      "front": "What is a Safety Stock?\n",
-      "back": "An extra quantity of a product/material which is stored in the warehouse to prevent an out-of-stock situation (Buffer).\n"
-    },
-    {
-      "id": 69,
-      "category": "🚧 Physical Resource Control",
-      "front": "What is the Resource Sheet in Microsoft Project (or similar tools)?\n",
-      "back": "The view where you define available resources, their costs (hourly/fixed), and max units (availability).\n"
-    },
-    {
-      "id": 70,
-      "category": "🚧 Physical Resource Control",
-      "front": "What is Overtime?\n",
-      "back": "Increasing resource capacity by working more hours. It is a \"Crashing\" technique but increases cost and burnout risk.\n\n\n"
-    },
-    {
-      "id": 71,
-      "category": "🚦 Closing Resource Management",
-      "front": "What is the final step in resource management?\n",
-      "back": "Releasing resources. Updating records, finalizing contracts, and returning team members to functional roles.\n"
-    },
-    {
-      "id": 72,
-      "category": "🚦 Closing Resource Management",
-      "front": "Why perform a Team Performance Assessment at the end?\n",
-      "back": "To evaluate the team's effectiveness and identify lessons learned for future resource planning.\n"
-    },
-    {
-      "id": 73,
-      "category": "🚦 Closing Resource Management",
-      "front": "What happens to the Lessons Learned about a specific vendor's performance?\n",
-      "back": "They are updated in the Organizational Process Assets (OPAs) to inform future source selection decisions.\n"
-    },
-    {
-      "id": 74,
-      "category": "🚦 Closing Resource Management",
-      "front": "Can a Project Coordinator assign resources?\n",
-      "back": "Typically no. In weak matrix/functional orgs, they have little authority. They must request/coordinate, not assign.\n"
-    },
-    {
-      "id": 75,
-      "category": "🚦 Closing Resource Management",
-      "front": "What is Resource Allocation?\n",
-      "back": "The process of validly assigning available resources to specific tasks in the schedule.\n"
-    },
-    {
-      "id": 76,
-      "category": "🚦 Closing Resource Management",
-      "front": "What is Effort vs. Duration?\n",
-      "back": "- Effort: Labor units (e.g., 80 man-hours).\n- Duration: Calendar time (e.g., 2 weeks).\n- Adding resources may reduce duration but usually keeps effort constant (or increases it due to communication overhead).\n"
-    },
-    {
-      "id": 77,
-      "category": "🚦 Closing Resource Management",
-      "front": "What is Brooks' Law?\n",
-      "back": "\"Adding manpower to a late software project makes it later.\" (Due to ramp-up time and communication complexity).\n"
-    },
-    {
-      "id": 78,
-      "category": "🚦 Closing Resource Management",
-      "front": "What is the Critical Chain Method?\n",
-      "back": "A schedule network analysis technique that modifies the project schedule to account for limited resources, using \"Resource Buffers.\"\n"
-    },
-    {
-      "id": 79,
-      "category": "🚦 Closing Resource Management",
-      "front": "What is Monte Carlo Analysis for resources?\n",
-      "back": "A simulation to predict the probability of having sufficient resources or finishing on time given resource uncertainty.\n"
-    },
-    {
-      "id": 80,
-      "category": "🚦 Closing Resource Management",
-      "front": "What is Benchmarking in resource planning?\n",
-      "back": "Comparing your resource estimates or productivity rates to industry standards to validate your plan.\n"
-    }
-  ]
+ "meta": {
+ "title": " Process Task: Plan and Manage Resources",
+ "domain": "Process",
+ "task": "Plan and manage resources",
+ "ecoReference": "Process Task 4",
+ "description": "Flashcards for PMP Process Domain Task 4",
+ "file": "guide/appendices/flashcards-process-task4-resources.md"
+ },
+ "flashcards": [
+ {
+ "id": 1,
+ "category": " Resource Fundamentals",
+ "front": "What are the two main categories of \"Resources\" in project management?\n",
+ "back": "1. Team Resources (Human: skills, people).\n2. Physical Resources (Material: equipment, materials, facilities, infrastructure).\n"
+ },
+ {
+ "id": 2,
+ "category": " Resource Fundamentals",
+ "front": "What is a Resource Breakdown Structure (RBS)?\n",
+ "back": "A hierarchical representation of resources by category and type. It helps in organizing and reporting on resource costs and utilization.\n"
+ },
+ {
+ "id": 3,
+ "category": " Resource Fundamentals",
+ "front": "What is the key output of the Plan Resource Management process?\n",
+ "back": "The Resource Management Plan. It defines how to categorize, allocate, manage, and release resources.\n"
+ },
+ {
+ "id": 4,
+ "category": " Resource Fundamentals",
+ "front": "What is a Resource Calendar?\n",
+ "back": "A calendar that identifies the working days, shifts, start/end dates, and holidays for specific resources (people or equipment).\n"
+ },
+ {
+ "id": 5,
+ "category": " Resource Fundamentals",
+ "front": "What is the difference between a RACI Chart and a RAM?\n",
+ "back": "A RACI chart is a specific type of RAM (Responsibility Assignment Matrix) that uses the roles Responsible, Accountable, Consulted, and Informed. RAM is the generic term.\n"
+ },
+ {
+ "id": 6,
+ "category": " Resource Fundamentals",
+ "front": "In a RACI chart, what does Accountable (A) mean?\n",
+ "back": "The person who is ultimately answerable for the correct and thorough completion of the deliverable or task. There must be only one \"A\" per task.\n"
+ },
+ {
+ "id": 7,
+ "category": " Resource Fundamentals",
+ "front": "In a RACI chart, what does Responsible (R) mean?\n",
+ "back": "The person who actually does the work. There can be multiple \"R\"s for a single task.\n"
+ },
+ {
+ "id": 8,
+ "category": " Resource Fundamentals",
+ "front": "What is Consulted (C) in RACI?\n",
+ "back": "Subject Matter Experts (SMEs) whose opinions are sought before and during the work. It implies two-way communication.\n"
+ },
+ {
+ "id": 9,
+ "category": " Resource Fundamentals",
+ "front": "What is Informed (I) in RACI?\n",
+ "back": "Stakeholders who are kept up-to-date on progress or completion, often after the fact. It implies one-way communication.\n"
+ },
+ {
+ "id": 10,
+ "category": " Resource Fundamentals",
+ "front": "What is Bottom-Up Estimating for resources?\n",
+ "back": "Estimating team/physical resources at the lowest level of the WBS (Work Packages) and aggregating them up to get the total project resource needs. It is the most accurate but time-consuming method.\n\n\n"
+ },
+ {
+ "id": 11,
+ "category": "Resource Optimization",
+ "front": "What is Resource Leveling?\n",
+ "back": "A technique to resolve resource conflicts (over-allocations) by adjusting start/end dates. It often extends the critical path (changes the project end date).\n"
+ },
+ {
+ "id": 12,
+ "category": "Resource Optimization",
+ "front": "What is Resource Smoothing?\n",
+ "back": "A technique to balance resource demand that adjusts activities only within their free and total float. It does not change the project end date.\n"
+ },
+ {
+ "id": 13,
+ "category": "Resource Optimization",
+ "front": "Which technique typically changes the critical path: Resource Leveling or Smoothing?\n",
+ "back": "Resource Leveling.\n"
+ },
+ {
+ "id": 14,
+ "category": "Resource Optimization",
+ "front": "What is the primary constraint in Resource Smoothing?\n",
+ "back": "The Schedule (Time). You cannot delay the project completion date.\n"
+ },
+ {
+ "id": 15,
+ "category": "Resource Optimization",
+ "front": "What is the primary constraint in Resource Leveling?\n",
+ "back": "The Resources. You cannot exceed the available resource limit, so time must slip.\n"
+ },
+ {
+ "id": 16,
+ "category": "Resource Optimization",
+ "front": "What is a Resource Histogram?\n",
+ "back": "A bar chart that shows the amount of time that a resource is scheduled to work over a series of time periods. It visually highlights over-allocation (peaks).\n"
+ },
+ {
+ "id": 17,
+ "category": "Resource Optimization",
+ "front": "What is Analogous Estimating?\n",
+ "back": "Using a previous, similar project as a basis for estimating the resources/duration of the current project. It is fast but less accurate (Gross value estimation).\n"
+ },
+ {
+ "id": 18,
+ "category": "Resource Optimization",
+ "front": "What is Parametric Estimating?\n",
+ "back": "Using a statistical relationship between historical data and other variables (e.g., sq. ft. of construction) to calculate resource needs (e.g., \"We need 2 painters per 1,000 sq. ft.\").\n"
+ },
+ {
+ "id": 19,
+ "category": "Resource Optimization",
+ "front": "What is Data Analysis in resource planning?\n",
+ "back": "Reviewing alternatives (e.g., Make-or-Buy analysis) to determine the best way to acquire resources.\n"
+ },
+ {
+ "id": 20,
+ "category": "Resource Optimization",
+ "front": "What is the purpose of Control Resources?\n",
+ "back": "To ensure that the physical resources assigned and allocated are available as planned, and to monitor the planned vs. actual utilization. (Note: \"Manage Team\" is for people; \"Control Resources\" is for things).\n\n\n"
+ },
+ {
+ "id": 21,
+ "category": " Acquiring Resources",
+ "front": "What is Pre-Assignment?\n",
+ "back": "When specific resources are guaranteed or promised in the Project Charter or Contract before the comprehensive planning begins.\n"
+ },
+ {
+ "id": 22,
+ "category": " Acquiring Resources",
+ "front": "What is the key challenge in a Matrix Organization regarding resource acquisition?\n",
+ "back": "The PM must negotiate with Functional Managers to secure resources, as the PM does not have full authority over them.\n"
+ },
+ {
+ "id": 23,
+ "category": " Acquiring Resources",
+ "front": "What is a Virtual Team?\n",
+ "back": "A group of people with a shared goal who fulfill their roles with little or no time spent meeting face-to-face.\n"
+ },
+ {
+ "id": 24,
+ "category": " Acquiring Resources",
+ "front": "What is the biggest risk for Virtual Teams?\n",
+ "back": "Communication breakdown and feelings of isolation.\n"
+ },
+ {
+ "id": 25,
+ "category": " Acquiring Resources",
+ "front": "What is Multi-Criteria Decision Analysis in acquiring resources?\n",
+ "back": "Using a weighted matrix to rate potential team members or vendors based on criteria like experience, cost, availability, and location to choose the best fit.\n"
+ },
+ {
+ "id": 26,
+ "category": " Acquiring Resources",
+ "front": "What is Negotiation in resource management?\n",
+ "back": "The dialogue between the PM and Functional Managers (or vendors) to reach an agreement on resource assignments and terms.\n"
+ },
+ {
+ "id": 27,
+ "category": " Acquiring Resources",
+ "front": "What is a Generalizing Specialist (or T-Shaped person)?\n",
+ "back": "An Agile team member who has deep skill in one area (the vertical bar) but broad ability to help in other areas (the horizontal bar). Preferred in Agile to reduce bottlenecks.\n"
+ },
+ {
+ "id": 28,
+ "category": " Acquiring Resources",
+ "front": "What is Acquire Resources focused on?\n",
+ "back": "Obtaining team members, facilities, equipment, materials, supplies, and other resources necessary to complete project work.\n"
+ },
+ {
+ "id": 29,
+ "category": " Acquiring Resources",
+ "front": "What happens if you fail to acquire the necessary resources?\n",
+ "back": "It impacts the schedule, budget, customer satisfaction, quality, and risks. It may require re-baselining or project cancellation.\n"
+ },
+ {
+ "id": 30,
+ "category": " Acquiring Resources",
+ "front": "What is Just-in-Time (JIT) manufacturing?\n",
+ "back": "A resource management strategy to receive materials only as they are needed in the production process, reducing inventory costs (Physical Resources).\n\n\n"
+ },
+ {
+ "id": 31,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: A functional manager pulls a critical resource off your project for \"higher priority\" operational work. What do you do?\n",
+ "back": "Analyze the impact. Negotiate with the manager explaining the consequences. If unresolved, refer to the Resource Management Plan (governance) or escalate to the Sponsor.\n"
+ },
+ {
+ "id": 32,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: You have two team members who are both \"Responsible\" (R) for the same task, and they are conflicting. What is the root cause?\n",
+ "back": "Ambiguous roles. Clarify who is doing what. While multiple 'R's are allowed, clear divisions of labor are needed. Check the RACI.\n"
+ },
+ {
+ "id": 33,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: Equipment ordered for the project has been delayed by 2 weeks due to customs. This delays the critical path. What do you do?\n",
+ "back": "Log an Issue. Communicate the delay. Look for alternatives (rent locally? fast track?). If unavoidable, submit a Change Request to update the schedule baseline.\n"
+ },
+ {
+ "id": 34,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: You notice that the actual usage of concrete is 20% higher than planned. What process helps you catch this?\n",
+ "back": "Control Resources. You are monitoring planned vs. actual utilization of physical resources.\n"
+ },
+ {
+ "id": 35,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: Your team is working 60 hours a week to meet a deadline and morale is dropping. What resource technique should you use?\n",
+ "back": "Resource Leveling. It helps smooth out the peaks in workload to prevent burnout, even if it means extending the schedule (or negotiating scope reduction).\n"
+ },
+ {
+ "id": 36,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: A specialized architect is only available for 2 days next month, but your plan requires 5 days. What do you do?\n",
+ "back": "Update the Resource Calendar to reflect reality and adjust the schedule (Task sequencing or splitting) to accommodate their limited window.\n"
+ },
+ {
+ "id": 37,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: A virtual team member in a different completion time zone is consistently missing meetings. What is the first step?\n",
+ "back": "Review the Team Charter or communication plan to see if meeting times were agreed upon. Have a private discussion to understand constraints and find a compromise.\n"
+ },
+ {
+ "id": 38,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: The client asks for a change. You realize you don't have the internal skills to implement it. What is this analysis called?\n",
+ "back": "Make-or-Buy Analysis. You are deciding whether to train/hire (Make) or contract out (Buy).\n"
+ },
+ {
+ "id": 39,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: You are managing a large construction project. You need to ensure the crane is available only when the steel arrives to save rental costs. What are you doing?\n",
+ "back": "Managing logistics and using Resource Calendars to optimize physical resource utilization/costs.\n"
+ },
+ {
+ "id": 40,
+ "category": " Scenarios: Managing Resources",
+ "front": "Scenario: An Agile team is constantly blocked because only one person knows how to test the database. What is the solution?\n",
+ "back": "Encourage cross-training to create T-Shaped skills (Generalizing Specialists). This reduces the single point of failure.\n\n\n"
+ },
+ {
+ "id": 41,
+ "category": " ITTOs of Resource Management",
+ "front": "What is the Resource Management Plan's relationship to the Training Plan?\n",
+ "back": "The Training Plan is often a component or subsidiary of the Resource Management Plan, detailing how team members will be up-skilled.\n"
+ },
+ {
+ "id": 42,
+ "category": " ITTOs of Resource Management",
+ "front": "What are Basis of Estimates?\n",
+ "back": "Documentation outlining the details used to establish project estimates (assumptions, constraints, level of confidence). Crucial for defending resource requests.\n"
+ },
+ {
+ "id": 43,
+ "category": " ITTOs of Resource Management",
+ "front": "What is Organizational Theory?\n",
+ "back": "The study of how people, teams, and organizations behave. PMs use it to structure the team effectively (e.g., Maslow's hierarchy, McGregor's X/Y).\n"
+ },
+ {
+ "id": 44,
+ "category": " ITTOs of Resource Management",
+ "front": "What is a Project Organization Chart?\n",
+ "back": "A graphic display of project team members and their reporting relationships.\n"
+ },
+ {
+ "id": 45,
+ "category": " ITTOs of Resource Management",
+ "front": "What is Colocation (Tight Matrix)?\n",
+ "back": "Placing many or all of the most active project team members in the same physical location to enhance their ability to perform as a team.\n"
+ },
+ {
+ "id": 46,
+ "category": " ITTOs of Resource Management",
+ "front": "What is the key Output of \"Estimate Activity Resources\"?\n",
+ "back": "Resource Requirements. It specifies exactly what you need for each activity.\n"
+ },
+ {
+ "id": 47,
+ "category": " ITTOs of Resource Management",
+ "front": "What is Physical Resource Assignment?\n",
+ "back": "The documentation recording the material, equipment, supplies, etc., that have been assigned to specific project activities.\n"
+ },
+ {
+ "id": 48,
+ "category": " ITTOs of Resource Management",
+ "front": "What is a Release Plan (Resource)?\n",
+ "back": "Part of the Resource Management Plan that details when and how team members and physical resources will be released from the project (reducing costs).\n"
+ },
+ {
+ "id": 49,
+ "category": " ITTOs of Resource Management",
+ "front": "What is Lean Management regarding resources?\n",
+ "back": "Minimizing waste (time, materials, effort) while maximizing value. \"Doing more with less.\"\n"
+ },
+ {
+ "id": 50,
+ "category": " ITTOs of Resource Management",
+ "front": "What is Kaizen?\n",
+ "back": "Continuous improvement. Small, ongoing positive changes to resource usage and processes.\n\n\n"
+ },
+ {
+ "id": 51,
+ "category": " Quick-Fire Resource Review",
+ "front": "True or False: Resource Leveling never changes the critical path.\n",
+ "back": "False. It often extends it because it delays tasks to wait for resources.\n"
+ },
+ {
+ "id": 52,
+ "category": " Quick-Fire Resource Review",
+ "front": "True or False: You should assign the \"Accountable\" role to the whole team to build ownership.\n",
+ "back": "False. \"Accountable\" should belong to one person to ensure clarity. The whole team can be \"Responsible.\"\n"
+ },
+ {
+ "id": 53,
+ "category": " Quick-Fire Resource Review",
+ "front": "True or False: Physical resources include software licenses.\n",
+ "back": "True. Software licenses are considered material/infrastructure assets (non-human).\n"
+ },
+ {
+ "id": 54,
+ "category": " Quick-Fire Resource Review",
+ "front": "True or False: Soft skills negotiation is part of \"Acquire Resources.\"\n",
+ "back": "True. You must negotiate with functional managers to get the people you want.\n"
+ },
+ {
+ "id": 55,
+ "category": " Quick-Fire Resource Review",
+ "front": "True or False: A resource histogram shows who is responsible for a task.\n",
+ "back": "False. A histogram shows usage/hours over time. A RAM/RACI shows responsibility.\n"
+ },
+ {
+ "id": 56,
+ "category": " Quick-Fire Resource Review",
+ "front": "What does Halo Effect often lead to?\n",
+ "back": "Promoting a good technical expert to a Project Manager role without checking if they have PM skills (a common resource selection error).\n"
+ },
+ {
+ "id": 57,
+ "category": " Quick-Fire Resource Review",
+ "front": "What is Self-Organization in Agile resources?\n",
+ "back": "The team decides how to do the work and who does which task, rather than being assigned by a manager.\n"
+ },
+ {
+ "id": 58,
+ "category": " Quick-Fire Resource Review",
+ "front": "What is resource Utilization Rate?\n",
+ "back": "The percentage of time a resource is billable or working on project tasks vs. idle or administration.\n"
+ },
+ {
+ "id": 59,
+ "category": " Quick-Fire Resource Review",
+ "front": "When do you release resources?\n",
+ "back": "As defined in the Resource Management Plan. Releasing them too early creates unfinished work; too late burns budget.\n"
+ },
+ {
+ "id": 60,
+ "category": " Quick-Fire Resource Review",
+ "front": "What is Plan-Do-Check-Act (PDCA) applied to resources?\n",
+ "back": "A cycle for control. Plan resource use -> Use them -> Check actuals vs plan -> Adjust usage or plan.\n\n\n"
+ },
+ {
+ "id": 61,
+ "category": " Physical Resource Control",
+ "front": "Why distinguish between \"Manage Team\" and \"Control Resources\"?\n",
+ "back": "People (Team) require leadership, EQ, and feedback (\"Manage\"). Physical things require logistics, tracking, and inventory (\"Control\").\n"
+ },
+ {
+ "id": 62,
+ "category": " Physical Resource Control",
+ "front": "What is the risk of \"Hoarding\" resources?\n",
+ "back": "Managers keeping resources they don't currently need \"just in case,\" which artificially inflates shortages for other projects.\n"
+ },
+ {
+ "id": 63,
+ "category": " Physical Resource Control",
+ "front": "What is Inventory Management?\n",
+ "back": "Tracking materials to ensure you have enough to work, but not so much that you pay high storage/spoilage costs (Lean).\n"
+ },
+ {
+ "id": 64,
+ "category": " Physical Resource Control",
+ "front": "What is the impact of Supply Chain issues on a project?\n",
+ "back": "Delays in physical resource acquisition can halt execution. Requires Risk Management and contingency buffers.\n"
+ },
+ {
+ "id": 65,
+ "category": " Physical Resource Control",
+ "front": "How does Quality relate to Resource Management?\n",
+ "back": "Using low-quality resources (untrained staff or cheap materials) often leads to high defect rates and rework (Cost of Quality).\n"
+ },
+ {
+ "id": 66,
+ "category": " Physical Resource Control",
+ "front": "What is Reverse Logistics?\n",
+ "back": "The process of moving goods key from their typical final destination for the purpose of capturing value, or proper disposal (e.g., returning rented equipment).\n"
+ },
+ {
+ "id": 67,
+ "category": " Physical Resource Control",
+ "front": "What is Life Cycle Costing for physical resources?\n",
+ "back": "Looking at the cost of acquisition + operation + disposal. Buying a cheap machine that breaks often may cost more long-term.\n"
+ },
+ {
+ "id": 68,
+ "category": " Physical Resource Control",
+ "front": "What is a Safety Stock?\n",
+ "back": "An extra quantity of a product/material which is stored in the warehouse to prevent an out-of-stock situation (Buffer).\n"
+ },
+ {
+ "id": 69,
+ "category": " Physical Resource Control",
+ "front": "What is the Resource Sheet in Microsoft Project (or similar tools)?\n",
+ "back": "The view where you define available resources, their costs (hourly/fixed), and max units (availability).\n"
+ },
+ {
+ "id": 70,
+ "category": " Physical Resource Control",
+ "front": "What is Overtime?\n",
+ "back": "Increasing resource capacity by working more hours. It is a \"Crashing\" technique but increases cost and burnout risk.\n\n\n"
+ },
+ {
+ "id": 71,
+ "category": " Closing Resource Management",
+ "front": "What is the final step in resource management?\n",
+ "back": "Releasing resources. Updating records, finalizing contracts, and returning team members to functional roles.\n"
+ },
+ {
+ "id": 72,
+ "category": " Closing Resource Management",
+ "front": "Why perform a Team Performance Assessment at the end?\n",
+ "back": "To evaluate the team's effectiveness and identify lessons learned for future resource planning.\n"
+ },
+ {
+ "id": 73,
+ "category": " Closing Resource Management",
+ "front": "What happens to the Lessons Learned about a specific vendor's performance?\n",
+ "back": "They are updated in the Organizational Process Assets (OPAs) to inform future source selection decisions.\n"
+ },
+ {
+ "id": 74,
+ "category": " Closing Resource Management",
+ "front": "Can a Project Coordinator assign resources?\n",
+ "back": "Typically no. In weak matrix/functional orgs, they have little authority. They must request/coordinate, not assign.\n"
+ },
+ {
+ "id": 75,
+ "category": " Closing Resource Management",
+ "front": "What is Resource Allocation?\n",
+ "back": "The process of validly assigning available resources to specific tasks in the schedule.\n"
+ },
+ {
+ "id": 76,
+ "category": " Closing Resource Management",
+ "front": "What is Effort vs. Duration?\n",
+ "back": "- Effort: Labor units (e.g., 80 man-hours).\n- Duration: Calendar time (e.g., 2 weeks).\n- Adding resources may reduce duration but usually keeps effort constant (or increases it due to communication overhead).\n"
+ },
+ {
+ "id": 77,
+ "category": " Closing Resource Management",
+ "front": "What is Brooks' Law?\n",
+ "back": "\"Adding manpower to a late software project makes it later.\" (Due to ramp-up time and communication complexity).\n"
+ },
+ {
+ "id": 78,
+ "category": " Closing Resource Management",
+ "front": "What is the Critical Chain Method?\n",
+ "back": "A schedule network analysis technique that modifies the project schedule to account for limited resources, using \"Resource Buffers.\"\n"
+ },
+ {
+ "id": 79,
+ "category": " Closing Resource Management",
+ "front": "What is Monte Carlo Analysis for resources?\n",
+ "back": "A simulation to predict the probability of having sufficient resources or finishing on time given resource uncertainty.\n"
+ },
+ {
+ "id": 80,
+ "category": " Closing Resource Management",
+ "front": "What is Benchmarking in resource planning?\n",
+ "back": "Comparing your resource estimates or productivity rates to industry standards to validate your plan.\n"
+ }
+ ]
 }

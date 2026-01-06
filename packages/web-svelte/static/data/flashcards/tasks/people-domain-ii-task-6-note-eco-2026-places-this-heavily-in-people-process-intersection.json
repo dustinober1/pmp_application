@@ -1,612 +1,612 @@
 {
-  "meta": {
-    "title": "PMP 2026 Flashcards: People Domain – Task 6",
-    "domain": "People (42%)",
-    "task": "Manage stakeholder expectations",
-    "ecoReference": "Domain II, Task 6 (Note: ECO 2026 places this heavily in People/Process intersection)",
-    "description": "",
-    "file": "guide/appendices/flashcards-people-task6-manage-expectations.md"
-  },
-  "flashcards": [
-    {
-      "id": 1,
-      "category": "The Control Loop: Data to Decisions",
-      "front": "What is the primary purpose of \"Managing Stakeholder Expectations\" during execution?",
-      "back": "To ensure that what the project delivers matches what the stakeholders think it will deliver, reducing the risk of rejection."
-    },
-    {
-      "id": 2,
-      "category": "The Control Loop: Data to Decisions",
-      "front": "What is the \"Control Funnel\" sequence for reporting?",
-      "back": "Work Performance Data (Raw) → Work Performance Information (Analyzed) → Work Performance Reports (Formatted)."
-    },
-    {
-      "id": 3,
-      "category": "The Control Loop: Data to Decisions",
-      "front": "A stakeholder is confused by your status report because it lists \"500 bugs found.\" What went wrong?",
-      "back": "You sent Data, not Information. You failed to analyze the context (e.g., \"is this normal?\")."
-    },
-    {
-      "id": 4,
-      "category": "The Control Loop: Data to Decisions",
-      "front": "What is \"Work Performance Information\" (WPI)?",
-      "back": "The integrated analysis of WPD (e.g., \"CPI is 0.8, meaning we are over budget\")."
-    },
-    {
-      "id": 5,
-      "category": "The Control Loop: Data to Decisions",
-      "front": "Status Reports, Dashboards, and Memos are examples of...",
-      "back": "Work Performance Reports (WPR)."
-    },
-    {
-      "id": 6,
-      "category": "The Control Loop: Data to Decisions",
-      "front": "If a stakeholder is surprised by a delay, what communication principal failed?",
-      "back": "The \"No Surprises\" rule. Variances should be communicated as soon as they are analyzed, not hidden until the report."
-    },
-    {
-      "id": 7,
-      "category": "The Control Loop: Data to Decisions",
-      "front": "What is the best way to correct a stakeholder's unrealistic expectation of a completion date?",
-      "back": "Use Data (Evidence). Show the Trend Analysis or Schedule Forecast, not just your opinion."
-    },
-    {
-      "id": 8,
-      "category": "The Control Loop: Data to Decisions",
-      "front": "Define \"Management by Exception\".",
-      "back": "Only notifying higher management when a variance exceeds a pre-defined threshold (e.g., >10% over budget)."
-    },
-    {
-      "id": 9,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "If CPI = 0.85, what does this tell the stakeholder?",
-      "back": "\"For every $1.00 you spent, you only got $0.85 of value.\" (We are over budget)."
-    },
-    {
-      "id": 10,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "If SPI = 1.15, what does this tell the stakeholder?",
-      "back": "\"We are progressing at 115% of the planned rate.\" (Ahead of schedule)."
-    },
-    {
-      "id": 11,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "Is a CPI > 1.0 always good?",
-      "back": "Usually yes (under budget), but if it's very high (e.g., 1.5), it might mean you are cutting corners or missing scope (Gold plating in reverse)."
-    },
-    {
-      "id": 12,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "Which EVM metric predicts the future final cost of the project?",
-      "back": "EAC (Estimate at Completion)."
-    },
-    {
-      "id": 13,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "If stakeholders ask \"How much more money do you need to finish?\", which metric do you use?",
-      "back": "ETC (Estimate to Complete)."
-    },
-    {
-      "id": 14,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "If stakeholders ask \"Will we look bad at the end?\", which metric answers this?",
-      "back": "VAC (Variance at Completion). It shows the projected over/under run at the very end."
-    },
-    {
-      "id": 15,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "What is the TCPI (To-Complete Performance Index)?",
-      "back": "A measure of how efficiently the team must work from now on to meet the budget. High TCPI (>1.1) is hard to sustain."
-    },
-    {
-      "id": 16,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "Why is \"Trend Analysis\" superior to a single status report?",
-      "back": "A single point can be an anomaly. A Trend (e.g., CPI dropping for 3 months) shows the direction of the project health."
-    },
-    {
-      "id": 17,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "What is a \"Variance Analysis\"?",
-      "back": "Comparing Actuals (What happened) vs. Baseline (What we planned)."
-    },
-    {
-      "id": 18,
-      "category": "Measuring Performance (EVM) for Expectations",
-      "front": "The project is Green, but the Customer is unhappy. Why?",
-      "back": "You are measuring \"Project Success\" (Cost/Schedule) but failing \"Product Success\" (Benefits/Value). Align on Outcomes, not Outputs."
-    },
-    {
-      "id": 19,
-      "category": "Agile Monitoring & Expectations",
-      "front": "In Agile, do we track variance against a Scope Baseline?",
-      "back": "No. We track Value Delivery and Flow against the Product Vision and Goals."
-    },
-    {
-      "id": 20,
-      "category": "Agile Monitoring & Expectations",
-      "front": "What does a \"Burnup Chart\" show that a Burndown chart doesn't?",
-      "back": "It shows the Total Scope line. If that line moves up, stakeholders can clearly see that \"Scope Creep\" is pushing the date out."
-    },
-    {
-      "id": 21,
-      "category": "Agile Monitoring & Expectations",
-      "front": "A stakeholder complains that Velocity varies from 20 to 50 every Sprint.",
-      "back": "This is \"Unstable Velocity.\" Expectations cannot be managed until velocity stabilizes. Investigate team capacity or story sizing."
-    },
-    {
-      "id": 22,
-      "category": "Agile Monitoring & Expectations",
-      "front": "What is \"Cycle Time\"?",
-      "back": "The time it takes to complete a work item once started. (Good for setting speed expectations)."
-    },
-    {
-      "id": 23,
-      "category": "Agile Monitoring & Expectations",
-      "front": "What is \"Lead Time\"?",
-      "back": "The time from the customer request until delivery. (This is the metric stakeholders care about most)."
-    },
-    {
-      "id": 24,
-      "category": "Agile Monitoring & Expectations",
-      "front": "If \"Lead Time\" is high but \"Cycle Time\" is low, what does that mean?",
-      "back": "Work is sitting in the backlog (Queue) for a long time before the team starts it."
-    },
-    {
-      "id": 25,
-      "category": "Agile Monitoring & Expectations",
-      "front": "What is a \"Cummulative Flow Diagram\" (CFD) used for?",
-      "back": "To visualize flow and identify bottlenecks (widening bands) in the process."
-    },
-    {
-      "id": 26,
-      "category": "Agile Monitoring & Expectations",
-      "front": "How do \"Information Radiators\" help manage expectations?",
-      "back": "By making status continuously visible (Transparency). Stakeholders don't need to ask \"Where are we?\"; they can just look."
-    },
-    {
-      "id": 27,
-      "category": "Agile Monitoring & Expectations",
-      "front": "What is the \"Daily Standup\" not for?",
-      "back": "It is NOT a status report to the PM/Stakeholders. It is a planning meeting for the Team."
-    },
-    {
-      "id": 28,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "A stakeholder requests a \"small\" change that affects the critical path. What do you do?",
-      "back": "Issue a Change Request. Analyze the impact and get formal approval. Do not just say \"Yes.\""
-    },
-    {
-      "id": 29,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "What are the 3 Baselines we protect with Change Control?",
-      "back": "Scope, Schedule, Cost. (Together known as the Performance Measurement Baseline)."
-    },
-    {
-      "id": 30,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "What is \"Gold Plating\"?",
-      "back": "Adding features that were not requested to \"please\" the stakeholder. This is bad (waste of resources, scope creep)."
-    },
-    {
-      "id": 31,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "What is \"Scope Creep\"?",
-      "back": "Uncontrolled changes or additions to project scope without adjustments to time, cost, or resources."
-    },
-    {
-      "id": 32,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "Who approves a Change Request?",
-      "back": "It depends on the project plan. Usually the Change Control Board (CCB), Sponsor, or Owner."
-    },
-    {
-      "id": 33,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "If a Change Request is rejected, what must you do?",
-      "back": "Document the rejection in the Change Log and communicate it to the stakeholder who asked. Managing the \"No\" is critical."
-    },
-    {
-      "id": 34,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "Can the Project Manager approve a change?",
-      "back": "Only if it is within their delegated authority (e.g., \"Changes under $500\" or \"Changes that don't impact the baseline\")."
-    },
-    {
-      "id": 35,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "A change is approved. What is the FIRST thing you do?",
-      "back": "Update the Baselines and Project Documents. (Then implement it)."
-    },
-    {
-      "id": 36,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "What is \"Configuration Management\"?",
-      "back": "Ensuring that the version of the product/docs you are working on is the correct, approved version. (Prevents \"Wait, I thought we were using v2?\" chaos)."
-    },
-    {
-      "id": 37,
-      "category": "Managing Change (The Formal Tool)",
-      "front": "What happens if you skip Integrated Change Control?",
-      "back": "Scope creep, invalid baselines, inability to measure performance, and eventual project failure."
-    },
-    {
-      "id": 38,
-      "category": "Quality & Risk Expectations",
-      "front": "What is the difference between \"Corrective Action\" and \"Defect Repair\"?",
-      "back": "Defect Repair fixes a broken deliverable. Corrective Action adjusts the process to bring future work back in line."
-    },
-    {
-      "id": 39,
-      "category": "Quality & Risk Expectations",
-      "front": "What is \"Preventive Action\"?",
-      "back": "Doing something now to reduce the probability of a future risk occurring. (Proactive)."
-    },
-    {
-      "id": 40,
-      "category": "Quality & Risk Expectations",
-      "front": "A stakeholder finds a bug in UAT. What expectation failed?",
-      "back": "Quality expectation (or Definition of Done). Quality should have been verified before UAT."
-    },
-    {
-      "id": 41,
-      "category": "Quality & Risk Expectations",
-      "front": "What is the \"Pareto Principle\" (80/20) in Quality?",
-      "back": "80% of problems come from 20% of causes. Focus your expectation management on fixing those vital few causes."
-    },
-    {
-      "id": 42,
-      "category": "Quality & Risk Expectations",
-      "front": "A risk event occurs that was in the Risk Register. Stakeholders panic. Why?",
-      "back": "You failed to Communicate the risk or the response plan. They should have expected it might happen."
-    },
-    {
-      "id": 43,
-      "category": "Quality & Risk Expectations",
-      "front": "What is a \"Workaround\"?",
-      "back": "An unplanned response to a negative risk that has occurred (an Issue) when no prior response plan existed."
-    },
-    {
-      "id": 44,
-      "category": "Quality & Risk Expectations",
-      "front": "A \"Risk Trigger\" happens. What do you do?",
-      "back": "Execute the planned Risk Response immediately. Do not wait for a meeting."
-    },
-    {
-      "id": 45,
-      "category": "Quality & Risk Expectations",
-      "front": "What is \"Technical Debt\"?",
-      "back": "Shortcuts taken now (e.g., poor code, no docs) that must be paid for later with interest. This sets an expectation of \"Fast now, Slow later.\""
-    },
-    {
-      "id": 46,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: A key stakeholder refuses to approve the deliverables.",
-      "back": "Check the Acceptance Criteria. If met, show evidence (Validation). If not met, initiate Defect Repair."
-    },
-    {
-      "id": 47,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: You discover the project will overlap with a competitor's launch.",
-      "back": "New Risk/Issue. Analyze impact, propose changes to strategy (e.g., Crash schedule), and use Change Control. Update stakeholders immediately."
-    },
-    {
-      "id": 48,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: Stakeholders are contacting team members to add \"small tasks.\"",
-      "back": "Expectation violation. Reiterate the Communication Plan/Change Process. Protect the team from uncontrolled changes."
-    },
-    {
-      "id": 49,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: A vendor is consistently late.",
-      "back": "Check the Contract. This is a Procurement issue. Manage the vendor (Issue Log, claims, or termination) and inform stakeholders of the schedule risk."
-    },
-    {
-      "id": 50,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: The project is cancelled. What do you do with the resources?",
-      "back": "Release them according to the Resource Management Plan. Manage everyone's expectations about the transition."
-    },
-    {
-      "id": 51,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: A stakeholder claims a feature is \"Not what I imagined,\" even though it meets specs.",
-      "back": "The expectation was managed via documents (Push) rather than interaction (Demos). Lesson learned for future."
-    },
-    {
-      "id": 52,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: A \"Senior\" manager asks for a change. Do you still use the Change Process?",
-      "back": "Yes. Authority does not bypass the need for analysis and baseline protection. (Though the CCB might just be them)."
-    },
-    {
-      "id": 53,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: You find a mistake in a previously approved financial report.",
-      "back": "Integrity first. Issue a correction immediately. Do not hide it. Trust is harder to fix than numbers."
-    },
-    {
-      "id": 54,
-      "category": "Stakeholder Scenarios (Exams)",
-      "front": "Scenario: The team wants to use a new tool that hasn't offered training.",
-      "back": "Manage the expectation of a \"Learning Curve\" (drop in productivity). Update the Schedule/Risk register accordingly."
-    },
-    {
-      "id": 55,
-      "category": "Soft Skills & Engagement",
-      "front": "What is \"Resonance\" in leadership?",
-      "back": "The ability to potentially influence others and bring them to your way of thinking through empathy and shared vision."
-    },
-    {
-      "id": 56,
-      "category": "Soft Skills & Engagement",
-      "front": "Dealing with \"Ambiguity\": A stakeholder is vague about what they want.",
-      "back": "Use Iterative approaches (Prototyping) to help them \"see it to know it.\" Do not demand a perfect spec upfront."
-    },
-    {
-      "id": 57,
-      "category": "Soft Skills & Engagement",
-      "front": "When is \"Face-to-Face\" communication mandatory?",
-      "back": "When resolving conflict, delivering bad news, or negotiating complex agreements."
-    },
-    {
-      "id": 58,
-      "category": "Soft Skills & Engagement",
-      "front": "A stakeholder is resisting the project because they fear job loss.",
-      "back": "This is an Issue. Address it via Change Management (ADKAR). Managing the people side of change is part of managing expectations."
-    },
-    {
-      "id": 59,
-      "category": "Soft Skills & Engagement",
-      "front": "What is the \"Sponsor's\" role in managing expectations?",
-      "back": "They help align other executives and remove political obstacles. Use them when you don't have the authority."
-    },
-    {
-      "id": 60,
-      "category": "Soft Skills & Engagement",
-      "front": "How do you manage expectations for a \"Remote\" stakeholder?",
-      "back": "\"Over-communicate.\" Use video, regular cadence, and shared workspaces to compensate for lack of physical cues."
-    },
-    {
-      "id": 61,
-      "category": "Tools Drill",
-      "front": "Issue Log vs Risk Register. Which one tracks \"The server just crashed\"?",
-      "back": "Issue Log. (It has happened)."
-    },
-    {
-      "id": 62,
-      "category": "Tools Drill",
-      "front": "Control Chart. What does \"7 points in a row on one side of the mean\" indicate?",
-      "back": "The process is shifting (Rule of 7). Investigate. It is not random."
-    },
-    {
-      "id": 63,
-      "category": "Tools Drill",
-      "front": "Scatter Diagram. What does it show?",
-      "back": "The correlation between two variables (e.g., \"Development Hours\" vs \"Bug Count\")."
-    },
-    {
-      "id": 64,
-      "category": "Tools Drill",
-      "front": "Ishikawa (Fishbone) Diagram. When do you use it?",
-      "back": "For Root Cause Analysis. To find why an expectation was missed, not just what happened."
-    },
-    {
-      "id": 65,
-      "category": "Tools Drill",
-      "front": "Monte Carlo Simulation. What kind of forecast does it provide?",
-      "back": "A Probabilistic forecast (e.g., \"We have an 85% chance of finishing by June\"). Better than single-point estimates."
-    },
-    {
-      "id": 66,
-      "category": "2026 Focus: Value & Outcomes",
-      "front": "The project came in under budget/schedule but the product failed in the market. was the Project Management successful?",
-      "back": "Historically \"Yes\", but in PMP 2026/ECO logic: No. You failed to deliver Value. Managing expectations includes business alignment."
-    },
-    {
-      "id": 67,
-      "category": "2026 Focus: Value & Outcomes",
-      "front": "What is \"Benefit Realization\"?",
-      "back": "Ensuring the project outputs differ the intended business value. PMs must manage the expectation of Benefits, not just deliverables."
-    },
-    {
-      "id": 68,
-      "category": "2026 Focus: Value & Outcomes",
-      "front": "What is a \"Minimum Viable Product\" (MVP) expectation?",
-      "back": "It is the smallest thing we can build to learn. Set the expectation that it is NOT the \"Final\" product."
-    },
-    {
-      "id": 69,
-      "category": "2026 Focus: Value & Outcomes",
-      "front": "How does \"Sustainability\" factor into expectations?",
-      "back": "Stakeholders now expect \"Triple Bottom Line\" (People, Planet, Profit). Ignoring environmental impact can lead to reputation risk (an Issue)."
-    },
-    {
-      "id": 70,
-      "category": "2026 Focus: Value & Outcomes",
-      "front": "A stakeholder wants to cancel the project because market conditions changed.",
-      "back": "This might be the right business decision. Facilitate the analysis. Do not fight to save a \"Zombie Project.\""
-    },
-    {
-      "id": 71,
-      "category": "Closing & Knowledge Transfer",
-      "front": "When does \"Knowledge Transfer\" happen?",
-      "back": "Throughout the project (reviews, docs), but formally at Project Closure or Phase Gate transitions."
-    },
-    {
-      "id": 72,
-      "category": "Closing & Knowledge Transfer",
-      "front": "Why is \"Lessons Learned\" critical for managing expectations?",
-      "back": "It prevents repeating mistakes. Stakeholders expect you to learn. (Note: In Agile, this is the Retrospective)."
-    },
-    {
-      "id": 73,
-      "category": "Closing & Knowledge Transfer",
-      "front": "Who needs to receive the \"Final Report\"?",
-      "back": "The Sponsor and key stakeholders. It explicitly confirms if expectations (Success Criteria) were met."
-    },
-    {
-      "id": 74,
-      "category": "Closing & Knowledge Transfer",
-      "front": "What is \"Administrative Closure\"?",
-      "back": "The formal process of closing contracts, accounts, and archiving records. Without it, the project isn't \"done.\""
-    },
-    {
-      "id": 75,
-      "category": "Closing & Knowledge Transfer",
-      "front": "Scenario: The team is disbanded before the final report is written.",
-      "back": "Poor resource management. You risk losing the knowledge needed to close expectations properly."
-    },
-    {
-      "id": 76,
-      "category": "Advanced Scenarios",
-      "front": "A \"Risk Owner\" leaves the company. practical step?",
-      "back": "Assign a new Risk Owner immediately. A risk without an owner is unmanaged."
-    },
-    {
-      "id": 77,
-      "category": "Advanced Scenarios",
-      "front": "You are using \"Fast Tracking\" to meet a date. What expectation must you set?",
-      "back": "\"Expect higher Risk and potential Rework.\" (Since you are overlapping tasks)."
-    },
-    {
-      "id": 78,
-      "category": "Advanced Scenarios",
-      "front": "You are using \"Crashing\" to meet a date. What expectation must you set?",
-      "back": "\"Expect higher Cost.\" (Overtime, extra resources)."
-    },
-    {
-      "id": 79,
-      "category": "Advanced Scenarios",
-      "front": "What implies a \"Critical Path\" delay?",
-      "back": "Total Float becomes negative. The project End Date is slipping. Urgent expectation management needed."
-    },
-    {
-      "id": 80,
-      "category": "Advanced Scenarios",
-      "front": "The \"Critical Chain Method\" uses BLANK to manage expectations.",
-      "back": "Buffers (Project Buffer, Feeding Buffer). It manages uncertainty by aggregating safety at the end, not in each task."
-    },
-    {
-      "id": 81,
-      "category": "Advanced Scenarios",
-      "front": "Scenario: A stakeholder claims \"You never listen to me.\"",
-      "back": "Check your Feedback Loops. Are you actively listening and confirming understanding?"
-    },
-    {
-      "id": 82,
-      "category": "Advanced Scenarios",
-      "front": "Scenario: The project is \"95% Done\" for 3 months.",
-      "back": "Expectation failure. Your tracking method is flawed (subjective). Switch to binary metrics (0/100 rule) or smaller batches."
-    },
-    {
-      "id": 83,
-      "category": "Advanced Scenarios",
-      "front": "Scenario: Stakeholders are arguing about the \"Root Cause\" of a failure.",
-      "back": "Facilitate a data-driven RCA (Fishbone). Move them from \"Blame\" to \"Cause.\""
-    },
-    {
-      "id": 84,
-      "category": "Advanced Scenarios",
-      "front": "Scenario: An external regulation changes.",
-      "back": "This is an Enterprise Environmental Factor (EEF) update. It usually triggers a mandatory Change Request."
-    },
-    {
-      "id": 85,
-      "category": "Advanced Scenarios",
-      "front": "Scenario: You suspect the reported data is fake (Watermelon reporting).",
-      "back": "Conduct a Quality Audit or Process Audit. Go to Gemba (the place where work is done) to verify reality."
-    },
-    {
-      "id": 86,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Salience Model\"",
-      "back": "Classification method based on Power, Legitimacy, and Urgency. Helping identify who needs attention now."
-    },
-    {
-      "id": 87,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Stakeholder Cube\"",
-      "back": "A 3D model connecting Power, Interest, and Attitude."
-    },
-    {
-      "id": 88,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Unaware, Resistant, Neutral, Supportive, Leading\"",
-      "back": "The 5 standard levels of the Stakeholder Engagement Assessment Matrix."
-    },
-    {
-      "id": 89,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Active Listening\"",
-      "back": "Listening to understand, reflecting back, and removing bias. The #1 tool for expectation management."
-    },
-    {
-      "id": 90,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Emotional Intelligence\" (EQ)",
-      "back": "Recognizing your own and others' emotions. Essential for managing \"Resistant\" stakeholders."
-    },
-    {
-      "id": 91,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Servant Leader\" regarding stakeholders.",
-      "back": "The leader focuses on removing blockers and facilitating success for the stakeholders/team, rather than commanding."
-    },
-    {
-      "id": 92,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Information Radiator\" (Agile)",
-      "back": "Big visible charts (Kanban, Burndown) in the team room that \"radiate\" status."
-    },
-    {
-      "id": 93,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Osmotic Communication\"",
-      "back": "Information flowing in the background (hearing conversations) in a co-located team."
-    },
-    {
-      "id": 94,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Fist of Five\"",
-      "back": "A voting method to check consensus/agreement quickly. (1 finger = No, 5 = All in)."
-    },
-    {
-      "id": 95,
-      "category": "Vocabulary Drill",
-      "front": "Term: \"Dot Voting\"",
-      "back": "A prioritization technique where stakeholders use sticky dots to vote on options. Managing expectations on priority."
-    },
-    {
-      "id": 96,
-      "category": "Final Review",
-      "front": "True/False: You should hide small problems to avoid worrying stakeholders.",
-      "back": "False. Bad news ages poorly. Share variances early with a plan to fix them."
-    },
-    {
-      "id": 97,
-      "category": "Final Review",
-      "front": "True/False: A Change Request is needed to use Contingency Reserves.",
-      "back": "False. Contingency is in the baseline for known risks. You just use it. (Management Reserve does need a CR)."
-    },
-    {
-      "id": 98,
-      "category": "Final Review",
-      "front": "True/False: Managing Expectations is a \"Set and Forget\" activity.",
-      "back": "False. It is continuous. Desired engagement levels change throughout the project life cycle."
-    },
-    {
-      "id": 99,
-      "category": "Final Review",
-      "front": "True/False: Velocity is a commitment.",
-      "back": "False. It is an estimate based on history. Treating it as a target/commitment damages quality and trust."
-    },
-    {
-      "id": 100,
-      "category": "Final Review",
-      "front": "The ultimate goal of \"Managing Stakeholder Expectations\" is...",
-      "back": "...Project Success. (Which is defined by stakeholder satisfaction, not just being on time)."
-    }
-  ]
+ "meta": {
+ "title": "PMP 2026 Flashcards: People Domain – Task 6",
+ "domain": "People (42%)",
+ "task": "Manage stakeholder expectations",
+ "ecoReference": "Domain II, Task 6 (Note: ECO 2026 places this heavily in People/Process intersection)",
+ "description": "",
+ "file": "guide/appendices/flashcards-people-task6-manage-expectations.md"
+ },
+ "flashcards": [
+ {
+ "id": 1,
+ "category": "The Control Loop: Data to Decisions",
+ "front": "What is the primary purpose of \"Managing Stakeholder Expectations\" during execution?",
+ "back": "To ensure that what the project delivers matches what the stakeholders think it will deliver, reducing the risk of rejection."
+ },
+ {
+ "id": 2,
+ "category": "The Control Loop: Data to Decisions",
+ "front": "What is the \"Control Funnel\" sequence for reporting?",
+ "back": "Work Performance Data (Raw) → Work Performance Information (Analyzed) → Work Performance Reports (Formatted)."
+ },
+ {
+ "id": 3,
+ "category": "The Control Loop: Data to Decisions",
+ "front": "A stakeholder is confused by your status report because it lists \"500 bugs found.\" What went wrong?",
+ "back": "You sent Data, not Information. You failed to analyze the context (e.g., \"is this normal?\")."
+ },
+ {
+ "id": 4,
+ "category": "The Control Loop: Data to Decisions",
+ "front": "What is \"Work Performance Information\" (WPI)?",
+ "back": "The integrated analysis of WPD (e.g., \"CPI is 0.8, meaning we are over budget\")."
+ },
+ {
+ "id": 5,
+ "category": "The Control Loop: Data to Decisions",
+ "front": "Status Reports, Dashboards, and Memos are examples of...",
+ "back": "Work Performance Reports (WPR)."
+ },
+ {
+ "id": 6,
+ "category": "The Control Loop: Data to Decisions",
+ "front": "If a stakeholder is surprised by a delay, what communication principal failed?",
+ "back": "The \"No Surprises\" rule. Variances should be communicated as soon as they are analyzed, not hidden until the report."
+ },
+ {
+ "id": 7,
+ "category": "The Control Loop: Data to Decisions",
+ "front": "What is the best way to correct a stakeholder's unrealistic expectation of a completion date?",
+ "back": "Use Data (Evidence). Show the Trend Analysis or Schedule Forecast, not just your opinion."
+ },
+ {
+ "id": 8,
+ "category": "The Control Loop: Data to Decisions",
+ "front": "Define \"Management by Exception\".",
+ "back": "Only notifying higher management when a variance exceeds a pre-defined threshold (e.g., >10% over budget)."
+ },
+ {
+ "id": 9,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "If CPI = 0.85, what does this tell the stakeholder?",
+ "back": "\"For every $1.00 you spent, you only got $0.85 of value.\" (We are over budget)."
+ },
+ {
+ "id": 10,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "If SPI = 1.15, what does this tell the stakeholder?",
+ "back": "\"We are progressing at 115% of the planned rate.\" (Ahead of schedule)."
+ },
+ {
+ "id": 11,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "Is a CPI > 1.0 always good?",
+ "back": "Usually yes (under budget), but if it's very high (e.g., 1.5), it might mean you are cutting corners or missing scope (Gold plating in reverse)."
+ },
+ {
+ "id": 12,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "Which EVM metric predicts the future final cost of the project?",
+ "back": "EAC (Estimate at Completion)."
+ },
+ {
+ "id": 13,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "If stakeholders ask \"How much more money do you need to finish?\", which metric do you use?",
+ "back": "ETC (Estimate to Complete)."
+ },
+ {
+ "id": 14,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "If stakeholders ask \"Will we look bad at the end?\", which metric answers this?",
+ "back": "VAC (Variance at Completion). It shows the projected over/under run at the very end."
+ },
+ {
+ "id": 15,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "What is the TCPI (To-Complete Performance Index)?",
+ "back": "A measure of how efficiently the team must work from now on to meet the budget. High TCPI (>1.1) is hard to sustain."
+ },
+ {
+ "id": 16,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "Why is \"Trend Analysis\" superior to a single status report?",
+ "back": "A single point can be an anomaly. A Trend (e.g., CPI dropping for 3 months) shows the direction of the project health."
+ },
+ {
+ "id": 17,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "What is a \"Variance Analysis\"?",
+ "back": "Comparing Actuals (What happened) vs. Baseline (What we planned)."
+ },
+ {
+ "id": 18,
+ "category": "Measuring Performance (EVM) for Expectations",
+ "front": "The project is Green, but the Customer is unhappy. Why?",
+ "back": "You are measuring \"Project Success\" (Cost/Schedule) but failing \"Product Success\" (Benefits/Value). Align on Outcomes, not Outputs."
+ },
+ {
+ "id": 19,
+ "category": "Agile Monitoring & Expectations",
+ "front": "In Agile, do we track variance against a Scope Baseline?",
+ "back": "No. We track Value Delivery and Flow against the Product Vision and Goals."
+ },
+ {
+ "id": 20,
+ "category": "Agile Monitoring & Expectations",
+ "front": "What does a \"Burnup Chart\" show that a Burndown chart doesn't?",
+ "back": "It shows the Total Scope line. If that line moves up, stakeholders can clearly see that \"Scope Creep\" is pushing the date out."
+ },
+ {
+ "id": 21,
+ "category": "Agile Monitoring & Expectations",
+ "front": "A stakeholder complains that Velocity varies from 20 to 50 every Sprint.",
+ "back": "This is \"Unstable Velocity.\" Expectations cannot be managed until velocity stabilizes. Investigate team capacity or story sizing."
+ },
+ {
+ "id": 22,
+ "category": "Agile Monitoring & Expectations",
+ "front": "What is \"Cycle Time\"?",
+ "back": "The time it takes to complete a work item once started. (Good for setting speed expectations)."
+ },
+ {
+ "id": 23,
+ "category": "Agile Monitoring & Expectations",
+ "front": "What is \"Lead Time\"?",
+ "back": "The time from the customer request until delivery. (This is the metric stakeholders care about most)."
+ },
+ {
+ "id": 24,
+ "category": "Agile Monitoring & Expectations",
+ "front": "If \"Lead Time\" is high but \"Cycle Time\" is low, what does that mean?",
+ "back": "Work is sitting in the backlog (Queue) for a long time before the team starts it."
+ },
+ {
+ "id": 25,
+ "category": "Agile Monitoring & Expectations",
+ "front": "What is a \"Cummulative Flow Diagram\" (CFD) used for?",
+ "back": "To visualize flow and identify bottlenecks (widening bands) in the process."
+ },
+ {
+ "id": 26,
+ "category": "Agile Monitoring & Expectations",
+ "front": "How do \"Information Radiators\" help manage expectations?",
+ "back": "By making status continuously visible (Transparency). Stakeholders don't need to ask \"Where are we?\"; they can just look."
+ },
+ {
+ "id": 27,
+ "category": "Agile Monitoring & Expectations",
+ "front": "What is the \"Daily Standup\" not for?",
+ "back": "It is NOT a status report to the PM/Stakeholders. It is a planning meeting for the Team."
+ },
+ {
+ "id": 28,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "A stakeholder requests a \"small\" change that affects the critical path. What do you do?",
+ "back": "Issue a Change Request. Analyze the impact and get formal approval. Do not just say \"Yes.\""
+ },
+ {
+ "id": 29,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "What are the 3 Baselines we protect with Change Control?",
+ "back": "Scope, Schedule, Cost. (Together known as the Performance Measurement Baseline)."
+ },
+ {
+ "id": 30,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "What is \"Gold Plating\"?",
+ "back": "Adding features that were not requested to \"please\" the stakeholder. This is bad (waste of resources, scope creep)."
+ },
+ {
+ "id": 31,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "What is \"Scope Creep\"?",
+ "back": "Uncontrolled changes or additions to project scope without adjustments to time, cost, or resources."
+ },
+ {
+ "id": 32,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "Who approves a Change Request?",
+ "back": "It depends on the project plan. Usually the Change Control Board (CCB), Sponsor, or Owner."
+ },
+ {
+ "id": 33,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "If a Change Request is rejected, what must you do?",
+ "back": "Document the rejection in the Change Log and communicate it to the stakeholder who asked. Managing the \"No\" is critical."
+ },
+ {
+ "id": 34,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "Can the Project Manager approve a change?",
+ "back": "Only if it is within their delegated authority (e.g., \"Changes under $500\" or \"Changes that don't impact the baseline\")."
+ },
+ {
+ "id": 35,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "A change is approved. What is the FIRST thing you do?",
+ "back": "Update the Baselines and Project Documents. (Then implement it)."
+ },
+ {
+ "id": 36,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "What is \"Configuration Management\"?",
+ "back": "Ensuring that the version of the product/docs you are working on is the correct, approved version. (Prevents \"Wait, I thought we were using v2?\" chaos)."
+ },
+ {
+ "id": 37,
+ "category": "Managing Change (The Formal Tool)",
+ "front": "What happens if you skip Integrated Change Control?",
+ "back": "Scope creep, invalid baselines, inability to measure performance, and eventual project failure."
+ },
+ {
+ "id": 38,
+ "category": "Quality & Risk Expectations",
+ "front": "What is the difference between \"Corrective Action\" and \"Defect Repair\"?",
+ "back": "Defect Repair fixes a broken deliverable. Corrective Action adjusts the process to bring future work back in line."
+ },
+ {
+ "id": 39,
+ "category": "Quality & Risk Expectations",
+ "front": "What is \"Preventive Action\"?",
+ "back": "Doing something now to reduce the probability of a future risk occurring. (Proactive)."
+ },
+ {
+ "id": 40,
+ "category": "Quality & Risk Expectations",
+ "front": "A stakeholder finds a bug in UAT. What expectation failed?",
+ "back": "Quality expectation (or Definition of Done). Quality should have been verified before UAT."
+ },
+ {
+ "id": 41,
+ "category": "Quality & Risk Expectations",
+ "front": "What is the \"Pareto Principle\" (80/20) in Quality?",
+ "back": "80% of problems come from 20% of causes. Focus your expectation management on fixing those vital few causes."
+ },
+ {
+ "id": 42,
+ "category": "Quality & Risk Expectations",
+ "front": "A risk event occurs that was in the Risk Register. Stakeholders panic. Why?",
+ "back": "You failed to Communicate the risk or the response plan. They should have expected it might happen."
+ },
+ {
+ "id": 43,
+ "category": "Quality & Risk Expectations",
+ "front": "What is a \"Workaround\"?",
+ "back": "An unplanned response to a negative risk that has occurred (an Issue) when no prior response plan existed."
+ },
+ {
+ "id": 44,
+ "category": "Quality & Risk Expectations",
+ "front": "A \"Risk Trigger\" happens. What do you do?",
+ "back": "Execute the planned Risk Response immediately. Do not wait for a meeting."
+ },
+ {
+ "id": 45,
+ "category": "Quality & Risk Expectations",
+ "front": "What is \"Technical Debt\"?",
+ "back": "Shortcuts taken now (e.g., poor code, no docs) that must be paid for later with interest. This sets an expectation of \"Fast now, Slow later.\""
+ },
+ {
+ "id": 46,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: A key stakeholder refuses to approve the deliverables.",
+ "back": "Check the Acceptance Criteria. If met, show evidence (Validation). If not met, initiate Defect Repair."
+ },
+ {
+ "id": 47,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: You discover the project will overlap with a competitor's launch.",
+ "back": "New Risk/Issue. Analyze impact, propose changes to strategy (e.g., Crash schedule), and use Change Control. Update stakeholders immediately."
+ },
+ {
+ "id": 48,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: Stakeholders are contacting team members to add \"small tasks.\"",
+ "back": "Expectation violation. Reiterate the Communication Plan/Change Process. Protect the team from uncontrolled changes."
+ },
+ {
+ "id": 49,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: A vendor is consistently late.",
+ "back": "Check the Contract. This is a Procurement issue. Manage the vendor (Issue Log, claims, or termination) and inform stakeholders of the schedule risk."
+ },
+ {
+ "id": 50,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: The project is cancelled. What do you do with the resources?",
+ "back": "Release them according to the Resource Management Plan. Manage everyone's expectations about the transition."
+ },
+ {
+ "id": 51,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: A stakeholder claims a feature is \"Not what I imagined,\" even though it meets specs.",
+ "back": "The expectation was managed via documents (Push) rather than interaction (Demos). Lesson learned for future."
+ },
+ {
+ "id": 52,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: A \"Senior\" manager asks for a change. Do you still use the Change Process?",
+ "back": "Yes. Authority does not bypass the need for analysis and baseline protection. (Though the CCB might just be them)."
+ },
+ {
+ "id": 53,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: You find a mistake in a previously approved financial report.",
+ "back": "Integrity first. Issue a correction immediately. Do not hide it. Trust is harder to fix than numbers."
+ },
+ {
+ "id": 54,
+ "category": "Stakeholder Scenarios (Exams)",
+ "front": "Scenario: The team wants to use a new tool that hasn't offered training.",
+ "back": "Manage the expectation of a \"Learning Curve\" (drop in productivity). Update the Schedule/Risk register accordingly."
+ },
+ {
+ "id": 55,
+ "category": "Soft Skills & Engagement",
+ "front": "What is \"Resonance\" in leadership?",
+ "back": "The ability to potentially influence others and bring them to your way of thinking through empathy and shared vision."
+ },
+ {
+ "id": 56,
+ "category": "Soft Skills & Engagement",
+ "front": "Dealing with \"Ambiguity\": A stakeholder is vague about what they want.",
+ "back": "Use Iterative approaches (Prototyping) to help them \"see it to know it.\" Do not demand a perfect spec upfront."
+ },
+ {
+ "id": 57,
+ "category": "Soft Skills & Engagement",
+ "front": "When is \"Face-to-Face\" communication mandatory?",
+ "back": "When resolving conflict, delivering bad news, or negotiating complex agreements."
+ },
+ {
+ "id": 58,
+ "category": "Soft Skills & Engagement",
+ "front": "A stakeholder is resisting the project because they fear job loss.",
+ "back": "This is an Issue. Address it via Change Management (ADKAR). Managing the people side of change is part of managing expectations."
+ },
+ {
+ "id": 59,
+ "category": "Soft Skills & Engagement",
+ "front": "What is the \"Sponsor's\" role in managing expectations?",
+ "back": "They help align other executives and remove political obstacles. Use them when you don't have the authority."
+ },
+ {
+ "id": 60,
+ "category": "Soft Skills & Engagement",
+ "front": "How do you manage expectations for a \"Remote\" stakeholder?",
+ "back": "\"Over-communicate.\" Use video, regular cadence, and shared workspaces to compensate for lack of physical cues."
+ },
+ {
+ "id": 61,
+ "category": "Tools Drill",
+ "front": "Issue Log vs Risk Register. Which one tracks \"The server just crashed\"?",
+ "back": "Issue Log. (It has happened)."
+ },
+ {
+ "id": 62,
+ "category": "Tools Drill",
+ "front": "Control Chart. What does \"7 points in a row on one side of the mean\" indicate?",
+ "back": "The process is shifting (Rule of 7). Investigate. It is not random."
+ },
+ {
+ "id": 63,
+ "category": "Tools Drill",
+ "front": "Scatter Diagram. What does it show?",
+ "back": "The correlation between two variables (e.g., \"Development Hours\" vs \"Bug Count\")."
+ },
+ {
+ "id": 64,
+ "category": "Tools Drill",
+ "front": "Ishikawa (Fishbone) Diagram. When do you use it?",
+ "back": "For Root Cause Analysis. To find why an expectation was missed, not just what happened."
+ },
+ {
+ "id": 65,
+ "category": "Tools Drill",
+ "front": "Monte Carlo Simulation. What kind of forecast does it provide?",
+ "back": "A Probabilistic forecast (e.g., \"We have an 85% chance of finishing by June\"). Better than single-point estimates."
+ },
+ {
+ "id": 66,
+ "category": "2026 Focus: Value & Outcomes",
+ "front": "The project came in under budget/schedule but the product failed in the market. was the Project Management successful?",
+ "back": "Historically \"Yes\", but in PMP 2026/ECO logic: No. You failed to deliver Value. Managing expectations includes business alignment."
+ },
+ {
+ "id": 67,
+ "category": "2026 Focus: Value & Outcomes",
+ "front": "What is \"Benefit Realization\"?",
+ "back": "Ensuring the project outputs differ the intended business value. PMs must manage the expectation of Benefits, not just deliverables."
+ },
+ {
+ "id": 68,
+ "category": "2026 Focus: Value & Outcomes",
+ "front": "What is a \"Minimum Viable Product\" (MVP) expectation?",
+ "back": "It is the smallest thing we can build to learn. Set the expectation that it is NOT the \"Final\" product."
+ },
+ {
+ "id": 69,
+ "category": "2026 Focus: Value & Outcomes",
+ "front": "How does \"Sustainability\" factor into expectations?",
+ "back": "Stakeholders now expect \"Triple Bottom Line\" (People, Planet, Profit). Ignoring environmental impact can lead to reputation risk (an Issue)."
+ },
+ {
+ "id": 70,
+ "category": "2026 Focus: Value & Outcomes",
+ "front": "A stakeholder wants to cancel the project because market conditions changed.",
+ "back": "This might be the right business decision. Facilitate the analysis. Do not fight to save a \"Zombie Project.\""
+ },
+ {
+ "id": 71,
+ "category": "Closing & Knowledge Transfer",
+ "front": "When does \"Knowledge Transfer\" happen?",
+ "back": "Throughout the project (reviews, docs), but formally at Project Closure or Phase Gate transitions."
+ },
+ {
+ "id": 72,
+ "category": "Closing & Knowledge Transfer",
+ "front": "Why is \"Lessons Learned\" critical for managing expectations?",
+ "back": "It prevents repeating mistakes. Stakeholders expect you to learn. (Note: In Agile, this is the Retrospective)."
+ },
+ {
+ "id": 73,
+ "category": "Closing & Knowledge Transfer",
+ "front": "Who needs to receive the \"Final Report\"?",
+ "back": "The Sponsor and key stakeholders. It explicitly confirms if expectations (Success Criteria) were met."
+ },
+ {
+ "id": 74,
+ "category": "Closing & Knowledge Transfer",
+ "front": "What is \"Administrative Closure\"?",
+ "back": "The formal process of closing contracts, accounts, and archiving records. Without it, the project isn't \"done.\""
+ },
+ {
+ "id": 75,
+ "category": "Closing & Knowledge Transfer",
+ "front": "Scenario: The team is disbanded before the final report is written.",
+ "back": "Poor resource management. You risk losing the knowledge needed to close expectations properly."
+ },
+ {
+ "id": 76,
+ "category": "Advanced Scenarios",
+ "front": "A \"Risk Owner\" leaves the company. practical step?",
+ "back": "Assign a new Risk Owner immediately. A risk without an owner is unmanaged."
+ },
+ {
+ "id": 77,
+ "category": "Advanced Scenarios",
+ "front": "You are using \"Fast Tracking\" to meet a date. What expectation must you set?",
+ "back": "\"Expect higher Risk and potential Rework.\" (Since you are overlapping tasks)."
+ },
+ {
+ "id": 78,
+ "category": "Advanced Scenarios",
+ "front": "You are using \"Crashing\" to meet a date. What expectation must you set?",
+ "back": "\"Expect higher Cost.\" (Overtime, extra resources)."
+ },
+ {
+ "id": 79,
+ "category": "Advanced Scenarios",
+ "front": "What implies a \"Critical Path\" delay?",
+ "back": "Total Float becomes negative. The project End Date is slipping. Urgent expectation management needed."
+ },
+ {
+ "id": 80,
+ "category": "Advanced Scenarios",
+ "front": "The \"Critical Chain Method\" uses BLANK to manage expectations.",
+ "back": "Buffers (Project Buffer, Feeding Buffer). It manages uncertainty by aggregating safety at the end, not in each task."
+ },
+ {
+ "id": 81,
+ "category": "Advanced Scenarios",
+ "front": "Scenario: A stakeholder claims \"You never listen to me.\"",
+ "back": "Check your Feedback Loops. Are you actively listening and confirming understanding?"
+ },
+ {
+ "id": 82,
+ "category": "Advanced Scenarios",
+ "front": "Scenario: The project is \"95% Done\" for 3 months.",
+ "back": "Expectation failure. Your tracking method is flawed (subjective). Switch to binary metrics (0/100 rule) or smaller batches."
+ },
+ {
+ "id": 83,
+ "category": "Advanced Scenarios",
+ "front": "Scenario: Stakeholders are arguing about the \"Root Cause\" of a failure.",
+ "back": "Facilitate a data-driven RCA (Fishbone). Move them from \"Blame\" to \"Cause.\""
+ },
+ {
+ "id": 84,
+ "category": "Advanced Scenarios",
+ "front": "Scenario: An external regulation changes.",
+ "back": "This is an Enterprise Environmental Factor (EEF) update. It usually triggers a mandatory Change Request."
+ },
+ {
+ "id": 85,
+ "category": "Advanced Scenarios",
+ "front": "Scenario: You suspect the reported data is fake (Watermelon reporting).",
+ "back": "Conduct a Quality Audit or Process Audit. Go to Gemba (the place where work is done) to verify reality."
+ },
+ {
+ "id": 86,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Salience Model\"",
+ "back": "Classification method based on Power, Legitimacy, and Urgency. Helping identify who needs attention now."
+ },
+ {
+ "id": 87,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Stakeholder Cube\"",
+ "back": "A 3D model connecting Power, Interest, and Attitude."
+ },
+ {
+ "id": 88,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Unaware, Resistant, Neutral, Supportive, Leading\"",
+ "back": "The 5 standard levels of the Stakeholder Engagement Assessment Matrix."
+ },
+ {
+ "id": 89,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Active Listening\"",
+ "back": "Listening to understand, reflecting back, and removing bias. The #1 tool for expectation management."
+ },
+ {
+ "id": 90,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Emotional Intelligence\" (EQ)",
+ "back": "Recognizing your own and others' emotions. Essential for managing \"Resistant\" stakeholders."
+ },
+ {
+ "id": 91,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Servant Leader\" regarding stakeholders.",
+ "back": "The leader focuses on removing blockers and facilitating success for the stakeholders/team, rather than commanding."
+ },
+ {
+ "id": 92,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Information Radiator\" (Agile)",
+ "back": "Big visible charts (Kanban, Burndown) in the team room that \"radiate\" status."
+ },
+ {
+ "id": 93,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Osmotic Communication\"",
+ "back": "Information flowing in the background (hearing conversations) in a co-located team."
+ },
+ {
+ "id": 94,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Fist of Five\"",
+ "back": "A voting method to check consensus/agreement quickly. (1 finger = No, 5 = All in)."
+ },
+ {
+ "id": 95,
+ "category": "Vocabulary Drill",
+ "front": "Term: \"Dot Voting\"",
+ "back": "A prioritization technique where stakeholders use sticky dots to vote on options. Managing expectations on priority."
+ },
+ {
+ "id": 96,
+ "category": "Final Review",
+ "front": "True/False: You should hide small problems to avoid worrying stakeholders.",
+ "back": "False. Bad news ages poorly. Share variances early with a plan to fix them."
+ },
+ {
+ "id": 97,
+ "category": "Final Review",
+ "front": "True/False: A Change Request is needed to use Contingency Reserves.",
+ "back": "False. Contingency is in the baseline for known risks. You just use it. (Management Reserve does need a CR)."
+ },
+ {
+ "id": 98,
+ "category": "Final Review",
+ "front": "True/False: Managing Expectations is a \"Set and Forget\" activity.",
+ "back": "False. It is continuous. Desired engagement levels change throughout the project life cycle."
+ },
+ {
+ "id": 99,
+ "category": "Final Review",
+ "front": "True/False: Velocity is a commitment.",
+ "back": "False. It is an estimate based on history. Treating it as a target/commitment damages quality and trust."
+ },
+ {
+ "id": 100,
+ "category": "Final Review",
+ "front": "The ultimate goal of \"Managing Stakeholder Expectations\" is...",
+ "back": "...Project Success. (Which is defined by stakeholder satisfaction, not just being on time)."
+ }
+ ]
 }

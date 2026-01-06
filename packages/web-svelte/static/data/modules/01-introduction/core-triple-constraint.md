@@ -287,5 +287,5 @@ For detailed formulas on Critical Path and Earned Value, see [Appendix B: Key Fo
 :::
 
 <div class="flex justify-center my-12">
-  <a href="./core-quality" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Quality →</a>
+ <a href="./core-quality" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Quality →</a>
 </div>

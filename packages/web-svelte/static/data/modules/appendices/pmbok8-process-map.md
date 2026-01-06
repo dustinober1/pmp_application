@@ -3,23 +3,23 @@
 
 This appendix provides a quick reference for the **PMBOK 8th Edition** structure, including the updated focus areas, performance domains, and approximately 40 processes. Use this for exam preparation and practical reference.
 
-::: tip 🎯 Key Change in PMBOK 8
+::: tip Key Change in PMBOK 8
 PMBOK 8 reintroduces processes (approximately 40, reduced from 49 in PMBOK 6) while retaining the principle-based approach of PMBOK 7. It organizes these processes into **5 Focus Areas** (similar to the traditional Process Groups).
 :::
 
 ---
 
-## 📋 Quick Reference Cards
+## Quick Reference Cards
 
 ### Six Principles (PMBOK 8)
 | # | Principle | Remember As |
 |---|-----------|-------------|
-| 1 | Adopt a Holistic View | 👁️ See the system |
-| 2 | Focus on Value | 💎 Outcomes over outputs |
-| 3 | Embed Quality | ⭐ Build it in |
-| 4 | Be an Accountable Leader | 🤝 Own it |
-| 5 | Integrate Sustainability | 🌱 Triple bottom line |
-| 6 | Build an Empowered Culture | 💪 Trust the team |
+| 1 | Adopt a Holistic View | See the system |
+| 2 | Focus on Value | Outcomes over outputs |
+| 3 | Embed Quality | Build it in |
+| 4 | Be an Accountable Leader | Own it |
+| 5 | Integrate Sustainability | Triple bottom line |
+| 6 | Build an Empowered Culture | Trust the team |
 
 ### Seven Performance Domains (PMBOK 8)
 | Domain | Focus | Key Question |
@@ -32,13 +32,13 @@ PMBOK 8 reintroduces processes (approximately 40, reduced from 49 in PMBOK 6) wh
 | **Delivery** | Value, outcomes, transition | Did we achieve the result? |
 | **Governance** | Oversight, controls, decisions | Who decides and how? |
 
-::: info 📝 Note
+::: info Note
 **Governance** replaces "Integration" as a distinct domain in PMBOK 8, reflecting the increased emphasis on this topic in the 2026 exam.
 :::
 
 ---
 
-## 🔄 Five Focus Areas (Process Groups Evolution)
+## Five Focus Areas (Process Groups Evolution)
 PMBOK 8 reintroduces the familiar project lifecycle structure as **Focus Areas**:
 
 ### Overview
@@ -52,7 +52,7 @@ PMBOK 8 reintroduces the familiar project lifecycle structure as **Focus Areas**
 
 ---
 
-## 📊 Process by Focus Area
+## Process by Focus Area
 
 ### Initiating Focus Area
 | Process | Purpose |
@@ -119,7 +119,7 @@ PMBOK 8 reintroduces the familiar project lifecycle structure as **Focus Areas**
 
 ---
 
-## 🔗 Domain to Focus Area Mapping
+## Domain to Focus Area Mapping
 How Performance Domains relate to Focus Areas:
 
 | Performance Domain | Primary Focus Areas |
@@ -134,7 +134,7 @@ How Performance Domains relate to Focus Areas:
 
 ---
 
-## 📈 Key Formula Quick Reference
+## Key Formula Quick Reference
 | Formula | Purpose | Formula |
 |---------|---------|---------|
 | **EV** | Earned Value | % Complete × Budget |
@@ -155,7 +155,7 @@ How Performance Domains relate to Focus Areas:
 
 ---
 
-## 🔄 Inputs, Tools/Techniques, Outputs (ITTOs) - Key Patterns
+## Inputs, Tools/Techniques, Outputs (ITTOs) - Key Patterns
 Rather than memorizing all ITTOs, recognize patterns:
 
 ### Common Inputs Across Processes
@@ -187,7 +187,7 @@ Rather than memorizing all ITTOs, recognize patterns:
 
 ---
 
-## 🎯 2026 Exam Emphasis Areas
+## 2026 Exam Emphasis Areas
 Based on the updated ECO, focus study time on:
 
 | Area | Weight | Key Topics |
@@ -205,7 +205,7 @@ Based on the updated ECO, focus study time on:
 
 ---
 
-## 📝 Study Tips
+## Study Tips
 ### Don't Memorize, Understand
 The 2026 exam tests **application**, not memorization. Instead of memorizing all 40 processes:
 
@@ -217,8 +217,8 @@ The 2026 exam tests **application**, not memorization. Instead of memorizing all
 ### Mental Model: The Project Flow
 ```
 Strategy → Charter → Plan → Execute → Monitor → Deliver Value → Close
-                 ↑___________|___________|
-                    (Iterate and adapt)
+ ↑___________|___________|
+ (Iterate and adapt)
 ```
 
 ### Quick Decision Framework
@@ -232,10 +232,10 @@ When facing a scenario question:
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

@@ -1,612 +1,612 @@
 {
-  "meta": {
-    "title": "PMP 2026 Flashcards: People Domain – Task 8",
-    "domain": "People (42%)",
-    "task": "Plan and manage communication",
-    "ecoReference": "Domain I, Task 8 (Also touches Process - Communications Management)",
-    "description": "",
-    "file": "guide/appendices/flashcards-people-task8-communication.md"
-  },
-  "flashcards": [
-    {
-      "id": 1,
-      "category": "Communication Basics & Formats",
-      "front": "What percentage of a Project Manager's time is spent communicating?",
-      "back": "Approximately 90%."
-    },
-    {
-      "id": 2,
-      "category": "Communication Basics & Formats",
-      "front": "Define \"Interactive Communication\".",
-      "back": "Real-time, multi-directional exchange (e.g., meetings, calls, video). Best for ensuring understanding."
-    },
-    {
-      "id": 3,
-      "category": "Communication Basics & Formats",
-      "front": "Define \"Push Communication\".",
-      "back": "Sent to specific recipients but ensures no verification of understanding (e.g., Email, Status Reports)."
-    },
-    {
-      "id": 4,
-      "category": "Communication Basics & Formats",
-      "front": "Define \"Pull Communication\".",
-      "back": "Information placed in a central location for recipients to access at their own discretion (e.g., Intranet, SharePoint)."
-    },
-    {
-      "id": 5,
-      "category": "Communication Basics & Formats",
-      "front": "When should you use \"Formal Written\" communication?",
-      "back": "For complex problems, project management plans, project charter, contracts, and legal notices."
-    },
-    {
-      "id": 6,
-      "category": "Communication Basics & Formats",
-      "front": "When is \"Informal Verbal\" communication appropriate?",
-      "back": "For quick status checks, team building, and solving simple problems quickly."
-    },
-    {
-      "id": 7,
-      "category": "Communication Basics & Formats",
-      "front": "What is the formula for \"Communication Channels\"?",
-      "back": "N * (N - 1) / 2, where N is the number of stakeholders."
-    },
-    {
-      "id": 8,
-      "category": "Communication Basics & Formats",
-      "front": "If a team grows from 4 to 5 people, how many new channels are added?",
-      "back": "Old: 4(3)/2 = 6. New: 5(4)/2 = 10. 4 new channels."
-    },
-    {
-      "id": 9,
-      "category": "The Communications Management Plan",
-      "front": "What is the primary purpose of the \"Communications Management Plan\"?",
-      "back": "To document How, When, and By Whom information will be administered and disseminated."
-    },
-    {
-      "id": 10,
-      "category": "The Communications Management Plan",
-      "front": "Does the Communications Management Plan contain the actual emails sent?",
-      "back": "No. It contains the guidelines, templates, and flow charts for sending them."
-    },
-    {
-      "id": 11,
-      "category": "The Communications Management Plan",
-      "front": "What are \"Communication Constraints\"?",
-      "back": "Limitations such as technology availability, security clearance, or legislation (GDPR) that restrict how you communicate."
-    },
-    {
-      "id": 12,
-      "category": "The Communications Management Plan",
-      "front": "The \"Glossary of Terms\" is a component of which plan?",
-      "back": "The Communications Management Plan. It prevents \"Semantic Noise\" by defining acronyms."
-    },
-    {
-      "id": 13,
-      "category": "The Communications Management Plan",
-      "front": "Who defines the specific information needs (format, frequency)?",
-      "back": "The Stakeholders. You don't guess; you analyze their requirements from the Stakeholder Register."
-    },
-    {
-      "id": 14,
-      "category": "Communication Models & Theory",
-      "front": "In the basic communication model, who is responsible for the clarity of the message?",
-      "back": "The Sender."
-    },
-    {
-      "id": 15,
-      "category": "Communication Models & Theory",
-      "front": "What is \"Encoding\"?",
-      "back": "Translating thoughts into language/symbols."
-    },
-    {
-      "id": 16,
-      "category": "Communication Models & Theory",
-      "front": "What is \"Decoding\"?",
-      "back": "Translating the language/symbols back into thoughts. (Done by Receiver)."
-    },
-    {
-      "id": 17,
-      "category": "Communication Models & Theory",
-      "front": "What is \"Noise\"?",
-      "back": "Anything that compromises the transmission or understanding of the message (e.g., distance, hostility, language, bad connection)."
-    },
-    {
-      "id": 18,
-      "category": "Communication Models & Theory",
-      "front": "What constitutes \"Feedback\" in the model?",
-      "back": "The signal sent back to the Sender acknowledging receipt or providing a response."
-    },
-    {
-      "id": 19,
-      "category": "Communication Models & Theory",
-      "front": "What is \"Paralinguistic\" communication?",
-      "back": "Tone of voice, pitch, and volume. (Visual cues are \"Nonverbal\")."
-    },
-    {
-      "id": 20,
-      "category": "Communication Models & Theory",
-      "front": "In face-to-face communication, words account for approximately what % of meaning?",
-      "back": "Very low (~7%). Use of Tone (38%) and Body Language (55%) is dominant. (Albert Mehrabian's rule)."
-    },
-    {
-      "id": 21,
-      "category": "Virtual & Global Teams",
-      "front": "What is the biggest challenge for Virtual Teams regarding communication?",
-      "back": "Loss of nonverbal cues (Body language)."
-    },
-    {
-      "id": 22,
-      "category": "Virtual & Global Teams",
-      "front": "How do you mitigate \"Isolation\" in remote teams?",
-      "back": "Schedule regular \"face-time\" (video) and informal interactions (virtual coffee)."
-    },
-    {
-      "id": 23,
-      "category": "Virtual & Global Teams",
-      "front": "What is \"asynchronous communication\"?",
-      "back": "Communication where response is not immediate (e.g., Email, Slack threads). Essential for cross-time-zone teams."
-    },
-    {
-      "id": 24,
-      "category": "Virtual & Global Teams",
-      "front": "What is \"High-Context\" culture communication?",
-      "back": "Meaning is embedded in the situation/relationship, not just words. (e.g., Japan/Arab/Latin)."
-    },
-    {
-      "id": 25,
-      "category": "Virtual & Global Teams",
-      "front": "What is \"Low-Context\" culture communication?",
-      "back": "Meaning is explicitly in the words. Blunt, direct. (e.g., USA/Germany/Scandinavia)."
-    },
-    {
-      "id": 26,
-      "category": "Virtual & Global Teams",
-      "front": "Scenario: A team member from a High-Context culture says \"That will be difficult.\"",
-      "back": "They likely mean \"No.\" A Low-Context PM might misinterpret this as \"We can do it with effort.\""
-    },
-    {
-      "id": 27,
-      "category": "Managing Communication (Execution)",
-      "front": "What is \"Manage Communications\"?",
-      "back": "The process of doing the work: creating, collecting, distributing, storing, and disposing of project information."
-    },
-    {
-      "id": 28,
-      "category": "Managing Communication (Execution)",
-      "front": "\"Project Reporting\" is an output of which process?",
-      "back": "Manage Communications. (The Reports themselves)."
-    },
-    {
-      "id": 29,
-      "category": "Managing Communication (Execution)",
-      "front": "If you are hosting a Status Meeting, are you Planning or Managing Communication?",
-      "back": "Managing. You are executing the plan."
-    },
-    {
-      "id": 30,
-      "category": "Managing Communication (Execution)",
-      "front": "You notice the team is using an outdated template for reports. What do you do?",
-      "back": "Update the Organizational Process Assets (OPA) or enforce the current Communications Management Plan."
-    },
-    {
-      "id": 31,
-      "category": "Managing Communication (Execution)",
-      "front": "A stakeholder requests a daily report, but the plan says \"Weekly.\" What do you do?",
-      "back": "Analyze the request. If valid, update the Communications Management Plan. Don't just say yes (Scope Creep of coms)."
-    },
-    {
-      "id": 32,
-      "category": "5 C's of Communication",
-      "front": "What are the \"5 C's\" of written communication?",
-      "back": "Correct grammar/spelling, Concise expression, Clear purpose, Coherent logical flow, Controlling flow of ideas."
-    },
-    {
-      "id": 33,
-      "category": "5 C's of Communication",
-      "front": "Why is \"Concise\" important?",
-      "back": "Executives are busy. Long messages are \"Noise\" and often ignored."
-    },
-    {
-      "id": 34,
-      "category": "5 C's of Communication",
-      "front": "\"Coherent\" means...",
-      "back": "Using markers like \"Introduction\" and \"Summary\" so the reader doesn't get lost."
-    },
-    {
-      "id": 35,
-      "category": "Monitor Communication (Control)",
-      "front": "How do you know if your communication plan is working?",
-      "back": "Monitor Communications. Ask stakeholders: \"Are you getting what you need?\" (Feedback loop)."
-    },
-    {
-      "id": 36,
-      "category": "Monitor Communication (Control)",
-      "front": "If a stakeholder says \"I didn't know about that change,\" what failed?",
-      "back": "The Communication Plan (or execution of it). You failed to reach them."
-    },
-    {
-      "id": 37,
-      "category": "Monitor Communication (Control)",
-      "front": "What is a \"Communication Audit\"?",
-      "back": "A review to determine if communication acitvities are effective."
-    },
-    {
-      "id": 38,
-      "category": "Monitor Communication (Control)",
-      "front": "Scenario: Reports are going into the Spam folder.",
-      "back": "Technical Barrier. Monitor Communications should catch this (via feedback: \"Did you get the report?\")."
-    },
-    {
-      "id": 39,
-      "category": "Monitor Communication (Control)",
-      "front": "Scenario: Stakeholders are overwhelmed by too many emails.",
-      "back": "\"Communication Overload.\" Adjust the Plan (e.g., switch to a Dashboard/Pull method)."
-    },
-    {
-      "id": 40,
-      "category": "Scenarios: Difficult Conversations",
-      "front": "You have to deliver bad news to the Sponsor. Method?",
-      "back": "Face-to-Face (or Video). Never email bad news if possible. It requires managing the emotional reaction."
-    },
-    {
-      "id": 41,
-      "category": "Scenarios: Difficult Conversations",
-      "front": "Two team members are emailing angry messages back and forth.",
-      "back": "Stop the email chain. Switch to Interactive (Phone/Meeting) to resolve the conflict."
-    },
-    {
-      "id": 42,
-      "category": "Scenarios: Difficult Conversations",
-      "front": "A senior stakeholder dominates all meetings.",
-      "back": "Facilitation technique needed. Use specific agendas and time-boxing, or \"Round Robin\" speaking."
-    },
-    {
-      "id": 43,
-      "category": "Scenarios: Difficult Conversations",
-      "front": "You need to record a decision for legal reasons. Method?",
-      "back": "Formal Written. (Meeting minutes, Memo, Email confirmation)."
-    },
-    {
-      "id": 44,
-      "category": "Scenarios: Difficult Conversations",
-      "front": "A Virtual Team member is usually silent.",
-      "back": "actively invite them to speak (\"Tag\" them). They might be waiting for a pause that never comes (Cultural latency)."
-    },
-    {
-      "id": 45,
-      "category": "Technology & Tools",
-      "front": "\"Communication Technology\" selection depends on...",
-      "back": "Urgency, Frequency, Availability, Ease of Use, Project Environment, and Sensitivity."
-    },
-    {
-      "id": 46,
-      "category": "Technology & Tools",
-      "front": "When is \"Urgency\" the primary factor?",
-      "back": "During a crisis/Issue. (Use Phone/IM, not a weekly report)."
-    },
-    {
-      "id": 47,
-      "category": "Technology & Tools",
-      "front": "What is the risk of using \"New Technology\" for communication?",
-      "back": "The Learning Curve. If stakeholders can't use the tool, communication fails."
-    },
-    {
-      "id": 48,
-      "category": "Technology & Tools",
-      "front": "\"Information Radiator\" (Agile).",
-      "back": "A large visible display (physical or digital) that provides immediate status information. (Pull method)."
-    },
-    {
-      "id": 49,
-      "category": "Technology & Tools",
-      "front": "Kanban Board.",
-      "back": "An Information Radiator showing flow and bottlenecks."
-    },
-    {
-      "id": 50,
-      "category": "Agile Nuances",
-      "front": "In Agile, do we value Documentation over Individuals and Interactions?",
-      "back": "No. Individuals and Interactions over Processes and Tools (Manifesto)."
-    },
-    {
-      "id": 51,
-      "category": "Agile Nuances",
-      "front": "What is the primary communication method in Agile?",
-      "back": "Face-to-Face (or high-bandwidth equivalent) and Daily Standups."
-    },
-    {
-      "id": 52,
-      "category": "Agile Nuances",
-      "front": "Does Agile mean \"No Documentation\"?",
-      "back": "No. It means \"Just Enough\" documentation (Value-added)."
-    },
-    {
-      "id": 53,
-      "category": "Agile Nuances",
-      "front": "\"Osmotic Communication\".",
-      "back": "Information absorbed by overhearing conversations in a shared workspace (Colocation)."
-    },
-    {
-      "id": 54,
-      "category": "Agile Nuances",
-      "front": "\"Caves and Commons\".",
-      "back": "A layout providing private space (Cave) for focus and shared space (Commons) for interaction."
-    },
-    {
-      "id": 55,
-      "category": "Drills: Method Selection",
-      "front": "Method: Contract Update.",
-      "back": "Formal Written."
-    },
-    {
-      "id": 56,
-      "category": "Drills: Method Selection",
-      "front": "Method: Clarifying a requirement with a developer.",
-      "back": "Informal Verbal (or Interactive)."
-    },
-    {
-      "id": 57,
-      "category": "Drills: Method Selection",
-      "front": "Method: Annual Project Review speech.",
-      "back": "Formal Verbal."
-    },
-    {
-      "id": 58,
-      "category": "Drills: Method Selection",
-      "front": "Method: Update on a low-impact risk.",
-      "back": "Informal Written (Email) or inclusion in Weekly Report (Push)."
-    },
-    {
-      "id": 59,
-      "category": "Drills: Method Selection",
-      "front": "Method: Requesting a scope change.",
-      "back": "Formal Written (Change Request Form)."
-    },
-    {
-      "id": 60,
-      "category": "Drills: Method Selection",
-      "front": "Method: Training a large group on new software.",
-      "back": "Interactive (Workshop/Webinar) + Pull (User Manuals)."
-    },
-    {
-      "id": 61,
-      "category": "Artifacts & Terms",
-      "front": "What is a \"RAG\" Status?",
-      "back": "Red, Amber (Yellow), Green. A visual indicator of project health."
-    },
-    {
-      "id": 62,
-      "category": "Artifacts & Terms",
-      "front": "What prevents \"Semantic Noise\" in reports?",
-      "back": "Standardized terminology (Glossary) and consistent metrics definition."
-    },
-    {
-      "id": 63,
-      "category": "Artifacts & Terms",
-      "front": "\"Communication Blocker\".",
-      "back": "Anything that stops the flow (e.g., Hidden agenda, withholding info)."
-    },
-    {
-      "id": 64,
-      "category": "Artifacts & Terms",
-      "front": "\"Political Awareness\" in communication.",
-      "back": "Understanding the power structures so you know who needs to hear the message first."
-    },
-    {
-      "id": 65,
-      "category": "Artifacts & Terms",
-      "front": "\"Cultural Awareness\" in communication.",
-      "back": "Understanding how culture affects message reception (Wait time, hierarchy respect, directness)."
-    },
-    {
-      "id": 66,
-      "category": "Hard Scenarios",
-      "front": "Scenario: You send an email, and the recipient doesn't reply. Is communication complete?",
-      "back": "No. The \"Feedback Loop\" (Acknowledgment) is missing. You cannot assume they read/understood it."
-    },
-    {
-      "id": 67,
-      "category": "Hard Scenarios",
-      "front": "Scenario: The customer speaks a different language.",
-      "back": "Plan for translation services (Budget/Schedule impact). This is an \"Enterprise Environmental Factor\" (EEF)."
-    },
-    {
-      "id": 68,
-      "category": "Hard Scenarios",
-      "front": "Scenario: A team member refuses to use the project portal (Pull).",
-      "back": "Coaching opportunity. Explain the \"Why.\" If resistance continues, it's a performance issue."
-    },
-    {
-      "id": 69,
-      "category": "Hard Scenarios",
-      "front": "Scenario: You find out a stakeholder has been getting \"secret\" updates from a developer.",
-      "back": "Breakdown in communication plan. Re-align the team on the single source of truth to avoid mixed messages."
-    },
-    {
-      "id": 70,
-      "category": "Hard Scenarios",
-      "front": "Scenario: A major milestone is missed. The Sponsor reads about it in the newsletter.",
-      "back": "FAILURE. Bad news must be delivered personally/Interactive before the general report. \"No Surprises.\""
-    },
-    {
-      "id": 71,
-      "category": "2026 Skills: Hybrid & Remote",
-      "front": "How do you time-box a \"Standup\" in a virtual team?",
-      "back": "Strictly enforce the \"3 Questions\" rule. Take side conversations \"Offline\" (Post-meeting separate call)."
-    },
-    {
-      "id": 72,
-      "category": "2026 Skills: Hybrid & Remote",
-      "front": "\"Video Fatigue\" (Zoom Fatigue).",
-      "back": "A recognized issue. Mitigation: Allow \"Camera Off\" for non-critical meetings or shorten durations."
-    },
-    {
-      "id": 73,
-      "category": "2026 Skills: Hybrid & Remote",
-      "front": "\"Presence Indicator\".",
-      "back": "Status (Available, Busy, DND) in chat tools. Respecting this is part of virtual communication etiquette."
-    },
-    {
-      "id": 74,
-      "category": "2026 Skills: Hybrid & Remote",
-      "front": "\"Threaded Conversations\".",
-      "back": "Keeping topics organized in chat (Slack). Preventing the \"Wall of Text\" chaos."
-    },
-    {
-      "id": 75,
-      "category": "2026 Skills: Hybrid & Remote",
-      "front": "What is the \"Golden Rule\" of Virtual Communication?",
-      "back": "Over-communicate (Assume nothing is obvious) and Assume Positive Intent (Text lacks tone)."
-    },
-    {
-      "id": 76,
-      "category": "25 More Quick Fire: Comms",
-      "front": "Who is responsible for understanding the message? Receiver or Sender?",
-      "back": "Ideally both, but the Sender bears the primary burden to Encode clearly and Check understanding."
-    },
-    {
-      "id": 77,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Acknowledgment\" vs \"Agreement\".",
-      "back": "Acknowledgment means \"I received it.\" Agreement means \"I approve it.\" Do not confuse them."
-    },
-    {
-      "id": 78,
-      "category": "25 More Quick Fire: Comms",
-      "front": "55% of communication is...",
-      "back": "Body Language (Nonverbal)."
-    },
-    {
-      "id": 79,
-      "category": "25 More Quick Fire: Comms",
-      "front": "38% of communication is...",
-      "back": "Paralingual (Pitch/Tone)."
-    },
-    {
-      "id": 80,
-      "category": "25 More Quick Fire: Comms",
-      "front": "7% of communication is...",
-      "back": "Words."
-    },
-    {
-      "id": 81,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Communication Management Plan\" is a subsidiary of...",
-      "back": "The Project Management Plan."
-    },
-    {
-      "id": 82,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Lessons Learned\" are an output of...",
-      "back": "Manage Project Knowledge (Executing) and Close Project (Closing)."
-    },
-    {
-      "id": 83,
-      "category": "25 More Quick Fire: Comms",
-      "front": "Tool: \"Stakeholder Engagement Assessment Matrix\".",
-      "back": "Used to plan communication strategies to move stakeholders from \"Unaware\" to \"Supportive.\""
-    },
-    {
-      "id": 84,
-      "category": "25 More Quick Fire: Comms",
-      "front": "Tool: \"Report Performance\".",
-      "back": "Collecting and distributing performance information (Status Reports, Forecasts)."
-    },
-    {
-      "id": 85,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Work Performance Reports\" are an input to...",
-      "back": "Manage Communications (Distribution) and Monitor Risks/Team/etc."
-    },
-    {
-      "id": 86,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Work Performance Data\" comes from...",
-      "back": "Direct and Manage Project Work. (It is raw)."
-    },
-    {
-      "id": 87,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Work Performance Information\" comes from...",
-      "back": "Monitor and Control processes (Analysis)."
-    },
-    {
-      "id": 88,
-      "category": "25 More Quick Fire: Comms",
-      "front": "Can you delegate \"Communication Planning\"?",
-      "back": "You can delegate the drafting, but the PM is accountable for the strategy."
-    },
-    {
-      "id": 89,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Generational Diversity\" in communication.",
-      "back": "Different generations may prefer different tools (Chat vs Phone vs Email). Plan for all."
-    },
-    {
-      "id": 90,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Communication Requirements Analysis\".",
-      "back": "Calculating the sum of information needs of stakeholders."
-    },
-    {
-      "id": 91,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Project Records\".",
-      "back": "Correspondence, memos, and reports. Must be managed for liability/historical reasons."
-    },
-    {
-      "id": 92,
-      "category": "25 More Quick Fire: Comms",
-      "front": "Is \"Social Media\" a valid communication tool?",
-      "back": "Yes, for external stakeholders/public. Requires strict policy control."
-    },
-    {
-      "id": 93,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Briefings\".",
-      "back": "Formal verbal updates usually given to senior management or press."
-    },
-    {
-      "id": 94,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Presentations\".",
-      "back": "A tool in Manage Communications. Requires \"Presentation Skills\" (Soft Skill)."
-    },
-    {
-      "id": 95,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Meeting Management\".",
-      "back": "Facilitation, agenda setting, conflict resolution within the meeting."
-    },
-    {
-      "id": 96,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Networking\".",
-      "back": "Informal interaction to build relationships and open communication lines."
-    },
-    {
-      "id": 97,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Feedback Loops\".",
-      "back": "Mechanisms to ensure the message was received and understood (e.g., \" Please reply to confirm\")."
-    },
-    {
-      "id": 98,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Nonverbal Communication\".",
-      "back": "Gestures, posture, eye contact."
-    },
-    {
-      "id": 99,
-      "category": "25 More Quick Fire: Comms",
-      "front": "\"Trend Report\".",
-      "back": "A Project Report showing direction of performance over time (Better or Worse?)."
-    },
-    {
-      "id": 100,
-      "category": "25 More Quick Fire: Comms",
-      "front": "Final Flashcard: Why communicate?",
-      "back": "To ensure alignment, reduce uncertainty, and enable decision making."
-    }
-  ]
+ "meta": {
+ "title": "PMP 2026 Flashcards: People Domain – Task 8",
+ "domain": "People (42%)",
+ "task": "Plan and manage communication",
+ "ecoReference": "Domain I, Task 8 (Also touches Process - Communications Management)",
+ "description": "",
+ "file": "guide/appendices/flashcards-people-task8-communication.md"
+ },
+ "flashcards": [
+ {
+ "id": 1,
+ "category": "Communication Basics & Formats",
+ "front": "What percentage of a Project Manager's time is spent communicating?",
+ "back": "Approximately 90%."
+ },
+ {
+ "id": 2,
+ "category": "Communication Basics & Formats",
+ "front": "Define \"Interactive Communication\".",
+ "back": "Real-time, multi-directional exchange (e.g., meetings, calls, video). Best for ensuring understanding."
+ },
+ {
+ "id": 3,
+ "category": "Communication Basics & Formats",
+ "front": "Define \"Push Communication\".",
+ "back": "Sent to specific recipients but ensures no verification of understanding (e.g., Email, Status Reports)."
+ },
+ {
+ "id": 4,
+ "category": "Communication Basics & Formats",
+ "front": "Define \"Pull Communication\".",
+ "back": "Information placed in a central location for recipients to access at their own discretion (e.g., Intranet, SharePoint)."
+ },
+ {
+ "id": 5,
+ "category": "Communication Basics & Formats",
+ "front": "When should you use \"Formal Written\" communication?",
+ "back": "For complex problems, project management plans, project charter, contracts, and legal notices."
+ },
+ {
+ "id": 6,
+ "category": "Communication Basics & Formats",
+ "front": "When is \"Informal Verbal\" communication appropriate?",
+ "back": "For quick status checks, team building, and solving simple problems quickly."
+ },
+ {
+ "id": 7,
+ "category": "Communication Basics & Formats",
+ "front": "What is the formula for \"Communication Channels\"?",
+ "back": "N * (N - 1) / 2, where N is the number of stakeholders."
+ },
+ {
+ "id": 8,
+ "category": "Communication Basics & Formats",
+ "front": "If a team grows from 4 to 5 people, how many new channels are added?",
+ "back": "Old: 4(3)/2 = 6. New: 5(4)/2 = 10. 4 new channels."
+ },
+ {
+ "id": 9,
+ "category": "The Communications Management Plan",
+ "front": "What is the primary purpose of the \"Communications Management Plan\"?",
+ "back": "To document How, When, and By Whom information will be administered and disseminated."
+ },
+ {
+ "id": 10,
+ "category": "The Communications Management Plan",
+ "front": "Does the Communications Management Plan contain the actual emails sent?",
+ "back": "No. It contains the guidelines, templates, and flow charts for sending them."
+ },
+ {
+ "id": 11,
+ "category": "The Communications Management Plan",
+ "front": "What are \"Communication Constraints\"?",
+ "back": "Limitations such as technology availability, security clearance, or legislation (GDPR) that restrict how you communicate."
+ },
+ {
+ "id": 12,
+ "category": "The Communications Management Plan",
+ "front": "The \"Glossary of Terms\" is a component of which plan?",
+ "back": "The Communications Management Plan. It prevents \"Semantic Noise\" by defining acronyms."
+ },
+ {
+ "id": 13,
+ "category": "The Communications Management Plan",
+ "front": "Who defines the specific information needs (format, frequency)?",
+ "back": "The Stakeholders. You don't guess; you analyze their requirements from the Stakeholder Register."
+ },
+ {
+ "id": 14,
+ "category": "Communication Models & Theory",
+ "front": "In the basic communication model, who is responsible for the clarity of the message?",
+ "back": "The Sender."
+ },
+ {
+ "id": 15,
+ "category": "Communication Models & Theory",
+ "front": "What is \"Encoding\"?",
+ "back": "Translating thoughts into language/symbols."
+ },
+ {
+ "id": 16,
+ "category": "Communication Models & Theory",
+ "front": "What is \"Decoding\"?",
+ "back": "Translating the language/symbols back into thoughts. (Done by Receiver)."
+ },
+ {
+ "id": 17,
+ "category": "Communication Models & Theory",
+ "front": "What is \"Noise\"?",
+ "back": "Anything that compromises the transmission or understanding of the message (e.g., distance, hostility, language, bad connection)."
+ },
+ {
+ "id": 18,
+ "category": "Communication Models & Theory",
+ "front": "What constitutes \"Feedback\" in the model?",
+ "back": "The signal sent back to the Sender acknowledging receipt or providing a response."
+ },
+ {
+ "id": 19,
+ "category": "Communication Models & Theory",
+ "front": "What is \"Paralinguistic\" communication?",
+ "back": "Tone of voice, pitch, and volume. (Visual cues are \"Nonverbal\")."
+ },
+ {
+ "id": 20,
+ "category": "Communication Models & Theory",
+ "front": "In face-to-face communication, words account for approximately what % of meaning?",
+ "back": "Very low (~7%). Use of Tone (38%) and Body Language (55%) is dominant. (Albert Mehrabian's rule)."
+ },
+ {
+ "id": 21,
+ "category": "Virtual & Global Teams",
+ "front": "What is the biggest challenge for Virtual Teams regarding communication?",
+ "back": "Loss of nonverbal cues (Body language)."
+ },
+ {
+ "id": 22,
+ "category": "Virtual & Global Teams",
+ "front": "How do you mitigate \"Isolation\" in remote teams?",
+ "back": "Schedule regular \"face-time\" (video) and informal interactions (virtual coffee)."
+ },
+ {
+ "id": 23,
+ "category": "Virtual & Global Teams",
+ "front": "What is \"asynchronous communication\"?",
+ "back": "Communication where response is not immediate (e.g., Email, Slack threads). Essential for cross-time-zone teams."
+ },
+ {
+ "id": 24,
+ "category": "Virtual & Global Teams",
+ "front": "What is \"High-Context\" culture communication?",
+ "back": "Meaning is embedded in the situation/relationship, not just words. (e.g., Japan/Arab/Latin)."
+ },
+ {
+ "id": 25,
+ "category": "Virtual & Global Teams",
+ "front": "What is \"Low-Context\" culture communication?",
+ "back": "Meaning is explicitly in the words. Blunt, direct. (e.g., USA/Germany/Scandinavia)."
+ },
+ {
+ "id": 26,
+ "category": "Virtual & Global Teams",
+ "front": "Scenario: A team member from a High-Context culture says \"That will be difficult.\"",
+ "back": "They likely mean \"No.\" A Low-Context PM might misinterpret this as \"We can do it with effort.\""
+ },
+ {
+ "id": 27,
+ "category": "Managing Communication (Execution)",
+ "front": "What is \"Manage Communications\"?",
+ "back": "The process of doing the work: creating, collecting, distributing, storing, and disposing of project information."
+ },
+ {
+ "id": 28,
+ "category": "Managing Communication (Execution)",
+ "front": "\"Project Reporting\" is an output of which process?",
+ "back": "Manage Communications. (The Reports themselves)."
+ },
+ {
+ "id": 29,
+ "category": "Managing Communication (Execution)",
+ "front": "If you are hosting a Status Meeting, are you Planning or Managing Communication?",
+ "back": "Managing. You are executing the plan."
+ },
+ {
+ "id": 30,
+ "category": "Managing Communication (Execution)",
+ "front": "You notice the team is using an outdated template for reports. What do you do?",
+ "back": "Update the Organizational Process Assets (OPA) or enforce the current Communications Management Plan."
+ },
+ {
+ "id": 31,
+ "category": "Managing Communication (Execution)",
+ "front": "A stakeholder requests a daily report, but the plan says \"Weekly.\" What do you do?",
+ "back": "Analyze the request. If valid, update the Communications Management Plan. Don't just say yes (Scope Creep of coms)."
+ },
+ {
+ "id": 32,
+ "category": "5 C's of Communication",
+ "front": "What are the \"5 C's\" of written communication?",
+ "back": "Correct grammar/spelling, Concise expression, Clear purpose, Coherent logical flow, Controlling flow of ideas."
+ },
+ {
+ "id": 33,
+ "category": "5 C's of Communication",
+ "front": "Why is \"Concise\" important?",
+ "back": "Executives are busy. Long messages are \"Noise\" and often ignored."
+ },
+ {
+ "id": 34,
+ "category": "5 C's of Communication",
+ "front": "\"Coherent\" means...",
+ "back": "Using markers like \"Introduction\" and \"Summary\" so the reader doesn't get lost."
+ },
+ {
+ "id": 35,
+ "category": "Monitor Communication (Control)",
+ "front": "How do you know if your communication plan is working?",
+ "back": "Monitor Communications. Ask stakeholders: \"Are you getting what you need?\" (Feedback loop)."
+ },
+ {
+ "id": 36,
+ "category": "Monitor Communication (Control)",
+ "front": "If a stakeholder says \"I didn't know about that change,\" what failed?",
+ "back": "The Communication Plan (or execution of it). You failed to reach them."
+ },
+ {
+ "id": 37,
+ "category": "Monitor Communication (Control)",
+ "front": "What is a \"Communication Audit\"?",
+ "back": "A review to determine if communication acitvities are effective."
+ },
+ {
+ "id": 38,
+ "category": "Monitor Communication (Control)",
+ "front": "Scenario: Reports are going into the Spam folder.",
+ "back": "Technical Barrier. Monitor Communications should catch this (via feedback: \"Did you get the report?\")."
+ },
+ {
+ "id": 39,
+ "category": "Monitor Communication (Control)",
+ "front": "Scenario: Stakeholders are overwhelmed by too many emails.",
+ "back": "\"Communication Overload.\" Adjust the Plan (e.g., switch to a Dashboard/Pull method)."
+ },
+ {
+ "id": 40,
+ "category": "Scenarios: Difficult Conversations",
+ "front": "You have to deliver bad news to the Sponsor. Method?",
+ "back": "Face-to-Face (or Video). Never email bad news if possible. It requires managing the emotional reaction."
+ },
+ {
+ "id": 41,
+ "category": "Scenarios: Difficult Conversations",
+ "front": "Two team members are emailing angry messages back and forth.",
+ "back": "Stop the email chain. Switch to Interactive (Phone/Meeting) to resolve the conflict."
+ },
+ {
+ "id": 42,
+ "category": "Scenarios: Difficult Conversations",
+ "front": "A senior stakeholder dominates all meetings.",
+ "back": "Facilitation technique needed. Use specific agendas and time-boxing, or \"Round Robin\" speaking."
+ },
+ {
+ "id": 43,
+ "category": "Scenarios: Difficult Conversations",
+ "front": "You need to record a decision for legal reasons. Method?",
+ "back": "Formal Written. (Meeting minutes, Memo, Email confirmation)."
+ },
+ {
+ "id": 44,
+ "category": "Scenarios: Difficult Conversations",
+ "front": "A Virtual Team member is usually silent.",
+ "back": "actively invite them to speak (\"Tag\" them). They might be waiting for a pause that never comes (Cultural latency)."
+ },
+ {
+ "id": 45,
+ "category": "Technology & Tools",
+ "front": "\"Communication Technology\" selection depends on...",
+ "back": "Urgency, Frequency, Availability, Ease of Use, Project Environment, and Sensitivity."
+ },
+ {
+ "id": 46,
+ "category": "Technology & Tools",
+ "front": "When is \"Urgency\" the primary factor?",
+ "back": "During a crisis/Issue. (Use Phone/IM, not a weekly report)."
+ },
+ {
+ "id": 47,
+ "category": "Technology & Tools",
+ "front": "What is the risk of using \"New Technology\" for communication?",
+ "back": "The Learning Curve. If stakeholders can't use the tool, communication fails."
+ },
+ {
+ "id": 48,
+ "category": "Technology & Tools",
+ "front": "\"Information Radiator\" (Agile).",
+ "back": "A large visible display (physical or digital) that provides immediate status information. (Pull method)."
+ },
+ {
+ "id": 49,
+ "category": "Technology & Tools",
+ "front": "Kanban Board.",
+ "back": "An Information Radiator showing flow and bottlenecks."
+ },
+ {
+ "id": 50,
+ "category": "Agile Nuances",
+ "front": "In Agile, do we value Documentation over Individuals and Interactions?",
+ "back": "No. Individuals and Interactions over Processes and Tools (Manifesto)."
+ },
+ {
+ "id": 51,
+ "category": "Agile Nuances",
+ "front": "What is the primary communication method in Agile?",
+ "back": "Face-to-Face (or high-bandwidth equivalent) and Daily Standups."
+ },
+ {
+ "id": 52,
+ "category": "Agile Nuances",
+ "front": "Does Agile mean \"No Documentation\"?",
+ "back": "No. It means \"Just Enough\" documentation (Value-added)."
+ },
+ {
+ "id": 53,
+ "category": "Agile Nuances",
+ "front": "\"Osmotic Communication\".",
+ "back": "Information absorbed by overhearing conversations in a shared workspace (Colocation)."
+ },
+ {
+ "id": 54,
+ "category": "Agile Nuances",
+ "front": "\"Caves and Commons\".",
+ "back": "A layout providing private space (Cave) for focus and shared space (Commons) for interaction."
+ },
+ {
+ "id": 55,
+ "category": "Drills: Method Selection",
+ "front": "Method: Contract Update.",
+ "back": "Formal Written."
+ },
+ {
+ "id": 56,
+ "category": "Drills: Method Selection",
+ "front": "Method: Clarifying a requirement with a developer.",
+ "back": "Informal Verbal (or Interactive)."
+ },
+ {
+ "id": 57,
+ "category": "Drills: Method Selection",
+ "front": "Method: Annual Project Review speech.",
+ "back": "Formal Verbal."
+ },
+ {
+ "id": 58,
+ "category": "Drills: Method Selection",
+ "front": "Method: Update on a low-impact risk.",
+ "back": "Informal Written (Email) or inclusion in Weekly Report (Push)."
+ },
+ {
+ "id": 59,
+ "category": "Drills: Method Selection",
+ "front": "Method: Requesting a scope change.",
+ "back": "Formal Written (Change Request Form)."
+ },
+ {
+ "id": 60,
+ "category": "Drills: Method Selection",
+ "front": "Method: Training a large group on new software.",
+ "back": "Interactive (Workshop/Webinar) + Pull (User Manuals)."
+ },
+ {
+ "id": 61,
+ "category": "Artifacts & Terms",
+ "front": "What is a \"RAG\" Status?",
+ "back": "Red, Amber (Yellow), Green. A visual indicator of project health."
+ },
+ {
+ "id": 62,
+ "category": "Artifacts & Terms",
+ "front": "What prevents \"Semantic Noise\" in reports?",
+ "back": "Standardized terminology (Glossary) and consistent metrics definition."
+ },
+ {
+ "id": 63,
+ "category": "Artifacts & Terms",
+ "front": "\"Communication Blocker\".",
+ "back": "Anything that stops the flow (e.g., Hidden agenda, withholding info)."
+ },
+ {
+ "id": 64,
+ "category": "Artifacts & Terms",
+ "front": "\"Political Awareness\" in communication.",
+ "back": "Understanding the power structures so you know who needs to hear the message first."
+ },
+ {
+ "id": 65,
+ "category": "Artifacts & Terms",
+ "front": "\"Cultural Awareness\" in communication.",
+ "back": "Understanding how culture affects message reception (Wait time, hierarchy respect, directness)."
+ },
+ {
+ "id": 66,
+ "category": "Hard Scenarios",
+ "front": "Scenario: You send an email, and the recipient doesn't reply. Is communication complete?",
+ "back": "No. The \"Feedback Loop\" (Acknowledgment) is missing. You cannot assume they read/understood it."
+ },
+ {
+ "id": 67,
+ "category": "Hard Scenarios",
+ "front": "Scenario: The customer speaks a different language.",
+ "back": "Plan for translation services (Budget/Schedule impact). This is an \"Enterprise Environmental Factor\" (EEF)."
+ },
+ {
+ "id": 68,
+ "category": "Hard Scenarios",
+ "front": "Scenario: A team member refuses to use the project portal (Pull).",
+ "back": "Coaching opportunity. Explain the \"Why.\" If resistance continues, it's a performance issue."
+ },
+ {
+ "id": 69,
+ "category": "Hard Scenarios",
+ "front": "Scenario: You find out a stakeholder has been getting \"secret\" updates from a developer.",
+ "back": "Breakdown in communication plan. Re-align the team on the single source of truth to avoid mixed messages."
+ },
+ {
+ "id": 70,
+ "category": "Hard Scenarios",
+ "front": "Scenario: A major milestone is missed. The Sponsor reads about it in the newsletter.",
+ "back": "FAILURE. Bad news must be delivered personally/Interactive before the general report. \"No Surprises.\""
+ },
+ {
+ "id": 71,
+ "category": "2026 Skills: Hybrid & Remote",
+ "front": "How do you time-box a \"Standup\" in a virtual team?",
+ "back": "Strictly enforce the \"3 Questions\" rule. Take side conversations \"Offline\" (Post-meeting separate call)."
+ },
+ {
+ "id": 72,
+ "category": "2026 Skills: Hybrid & Remote",
+ "front": "\"Video Fatigue\" (Zoom Fatigue).",
+ "back": "A recognized issue. Mitigation: Allow \"Camera Off\" for non-critical meetings or shorten durations."
+ },
+ {
+ "id": 73,
+ "category": "2026 Skills: Hybrid & Remote",
+ "front": "\"Presence Indicator\".",
+ "back": "Status (Available, Busy, DND) in chat tools. Respecting this is part of virtual communication etiquette."
+ },
+ {
+ "id": 74,
+ "category": "2026 Skills: Hybrid & Remote",
+ "front": "\"Threaded Conversations\".",
+ "back": "Keeping topics organized in chat (Slack). Preventing the \"Wall of Text\" chaos."
+ },
+ {
+ "id": 75,
+ "category": "2026 Skills: Hybrid & Remote",
+ "front": "What is the \"Golden Rule\" of Virtual Communication?",
+ "back": "Over-communicate (Assume nothing is obvious) and Assume Positive Intent (Text lacks tone)."
+ },
+ {
+ "id": 76,
+ "category": "25 More Quick Fire: Comms",
+ "front": "Who is responsible for understanding the message? Receiver or Sender?",
+ "back": "Ideally both, but the Sender bears the primary burden to Encode clearly and Check understanding."
+ },
+ {
+ "id": 77,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Acknowledgment\" vs \"Agreement\".",
+ "back": "Acknowledgment means \"I received it.\" Agreement means \"I approve it.\" Do not confuse them."
+ },
+ {
+ "id": 78,
+ "category": "25 More Quick Fire: Comms",
+ "front": "55% of communication is...",
+ "back": "Body Language (Nonverbal)."
+ },
+ {
+ "id": 79,
+ "category": "25 More Quick Fire: Comms",
+ "front": "38% of communication is...",
+ "back": "Paralingual (Pitch/Tone)."
+ },
+ {
+ "id": 80,
+ "category": "25 More Quick Fire: Comms",
+ "front": "7% of communication is...",
+ "back": "Words."
+ },
+ {
+ "id": 81,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Communication Management Plan\" is a subsidiary of...",
+ "back": "The Project Management Plan."
+ },
+ {
+ "id": 82,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Lessons Learned\" are an output of...",
+ "back": "Manage Project Knowledge (Executing) and Close Project (Closing)."
+ },
+ {
+ "id": 83,
+ "category": "25 More Quick Fire: Comms",
+ "front": "Tool: \"Stakeholder Engagement Assessment Matrix\".",
+ "back": "Used to plan communication strategies to move stakeholders from \"Unaware\" to \"Supportive.\""
+ },
+ {
+ "id": 84,
+ "category": "25 More Quick Fire: Comms",
+ "front": "Tool: \"Report Performance\".",
+ "back": "Collecting and distributing performance information (Status Reports, Forecasts)."
+ },
+ {
+ "id": 85,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Work Performance Reports\" are an input to...",
+ "back": "Manage Communications (Distribution) and Monitor Risks/Team/etc."
+ },
+ {
+ "id": 86,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Work Performance Data\" comes from...",
+ "back": "Direct and Manage Project Work. (It is raw)."
+ },
+ {
+ "id": 87,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Work Performance Information\" comes from...",
+ "back": "Monitor and Control processes (Analysis)."
+ },
+ {
+ "id": 88,
+ "category": "25 More Quick Fire: Comms",
+ "front": "Can you delegate \"Communication Planning\"?",
+ "back": "You can delegate the drafting, but the PM is accountable for the strategy."
+ },
+ {
+ "id": 89,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Generational Diversity\" in communication.",
+ "back": "Different generations may prefer different tools (Chat vs Phone vs Email). Plan for all."
+ },
+ {
+ "id": 90,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Communication Requirements Analysis\".",
+ "back": "Calculating the sum of information needs of stakeholders."
+ },
+ {
+ "id": 91,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Project Records\".",
+ "back": "Correspondence, memos, and reports. Must be managed for liability/historical reasons."
+ },
+ {
+ "id": 92,
+ "category": "25 More Quick Fire: Comms",
+ "front": "Is \"Social Media\" a valid communication tool?",
+ "back": "Yes, for external stakeholders/public. Requires strict policy control."
+ },
+ {
+ "id": 93,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Briefings\".",
+ "back": "Formal verbal updates usually given to senior management or press."
+ },
+ {
+ "id": 94,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Presentations\".",
+ "back": "A tool in Manage Communications. Requires \"Presentation Skills\" (Soft Skill)."
+ },
+ {
+ "id": 95,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Meeting Management\".",
+ "back": "Facilitation, agenda setting, conflict resolution within the meeting."
+ },
+ {
+ "id": 96,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Networking\".",
+ "back": "Informal interaction to build relationships and open communication lines."
+ },
+ {
+ "id": 97,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Feedback Loops\".",
+ "back": "Mechanisms to ensure the message was received and understood (e.g., \" Please reply to confirm\")."
+ },
+ {
+ "id": 98,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Nonverbal Communication\".",
+ "back": "Gestures, posture, eye contact."
+ },
+ {
+ "id": 99,
+ "category": "25 More Quick Fire: Comms",
+ "front": "\"Trend Report\".",
+ "back": "A Project Report showing direction of performance over time (Better or Worse?)."
+ },
+ {
+ "id": 100,
+ "category": "25 More Quick Fire: Comms",
+ "front": "Final Flashcard: Why communicate?",
+ "back": "To ensure alignment, reduce uncertainty, and enable decision making."
+ }
+ ]
 }

@@ -41,10 +41,10 @@ Sarah realizes: _Different stakeholders care about completely different things. 
 Sarah learns a framework for thinking about stakeholders systematically: **The Power/Interest Grid**
 
 <PowerInterestGrid>
-  <template #manage>
-    <strong>Sarah must communicate frequently and involve them in decisions.</strong><br><br>
-    <em>Example: CFO, CEO, VP of Facilities, General Contractor</em>
-  </template>
+ <template #manage>
+ <strong>Sarah must communicate frequently and involve them in decisions.</strong><br><br>
+ <em>Example: CFO, CEO, VP of Facilities, General Contractor</em>
+ </template>
 
 <template #satisfy>
 <strong>Sarah must keep them informed so they do not become blockers.</strong><br><br>
@@ -72,7 +72,7 @@ Sarah learns that _stakeholder engagement is not the same as stakeholder communi
 - **Keep Satisfied**: Provide regular updates. Solicit feedback and acknowledge it.
 - **Keep Informed**: Provide clear, accessible communication. Create forums for questions.
 - **Monitor**: Track their level of interest and influence. Re-classify if circumstances change.
-  :::
+ :::
 
 ## 1.4a.5 Stakeholder Expectations: The Hidden Problem
 
@@ -99,7 +99,7 @@ If Sarah does not actively manage these expectations, she ends up disappointing 
 - **Mistake 3: Engaging too late.** (Fix: Engage early and often.)
 - **Mistake 4: Not addressing conflicts.** (Fix: Surface conflicts and facilitate trade-offs.)
 - **Mistake 5: Assuming engagement is a one-time event.** (Fix: Engagement is continuous.)
-  :::
+ :::
 
 ## 1.4a.7 On the Exam: Stakeholder Scenarios
 
@@ -120,5 +120,5 @@ Always address stakeholder issues directly and humanly before escalating. Empath
 :::
 
 <div class="flex justify-center my-12">
-  <a href="./core-triple-constraint" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Triple Constraint →</a>
+ <a href="./core-triple-constraint" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Triple Constraint →</a>
 </div>

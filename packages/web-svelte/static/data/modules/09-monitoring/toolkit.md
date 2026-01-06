@@ -6,7 +6,7 @@ Use this page as a copy/paste toolkit for Monitoring & Controlling and Project C
 
 ---
 
-## 🗓️ Monitoring Cadence (15-Minute Weekly Agenda)
+## Monitoring Cadence (15-Minute Weekly Agenda)
 
 - Progress vs baseline/backlog (milestones, burnup/burndown)
 - Variances + trends (CPI/SPI or flow metrics)
@@ -14,13 +14,13 @@ Use this page as a copy/paste toolkit for Monitoring & Controlling and Project C
 - Open change requests (status + decisions needed)
 - Next week plan (what changes based on what we learned)
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 If there is a problem, you usually (1) analyze it, (2) decide an action, and (3) communicate it. “Doing work” without the decision step is often the wrong answer.
 :::
 
 ---
 
-## 📣 Status Report Template (Predictive / Hybrid)
+## Status Report Template (Predictive / Hybrid)
 
 **One-page rule**: the sponsor should understand status in under 60 seconds and know what decisions are needed.
 
@@ -45,10 +45,10 @@ Fill in the inputs, then compute the metrics.
 
 | Input | Value |
 |---|---:|
-| **BAC** |  |
-| **PV** |  |
-| **EV** |  |
-| **AC** |  |
+| **BAC** | |
+| **PV** | |
+| **EV** | |
+| **AC** | |
 
 Quick reminder:
 - `PV = % planned complete × BAC`
@@ -56,16 +56,16 @@ Quick reminder:
 
 | Output | Formula | Result |
 |---|---|---:|
-| **CV** | $EV - AC$ |  |
-| **SV** | $EV - PV$ |  |
-| **CPI** | $EV / AC$ |  |
-| **SPI** | $EV / PV$ |  |
-| **EAC** (typical) | $BAC / CPI$ |  |
-| **ETC** | $EAC - AC$ |  |
-| **VAC** | $BAC - EAC$ |  |
-| **TCPI** | $(BAC - EV)/(BAC - AC)$ |  |
+| **CV** | $EV - AC$ | |
+| **SV** | $EV - PV$ | |
+| **CPI** | $EV / AC$ | |
+| **SPI** | $EV / PV$ | |
+| **EAC** (typical) | $BAC / CPI$ | |
+| **ETC** | $EAC - AC$ | |
+| **VAC** | $BAC - EAC$ | |
+| **TCPI** | $(BAC - EV)/(BAC - AC)$ | |
 
-::: info 🔍 Interpretation shortcuts
+::: info Interpretation shortcuts
 - **CPI < 1**: over budget; update forecast and analyze root cause.
 - **SPI < 1**: behind schedule; confirm critical path impact and remove constraints.
 - **TCPI > 1**: you must perform better than planned to hit the target; the higher it is, the less realistic the target is.
@@ -73,7 +73,7 @@ Quick reminder:
 
 ---
 
-## 🧾 Variance Log (Copy/Paste Template)
+## Variance Log (Copy/Paste Template)
 
 Use this when variances repeat or exceed thresholds (helps avoid “we saw it but did nothing”).
 
@@ -94,7 +94,7 @@ Use this when variances repeat or exceed thresholds (helps avoid “we saw it bu
 
 ---
 
-## 🧩 Issue Log (Copy/Paste Template)
+## Issue Log (Copy/Paste Template)
 
 | Field | Example |
 |---|---|
@@ -107,13 +107,13 @@ Use this when variances repeat or exceed thresholds (helps avoid “we saw it bu
 | **Status** | Open / In progress / Resolved / Escalated |
 | **Escalation path** | Sponsor if unresolved by date |
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 If it is happening **now**, it is usually an **issue** (issue log). If it might happen later, it is a **risk** (risk register).
 :::
 
 ---
 
-## ⚠️ Risk Register (Monitoring Template)
+## Risk Register (Monitoring Template)
 
 | Field | Example |
 |---|---|
@@ -131,7 +131,7 @@ If it is happening **now**, it is usually an **issue** (issue log). If it might 
 
 ---
 
-## 🏗️ Change Request Form (Copy/Paste Template)
+## Change Request Form (Copy/Paste Template)
 
 | Field | Example |
 |---|---|
@@ -152,23 +152,23 @@ If it is happening **now**, it is usually an **issue** (issue log). If it might 
 ### Change Log (Fast Tracker)
 | CR ID | Submitted | Status | Decision date | Approved? | Summary impact |
 |---|---|---|---|---|---|
-|  |  |  |  |  |  |
+| | | | | | |
 
 ### Change Impact Analysis (Quick Matrix)
 Use this when the exam says “analyze impact” and provides multiple options.
 
 | Dimension | Impact (Low/Med/High) | Notes |
 |---|---|---|
-| Scope |  |  |
-| Schedule |  |  |
-| Cost |  |  |
-| Quality |  |  |
-| Risk |  |  |
-| Benefits/value |  |  |
-| Resources |  |  |
-| Procurements/contracts |  |  |
+| Scope | | |
+| Schedule | | |
+| Cost | | |
+| Quality | | |
+| Risk | | |
+| Benefits/value | | |
+| Resources | | |
+| Procurements/contracts | | |
 
-## 🗳️ Decision Log (Copy/Paste Template)
+## Decision Log (Copy/Paste Template)
 
 Use this to keep governance clean: what was decided, by whom, when, and why.
 
@@ -186,7 +186,7 @@ Use this to keep governance clean: what was decided, by whom, when, and why.
 
 ---
 
-## 🧳 Transition / Handoff Checklist
+## Transition / Handoff Checklist
 
 Use this to prevent “it works, so we are done” thinking.
 
@@ -199,7 +199,7 @@ Use this to prevent “it works, so we are done” thinking.
 - [ ] Residual risks/issues disposition agreed (closed vs handed over)
 - [ ] Benefits ownership assigned (who measures outcomes after closure)
 
-## 📈 Benefits Handoff (Mini Template)
+## Benefits Handoff (Mini Template)
 
 | Benefit | Metric | Target | Owner | When measured | Data source |
 |---|---|---|---|---|---|
@@ -220,7 +220,7 @@ Use this to prevent “it works, so we are done” thinking.
 - [ ] Project artifacts archived (PMIS/OPA library)
 - [ ] Resources formally released (and recognition provided)
 
-## 🧾 Final Report (One-Page Template)
+## Final Report (One-Page Template)
 
 | Section | What to include |
 |---|---|
@@ -235,14 +235,14 @@ Use this to prevent “it works, so we are done” thinking.
 
 ---
 
-## 🧠 Lessons Learned Session (Agenda + Output)
+## Lessons Learned Session (Agenda + Output)
 
 **Agenda (30–60 minutes)**
-1) Objectives recap (what were we trying to achieve?)  
-2) What went well (repeatable practices)  
-3) What did not go well (root causes, early signals)  
-4) Start / Stop / Continue  
-5) Action items (owner + due date)  
+1) Objectives recap (what were we trying to achieve?) 
+2) What went well (repeatable practices) 
+3) What did not go well (root causes, early signals) 
+4) Start / Stop / Continue 
+5) Action items (owner + due date) 
 
 **Output template**
 | Topic | Lesson | Recommendation | Owner | Due date |
@@ -251,7 +251,7 @@ Use this to prevent “it works, so we are done” thinking.
 
 ---
 
-## 🧾 Procurement Closure Checklist (If Vendors Are Involved)
+## Procurement Closure Checklist (If Vendors Are Involved)
 
 - [ ] Confirm final deliverables meet contract acceptance criteria
 - [ ] Complete inspections and acceptance documentation
@@ -264,7 +264,7 @@ Use this to prevent “it works, so we are done” thinking.
 
 ---
 
-## 🔧 Configuration Management Log
+## Configuration Management Log
 
 Track changes to configuration items (documents, code, deliverables).
 
@@ -330,7 +330,7 @@ Use for periodic performance reviews during monitoring.
 
 ---
 
-## 🚨 Escalation Log Template
+## Escalation Log Template
 
 Track issues that require escalation beyond the project team.
 
@@ -359,7 +359,7 @@ Track issues that require escalation beyond the project team.
 
 ---
 
-## 📋 Stakeholder Engagement Assessment Matrix
+## Stakeholder Engagement Assessment Matrix
 
 Track stakeholder engagement levels and compare current vs. desired.
 
@@ -374,7 +374,7 @@ Track stakeholder engagement levels and compare current vs. desired.
 
 ---
 
-## 🎯 Threshold Alert Template
+## Threshold Alert Template
 
 Use when variance exceeds defined thresholds.
 
@@ -394,7 +394,7 @@ Use when variance exceeds defined thresholds.
 
 ---
 
-## 🔄 Sprint/Iteration Metrics Dashboard (Agile)
+## Sprint/Iteration Metrics Dashboard (Agile)
 
 Use for agile project monitoring cadence.
 
@@ -464,7 +464,7 @@ Based on Monte Carlo analysis:
 
 ---
 
-## 📋 Contract Closure Checklist by Type
+## Contract Closure Checklist by Type
 
 ### Fixed Price (FFP) Closure
 
@@ -530,7 +530,7 @@ Based on Monte Carlo analysis:
 
 ---
 
-## 🏛️ Regulatory Compliance Closure Matrix
+## Regulatory Compliance Closure Matrix
 
 Use this matrix to track industry-specific closure requirements.
 
@@ -538,60 +538,60 @@ Use this matrix to track industry-specific closure requirements.
 
 | Requirement | Status | Evidence | Owner |
 |---|---|---|---|
-| System validation documentation complete | ☐ | Validation report | QA Lead |
-| Audit trail verified | ☐ | Audit log review | IT Compliance |
-| Patient data handling per HIPAA | ☐ | Privacy impact assessment | Privacy Officer |
-| FDA 21 CFR Part 11 compliance | ☐ | Electronic records audit | Regulatory |
-| User training documented | ☐ | Training records | Training Lead |
+| System validation documentation complete | | Validation report | QA Lead |
+| Audit trail verified | | Audit log review | IT Compliance |
+| Patient data handling per HIPAA | | Privacy impact assessment | Privacy Officer |
+| FDA 21 CFR Part 11 compliance | | Electronic records audit | Regulatory |
+| User training documented | | Training records | Training Lead |
 
 ### Financial Services (SOX/PCI-DSS)
 
 | Requirement | Status | Evidence | Owner |
 |---|---|---|---|
-| Control documentation complete | ☐ | Control matrix | Internal Audit |
-| Access controls verified | ☐ | Access review report | IT Security |
-| Data retention policy implemented | ☐ | Retention schedule | Compliance |
-| PCI-DSS scope documented | ☐ | Scope attestation | Security |
-| Audit evidence archived | ☐ | Evidence repository | Audit |
+| Control documentation complete | | Control matrix | Internal Audit |
+| Access controls verified | | Access review report | IT Security |
+| Data retention policy implemented | | Retention schedule | Compliance |
+| PCI-DSS scope documented | | Scope attestation | Security |
+| Audit evidence archived | | Evidence repository | Audit |
 
 ### Government (FAR/OMB)
 
 | Requirement | Status | Evidence | Owner |
 |---|---|---|---|
-| Cost accounting standards met | ☐ | CAS compliance report | Finance |
-| Contract deliverables accepted | ☐ | DD250 or equivalent | Contracting |
-| Final cost report submitted | ☐ | Incurred cost submission | Finance |
-| Property disposition complete | ☐ | Property records | Property Admin |
-| Closeout audit complete | ☐ | Audit findings resolved | Contracts |
+| Cost accounting standards met | | CAS compliance report | Finance |
+| Contract deliverables accepted | | DD250 or equivalent | Contracting |
+| Final cost report submitted | | Incurred cost submission | Finance |
+| Property disposition complete | | Property records | Property Admin |
+| Closeout audit complete | | Audit findings resolved | Contracts |
 
 ### Construction (OSHA/Local Codes)
 
 | Requirement | Status | Evidence | Owner |
 |---|---|---|---|
-| Final inspection passed | ☐ | Inspection certificate | Site Lead |
-| Certificate of occupancy obtained | ☐ | CO document | Owner/GC |
-| Safety documentation archived | ☐ | OSHA logs, training | Safety |
-| As-built drawings delivered | ☐ | Drawing package | Engineering |
-| Warranty documentation provided | ☐ | Warranty package | Contracts |
+| Final inspection passed | | Inspection certificate | Site Lead |
+| Certificate of occupancy obtained | | CO document | Owner/GC |
+| Safety documentation archived | | OSHA logs, training | Safety |
+| As-built drawings delivered | | Drawing package | Engineering |
+| Warranty documentation provided | | Warranty package | Contracts |
 
 ---
 
-## 🎯 Closure Readiness Assessment
+## Closure Readiness Assessment
 
 Use this quick assessment to determine if the project is ready for formal closure.
 
 | Category | Ready? | Blocker (if No) |
 |---|---|---|
-| **Deliverables Accepted** | ☐ Yes / ☐ No | |
-| **All Change Requests Closed** | ☐ Yes / ☐ No | |
-| **All Issues Resolved or Transferred** | ☐ Yes / ☐ No | |
-| **Procurements Closed** | ☐ Yes / ☐ No | |
-| **Claims/Disputes Resolved** | ☐ Yes / ☐ No | |
-| **Final Budget Reconciled** | ☐ Yes / ☐ No | |
-| **Lessons Learned Captured** | ☐ Yes / ☐ No | |
-| **Knowledge Transfer Complete** | ☐ Yes / ☐ No | |
-| **Regulatory Requirements Met** | ☐ Yes / ☐ No / ☐ N/A | |
-| **Benefits Ownership Transferred** | ☐ Yes / ☐ No | |
+| **Deliverables Accepted** | Yes / No | |
+| **All Change Requests Closed** | Yes / No | |
+| **All Issues Resolved or Transferred** | Yes / No | |
+| **Procurements Closed** | Yes / No | |
+| **Claims/Disputes Resolved** | Yes / No | |
+| **Final Budget Reconciled** | Yes / No | |
+| **Lessons Learned Captured** | Yes / No | |
+| **Knowledge Transfer Complete** | Yes / No | |
+| **Regulatory Requirements Met** | Yes / No / N/A | |
+| **Benefits Ownership Transferred** | Yes / No | |
 
 **Readiness Score:** ___ / 10
 

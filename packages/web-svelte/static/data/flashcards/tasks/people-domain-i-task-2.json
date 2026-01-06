@@ -1,612 +1,612 @@
 {
-  "meta": {
-    "title": "PMP 2026 Flashcards: People Domain – Task 2",
-    "domain": "People (33%)",
-    "task": "Manage conflicts",
-    "ecoReference": "Domain I, Task 2",
-    "description": "",
-    "file": "guide/appendices/flashcards-people-task2-conflicts.md"
-  },
-  "flashcards": [
-    {
-      "id": 1,
-      "category": "Thomas-Kilmann Conflict Modes",
-      "front": "What are the 5 Thomas-Kilmann conflict resolution modes?",
-      "back": "1) Collaborate/Problem Solve, 2) Compromise, 3) Force/Direct, 4) Smooth/Accommodate, 5) Withdraw/Avoid."
-    },
-    {
-      "id": 2,
-      "category": "Thomas-Kilmann Conflict Modes",
-      "front": "Which two dimensions map the 5 conflict modes?",
-      "back": "Assertiveness (concern for self) and Cooperativeness (concern for others)."
-    },
-    {
-      "id": 3,
-      "category": "Thomas-Kilmann Conflict Modes",
-      "front": "Describe the Collaborate / Problem Solve conflict mode.",
-      "back": "High assertiveness + high cooperation. Win/Win. Finding a solution that fully satisfies both parties."
-    },
-    {
-      "id": 4,
-      "category": "Thomas-Kilmann Conflict Modes",
-      "front": "Describe the Compromise conflict mode.",
-      "back": "Moderate assertiveness + moderate cooperation. Lose/Lose (partially). Both sides give something up to reach a quick deal."
-    },
-    {
-      "id": 5,
-      "category": "Thomas-Kilmann Conflict Modes",
-      "front": "Describe the Force / Direct conflict mode.",
-      "back": "High assertiveness + low cooperation. Win/Lose. Using authority to force a decision."
-    },
-    {
-      "id": 6,
-      "category": "Thomas-Kilmann Conflict Modes",
-      "front": "Describe the Smooth / Accommodate conflict mode.",
-      "back": "Low assertiveness + high cooperation. Lose/Win. Emphasizing agreement to preserve the relationship."
-    },
-    {
-      "id": 7,
-      "category": "Thomas-Kilmann Conflict Modes",
-      "front": "Describe the Withdraw / Avoid conflict mode.",
-      "back": "Low assertiveness + low cooperation. Yield/Retreat. Postponing the issue or backing away."
-    },
-    {
-      "id": 8,
-      "category": "Choosing the Right Conflict Mode",
-      "front": "When is Collaborate the best choice?",
-      "back": "When the root cause matters, you have time, trust is high, and you want buy-in from both sides. It's the default \"best\" answer on the PMP exam for non-emergencies."
-    },
-    {
-      "id": 9,
-      "category": "Choosing the Right Conflict Mode",
-      "front": "When is Compromise the best choice?",
-      "back": "When a temporary solution is needed, there is time pressure, or two parties of equal power are deadlocked."
-    },
-    {
-      "id": 10,
-      "category": "Choosing the Right Conflict Mode",
-      "front": "When is Force / Direct the best choice?",
-      "back": "For emergencies, safety issues, severe compliance violations, or when immediate action is required (\"stop the bleeding\")."
-    },
-    {
-      "id": 11,
-      "category": "Choosing the Right Conflict Mode",
-      "front": "When is Smooth / Accommodate the best choice?",
-      "back": "When the issue is minor, you realize you are wrong, or preserving the relationship is more important than the outcome."
-    },
-    {
-      "id": 12,
-      "category": "Choosing the Right Conflict Mode",
-      "front": "When is Withdraw / Avoid the best choice?",
-      "back": "When emotions are too high (cooling off period needed), you need more information, or the issue is trivial/symptomatic of something else."
-    },
-    {
-      "id": 13,
-      "category": "Choosing the Right Conflict Mode",
-      "front": "Why is \"Compromise\" often a trap answer on the PMP exam?",
-      "back": "It is often a \"Lose-Lose\" where real problems remain unsolved. Always look for Collaboration (Problem Solving) first unless time is critical."
-    },
-    {
-      "id": 14,
-      "category": "Choosing the Right Conflict Mode",
-      "front": "In a safety-critical emergency, which conflict mode should you use?",
-      "back": "Force / Direct."
-    },
-    {
-      "id": 15,
-      "category": "Choosing the Right Conflict Mode",
-      "front": "Two team members are shouting at each other. What is your immediate conflict response?",
-      "back": "Withdraw / Avoid (temporarily) to let them cool down, or separate them physically. Do not try to solve the root cause while emotions are high."
-    },
-    {
-      "id": 16,
-      "category": "Types of Conflict",
-      "front": "What are the 3 main types of conflict?",
-      "back": "1) Task Conflict (what/how to do work), 2) Relationship Conflict (personal clashes), 3) Process Conflict (roles/how we work)."
-    },
-    {
-      "id": 17,
-      "category": "Types of Conflict",
-      "front": "Which type of conflict can be healthy and drive innovation?",
-      "back": "Task Conflict (disagreements about ideas, technical approaches)."
-    },
-    {
-      "id": 18,
-      "category": "Types of Conflict",
-      "front": "Which type of conflict is always harmful?",
-      "back": "Relationship Conflict (personal attacks, dislike)."
-    },
-    {
-      "id": 19,
-      "category": "Types of Conflict",
-      "front": "What is the \"Personality Trap\" in conflict management?",
-      "back": "Assuming a conflict is personal (\"he's difficult\") when it is actually a Process issue (unclear roles, competing goals). Always check the process first."
-    },
-    {
-      "id": 20,
-      "category": "Types of Conflict",
-      "front": "What is the most common source of conflict in projects?",
-      "back": "Schedules, Priorities, and Resources (NOT personality)."
-    },
-    {
-      "id": 21,
-      "category": "Conflict Resolution Process",
-      "front": "What is Step 1 in the Conflict Resolution Escalation Ladder?",
-      "back": "Self-Correction: Let team members try to solve it themselves first. Monitor but don't intervene immediately."
-    },
-    {
-      "id": 22,
-      "category": "Conflict Resolution Process",
-      "front": "What is Step 2 in Conflict Resolution if self-correction fails?",
-      "back": "Private Intervention: Meet 1-on-1 with each party to understand perspectives."
-    },
-    {
-      "id": 23,
-      "category": "Conflict Resolution Process",
-      "front": "What is Step 3 in Conflict Resolution?",
-      "back": "Collaborative Session: Bring parties together to facilitate a solution using data."
-    },
-    {
-      "id": 24,
-      "category": "Conflict Resolution Process",
-      "front": "When should a PM use Formal Authority (Step 4) to resolve conflict?",
-      "back": "Only when the team remains deadlocked after facilitation. The PM breaks the tie/decides."
-    },
-    {
-      "id": 25,
-      "category": "Conflict Resolution Process",
-      "front": "When should you Escalate (Step 5) to a sponsor or functional manager?",
-      "back": "Only if the decision requires authority outside the project (e.g., budget increase, resource reassignment across depts)."
-    },
-    {
-      "id": 26,
-      "category": "Conflict Resolution Process",
-      "front": "What is the \"Collaboration Agenda\" used for?",
-      "back": "A structured 15-30 minute meeting to move conflicting parties from positions to a shared decision. Steps: Problem -> Interests -> Options -> Criteria -> Decide."
-    },
-    {
-      "id": 27,
-      "category": "Negotiation Fundamentals",
-      "front": "What is \"Interest-Based Negotiation\" (Principled Negotiation)?",
-      "back": "A negotiation strategy that focuses on underlying needs (interests) rather than rigid demands (positions) to find win-win solutions."
-    },
-    {
-      "id": 28,
-      "category": "Negotiation Fundamentals",
-      "front": "What is the difference between a Position and an Interest?",
-      "back": "Position = What they say they want (\"I need it Friday\"). Interest = Why they want it (\"I need to prep for Monday's meeting\")."
-    },
-    {
-      "id": 29,
-      "category": "Negotiation Fundamentals",
-      "front": "Why is uncovering Interests crucial?",
-      "back": "It opens up multiple solution options. Positions are binary (yes/no), but Interests can be satisfied in many ways."
-    },
-    {
-      "id": 30,
-      "category": "Negotiation Fundamentals",
-      "front": "What is ZOPA?",
-      "back": "Zone of Possible Agreement. The overlap between the Buyer's max price and Seller's min price (or generally, the overlap in acceptable terms)."
-    },
-    {
-      "id": 31,
-      "category": "Negotiation Fundamentals",
-      "front": "What is BATNA?",
-      "back": "Best Alternative to a Negotiated Agreement. Your \"Plan B\" if the negotiation fails."
-    },
-    {
-      "id": 32,
-      "category": "Negotiation Fundamentals",
-      "front": "Why must you know your BATNA before negotiating?",
-      "back": "It gives you leverage. If the offer on the table is worse than your BATNA, you should walk away."
-    },
-    {
-      "id": 33,
-      "category": "Negotiation Fundamentals",
-      "front": "What is a \"Reservation Price\" (or Point)?",
-      "back": "Your \"walk away\" point. The worst outcome you are willing to accept."
-    },
-    {
-      "id": 34,
-      "category": "Negotiation Fundamentals",
-      "front": "What is the difference between Distributive and Integrative negotiation?",
-      "back": "Distributive = Win-Lose (\"Fixed Pie\", competing for value). Integrative = Win-Win (\"Expand the Pie\", creating mutual value)."
-    },
-    {
-      "id": 35,
-      "category": "Negotiation Fundamentals",
-      "front": "Which negotiation strategy is preferred for project relationships?",
-      "back": "Integrative (Win-Win). Projects rely on long-term relationships and trust."
-    },
-    {
-      "id": 36,
-      "category": "Negotiation Tactics",
-      "front": "What is \"Anchoring\" in negotiation?",
-      "back": "Throwing out the first number (often extreme) to set the reference point for the discussion."
-    },
-    {
-      "id": 37,
-      "category": "Negotiation Tactics",
-      "front": "How do you respond to \"Anchoring\"?",
-      "back": "Ignore the anchor or counter-anchor immediately. Do not let the extreme number frame the discussion. Focus on objective criteria."
-    },
-    {
-      "id": 38,
-      "category": "Negotiation Tactics",
-      "front": "What is the \"Good Cop/Bad Cop\" tactic?",
-      "back": "One person is tough/unreasonable, the other is friendly/reasonable. Goal is to make you concede to the \"nice\" one."
-    },
-    {
-      "id": 39,
-      "category": "Negotiation Tactics",
-      "front": "What is the \"Silence\" tactic?",
-      "back": "The other party stays quiet after your offer to make you uncomfortable and trigger you to bid against yourself. Response: Wait them out."
-    },
-    {
-      "id": 40,
-      "category": "Negotiation Tactics",
-      "front": "What is \"Nibbling\"?",
-      "back": "Asking for small extras (e.g., \"throw in free training\") just as the deal is closing. Response: Document scope clearly; trade, don't give."
-    },
-    {
-      "id": 41,
-      "category": "Negotiation Tactics",
-      "front": "What is \"Objective Criteria\" in negotiation (from Getting to Yes)?",
-      "back": "Using independent standards (market rates, laws, industry benchmarks) to decide terms, rather than a battle of wills."
-    },
-    {
-      "id": 42,
-      "category": "Dispute Resolution",
-      "front": "What is the preferred first step for a vendor dispute?",
-      "back": "Direct Negotiation (PM ↔ Vendor) using contract terms."
-    },
-    {
-      "id": 43,
-      "category": "Dispute Resolution",
-      "front": "Rank these dispute resolution methods from lowest friction to highest friction: Litigation, Negotiation, Arbitration, Mediation.",
-      "back": "1) Negotiation, 2) Mediation, 3) Arbitration, 4) Litigation."
-    },
-    {
-      "id": 44,
-      "category": "Dispute Resolution",
-      "front": "What is Mediation?",
-      "back": "A neutral third party facilitates the discussion but DOES NOT have decision-making power. They help parties find their own solution."
-    },
-    {
-      "id": 45,
-      "category": "Dispute Resolution",
-      "front": "What is Arbitration?",
-      "back": "A neutral third party hears both sides and DOES make a decision (usually binding). Less formal/costly than court."
-    },
-    {
-      "id": 46,
-      "category": "Dispute Resolution",
-      "front": "What is Litigation?",
-      "back": "Resolving the dispute in court. The most expensive, slowest, and damaging method. Last resort."
-    },
-    {
-      "id": 47,
-      "category": "Decision Making Models",
-      "front": "What is Consensus decision-making?",
-      "back": "\"I can live with it.\" High buy-in. It does NOT mean everyone loves it, but everyone agrees to support it."
-    },
-    {
-      "id": 48,
-      "category": "Decision Making Models",
-      "front": "What is Unanimity decision-making?",
-      "back": "100% agreement. Very slow, high risk of deadlock. Use for core values only."
-    },
-    {
-      "id": 49,
-      "category": "Decision Making Models",
-      "front": "What is Majority decision-making?",
-      "back": ">50% wins. Fast, creates a clear decision, but risks alienating the minority."
-    },
-    {
-      "id": 50,
-      "category": "Decision Making Models",
-      "front": "What is Plurality decision-making?",
-      "back": "The largest block wins (even if <50%). Good for choosing among many options."
-    },
-    {
-      "id": 51,
-      "category": "Decision Making Models",
-      "front": "What is Autocratic decision-making?",
-      "back": "One person decides. Fastest method. Low buy-in. Best for emergencies."
-    },
-    {
-      "id": 52,
-      "category": "Decision Making Models",
-      "front": "What is \"Fist of Five\" voting?",
-      "back": "A quick consensus check. 5 fingers = full support, 1 finger = major concern/block."
-    },
-    {
-      "id": 53,
-      "category": "Decision Making Models",
-      "front": "What is \"Dot Voting\"?",
-      "back": "A visual prioritization technique where participants place dots (sticky notes) on their preferred options."
-    },
-    {
-      "id": 54,
-      "category": "De-escalation Techniques",
-      "front": "What are 4 verbal de-escalation techniques?",
-      "back": "1) Acknowledge (\"I see you're frustrated\"), 2) Validate (\"Your concern is real\"), 3) Reframe (\"Let's focus on the goal\"), 4) Pause (\"Let's take a break\")."
-    },
-    {
-      "id": 55,
-      "category": "De-escalation Techniques",
-      "front": "What are 2 physical de-escalation techniques?",
-      "back": "1) Move to a private space (remove audience), 2) Sit down (standing signals aggression/dominance)."
-    },
-    {
-      "id": 56,
-      "category": "De-escalation Techniques",
-      "front": "Why should you move a heated argument to a private space?",
-      "back": "It removes the \"theater\" (audience), lowers stakes, and allows for psychological safety to back down or explain positions."
-    },
-    {
-      "id": 57,
-      "category": "Structural Conflict Solutions",
-      "front": "If there is constant \"Role Confusion\" conflict, what is the structural fix?",
-      "back": "Create or update the RACI matrix."
-    },
-    {
-      "id": 58,
-      "category": "Structural Conflict Solutions",
-      "front": "If there is constant \"Scope Creep\" conflict, what is the structural fix?",
-      "back": "Formalize the Change Control process."
-    },
-    {
-      "id": 59,
-      "category": "Structural Conflict Solutions",
-      "front": "If there is \"Decision Paralysis\" conflict, what is the structural fix?",
-      "back": "Clarify the decision model in the Team Charter (e.g., define who breaks ties)."
-    },
-    {
-      "id": 60,
-      "category": "Structural Conflict Solutions",
-      "front": "If there are \"Handoff Failures\" (Conflict between teams), what is the structural fix?",
-      "back": "Define explicit handoff criteria (checklists) and Agreements."
-    },
-    {
-      "id": 61,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Exam Scenario: A vendor says \"Take it or leave it.\" How do you respond?",
-      "back": "Test the rigidity. Focus on interests. Do not react emotionally. Check your BATNA."
-    },
-    {
-      "id": 62,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Exam Scenario: Two senior stakeholders have opposing requirements for the same feature. What do you do?",
-      "back": "Facilitate a collaborative session. Identify the business value/interests behind each requirement. Use objective criteria to prioritize."
-    },
-    {
-      "id": 63,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Exam Scenario: A team member refuses to use the new software tool. What do you do?",
-      "back": "Meet privately (Step 2). Understand their resistance (interest). Coaching/Training might be the answer, or there might be a valid technical blocker."
-    },
-    {
-      "id": 64,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Exam Scenario: The team is debating a technical solution and cannot agree. The deadline is tomorrow. What do you do?",
-      "back": "Move to a decision-making model (like Majority or Autocratic/Expert) to unblock the team, since time is a constraint. (Compromise might also apply here)."
-    },
-    {
-      "id": 65,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Exam Scenario: You overhear a heated argument about politics between two team members. What do you do?",
-      "back": "Intervene. This is Relationship Conflict (not Task). Remind them of Ground Rules regarding respect and focus."
-    },
-    {
-      "id": 66,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "What establishes the \"rules of engagement\" for conflict BEFORE it happens?",
-      "back": "The Team Charter (specifically the Ground Rules section)."
-    },
-    {
-      "id": 67,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "What is \"Gradients of Agreement\"?",
-      "back": "A consensus technique that moves beyond Yes/No. People can indicate \"Strong Support,\" \"Mixed Feelings,\" or \"Veto.\" Helps measure the strength of buy-in."
-    },
-    {
-      "id": 68,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Which conflict mode is described as \"Lose-Win\"?",
-      "back": "Smooth / Accommodate (You lose, they win)."
-    },
-    {
-      "id": 69,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Which conflict mode is described as \"Win-Win\"?",
-      "back": "Collaborate / Problem Solve."
-    },
-    {
-      "id": 70,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Which conflict mode is described as \"Win-Lose\"?",
-      "back": "Force / Direct (or Compete)."
-    },
-    {
-      "id": 71,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Which conflict mode is described as \"Lose-Lose\"?",
-      "back": "Withdraw / Avoid (in the long run) or Compromise (often considered lose-lose because neither side is fully satisfied)."
-    },
-    {
-      "id": 72,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "What is the \"PAUSE\" technique for difficult moments?",
-      "back": "Pause, Acknowledge, Understand, Summarize, Explore."
-    },
-    {
-      "id": 73,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "What question helps move from Position to Interest?",
-      "back": "\"Why is that important to you?\" or \"What concern does that solve?\""
-    },
-    {
-      "id": 74,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Emotional Intelligence (EQ) is critical for conflict. What is the first step of EQ?",
-      "back": "Self-Awareness (recognizing your own emotions before reacting)."
-    },
-    {
-      "id": 75,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "A \"Conflict Log\" allows a Project Manager to do what?",
-      "back": "Identify patterns in conflict (e.g., recurring issues with one person, or structural process failures)."
-    },
-    {
-      "id": 76,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "When is \"Constructive Criticism\" effective?",
-      "back": "When given privately, focused on the work (task) not the person, and specific/actionable."
-    },
-    {
-      "id": 77,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "What is the PM's role in \"Task Conflict\"?",
-      "back": "Facilitate healthy debate. Don't suppress it—ensure it stays focused on ideas and leads to a better solution."
-    },
-    {
-      "id": 78,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "What is the PM's role in \"Relationship Conflict\"?",
-      "back": "Intervene early. De-escalate. Address privately. It destroys trust if left unchecked."
-    },
-    {
-      "id": 79,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "If a stakeholder has a \"hidden agenda,\" how might you uncover it?",
-      "back": "Ask open-ended questions about their goals (\"What does success look like for you?\"). Look for inconsistencies between their words and actions."
-    },
-    {
-      "id": 80,
-      "category": "Exam Scenarios: Manage Conflicts & Negotiation",
-      "front": "Should you negotiate with a vendor who has significantly more power than you?",
-      "back": "Yes, but prepare thoroughly. Strengthen your BATNA, form coalitions, and focus on the value you bring to them."
-    },
-    {
-      "id": 81,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Mediator\".",
-      "back": "A neutral facilitator who assists parties in negotiating a settlement but has no authority to bind them to a decision."
-    },
-    {
-      "id": 82,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Arbitrator\".",
-      "back": "A neutral third party who hears evidence and issues a binding decision."
-    },
-    {
-      "id": 83,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Ombudsman\".",
-      "back": "An organizational official appointed to investigate complaints and resolve conflicts informally."
-    },
-    {
-      "id": 84,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Groupthink\".",
-      "back": "A phenomenon where a group values harmony/conformity over critical evaluation, leading to irrational decisions. Conflict (Task) helps prevent this."
-    },
-    {
-      "id": 85,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Devil's Advocate\".",
-      "back": "A role assigned to someone to challenge the consensus and stimulate critical thinking/task conflict."
-    },
-    {
-      "id": 86,
-      "category": "Vocabulary Drill",
-      "front": "Define \"Active Listening\".",
-      "back": "Listening to understand, not to respond. Involves mirroring, paraphrasing, and asking clarifying questions."
-    },
-    {
-      "id": 87,
-      "category": "Vocabulary Drill",
-      "front": "What does \"Separate the people from the problem\" mean?",
-      "back": "Attack the issue (the schedule, the error), but support the person. Preserve the relationship while solving the specific difficulty."
-    },
-    {
-      "id": 88,
-      "category": "Vocabulary Drill",
-      "front": "What is a \"Win-Win\" outcome technically called?",
-      "back": "Integrative solution."
-    },
-    {
-      "id": 89,
-      "category": "Vocabulary Drill",
-      "front": "What is a \"Fixed Pie\" assumption?",
-      "back": "The belief that value is limited, so for me to win, you must lose. (Distributive mindset)."
-    },
-    {
-      "id": 90,
-      "category": "Vocabulary Drill",
-      "front": "What is \"Expanding the Pie\"?",
-      "back": "Creating new value so both parties can get what they want (Integrative mindset)."
-    },
-    {
-      "id": 91,
-      "category": "2026 Focus Areas",
-      "front": "In virtual teams, what makes conflict detection harder?",
-      "back": "Lack of non-verbal cues (body language, tone). Silence can be mistaken for agreement when it is actually \"Withdrawal\"."
-    },
-    {
-      "id": 92,
-      "category": "2026 Focus Areas",
-      "front": "How should a PM handle conflict in Agile Retrospectives?",
-      "back": "Use the prime directive (assume positive intent). Facilitate open discussion of issues. Focus on process improvement, not blame."
-    },
-    {
-      "id": 93,
-      "category": "2026 Focus Areas",
-      "front": "Does \"Servant Leadership\" mean avoiding conflict to keep the team happy?",
-      "back": "No. Servant Leaders MUST address conflict to remove impediments and protect the team environment. Avoiding conflict is \"Artificial Harmony.\""
-    },
-    {
-      "id": 94,
-      "category": "2026 Focus Areas",
-      "front": "If a diverse team has conflict due to cultural communication styles, what is the best tool?",
-      "back": "Team Charter / Working Agreements. Explicitly define communication norms to bridge cultural gaps."
-    },
-    {
-      "id": 95,
-      "category": "2026 Focus Areas",
-      "front": "What is the relationship between Trust and Conflict?",
-      "back": "High Trust allows for healthy Task Conflict. Low Trust leads to Relationship Conflict or Artificial Harmony (fear of conflict)."
-    },
-    {
-      "id": 96,
-      "category": "2026 Focus Areas",
-      "front": "Can you create a conflict-free project?",
-      "back": "No. Conflict is inevitable. The goal is to manage it constructively."
-    },
-    {
-      "id": 97,
-      "category": "2026 Focus Areas",
-      "front": "The \"Five Dysfunctions of a Team\" lists \"Fear of Conflict\" as a dysfunction. Why?",
-      "back": "Because without healthy debate (conflict), you get inferior decisions and lack of commitment."
-    },
-    {
-      "id": 98,
-      "category": "2026 Focus Areas",
-      "front": "A stakeholder is angry that a change request was rejected. How do you handle it?",
-      "back": "Acknowledge their frustration (De-escalate). Explain the logic/criteria (Objective). Discuss options (Integrative)."
-    },
-    {
-      "id": 99,
-      "category": "2026 Focus Areas",
-      "front": "What is the most expensive way to resolve a contract dispute?",
-      "back": "Litigation."
-    },
-    {
-      "id": 100,
-      "category": "2026 Focus Areas",
-      "front": "\"Let's agree to disagree for now and move on.\" Which conflict mode is this?",
-      "back": "Withdraw / Avoid (or possibly Smooth, depending on context). It delays the resolution."
-    }
-  ]
+ "meta": {
+ "title": "PMP 2026 Flashcards: People Domain – Task 2",
+ "domain": "People (33%)",
+ "task": "Manage conflicts",
+ "ecoReference": "Domain I, Task 2",
+ "description": "",
+ "file": "guide/appendices/flashcards-people-task2-conflicts.md"
+ },
+ "flashcards": [
+ {
+ "id": 1,
+ "category": "Thomas-Kilmann Conflict Modes",
+ "front": "What are the 5 Thomas-Kilmann conflict resolution modes?",
+ "back": "1) Collaborate/Problem Solve, 2) Compromise, 3) Force/Direct, 4) Smooth/Accommodate, 5) Withdraw/Avoid."
+ },
+ {
+ "id": 2,
+ "category": "Thomas-Kilmann Conflict Modes",
+ "front": "Which two dimensions map the 5 conflict modes?",
+ "back": "Assertiveness (concern for self) and Cooperativeness (concern for others)."
+ },
+ {
+ "id": 3,
+ "category": "Thomas-Kilmann Conflict Modes",
+ "front": "Describe the Collaborate / Problem Solve conflict mode.",
+ "back": "High assertiveness + high cooperation. Win/Win. Finding a solution that fully satisfies both parties."
+ },
+ {
+ "id": 4,
+ "category": "Thomas-Kilmann Conflict Modes",
+ "front": "Describe the Compromise conflict mode.",
+ "back": "Moderate assertiveness + moderate cooperation. Lose/Lose (partially). Both sides give something up to reach a quick deal."
+ },
+ {
+ "id": 5,
+ "category": "Thomas-Kilmann Conflict Modes",
+ "front": "Describe the Force / Direct conflict mode.",
+ "back": "High assertiveness + low cooperation. Win/Lose. Using authority to force a decision."
+ },
+ {
+ "id": 6,
+ "category": "Thomas-Kilmann Conflict Modes",
+ "front": "Describe the Smooth / Accommodate conflict mode.",
+ "back": "Low assertiveness + high cooperation. Lose/Win. Emphasizing agreement to preserve the relationship."
+ },
+ {
+ "id": 7,
+ "category": "Thomas-Kilmann Conflict Modes",
+ "front": "Describe the Withdraw / Avoid conflict mode.",
+ "back": "Low assertiveness + low cooperation. Yield/Retreat. Postponing the issue or backing away."
+ },
+ {
+ "id": 8,
+ "category": "Choosing the Right Conflict Mode",
+ "front": "When is Collaborate the best choice?",
+ "back": "When the root cause matters, you have time, trust is high, and you want buy-in from both sides. It's the default \"best\" answer on the PMP exam for non-emergencies."
+ },
+ {
+ "id": 9,
+ "category": "Choosing the Right Conflict Mode",
+ "front": "When is Compromise the best choice?",
+ "back": "When a temporary solution is needed, there is time pressure, or two parties of equal power are deadlocked."
+ },
+ {
+ "id": 10,
+ "category": "Choosing the Right Conflict Mode",
+ "front": "When is Force / Direct the best choice?",
+ "back": "For emergencies, safety issues, severe compliance violations, or when immediate action is required (\"stop the bleeding\")."
+ },
+ {
+ "id": 11,
+ "category": "Choosing the Right Conflict Mode",
+ "front": "When is Smooth / Accommodate the best choice?",
+ "back": "When the issue is minor, you realize you are wrong, or preserving the relationship is more important than the outcome."
+ },
+ {
+ "id": 12,
+ "category": "Choosing the Right Conflict Mode",
+ "front": "When is Withdraw / Avoid the best choice?",
+ "back": "When emotions are too high (cooling off period needed), you need more information, or the issue is trivial/symptomatic of something else."
+ },
+ {
+ "id": 13,
+ "category": "Choosing the Right Conflict Mode",
+ "front": "Why is \"Compromise\" often a trap answer on the PMP exam?",
+ "back": "It is often a \"Lose-Lose\" where real problems remain unsolved. Always look for Collaboration (Problem Solving) first unless time is critical."
+ },
+ {
+ "id": 14,
+ "category": "Choosing the Right Conflict Mode",
+ "front": "In a safety-critical emergency, which conflict mode should you use?",
+ "back": "Force / Direct."
+ },
+ {
+ "id": 15,
+ "category": "Choosing the Right Conflict Mode",
+ "front": "Two team members are shouting at each other. What is your immediate conflict response?",
+ "back": "Withdraw / Avoid (temporarily) to let them cool down, or separate them physically. Do not try to solve the root cause while emotions are high."
+ },
+ {
+ "id": 16,
+ "category": "Types of Conflict",
+ "front": "What are the 3 main types of conflict?",
+ "back": "1) Task Conflict (what/how to do work), 2) Relationship Conflict (personal clashes), 3) Process Conflict (roles/how we work)."
+ },
+ {
+ "id": 17,
+ "category": "Types of Conflict",
+ "front": "Which type of conflict can be healthy and drive innovation?",
+ "back": "Task Conflict (disagreements about ideas, technical approaches)."
+ },
+ {
+ "id": 18,
+ "category": "Types of Conflict",
+ "front": "Which type of conflict is always harmful?",
+ "back": "Relationship Conflict (personal attacks, dislike)."
+ },
+ {
+ "id": 19,
+ "category": "Types of Conflict",
+ "front": "What is the \"Personality Trap\" in conflict management?",
+ "back": "Assuming a conflict is personal (\"he's difficult\") when it is actually a Process issue (unclear roles, competing goals). Always check the process first."
+ },
+ {
+ "id": 20,
+ "category": "Types of Conflict",
+ "front": "What is the most common source of conflict in projects?",
+ "back": "Schedules, Priorities, and Resources (NOT personality)."
+ },
+ {
+ "id": 21,
+ "category": "Conflict Resolution Process",
+ "front": "What is Step 1 in the Conflict Resolution Escalation Ladder?",
+ "back": "Self-Correction: Let team members try to solve it themselves first. Monitor but don't intervene immediately."
+ },
+ {
+ "id": 22,
+ "category": "Conflict Resolution Process",
+ "front": "What is Step 2 in Conflict Resolution if self-correction fails?",
+ "back": "Private Intervention: Meet 1-on-1 with each party to understand perspectives."
+ },
+ {
+ "id": 23,
+ "category": "Conflict Resolution Process",
+ "front": "What is Step 3 in Conflict Resolution?",
+ "back": "Collaborative Session: Bring parties together to facilitate a solution using data."
+ },
+ {
+ "id": 24,
+ "category": "Conflict Resolution Process",
+ "front": "When should a PM use Formal Authority (Step 4) to resolve conflict?",
+ "back": "Only when the team remains deadlocked after facilitation. The PM breaks the tie/decides."
+ },
+ {
+ "id": 25,
+ "category": "Conflict Resolution Process",
+ "front": "When should you Escalate (Step 5) to a sponsor or functional manager?",
+ "back": "Only if the decision requires authority outside the project (e.g., budget increase, resource reassignment across depts)."
+ },
+ {
+ "id": 26,
+ "category": "Conflict Resolution Process",
+ "front": "What is the \"Collaboration Agenda\" used for?",
+ "back": "A structured 15-30 minute meeting to move conflicting parties from positions to a shared decision. Steps: Problem -> Interests -> Options -> Criteria -> Decide."
+ },
+ {
+ "id": 27,
+ "category": "Negotiation Fundamentals",
+ "front": "What is \"Interest-Based Negotiation\" (Principled Negotiation)?",
+ "back": "A negotiation strategy that focuses on underlying needs (interests) rather than rigid demands (positions) to find win-win solutions."
+ },
+ {
+ "id": 28,
+ "category": "Negotiation Fundamentals",
+ "front": "What is the difference between a Position and an Interest?",
+ "back": "Position = What they say they want (\"I need it Friday\"). Interest = Why they want it (\"I need to prep for Monday's meeting\")."
+ },
+ {
+ "id": 29,
+ "category": "Negotiation Fundamentals",
+ "front": "Why is uncovering Interests crucial?",
+ "back": "It opens up multiple solution options. Positions are binary (yes/no), but Interests can be satisfied in many ways."
+ },
+ {
+ "id": 30,
+ "category": "Negotiation Fundamentals",
+ "front": "What is ZOPA?",
+ "back": "Zone of Possible Agreement. The overlap between the Buyer's max price and Seller's min price (or generally, the overlap in acceptable terms)."
+ },
+ {
+ "id": 31,
+ "category": "Negotiation Fundamentals",
+ "front": "What is BATNA?",
+ "back": "Best Alternative to a Negotiated Agreement. Your \"Plan B\" if the negotiation fails."
+ },
+ {
+ "id": 32,
+ "category": "Negotiation Fundamentals",
+ "front": "Why must you know your BATNA before negotiating?",
+ "back": "It gives you leverage. If the offer on the table is worse than your BATNA, you should walk away."
+ },
+ {
+ "id": 33,
+ "category": "Negotiation Fundamentals",
+ "front": "What is a \"Reservation Price\" (or Point)?",
+ "back": "Your \"walk away\" point. The worst outcome you are willing to accept."
+ },
+ {
+ "id": 34,
+ "category": "Negotiation Fundamentals",
+ "front": "What is the difference between Distributive and Integrative negotiation?",
+ "back": "Distributive = Win-Lose (\"Fixed Pie\", competing for value). Integrative = Win-Win (\"Expand the Pie\", creating mutual value)."
+ },
+ {
+ "id": 35,
+ "category": "Negotiation Fundamentals",
+ "front": "Which negotiation strategy is preferred for project relationships?",
+ "back": "Integrative (Win-Win). Projects rely on long-term relationships and trust."
+ },
+ {
+ "id": 36,
+ "category": "Negotiation Tactics",
+ "front": "What is \"Anchoring\" in negotiation?",
+ "back": "Throwing out the first number (often extreme) to set the reference point for the discussion."
+ },
+ {
+ "id": 37,
+ "category": "Negotiation Tactics",
+ "front": "How do you respond to \"Anchoring\"?",
+ "back": "Ignore the anchor or counter-anchor immediately. Do not let the extreme number frame the discussion. Focus on objective criteria."
+ },
+ {
+ "id": 38,
+ "category": "Negotiation Tactics",
+ "front": "What is the \"Good Cop/Bad Cop\" tactic?",
+ "back": "One person is tough/unreasonable, the other is friendly/reasonable. Goal is to make you concede to the \"nice\" one."
+ },
+ {
+ "id": 39,
+ "category": "Negotiation Tactics",
+ "front": "What is the \"Silence\" tactic?",
+ "back": "The other party stays quiet after your offer to make you uncomfortable and trigger you to bid against yourself. Response: Wait them out."
+ },
+ {
+ "id": 40,
+ "category": "Negotiation Tactics",
+ "front": "What is \"Nibbling\"?",
+ "back": "Asking for small extras (e.g., \"throw in free training\") just as the deal is closing. Response: Document scope clearly; trade, don't give."
+ },
+ {
+ "id": 41,
+ "category": "Negotiation Tactics",
+ "front": "What is \"Objective Criteria\" in negotiation (from Getting to Yes)?",
+ "back": "Using independent standards (market rates, laws, industry benchmarks) to decide terms, rather than a battle of wills."
+ },
+ {
+ "id": 42,
+ "category": "Dispute Resolution",
+ "front": "What is the preferred first step for a vendor dispute?",
+ "back": "Direct Negotiation (PM ↔ Vendor) using contract terms."
+ },
+ {
+ "id": 43,
+ "category": "Dispute Resolution",
+ "front": "Rank these dispute resolution methods from lowest friction to highest friction: Litigation, Negotiation, Arbitration, Mediation.",
+ "back": "1) Negotiation, 2) Mediation, 3) Arbitration, 4) Litigation."
+ },
+ {
+ "id": 44,
+ "category": "Dispute Resolution",
+ "front": "What is Mediation?",
+ "back": "A neutral third party facilitates the discussion but DOES NOT have decision-making power. They help parties find their own solution."
+ },
+ {
+ "id": 45,
+ "category": "Dispute Resolution",
+ "front": "What is Arbitration?",
+ "back": "A neutral third party hears both sides and DOES make a decision (usually binding). Less formal/costly than court."
+ },
+ {
+ "id": 46,
+ "category": "Dispute Resolution",
+ "front": "What is Litigation?",
+ "back": "Resolving the dispute in court. The most expensive, slowest, and damaging method. Last resort."
+ },
+ {
+ "id": 47,
+ "category": "Decision Making Models",
+ "front": "What is Consensus decision-making?",
+ "back": "\"I can live with it.\" High buy-in. It does NOT mean everyone loves it, but everyone agrees to support it."
+ },
+ {
+ "id": 48,
+ "category": "Decision Making Models",
+ "front": "What is Unanimity decision-making?",
+ "back": "100% agreement. Very slow, high risk of deadlock. Use for core values only."
+ },
+ {
+ "id": 49,
+ "category": "Decision Making Models",
+ "front": "What is Majority decision-making?",
+ "back": ">50% wins. Fast, creates a clear decision, but risks alienating the minority."
+ },
+ {
+ "id": 50,
+ "category": "Decision Making Models",
+ "front": "What is Plurality decision-making?",
+ "back": "The largest block wins (even if <50%). Good for choosing among many options."
+ },
+ {
+ "id": 51,
+ "category": "Decision Making Models",
+ "front": "What is Autocratic decision-making?",
+ "back": "One person decides. Fastest method. Low buy-in. Best for emergencies."
+ },
+ {
+ "id": 52,
+ "category": "Decision Making Models",
+ "front": "What is \"Fist of Five\" voting?",
+ "back": "A quick consensus check. 5 fingers = full support, 1 finger = major concern/block."
+ },
+ {
+ "id": 53,
+ "category": "Decision Making Models",
+ "front": "What is \"Dot Voting\"?",
+ "back": "A visual prioritization technique where participants place dots (sticky notes) on their preferred options."
+ },
+ {
+ "id": 54,
+ "category": "De-escalation Techniques",
+ "front": "What are 4 verbal de-escalation techniques?",
+ "back": "1) Acknowledge (\"I see you're frustrated\"), 2) Validate (\"Your concern is real\"), 3) Reframe (\"Let's focus on the goal\"), 4) Pause (\"Let's take a break\")."
+ },
+ {
+ "id": 55,
+ "category": "De-escalation Techniques",
+ "front": "What are 2 physical de-escalation techniques?",
+ "back": "1) Move to a private space (remove audience), 2) Sit down (standing signals aggression/dominance)."
+ },
+ {
+ "id": 56,
+ "category": "De-escalation Techniques",
+ "front": "Why should you move a heated argument to a private space?",
+ "back": "It removes the \"theater\" (audience), lowers stakes, and allows for psychological safety to back down or explain positions."
+ },
+ {
+ "id": 57,
+ "category": "Structural Conflict Solutions",
+ "front": "If there is constant \"Role Confusion\" conflict, what is the structural fix?",
+ "back": "Create or update the RACI matrix."
+ },
+ {
+ "id": 58,
+ "category": "Structural Conflict Solutions",
+ "front": "If there is constant \"Scope Creep\" conflict, what is the structural fix?",
+ "back": "Formalize the Change Control process."
+ },
+ {
+ "id": 59,
+ "category": "Structural Conflict Solutions",
+ "front": "If there is \"Decision Paralysis\" conflict, what is the structural fix?",
+ "back": "Clarify the decision model in the Team Charter (e.g., define who breaks ties)."
+ },
+ {
+ "id": 60,
+ "category": "Structural Conflict Solutions",
+ "front": "If there are \"Handoff Failures\" (Conflict between teams), what is the structural fix?",
+ "back": "Define explicit handoff criteria (checklists) and Agreements."
+ },
+ {
+ "id": 61,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Exam Scenario: A vendor says \"Take it or leave it.\" How do you respond?",
+ "back": "Test the rigidity. Focus on interests. Do not react emotionally. Check your BATNA."
+ },
+ {
+ "id": 62,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Exam Scenario: Two senior stakeholders have opposing requirements for the same feature. What do you do?",
+ "back": "Facilitate a collaborative session. Identify the business value/interests behind each requirement. Use objective criteria to prioritize."
+ },
+ {
+ "id": 63,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Exam Scenario: A team member refuses to use the new software tool. What do you do?",
+ "back": "Meet privately (Step 2). Understand their resistance (interest). Coaching/Training might be the answer, or there might be a valid technical blocker."
+ },
+ {
+ "id": 64,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Exam Scenario: The team is debating a technical solution and cannot agree. The deadline is tomorrow. What do you do?",
+ "back": "Move to a decision-making model (like Majority or Autocratic/Expert) to unblock the team, since time is a constraint. (Compromise might also apply here)."
+ },
+ {
+ "id": 65,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Exam Scenario: You overhear a heated argument about politics between two team members. What do you do?",
+ "back": "Intervene. This is Relationship Conflict (not Task). Remind them of Ground Rules regarding respect and focus."
+ },
+ {
+ "id": 66,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "What establishes the \"rules of engagement\" for conflict BEFORE it happens?",
+ "back": "The Team Charter (specifically the Ground Rules section)."
+ },
+ {
+ "id": 67,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "What is \"Gradients of Agreement\"?",
+ "back": "A consensus technique that moves beyond Yes/No. People can indicate \"Strong Support,\" \"Mixed Feelings,\" or \"Veto.\" Helps measure the strength of buy-in."
+ },
+ {
+ "id": 68,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Which conflict mode is described as \"Lose-Win\"?",
+ "back": "Smooth / Accommodate (You lose, they win)."
+ },
+ {
+ "id": 69,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Which conflict mode is described as \"Win-Win\"?",
+ "back": "Collaborate / Problem Solve."
+ },
+ {
+ "id": 70,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Which conflict mode is described as \"Win-Lose\"?",
+ "back": "Force / Direct (or Compete)."
+ },
+ {
+ "id": 71,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Which conflict mode is described as \"Lose-Lose\"?",
+ "back": "Withdraw / Avoid (in the long run) or Compromise (often considered lose-lose because neither side is fully satisfied)."
+ },
+ {
+ "id": 72,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "What is the \"PAUSE\" technique for difficult moments?",
+ "back": "Pause, Acknowledge, Understand, Summarize, Explore."
+ },
+ {
+ "id": 73,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "What question helps move from Position to Interest?",
+ "back": "\"Why is that important to you?\" or \"What concern does that solve?\""
+ },
+ {
+ "id": 74,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Emotional Intelligence (EQ) is critical for conflict. What is the first step of EQ?",
+ "back": "Self-Awareness (recognizing your own emotions before reacting)."
+ },
+ {
+ "id": 75,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "A \"Conflict Log\" allows a Project Manager to do what?",
+ "back": "Identify patterns in conflict (e.g., recurring issues with one person, or structural process failures)."
+ },
+ {
+ "id": 76,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "When is \"Constructive Criticism\" effective?",
+ "back": "When given privately, focused on the work (task) not the person, and specific/actionable."
+ },
+ {
+ "id": 77,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "What is the PM's role in \"Task Conflict\"?",
+ "back": "Facilitate healthy debate. Don't suppress it—ensure it stays focused on ideas and leads to a better solution."
+ },
+ {
+ "id": 78,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "What is the PM's role in \"Relationship Conflict\"?",
+ "back": "Intervene early. De-escalate. Address privately. It destroys trust if left unchecked."
+ },
+ {
+ "id": 79,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "If a stakeholder has a \"hidden agenda,\" how might you uncover it?",
+ "back": "Ask open-ended questions about their goals (\"What does success look like for you?\"). Look for inconsistencies between their words and actions."
+ },
+ {
+ "id": 80,
+ "category": "Exam Scenarios: Manage Conflicts & Negotiation",
+ "front": "Should you negotiate with a vendor who has significantly more power than you?",
+ "back": "Yes, but prepare thoroughly. Strengthen your BATNA, form coalitions, and focus on the value you bring to them."
+ },
+ {
+ "id": 81,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Mediator\".",
+ "back": "A neutral facilitator who assists parties in negotiating a settlement but has no authority to bind them to a decision."
+ },
+ {
+ "id": 82,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Arbitrator\".",
+ "back": "A neutral third party who hears evidence and issues a binding decision."
+ },
+ {
+ "id": 83,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Ombudsman\".",
+ "back": "An organizational official appointed to investigate complaints and resolve conflicts informally."
+ },
+ {
+ "id": 84,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Groupthink\".",
+ "back": "A phenomenon where a group values harmony/conformity over critical evaluation, leading to irrational decisions. Conflict (Task) helps prevent this."
+ },
+ {
+ "id": 85,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Devil's Advocate\".",
+ "back": "A role assigned to someone to challenge the consensus and stimulate critical thinking/task conflict."
+ },
+ {
+ "id": 86,
+ "category": "Vocabulary Drill",
+ "front": "Define \"Active Listening\".",
+ "back": "Listening to understand, not to respond. Involves mirroring, paraphrasing, and asking clarifying questions."
+ },
+ {
+ "id": 87,
+ "category": "Vocabulary Drill",
+ "front": "What does \"Separate the people from the problem\" mean?",
+ "back": "Attack the issue (the schedule, the error), but support the person. Preserve the relationship while solving the specific difficulty."
+ },
+ {
+ "id": 88,
+ "category": "Vocabulary Drill",
+ "front": "What is a \"Win-Win\" outcome technically called?",
+ "back": "Integrative solution."
+ },
+ {
+ "id": 89,
+ "category": "Vocabulary Drill",
+ "front": "What is a \"Fixed Pie\" assumption?",
+ "back": "The belief that value is limited, so for me to win, you must lose. (Distributive mindset)."
+ },
+ {
+ "id": 90,
+ "category": "Vocabulary Drill",
+ "front": "What is \"Expanding the Pie\"?",
+ "back": "Creating new value so both parties can get what they want (Integrative mindset)."
+ },
+ {
+ "id": 91,
+ "category": "2026 Focus Areas",
+ "front": "In virtual teams, what makes conflict detection harder?",
+ "back": "Lack of non-verbal cues (body language, tone). Silence can be mistaken for agreement when it is actually \"Withdrawal\"."
+ },
+ {
+ "id": 92,
+ "category": "2026 Focus Areas",
+ "front": "How should a PM handle conflict in Agile Retrospectives?",
+ "back": "Use the prime directive (assume positive intent). Facilitate open discussion of issues. Focus on process improvement, not blame."
+ },
+ {
+ "id": 93,
+ "category": "2026 Focus Areas",
+ "front": "Does \"Servant Leadership\" mean avoiding conflict to keep the team happy?",
+ "back": "No. Servant Leaders MUST address conflict to remove impediments and protect the team environment. Avoiding conflict is \"Artificial Harmony.\""
+ },
+ {
+ "id": 94,
+ "category": "2026 Focus Areas",
+ "front": "If a diverse team has conflict due to cultural communication styles, what is the best tool?",
+ "back": "Team Charter / Working Agreements. Explicitly define communication norms to bridge cultural gaps."
+ },
+ {
+ "id": 95,
+ "category": "2026 Focus Areas",
+ "front": "What is the relationship between Trust and Conflict?",
+ "back": "High Trust allows for healthy Task Conflict. Low Trust leads to Relationship Conflict or Artificial Harmony (fear of conflict)."
+ },
+ {
+ "id": 96,
+ "category": "2026 Focus Areas",
+ "front": "Can you create a conflict-free project?",
+ "back": "No. Conflict is inevitable. The goal is to manage it constructively."
+ },
+ {
+ "id": 97,
+ "category": "2026 Focus Areas",
+ "front": "The \"Five Dysfunctions of a Team\" lists \"Fear of Conflict\" as a dysfunction. Why?",
+ "back": "Because without healthy debate (conflict), you get inferior decisions and lack of commitment."
+ },
+ {
+ "id": 98,
+ "category": "2026 Focus Areas",
+ "front": "A stakeholder is angry that a change request was rejected. How do you handle it?",
+ "back": "Acknowledge their frustration (De-escalate). Explain the logic/criteria (Objective). Discuss options (Integrative)."
+ },
+ {
+ "id": 99,
+ "category": "2026 Focus Areas",
+ "front": "What is the most expensive way to resolve a contract dispute?",
+ "back": "Litigation."
+ },
+ {
+ "id": 100,
+ "category": "2026 Focus Areas",
+ "front": "\"Let's agree to disagree for now and move on.\" Which conflict mode is this?",
+ "back": "Withdraw / Avoid (or possibly Smooth, depending on context). It delays the resolution."
+ }
+ ]
 }

@@ -6,7 +6,7 @@ Use this page as a copy/paste toolkit for execution and value delivery scenarios
 
 ---
 
-## 🧾 Issue Log (Copy/Paste Template)
+## Issue Log (Copy/Paste Template)
 Minimum fields that make issues actionable:
 
 | Field | Example |
@@ -24,13 +24,13 @@ Minimum fields that make issues actionable:
 | **Resolution summary** | Access granted; add onboarding checklist |
 | **Related items** | Risk R-014, Change CR-005, Decision D-009 |
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 If the team is blocked, don’t “log and wait.” Log it, assign an owner, and **remove/escalate** the impediment immediately.
 :::
 
 ---
 
-## 🧱 Impediment / Blocker Triage (60-Second Checklist)
+## Impediment / Blocker Triage (60-Second Checklist)
 Use this when a blocker surfaces during a standup or checkpoint:
 
 1. **Clarify**: What is blocked and what is the smallest next step?
@@ -42,7 +42,7 @@ Use this when a blocker surfaces during a standup or checkpoint:
 
 ---
 
-## 🔁 Change Request “Mini-Analysis” (Fast Template)
+## Change Request “Mini-Analysis” (Fast Template)
 Use for predictive change control, or for hybrid governance decisions.
 
 | Field | Example |
@@ -56,13 +56,13 @@ Use for predictive change control, or for hybrid governance decisions.
 | **Decision needed from** | Sponsor/CCB |
 | **Decision date** | 2026-02-01 |
 
-::: info 🔍 PMP nuance
+::: info PMP nuance
 In agile delivery, “change” often means **backlog re-prioritization**. In predictive delivery, it often means **formal integrated change control**. In hybrid, you may do both.
 :::
 
 ---
 
-## 📌 RAID Log (Risks, Actions, Issues, Decisions)
+## RAID Log (Risks, Actions, Issues, Decisions)
 RAID is a simple “single source of truth” for execution.
 
 | Type | What it captures | Example |
@@ -72,13 +72,13 @@ RAID is a simple “single source of truth” for execution.
 | **Issue** | Current problem | Test environment unstable |
 | **Decision** | A recorded choice and rationale | Choose AWS over Azure due to compliance |
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 When a scenario has confusion and rework, it’s usually missing a **decision log** (people keep re-litigating old decisions).
 :::
 
 ---
 
-## 🧠 Lessons Learned Register (Lightweight Template)
+## Lessons Learned Register (Lightweight Template)
 Capture lessons weekly (or each sprint). Keep it short and usable.
 
 | Field | Example |
@@ -94,7 +94,7 @@ Capture lessons weekly (or each sprint). Keep it short and usable.
 
 ---
 
-## 🗓️ Execution Meeting Agendas (Ready-to-Use)
+## Execution Meeting Agendas (Ready-to-Use)
 
 ### Daily standup (15 minutes)
 - What did we complete since last sync?
@@ -122,7 +122,7 @@ Capture lessons weekly (or each sprint). Keep it short and usable.
 
 ---
 
-## 📣 One-Page Status Report (Template)
+## One-Page Status Report (Template)
 Use this structure for executives and busy stakeholders:
 
 - **Overall status**: Green / Yellow / Red (with 1-sentence reason)
@@ -135,7 +135,7 @@ Use this structure for executives and busy stakeholders:
 
 ---
 
-## 🏁 Transition to Operations (Operational Readiness Checklist)
+## Transition to Operations (Operational Readiness Checklist)
 Use before go-live/handoff to keep value from collapsing after delivery.
 
 - **People**: Training complete, champions/support staffed, roles/RACI confirmed
@@ -146,7 +146,7 @@ Use before go-live/handoff to keep value from collapsing after delivery.
 
 ---
 
-## 🧭 Escalation Message (Copy/Paste)
+## Escalation Message (Copy/Paste)
 Use when a blocker needs fast action and you want to be clear and respectful.
 
 **Subject**: Blocker impacting delivery (decision needed by \<date/time\>)
@@ -160,7 +160,7 @@ Use when a blocker needs fast action and you want to be clear and respectful.
 
 ---
 
-## 📞 Stakeholder Engagement Assessment (Quick Template)
+## Stakeholder Engagement Assessment (Quick Template)
 Use to diagnose engagement issues and plan corrective action.
 
 | Field | Your Assessment |
@@ -175,13 +175,13 @@ Use to diagnose engagement issues and plan corrective action.
 | **Owner** | PM |
 | **Follow-up date** | Weekly check-in |
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 If a stakeholder becomes resistant during execution, the best first move is usually **active listening** (understand their concern) before trying to "sell" them on the project.
 :::
 
 ---
 
-## 📨 Communication Methods Comparison (Quick Reference)
+## Communication Methods Comparison (Quick Reference)
 Choose the right channel for the situation.
 
 | Method | When to use | Strengths | Weaknesses | Exam context |
@@ -193,30 +193,30 @@ Choose the right channel for the situation.
 | **Chat / IM** | Quick questions; team coordination | Fast; informal | No record; interrupts flow | Use sparingly in execution |
 | **Dashboard / portal** | Ongoing metrics; self-service data | Always available; visual | Requires maintenance | Good for transparent progress |
 
-::: info 🔍 PMP nuance
+::: info PMP nuance
 **Interactive communication** (meetings, calls) is best for complex issues. **Push communication** (email, reports) is best for distributing information. **Pull communication** (dashboards, wikis) is best for self-service access.
 :::
 
 ---
 
-## 🤝 Conflict Resolution Approaches (PMP Reference)
+## Conflict Resolution Approaches (PMP Reference)
 The exam tests which approach fits the situation.
 
 | Approach | Description | When to use | Exam keyword | Sustainability |
 |---|---|---|---|---|
-| **Collaborate / Problem-solve** | Work together to find a win-win solution that satisfies both parties | High-stakes; long-term relationships; creative options available | "Best approach"; "Permanent solution" | ✅ High (addresses root cause) |
-| **Compromise** | Each party gives up something to reach middle ground | Time pressure; equal power; moderate importance | "Split the difference"; "Meet halfway" | ⚠️ Medium (partial satisfaction) |
-| **Accommodate / Smooth** | Yield to the other party to preserve harmony | Low importance to you; preserve relationship; you were wrong | "Keep the peace"; "Let it go" | ⚠️ Medium (may build resentment) |
-| **Force / Direct** | Impose a solution using authority or power | Emergency; safety risk; low importance to others | "Make a decision"; "Use authority" | ❌ Low (builds resentment) |
-| **Withdraw / Avoid** | Postpone or sidestep the conflict | Cooling-off period needed; trivial issue; no chance of winning | "Table the discussion"; "Revisit later" | ❌ Low (conflict may escalate) |
+| **Collaborate / Problem-solve** | Work together to find a win-win solution that satisfies both parties | High-stakes; long-term relationships; creative options available | "Best approach"; "Permanent solution" | High (addresses root cause) |
+| **Compromise** | Each party gives up something to reach middle ground | Time pressure; equal power; moderate importance | "Split the difference"; "Meet halfway" | Medium (partial satisfaction) |
+| **Accommodate / Smooth** | Yield to the other party to preserve harmony | Low importance to you; preserve relationship; you were wrong | "Keep the peace"; "Let it go" | Medium (may build resentment) |
+| **Force / Direct** | Impose a solution using authority or power | Emergency; safety risk; low importance to others | "Make a decision"; "Use authority" | Low (builds resentment) |
+| **Withdraw / Avoid** | Postpone or sidestep the conflict | Cooling-off period needed; trivial issue; no chance of winning | "Table the discussion"; "Revisit later" | Low (conflict may escalate) |
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 The exam usually favors **Collaborate** for team conflicts (win-win, addresses root cause). Use **Force** only for emergencies or when you have clear authority and the stakes are high.
 :::
 
 ---
 
-## 🧑‍🤝‍🧑 Vendor Management Checklist (During Execution)
+## Vendor Management Checklist (During Execution)
 Use to ensure procurement stays on track.
 
 - [ ] **Contract clarity**: All parties understand scope, deliverables, acceptance criteria, payment terms
@@ -232,7 +232,7 @@ Use to ensure procurement stays on track.
 
 ---
 
-## 📋 Team Charter Template (Agile/Hybrid Teams)
+## Team Charter Template (Agile/Hybrid Teams)
 
 Use at project/team kickoff to establish working agreements.
 
@@ -267,13 +267,13 @@ Use at project/team kickoff to establish working agreements.
 | **Quality** | Don't cut corners; review thoroughly; automate where possible |
 | **Improvement** | Learn from mistakes; celebrate wins; always get better |
 
-::: tip 💡 Exam Application
+::: tip Exam Application
 Team charters establish **clear expectations** and **working agreements** at kickoff. If a scenario describes team confusion about roles or conflict about how to work, the answer often involves **creating or revisiting the team charter**.
 :::
 
 ---
 
-## 🏃 Sprint Planning Checklist
+## Sprint Planning Checklist
 
 Use to ensure effective sprint planning meetings.
 
@@ -299,7 +299,7 @@ Use to ensure effective sprint planning meetings.
 - [ ] **First day's work clear**: Everyone knows what to start tomorrow
 - [ ] **Retrospective scheduled**: End of sprint meeting on calendar
 
-::: warning ⚠️ Anti-Pattern Alert
+::: warning Anti-Pattern Alert
 If sprint planning takes too long (>4 hours for 2-week sprint) or ends without a clear sprint goal, the team lacks backlog refinement practices. The fix is **better grooming before planning**, not longer planning meetings.
 :::
 
@@ -336,7 +336,7 @@ Use quarterly or after major milestones to assess team effectiveness.
 
 ---
 
-## 💹 Benefits Tracking Dashboard Template
+## Benefits Tracking Dashboard Template
 
 Use to track whether the project is delivering expected value.
 
@@ -358,11 +358,11 @@ Use to track whether the project is delivering expected value.
 
 ### Benefit Realization Timeline
 ```
-Project Delivery ──────────────► Operational Handoff ──────────────► Benefits Realized
-      │                                  │                                  │
-   Launch                           +3 months                          +12 months
-   Features                        Full adoption                       Full value
-   Completed                       Change embedded                     Measured & verified
+Project Delivery Operational Handoff Benefits Realized
+ 
+ Launch +3 months +12 months
+ Features Full adoption Full value
+ Completed Change embedded Measured & verified
 ```
 
 ### Risk to Benefits
@@ -371,13 +371,13 @@ Project Delivery ──────────────► Operational Hando
 | Low user adoption | B-001, B-003 may not be realized | Training program, adoption incentives |
 | Data quality issues | B-002 can't be measured accurately | Data cleansing, validation checks |
 
-::: tip 💡 Exam Insight
+::: tip Exam Insight
 Benefits are often realized **after project closure**. The PM's role during execution is to ensure the project is set up for benefit realization by tracking leading indicators, ensuring adoption, and documenting the benefits measurement approach.
 :::
 
 ---
 
-## 🎯 Risk Response Execution Checklist
+## Risk Response Execution Checklist
 
 Use when a risk trigger occurs and you need to execute the planned response.
 
@@ -413,13 +413,13 @@ Use when a risk trigger occurs and you need to execute the planned response.
 - [ ] Update Lessons Learned Register
 - [ ] Recommend process improvements if needed
 
-::: tip 💡 Exam Shortcut
+::: tip Exam Shortcut
 If a risk occurs, your FIRST action is **execute the pre-planned response**, not "analyze the situation" or "create a new plan." Risk planning exists precisely for this moment.
 :::
 
 ---
 
-## 🌐 Virtual Team Management Checklist
+## Virtual Team Management Checklist
 
 Use for distributed, remote, or hybrid teams to maintain productivity and cohesion.
 
@@ -468,31 +468,31 @@ Use for distributed, remote, or hybrid teams to maintain productivity and cohesi
 - [ ] **Action on silence** (reach out to disengaged team members)
 - [ ] **Retrospective feedback reviewed** (trends in team health)
 
-::: warning ⚠️ Virtual Team Red Flags
+::: warning Virtual Team Red Flags
 Watch for: Cameras always off, declining response times, reduced meeting participation, isolation patterns. Don't assume "no news is good news"—proactively check in.
 :::
 
 ---
 
-## 🎯 Value Delivery Assessment (Fast Checklist)
+## Value Delivery Assessment (Fast Checklist)
 
 Use during execution to ensure the project is on track to deliver value (not just outputs).
 
 | Question | Status | Notes / Action |
 |---|---|---|
-| **Output**: Are we producing the planned deliverables? | ✅ / ⚠️ / ❌ | |
-| **Outcome**: Will users actually adopt the solution? | ✅ / ⚠️ / ❌ | |
-| **Benefit**: Can we measure the expected improvement? | ✅ / ⚠️ / ❌ | |
-| **Leading indicators**: Are usage/training/feedback signals positive? | ✅ / ⚠️ / ❌ | |
-| **Stakeholder validation**: Do users confirm this solves their problem? | ✅ / ⚠️ / ❌ | |
-| **Operational readiness**: Is operations prepared to sustain the solution? | ✅ / ⚠️ / ❌ | |
-| **Benefits owner**: Is someone accountable for post-delivery value? | ✅ / ⚠️ / ❌ | |
+| **Output**: Are we producing the planned deliverables? | / / | |
+| **Outcome**: Will users actually adopt the solution? | / / | |
+| **Benefit**: Can we measure the expected improvement? | / / | |
+| **Leading indicators**: Are usage/training/feedback signals positive? | / / | |
+| **Stakeholder validation**: Do users confirm this solves their problem? | / / | |
+| **Operational readiness**: Is operations prepared to sustain the solution? | / / | |
+| **Benefits owner**: Is someone accountable for post-delivery value? | / / | |
 
-**If you have multiple ⚠️ or ❌**: Stop and re-align with stakeholders. Meeting the schedule means nothing if the value won't materialize.
+**If you have multiple or **: Stop and re-align with stakeholders. Meeting the schedule means nothing if the value won't materialize.
 
 ---
 
-## 📋 Servant Leadership Checklist (Daily Execution)
+## Servant Leadership Checklist (Daily Execution)
 Use to stay focused on removing impediments and enabling the team.
 
 **Daily / Standup Focus:**
@@ -515,13 +515,13 @@ Use to stay focused on removing impediments and enabling the team.
 - [ ] Is operational readiness progressing? (Training, docs, support)
 - [ ] Are dependencies with other teams clear? (Coordination)
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 Servant leadership means **the team's success is your success**. If they're blocked, your job is to clear the path—not micromanage their work.
 :::
 
 ---
 
-## 🧠 Knowledge Management Methods (Quick Reference)
+## Knowledge Management Methods (Quick Reference)
 The exam tests how you capture and share knowledge.
 
 | Knowledge Type | Examples | Capture Method | Share Method |
@@ -536,13 +536,13 @@ The exam tests how you capture and share knowledge.
 - **Demos / Show-and-tell**: Share tacit knowledge through demonstration
 - **After-action reviews**: Quick debrief after incidents or milestones
 
-::: info 🔍 PMP nuance
+::: info PMP nuance
 Tacit knowledge is best transferred through **social interaction** (pairing, collaboration, communities). Don't just write a manual and expect people to learn complex judgment.
 :::
 
 ---
 
-## 🧰 Quality Tools Reference (Execution Context)
+## Quality Tools Reference (Execution Context)
 Use these tools to prevent and detect defects.
 
 | Tool | What it does | When to use | Example |
@@ -554,155 +554,155 @@ Use these tools to prevent and detect defects.
 | **Test-driven development (TDD)** | Write tests before code to prevent defects | High-risk or complex logic | Unit tests, acceptance tests |
 | **Continuous integration (CI)** | Automated build + test on every commit | Prevent integration defects | Jenkins, GitHub Actions, CircleCI |
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 **Prevention** (peer reviews, DoD, checklists) is better than **detection** (testing, inspection). Agile favors built-in quality over end-of-phase inspection.
 :::
 
 ---
 
-## 🔀 Decision Tree: Impediment Escalation
+## Decision Tree: Impediment Escalation
 Use this decision flow when a blocker surfaces.
 
 ```
 START: Team member is blocked
-    │
-    ├─→ Can the TEAM remove it immediately?
-    │   ├─ YES → Remove it now → Update impediment log → DONE
-    │   └─ NO → Continue
-    │
-    ├─→ Can the PM remove it (within authority)?
-    │   ├─ YES → Take action → Update issue log → Follow up → DONE
-    │   └─ NO → Continue
-    │
-    ├─→ Is it a functional manager / resource issue?
-    │   ├─ YES → Escalate to functional manager → Set deadline → Follow up daily → DONE
-    │   └─ NO → Continue
-    │
-    ├─→ Is it a vendor / external dependency?
-    │   ├─ YES → Check contract → Escalate per contract terms → Log issue → DONE
-    │   └─ NO → Continue
-    │
-    ├─→ Is it a policy / process / tool issue?
-    │   ├─ YES → Escalate to PMO / operations → Request exception or change → DONE
-    │   └─ NO → Continue
-    │
-    └─→ Escalate to SPONSOR (authority needed)
-        └─ Present: Problem + Impact + Options + Recommendation → Decision → DONE
+ 
+ → Can the TEAM remove it immediately?
+ YES → Remove it now → Update impediment log → DONE
+ NO → Continue
+ 
+ → Can the PM remove it (within authority)?
+ YES → Take action → Update issue log → Follow up → DONE
+ NO → Continue
+ 
+ → Is it a functional manager / resource issue?
+ YES → Escalate to functional manager → Set deadline → Follow up daily → DONE
+ NO → Continue
+ 
+ → Is it a vendor / external dependency?
+ YES → Check contract → Escalate per contract terms → Log issue → DONE
+ NO → Continue
+ 
+ → Is it a policy / process / tool issue?
+ YES → Escalate to PMO / operations → Request exception or change → DONE
+ NO → Continue
+ 
+ → Escalate to SPONSOR (authority needed)
+ Present: Problem + Impact + Options + Recommendation → Decision → DONE
 ```
 
 **Key principle**: Don't wait. Escalate fast, follow up relentlessly.
 
 ---
 
-## 🔀 Decision Tree: Change Request Triage (Predictive)
+## Decision Tree: Change Request Triage (Predictive)
 Use when a stakeholder requests a change to scope/schedule/cost.
 
 ```
 START: Change request received
-    │
-    ├─→ Is it INSIDE current scope (clarification, not change)?
-    │   ├─ YES → Clarify with stakeholder → Execute as planned → Update docs → DONE
-    │   └─ NO → Continue (it's a real change)
-    │
-    ├─→ Does it impact baselines (scope/schedule/cost/quality)?
-    │   ├─ NO → Log as minor issue → Execute → Update project docs → DONE
-    │   └─ YES → Continue (requires formal analysis)
-    │
-    ├─→ Perform integrated impact analysis:
-    │   ├─ Scope impact (deliverables affected)
-    │   ├─ Schedule impact (critical path, milestones)
-    │   ├─ Cost impact (labor, materials, vendor)
-    │   ├─ Quality impact (testing, acceptance criteria)
-    │   ├─ Risk impact (new risks created)
-    │   └─ Generate options (approve / defer / reject / modify)
-    │
-    ├─→ Does PM have approval authority for this impact level?
-    │   ├─ YES → Make decision → Update baselines → Communicate → DONE
-    │   └─ NO → Continue (needs CCB approval)
-    │
-    ├─→ Submit to CCB (Change Control Board):
-    │   ├─ Present: Request + Impact analysis + Options + Recommendation
-    │   ├─ CCB Decision: Approved / Rejected / Deferred
-    │   │
-    │   ├─ APPROVED → Update baselines → Update change log → Communicate → Execute → DONE
-    │   ├─ REJECTED → Update change log → Communicate to requester → DONE
-    │   └─ DEFERRED → Log for future consideration → Communicate → DONE
+ 
+ → Is it INSIDE current scope (clarification, not change)?
+ YES → Clarify with stakeholder → Execute as planned → Update docs → DONE
+ NO → Continue (it's a real change)
+ 
+ → Does it impact baselines (scope/schedule/cost/quality)?
+ NO → Log as minor issue → Execute → Update project docs → DONE
+ YES → Continue (requires formal analysis)
+ 
+ → Perform integrated impact analysis:
+ Scope impact (deliverables affected)
+ Schedule impact (critical path, milestones)
+ Cost impact (labor, materials, vendor)
+ Quality impact (testing, acceptance criteria)
+ Risk impact (new risks created)
+ Generate options (approve / defer / reject / modify)
+ 
+ → Does PM have approval authority for this impact level?
+ YES → Make decision → Update baselines → Communicate → DONE
+ NO → Continue (needs CCB approval)
+ 
+ → Submit to CCB (Change Control Board):
+ Present: Request + Impact analysis + Options + Recommendation
+ CCB Decision: Approved / Rejected / Deferred
+ 
+ APPROVED → Update baselines → Update change log → Communicate → Execute → DONE
+ REJECTED → Update change log → Communicate to requester → DONE
+ DEFERRED → Log for future consideration → Communicate → DONE
 ```
 
 **Key principle**: Always analyze impact before deciding. Never "quietly" change baselines.
 
 ---
 
-## 🔀 Decision Tree: Value Delivery Risk (Hybrid/Agile)
+## Decision Tree: Value Delivery Risk (Hybrid/Agile)
 Use when you sense the project is at risk of delivering outputs without outcomes.
 
 ```
 START: Concern about value delivery
-    │
-    ├─→ Are users/stakeholders engaged in validating the work?
-    │   ├─ NO → Schedule demo / review → Get feedback → Adjust priorities → Re-engage
-    │   └─ YES → Continue
-    │
-    ├─→ Are we measuring leading indicators (usage, adoption, feedback)?
-    │   ├─ NO → Define metrics → Start tracking → Review weekly → Adjust
-    │   └─ YES → Continue
-    │
-    ├─→ Are leading indicators positive?
-    │   ├─ NO → Investigate root cause → Re-validate with users → Pivot if needed
-    │   └─ YES → Continue
-    │
-    ├─→ Is operational readiness progressing (training, support, docs)?
-    │   ├─ NO → Accelerate transition planning → Assign owners → Track → Escalate gaps
-    │   └─ YES → Continue
-    │
-    ├─→ Is there a benefits owner accountable for post-delivery value?
-    │   ├─ NO → Identify owner → Confirm metrics → Schedule benefits reviews → DONE
-    │   └─ YES → Continue
-    │
-    └─→ Is the benefits owner aligned on success criteria?
-        ├─ NO → Re-align on outcomes → Adjust acceptance criteria → DONE
-        └─ YES → Continue delivering → Monitor value signals → DONE
+ 
+ → Are users/stakeholders engaged in validating the work?
+ NO → Schedule demo / review → Get feedback → Adjust priorities → Re-engage
+ YES → Continue
+ 
+ → Are we measuring leading indicators (usage, adoption, feedback)?
+ NO → Define metrics → Start tracking → Review weekly → Adjust
+ YES → Continue
+ 
+ → Are leading indicators positive?
+ NO → Investigate root cause → Re-validate with users → Pivot if needed
+ YES → Continue
+ 
+ → Is operational readiness progressing (training, support, docs)?
+ NO → Accelerate transition planning → Assign owners → Track → Escalate gaps
+ YES → Continue
+ 
+ → Is there a benefits owner accountable for post-delivery value?
+ NO → Identify owner → Confirm metrics → Schedule benefits reviews → DONE
+ YES → Continue
+ 
+ → Is the benefits owner aligned on success criteria?
+ NO → Re-align on outcomes → Adjust acceptance criteria → DONE
+ YES → Continue delivering → Monitor value signals → DONE
 ```
 
 **Key principle**: Value delivery requires continuous validation. Don't wait until go-live to discover users won't adopt.
 
 ---
 
-## 🔀 Flowchart: Work Performance Data → Information → Reports
+## Flowchart: Work Performance Data → Information → Reports
 
 ```
-┌─────────────────────────────────────────┐
-│   WORK PERFORMANCE DATA                 │
-│   (Raw observations)                    │
-│   - Task completion %                   │
-│   - Defect counts                       │
-│   - Test pass/fail                      │
-│   - Hours logged                        │
-│   - Story points completed              │
-└────────────┬────────────────────────────┘
-             │
-             ↓ ANALYZE (Add context + meaning)
-             │
-┌────────────┴────────────────────────────┐
-│   WORK PERFORMANCE INFORMATION          │
-│   (Analyzed insights)                   │
-│   - Schedule variance (SV = EV - PV)    │
-│   - Cost variance (CV = EV - AC)        │
-│   - Defect trend (increasing/stable)    │
-│   - Velocity trend (sprint over sprint) │
-│   - Root cause themes                   │
-└────────────┬────────────────────────────┘
-             │
-             ↓ PACKAGE (For audience + purpose)
-             │
-┌────────────┴────────────────────────────┐
-│   WORK PERFORMANCE REPORTS              │
-│   (Tailored communication)              │
-│   - Executive dashboard (traffic light) │
-│   - Stakeholder status report (1-pager) │
-│   - Steering committee deck             │
-│   - Team burndown chart                 │
-└─────────────────────────────────────────┘
+
+ WORK PERFORMANCE DATA 
+ (Raw observations) 
+ - Task completion % 
+ - Defect counts 
+ - Test pass/fail 
+ - Hours logged 
+ - Story points completed 
+
+ 
+ ↓ ANALYZE (Add context + meaning)
+ 
+
+ WORK PERFORMANCE INFORMATION 
+ (Analyzed insights) 
+ - Schedule variance (SV = EV - PV) 
+ - Cost variance (CV = EV - AC) 
+ - Defect trend (increasing/stable) 
+ - Velocity trend (sprint over sprint) 
+ - Root cause themes 
+
+ 
+ ↓ PACKAGE (For audience + purpose)
+ 
+
+ WORK PERFORMANCE REPORTS 
+ (Tailored communication) 
+ - Executive dashboard (traffic light) 
+ - Stakeholder status report (1-pager) 
+ - Steering committee deck 
+ - Team burndown chart 
+
 ```
 
 **Key principle**: Data alone is noise. Convert it to insight, then communicate to the right audience.
@@ -724,10 +724,10 @@ You're in Month 4 of a 10-month project. Here's the current status:
 
 | Metric | Formula | Calculation | Result | Meaning |
 |---|---|---|---|---|
-| **Schedule Variance (SV)** | EV - PV | $180k - $200k | **-$20k** | ⚠️ Behind schedule |
-| **Cost Variance (CV)** | EV - AC | $180k - $220k | **-$40k** | ⚠️ Over budget |
-| **Schedule Performance Index (SPI)** | EV ÷ PV | $180k ÷ $200k | **0.90** | ⚠️ 90% efficient (slow) |
-| **Cost Performance Index (CPI)** | EV ÷ AC | $180k ÷ $220k | **0.82** | ⚠️ 82% efficient (overspending) |
+| **Schedule Variance (SV)** | EV - PV | $180k - $200k | **-$20k** | Behind schedule |
+| **Cost Variance (CV)** | EV - AC | $180k - $220k | **-$40k** | Over budget |
+| **Schedule Performance Index (SPI)** | EV ÷ PV | $180k ÷ $200k | **0.90** | 90% efficient (slow) |
+| **Cost Performance Index (CPI)** | EV ÷ AC | $180k ÷ $220k | **0.82** | 82% efficient (overspending) |
 
 ### Forecast Final Outcomes
 
@@ -735,7 +735,7 @@ You're in Month 4 of a 10-month project. Here's the current status:
 |---|---|---|---|---|
 | **Estimate at Completion (EAC)** | BAC ÷ CPI | $500k ÷ 0.82 | **$609,756** | Final cost forecast |
 | **Estimate to Complete (ETC)** | EAC - AC | $609,756 - $220k | **$389,756** | Cost to finish |
-| **Variance at Completion (VAC)** | BAC - EAC | $500k - $609,756 | **-$109,756** | ⚠️ Over budget at end |
+| **Variance at Completion (VAC)** | BAC - EAC | $500k - $609,756 | **-$109,756** | Over budget at end |
 | **To-Complete Performance Index (TCPI)** | (BAC - EV) ÷ (BAC - AC) | ($500k - $180k) ÷ ($500k - $220k) | **1.14** | Must be 114% efficient to finish on budget |
 
 ### Interpretation & Action
@@ -743,13 +743,13 @@ You're in Month 4 of a 10-month project. Here's the current status:
 - **Red flag**: TCPI = 1.14 means we need to be **more efficient going forward** than we've been historically (unlikely)
 - **Action**: Present to sponsor → Request budget increase OR reduce scope → Update baselines
 
-::: warning ⚠️ Common Exam Trap
+::: warning Common Exam Trap
 If **CPI < 1.0** and **TCPI > 1.0**, the project is unlikely to finish on budget without corrective action (scope reduction, efficiency improvement, or budget increase).
 :::
 
 ---
 
-## 📈 Value Metrics Tracking (Leading Indicators)
+## Value Metrics Tracking (Leading Indicators)
 Use during execution to predict whether value will materialize.
 
 | Metric Type | Example Metrics | What it predicts | Target / Threshold |
@@ -765,7 +765,7 @@ Use during execution to predict whether value will materialize.
 
 ---
 
-## 📋 Execution Process Quick Reference (PMBOK Mapping)
+## Execution Process Quick Reference (PMBOK Mapping)
 Use to quickly identify which process applies in an exam scenario.
 
 ### Integration (Execution)
@@ -801,13 +801,13 @@ Use to quickly identify which process applies in an exam scenario.
 |---|---|---|---|
 | **Conduct Procurements** | Obtain seller responses, select sellers, award contracts | Selected sellers, agreements (contracts) | Vendor selection, contract negotiation |
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 If the question says "a team member is blocked," think **Direct and Manage Project Work** + **Manage Team**. If it says "stakeholder is unhappy," think **Manage Stakeholder Engagement**.
 :::
 
 ---
 
-## 🎯 Execution "First Moves" Quick Reference
+## Execution "First Moves" Quick Reference
 Use this when an exam question asks "What should you do FIRST?"
 
 | Scenario | Wrong first move | Right first move | Why |
@@ -825,7 +825,7 @@ Use this when an exam question asks "What should you do FIRST?"
 
 ---
 
-## 📐 EVM Formula Quick Reference (Execution Context)
+## EVM Formula Quick Reference (Execution Context)
 
 ### Core Metrics
 | Formula | What it tells you | Good = | Bad = |
@@ -857,7 +857,7 @@ Use this when an exam question asks "What should you do FIRST?"
 
 ---
 
-## 🗣️ Communication Model Quick Reference
+## Communication Model Quick Reference
 
 ### Communication Formula
 **Channels = n(n-1) ÷ 2**
@@ -878,7 +878,7 @@ Use this when an exam question asks "What should you do FIRST?"
 
 ---
 
-## 🛠️ Team Performance & Development Quick Reference
+## Team Performance & Development Quick Reference
 
 ### Tuckman's Team Development Stages
 | Stage | Behavior | PM Action |
@@ -899,7 +899,7 @@ Use this when an exam question asks "What should you do FIRST?"
 
 ---
 
-## ⚖️ Power & Influence Quick Reference
+## Power & Influence Quick Reference
 
 ### Types of Power
 | Type | Source | Example | Sustainability |
@@ -914,7 +914,7 @@ Use this when an exam question asks "What should you do FIRST?"
 
 ---
 
-## 🧩 ADKAR Change Model (Adoption Quick Reference)
+## ADKAR Change Model (Adoption Quick Reference)
 Use to diagnose why adoption is failing.
 
 | Stage | Question | If NO, then... |
@@ -929,7 +929,7 @@ Use to diagnose why adoption is failing.
 
 ---
 
-## 🎓 Exam-Day Execution Mindset Summary
+## Exam-Day Execution Mindset Summary
 
 ### The "Servant Leader" Lens
 - **Impediment?** → Remove it or escalate immediately
@@ -954,7 +954,7 @@ Use to diagnose why adoption is failing.
 
 ---
 
-## 📚 Additional Study Resources
+## Additional Study Resources
 
 For deeper dives into execution topics:
 - **EVM**: See `guide/06-planning/cost-planning.md` for comprehensive EVM formulas and examples
@@ -965,18 +965,18 @@ For deeper dives into execution topics:
 ---
 
 <div class="toolkit-summary">
-  <strong>🎯 Toolkit Summary</strong><br>
-  This toolkit provides templates, decision trees, checklists, and quick-reference guides for execution scenarios. Use it as a copy/paste resource during exam prep to internalize the patterns and "first moves" that the PMP exam rewards.
+ <strong> Toolkit Summary</strong><br>
+ This toolkit provides templates, decision trees, checklists, and quick-reference guides for execution scenarios. Use it as a copy/paste resource during exam prep to internalize the patterns and "first moves" that the PMP exam rewards.
 </div>
 
 <style>
 .toolkit-summary {
-  background: linear-gradient(135deg, var(--vp-c-brand-soft) 0%, var(--vp-c-brand-softer) 100%);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1.25rem;
-  border-radius: 8px;
-  margin: 2rem 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
+ background: linear-gradient(135deg, var(--vp-c-brand-soft) 0%, var(--vp-c-brand-softer) 100%);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1.25rem;
+ border-radius: 8px;
+ margin: 2rem 0;
+ font-size: 0.95rem;
+ line-height: 1.6;
 }
 </style>

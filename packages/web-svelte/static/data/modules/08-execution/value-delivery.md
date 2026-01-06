@@ -4,36 +4,36 @@
 
 In the 2026 PMP context, a project is only successful if it delivers **Value**. Finishing "on time and under budget" is meaningless if the final product doesn't solve the customer's problem or drive the organization forward.
 
-::: tip 🎯 PMP exam trap
+::: tip PMP exam trap
 Many scenarios describe a project that met requirements but still “failed.” The hidden issue is usually **validation/adoption**: the output exists, but the outcome/benefit did not happen.
 :::
 
 ---
 
-## 🔗 The Value Chain
+## The Value Chain
 To master value delivery, you must understand the distinction between these four stages:
 
 <div class="chain-grid">
-  <div class="chain-card">
-    <div class="chain-title">1. Output</div>
-    <div class="chain-tag">The Thing</div>
-    <p>The tangible deliverable created (e.g., A new mobile banking app).</p>
-  </div>
-  <div class="chain-card">
-    <div class="chain-title">2. Outcome</div>
-    <div class="chain-tag">The Change</div>
-    <p>The result or behavioral change (e.g., Customers can now bank from home).</p>
-  </div>
-  <div class="chain-card">
-    <div class="chain-title">3. Benefit</div>
-    <div class="chain-tag">The Metric</div>
-    <p>The quantifiable gain realized (e.g., 20% reduction in physical branch costs).</p>
-  </div>
-  <div class="chain-card">
-    <div class="chain-title">4. Value</div>
-    <div class="chain-tag">The Worth</div>
-    <p>The overall strategic impact (e.g., Market leadership and customer loyalty).</p>
-  </div>
+ <div class="chain-card">
+ <div class="chain-title">1. Output</div>
+ <div class="chain-tag">The Thing</div>
+ <p>The tangible deliverable created (e.g., A new mobile banking app).</p>
+ </div>
+ <div class="chain-card">
+ <div class="chain-title">2. Outcome</div>
+ <div class="chain-tag">The Change</div>
+ <p>The result or behavioral change (e.g., Customers can now bank from home).</p>
+ </div>
+ <div class="chain-card">
+ <div class="chain-title">3. Benefit</div>
+ <div class="chain-tag">The Metric</div>
+ <p>The quantifiable gain realized (e.g., 20% reduction in physical branch costs).</p>
+ </div>
+ <div class="chain-card">
+ <div class="chain-title">4. Value</div>
+ <div class="chain-tag">The Worth</div>
+ <p>The overall strategic impact (e.g., Market leadership and customer loyalty).</p>
+ </div>
 </div>
 
 ---
@@ -56,48 +56,48 @@ Value is not a vibe—it needs a measurable definition.
 | **Benefit** | 30% reduction in call center volume | Benefits owner / operations |
 | **Value** | Lower operating cost + higher customer satisfaction | Sponsor / organization |
 
-::: info 🔍 Leading vs lagging indicators
+::: info Leading vs lagging indicators
 Outcomes and benefits are often **lagging** (they appear later). Use **leading indicators** during execution (training completion, pilot adoption rate, usage telemetry) to predict whether value will actually happen.
 :::
 
 ---
 
-## 🏗️ The Value Delivery System
+## The Value Delivery System
 Projects do not exist in a vacuum. They are part of a cascading flow of value:
 
-*   **Organizational Strategy**: Sets the North Star.
-*   **Portfolios**: Choosing the "right" projects to fit the strategy.
-*   **Programs**: Grouping related projects to achieve shared benefits.
-*   **Projects**: The engine of change that creates the outputs.
-*   **Operations**: The "Home" of realized value where products are used daily.
+* **Organizational Strategy**: Sets the North Star.
+* **Portfolios**: Choosing the "right" projects to fit the strategy.
+* **Programs**: Grouping related projects to achieve shared benefits.
+* **Projects**: The engine of change that creates the outputs.
+* **Operations**: The "Home" of realized value where products are used daily.
 
-::: tip 💡 2026 Strategy: The "Tail"
+::: tip 2026 Strategy: The "Tail"
 Value delivery doesn't end at "Go-Live." The PM must ensure a smooth **Transition to Operations**, ensuring the operational owners have the training and support to sustain the value long-term.
 :::
 
 ---
 
-## 🎯 Value Delivery Frameworks
+## Value Delivery Frameworks
 
 ### 1. Kano Model (Customer Satisfaction Analysis)
 The Kano Model helps prioritize features based on their impact on customer satisfaction.
 
 <div class="kano-grid">
-  <div class="kano-card">
-    <div class="kano-title">Basic Needs</div>
-    <p><strong>Expected features</strong> - absence causes dissatisfaction, presence is assumed (e.g., security, basic functionality).</p>
-  </div>
-  <div class="kano-card">
-    <div class="kano-title">Performance Needs</div>
-    <p><strong>Linear satisfaction</strong> - more is better (e.g., speed, reliability, capacity).</p>
-  </div>
-  <div class="kano-card">
-    <div class="kano-title">Delighters</div>
-    <p><strong>Unexpected features</strong> - presence creates excitement, absence doesn't hurt (e.g., innovative UX, surprise benefits).</p>
-  </div>
+ <div class="kano-card">
+ <div class="kano-title">Basic Needs</div>
+ <p><strong>Expected features</strong> - absence causes dissatisfaction, presence is assumed (e.g., security, basic functionality).</p>
+ </div>
+ <div class="kano-card">
+ <div class="kano-title">Performance Needs</div>
+ <p><strong>Linear satisfaction</strong> - more is better (e.g., speed, reliability, capacity).</p>
+ </div>
+ <div class="kano-card">
+ <div class="kano-title">Delighters</div>
+ <p><strong>Unexpected features</strong> - presence creates excitement, absence doesn't hurt (e.g., innovative UX, surprise benefits).</p>
+ </div>
 </div>
 
-::: tip 💡 PMP Application
+::: tip PMP Application
 In execution, prioritize basic needs first (prevents failure), then performance needs (competitive advantage), then delighters (differentiation). Budget cuts? Remove delighters first.
 :::
 
@@ -149,61 +149,61 @@ Payback Period = $500K ÷ $200K = 2.5 years
 
 ---
 
-## 📈 Benefits Realization Management (BRM)
+## Benefits Realization Management (BRM)
 
 Benefits realization is a **continuous process** that spans the entire project lifecycle and extends into operations.
 
 ### Benefits Realization Lifecycle
 
 <div class="brm-phases">
-  <div class="brm-phase">
-    <div class="phase-num">1</div>
-    <h4>Identify & Plan</h4>
-    <p><strong>When:</strong> Initiation & Planning</p>
-    <ul>
-      <li>Define measurable benefits</li>
-      <li>Establish baselines</li>
-      <li>Identify benefit owners</li>
-      <li>Create benefits register</li>
-      <li>Map dependencies</li>
-    </ul>
-  </div>
-  <div class="brm-phase">
-    <div class="phase-num">2</div>
-    <h4>Execute & Enable</h4>
-    <p><strong>When:</strong> Execution</p>
-    <ul>
-      <li>Prioritize high-value work</li>
-      <li>Track leading indicators</li>
-      <li>Validate outcomes incrementally</li>
-      <li>Prepare for adoption</li>
-      <li>Build operational capability</li>
-    </ul>
-  </div>
-  <div class="brm-phase">
-    <div class="phase-num">3</div>
-    <h4>Transition & Sustain</h4>
-    <p><strong>When:</strong> Closing & Post-Project</p>
-    <ul>
-      <li>Transfer ownership to operations</li>
-      <li>Ensure training/documentation</li>
-      <li>Activate change management</li>
-      <li>Schedule benefits reviews</li>
-      <li>Monitor adoption metrics</li>
-    </ul>
-  </div>
-  <div class="brm-phase">
-    <div class="phase-num">4</div>
-    <h4>Measure & Optimize</h4>
-    <p><strong>When:</strong> Post-Implementation</p>
-    <ul>
-      <li>Compare actuals to targets</li>
-      <li>Report to stakeholders</li>
-      <li>Identify optimization opportunities</li>
-      <li>Feed lessons into portfolio</li>
-      <li>Confirm value sustainability</li>
-    </ul>
-  </div>
+ <div class="brm-phase">
+ <div class="phase-num">1</div>
+ <h4>Identify & Plan</h4>
+ <p><strong>When:</strong> Initiation & Planning</p>
+ <ul>
+ <li>Define measurable benefits</li>
+ <li>Establish baselines</li>
+ <li>Identify benefit owners</li>
+ <li>Create benefits register</li>
+ <li>Map dependencies</li>
+ </ul>
+ </div>
+ <div class="brm-phase">
+ <div class="phase-num">2</div>
+ <h4>Execute & Enable</h4>
+ <p><strong>When:</strong> Execution</p>
+ <ul>
+ <li>Prioritize high-value work</li>
+ <li>Track leading indicators</li>
+ <li>Validate outcomes incrementally</li>
+ <li>Prepare for adoption</li>
+ <li>Build operational capability</li>
+ </ul>
+ </div>
+ <div class="brm-phase">
+ <div class="phase-num">3</div>
+ <h4>Transition & Sustain</h4>
+ <p><strong>When:</strong> Closing & Post-Project</p>
+ <ul>
+ <li>Transfer ownership to operations</li>
+ <li>Ensure training/documentation</li>
+ <li>Activate change management</li>
+ <li>Schedule benefits reviews</li>
+ <li>Monitor adoption metrics</li>
+ </ul>
+ </div>
+ <div class="brm-phase">
+ <div class="phase-num">4</div>
+ <h4>Measure & Optimize</h4>
+ <p><strong>When:</strong> Post-Implementation</p>
+ <ul>
+ <li>Compare actuals to targets</li>
+ <li>Report to stakeholders</li>
+ <li>Identify optimization opportunities</li>
+ <li>Feed lessons into portfolio</li>
+ <li>Confirm value sustainability</li>
+ </ul>
+ </div>
 </div>
 
 ### Benefits Realization Governance
@@ -240,7 +240,7 @@ Benefits realization is a **continuous process** that spans the entire project l
 
 ---
 
-## 🧭 Prioritizing for Value (Agile + Hybrid)
+## Prioritizing for Value (Agile + Hybrid)
 Execution decisions should maximize outcomes, not activity.
 
 High-yield prioritization methods you’ll see on the exam:
@@ -248,7 +248,7 @@ High-yield prioritization methods you’ll see on the exam:
 - **Value + risk first**: Deliver the highest value items early, especially when uncertainty is high
 - **WSJF (Scaled Agile)**: Prioritize by **Cost of Delay ÷ Job Size** (useful mental model even if not named)
 
-::: tip 💡 Exam shortcut
+::: tip Exam shortcut
 If the scenario describes uncertainty, prioritize work that **reduces risk and validates assumptions early** (spikes, prototypes, pilots, demos).
 :::
 
@@ -271,8 +271,8 @@ WSJF = Cost of Delay ÷ Job Duration (Size)
 | Feature | User Value | Time Critical | Risk/Opp | CoD Total | Duration | WSJF |
 |---|---|---|---|---|---|---|
 | Feature A | 8 | 5 | 3 | 16 | 8 | **2.0** |
-| Feature B | 5 | 8 | 5 | 18 | 3 | **6.0** ⬅️ High Priority |
-| Feature C | 3 | 3 | 8 | 14 | 2 | **7.0** ⬅️ Highest Priority |
+| Feature B | 5 | 8 | 5 | 18 | 3 | **6.0** High Priority |
+| Feature C | 3 | 3 | 8 | 14 | 2 | **7.0** Highest Priority |
 | Feature D | 8 | 2 | 2 | 12 | 13 | **0.9** |
 
 **Interpretation**: Feature C and B have the highest WSJF (deliver value quickly relative to effort). Feature D, despite high user value, is deprioritized because of long duration.
@@ -286,7 +286,7 @@ WSJF = Cost of Delay ÷ Job Duration (Size)
 
 ---
 
-## 💰 Additional Financial Value Formulas
+## Additional Financial Value Formulas
 
 ### Net Present Value (NPV)
 
@@ -315,10 +315,10 @@ Year 3: $40,000 / 1.331 = $30,053
 Year 4: $40,000 / 1.464 = $27,322
 
 Total PV of Cash Flows: $126,797
-NPV = $126,797 - $100,000 = +$26,797 ✅ Accept
+NPV = $126,797 - $100,000 = +$26,797 Accept
 ```
 
-::: tip 💡 Exam Application
+::: tip Exam Application
 When comparing multiple projects with the same investment, choose the project with the **higher NPV**—it creates more value.
 :::
 
@@ -339,7 +339,7 @@ If Project B has IRR = 9%:
 → Reject Project B (9% < 12%)
 ```
 
-::: warning ⚠️ IRR Limitations
+::: warning IRR Limitations
 IRR can be misleading for projects with non-conventional cash flows (multiple sign changes). When comparing mutually exclusive projects, NPV is generally more reliable.
 :::
 
@@ -384,13 +384,13 @@ Decision Analysis:
 Decision: Continue (based on future value, NOT sunk costs)
 ```
 
-::: warning ⚠️ Exam Pattern
+::: warning Exam Pattern
 If a scenario mentions large investments already made and asks whether to continue, **ignore sunk costs**. Only compare future costs to future benefits. "We've come too far to stop now" is NEVER the right answer.
 :::
 
 ---
 
-## 🔎 Verification vs. Validation (Classic PMP Trap)
+## Verification vs. Validation (Classic PMP Trap)
 - **Verify**: “Did we build it right?” (meets documented requirements/specs)
 - **Validate**: “Did we build the right thing?” (meets stakeholder needs and produces outcomes)
 
@@ -398,7 +398,7 @@ If users are unhappy, the best answers usually involve **validating needs**, cla
 
 ---
 
-## 🧩 Adoption & Change Enablement (ADKAR)
+## Adoption & Change Enablement (ADKAR)
 Even perfect deliverables can fail if people don’t adopt them.
 
 ADKAR provides a simple adoption lens:
@@ -412,7 +412,7 @@ ADKAR provides a simple adoption lens:
 
 ---
 
-## 👥 Stakeholder Engagement During Execution
+## Stakeholder Engagement During Execution
 
 Stakeholder engagement doesn't stop after planning—it intensifies during execution to ensure value delivery remains aligned with needs.
 
@@ -430,26 +430,26 @@ Stakeholder engagement doesn't stop after planning—it intensifies during execu
 ### Active Stakeholder Engagement Techniques
 
 <div class="engagement-techniques">
-  <div class="technique-card">
-    <h4>🎨 Show, Don't Tell</h4>
-    <p><strong>Demos & Prototypes:</strong> Visual progress builds confidence faster than status reports. Show working increments, even if incomplete.</p>
-    <p><strong>PMP Tip:</strong> If stakeholders are disengaged, increase demo frequency and invite them to hands-on sessions.</p>
-  </div>
-  <div class="technique-card">
-    <h4>🔄 Feedback Loops</h4>
-    <p><strong>Sprint Reviews, UAT, Pilot Programs:</strong> Create structured opportunities for stakeholders to provide input and validate value.</p>
-    <p><strong>PMP Tip:</strong> Early and frequent validation reduces late-stage rework and change requests.</p>
-  </div>
-  <div class="technique-card">
-    <h4>📣 Transparent Communication</h4>
-    <p><strong>Visible Progress & Issues:</strong> Use information radiators (burndown charts, dashboards) to make progress transparent.</p>
-    <p><strong>PMP Tip:</strong> Hiding problems from stakeholders leads to trust erosion. Surface issues early with proposed solutions.</p>
-  </div>
-  <div class="technique-card">
-    <h4>🤝 Co-Creation</h4>
-    <p><strong>Collaborative Design Sessions:</strong> Involve stakeholders in solution design, not just requirements gathering.</p>
-    <p><strong>PMP Tip:</strong> When stakeholders feel ownership, adoption increases dramatically.</p>
-  </div>
+ <div class="technique-card">
+ <h4> Show, Don't Tell</h4>
+ <p><strong>Demos & Prototypes:</strong> Visual progress builds confidence faster than status reports. Show working increments, even if incomplete.</p>
+ <p><strong>PMP Tip:</strong> If stakeholders are disengaged, increase demo frequency and invite them to hands-on sessions.</p>
+ </div>
+ <div class="technique-card">
+ <h4> Feedback Loops</h4>
+ <p><strong>Sprint Reviews, UAT, Pilot Programs:</strong> Create structured opportunities for stakeholders to provide input and validate value.</p>
+ <p><strong>PMP Tip:</strong> Early and frequent validation reduces late-stage rework and change requests.</p>
+ </div>
+ <div class="technique-card">
+ <h4> Transparent Communication</h4>
+ <p><strong>Visible Progress & Issues:</strong> Use information radiators (burndown charts, dashboards) to make progress transparent.</p>
+ <p><strong>PMP Tip:</strong> Hiding problems from stakeholders leads to trust erosion. Surface issues early with proposed solutions.</p>
+ </div>
+ <div class="technique-card">
+ <h4> Co-Creation</h4>
+ <p><strong>Collaborative Design Sessions:</strong> Involve stakeholders in solution design, not just requirements gathering.</p>
+ <p><strong>PMP Tip:</strong> When stakeholders feel ownership, adoption increases dramatically.</p>
+ </div>
 </div>
 
 ### Managing Stakeholder Expectations During Execution
@@ -457,26 +457,26 @@ Stakeholder engagement doesn't stop after planning—it intensifies during execu
 **Common Execution Challenges:**
 
 1. **Scope Creep from "Helpful" Stakeholders**
-   - **Symptom**: "While you're at it, could you also add...?"
-   - **Response**: Acknowledge value, add to backlog, assess impact on scope/schedule/cost, get formal change approval
-   - **PMP Answer**: Use integrated change control—never accept informal scope additions
+ - **Symptom**: "While you're at it, could you also add...?"
+ - **Response**: Acknowledge value, add to backlog, assess impact on scope/schedule/cost, get formal change approval
+ - **PMP Answer**: Use integrated change control—never accept informal scope additions
 
 2. **Stakeholder Availability Issues**
-   - **Symptom**: Key stakeholders unavailable for reviews, decisions delayed
-   - **Response**: Escalate to sponsor, document impact of delays, propose empowered delegates
-   - **PMP Answer**: Update stakeholder engagement plan, escalate blockers, consider proxy decision-makers
+ - **Symptom**: Key stakeholders unavailable for reviews, decisions delayed
+ - **Response**: Escalate to sponsor, document impact of delays, propose empowered delegates
+ - **PMP Answer**: Update stakeholder engagement plan, escalate blockers, consider proxy decision-makers
 
 3. **Conflicting Stakeholder Priorities**
-   - **Symptom**: Different stakeholders want different outcomes
-   - **Response**: Facilitate prioritization workshop, escalate to sponsor for tiebreaker, use MoSCoW or weighted scoring
-   - **PMP Answer**: Revisit project charter, confirm primary business objective, get sponsor alignment
+ - **Symptom**: Different stakeholders want different outcomes
+ - **Response**: Facilitate prioritization workshop, escalate to sponsor for tiebreaker, use MoSCoW or weighted scoring
+ - **PMP Answer**: Revisit project charter, confirm primary business objective, get sponsor alignment
 
 4. **Negative Stakeholder Influence**
-   - **Symptom**: Resistant stakeholders spreading doubt or blocking progress
-   - **Response**: Increase engagement frequency, address concerns directly, involve champion stakeholders, escalate if needed
-   - **PMP Answer**: Update stakeholder engagement plan with targeted strategies for resistant stakeholders
+ - **Symptom**: Resistant stakeholders spreading doubt or blocking progress
+ - **Response**: Increase engagement frequency, address concerns directly, involve champion stakeholders, escalate if needed
+ - **PMP Answer**: Update stakeholder engagement plan with targeted strategies for resistant stakeholders
 
-::: tip 🎯 Exam Insight: Stakeholder Resistance
+::: tip Exam Insight: Stakeholder Resistance
 If a scenario describes stakeholder resistance or lack of buy-in during execution, the best answer typically involves:
 1. Increasing engagement (more demos, involvement in decisions)
 2. Addressing concerns (one-on-one meetings, listening sessions)
@@ -486,7 +486,7 @@ If a scenario describes stakeholder resistance or lack of buy-in during executio
 
 ---
 
-## 🏁 Transition to Operations (Operational Readiness)
+## Transition to Operations (Operational Readiness)
 To make the "tail" real, confirm readiness across people, process, and technology.
 
 | Readiness area | What "ready" looks like |
@@ -551,7 +551,7 @@ Key Results:
 - KR4: Reduce onboarding time from 30 minutes to 10 minutes
 ```
 
-::: info 💡 OKRs vs KPIs
+::: info OKRs vs KPIs
 - **OKRs**: Time-boxed (quarterly), aspirational, change frequently, focus on growth
 - **KPIs**: Ongoing, operational, stable over time, focus on maintaining standards
 - Use both: OKRs for transformation, KPIs for sustainability
@@ -562,26 +562,26 @@ Key Results:
 The Balanced Scorecard measures performance across four perspectives, preventing over-focus on any single dimension.
 
 <div class="balanced-scorecard">
-  <div class="scorecard-quadrant">
-    <h4>💰 Financial Perspective</h4>
-    <p><strong>Question:</strong> How do we look to shareholders?</p>
-    <p><strong>Metrics:</strong> ROI, profit margin, revenue growth, cost reduction</p>
-  </div>
-  <div class="scorecard-quadrant">
-    <h4>👥 Customer Perspective</h4>
-    <p><strong>Question:</strong> How do customers see us?</p>
-    <p><strong>Metrics:</strong> Customer satisfaction, retention, market share, brand perception</p>
-  </div>
-  <div class="scorecard-quadrant">
-    <h4>⚙️ Internal Process Perspective</h4>
-    <p><strong>Question:</strong> What must we excel at?</p>
-    <p><strong>Metrics:</strong> Quality, efficiency, innovation rate, process compliance</p>
-  </div>
-  <div class="scorecard-quadrant">
-    <h4>📚 Learning & Growth Perspective</h4>
-    <p><strong>Question:</strong> Can we continue to improve and create value?</p>
-    <p><strong>Metrics:</strong> Employee skills, system capabilities, organizational culture, innovation pipeline</p>
-  </div>
+ <div class="scorecard-quadrant">
+ <h4> Financial Perspective</h4>
+ <p><strong>Question:</strong> How do we look to shareholders?</p>
+ <p><strong>Metrics:</strong> ROI, profit margin, revenue growth, cost reduction</p>
+ </div>
+ <div class="scorecard-quadrant">
+ <h4> Customer Perspective</h4>
+ <p><strong>Question:</strong> How do customers see us?</p>
+ <p><strong>Metrics:</strong> Customer satisfaction, retention, market share, brand perception</p>
+ </div>
+ <div class="scorecard-quadrant">
+ <h4> Internal Process Perspective</h4>
+ <p><strong>Question:</strong> What must we excel at?</p>
+ <p><strong>Metrics:</strong> Quality, efficiency, innovation rate, process compliance</p>
+ </div>
+ <div class="scorecard-quadrant">
+ <h4> Learning & Growth Perspective</h4>
+ <p><strong>Question:</strong> Can we continue to improve and create value?</p>
+ <p><strong>Metrics:</strong> Employee skills, system capabilities, organizational culture, innovation pipeline</p>
+ </div>
 </div>
 
 **PMP Application**: When assessing project success, consider all four perspectives—not just schedule and budget.
@@ -607,7 +607,7 @@ The Balanced Scorecard measures performance across four perspectives, preventing
 | Help desk ticket trend (decreasing = good training) | Support cost reduction (target: 30% decrease) |
 | User login frequency during pilot (engagement proxy) | User retention rate (target: 85% monthly active users) |
 
-::: tip 🎯 PMP Exam Strategy
+::: tip PMP Exam Strategy
 If a scenario asks how to predict whether benefits will be realized, focus on **leading indicators** during execution, not waiting for lagging indicators post-implementation.
 :::
 
@@ -643,7 +643,7 @@ NPS = % Promoters - % Detractors
 | **0-29** | Needs improvement | Investigate root causes, prioritize improvements |
 | **< 0** | Critical | Immediate intervention required; major issues |
 
-::: info 📊 NPS vs. CSAT
+::: info NPS vs. CSAT
 - **NPS**: Measures loyalty and likelihood to recommend (relationship)
 - **CSAT**: Measures satisfaction with specific interaction (transactional)
 - Use both: NPS for overall value delivery; CSAT for specific deliverable acceptance
@@ -651,7 +651,7 @@ NPS = % Promoters - % Detractors
 
 ---
 
-## 🔧 Quality Execution in Value Context
+## Quality Execution in Value Context
 
 Quality is not just about defect detection—it's about building value into every deliverable. Quality issues during execution directly threaten value delivery.
 
@@ -704,7 +704,7 @@ Use these tools during execution to identify, analyze, and solve quality problem
 - **Mean**: Expected average
 - **Rule of 7**: Seven consecutive points on one side of the mean indicates a process shift (assignable cause)
 
-::: tip 💡 Exam Application
+::: tip Exam Application
 If a scenario describes recurring quality issues during execution, look for answers that use **root cause analysis** (5 Whys, Fishbone) and **prevention** (process improvement, training, standards) rather than just adding more testing.
 :::
 
@@ -729,7 +729,7 @@ If a scenario describes recurring quality issues during execution, look for answ
 
 ---
 
-## 🔄 Continuous Improvement Processes
+## Continuous Improvement Processes
 
 Value delivery improves through systematic learning and refinement during execution.
 
@@ -794,7 +794,7 @@ Result: Average review time reduced to 8 hours (73% improvement)
 - **Tracked**: Review action items at start of next retrospective
 - **Limited**: 2-3 actions per retrospective (focus on what matters most)
 
-::: tip 🎯 PMP Exam Insight
+::: tip PMP Exam Insight
 If a scenario describes recurring team issues (missed deadlines, quality problems, conflicts), the answer often involves **implementing retrospectives** or similar reflection practices—not just fixing the immediate problem.
 :::
 
@@ -832,63 +832,63 @@ If a scenario describes recurring team issues (missed deadlines, quality problem
 **PDCA** is a continuous improvement framework for systematic problem-solving.
 
 <div class="pdca-cycle">
-  <div class="pdca-step">
-    <div class="step-num">1</div>
-    <h4>Plan</h4>
-    <ul>
-      <li>Identify problem or opportunity</li>
-      <li>Analyze root cause</li>
-      <li>Develop hypothesis and solution</li>
-      <li>Define success metrics</li>
-    </ul>
-  </div>
-  <div class="pdca-step">
-    <div class="step-num">2</div>
-    <h4>Do</h4>
-    <ul>
-      <li>Implement solution on small scale</li>
-      <li>Test hypothesis (pilot, experiment)</li>
-      <li>Collect data during implementation</li>
-      <li>Document observations</li>
-    </ul>
-  </div>
-  <div class="pdca-step">
-    <div class="step-num">3</div>
-    <h4>Check</h4>
-    <ul>
-      <li>Compare results to predictions</li>
-      <li>Analyze data and feedback</li>
-      <li>Identify gaps and unexpected outcomes</li>
-      <li>Determine if solution is effective</li>
-    </ul>
-  </div>
-  <div class="pdca-step">
-    <div class="step-num">4</div>
-    <h4>Act</h4>
-    <ul>
-      <li>If successful: standardize and scale</li>
-      <li>If unsuccessful: learn and adjust</li>
-      <li>Update processes and documentation</li>
-      <li>Begin next PDCA cycle for further improvement</li>
-      <li>Begin next PDCA cycle for further improvement</li>
-    </ul>
-  </div>
+ <div class="pdca-step">
+ <div class="step-num">1</div>
+ <h4>Plan</h4>
+ <ul>
+ <li>Identify problem or opportunity</li>
+ <li>Analyze root cause</li>
+ <li>Develop hypothesis and solution</li>
+ <li>Define success metrics</li>
+ </ul>
+ </div>
+ <div class="pdca-step">
+ <div class="step-num">2</div>
+ <h4>Do</h4>
+ <ul>
+ <li>Implement solution on small scale</li>
+ <li>Test hypothesis (pilot, experiment)</li>
+ <li>Collect data during implementation</li>
+ <li>Document observations</li>
+ </ul>
+ </div>
+ <div class="pdca-step">
+ <div class="step-num">3</div>
+ <h4>Check</h4>
+ <ul>
+ <li>Compare results to predictions</li>
+ <li>Analyze data and feedback</li>
+ <li>Identify gaps and unexpected outcomes</li>
+ <li>Determine if solution is effective</li>
+ </ul>
+ </div>
+ <div class="pdca-step">
+ <div class="step-num">4</div>
+ <h4>Act</h4>
+ <ul>
+ <li>If successful: standardize and scale</li>
+ <li>If unsuccessful: learn and adjust</li>
+ <li>Update processes and documentation</li>
+ <li>Begin next PDCA cycle for further improvement</li>
+ <li>Begin next PDCA cycle for further improvement</li>
+ </ul>
+ </div>
 </div>
 
 **Example: Improving Test Coverage**
 ```
 Plan: Hypothesis - Low test coverage causing production defects.
-      Goal: Increase coverage from 60% to 85% in 2 sprints.
+ Goal: Increase coverage from 60% to 85% in 2 sprints.
 
-Do:   Implement automated test generation for new features.
-      Train team on test-driven development (TDD).
+Do: Implement automated test generation for new features.
+ Train team on test-driven development (TDD).
 
 Check: After 2 sprints, coverage increased to 78%.
-       Production defect rate decreased by 40%.
+ Production defect rate decreased by 40%.
 
-Act:  Standardize TDD approach in team guidelines.
-      Add coverage checks to CI/CD pipeline.
-      Next cycle: Target 90% coverage for critical modules.
+Act: Standardize TDD approach in team guidelines.
+ Add coverage checks to CI/CD pipeline.
+ Next cycle: Target 90% coverage for critical modules.
 ```
 
 ### 5. Root Cause Analysis (RCA)
@@ -920,7 +920,7 @@ Action: Involve users in training development for future releases
 
 ---
 
-## 🔀 Adaptive vs. Predictive Value Delivery
+## Adaptive vs. Predictive Value Delivery
 
 Different project approaches deliver value in fundamentally different ways.
 
@@ -955,15 +955,15 @@ Different project approaches deliver value in fundamentally different ways.
 **Example Scenario:**
 ```
 Predictive Approach: Build entire e-commerce platform over 12 months,
-                     launch everything at once, measure success at month 13.
-                     Risk: If users don't adopt, 12 months wasted.
+ launch everything at once, measure success at month 13.
+ Risk: If users don't adopt, 12 months wasted.
 
-Adaptive Approach:  Month 1-2: MVP with product catalog and checkout
-                    Month 3: Add user accounts and order history
-                    Month 4: Add product recommendations
-                    Month 5: Add reviews and ratings
-                    Each release: Measure adoption, gather feedback, adjust priorities.
-                    Risk: Mitigated through continuous validation.
+Adaptive Approach: Month 1-2: MVP with product catalog and checkout
+ Month 3: Add user accounts and order history
+ Month 4: Add product recommendations
+ Month 5: Add reviews and ratings
+ Each release: Measure adoption, gather feedback, adjust priorities.
+ Risk: Mitigated through continuous validation.
 ```
 
 ### Predictive Value Delivery Considerations
@@ -997,17 +997,17 @@ Benefits may appear after the project is "done." Strong answers ensure:
 
 ---
 
-## 🎓 Real-World Value Delivery Scenarios
+## Real-World Value Delivery Scenarios
 
 ### Scenario 1: The "Successful" Failure
 
 **Situation**: A project to implement a new CRM system was delivered on time, within budget, and met all documented requirements. However, three months post-implementation, the sales team has reverted to using spreadsheets and the CRM adoption rate is only 25%.
 
 **What went wrong?**
-- **Output delivered** ✅ (working CRM system)
-- **Outcome not achieved** ❌ (sales team not using system)
-- **Benefit not realized** ❌ (no productivity improvement, no data insights)
-- **Value missing** ❌ (investment wasted, no strategic impact)
+- **Output delivered** (working CRM system)
+- **Outcome not achieved** (sales team not using system)
+- **Benefit not realized** (no productivity improvement, no data insights)
+- **Value missing** (investment wasted, no strategic impact)
 
 **Root Causes:**
 1. **Lack of user involvement**: Requirements gathered from management, not actual users
@@ -1187,7 +1187,7 @@ Why wasn't this identified earlier?
 - AC review required before story enters sprint
 
 **Check**: Measure results after 2 sprints
-- Velocity: Sprint 7 = 30 points, Sprint 8 = 33 points ✅
+- Velocity: Sprint 7 = 30 points, Sprint 8 = 33 points 
 - Interruptions: Reduced by 60% during focus time
 - Testing: No testing bottleneck; stories completed earlier
 - Rework: Decreased by 40% due to clearer AC
@@ -1213,220 +1213,220 @@ Why wasn't this identified earlier?
 
 <style>
 .chain-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.25rem;
-  margin: 1.5rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ gap: 1.25rem;
+ margin: 1.5rem 0;
 }
 
 .chain-card {
-  padding: 1.25rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.25rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .chain-title {
-  font-weight: 700;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.25rem;
+ font-weight: 700;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.25rem;
 }
 
 .chain-tag {
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--vp-c-text-2);
-  margin-bottom: 0.75rem;
+ font-size: 0.7rem;
+ font-weight: 800;
+ text-transform: uppercase;
+ color: var(--vp-c-text-2);
+ margin-bottom: 0.75rem;
 }
 
 .chain-card p {
-  font-size: 0.85rem;
-  margin: 0;
-  line-height: 1.4;
+ font-size: 0.85rem;
+ margin: 0;
+ line-height: 1.4;
 }
 </style>
 
 ---
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> If an exam scenario says a customer is unhappy with a project that met all its technical requirements, the root cause is likely a <strong>failure to focus on Outcomes/Value</strong>. Requirements are a means to an end, not the end itself.
+ <strong> Exam Insight:</strong> If an exam scenario says a customer is unhappy with a project that met all its technical requirements, the root cause is likely a <strong>failure to focus on Outcomes/Value</strong>. Requirements are a means to an end, not the end itself.
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 
 .kano-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.25rem;
-  margin: 1.5rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+ gap: 1.25rem;
+ margin: 1.5rem 0;
 }
 
 .kano-card {
-  padding: 1.25rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.25rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .kano-title {
-  font-weight: 700;
-  color: var(--vp-c-brand);
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
+ font-weight: 700;
+ color: var(--vp-c-brand);
+ margin-bottom: 0.75rem;
+ font-size: 1rem;
 }
 
 .brm-phases {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
 }
 
 .brm-phase {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 2px solid var(--vp-c-border);
-  border-radius: 12px;
-  position: relative;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 2px solid var(--vp-c-border);
+ border-radius: 12px;
+ position: relative;
 }
 
 .phase-num {
-  position: absolute;
-  top: -15px;
-  left: 20px;
-  background: var(--vp-c-brand);
-  color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1rem;
+ position: absolute;
+ top: -15px;
+ left: 20px;
+ background: var(--vp-c-brand);
+ color: white;
+ width: 30px;
+ height: 30px;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: bold;
+ font-size: 1rem;
 }
 
 .brm-phase h4 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--vp-c-brand);
+ margin-top: 0.5rem;
+ margin-bottom: 0.5rem;
+ color: var(--vp-c-brand);
 }
 
 .brm-phase ul {
-  margin: 0.75rem 0 0 0;
-  padding-left: 1.25rem;
-  font-size: 0.9rem;
+ margin: 0.75rem 0 0 0;
+ padding-left: 1.25rem;
+ font-size: 0.9rem;
 }
 
 .brm-phase li {
-  margin-bottom: 0.35rem;
+ margin-bottom: 0.35rem;
 }
 
 .engagement-techniques {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
-  margin: 1.5rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ gap: 1.25rem;
+ margin: 1.5rem 0;
 }
 
 .technique-card {
-  padding: 1.25rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
+ padding: 1.25rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
 }
 
 .technique-card h4 {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-  color: var(--vp-c-brand);
+ margin-top: 0;
+ margin-bottom: 0.75rem;
+ color: var(--vp-c-brand);
 }
 
 .technique-card p {
-  margin: 0.5rem 0;
-  font-size: 0.9rem;
-  line-height: 1.5;
+ margin: 0.5rem 0;
+ font-size: 0.9rem;
+ line-height: 1.5;
 }
 
 .balanced-scorecard {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
-  margin: 1.5rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+ gap: 1.25rem;
+ margin: 1.5rem 0;
 }
 
 .scorecard-quadrant {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 2px solid var(--vp-c-brand-dimm);
-  border-radius: 12px;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 2px solid var(--vp-c-brand-dimm);
+ border-radius: 12px;
 }
 
 .scorecard-quadrant h4 {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-  color: var(--vp-c-brand);
-  font-size: 1rem;
+ margin-top: 0;
+ margin-bottom: 0.75rem;
+ color: var(--vp-c-brand);
+ font-size: 1rem;
 }
 
 .scorecard-quadrant p {
-  margin: 0.5rem 0;
-  font-size: 0.85rem;
-  line-height: 1.4;
+ margin: 0.5rem 0;
+ font-size: 0.85rem;
+ line-height: 1.4;
 }
 
 .pdca-cycle {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.25rem;
-  margin: 2rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+ gap: 1.25rem;
+ margin: 2rem 0;
 }
 
 .pdca-step {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 2px solid var(--vp-c-border);
-  border-radius: 12px;
-  position: relative;
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 2px solid var(--vp-c-border);
+ border-radius: 12px;
+ position: relative;
 }
 
 .pdca-step .step-num {
-  position: absolute;
-  top: -15px;
-  left: 20px;
-  background: var(--vp-c-brand);
-  color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1rem;
+ position: absolute;
+ top: -15px;
+ left: 20px;
+ background: var(--vp-c-brand);
+ color: white;
+ width: 30px;
+ height: 30px;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: bold;
+ font-size: 1rem;
 }
 
 .pdca-step h4 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.75rem;
-  color: var(--vp-c-brand);
+ margin-top: 0.5rem;
+ margin-bottom: 0.75rem;
+ color: var(--vp-c-brand);
 }
 
 .pdca-step ul {
-  margin: 0.5rem 0 0 0;
-  padding-left: 1.25rem;
-  font-size: 0.85rem;
+ margin: 0.5rem 0 0 0;
+ padding-left: 1.25rem;
+ font-size: 0.85rem;
 }
 
 .pdca-step li {
-  margin-bottom: 0.35rem;
+ margin-bottom: 0.35rem;
 }
 </style>

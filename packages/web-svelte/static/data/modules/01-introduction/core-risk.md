@@ -100,7 +100,7 @@ Fast, subjective assessment using probability and impact scales.
 
 ### Probability-Impact Matrix
 
-|  | **Very Low Impact** | **Low Impact** | **Medium Impact** | **High Impact** | **Very High Impact** |
+| | **Very Low Impact** | **Low Impact** | **Medium Impact** | **High Impact** | **Very High Impact** |
 |--|:---:|:---:|:---:|:---:|:---:|
 | **Very High Probability** | Medium | Medium | High | Very High | Very High |
 | **High Probability** | Low | Medium | High | High | Very High |
@@ -288,5 +288,5 @@ Risk management is not about *eliminating* risk (which is impossible); it's abou
 :::
 
 <div class="flex justify-center my-12">
-  <a href="./core-data" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Data & AI →</a>
+ <a href="./core-data" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Data & AI →</a>
 </div>

@@ -317,5 +317,5 @@ Never "ship and pray." Quality issues discovered by the customer are exponential
 :::
 
 <div class="flex justify-center my-12">
-  <a href="./core-risk" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Risk →</a>
+ <a href="./core-risk" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity no-underline">Next: Risk →</a>
 </div>

@@ -4,7 +4,7 @@
 
 Execution is not just about the team; it's about navigating the web of **Stakeholders**, **Communications**, and **Vendors**. This section covers the "people and contracts" side of execution.
 
-::: info 📋 PMP Exam Context
+::: info PMP Exam Context
 This chapter maps to **Process Group: Executing** in the PMBOK Guide. Team engagement and procurement execution are critical for PMP success, covering:
 - Team development models (Tuckman, Drexler-Sibbet)
 - Motivation theories (Maslow, Herzberg, McGregor Theory X/Y)
@@ -14,7 +14,7 @@ This chapter maps to **Process Group: Executing** in the PMBOK Guide. Team engag
 
 ---
 
-## 👥 Develop Team & Build High Performance
+## Develop Team & Build High Performance
 
 Before managing stakeholders externally, you must build a cohesive, high-performing **internal team**. This is covered in the **Develop Team** process.
 
@@ -30,7 +30,7 @@ Teams typically progress through five stages. Understanding where your team is h
 | **Performing** | Team operates at high efficiency | Self-organizing; high productivity | Empower the team; remove obstacles; focus on strategic issues |
 | **Adjourning** | Project ends; team disbands | Reflection; possible grief or relief | Celebrate success; conduct lessons learned; help transition members |
 
-::: tip 💡 Exam Insight
+::: tip Exam Insight
 Teams can **regress** to earlier stages when membership changes, new conflicts arise, or major scope changes occur. If a high-performing team suddenly has infighting after a new member joins, they may have slipped back to **Storming**.
 :::
 
@@ -54,13 +54,13 @@ An alternative model focusing on **questions** the team must answer:
 - **Recognition & Rewards**: Publicly acknowledging contributions.
 - **Ground Rules**: Team-created norms (e.g., "no laptops in meetings," "respond to emails within 24 hours").
 
-::: warning ⚠️ Common Pitfall
+::: warning Common Pitfall
 **Individual rewards** in a team environment can **undermine collaboration**. If one developer gets a bonus for closing the most tickets, others may hoard knowledge or avoid helping. Prefer **team-based rewards** that incentivize collective success.
 :::
 
 ---
 
-## 🎯 Motivation Theories
+## Motivation Theories
 
 Understanding what drives people helps you create an environment where team members are intrinsically motivated.
 
@@ -69,20 +69,20 @@ Understanding what drives people helps you create an environment where team memb
 People are motivated by unfulfilled needs, progressing from basic to higher-level needs:
 
 ```
-        Self-Actualization
-       (Creativity, problem-solving, reaching potential)
-              ↑
-           Esteem
-       (Recognition, achievement, respect)
-              ↑
-          Social
-      (Belonging, teamwork, relationships)
-              ↑
-          Safety
-     (Job security, safe working conditions)
-              ↑
-       Physiological
-    (Salary, breaks, comfortable workspace)
+ Self-Actualization
+ (Creativity, problem-solving, reaching potential)
+ ↑
+ Esteem
+ (Recognition, achievement, respect)
+ ↑
+ Social
+ (Belonging, teamwork, relationships)
+ ↑
+ Safety
+ (Job security, safe working conditions)
+ ↑
+ Physiological
+ (Salary, breaks, comfortable workspace)
 ```
 
 **PM Application**: If a team member is worried about job security (Safety need), offering them a "challenging stretch assignment" (Self-Actualization) won't motivate them. Address the lower-level need first.
@@ -152,7 +152,7 @@ People are driven by three needs:
 
 ---
 
-## ⚔️ Conflict Resolution Techniques
+## Conflict Resolution Techniques
 
 Conflict is **inevitable** in projects. The key is to address it constructively. PMI recognizes five conflict resolution techniques, ranked roughly from most to least effective:
 
@@ -189,7 +189,7 @@ Conflict is **inevitable** in projects. The key is to address it constructively.
 
 **Outcome**: Conflict is de-escalated, but underlying issue may resurface.
 
-::: warning ⚠️ Caution
+::: warning Caution
 Smoothing can **suppress legitimate concerns**. If used repeatedly on significant issues, resentment builds.
 :::
 
@@ -236,23 +236,23 @@ Smoothing can **suppress legitimate concerns**. If used repeatedly on significan
 The **TKI Model** maps conflict styles along two axes: **Assertiveness** (satisfying your own concerns) and **Cooperativeness** (satisfying others' concerns).
 
 ```
-                    HIGH ASSERTIVENESS
-                          ↑
-           ┌──────────────┼──────────────┐
-           │              │              │
-           │   COMPETING  │ COLLABORATING│
-           │   (Forcing)  │  (Win-Win)   │
-           │              │              │
-LOW ←──────┼──────────────┼──────────────┼──────→ HIGH
-COOPERAT-  │              │              │    COOPERAT-
-IVENESS    │  AVOIDING    │ ACCOMMODATING│    IVENESS
-           │ (Withdrawal) │  (Smoothing) │
-           │              │              │
-           └──────────────┼──────────────┘
-                    ↓ COMPROMISING ↓
-                    (in the middle)
-                    
-                   LOW ASSERTIVENESS
+ HIGH ASSERTIVENESS
+ ↑
+ 
+ 
+ COMPETING COLLABORATING
+ (Forcing) (Win-Win) 
+ 
+LOW ←→ HIGH
+COOPERAT- COOPERAT-
+IVENESS AVOIDING ACCOMMODATING IVENESS
+ (Withdrawal) (Smoothing) 
+ 
+ 
+ ↓ COMPROMISING ↓
+ (in the middle)
+ 
+ LOW ASSERTIVENESS
 ```
 
 | Mode | Assertiveness | Cooperativeness | When Appropriate |
@@ -263,7 +263,7 @@ IVENESS    │  AVOIDING    │ ACCOMMODATING│    IVENESS
 | **Avoiding** | Low | Low | Trivial issues, cooling off, no chance of winning, gathering information |
 | **Accommodating** | Low | High | You're wrong, relationship matters more, building goodwill |
 
-::: tip 💡 Exam Application
+::: tip Exam Application
 The exam often presents conflict scenarios and asks which approach to use. Map the scenario to the TKI axes:
 - **High stakes + creative solution needed** → Collaborating
 - **Emergency + clear authority** → Competing
@@ -274,7 +274,7 @@ The exam often presents conflict scenarios and asks which approach to use. Map t
 
 ---
 
-## 📜 Contract Types Deep Dive (Execution Context)
+## Contract Types Deep Dive (Execution Context)
 
 During procurement execution, understanding contract types helps you manage vendor relationships and assess risk allocation.
 
@@ -371,13 +371,13 @@ Final Fee: $10,000 (base) + (0.85 × $20,000) = $27,000
 Total Price: $195,000 + $27,000 = $222,000
 ```
 
-::: warning ⚠️ Exam Tip
+::: warning Exam Tip
 CPAF award fees are **subjective** and **not subject to dispute**. The Award Fee Board's decision is final. This differs from CPIF, where incentive calculations are objective and auditable.
 :::
 
 ---
 
-## 🧑‍💼 Servant Leadership in Execution
+## Servant Leadership in Execution
 
 Servant leadership is critical during execution—the PM's job is to **clear the path** so the team can deliver value. This means prioritizing team needs, removing impediments, and coaching rather than commanding.
 
@@ -409,51 +409,51 @@ Servant leadership is critical during execution—the PM's job is to **clear the
 - **Situation**: Developer blocked waiting for database access from IT.
 - **Traditional Approach**: Log the issue, wait for next status meeting to escalate.
 - **Servant Leader Approach**: 
-  1. Immediately contact IT lead: "Our developer has been blocked for 2 days. Can we resolve this today?"
-  2. Escalate if no response within 4 hours
-  3. While waiting, help developer find workaround (mock database, other tasks)
-  4. Once resolved, log lesson learned
+ 1. Immediately contact IT lead: "Our developer has been blocked for 2 days. Can we resolve this today?"
+ 2. Escalate if no response within 4 hours
+ 3. While waiting, help developer find workaround (mock database, other tasks)
+ 4. Once resolved, log lesson learned
 
 **Scenario 2: Stakeholder Making Unreasonable Demands**
 - **Situation**: Stakeholder emails the team directly demanding scope additions without PM knowledge.
 - **Traditional Approach**: Team addresses the stakeholder; PM finds out later.
 - **Servant Leader Approach**:
-  1. Shield the team by redirecting communication through proper channels
-  2. "Thanks for your request. Let me assess the impact and get back to you."
-  3. Protect team focus; handle stakeholder relationship directly
-  4. If request is valid, follow change control; if not, manage stakeholder expectation
+ 1. Shield the team by redirecting communication through proper channels
+ 2. "Thanks for your request. Let me assess the impact and get back to you."
+ 3. Protect team focus; handle stakeholder relationship directly
+ 4. If request is valid, follow change control; if not, manage stakeholder expectation
 
 **Scenario 3: Team Conflict Over Technical Approach**
 - **Situation**: Two developers disagree strongly on architecture; work is stalled.
 - **Traditional Approach**: PM makes the decision and assigns the approach.
 - **Servant Leader Approach**:
-  1. Facilitate a discussion: "Let's hear both perspectives and understand the trade-offs."
-  2. Ask questions: "What are the pros/cons? What risks does each approach carry?"
-  3. Let team reach consensus if possible
-  4. Only decide if team cannot agree and decision is time-critical
+ 1. Facilitate a discussion: "Let's hear both perspectives and understand the trade-offs."
+ 2. Ask questions: "What are the pros/cons? What risks does each approach carry?"
+ 3. Let team reach consensus if possible
+ 4. Only decide if team cannot agree and decision is time-critical
 
 **Scenario 4: Team Member Underperforming**
 - **Situation**: One developer consistently delivers late with quality issues.
 - **Traditional Approach**: Document issues, reprimand, potentially escalate for removal.
 - **Servant Leader Approach**:
-  1. Meet privately, listen first: "I've noticed some challenges. What's going on?"
-  2. Understand root cause (personal issues? skill gap? unclear expectations?)
-  3. Offer support: training, reduced workload, pair programming
-  4. Set clear expectations and timeline
-  5. Coach and check in frequently
-  6. If no improvement after support, then escalate (documented pattern)
+ 1. Meet privately, listen first: "I've noticed some challenges. What's going on?"
+ 2. Understand root cause (personal issues? skill gap? unclear expectations?)
+ 3. Offer support: training, reduced workload, pair programming
+ 4. Set clear expectations and timeline
+ 5. Coach and check in frequently
+ 6. If no improvement after support, then escalate (documented pattern)
 
-::: tip 💡 Exam Insight
+::: tip Exam Insight
 If a scenario describes a blocked or struggling team member, look for answers that involve **active problem-solving and support** rather than logging and waiting. Servant leadership means the PM acts immediately to help the team.
 :::
 
 ---
 
-## 🤝 Manage Stakeholder Engagement
+## Manage Stakeholder Engagement
 
 This is the process of communicating and working with stakeholders to meet their needs, address issues, and foster appropriate involvement.
 
-::: tip 💡 Planning vs. Execution
+::: tip Planning vs. Execution
 - **Plan Stakeholder Engagement**: "How *should* we interact with them?" (Strategy)
 - **Manage Stakeholder Engagement**: "The actual conversation, email, or meeting." (Action)
 :::
@@ -477,26 +477,26 @@ Your goal is to move stakeholders from their current state to the desired state 
 
 ---
 
-## 📢 Manage Communications
+## Manage Communications
 This is the execution of the Communications Management Plan—creating, collecting, distributing, storing, and retrieving information.
 
 ### The "4 Rs" of Execution Communication
-1.  **Right Information**: Don't spam; summarize relevant data.
-2.  **Right Time**: Before they hear rumors; on the planned cadence.
-3.  **Right Audience**: Tailored to their interest and power.
-4.  **Right Channel**: Email for record, call for urgency, face-to-face for conflict.
+1. **Right Information**: Don't spam; summarize relevant data.
+2. **Right Time**: Before they hear rumors; on the planned cadence.
+3. **Right Audience**: Tailored to their interest and power.
+4. **Right Channel**: Email for record, call for urgency, face-to-face for conflict.
 
 ### Communication vs. Engagement
 - **Communication**: Sending the status report.
 - **Engagement**: Calling them to discuss the red flag in the status report.
 
-::: warning ⚠️ Common Pitfall
+::: warning Common Pitfall
 Sending an email does not mean you have communicated. Communication only happens when the message is **received and understood**. Use feedback loops (ask questions) to verify understanding.
 :::
 
 ---
 
-## 🛒 Conduct Procurements (Executing Contracts)
+## Conduct Procurements (Executing Contracts)
 
 This process involves obtaining seller responses, selecting a seller, and awarding a contract. **Conduct Procurements** is in the **Executing** process group—this is where you move from planning what to buy to actually selecting and contracting with sellers.
 
@@ -522,7 +522,7 @@ A meeting with **all** prospective sellers to:
 - Answer questions about requirements.
 - Ensure all vendors have the same information (level playing field).
 
-::: warning ⚠️ Critical Rule
+::: warning Critical Rule
 If **one vendor** asks a question during or after the conference, the answer must be shared with **all vendors**. Giving one vendor private information creates an unfair advantage and may violate procurement ethics or laws.
 :::
 
@@ -629,13 +629,13 @@ The contract is the **legal foundation** of the relationship. It defines:
 - **Dispute Resolution**: ADR (Alternative Dispute Resolution), mediation, arbitration, or litigation.
 - **Termination Clause**: Conditions under which either party can exit.
 
-::: tip 💡 Exam Insight
+::: tip Exam Insight
 On the PMP exam, if there's a dispute, **always check the contract first**. The contract is the authoritative document. "I thought we agreed to X" or "The vendor verbally promised Y" doesn't matter if it's not in the contract.
 :::
 
 ---
 
-## 🔧 Managing Vendors During Execution (Control Procurements)
+## Managing Vendors During Execution (Control Procurements)
 
 Once the contract is signed, you enter **Control Procurements** (Monitoring & Controlling process group), but daily vendor management feels like execution. This section covers **how to work with sellers** during the project.
 
@@ -673,16 +673,16 @@ You must actively monitor whether the seller is meeting contract obligations.
 1. **Seller submits deliverable** (e.g., software build, report, equipment).
 2. **Buyer inspects** against acceptance criteria (defined in the contract).
 3. **Buyer issues decision**:
-   - **Accept**: Deliverable meets criteria. Payment is triggered (if milestone-based). Seller's obligation is fulfilled.
-   - **Reject**: Deliverable does not meet criteria. Seller must remediate (fix defects) and resubmit.
-   - **Conditionally Accept**: Minor issues exist. Buyer accepts with a punch list of items to be corrected.
+ - **Accept**: Deliverable meets criteria. Payment is triggered (if milestone-based). Seller's obligation is fulfilled.
+ - **Reject**: Deliverable does not meet criteria. Seller must remediate (fix defects) and resubmit.
+ - **Conditionally Accept**: Minor issues exist. Buyer accepts with a punch list of items to be corrected.
 
 **Example**:
 - **Contract**: "Website must load in under 2 seconds on a standard broadband connection."
 - **Inspection**: Buyer tests website. Load time is 3.5 seconds.
 - **Decision**: **Reject**. Provide detailed test results to seller. Seller optimizes code, resubmits. New load time: 1.8 seconds. **Accept**.
 
-::: warning ⚠️ Common Pitfall
+::: warning Common Pitfall
 **Never accept deliverables that don't meet acceptance criteria** just to "keep the project moving." Once you accept, you lose leverage. The seller's obligation is satisfied, and you're stuck with a substandard deliverable.
 :::
 
@@ -717,7 +717,7 @@ Any change to the contract (scope, schedule, price, terms) requires **formal cha
 - **Negotiation**: Buyer agrees to $7,000 and 2 weeks.
 - **Contract Amendment**: Formal amendment issued. New price: $57,000. New deadline: 3.5 months.
 
-::: tip 💡 Key Principle
+::: tip Key Principle
 **You cannot just "ask" a vendor to do extra work** outside the contract without addressing price and schedule. Even small changes require formal change control to avoid scope creep and disputes.
 :::
 
@@ -737,8 +737,8 @@ Any change to the contract (scope, schedule, price, terms) requires **formal cha
 2. **Review & Documentation**: Both parties review the claim, gather evidence (emails, meeting notes, deliverable records, contract terms).
 3. **Negotiation**: Attempt to resolve the claim through discussion. Goal: Reach a mutually acceptable settlement.
 4. **Alternative Dispute Resolution (ADR)**: If negotiation fails, use ADR methods:
-   - **Mediation**: A neutral third party facilitates discussion but doesn't impose a solution. Non-binding.
-   - **Arbitration**: A neutral third party (arbitrator) hears both sides and issues a **binding decision**.
+ - **Mediation**: A neutral third party facilitates discussion but doesn't impose a solution. Non-binding.
+ - **Arbitration**: A neutral third party (arbitrator) hears both sides and issues a **binding decision**.
 5. **Litigation**: If ADR fails, the dispute goes to court. This is the **last resort** (expensive, time-consuming, damages relationships).
 
 **Example Claim**:
@@ -757,7 +757,7 @@ A **constructive change** occurs when the buyer's actions (or inactions) effecti
 - **Seller's Position**: "These rejections constitute a constructive change. We're owed additional payment for the rework."
 - **Outcome**: If the seller can prove the rejections were outside the original specifications, they may be entitled to compensation.
 
-::: warning ⚠️ PM Responsibility
+::: warning PM Responsibility
 **Document everything**. Emails, meeting minutes, inspection reports, change requests. If a claim or dispute arises, **documentation is your defense**. "I think we discussed that" is not evidence; "Here's the email from March 15" is.
 :::
 
@@ -825,7 +825,7 @@ Both must occur to fully close the procurement.
 - **What Went Well**: Weekly progress meetings kept communication strong. Fixed-price contract limited cost risk.
 - **What Didn't**: Slow approval process caused unnecessary delays. **Improvement**: Implement a 3-day approval SLA for future contracts.
 
-## 🎯 Key Takeaways: Execution Excellence
+## Key Takeaways: Execution Excellence
 
 Successful execution requires mastering three critical domains:
 
@@ -849,61 +849,61 @@ Successful execution requires mastering three critical domains:
 ---
 
 <div class="engagement-grid">
-  <div class="engagement-card">
-    <div class="engagement-title">Stakeholders</div>
-    <p>Manage expectations. Address resistance proactively. Keep them "Leading" or "Supportive."</p>
-  </div>
-  <div class="engagement-card">
-    <div class="engagement-title">Communications</div>
-    <p>Distribute the right info. Verify understanding. Bridge cultural/virtual gaps.</p>
-  </div>
-  <div class="engagement-card">
-    <div class="engagement-title">Procurements</div>
-    <p>Select the best seller. Negotiate fair terms. Treat the contract as the rulebook.</p>
-  </div>
+ <div class="engagement-card">
+ <div class="engagement-title">Stakeholders</div>
+ <p>Manage expectations. Address resistance proactively. Keep them "Leading" or "Supportive."</p>
+ </div>
+ <div class="engagement-card">
+ <div class="engagement-title">Communications</div>
+ <p>Distribute the right info. Verify understanding. Bridge cultural/virtual gaps.</p>
+ </div>
+ <div class="engagement-card">
+ <div class="engagement-title">Procurements</div>
+ <p>Select the best seller. Negotiate fair terms. Treat the contract as the rulebook.</p>
+ </div>
 </div>
 
 <style>
 .engagement-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  margin: 1.5rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+ gap: 1.5rem;
+ margin: 1.5rem 0;
 }
 
 .engagement-card {
-  padding: 1.5rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 12px;
-  border-left: 4px solid var(--vp-c-brand);
+ padding: 1.5rem;
+ background: var(--vp-c-bg-soft);
+ border: 1px solid var(--vp-c-border);
+ border-radius: 12px;
+ border-left: 4px solid var(--vp-c-brand);
 }
 
 .engagement-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+ font-weight: 700;
+ font-size: 1.1rem;
+ margin-bottom: 0.5rem;
 }
 
 .engagement-card p {
-  font-size: 0.9rem;
-  margin: 0;
-  line-height: 1.5;
+ font-size: 0.9rem;
+ margin: 0;
+ line-height: 1.5;
 }
 </style>
 
 ---
 
 <div class="study-tip">
-  <strong>📝 Exam Insight:</strong> If a stakeholder is unhappy, check the <strong>Stakeholder Engagement Plan</strong> first. If a vendor is underperforming, check the <strong>Contract</strong> first. The document dictates the authority.
+ <strong> Exam Insight:</strong> If a stakeholder is unhappy, check the <strong>Stakeholder Engagement Plan</strong> first. If a vendor is underperforming, check the <strong>Contract</strong> first. The document dictates the authority.
 </div>
 
 <style>
 .study-tip {
-  background: var(--vp-c-brand-soft);
-  border-left: 4px solid var(--vp-c-brand);
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+ background: var(--vp-c-brand-soft);
+ border-left: 4px solid var(--vp-c-brand);
+ padding: 1rem;
+ border-radius: 8px;
+ margin: 2rem 0;
 }
 </style>

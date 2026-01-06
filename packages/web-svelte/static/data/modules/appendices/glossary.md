@@ -344,12 +344,12 @@ See: **Predictive Approach**
 
 <style>
 .glossary-section h2 {
-  border-bottom: 2px solid var(--vp-c-brand);
-  padding-bottom: 0.5rem;
-  margin-top: 3rem;
+ border-bottom: 2px solid var(--vp-c-brand);
+ padding-bottom: 0.5rem;
+ margin-top: 3rem;
 }
 
 .glossary-section :deep(.details) {
-  margin-bottom: 0.5rem;
+ margin-bottom: 0.5rem;
 }
 </style>
