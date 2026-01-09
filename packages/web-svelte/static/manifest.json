@@ -1,0 +1,57 @@
+{
+  "name": "PMP Study Pro",
+  "short_name": "PMP Study",
+  "description": "Free, open-source study platform for the 2026 PMP certification exam",
+  "start_url": "/pmp_application/",
+  "scope": "/pmp_application/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/pmp_application/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pmp_application/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Study Guide",
+      "short_name": "Study",
+      "description": "Access study guides",
+      "url": "/pmp_application/study",
+      "icons": [{ "src": "/pmp_application/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Flashcards",
+      "short_name": "Cards",
+      "description": "Practice with flashcards",
+      "url": "/pmp_application/flashcards",
+      "icons": [{ "src": "/pmp_application/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Practice",
+      "short_name": "Practice",
+      "description": "Take practice quizzes",
+      "url": "/pmp_application/practice",
+      "icons": [{ "src": "/pmp_application/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your progress",
+      "url": "/pmp_application/dashboard",
+      "icons": [{ "src": "/pmp_application/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

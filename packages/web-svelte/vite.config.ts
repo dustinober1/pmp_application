@@ -25,5 +25,20 @@ export default defineConfig({
         drop_debugger: true,
       },
     },
+    // Enable source maps for production debugging (set to false for smaller bundle)
+    sourcemap: false,
+    // Rollup options for further optimization
+    rollupOptions: {
+      output: {
+        // Create separate chunk for vendor code
+        manualChunks: {
+          vendor: ['marked', 'isomorphic-dompurify'],
+        },
+      },
+    },
+  },
+  // Optimize dependency pre-bundling
+  optimizeDeps: {
+    include: ['marked', 'isomorphic-dompurify'],
   },
 });
