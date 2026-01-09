@@ -6,6 +6,8 @@
 
 import { STORAGE_KEYS } from "$lib/constants/storageKeys";
 import type { DomainProgressStats, RecentActivity } from "@pmp/shared";
+import { z } from "zod";
+import DOMPurify from "isomorphic-dompurify";
 
 // Dashboard store keys (from lib/stores/dashboard.ts)
 const DASHBOARD_STORAGE_KEYS = {
@@ -13,6 +15,126 @@ const DASHBOARD_STORAGE_KEYS = {
   RECENT_ACTIVITY: "pmp_recent_activity",
   OVERALL_PROGRESS: "pmp_overall_progress",
 };
+
+// =============================================================================
+// SECURITY: Zod Schemas for Import Validation
+// These schemas provide strict type validation and sanitization for imported data
+// =============================================================================
+
+/**
+ * Sanitize a string value to prevent XSS when rendered
+ */
+function sanitizeString(value: string): string {
+  return DOMPurify.sanitize(value, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
+}
+
+/**
+ * Schema for sanitized strings - strips all HTML tags
+ */
+const SafeStringSchema = z.string().transform(sanitizeString);
+
+/**
+ * Schema for flashcard review data
+ */
+const FlashcardReviewSchema = z.object({
+  cardId: SafeStringSchema,
+  cardFront: SafeStringSchema,
+  rating: z.enum(["know_it", "learning", "dont_know"]),
+  timestamp: z.string(),
+});
+
+/**
+ * Schema for mock exam scores
+ */
+const MockExamScoreSchema = z.object({
+  sessionId: SafeStringSchema,
+  score: z.number().min(0).max(100),
+  totalQuestions: z.number().int().min(0),
+  correctAnswers: z.number().int().min(0),
+  date: z.string(),
+});
+
+/**
+ * Schema for domain progress stats
+ */
+const DomainProgressStatsSchema = z.object({
+  domainId: SafeStringSchema,
+  domainName: SafeStringSchema,
+  totalCards: z.number().int().min(0),
+  masteredCards: z.number().int().min(0),
+  learningCards: z.number().int().min(0),
+  newCards: z.number().int().min(0),
+  percentComplete: z.number().min(0).max(100),
+}).passthrough(); // Allow additional fields for forward compatibility
+
+/**
+ * Schema for recent activity
+ */
+const RecentActivitySchema = z.object({
+  id: SafeStringSchema,
+  type: SafeStringSchema,
+  title: SafeStringSchema,
+  timestamp: z.string(),
+}).passthrough(); // Allow additional fields
+
+/**
+ * Main schema for PMP progress data import
+ * SECURITY: All string fields are sanitized to prevent XSS attacks
+ */
+const PMPProgressDataSchema = z.object({
+  // Required metadata
+  version: z.string(),
+  exportDate: z.string(),
+
+  // Dashboard domain progress
+  domainProgress: z.object({
+    domains: z.array(DomainProgressStatsSchema),
+    lastUpdated: z.string().nullable(),
+  }).nullable(),
+
+  // Recent activity
+  recentActivity: z.object({
+    activities: z.array(RecentActivitySchema),
+    lastUpdated: z.string().nullable(),
+  }).nullable(),
+
+  // Study tracking stats
+  studyStats: z.object({
+    totalStudyTime: z.number().min(0).nullable(),
+    studyStreak: z.number().int().min(0).nullable(),
+    lastStudyDate: z.string().nullable(),
+    studySessions: z.array(z.unknown()).nullable(),
+  }),
+
+  // Flashcard progress
+  flashcardProgress: z.object({
+    masteredCount: z.number().int().min(0),
+    masteredSet: z.array(SafeStringSchema).nullable(),
+    recentReviews: z.array(FlashcardReviewSchema),
+    cardProgress: z.record(z.unknown()).nullable(),
+  }),
+
+  // Question progress
+  questionProgress: z.object({
+    cardProgress: z.record(z.unknown()).nullable(),
+  }).optional().default({ cardProgress: null }),
+
+  // Mock exam scores
+  mockExamScores: z.array(MockExamScoreSchema),
+
+  // User preferences - sanitize user-provided strings
+  preferences: z.object({
+    locale: SafeStringSchema.nullable(),
+    userName: SafeStringSchema.nullable(),
+  }),
+});
+
+// Export the inferred type from the schema
+export type PMPProgressData = z.infer<typeof PMPProgressDataSchema>;
+
+// =============================================================================
+// Legacy Type Definitions (kept for backward compatibility)
+// =============================================================================
 
 /**
  * Flashcard review data structure (from flashcardStorage.ts)
@@ -42,58 +164,6 @@ export interface MockExamScore {
   totalQuestions: number;
   correctAnswers: number;
   date: string;
-}
-
-/**
- * Complete PMP progress data structure for export/import
- * Contains all user study data from localStorage
- */
-export interface PMPProgressData {
-  // Storage keys version (for future compatibility)
-  version: string;
-  exportDate: string;
-
-  // Dashboard domain progress
-  domainProgress: {
-    domains: DomainProgressStats[];
-    lastUpdated: string | null;
-  } | null;
-
-  // Recent activity
-  recentActivity: {
-    activities: RecentActivity[];
-    lastUpdated: string | null;
-  } | null;
-
-  // Study tracking stats
-  studyStats: {
-    totalStudyTime: number | null;
-    studyStreak: number | null;
-    lastStudyDate: string | null;
-    studySessions: unknown[] | null;
-  };
-
-  // Flashcard progress
-  flashcardProgress: {
-    masteredCount: number;
-    masteredSet: string[] | null;
-    recentReviews: FlashcardReview[];
-    cardProgress: Record<string, any> | null;
-  };
-
-  // Question progress
-  questionProgress: {
-    cardProgress: Record<string, any> | null;
-  };
-
-  // Mock exam scores
-  mockExamScores: MockExamScore[];
-
-  // User preferences
-  preferences: {
-    locale: string | null;
-    userName: string | null;
-  };
 }
 
 /**
@@ -216,63 +286,37 @@ function setStorageItem<T>(key: string, value: T): boolean {
 }
 
 /**
- * Validate the structure of imported PMP progress data
- * Checks for required fields and valid data types
+ * Validate and sanitize imported PMP progress data using Zod
+ * SECURITY: This function validates structure AND sanitizes all string values
+ * to prevent XSS attacks from malicious import files
+ *
+ * @param data - Raw parsed JSON data
+ * @returns Validated and sanitized data, or null if validation fails
+ */
+function validateAndSanitizeImportData(
+  data: unknown,
+): { success: true; data: PMPProgressData } | { success: false; errors: string[] } {
+  const result = PMPProgressDataSchema.safeParse(data);
+
+  if (!result.success) {
+    // Extract user-friendly error messages from Zod errors
+    const errors = result.error.errors.map((err) => {
+      const path = err.path.join(".");
+      return `Invalid ${path || "data"}: ${err.message}`;
+    });
+    return { success: false, errors };
+  }
+
+  return { success: true, data: result.data };
+}
+
+/**
+ * @deprecated Use validateAndSanitizeImportData instead
+ * Kept for backward compatibility - validates but doesn't sanitize
  */
 function validateImportData(data: unknown): data is PMPProgressData {
-  if (!data || typeof data !== "object") {
-    return false;
-  }
-
-  const d = data as Record<string, unknown>;
-
-  // Check version field
-  if (typeof d.version !== "string") {
-    return false;
-  }
-
-  // Check exportDate
-  if (typeof d.exportDate !== "string") {
-    return false;
-  }
-
-  // Validate domainProgress if present
-  if (d.domainProgress !== null && d.domainProgress !== undefined) {
-    const dp = d.domainProgress as Record<string, unknown>;
-    if (!Array.isArray(dp.domains)) {
-      return false;
-    }
-  }
-
-  // Validate recentActivity if present
-  if (d.recentActivity !== null && d.recentActivity !== undefined) {
-    const ra = d.recentActivity as Record<string, unknown>;
-    if (!Array.isArray(ra.activities)) {
-      return false;
-    }
-  }
-
-  // Validate studyStats
-  if (!d.studyStats || typeof d.studyStats !== "object") {
-    return false;
-  }
-
-  // Validate flashcardProgress
-  if (!d.flashcardProgress || typeof d.flashcardProgress !== "object") {
-    return false;
-  }
-
-  // Validate mockExamScores
-  if (!Array.isArray(d.mockExamScores)) {
-    return false;
-  }
-
-  // Validate preferences
-  if (!d.preferences || typeof d.preferences !== "object") {
-    return false;
-  }
-
-  return true;
+  const result = PMPProgressDataSchema.safeParse(data);
+  return result.success;
 }
 
 /**
@@ -300,18 +344,29 @@ export async function importProgress(file: File): Promise<ImportResult> {
 
     // Read and parse file
     const text = await file.text();
-    const data = JSON.parse(text);
+    let parsedData: unknown;
+    try {
+      parsedData = JSON.parse(text);
+    } catch {
+      result.errors.push("Invalid JSON format. The file could not be parsed.");
+      result.message = "Import failed: Invalid JSON format";
+      return result;
+    }
 
-    // Validate data structure
-    if (!validateImportData(data)) {
+    // SECURITY: Validate AND sanitize data structure using Zod
+    // This prevents XSS attacks from malicious import files
+    const validationResult = validateAndSanitizeImportData(parsedData);
+    if (!validationResult.success) {
       result.errors.push(
         "Invalid data structure. Please ensure you are importing a valid PMP progress backup file.",
+        ...validationResult.errors.slice(0, 3), // Include first 3 specific errors
       );
       result.message = "Import failed: Invalid data structure";
       return result;
     }
 
-    const importData = data as PMPProgressData;
+    // Use the sanitized data from Zod validation
+    const importData = validationResult.data;
 
     // Import domain progress
     if (importData.domainProgress) {

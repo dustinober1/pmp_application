@@ -27,15 +27,8 @@ export default defineConfig({
     },
     // Enable source maps for production debugging (set to false for smaller bundle)
     sourcemap: false,
-    // Rollup options for further optimization
-    rollupOptions: {
-      output: {
-        // Create separate chunk for vendor code
-        manualChunks: {
-          vendor: ['marked', 'isomorphic-dompurify'],
-        },
-      },
-    },
+    // Note: manualChunks removed as it conflicts with SvelteKit's adapter-static
+    // SvelteKit handles chunking automatically
   },
   // Optimize dependency pre-bundling
   optimizeDeps: {

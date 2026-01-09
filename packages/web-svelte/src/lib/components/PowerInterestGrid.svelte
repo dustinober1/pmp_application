@@ -1,5 +1,6 @@
 <script lang="ts">
  import { fade } from 'svelte/transition';
+ import DOMPurify from 'isomorphic-dompurify';
 
  interface Props {
  manage?: import('svelte').Snippet;
@@ -16,6 +17,14 @@
  }
 
  let { manage, satisfy, inform, monitor, htmlContent }: Props = $props();
+
+ // SECURITY: Sanitize HTML content to prevent XSS attacks
+ const sanitizedContent = $derived(htmlContent ? {
+   manage: DOMPurify.sanitize(htmlContent.manage, { USE_PROFILES: { html: true } }),
+   satisfy: DOMPurify.sanitize(htmlContent.satisfy, { USE_PROFILES: { html: true } }),
+   inform: DOMPurify.sanitize(htmlContent.inform, { USE_PROFILES: { html: true } }),
+   monitor: DOMPurify.sanitize(htmlContent.monitor, { USE_PROFILES: { html: true } })
+ } : null);
 
  let selectedQuadrant = $state<string | null>(null);
 
@@ -107,13 +116,13 @@
  </h5>
  <div class="text-sm text-gray-600 dark:text-gray-400 prose dark:prose-invert max-w-none">
  {#if selectedQuadrant === 'manage'}
- {#if manage}{@render manage()}{:else if htmlContent}{@html htmlContent.manage}{/if}
+ {#if manage}{@render manage()}{:else if sanitizedContent}{@html sanitizedContent.manage}{/if}
  {:else if selectedQuadrant === 'satisfy'}
- {#if satisfy}{@render satisfy()}{:else if htmlContent}{@html htmlContent.satisfy}{/if}
+ {#if satisfy}{@render satisfy()}{:else if sanitizedContent}{@html sanitizedContent.satisfy}{/if}
  {:else if selectedQuadrant === 'inform'}
- {#if inform}{@render inform()}{:else if htmlContent}{@html htmlContent.inform}{/if}
+ {#if inform}{@render inform()}{:else if sanitizedContent}{@html sanitizedContent.inform}{/if}
  {:else if selectedQuadrant === 'monitor'}
- {#if monitor}{@render monitor()}{:else if htmlContent}{@html htmlContent.monitor}{/if}
+ {#if monitor}{@render monitor()}{:else if sanitizedContent}{@html sanitizedContent.monitor}{/if}
  {/if}
  </div>
  </div>

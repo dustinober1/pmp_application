@@ -40,7 +40,8 @@
 		return DOMPurify.sanitize(rawHtml, {
 			USE_PROFILES: { html: true },
 			ADD_TAGS: ['input'], // Build-in sanitize removes input attributes sometimes
-			ADD_ATTR: ['checked', 'type', 'disabled', 'class', 'onclick', 'data-component']
+			// SECURITY: Never allow event handlers like onclick - they enable XSS attacks
+			ADD_ATTR: ['checked', 'type', 'disabled', 'class', 'data-component']
 		});
 	});
 

@@ -1,7 +1,63 @@
 import type { PracticeQuestion } from "@pmp/shared";
 import { loadStaticFlashcards, loadStaticQuestions } from "./staticDataLoader";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+// =============================================================================
+// SECURITY: API URL Configuration
+// =============================================================================
+
+/**
+ * Determines if we're in development mode
+ * SECURITY: Localhost URLs are only allowed in development
+ */
+const isDevelopment =
+  typeof import.meta.env !== "undefined" && import.meta.env.DEV === true;
+
+/**
+ * Get the API URL with security checks
+ * SECURITY: In production, only HTTPS URLs are allowed
+ * SECURITY: Localhost is only allowed in development mode
+ */
+function getSecureApiUrl(): string | null {
+  const envUrl = import.meta.env?.VITE_API_URL;
+
+  // If no URL is configured, return null (static-only mode)
+  if (!envUrl) {
+    // Only allow localhost fallback in development
+    if (isDevelopment) {
+      return "http://localhost:3001/api";
+    }
+    return null;
+  }
+
+  // Validate the URL
+  try {
+    const url = new URL(envUrl);
+
+    // SECURITY: Block HTTP in production (except localhost in dev)
+    if (url.protocol === "http:") {
+      if (isDevelopment && url.hostname === "localhost") {
+        return envUrl;
+      }
+      console.warn(
+        "[SECURITY] HTTP API URLs are not allowed in production. Use HTTPS.",
+      );
+      return null;
+    }
+
+    // HTTPS is always allowed
+    if (url.protocol === "https:") {
+      return envUrl;
+    }
+
+    console.warn("[SECURITY] Invalid API URL protocol:", url.protocol);
+    return null;
+  } catch {
+    console.warn("[SECURITY] Invalid API URL:", envUrl);
+    return null;
+  }
+}
+
+const API_URL = getSecureApiUrl();
 
 interface ApiOptions {
   method?: "GET" | "POST" | "PATCH" | "DELETE";
@@ -39,12 +95,23 @@ async function safeJson(response: Response): Promise<unknown | null> {
 /**
  * SvelteKit-compatible API client that works with both browser and server-side fetch
  * For server-side data fetching in load functions, pass the SvelteKit fetch object
+ *
+ * SECURITY: This function will throw an error if API_URL is not configured
+ * (static-only mode) to prevent accidental API calls in production.
  */
 export async function apiRequest<T>(
   endpoint: string,
   options: ApiOptions = {},
   fetchFn: typeof fetch = fetch,
 ): Promise<ApiResponse<T>> {
+  // SECURITY: Fail fast if no API URL is configured (static-only mode)
+  if (!API_URL) {
+    throw new ApiError(
+      "API not available - this is a static-only application",
+      503,
+    );
+  }
+
   const { method = "GET", body } = options;
 
   const headers: Record<string, string> = {
