@@ -87,15 +87,18 @@
  <div class="p-6">
  {#if !quizComplete}
  <div in:fade>
- <p class="text-lg text-gray-900 dark:text-gray-100 font-medium mb-6">
+ <p id="question-text" class="text-lg text-gray-900 dark:text-gray-100 font-medium mb-6">
  {currentQuestion.text}
  </p>
 
- <div class="space-y-3 mb-8">
+ <div role="radiogroup" aria-labelledby="question-text" class="space-y-3 mb-8">
  {#each currentQuestion.options as option, i}
  <button
  onclick={() => handleOptionSelect(i)}
  disabled={showExplanation}
+ role="radio"
+ aria-checked={selectedOption === i}
+ aria-disabled={showExplanation}
  class="w-full text-left p-4 rounded-lg border-2 transition-all duration-200 {
  selectedOption === i 
  ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/30' 
@@ -111,7 +114,7 @@
  }"
  >
  <div class="flex items-center gap-3">
- <span class="w-6 h-6 flex items-center justify-center rounded-full border border-current text-xs font-bold">
+ <span class="w-6 h-6 flex items-center justify-center rounded-full border border-current text-xs font-bold" aria-hidden="true">
  {String.fromCharCode(65 + i)}
  </span>
  {option}

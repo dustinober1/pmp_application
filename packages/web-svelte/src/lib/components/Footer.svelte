@@ -29,7 +29,7 @@
 	];
 </script>
 
-<footer class="bg-muted/30 border-t border-border mt-auto pt-16 pb-12">
+<footer class="bg-muted/30 border-t border-border mt-auto pt-16 pb-12" role="contentinfo">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 			<!-- Company Info -->

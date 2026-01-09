@@ -57,7 +57,10 @@
 
 	onMount(() => {
 		isVisible = true;
-		if (animate) {
+		// Check for reduced motion preference
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		
+		if (animate && !prefersReducedMotion) {
 			const duration = 1500;
 			const startTime = performance.now();
 			const startValue = 0;
@@ -81,12 +84,21 @@
 </script>
 
 <div class="flex flex-col items-center gap-3">
-	<div class="relative" style="width: {size}px; height: {size}px;">
+	<div
+		class="relative"
+		style="width: {size}px; height: {size}px;"
+		role="progressbar"
+		aria-valuenow={Math.round(currentProgress)}
+		aria-valuemin="0"
+		aria-valuemax="100"
+		aria-label="{label}: {Math.round(currentProgress)}%"
+	>
 		<svg
 			class="transform -rotate-90"
 			width={size}
 			height={size}
 			style="filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));"
+			aria-hidden="true"
 		>
 			<!-- Background circle -->
 			<circle

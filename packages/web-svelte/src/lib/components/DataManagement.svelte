@@ -64,6 +64,7 @@
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
+					aria-hidden="true"
 				>
 					<path
 						stroke-linecap="round"
@@ -99,6 +100,7 @@
 				fill="none"
 				stroke="currentColor"
 				viewBox="0 0 24 24"
+				aria-hidden="true"
 			>
 				<path
 					stroke-linecap="round"
@@ -112,13 +114,14 @@
 
 		<!-- Import Button (File Input) -->
 		<div>
-			<label class="block w-full">
+			<label for="import-progress-file" class="block w-full">
 				<div class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition cursor-pointer text-left flex items-center gap-2">
 					<svg
 						class="w-5 h-5"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
+						aria-hidden="true"
 					>
 						<path
 							stroke-linecap="round"
@@ -130,10 +133,12 @@
 					<span>Import Progress</span>
 				</div>
 				<input
+					id="import-progress-file"
 					type="file"
 					accept=".json"
 					onchange={handleFileSelect}
-					class="hidden"
+					class="sr-only"
+					aria-label="Import progress backup file"
 				/>
 			</label>
 		</div>

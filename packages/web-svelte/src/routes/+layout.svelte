@@ -12,7 +12,16 @@
 </svelte:head>
 
 <div class="min-h-screen flex flex-col">
-	<Navbar />
-	<main class="flex-1">{@render children()}</main>
+	<!-- Skip to main content link -->
+	<a
+		href="#main-content"
+		class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-full focus:shadow-lg"
+	>
+		Skip to main content
+	</a>
+	<header role="banner">
+		<Navbar />
+	</header>
+	<main id="main-content" class="flex-1" tabindex="-1">{@render children()}</main>
 	<Footer />
 </div>

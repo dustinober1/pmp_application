@@ -24,7 +24,7 @@ export default {
         },
         muted: {
           DEFAULT: "#F0EBE5", // Stone
-          foreground: "#78786C", // Dried Grass
+          foreground: "#5A5A50", // Darkened for 4.5:1+ contrast ratio (WCAG AA)
         },
         border: "#DED8CF", // Raw Timber
         destructive: "#A85448", // Burnt Sienna

@@ -13,7 +13,7 @@
  }
 </script>
 
-<div class="flex flex-col items-center justify-center py-12 px-4">
+<div class="flex flex-col items-center justify-center py-12 px-4" role="alert" aria-live="assertive">
  <!-- Error Icon -->
  <div class="flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
  <svg
@@ -21,6 +21,7 @@
  fill="none"
  viewBox="0 0 24 24"
  stroke="currentColor"
+ aria-hidden="true"
  >
  <path
  stroke-linecap="round"
@@ -46,6 +47,7 @@
  fill="none"
  viewBox="0 0 24 24"
  stroke="currentColor"
+ aria-hidden="true"
  >
  <path
  stroke-linecap="round"

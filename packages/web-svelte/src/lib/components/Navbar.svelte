@@ -75,12 +75,12 @@
 					aria-label={darkMode ? $t('Switch to light mode') : $t('Switch to dark mode')}
 				>
 					{#if darkMode}
-						<svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+						<svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
 							<path d="M10 15a5 5 0 100-10 5 5 0 000 10z" />
 							<path fill-rule="evenodd" d="M10 1a.75.75 0 01.75.75v1a.75.75 0 01-1.5 0v-1A.75.75 0 0110 1zm0 15.25a.75.75 0 01.75.75v1a.75.75 0 01-1.5 0v-1a.75.75 0 01.75-.75zM3.11 3.11a.75.75 0 011.06 0l.71.71a.75.75 0 11-1.06 1.06l-.71-.71a.75.75 0 010-1.06zm12.01 12.01a.75.75 0 011.06 0l.71.71a.75.75 0 11-1.06 1.06l-.71-.71a.75.75 0 010-1.06zM1 10a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1A.75.75 0 011 10zm15.25 0a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1a.75.75 0 01-.75-.75zM3.11 16.89a.75.75 0 010-1.06l.71-.71a.75.75 0 011.06 1.06l-.71.71a.75.75 0 01-1.06 0zm12.01-12.01a.75.75 0 010-1.06l.71-.71a.75.75 0 111.06 1.06l-.71.71a.75.75 0 01-1.06 0z" clip-rule="evenodd" />
 						</svg>
 					{:else}
-						<svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+						<svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
 							<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
 						</svg>
 					{/if}
@@ -91,9 +91,11 @@
 					type="button"
 					onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
 					class="md:hidden w-8 h-8 rounded-full bg-muted/30 flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+					aria-expanded={mobileMenuOpen}
+					aria-controls="mobile-navigation"
 					aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
 				>
-					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 						{#if mobileMenuOpen}
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M6 18L18 6M6 6l12 12" />
 						{:else}

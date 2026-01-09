@@ -119,7 +119,7 @@
 		<!-- Feature Links -->
 		<div class="mt-32 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
  <!-- Using Card for these as well for consistency -->
-			<a href="{base}/study" class="group block">
+			<a href="{base}/study" class="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-3xl" aria-label="View study guide for PMP exam preparation">
 				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
 					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left"></div>
 					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Study Guide</h3>
@@ -127,7 +127,7 @@
 				</Card>
 			</a>
 			
-			<a href="{base}/flashcards" class="group block">
+			<a href="{base}/flashcards" class="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-3xl" aria-label="Access flashcards for spaced repetition learning">
 				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
 					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left"></div>
 					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Flashcards</h3>
@@ -135,7 +135,7 @@
 				</Card>
 			</a>
 			
-			<a href="{base}/practice" class="group block">
+			<a href="{base}/practice" class="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-3xl" aria-label="Start practice quizzes to test your knowledge">
 				<Card class="h-full p-8 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-hover">
 					<div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500 origin-left"></div>
 					<h3 class="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors">Practice</h3>
