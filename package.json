@@ -54,7 +54,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.958.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.965.0",
     "@fastify/rate-limit": "^10.3.0"
   }
 }
