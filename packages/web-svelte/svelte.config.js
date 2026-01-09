@@ -26,6 +26,9 @@ const config = {
     alias: {
       "@pmp/shared": path.resolve("../shared/src"),
     },
+    prerender: {
+      handleMissingId: "warn",
+    },
   },
 };
 

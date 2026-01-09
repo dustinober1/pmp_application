@@ -22,6 +22,7 @@
 		{
 			title: 'Legal',
 			links: [
+				{ href: `${base}/privacy`, label: 'Privacy Policy' },
 				{ href: `${base}/terms`, label: 'Terms of Service' }
 			]
 		}

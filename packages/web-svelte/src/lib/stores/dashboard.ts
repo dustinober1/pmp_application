@@ -252,12 +252,6 @@ function createDomainProgressStore() {
           }
         });
 
-        console.log("[DEBUG] Dashboard counts:", {
-          fCounts,
-          qCounts,
-          domainTotals,
-          questionTotals,
-        });
 
         // Count question stats per domain
         Object.keys(questionProgress).forEach((qId) => {

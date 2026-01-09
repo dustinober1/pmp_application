@@ -23,18 +23,6 @@ describe("Footer Component", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders Product section with correct links", () => {
-    render(Footer);
-
-    // Check section title
-    expect(screen.getByText("Product")).toBeInTheDocument();
-
-    // Check links
-    expect(screen.getByText("Features")).toBeInTheDocument();
-    expect(screen.getByText("Pricing")).toBeInTheDocument();
-    expect(screen.getByText("Testimonials")).toBeInTheDocument();
-  });
-
   it("renders Resources section with correct links", () => {
     render(Footer);
 
@@ -42,8 +30,6 @@ describe("Footer Component", () => {
     expect(screen.getByText("Resources")).toBeInTheDocument();
 
     // Check links
-    expect(screen.getByText("Blog")).toBeInTheDocument();
-    expect(screen.getByText("Study Guide")).toBeInTheDocument();
     expect(screen.getByText("FAQ")).toBeInTheDocument();
   });
 
@@ -56,7 +42,6 @@ describe("Footer Component", () => {
     // Check links
     expect(screen.getByText("Privacy Policy")).toBeInTheDocument();
     expect(screen.getByText("Terms of Service")).toBeInTheDocument();
-    expect(screen.getByText("Contact")).toBeInTheDocument();
   });
 
   it("renders copyright notice with current year", () => {
@@ -67,35 +52,16 @@ describe("Footer Component", () => {
   it("all footer links have correct href attributes", () => {
     render(Footer);
 
-    // Product links
-    const featuresLink = screen.getByText("Features").closest("a");
-    expect(featuresLink).toHaveAttribute("href", "/#features");
-
-    const pricingLink = screen.getByText("Pricing").closest("a");
-    expect(pricingLink).toHaveAttribute("href", "/pricing");
-
-    const testimonialsLink = screen.getByText("Testimonials").closest("a");
-    expect(testimonialsLink).toHaveAttribute("href", "/#testimonials");
-
     // Resources links
-    const blogLink = screen.getByText("Blog").closest("a");
-    expect(blogLink).toHaveAttribute("href", "/blog");
-
-    const studyGuideLink = screen.getByText("Study Guide").closest("a");
-    expect(studyGuideLink).toHaveAttribute("href", "/study-guide");
-
     const faqLink = screen.getByText("FAQ").closest("a");
-    expect(faqLink).toHaveAttribute("href", "/faq");
+    expect(faqLink).toHaveAttribute("href", "/pmp_application/faq");
 
     // Legal links
     const privacyLink = screen.getByText("Privacy Policy").closest("a");
-    expect(privacyLink).toHaveAttribute("href", "/privacy");
+    expect(privacyLink).toHaveAttribute("href", "/pmp_application/privacy");
 
     const termsLink = screen.getByText("Terms of Service").closest("a");
-    expect(termsLink).toHaveAttribute("href", "/terms");
-
-    const contactLink = screen.getByText("Contact").closest("a");
-    expect(contactLink).toHaveAttribute("href", "/contact");
+    expect(termsLink).toHaveAttribute("href", "/pmp_application/terms");
   });
 
   it("has proper accessibility attributes", () => {

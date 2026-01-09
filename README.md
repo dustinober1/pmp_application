@@ -9,7 +9,7 @@ A **100% free and open-source** study platform for the 2026 PMP (Project Managem
 - **Practice Questions** - Exam-style questions with detailed explanations (1,200+ questions)
 - **Analytics Dashboard** - Track progress with local storage
 - **Formula Calculator** - Practice EVM and other calculations
-- **Offline-First** - Works offline after loading, data stored locally
+- **Works with Minimal Connectivity** - Once loaded, works with minimal connectivity using browser caching
 
 ## What Changed?
 
@@ -20,12 +20,12 @@ This is now a **static site** that requires **no backend, database, or API**. Al
 - No subscriptions or payments
 - All study materials are 100% free
 - Progress is stored locally in your browser (localStorage)
-- Works offline once loaded
+- Works with minimal connectivity once loaded (browser caching)
 
 ## Tech Stack
 
-- **Frontend**: React 18 + Next.js 14 + TypeScript + TailwindCSS
-- **Data**: Static JSON files loaded from `public/data/`
+- **Frontend**: SvelteKit (Svelte 5) + Vite + TypeScript + TailwindCSS
+- **Data**: Static JSON files loaded from `static/data/`
 - **State Management**: localStorage for progress tracking
 - **Deployment**: GitHub Pages (static export)
 
@@ -34,13 +34,13 @@ This is now a **static site** that requires **no backend, database, or API**. Al
 ```
 pmp_application/
  packages/
- web/ # Next.js frontend (static export)
+ web-svelte/ # SvelteKit frontend (static export)
+  src/ # Svelte components, stores, and logic
+  static/ # Static assets and data files (JSON/MD)
  shared/ # Shared types and utilities
- public/
- data/ # Static JSON data (flashcards, questions)
  .github/
- workflows/
- gh-pages.yml # GitHub Pages deployment workflow
+  workflows/
+   gh-pages.yml # GitHub Pages deployment workflow
 ```
 
 ## Getting Started
@@ -68,29 +68,29 @@ npm run build:shared
 4. Start the development server:
 
 ```bash
-npm run dev:web
+npm run dev:web-svelte
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+5. Open [http://localhost:5173](http://localhost:5173) in your browser (or the port shown in the terminal)
 
 ### Available Scripts
 
-- `npm run dev:web` - Start Next.js dev server
-- `npm run build:web` - Build for production (static export)
-- `npm run serve:static` - Serve the built static site locally
+- `npm run dev:web-svelte` - Start SvelteKit dev server
+- `npm run build:web-svelte` - Build for production (static export)
 - `npm run build:shared` - Build the shared package
 - `npm run lint` - Run ESLint
 - `npm run format` - Format code with Prettier
+- `npm run test:web-svelte` - Run tests
 
 ## Building for GitHub Pages
 
-To build with a base path (for GitHub Pages project pages):
+The application is configured with a base path `/pmp_application` for GitHub Pages deployment. To build:
 
 ```bash
-NEXT_PUBLIC_BASE_PATH=/pmp_application npm run build:web
+npm run build:shared && npm run build:web-svelte
 ```
 
-The built static files will be in `packages/web/out/`.
+The built static files will be in `packages/web-svelte/build/`.
 
 ## Deployment
 
@@ -105,22 +105,19 @@ The project includes a GitHub Actions workflow (`.github/workflows/gh-pages.yml`
 
 The workflow will:
 
-- Build the site with `NEXT_PUBLIC_BASE_PATH=/pmp_application`
-- Deploy the `packages/web/out` directory to GitHub Pages
+- Build the shared package
+- Build the SvelteKit application with base path `/pmp_application`
+- Deploy the `packages/web-svelte/build` directory to GitHub Pages
 
 ### Other Static Hosting
 
-You can deploy the `packages/web/out` directory to any static hosting service:
+You can deploy the `packages/web-svelte/build` directory to any static hosting service:
 
-- **Netlify**: Deploy the `out` directory
-- **Vercel**: Import repository (auto-detects Next.js)
-- **Cloudflare Pages**: Deploy the `out` directory
+- **Netlify**: Deploy the `build` directory
+- **Vercel**: Import repository (auto-detects SvelteKit)
+- **Cloudflare Pages**: Deploy the `build` directory
 
-For custom domains or root deployment (not in a subdirectory), build without the base path:
-
-```bash
-npm run build:web
-```
+For custom domains or root deployment (not in a subdirectory), update the base path in `svelte.config.js` and `vite.config.ts` before building.
 
 ## Data Storage
 
@@ -149,6 +146,6 @@ MIT License - see LICENSE file for details
 
 ## Acknowledgments
 
-- Built with [Next.js](https://nextjs.org/)
+- Built with [SvelteKit](https://kit.svelte.dev/)
 - Styled with [TailwindCSS](https://tailwindcss.com/)
 - Icons from [Lucide](https://lucide.dev/)

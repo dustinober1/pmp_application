@@ -68,13 +68,10 @@
 	});
 
 	async function startSession() {
-		console.log('[DEBUG] startSession called');
 		starting = true;
 		try {
 			// Load all questions
-			console.log('[DEBUG] Loading static questions...');
 			const allQuestions = await loadStaticQuestions();
-			console.log('[DEBUG] Questions loaded:', allQuestions?.length);
 			
 			// Filter by domain if selected
 			let filteredQuestions = allQuestions;
@@ -85,19 +82,16 @@
 			}
 
 			// Start session in store
-			console.log('[DEBUG] Starting session in store with options:', { limit: questionCount, priority: startMode });
 			const sessionId = practiceMode.startSession(filteredQuestions, {
 				limit: questionCount,
 				priority: startMode
 			});
-			console.log('[DEBUG] Session ID generated:', sessionId);
 
 			if (sessionId) {
 				const target = `${base}/practice/${sessionId}`;
-				console.log('[DEBUG] Navigating to:', target);
 				goto(target);
 			} else {
-				console.error('[DEBUG] No session ID returned');
+				console.error('No session ID returned');
 			}
 		} catch (err) {
 			console.error('Failed to start session:', err);
@@ -136,15 +130,12 @@
 	}
 	
 	async function startPresetSession(count: number, mode: 'srs' | 'shuffle') {
- console.log('[DEBUG] startPresetSession called with:', count, mode, 'Base:', base);
- // alert('Starting session...'); // Debug alert
-		 questionCount = count;
-		 startMode = mode;
-		 await startSession();
+		questionCount = count;
+		startMode = mode;
+		await startSession();
 	}
 
 	async function startFlaggedSession() {
-		console.log('[DEBUG] startFlaggedSession called');
 		starting = true;
 		try {
 			// Load all questions
